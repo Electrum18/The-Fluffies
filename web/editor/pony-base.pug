@@ -1,0 +1,58 @@
+#avatar.transition
+  svg.morphing(viewBox = "512 400 1024 1024")
+    g.scale
+      g.HairBack
+        path#tail(d fill = "#04f" style = "stroke: #029")
+
+      g.Head
+        path#ear_Left_Inside.inner2( d fill = "#ccc")
+        path#ear_Right_Inside.inner2(d fill = "#ccc")
+        path#ear_Left( d fill-opacity = "0")
+        path#ear_Right(d fill-opacity = "0")
+        path#head(     d fill      = "#ccc")
+      
+      g.Neck
+        path#chest(d fill      = "#ccc")
+        path#neck.inner(d fill = "#ccc")
+        path#neck_back_right(d fill-opacity = "0")
+        path#neck_front_left(d fill-opacity = "0")
+        
+      g.HairBack2
+        path#tail(d fill = "#04f" style = "stroke: #029")
+
+      g.Head
+        path#head2(d fill = "#ccc")
+        path#ear_Left_Inside_Front.inner2( d fill = "#ccc")
+        path#ear_Right_Inside_Front.inner2(d fill = "#ccc")
+        path#ear_Left_Front( d fill-opacity = "0")
+        path#ear_Right_Front(d fill-opacity = "0")
+        path#eye_Left.eyes(  d fill         = "#fff")
+
+        ellipse#eyeIris_Left.eyes.inside.Left( fill = "url(#gradient)")
+        ellipse#eyePupil_Left.eyes.inside.Left(fill = "#111")
+        ellipse#eyeGlare_Left.eyes.inside.Left(fill-opacity = "0")
+
+        path#nose(      d fill       = "#ccc")
+        path#chin_angle(d fill-opacity = "0")
+        path#chin(      d fill-opacity = "0")
+        path#bridge(    d fill      = "#ccc")
+        path#eye_Right.eyes(d fill = "#fff")
+
+        ellipse#eyeIris_Right.eyes.inside.Right( fill = "url(#gradient)")
+        ellipse#eyePupil_Right.eyes.inside.Right(fill = "#111")
+        ellipse#eyeGlare_Right.eyes.inside.Right(fill-opacity = "0")
+      
+      g.Hair
+        path#front(d fill = "#04f" style = "stroke: #029")
+
+    defs
+      mask#mask_Head(x = "0" y = "0" width = "1024" height = "1024")
+        path#headClip(d fill = "#fff" style = "stroke: black; stroke-width: 15; stroke-linecap: round")
+
+      mask#mask_Eyes(x = "0" y = "0" width = "1024" height = "1024")
+        path#eyeClip_Left.eyes.mask.Left( d fill = "#fff")
+        path#eyeClip_Right.eyes.mask.Right(d fill = "#fff")
+
+      linearGradient#gradient(x1="0%" y1="100%" x2="0%" y2="0%")
+        stop(offset="0%" style="stop-color: #ee2; stop-opacity: 1")
+        stop(offset="100%" style="stop-color: #d53; stop-opacity: 1")

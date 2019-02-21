@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "noImplicitAny"         : true,
+    "module"                : "commonjs",
+    "removeComments"        : true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata" : true,
+    "allowJs"               : true,
+    "outDir": "./dist/web/editor/",
+    "skipLibCheck": true,
+    "target": "es5",
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+  }
+}
