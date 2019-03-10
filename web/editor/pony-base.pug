@@ -1,58 +1,89 @@
 #avatar.transition
-  svg.morphing(viewBox = "512 400 1024 1024")
+  svg.morphing(viewBox="512 400 1024 1024")
     g.scale
       g.HairBack
-        path#tail(d fill = "#04f" style = "stroke: #029")
+        path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_Out_Head2)")
 
       g.Head
-        path#ear_Left_Inside.inner2( d fill = "#ccc")
-        path#ear_Right_Inside.inner2(d fill = "#ccc")
-        path#ear_Left( d fill-opacity = "0")
-        path#ear_Right(d fill-opacity = "0")
-        path#head(     d fill      = "#ccc")
+        path#ear_Left_Inside.inner2.moveEar( d fill="#ccc")
+        path#ear_Right_Inside.inner2.moveEar(d fill="#ccc")
+        path#ear_Left.moveEar( d fill-opacity="0")
+        path#ear_Right.moveEar(d fill-opacity="0")
+        path#head(d fill="#ccc")
       
       g.Neck
-        path#chest(d fill      = "#ccc")
-        path#neck.inner(d fill = "#ccc")
-        path#neck_back_right(d fill-opacity = "0")
-        path#neck_front_left(d fill-opacity = "0")
+        path#chest(d      fill="#ccc")
+        path#neck.inner(d fill="#ccc")
+        path#neck_back_right(d fill-opacity="0")
+        path#neck_front_left(d fill-opacity="0")
         
       g.HairBack2
-        path#tail(d fill = "#04f" style = "stroke: #029")
+        path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_Out_Head2)")
+
+      g.HairBack3
+        path#back(d fill="#666" style="stroke: #444")
 
       g.Head
-        path#head2(d fill = "#ccc")
-        path#ear_Left_Inside_Front.inner2( d fill = "#ccc")
-        path#ear_Right_Inside_Front.inner2(d fill = "#ccc")
-        path#ear_Left_Front( d fill-opacity = "0")
-        path#ear_Right_Front(d fill-opacity = "0")
-        path#eye_Left.eyes(  d fill         = "#fff")
+        path#head2(d fill="#ccc").inner2
+        path#ear_Left_Inside_Front.inner2.moveEar( d fill="#ccc")
+        path#ear_Left_Front.moveEar(       d fill-opacity="0")
 
-        ellipse#eyeIris_Left.eyes.inside.Left( fill = "url(#gradient)")
-        ellipse#eyePupil_Left.eyes.inside.Left(fill = "#111")
-        ellipse#eyeGlare_Left.eyes.inside.Left(fill-opacity = "0")
+      g.Hair2
+        path#front(d fill="#666" style="stroke: #444")
 
-        path#nose(      d fill       = "#ccc")
-        path#chin_angle(d fill-opacity = "0")
-        path#chin(      d fill-opacity = "0")
-        path#bridge(    d fill      = "#ccc")
-        path#eye_Right.eyes(d fill = "#fff")
+      g.Head
+        path#ear_Right_Inside_Front.inner2.moveEar(d fill="#ccc")
+        path#ear_Right_Front.moveEar(d fill-opacity="0")
 
-        ellipse#eyeIris_Right.eyes.inside.Right( fill = "url(#gradient)")
-        ellipse#eyePupil_Right.eyes.inside.Right(fill = "#111")
-        ellipse#eyeGlare_Right.eyes.inside.Right(fill-opacity = "0")
-      
+        path#eye_Left.eyes.move( d fill="#fff" mask="url(#mask_Head)")
+
+        g.eyes.inside.Left
+          ellipse#eyeIris_Left( fill="url(#grad_Eyes)")
+          ellipse#eyePupil_Left(fill="#111")
+          g
+            ellipse#eyeGlare_Left( fill="#fff")
+            ellipse#eyeGlare2_Left(fill="#fff")
+
+        path#nose.move(d  fill="#ccc")
+        path#chin_angle(d fill-opacity="0")
+        path#chin(d       fill-opacity="0" mask="url(#mask_Out_Head)")
+        path#bridge.move(d         fill="#ccc")
+        path#mouth.move(d          fill="#ccc" stroke-width=9 mask="url(#mask_In_Head)")
+        path#nostril_left.move(d   fill="#ccc" stroke-width=9 mask="url(#mask_In_Head)")
+        path#nostril_right.move(d  fill="#ccc" stroke-width=9)
+        path#eye_Right.eyes.move(d fill="#fff" mask="url(#mask_Head)")
+
+        g.eyes.inside.Right
+          ellipse#eyeIris_Right( fill="url(#grad_Eyes)")
+          ellipse#eyePupil_Right(fill="#111")
+          g
+            ellipse#eyeGlare_Right( fill="#fff")
+            ellipse#eyeGlare2_Right(fill="#fff")
+        
       g.Hair
-        path#front(d fill = "#04f" style = "stroke: #029")
+        path#front(d fill="#666" style="stroke: #444")
+        path#back( d fill="#666" style="stroke: #444")
 
     defs
-      mask#mask_Head(x = "0" y = "0" width = "1024" height = "1024")
-        path#headClip(d fill = "#fff" style = "stroke: black; stroke-width: 15; stroke-linecap: round")
+      mask#mask_Head(x="0" y="0" width="1024" height="1024")
+        path#headClip(d fill="#fff" style="stroke: #000; stroke-width: 15; stroke-linecap: round")
 
-      mask#mask_Eyes(x = "0" y = "0" width = "1024" height = "1024")
-        path#eyeClip_Left.eyes.mask.Left( d fill = "#fff")
-        path#eyeClip_Right.eyes.mask.Right(d fill = "#fff")
+      mask#mask_Out_Head(x="0" y="0" width="1024" height="1024")
+        rect(width="100%" height="100%" fill="#fff")
+        path#headClip2(d fill="#000" style="stroke: #fff; stroke-width: 15; stroke-linecap: round")
 
-      linearGradient#gradient(x1="0%" y1="100%" x2="0%" y2="0%")
-        stop(offset="0%" style="stop-color: #ee2; stop-opacity: 1")
-        stop(offset="100%" style="stop-color: #d53; stop-opacity: 1")
+      mask#mask_Out_Head2(x="0" y="0" width="1024" height="1024")
+        rect(width="100%" height="100%" fill="#fff")
+        path#headClip3(d fill="#000" style="stroke: #000; stroke-width: 8; stroke-linecap: round")
+
+      mask#mask_In_Head(x="0" y="0" width="1024" height="1024")
+        path#headClip4(d fill="#fff")
+        path#noseClip(d fill="#fff")
+
+      mask#mask_Eyes(x="0" y="0" width="1024" height="1024")
+        path#eyeClip_Left.eyes.mask.Left( d fill="#fff")
+        path#eyeClip_Right.eyes.mask.Right(d fill="#fff")
+
+      linearGradient#grad_Eyes(x1="0%" y1="100%" x2="0%" y2="0%")
+        stop#1(offset="25%"  style="stop-color: #fc0; stop-opacity: 1")
+        stop#2(offset="100%" style="stop-color: #860; stop-opacity: 1")

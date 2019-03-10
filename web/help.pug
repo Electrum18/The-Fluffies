@@ -1,0 +1,58 @@
+doctype html
+head
+  meta(charset='utf-8')
+  title The Fluffies: Help us
+  
+  link(rel='icon' href='https://cdn.glitch.com/82cd4423-8aa4-46ff-9c6d-06573cd35c19%2Ffavicon.ico?1547384056401')
+
+  meta(name='application-name' content='The Fluffies: Help us')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='user-scalable=no, width=device-width, height=device-height, initial-scale=1.0')
+  
+  link(rel='stylesheet' href='web/css/help.css')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet')
+body
+  #background
+  h1#title help us
+  #back
+    a(href="/home")
+      i.fa.fa-chevron-left(style="font-size: 2vmin")
+      button back
+    
+  #about
+    a(href="/about")
+      i.fa.fa-chevron-right(style="font-size: 2vmin")
+      button about
+
+  h2 how to draw
+  #text
+    p Frames use vector format (SVG), you need to take the coordinates of the shape from the file they are located at (digital sequence of text)
+    p All parts of the "avatar" are divided into frames, on average they are 3, 5, 7 horizontal frames (there are no vertical ones)
+    p In order for animation to work properly, it is necessary for points to be in right order, with the same quantity in frames, it is easy to observe if copied from the previous frame, afterwards providing changes for new one
+    
+    a(href="https://css-tricks.com/svg-shape-morphing-works/") How SVG Shape Morphing Works
+      i.fa.fa-external-link-square(style="font-size: 1.75vmin; margin-left: 0.5vmin")
+    a(href="https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f") SVG Morphing (the easy way and the hard way)
+      i.fa.fa-external-link-square(style="font-size: 1.75vmin; margin-left: 0.5vmin")
+
+  h2 how to help improve the code
+  #text
+    p The project code is publicly available on the #[span GitHub] site with a #[span GNU General Public License v2.0], it can be improved by anyone
+
+    a(href="https://github.com/Electrum18/The-Fluffies") The Fluffies on GitHub
+      i.fa.fa-external-link-square(style="font-size: 1.75vmin; margin-left: 0.5vmin")
+
+  h2 issues
+  #text
+    p Not all head positions look good
+    p The eye view in Firefox is incorrect
+    p In Edge and Internet Explorer browsers may not display properly
+    p We advise you to upgrade your browser to the latest version
+
+  h2 adding to the project
+  #text(style="margin-bottom: 6vmin")
+    p(style="width: 90%") If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered
+    p(style="width: 90%") Use that email to send: #[span(style="width: 90%") thefluffiessite@gmail.com]
+
+  p#copyright © 2019 The Fluffies
+  #vignette

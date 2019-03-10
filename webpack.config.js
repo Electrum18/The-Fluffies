@@ -1,51 +1,117 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
+    UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
     path = require('path');
 
 module.exports = [
   {
-    name: 'JS',
+    name: 'JS_EDITOR',
     mode: 'production',
     entry: {
       'code.js': [
-        path.resolve(__dirname, 'build/editor.ts'),
-        path.resolve(__dirname, 'build/interface.ts')
+        path.resolve(__dirname, 'src/editor/editor.ts'),
+        path.resolve(__dirname, 'src/editor/interface.ts')
       ]
     },
     output: {
       path: path.resolve(__dirname, 'web/editor'),
       filename: '[name]'
     },
+
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
     },
-    devtool: 'source-map',
     module: {
-      rules: [ {
-        test: /\.(ts|tsx)$/,
-        loader: 'awesome-typescript-loader'
-      } ]
+      rules: [ 
+        {
+          test: /\.(ts|tsx)$/,
+          loader: 'awesome-typescript-loader',
+          exclude: /node_modules/
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }
+      ]
     },
+    optimization: {
+      minimizer: [new UglifyJsPlugin({ cache: true })]
+    },
+    plugins: [
+      //new BundleAnalyzerPlugin()
+    ],
     externals: {
       jquery: 'jQuery',
       polymorph: 'polymorph',
-      anime: 'anime'
+      anime: 'anime',
+      react: 'React',
+      'react-dom': 'ReactDOM'
     }
+  },
+
+  {
+    name: 'JS_INTRO',
+    mode: 'production',
+    entry: {
+      'web/intro/': [ path.resolve(__dirname, 'src/intro/logic.ts') ]
+    },
+    output: {
+      path: path.resolve(__dirname, 'web/intro/'),
+      filename: 'code.js'
+    },
+    resolve: {
+      extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+    },
+    module: {
+      rules: [ 
+        {
+          test: /\.(ts|tsx)$/,
+          loader: 'awesome-typescript-loader',
+          exclude: /node_modules/
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }
+      ]
+    },
+    optimization: {
+      minimizer: [new UglifyJsPlugin({ cache: true })]
+    },
+    plugins: [
+      //new BundleAnalyzerPlugin()
+    ]
   },
 
   {
     name: 'CSS',
     mode: 'production',
-    entry: './build/visual.sass',
+    entry: {
+      editor: './src/editor/visual.sass',
+       intro:  './src/intro/visual.sass',
+       about:  './src/about/visual.sass',
+        help:   './src/help/visual.sass'
+    },
     output: {
-      path: path.resolve(__dirname, 'web/editor'),
-      filename: 'style.css'
+      path: path.resolve(__dirname, 'web/css'),
+      filename: '[name].css'
     },
     plugins: [
-      new ExtractTextPlugin('style.css')
-      /* new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: { discardComments: { removeAll: true } }
-      }) */
+      new ExtractTextPlugin('[name].css'),
+      new OptimizeCssAssetsPlugin({ cssProcessorOptions: { discardComments: { removeAll: true } } })
     ],
     module: {
       rules: [ {
