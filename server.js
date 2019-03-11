@@ -1,4 +1,4 @@
-var timeEnd = Date.now(), ping = 0;
+var timeEnd = Date.now();
 
 const PATH = require("path"),
 
@@ -43,9 +43,9 @@ APP.get("/about", (req, res) => {
   console.log(`${req.ip} | ${decodeURIComponent(req.originalUrl.replace(/\+/g," "))} | ${Date()}`);
 });
 
-APP.use("/help", EXPRESS.static(__dirname));
-APP.get("/help", (req, res) => {
-  res.render("help");
+APP.use("/support", EXPRESS.static(__dirname));
+APP.get("/support", (req, res) => {
+  res.render("support");
   console.log(`${req.ip} | ${decodeURIComponent(req.originalUrl.replace(/\+/g," "))} | ${Date()}`);
 });
 

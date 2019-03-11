@@ -24,11 +24,9 @@ module.exports = [
     },
     module: {
       rules: [ 
-        {
-          test: /\.(ts|tsx)$/,
+        { test: /\.(ts|tsx)$/,
           loader: 'awesome-typescript-loader',
-          exclude: /node_modules/
-        },
+          exclude: /node_modules/ },
         {
           test: /\.m?js$/,
           exclude: /(node_modules|bower_components)/,
@@ -57,53 +55,13 @@ module.exports = [
   },
 
   {
-    name: 'JS_INTRO',
-    mode: 'production',
-    entry: {
-      'web/intro/': [ path.resolve(__dirname, 'src/intro/logic.ts') ]
-    },
-    output: {
-      path: path.resolve(__dirname, 'web/intro/'),
-      filename: 'code.js'
-    },
-    resolve: {
-      extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
-    },
-    module: {
-      rules: [ 
-        {
-          test: /\.(ts|tsx)$/,
-          loader: 'awesome-typescript-loader',
-          exclude: /node_modules/
-        },
-        {
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }
-      ]
-    },
-    optimization: {
-      minimizer: [new UglifyJsPlugin({ cache: true })]
-    },
-    plugins: [
-      //new BundleAnalyzerPlugin()
-    ]
-  },
-
-  {
     name: 'CSS',
     mode: 'production',
     entry: {
-      editor: './src/editor/visual.sass',
-       intro:  './src/intro/visual.sass',
-       about:  './src/about/visual.sass',
-        help:   './src/help/visual.sass'
+       editor: './src/editor/visual.sass',
+        intro:  './src/intro/visual.sass',
+        about:  './src/about/visual.sass',
+      support: './src/support/visual.sass'
     },
     output: {
       path: path.resolve(__dirname, 'web/css'),

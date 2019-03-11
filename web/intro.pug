@@ -10,13 +10,7 @@ head
   meta(name='viewport' content='user-scalable=no, width=device-width, height=device-height, initial-scale=1.0')
   
   link(rel='stylesheet' href='web/css/intro.css')
-  
   link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet')
-  
-  script(src='https://code.jquery.com/jquery-3.3.1.min.js'
-    integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous')
-  
-  script(type='text/javascript' src='web/intro/code.js' defer)
 body
   #background
   #brandBack.transition
@@ -33,12 +27,12 @@ body
     p(style="transform: translate(-5%, -225%); font-size: 1.75vmin") correctly for phones
 
   #button
-    a(href="/about"): button#about about
-    a(href="/help"):  button#help help us
-
+    a(href="/about"):    button#about about
+    a(href="/support"):  button#support support us
     a(href="/editor/pony-female")
       button#start start using
-      i.fa.fa-chevron-right(style="font-size: 3vmin")
+        i.fa.fa-chevron-right(style="font-size: 3vmin")
+    
     p early version
     p(style="padding: 8vmin 7.2vmin; transform: translateY(-60%); font-size: 2.5vmin; color: #f4a") pony available
 

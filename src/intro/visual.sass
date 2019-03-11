@@ -13,6 +13,70 @@ div
   transition: all .25s ease
   position: fixed
 
+
+
+@keyframes brand
+  0%
+    top: 120%
+    opacity: 0
+  100%
+    top: 20%
+    opacity: 1
+
+@keyframes brand_title
+  0%, 50%
+    transform: translateY(-633%)
+    opacity: 0
+  100%
+    transform: translateY(-133%)
+    opacity: 1
+
+@keyframes brand_p
+  0%, 66%
+    transform: translateY(250%)
+    opacity: 0
+  100%
+    transform: translateY(150%)
+    opacity: 1
+
+@keyframes buttonDOM
+  0%, 66%
+    top: 100%
+    opacity: 0
+  100%
+    top: 80%
+    opacity: 1
+
+@keyframes phone
+  0%, 66%
+    top: -11vmin
+    opacity: 0
+  100%
+    top: -1vmin
+    opacity: 1
+
+@keyframes about
+  0%, 75%
+    transform: translate(-50%, 0%)
+    left: 50%
+    opacity: 0
+  100%
+    transform: translate(-50%, 50%)
+    left: -18%
+    opacity: 1
+
+@keyframes support
+  0%, 75%
+    transform: translate(-50%, 0%)
+    left: 50%
+    opacity: 0
+  100%
+    transform: translate(-50%, 50%)
+    left: 139%
+    opacity: 1
+
+
+
 .transition
   transition: all .25s ease
 
@@ -29,20 +93,21 @@ div
   font-weight: lighter
   font-family: Arial,Helvetica,sans-serif
   font-variant: small-caps
-  transform: translate(0%, -633%)
+  transform: translate(0%, -133%)
   text-shadow: 0 0 0.5vmin #000a
   margin: 0
-  opacity: 0
-  transition: all 1s ease
+  opacity: 1
+  animation: brand_title 2s ease-in-out
 
 #brand, #brandBack
   width: 30vmin
   position: fixed
-  top: 120%
+  top: 20%
   left: 50%
   transform: translate(-50%,-50%) scale(3)
-  opacity: 0
-  transition: all 1s ease
+  opacity: 1
+  animation: brand 1s ease-in-out
+  transition: none
   
 #brand path
   fill: #eee
@@ -59,12 +124,12 @@ div
   font-size: .8vmin
   font-weight: lighter
   font-variant: small-caps
-  transform: translateY(250%)
+  transform: translateY(150%)
   text-shadow: 0 0 1vmin #000a
   text-align: center
   margin: 0
-  opacity: 0
-  transition: all 1.5s ease
+  opacity: 1
+  animation: brand_p 3s ease-in-out
 
 #vignette
   width: 100%
@@ -73,7 +138,7 @@ div
   box-shadow: inset 0 0 20vmin rgba(0, 0, 0, 0.5)
 
 #start
-  border-radius: 100vmin 0 0 100vmin
+  border-radius: 100vmin
   font-size: 4vmin
   font-weight: bolder
   font-variant: small-caps
@@ -84,26 +149,30 @@ div
   border-style: none
   background: #ff0
   color: #222
+  box-shadow: 0 0 0 #ff0, 0 0 0#dd0
+  transition: transform .25s ease-out, box-shadow .25s ease-out
+  width: 103%
+  transform: translate(0, 0)
 
 #button i
   background: #ff0
   color: #222
   position: relative
-  padding: 2vmin
-  padding-top: 2.2vmin
-  padding-bottom: 1.8vmin
+  padding: 1.2vmin 0 0.8vmin 2vmin
   float: right
   border-radius: 100vmin
   font-size: 3vmin
+  box-shadow: 0 0 0 #ff0, 0 0 0#dd0
+  transition: box-shadow .25s ease-out
 
 #button
   position: absolute
   left: 50%
-  top: 100%
+  top: 80%
   width: 32vmin
   transform: translate(-50%)
-  transition: all 1s ease
-  opacity: 0
+  opacity: 1
+  animation: buttonDOM 3s ease-in-out
 
 #button p
   margin: 0
@@ -119,10 +188,10 @@ div
 #phone
   width: 28vmin
   height: 4vmin
-  top: -11vmin
+  top: -1vmin
   pointer-events: none
-  opacity: 0
-  transition: all 1s ease
+  opacity: 1
+  animation: phone 3s ease-in-out
 
 #phone i
   color: #888a
@@ -137,7 +206,7 @@ div
   padding-top: 2vmin
   transition: none
 
-#about, #help
+#about, #support
   border-radius: 100vmin
   font-size: 4vmin
   font-weight: bolder
@@ -149,20 +218,31 @@ div
   border: 1vmin solid #222
   background: transparent
   color: #ff0
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, 50%)
+  transition: transform .25s ease-out, box-shadow .25s ease-out
 
 #about
-  top: 50%
-  left: 50%
-  opacity: 0
-  transition: all 1s ease
+  top: 110%
+  left: -18%
+  opacity: 1
+  animation: about 3.5s ease-in-out
+  box-shadow: 0 0 0 #222, inset 0 0 0 #222, 0 0 0 #151515, inset 0 0 0 #151515
 
-#help
-  top: 50%
-  left: 50%
+#about:hover
+  transform: translate(-50%, 35%)
+  box-shadow: 0 0 5vmin #222, inset 0 0 5vmin #222, 0 1vmin 0 #151515, inset 0 1vmin 0 #151515
+
+#support
+  top: 110%
+  left: 139%
   white-space: nowrap
-  opacity: 0
-  transition: all 1s ease
+  opacity: 1
+  animation: support 3.5s ease-in-out
+  box-shadow: 0 0 0 #222, inset 0 0 0 #222, 0 0 0 #151515, inset 0 0 0 #151515
+
+#support:hover
+  transform: translate(-50%, 35%)
+  box-shadow: 0 0 5vmin #222, inset 0 0 5vmin #222, 0 1vmin 0 #151515, inset 0 1vmin 0 #151515
 
 #copyright
   position: absolute
@@ -173,3 +253,7 @@ div
   padding: 1.5vmin 3vmin
   pointer-events: none
   color: #888a
+
+#start:hover
+  transform: translate(0, -20%)
+  box-shadow: 0 0 5vmin #ff00, 0 1vmin 0#dd0
