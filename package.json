@@ -1,25 +1,24 @@
 {
   "dependencies": {
-    "@types/node": "^11.10.4"
+    "body-parser": "^x",
+    "compression": "^x",
+    "express": "^x",
+    "helmet": "^3.16.0",
+    "path": "^x",
+    "pug": "^x"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
+    "@types/node": "^11.11.0",
     "awesome-typescript-loader": "^x",
     "babel-loader": "^8.0.5",
-    "body-parser": "^x",
-    "compression": "^x",
-    "css-loader": "^x",
-    "express": "^x",
-    "express-router-ping": "^x",
+    "css-loader": "^2.1.1",
     "extract-text-webpack-plugin": "next",
-    "helmet": "^x",
     "json-loader": "^x",
     "node-sass": "^x",
     "optimize-css-assets-webpack-plugin": "^x",
-    "path": "^x",
-    "pug": "^x",
     "sass-loader": "^x",
     "style-loader": "^x",
     "ts-loader": "^x",
@@ -33,14 +32,12 @@
   "main": "start",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "build": "webpack -p",
-    "watch": "webpack --watch"
+    "start": "node server.js"
   },
   "engines": {
     "node": "10.x"
   },
-  "author": "Electrum18",
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/Electrum18/The-Fluffies.github.io/tree/master"
+  "author": "Electrum18 <thefluffiessite@gmail.com>",
+  "license": "GPL-2.0-only",
+  "homepage": "https://github.com/Electrum18/The-Fluffies/"
 }
