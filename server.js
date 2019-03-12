@@ -51,7 +51,7 @@ APP.get("/support", (req, res) => {
 
 APP.get("/", (req, res) => { res.redirect("/home"); });
 
-APP.listen(5000, (err) => {
+APP.listen(process.env.PORT || 5000, (err) => {
   if(err){ return console.log("Happened something bad!", err); }
-  console.log(`Server ready, port: ${5000} | ${Date.now() - timeEnd} msec`);
+  console.log(`Server ready, port: ${process.env.PORT || 5000} | ${Date.now() - timeEnd} msec`);
 });
