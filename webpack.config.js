@@ -1,4 +1,4 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin'),
+ var ExtractTextPlugin = require('extract-text-webpack-plugin'),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     UglifyJsPlugin = require('uglifyjs-webpack-plugin'),

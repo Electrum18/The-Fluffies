@@ -63,6 +63,7 @@ Open_menu_editor = () => {
   $('      #menu-button #button').attr({ fill: '#333'                         })
   $('#menu-button .fa.fa-reorder').css({ color: '#fff', transform: 'scale(0)', opacity: 0 })
   $('  #menu-button .fa.fa-times').css({ transform: 'scale(1.25)', opacity: 1             })
+  $('#menu').css({ 'pointer-events': 'all' })
 
   setTimeout(() => { $('.menu-bar').css({ top: '0', opacity: 1, height: '6vmin', 'pointer-events': 'all' }) }, 250)
   Menu_close()
@@ -70,6 +71,7 @@ Open_menu_editor = () => {
 
 Menu_editor_close = (allow = 0) => {
   $('.menu-bar').css({ top: '-10%', opacity: 0, 'padding-bottom': '0', height: '6vmin', 'pointer-events': 'none' })
+  $('#menu').css({ 'pointer-events': 'none' })
 
   if (allow > 0) {
     $('#menu-button .fa.fa-reorder').css({ color: '#333', transform: 'scale(1)', opacity: 1 })
@@ -398,4 +400,3 @@ $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
 $('#avatar').css({ bottom: 0 })
  
 setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
-

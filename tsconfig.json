@@ -15,5 +15,9 @@
   },
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "src/editor/editor.ts",
+    "src/editor/interface.ts"
   ]
 }

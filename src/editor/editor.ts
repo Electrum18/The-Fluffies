@@ -1,3 +1,5 @@
+// JSON coordinates import's
+
 import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
@@ -24,7 +26,10 @@ for (var key in svgEmotes) {
   if (svgEmotes.hasOwnProperty(key)) { svgEmotionName.push('#' + key) }
 }
 
-var Set_Attr = (ratioX: number, Scale: number) => {
+// JSON import's end
+
+
+var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to objects
   let sclPpl_LX = $('.menu-bar p.X span:eq(0)').html() / 100,
       sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
       sclIris   = $('input#eyesScale').val() / 100,
@@ -85,8 +90,8 @@ var Set_Attr = (ratioX: number, Scale: number) => {
   return ratioX
 },
 
-Animate = (angX = 0, angY = 0) => { // Animation process
-  let ApplyBody = (part: any, frame: number, X_type: number) => {  // Morphs of objects
+Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
+  let ApplyBody = (part: any, frame: number, X_type: number) => {  // Morph calculation of body - head part
     if (isNaN(part)) { part = svgBodyName.indexOf('#' + part) }  // Translate name to index
 
     let X = Math.round(X_type * 10) / 900,
@@ -116,7 +121,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process
     }
   },
 
-  ApplyHair = (part: any, frame: number, X_type: number, type: string) => {
+  ApplyHair = (part: any, frame: number, X_type: number, type: string) => {  // Morph calculation of hair part
     if (isNaN(part)) { part = svgHairName.indexOf('#' + part) }  // Translate name to index
 
     let X = Math.round(   X_type * 10) / 900,
@@ -162,17 +167,17 @@ Animate = (angX = 0, angY = 0) => { // Animation process
 
   // Objects frames
   
-                     Ang_alv_X >= 45  ? (stageFrame_X = (Ang_alv_X - 45) * 2,   frame = 1) :
-  Ang_alv_X <= 45 && Ang_alv_X > 22.5 ? (stageFrame_X = (Ang_alv_X - 22.5) * 4, frame = 2) :
-                     Ang_alv_X < 22.5 ? (stageFrame_X = Ang_alv_X * 4,          frame = 3) : void 0
+                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
+  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
+                       Ang_alv_X < 25 ? (stageFrame_X = Ang_alv_X * 3.67,          frame = 3) : void 0
 
   ApplyBody('chin',       frame, stageFrame_X)
   ApplyBody('chin_angle', frame, stageFrame_X)
 
-                       Ang_alv_X >= 45   ? (stageFrame_X = (Ang_alv_X - 45) * 2,    frame = 1) :
-  Ang_alv_X <= 45  &&  Ang_alv_X > 22.5  ? (stageFrame_X = (Ang_alv_X - 22.5) * 4,  frame = 2) :
-  Ang_alv_X <= 22.5 && Ang_alv_X > 11.25 ? (stageFrame_X = (Ang_alv_X - 11.25) * 8, frame = 3) :
-                       Ang_alv_X < 11.25 ? (stageFrame_X = Ang_alv_X * 8,           frame = 4) : void 0
+                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.5, frame = 1) :
+  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.5,  frame = 2) :
+  Ang_alv_X <= 25   && Ang_alv_X > 15 ? (stageFrame_X = (Ang_alv_X - 15) * 9.1,   frame = 3) :
+                       Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6,            frame = 4) : void 0
 
   ApplyBody('bridge', frame, stageFrame_X)
   ApplyBody('nose',   frame, stageFrame_X)
@@ -182,10 +187,11 @@ Animate = (angX = 0, angY = 0) => { // Animation process
   ApplyBody('nostril_left',  frame, stageFrame_X)
   ApplyBody('nostril_right', frame, stageFrame_X)
 
-  Ang_alv_X >= 45 ? (stageFrame_X = (Ang_alv_X - 45) * 2, frame = 1) :
-  Ang_alv_X <  45 ? (stageFrame_X = Ang_alv_X * 2,        frame = 2) : void 0
+  Ang_alv_X >= 45 ?
+    (stageFrame_X = (Ang_alv_X - 45) * 2, frame = 1) :
+    (stageFrame_X = Ang_alv_X * 2,        frame = 2)
 
-  if (stageFrame_X > 90) {stageFrame_X = 90}
+  if (stageFrame_X > 90) { stageFrame_X = 90 }
 
   let obj = 5;
   while(obj < 13) {
@@ -197,13 +203,14 @@ Animate = (angX = 0, angY = 0) => { // Animation process
   Ang_alv_X >= 30 ? (stageFrame_X = (Ang_alv_X - 30) * 3, frame = 1) :
   Ang_alv_X < 45  ? (stageFrame_X = Ang_alv_X * 3,        frame = 2) : void 0
 
-  if (stageFrame_X > 90) {stageFrame_X = 90}
+  if (stageFrame_X > 90) { stageFrame_X = 90 }
 
   ApplyBody('eye_Left',  frame, stageFrame_X)
   ApplyBody('eye_Right', frame, stageFrame_X)
 
-  Ang_alv_X >= 45 ? (stageFrame_X = (Ang_alv_X - 45) * 2, frame = angX > 0 ? 1 : 3) :
-  Ang_alv_X <  45 ? (stageFrame_X = Ang_alv_X * 2,        frame = 2               ) : void 0
+  Ang_alv_X >= 45 ? 
+    (stageFrame_X = (Ang_alv_X - 45) * 2, frame = angX > 0 ? 1 : 3) :
+    (stageFrame_X = Ang_alv_X * 2,        frame = 2               )
 
   hairType !== "Spiky to side" ?
     ApplyHair(hairType, frame, stageFrame_X, 'front')
@@ -226,10 +233,11 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   let ratioX = x / ($('#avatar').width()  / 2  ),
       ratioY = y / ($('#avatar').height() / 1.5);
 
-      angX = ratioX > 1 ? 1 : ratioX < -1 ? -1 : ratioX > -0.03 && ratioX < 0.03 ? 0 : ratioX;
-      
+  angX = ratioX > 1 ? 1 : ratioX < -1 ? -1 : ratioX > -0.03 && ratioX < 0.03 ? 0 : ratioX;
+
   let angY = ratioY > 0.33 ? 0.33 : ratioY < -0.66 ? -0.66 : ratioY > -0.03 && ratioY < 0.03 ? 0 : ratioY,
       alvPositX = angX < 0 ? -angX : angX,  // Alvays positive X
+      pow = Math.pow(1 - alvPositX, 10),
 
       Atan = Math.atan2(alvPositX, angY) * 180 / Math.PI,
 
@@ -243,25 +251,25 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   
   $('.Head').css('transform', `scale(${ Scale }, 1) rotate(${ Rotate }deg)`)
   $('.move, #eyeClip_Left, #eyeClip_Right')
-    .css('transform', `translate(0, ${ angY * 12 * Math.pow(1 - alvPositX, 5) }%)`)
-  $('#headClip').css('transform', `translate(0, ${ -angY * 12 * Math.pow(1 - alvPositX, 5) }%)`)
-  $( '.moveEar').css('transform', `translate(0, ${ -angY * 6 * Math.pow(1 - alvPositX, 5) }%)`)
+    .css('transform', `translate(0, ${ angY * 12 * pow }%)`)
+  $('#headClip').css('transform', `translate(0, ${ -angY * 12 * pow }%)`)
+  $( '.moveEar').css('transform', `translate(0, ${ -angY * 6 * pow }%)`)
   $(     '.Neck').css('transform', `scale(${ Scale }, 1)`)
   $('.HairBack2').css('transform', `translate(0%, ${ -angY / 1.5 }%)`)
 
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
-       scaleOffset = angY >= 0 ? 1 + ((angY / 2) * Math.pow(1 - alvPositX, 5))
-                : 1 + ((0.25 - ((1 - angY) / 4)) * Math.pow(1 - alvPositX, 5))
+       scaleOffset = angY >= 0 ? 1 + ((angY / 2) * pow)
+                : 1 + ((0.25 - ((1 - angY) / 4)) * pow)
 
   $('.Hair, .Hair2, .HairBack3')
     .css('transform', angX >= 0 ? 
-      `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * Math.pow(1 - alvPositX, 5) }%) scale(1, ${ scaleOffset})` 
-    : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * Math.pow(1 - alvPositX, 5) }%) scale(1, ${ scaleOffset})`)
+      `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset})` 
+    : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset})`)
 
   Set_Attr(angX, Scale)
 },
 
-Hold = 0, lastX = 0, lastY = 0, resultX = 0, resultY = 0,
+Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
 
 hairType = 'Float';
 
@@ -288,6 +296,12 @@ $('body')  // Change avatar by mouse
 
     resultX = resultX +  (mousex - lastX)
     resultY = resultY + ((mousey - lastY) * 3)
+    
+    let ratioX = Math.abs(resultX) / ($('#avatar').width()  / 2  ),
+        ratioY = Math.abs(resultY) / ($('#avatar').height() / 1.5);
+ 
+    ratioX > 1 ? (resultX = resultX > 0 ? $('#avatar').width()  / 2   : -$('#avatar').width()  / 2  ) : void 0
+    ratioY > 1 ? (resultY = resultY > 0 ? $('#avatar').height() / 1.5 : -$('#avatar').height() / 1.5) : void 0
 
     Transition(resultX, resultY)
 
@@ -298,11 +312,17 @@ $('body')  // Change avatar by mouse
   }
 })
 
-window.addEventListener('touchmove', (e: any) => {  // Phone compatibility
+window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for extra situations)
   let mousex = e.touches[0].pageX, mousey = e.touches[0].pageY
 
-  resultX = resultX + (mousex-lastX)
+  resultX = resultX +  (mousex-lastX)
   resultY = resultY + ((mousey-lastY) * 3)
+    
+  let ratioX = Math.abs(resultX) / ($('#avatar').width()  / 2  ),
+      ratioY = Math.abs(resultY) / ($('#avatar').height() / 1.5);
+
+  ratioX > 1 ? (resultX = resultX > 0 ? $('#avatar').width()  / 2   : -$('#avatar').width()  / 2  ) : void 0
+  ratioY > 1 ? (resultY = resultY > 0 ? $('#avatar').height() / 1.5 : -$('#avatar').height() / 1.5) : void 0
 
   Transition(resultX, resultY)
 
