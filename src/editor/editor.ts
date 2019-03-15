@@ -91,13 +91,20 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
 },
 
 Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
-  let ApplyBody = (part: any, frame: number, X_type: number) => {  // Morph calculation of body - head part
+  let ApplyBody = (part: any, frame: number, X_type: number, Ratio = 0) => {  // Morph calculation of body - head part
     if (isNaN(part)) { part = svgBodyName.indexOf('#' + part) }  // Translate name to index
 
     let X = Math.round(X_type * 10) / 900,
-        interpolatorX = polymorph.interpolate([svgBody[part][frame], svgBody[part][frame - 1]],
-          { precision: 1 });
+        interpolatorX = polymorph.interpolate(
+          [svgBody[part][frame], svgBody[part][frame - 1]], { precision: 1 }
+        ),
 
+        interpolatorEmotes = polymorph.interpolate(
+          [svgEmotion[0][frame], svgEmotion[0][frame - 1]], { precision: 1 }
+        ),
+      
+        interpolatorTwos = polymorph.interpolate([interpolatorX(X), interpolatorEmotes(X)], { precision: 1 });
+    
     switch (part) {
       case 5: case 7:
         if (angY >= 0 && Ang_alv_X === 0) {
@@ -117,6 +124,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
           $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
         }; break
 
+      case 18: $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['jaw_Open'] / 100)); break
       default: $(svgBodyName[part]).attr('d', interpolatorX(X)); break
     }
   },
@@ -227,16 +235,16 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
   : $('g.Hair #back, g.HairBack3 #back').attr('d', '')
 },
 
-Scale = 1, angX = 1,
+Scale = 1, angX = 30 / 90, angY = 0,
 
 Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   let ratioX = x / ($('#avatar').width()  / 2  ),
       ratioY = y / ($('#avatar').height() / 1.5);
 
-  angX = ratioX > 1 ? 1 : ratioX < -1 ? -1 : ratioX > -0.03 && ratioX < 0.03 ? 0 : ratioX;
-
-  let angY = ratioY > 0.33 ? 0.33 : ratioY < -0.66 ? -0.66 : ratioY > -0.03 && ratioY < 0.03 ? 0 : ratioY,
-      alvPositX = angX < 0 ? -angX : angX,  // Alvays positive X
+  angX = ratioX > 1    ? 1    : ratioX < -1    ? -1    : ratioX > -0.03 && ratioX < 0.03 ? 0 : ratioX;
+  angY = ratioY > 0.33 ? 0.33 : ratioY < -0.66 ? -0.66 : ratioY > -0.03 && ratioY < 0.03 ? 0 : ratioY;
+  
+  let alvPositX = angX < 0 ? -angX : angX,  // Alvays positive X
       pow = Math.pow(1 - alvPositX, 10),
 
       Atan = Math.atan2(alvPositX, angY) * 180 / Math.PI,
@@ -271,7 +279,11 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
 Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
 
-hairType = 'Float';
+hairType = 'Float',
+
+emoteProps = {  // Emotion properties
+  jaw_Open: 0
+};
 
 Animate(30), Set_Attr(1, 1)  // Apply first frame
 
@@ -333,9 +345,17 @@ window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for 
 $('input#eyesScale').mousedown(() => {
   $('input#eyesScale').mousemove(() => { 
     Set_Attr(angX, Scale)
-    $('p span#number:eq(0)').html($('input#eyesScale').val())
+    $('.menu-bar:eq(0) p span#number:eq(0)').html($('input#eyesScale').val())
   })
-}) 
+})
+
+$('input#jawOpen').mousedown(() => {
+  $('input#jawOpen').mousemove(() => {
+    emoteProps['jaw_Open'] = $('input#jawOpen').val()
+    Animate(angX * 90, angY * 90)
+    $('.menu-bar:eq(3) p span#number').html($('input#jawOpen').val())
+  })
+})
 
 $('.MM-block').mousedown((e: any) => {
   hairType = $(e.target).children().text() != '' ? $(e.target).children().text() : void 0
