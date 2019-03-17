@@ -1,36 +1,33 @@
 doctype html
 head
-  meta(charset='utf-8')
   title The Fluffies: a Pony
   
-  link(rel='icon' href='https://cdn.glitch.com/82cd4423-8aa4-46ff-9c6d-06573cd35c19%2Ffavicon.ico?1547384056401')
+  meta(name="application-name" content="The Fluffies: Create the Pony")
 
-  meta(name='application-name' content='The Fluffies: Create the Pony')
-  meta(http-equiv='X-UA-Compatible' content='IE=edge')
-  meta(name='viewport' content='user-scalable=no, width=device-width, height=device-height, initial-scale=1.0')
+  include meta.pug
   
-  link(rel='stylesheet' href='web/css/editor.css')
+  link(rel="icon" href="web/img/logos/ponies.png")
+  link(rel="stylesheet" href="web/css/editor.css")
+  link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
   
-  link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet')
+  script(src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+  script(src="https://unpkg.com/polymorph-js/dist/polymorph.min.js")
+  script(src="https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js")
   
-  script(src='https://code.jquery.com/jquery-3.3.1.min.js'
-    integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous')
-  script(src='https://unpkg.com/polymorph-js/dist/polymorph.min.js')
-  script(src='https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js')
-  
-  script(type='text/javascript' src='web/editor/code.js' defer)
+  script(type="text/javascript" src="web/editor/code.js" defer)
 body
   include editor/pony-base.pug
 
   #vignette
   #menu-social
   #menu
-    svg(width='30vmax' height='100%' viewBox='0 0 225 800' preserveAspectRatio='none')
-      circle#menu-back.transition(cx='76.5%' cy='94.25%' r='0%' fill='#333' style='mask: url(#mask_Menu); pointer-events: all')
+    svg(width="30vmax" height="100%" viewBox="0 0 225 800" preserveAspectRatio="none")
+      circle#menu-back.transition(cx="76.5%" cy="94.25%" r="0%" fill="#333" style="mask: url(#mask_Menu); pointer-events: all")
       defs
         mask#mask_Menu
-          path(d='M10 0c0 255 0 545 0 800h625V0h-625z' fill='#fff')
+          path(d="M10 0c0 255 0 545 0 800h625V0h-625z" fill="#fff")
 
     // Avatar editor panel bars
 
@@ -47,24 +44,24 @@ body
       p.h iris
       p.sm scale #[span#number(style="float: right; margin: 0 1vmin 0 0") 100]
       
-      input#eyesScale(type='range' min='50' max='125' value='100')
+      input#eyesScale(type="range" min="50" max="125" value="100")
         
       p.h pupils
       p.sm scale
 
         #sliderBox
-          svg(width='100%' height='100%' viewBox='0 -10 755 755' preserveAspectRatio='none')
-            path(d='M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z')
+          svg(width="100%" height="100%" viewBox="0 -10 755 755" preserveAspectRatio="none")
+            path(d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
             defs
-              mask#mask_Pad(x='0' y='0' width='1024' height='1024')
-                path(fill='#fff' d='M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z')
+              mask#mask_Pad(x="0" y="0" width="1024" height="1024")
+                path(fill="#fff" d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
              
           #X.line
           #X2.line
           #Y.line
           #Y2.line
           #Parall.line
-          #tapPoint(style='mask: url(#mask_Pad)')
+          #tapPoint(style="mask: url(#mask_Pad)")
         p.X       width #[span#number 100]
         p.sm.num height #[span#number 100]
 
@@ -98,14 +95,14 @@ body
           i.fa.fa-times
 
       p.sm jaw open #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
-      input#jawOpen(type='range' min='0' max='100' value='0')
+      input#jawOpen(type="range" min="0" max="100" value="0")
 
     #color_pallete
       p color picker
       i.fa.fa-times
       p.h mane
       #body
-        svg(viewBox="-10 -10 220 220" preserveAspectRatio='xMidYMin meet')
+        svg(viewBox="-10 -10 220 220" preserveAspectRatio="xMidYMin meet")
           g#picker(fill="none" stroke-width="15" transform="translate(100,100)" style="pointer-events: all")
             path(d="M 0,-100 A 100,100 0 0,1 86.6,-50"    stroke="url(#redyel)")
             path(d="M 86.6,-50 A 100,100 0 0,1 86.6,50"   stroke="url(#yelgre)")
@@ -140,7 +137,7 @@ body
                 stop(offset="100%" stop-color="#ff0000")
 
         #box
-          svg(viewBox="0 0 1 1" preserveAspectRatio='xMidYMin meet')
+          svg(viewBox="0 0 1 1" preserveAspectRatio="xMidYMin meet")
             rect(width="1" height="1" fill="url(#boxSatur)")
             rect(width="1" height="1" fill="url(#boxValue)")
             defs
@@ -163,40 +160,40 @@ body
 
     // Menu of Models - list
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(0deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%'): span Float
-      .MM-block(style='border-radius: 5%'):            span Curly ends
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(0deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%"): span Float
+      .MM-block(style="border-radius: 5%"):            span Curly ends
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(8deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(8deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(16deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(16deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(24deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(24deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(32deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(32deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(40deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(40deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
-    .MM-bar(style='transform: translate(-110%, -50%) rotate(48deg)')
-      .MM-block(style='border-radius: 20% 5% 5% 20%')
-      .MM-block(style='border-radius: 5%')
-      .MM-block(style='border-radius: 5% 20% 20% 5%')
+    .MM-bar(style="transform: translate(-110%, -50%) rotate(48deg)")
+      .MM-block(style="border-radius: 20% 5% 5% 20%")
+      .MM-block(style="border-radius: 5%")
+      .MM-block(style="border-radius: 5% 20% 20% 5%")
 
     #menu-circle
       #settings:    i.fa.fa-gear
@@ -206,25 +203,25 @@ body
       //-#animate:     i.fa.fa-reorder
 
     #menu-button
-      svg(width='100%' height='100%' viewBox='0 0 128 128' preserveAspectRatio='none')
-        path#button.transition(d='M128 64A64 64 0 1 1 0 64a64 64 0 0 1 128 0z' fill='#fff' filter='url(#mask_Shadow)')
+      svg(width="100%" height="100%" viewBox="0 0 128 128" preserveAspectRatio="none")
+        path#button.transition(d="M128 64A64 64 0 1 1 0 64a64 64 0 0 1 128 0z" fill="#fff" filter="url(#mask_Shadow)")
         defs
-          filter#mask_Shadow(x='-50%' y='-50%' width='200%' height='200%')
-            feOffset(result='offOut' in='SourceAlpha' dx='0' dy='0')
-            feColorMatrix(result='matrixOut' in='offOut' type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0')
-            feGaussianBlur(result='blurOut' in='matrixOut' stdDeviation='10')
-            feBlend(in='SourceGraphic' in2='blurOut' mode='normal')
+          filter#mask_Shadow(x="-50%" y="-50%" width="200%" height="200%")
+            feOffset(result="offOut" in="SourceAlpha" dx="0" dy="0")
+            feColorMatrix(result="matrixOut" in="offOut" type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0")
+            feGaussianBlur(result="blurOut" in="matrixOut" stdDeviation="10")
+            feBlend(in="SourceGraphic" in2="blurOut" mode="normal")
       i.fa.fa-reorder
       i.fa.fa-times
 
   include mini-logo.pug
 
-  script(async type='text/javascript' src='https://www.googletagmanager.com/gtag/js?id=UA-128687531-1')
-  script(type='text/javascript').
+  script(async type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-128687531-1")
+  script(type="text/javascript").
     window.dataLayer = window.dataLayer || [];
     
     function gtag(){ dataLayer.push(arguments); }
     
-    gtag('js', new Date()); 
-    gtag('config', 'UA-128687531-1');
+    gtag("js", new Date()); 
+    gtag("config", "UA-128687531-1");
