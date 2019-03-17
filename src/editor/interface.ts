@@ -233,8 +233,11 @@ setColor = (e: string) => {
   } else {
     let mainObj = $('.fa.fa-tint').eq(2).parents('.menu-bar');
 
-    $('.Head path, .Neck path').not('.inner, .inner2, .eyes')
+    $('.Head path, .Neck path').not('.inner, .inner2, .eyes, #mouth')
       .attr({ fill: $(e).css('background-color') })
+      .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
+
+    $('#mouth')
       .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
 
     $('.Neck .inner, .Head .inner2')
