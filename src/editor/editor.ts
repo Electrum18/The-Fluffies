@@ -91,21 +91,35 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
 },
 
 Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
-  let ApplyBody = (part: any, frame: number, X_type: number, Ratio = 0) => {  // Morph calculation of body - head part
+  let ApplyBody = (part: any, frame: number, X_type: number) => {
+    // Morph calculation of body - head part
     if (isNaN(part)) { part = svgBodyName.indexOf('#' + part) }  // Translate name to index
 
-    let X = Math.round(X_type * 10) / 900,
+    let id = '',
+        X = Math.round(X_type * 10) / 900,
         interpolatorX = polymorph.interpolate(
           [svgBody[part][frame], svgBody[part][frame - 1]], { precision: 1 }
-        ),
+        );
 
-        interpolatorEmotes = polymorph.interpolate(
-          [svgEmotion[0][frame], svgEmotion[0][frame - 1]], { precision: 1 }
-        ),
-      
-        interpolatorTwos = polymorph.interpolate([interpolatorX(X), interpolatorEmotes(X)], { precision: 1 });
+    switch (part) {
+      case 2:  id = 'chin'; break
+      case 4:  id = 'nose'; break
+      case 18: id = 'jaw';  break
+      default: id = '';     break
+    }
+
+    if (id.length > 0) {
+      let interpolatorEmotes = polymorph.interpolate(
+        [svgEmotion[0][id][frame], svgEmotion[0][id][frame - 1]], { precision: 1 }
+      );
+
+      var interpolatorTwos = polymorph.interpolate([interpolatorX(X), interpolatorEmotes(X)], { precision: 1 });
+    }
     
     switch (part) {
+      case 2: case 4: case 18: 
+        $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['jaw_Open'] / 100)); break
+      
       case 5: case 7:
         if (angY >= 0 && Ang_alv_X === 0) {
           $(svgBodyName[part]).attr('d', '')
@@ -124,7 +138,6 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
           $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
         }; break
 
-      case 18: $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['jaw_Open'] / 100)); break
       default: $(svgBodyName[part]).attr('d', interpolatorX(X)); break
     }
   },
@@ -246,9 +259,8 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   
   let alvPositX = angX < 0 ? -angX : angX,  // Alvays positive X
       pow = Math.pow(1 - alvPositX, 10),
-
+      
       Atan = Math.atan2(alvPositX, angY) * 180 / Math.PI,
-
       Rotate = 90 * angX - Atan * angX;
       Scale  = angX > 0 ? 1 : -1;
 
@@ -343,7 +355,7 @@ window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for 
 })
 
 $('input#eyesScale').mousedown(() => {
-  $('input#eyesScale').mousemove(() => { 
+  $('input#eyesScale').mousemove(() => {
     Set_Attr(angX, Scale)
     $('.menu-bar:eq(0) p span#number:eq(0)').html($('input#eyesScale').val())
   })
@@ -352,7 +364,10 @@ $('input#eyesScale').mousedown(() => {
 $('input#jawOpen').mousedown(() => {
   $('input#jawOpen').mousemove(() => {
     emoteProps['jaw_Open'] = $('input#jawOpen').val()
+    
     Animate(angX * 90, angY * 90)
+    Set_Attr(angX, Scale)
+
     $('.menu-bar:eq(3) p span#number').html($('input#jawOpen').val())
   })
 })
