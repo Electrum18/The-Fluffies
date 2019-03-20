@@ -4,10 +4,10 @@ head
   
   meta(name="application-name" content="The Fluffies: Create the Pony")
 
-  include meta.pug
+  include ../meta.pug
   
-  link(rel="icon" href="web/img/logos/ponies.png")
-  link(rel="stylesheet" href="web/css/editor.css")
+  link(rel="icon" href="../../content/ponies.png")
+  link(rel="stylesheet" href="style.css")
   link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
   
   script(src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -16,9 +16,9 @@ head
   script(src="https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js")
   script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js")
   
-  script(type="text/javascript" src="web/editor/code.js" defer)
+  script(type="text/javascript" src="code.js" defer)
 body
-  include editor/pony-base.pug
+  include pony-base.pug
 
   #vignette
   #menu-social
@@ -215,7 +215,7 @@ body
       i.fa.fa-reorder
       i.fa.fa-times
 
-  include mini-logo.pug
+  include ../mini-logo.pug
 
   script(async type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-128687531-1")
   script(type="text/javascript").

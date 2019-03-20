@@ -64,11 +64,11 @@ module.exports = [
       support: './src/support/visual.sass'
     },
     output: {
-      path: path.resolve(__dirname, 'web/css'),
-      filename: '[name].css'
+      path: path.resolve(__dirname, 'web/[name]'),
+      filename: 'style.css'
     },
     plugins: [
-      new ExtractTextPlugin('[name].css'),
+      new ExtractTextPlugin('style.css'),
       new OptimizeCssAssetsPlugin({ cssProcessorOptions: { discardComments: { removeAll: true } } })
     ],
     module: {

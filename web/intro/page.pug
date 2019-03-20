@@ -2,13 +2,12 @@ doctype html
 head
   title Welcome to: The Fluffies
   
-  include meta.pug
+  include ../meta.pug
   
-
   meta(name="application-name" content="Welcome to: The Fluffies")
   
-  link(rel="icon" href="web/img/logos/fluffies.png")
-  link(rel="stylesheet" href="web/css/intro.css")
+  link(rel="icon" href="../content/fluffies.png")
+  link(rel="stylesheet" href="style.css")
   link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
 body
   #background
@@ -18,7 +17,7 @@ body
       path(d="M414 54l-2-2H122V13c0-9-7-16-16-16H21C13-3 6 4 6 13v27c0 9 7 16 15 16h391l2-2z")
     p This is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
   
-  include mini-logo.pug
+  include ../mini-logo.pug
 
   #phone
     i.fa.fa-mobile-phone
@@ -28,7 +27,7 @@ body
   #button
     a(href="/about"):    button#about about
     a(href="/support"):  button#support support us
-    a(href="/editor/pony-female")
+    a(href="/editor/pony?g=female")
       button#start start using
         i.fa.fa-chevron-right(style="font-size: 3vmin")
     

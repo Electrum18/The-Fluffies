@@ -2,19 +2,18 @@ doctype html
 head
   title The Fluffies: About project
   
-  include meta.pug
-  
+  include ../meta.pug
 
   meta(name="application-name" content="The Fluffies: About project")
   
-  link(rel="icon" href="web/img/logos/fluffies.png")
-  link(rel="stylesheet" href="web/css/about.css")
+  link(rel="icon" href="../content/fluffies.png")
+  link(rel="stylesheet" href="style.css")
   link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
 body
   #background
   h1#title about
   #back
-    a(href="/home")
+    a(href="/")
       i.fa.fa-chevron-left(style="font-size: 2vmin")
       button back
     
@@ -42,17 +41,17 @@ body
   #text
     #author
       #avatar
-        img(src="web/img/ElectrumAvatar.png" alt="Electrum18 avatar")
+        img(src="avatars/ElectrumAvatar.png" alt="Electrum18 avatar")
       h2 Electrum18
       p Creator
     #author
       #avatar
-        img(src="web/img/UnknownAvatar.png" alt="Your avatar")
+        img(src="avatars/UnknownAvatar.png" alt="Your avatar")
       h2 You
       p can be here
     #author
       #avatar
-        img(src="web/img/UnknownAvatar.png" alt="Your avatar")
+        img(src="avatars/UnknownAvatar.png" alt="Your avatar")
       h2 You
       p can be here
 
