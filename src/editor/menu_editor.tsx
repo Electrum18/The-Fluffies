@@ -1,3 +1,7 @@
+/*
+    THIS FILE IS DEPRECATED, DONT USE
+*/
+
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 

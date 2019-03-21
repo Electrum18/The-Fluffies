@@ -190,9 +190,15 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
   
                     Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
   Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
+  Ang_alv_X <= 25   && Ang_alv_X > 15 ? (stageFrame_X = (Ang_alv_X - 15) * 9,      frame = 3) :
+                       Ang_alv_X < 15 ? (stageFrame_X = 0,                         frame = 3) : void 0
+
+  ApplyBody('chin', frame, stageFrame_X)
+
+                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
+  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
                        Ang_alv_X < 25 ? (stageFrame_X = Ang_alv_X * 3.67,          frame = 3) : void 0
 
-  ApplyBody('chin',       frame, stageFrame_X)
   ApplyBody('chin_angle', frame, stageFrame_X)
 
                     Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.5, frame = 1) :
