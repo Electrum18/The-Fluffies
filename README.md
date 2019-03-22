@@ -1,5 +1,5 @@
 # The Fluffies
-`The Fluffies` - this is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
+[The Fluffies](https://the-fluffies.net/) - this is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
 
 ## About
 Make your own furry-cartoon creation with that service like vector image (`MLP:FIM - Ponies, in this time`).
