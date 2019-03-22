@@ -183,42 +183,35 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
   stageFrame_X: number , frame: number;
 
-  ApplyBody('head',  1, Ang_alv_X)
-  ApplyBody('head2', 1, Ang_alv_X)
+    ApplyBody('head',  1, Ang_alv_X)
+    ApplyBody('head2', 1, Ang_alv_X)
 
   // Objects frames
-  
-                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
-  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
-  Ang_alv_X <= 25   && Ang_alv_X > 15 ? (stageFrame_X = (Ang_alv_X - 15) * 9,      frame = 3) :
-                       Ang_alv_X < 15 ? (stageFrame_X = 0,                         frame = 3) : void 0
 
-  ApplyBody('chin', frame, stageFrame_X)
+                     Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
+  Ang_alv_X <= 32.5 && Ang_alv_X >  25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
+                       Ang_alv_X <= 25 ? (stageFrame_X = Ang_alv_X * 3.67,          frame = 3) : void 0
 
-                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.55, frame = 1) :
-  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.55,  frame = 2) :
-                       Ang_alv_X < 25 ? (stageFrame_X = Ang_alv_X * 3.67,          frame = 3) : void 0
+   ApplyBody('chin_angle', frame, stageFrame_X) 
 
-  ApplyBody('chin_angle', frame, stageFrame_X)
+  Ang_alv_X <= 25   && Ang_alv_X >  15 ? (stageFrame_X = (Ang_alv_X - 15) * 9.1,    frame = 3) :
+                       Ang_alv_X <= 15 ? (stageFrame_X = 0,                         frame = 3) : void 0
 
-                    Ang_alv_X >= 32.5 ? (stageFrame_X = (Ang_alv_X - 32.5) * 1.5, frame = 1) :
-  Ang_alv_X <= 32.5 && Ang_alv_X > 25 ? (stageFrame_X = (Ang_alv_X - 25) * 12.5,  frame = 2) :
-  Ang_alv_X <= 25   && Ang_alv_X > 15 ? (stageFrame_X = (Ang_alv_X - 15) * 9.1,   frame = 3) :
-                       Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6,            frame = 4) : void 0
+    ApplyBody('chin', frame, stageFrame_X)
 
-  ApplyBody('bridge', frame, stageFrame_X)
-  ApplyBody('nose',   frame, stageFrame_X)
+  Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6, frame = 4) : void 0
 
-  ApplyBody('mouth',  frame, stageFrame_X)
+    ApplyBody('bridge', frame, stageFrame_X)
+    ApplyBody('nose',   frame, stageFrame_X)
 
-  ApplyBody('nostril_left',  frame, stageFrame_X)
-  ApplyBody('nostril_right', frame, stageFrame_X)
+    ApplyBody('mouth',  frame, stageFrame_X)
+
+    ApplyBody('nostril_left',  frame, stageFrame_X)
+    ApplyBody('nostril_right', frame, stageFrame_X)
 
   Ang_alv_X >= 45 ?
     (stageFrame_X = (Ang_alv_X - 45) * 2, frame = 1) :
     (stageFrame_X = Ang_alv_X * 2,        frame = 2)
-
-  if (stageFrame_X > 90) { stageFrame_X = 90 }
 
   let obj = 5;
   while(obj < 13) {
@@ -227,13 +220,12 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     obj++
   }
 
-  Ang_alv_X >= 30 ? (stageFrame_X = (Ang_alv_X - 30) * 3, frame = 1) :
-  Ang_alv_X < 45  ? (stageFrame_X = Ang_alv_X * 3,        frame = 2) : void 0
+  Ang_alv_X >= 30 ? 
+    (stageFrame_X = (Ang_alv_X - 30) * 1.5, frame = 1) :
+    (stageFrame_X = Ang_alv_X * 3,          frame = 2)
 
-  if (stageFrame_X > 90) { stageFrame_X = 90 }
-
-  ApplyBody('eye_Left',  frame, stageFrame_X)
-  ApplyBody('eye_Right', frame, stageFrame_X)
+    ApplyBody('eye_Left',  frame, stageFrame_X)
+    ApplyBody('eye_Right', frame, stageFrame_X)
 
   Ang_alv_X >= 45 ? 
     (stageFrame_X = (Ang_alv_X - 45) * 2, frame = angX > 0 ? 1 : 3) :
