@@ -1,8 +1,8 @@
 ---
 name: Other suggestions and questions about the site
 about: Ask and discuss
-title: "[HELP][FIRST ISSUE][QUESTION]"
-labels: good first issue, help wanted, question
+title: "[HELP][QUESTION]"
+labels: question
 assignees: Electrum18
 
 ---
