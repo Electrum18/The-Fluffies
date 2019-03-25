@@ -1,9 +1,9 @@
 <a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="882" src="https://uc32bc6ea7a9b0abf792e04301b2.previews.dropboxusercontent.com/p/thumb/AAbV90T8YhoWPdTJRSN3yaPiT-m5D1UZAi0Ts6D937aCchvx7aIscQ1WQkVJTOGRbmtZjMb6Vp6sDWB2Gl9Xj9UedqMkfiDh_KCiuMgL7RySSo_kYMdoXam_AONBtU0mKrrmJ8hEcvm5ZIGRUhxh6Y59kWHLwjTelrwIRzFwonlrFsyNYXNf6jOz9QL8JX1gGCIeozrC-_IjuBz52NWzjTdCjfvzTqI6j30jmxmGezaW8fjvQRuXcESsgseZKLmtQo_TKMmytafFAV2FLh-hjihRJm3V5p29SfbR5U01frW8Bv7MLYb-bY5SmK34fYCUTNyd8beGtJzDzxMOO3gMQNFDh9OPLT3C2f_lJQlGnVJpGGcPNTzC7elnaPG3SfEWRgw/p.png?size_mode=5" alt="The Fluffies logo"></a>
 
 <p align="center">
-  <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Electrum18/The-Fluffies.svg?color=blue&style=flat-square" alt="License: GPLv2"></a>
-  <a href="https://github.com/Electrum18/The-Fluffies/commits/master"><img src="https://img.shields.io/github/last-commit/Electrum18/The-Fluffies.svg?color=blue&style=flat-square" alt="Commits"></a>
-  <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg?style=flat-square" alt="Repo size">
+  <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20By--NC--ND%20v3.0-yellow.svg" alt="License: CC By-NC-ND v3.0"></a>
+  <a href="https://github.com/Electrum18/The-Fluffies/commits/master"><img src="https://img.shields.io/github/last-commit/Electrum18/The-Fluffies.svg" alt="Commits"></a>
+  <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg" alt="Repo size">
 </p>
 
 <h2 align="center">Welcome to: The Fluffies! <img width="30" src="https://files.everypony.ru/smiles/09/de/61c292.png" alt="Smiling Fluttershy"></h2>
@@ -57,4 +57,4 @@ Use that email to send: `thefluffiessite@gmail.com`
 - Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18) &middot; [Deviantart](https://www.deviantart.com/electedpony)
 - These are all developers, you can be one of them
 
-### License [![License: GPLv2](https://img.shields.io/github/license/Electrum18/The-Fluffies.svg?color=blue&style=flat-square)](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)
+### License [![License: CC By-NC-ND v3.0](https://img.shields.io/badge/license-CC%20By--NC--ND%20v3.0-yellow.svg)](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)
