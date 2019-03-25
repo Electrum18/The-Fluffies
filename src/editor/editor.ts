@@ -105,12 +105,14 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
       case 2:  id = 'chin'; break
       case 4:  id = 'nose'; break
       case 18: id = 'jaw';  break
-      default: id = '';     break
+      default: id = ''
     }
 
     if (id.length > 0) {
+      var indx = 0;
+
       let interpolatorEmotes = polymorph.interpolate(
-        [svgEmotion[0][id][frame], svgEmotion[0][id][frame - 1]], { precision: 1 }
+        [svgEmotion[indx][id][frame], svgEmotion[indx][id][frame - 1]], { precision: 1 }
       );
 
       var interpolatorTwos = polymorph.interpolate([interpolatorX(X), interpolatorEmotes(X)], { precision: 1 });
@@ -119,6 +121,9 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     switch (part) {
       case 2: case 4: case 18: 
         $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['jaw_Open'] / 100)); break
+
+      //case 18: 
+      //  indx = 1; $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['sad'] / 100)); break
       
       case 5: case 7:
         if (angY >= 0 && Ang_alv_X === 0) {
@@ -138,7 +143,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
           $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
         }; break
 
-      default: $(svgBodyName[part]).attr('d', interpolatorX(X)); break
+      default: $(svgBodyName[part]).attr('d', interpolatorX(X))
     }
   },
 
@@ -292,7 +297,8 @@ Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
 hairType = 'Float',
 
 emoteProps = {  // Emotion properties
-  jaw_Open: 0
+  jaw_Open: 0,
+  sad: 0
 };
 
 Animate(30), Set_Attr(1, 1)  // Apply first frame
@@ -362,6 +368,7 @@ $('input#eyesScale').mousedown(() => {
 $('input#jawOpen').mousedown(() => {
   $('input#jawOpen').mousemove(() => {
     emoteProps['jaw_Open'] = $('input#jawOpen').val()
+    //emoteProps['sad'] = $('input#jawOpen').val()
     
     Animate(angX * 90, angY * 90)
     Set_Attr(angX, Scale)

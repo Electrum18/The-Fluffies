@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /about/
 Disallow: /support/
-Disallow: /editor/pony-female/
+Disallow: /editor/pony/
