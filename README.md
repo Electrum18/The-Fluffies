@@ -1,4 +1,4 @@
-<p align="center"><a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="1366" src="https://www.dropbox.com/s/crmcu8debo4xyor/brand.png?dl=1" alt="The Fluffies logo"></a></p>
+<a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="882" src="https://www.dropbox.com/s/crmcu8debo4xyor/brand.png?dl=1" alt="The Fluffies logo"></a>
 
 <p align="center">
   <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Electrum18/The-Fluffies.svg?color=blue&style=flat-square" alt="License: GPLv2"></a>
@@ -6,10 +6,7 @@
   <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg?style=flat-square" alt="Repo size">
 </p>
 
-<p align="center">
-  <h2>Welcome to: The Fluffies!</h2>
-  <img width="30" src="https://files.everypony.ru/smiles/09/de/61c292.png" alt="Smiling Fluttershy">
-</p>
+<h2 align="center">Welcome to: The Fluffies! <img width="30" src="https://files.everypony.ru/smiles/09/de/61c292.png" alt="Smiling Fluttershy"></h2>
 
 [The Fluffies](https://the-fluffies.net/) - this is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
 
@@ -60,4 +57,4 @@ Use that email to send: `thefluffiessite@gmail.com`
 - Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18) &middot; [Deviantart](https://www.deviantart.com/electedpony)
 - These are all developers, you can be one of them
 
-## License [![License: GPLv2](https://img.shields.io/github/license/Electrum18/The-Fluffies.svg?color=blue&style=flat-square)](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)
+### License [![License: GPLv2](https://img.shields.io/github/license/Electrum18/The-Fluffies.svg?color=blue&style=flat-square)](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)
