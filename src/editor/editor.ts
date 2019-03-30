@@ -4,8 +4,7 @@ import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
 
-var $         = require('jquery'),
-    polymorph = require('polymorph'),
+var polymorph = require('polymorph'),
 
        svgBody: any = [],    svgBodyName: string[] = [],   svgs: any = svg,
        svgHair: any = [],    svgHairName: string[] = [],  svgHs: any = svgHairs,
@@ -33,7 +32,7 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
   let sclPpl_LX = $('.menu-bar p.X span:eq(0)').html() / 100,
       sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
       sclIris   = $('input#eyesScale').val() / 100,
-       
+
       left  = ((($( '#eye_Left').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
       right = ((($('#eye_Right').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
 
@@ -308,9 +307,8 @@ $('body')  // Change avatar by mouse
     if (e.target.id !== 'menu-back' && $(e.target).attr('class')          !== 'transition' ||          
         e.target.id !== 'slider'    && $(e.target).parent().attr('class') !== 'info' ) {
       
-      if (               $(e.target).parent().attr('class') === 'Head'     ||
-        e.target.id === ''     && $(e.target).attr('class') === 'morphing' ||
-        e.target.id === 'menu' && $(e.target).attr('class') === undefined  ) {
+      if (e.target.id === 'avatar' && $(e.target).attr('class') === 'transition' && 
+        $(e.target).parent().attr('class') === undefined ) {
 
         switch (e.which) { case 1: default: lastX = e.pageX, lastY = e.pageY, Hold = 1 }
       } else if ( e.target.id === 'sliderBox' ) {

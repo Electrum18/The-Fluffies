@@ -4,6 +4,8 @@ body
   margin: 0
   color: transparent
   user-select: none
+  background: #fff
+  transition: background .25s ease-out
 
 svg
   overflow: visible
@@ -20,7 +22,7 @@ div
     top: 120%
     opacity: 0
   100%
-    top: 20%
+    top: 15%
     opacity: 1
 
 @keyframes brand_title
@@ -33,18 +35,18 @@ div
 
 @keyframes brand_p
   0%, 66%
-    transform: translateY(250%)
+    margin: 30vmax 0 0 0
     opacity: 0
   100%
-    transform: translateY(150%)
+    margin: 11vmin 0 0 0
     opacity: 1
 
 @keyframes buttonDOM
   0%, 66%
-    top: 100%
+    bottom: -3vmax
     opacity: 0
   100%
-    top: 80%
+    bottom: 20vmin
     opacity: 1
 
 @keyframes phone
@@ -62,7 +64,7 @@ div
     opacity: 0
   100%
     transform: translate(-50%, 50%)
-    left: -18%
+    left: -45%
     opacity: 1
 
 @keyframes support
@@ -72,7 +74,13 @@ div
     opacity: 0
   100%
     transform: translate(-50%, 50%)
-    left: 139%
+    left: 150%
+    opacity: 1
+
+@keyframes attention
+  50%
+    opacity: 0
+  100%
     opacity: 1
 
 
@@ -80,29 +88,23 @@ div
 .transition
   transition: all .25s ease
 
-#background
-  width: 100%
-  height: 100%
-  background-image: linear-gradient(135deg, #535, #333)
-  pointer-events: none
-
 #title
   position: absolute
-  color: #aaa
+  color: #fff
   font-size: 1.25vmin
   font-weight: lighter
   font-family: Arial,Helvetica,sans-serif
   font-variant: small-caps
   transform: translate(0%, -133%)
-  text-shadow: 0 0 0.5vmin #000a
   margin: 0
   opacity: 1
   animation: brand_title 2s ease-in-out
+  text-shadow: 0 0 .5vmin rgba(0,0,0,.25)
 
 #brand, #brandBack
-  width: 30vmin
+  width: 25vmin
   position: fixed
-  top: 20%
+  top: 15%
   left: 50%
   transform: translate(-50%,-50%) scale(3)
   opacity: 1
@@ -110,7 +112,7 @@ div
   transition: none
   
 #brand path
-  fill: #eee
+  fill: #fff
 
 #brand path:nth-child(10), #brand path:nth-child(11), #brand path:nth-child(12)
   fill: #222
@@ -118,57 +120,63 @@ div
 #brandBack path
   fill: #ff2
 
-#brandBack p
+#brand p
   position: absolute
-  color: #ccc
+  color: #bbb
   font-size: .8vmin
   font-weight: lighter
   font-variant: small-caps
-  transform: translateY(150%)
-  text-shadow: 0 0 1vmin #000a
   text-align: center
-  margin: 0
+  margin: 11vmin 0 0 0
   opacity: 1
   animation: brand_p 3s ease-in-out
+  width: 100%
+
+#brand p:last-of-type
+  margin: 16vmin 1.5vmin 0
+  padding: .5vmin 0
+  background: transparent
+  color: #f40
+  width: 21vmin
+  border: .25vmin solid #f40
+  border-radius: .5vmin
+  animation: attention 3s ease-in-out infinite
 
 #vignette
   width: 100%
   height: 100%
   pointer-events: none
-  box-shadow: inset 0 0 20vmin rgba(0, 0, 0, 0.5)
+  box-shadow: inset 0 0 20vmin rgba(0, 0, 0, .5)
 
 #start
-  border-radius: 100vmin
+  border-radius: 3vmin
   font-size: 4vmin
   font-weight: bolder
   font-variant: small-caps
   font-family: Arial,Helvetica,sans-serif
   text-align: center
-  padding: 1.2vmin 3.5vmin 1.2vmin 2vmin
+  padding: 1.2vmin 2.5vmin 1.2vmin 2vmin
   position: absolute
   border-style: none
-  background: #ff0
+  background: #eee
   color: #222
-  box-shadow: 0 0 0 #ff0, 0 0 0#dd0
-  transition: transform .25s ease-out, box-shadow .25s ease-out
+  transition: background .25s ease-out
   width: 103%
+  height: 9vmin
   transform: translate(0, 0)
 
 #button i
-  background: #ff0
+  background: transparent
   color: #222
   position: relative
-  padding: 1.2vmin 0 0.8vmin 2vmin
+  padding: 1vmin 0 .8vmin
   float: right
-  border-radius: 100vmin
   font-size: 3vmin
-  box-shadow: 0 0 0 #ff0, 0 0 0#dd0
-  transition: box-shadow .25s ease-out
 
 #button
   position: absolute
   left: 50%
-  top: 80%
+  bottom: 20vmin
   width: 32vmin
   transform: translate(-50%)
   opacity: 1
@@ -176,9 +184,9 @@ div
 
 #button p
   margin: 0
-  padding: 8vmin 9vmin
+  padding: 10vmin 9vmin
   position: absolute
-  color: #eee8
+  color: #aaa
   font-size: 2vmin
   font-weight: lighter
   font-family: Arial,Helvetica,sans-serif
@@ -194,66 +202,98 @@ div
   animation: phone 3s ease-in-out
 
 #phone i
-  color: #888a
+  color: #ccc
   position: relative
-  font-size: 10vmin
+  font-size: 5vmin
   padding: 2vmin
 
 #phone p
   float: right
-  color: #888a
+  color: #ccc
   margin: 0
   padding-top: 2vmin
   transition: none
 
 #about, #support
-  border-radius: 100vmin
   font-size: 4vmin
-  font-weight: bolder
   font-variant: small-caps
   font-family: Arial,Helvetica,sans-serif
   text-align: center
-  padding: 0.5vmin 2vmin
   position: absolute
-  border: 1vmin solid #222
+  border: none
   background: transparent
-  color: #ff0
+  color: #333
   transform: translate(-50%, 50%)
-  transition: transform .25s ease-out, box-shadow .25s ease-out
+  transition: background .25s ease-out, padding .25s ease-out, color .25s ease-out
+  border: .5vmin solid #eee
+  border-radius: 2vmin
 
 #about
   top: 110%
-  left: -18%
+  left: -45%
   opacity: 1
   animation: about 3.5s ease-in-out
-  box-shadow: 0 0 0 #222, inset 0 0 0 #222, 0 0 0 #151515, inset 0 0 0 #151515
+  padding: .5vmin 7vmin
 
 #about:hover
-  transform: translate(-50%, 35%)
-  box-shadow: 0 0 5vmin #222, inset 0 0 5vmin #222, 0 1vmin 0 #151515, inset 0 1vmin 0 #151515
+  padding: -.5vmin
+  background: #eee
 
 #support
   top: 110%
-  left: 139%
+  left: 150%
   white-space: nowrap
   opacity: 1
   animation: support 3.5s ease-in-out
-  box-shadow: 0 0 0 #222, inset 0 0 0 #222, 0 0 0 #151515, inset 0 0 0 #151515
+  padding: .5vmin 2vmin
 
 #support:hover
-  transform: translate(-50%, 35%)
-  box-shadow: 0 0 5vmin #222, inset 0 0 5vmin #222, 0 1vmin 0 #151515, inset 0 1vmin 0 #151515
+  padding: -.5vmin
+  background: #eee
 
 #copyright
-  position: absolute
+  position: fixed
   bottom: -1vmin
   font-size: 2vmin
   font-weight: bold
   font-family: Arial,Helvetica,sans-serif
   padding: 1.5vmin 3vmin
   pointer-events: none
-  color: #888a
+  color: #888
 
 #start:hover
-  transform: translate(0, -20%)
-  box-shadow: 0 0 5vmin #ff00, 0 1vmin 0#dd0
+  background: #fa0
+
+#night
+  position: absolute
+  font-size: 5vmin
+  padding: 1vmin 2.25vmin 1vmin .75vmin
+  margin: 1vmin
+  color: #222
+  background: transparent
+  bottom: 1vmin
+  right: 1vmin
+  box-shadow: 0 0 3vmin #0006
+  border-radius: 100vmin
+  width: 4vmin
+  height: 5vmin
+  transition: background .25s ease-out, transform .25s ease-out
+
+#light
+  position: absolute
+  font-size: 5vmin
+  padding: 1vmin
+  margin: 1vmin
+  color: #eee
+  background: transparent
+  bottom: 1vmin
+  right: 1vmin
+  box-shadow: 0 0 3vmin #000a
+  border-radius: 100vmin
+  width: 5vmin
+  height: 5vmin
+  transition: background .25s ease-out, transform .25s ease-out
+  transform: scale(0)
+
+#night:hover, #light:hover
+  background: #fa0

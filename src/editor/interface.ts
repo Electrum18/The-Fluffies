@@ -65,12 +65,14 @@ Open_menu_editor = () => {
   $('  #menu-button .fa.fa-times').css({ transform: 'scale(1.25)', opacity: 1             })
   $('#menu').css({ 'pointer-events': 'all' })
 
-  setTimeout(() => { $('.menu-bar').css({ top: '0', opacity: 1, height: '6vmin', 'pointer-events': 'all' }) }, 250)
+  setTimeout(() => { $('.menu-bar').css({ top: '0', opacity: 1,
+    height: '6vmin', 'pointer-events': 'all' }) }, 250)
   Menu_close()
 },
 
 Menu_editor_close = (allow = 0) => {
-  $('.menu-bar').css({ top: '-10%', opacity: 0, 'padding-bottom': '0', height: '6vmin', 'pointer-events': 'none' })
+  $('.menu-bar').css({ top: '-30vmin', opacity: 0, 'padding-bottom': '0',
+    height: '6vmin', 'pointer-events': 'none' })
   $('#menu').css({ 'pointer-events': 'none' })
 
   if (allow > 0) {
@@ -85,25 +87,36 @@ Menu_editor_close = (allow = 0) => {
 },
 
 Toggle_tab = (e: any) => {
-  let obj = $(e.target).parents('.menu-bar');
+  let obj = $(e.target).parents('.menu-bar'),
+      apply = (h: string, o: number, pe: string, n: number, n2: number, round: string) => {
+        obj.css({ height: h })
+        obj.find('*').not('#title, #title *').css({ opacity: o, 'pointer-events': pe })
 
-  obj.height() === $(e.target).parent().height() ?
-    ( obj.css({ height: '' }),
-      obj.find('*').not('#title, #title *').css({ opacity: 1 }),
+        obj.find('#title .fa-caret-down').css({ transform:`translate(-50%, -50%) scale(${n})`,  opacity: n  })
+        obj.find(     '#title .fa-times').css({ transform:`translate(-80%, -50%) scale(${n2})`, opacity: n2 })
 
-      obj.find('#title .fa-caret-down').css({ transform:
-        'translate(-50%, -50%) scale(0)', opacity: 0 }),
+        if (obj.index() !== $('.menu-bar').length) {
+          let b = obj.find('#title').css('border-radius').match(/\S+/g),
+          b2 = $('.menu-bar').eq(obj.index()).find('#title').css('border-radius').match(/\S+/g);
 
-      obj.find('#title .fa-times').css({ transform:
-        'translate(-80%, -50%) scale(1)', opacity: 1 }) )
-  : ( obj.css({ height: '6vmin' }),
-      obj.find('*').not('#title, #title *').css({ opacity: 0 }),
+          for (var i = 0; i < b.length; i++ ) { b[i]  =  b[i].replace(/undefined/g, '0') }
+          for (var i = 0; i < b2.length; i++) { b2[i] = b2[i].replace(/undefined/g, '0') }
 
-      obj.find('#title .fa-caret-down').css({ transform:
-        'translate(-50%, -50%) scale(1)', opacity: 1 }),
+          b.length  < 4 ?  b[3] = 0 : void 0
+          b2.length < 4 ? b2[3] = 0 : void 0
 
-      obj.find('#title .fa-times').css({ transform:
-        'translate(-80%, -50%) scale(0)', opacity: 0 }) )
+          $('.menu-bar').eq(obj.index() - 1).find('#title').css({ 'border-radius': `${b[0]} 0 0 ` + round  })
+          $('.menu-bar').eq(obj.index()    ).find('#title').css({ 'border-radius': round + ` 0 0 ${b2[3]}` })
+        } else {
+          let b = obj.find('#title').css('border-radius').match(/\S+/g)
+
+          $('.menu-bar').eq(obj.index() - 1).find('#title').css({ 'border-radius': `${b[0]} 0 0 1.5vmax` })
+        }
+      };
+
+  obj.height() === $(e.target).parent().height() ? 
+    apply('', 1, 'all', 0, 1, '1.5vmax') 
+  : apply('6vmin', 0, 'none', 1, 0, '0')
 },
 
 Open_MM = () => {
@@ -203,13 +216,10 @@ setColor = (e: string) => {
       $('defs #grad_Eyes #2').css({ 'stop-color': `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }) )
 
     $(   '.fa.fa-tint').eq(0).css({ background: $('defs #grad_Eyes #1').css('stop-color') })
-    mainObj.find('p.h').eq(0).css({ border: `.33vmin solid ` + $('defs #grad_Eyes #1').css('stop-color') })
       
     let HSL = rgbToHsl($('defs #grad_Eyes #1').css('stop-color'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
 
-    mainObj.css({ 'background-image':
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 25%), #333)` })
     mainObj.find('#sliderBox svg > path').eq(0)
       .css({ stroke: $('defs #grad_Eyes #1').css('stop-color') })
     mainObj.find('p span#number:eq(0), p span#number:eq(1), p span#number:eq(2), #favColor, input#eyesScale')
@@ -222,14 +232,10 @@ setColor = (e: string) => {
       .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
     
     $('   .fa.fa-tint').eq(1).css({ background: $('.Hair #front').css('fill')                })
-    mainObj.find('      p.h').css({ border: `.33vmin solid ` + $('.Hair #front').css('fill') })
     mainObj.find('#favColor').css({ background: $('.Hair #front').css('fill')                })
 
     let HSL = rgbToHsl($('.Hair #front').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
-
-    mainObj.css({ 'background-image':
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 25%), #333)` })
   } else {
     let mainObj = $('.fa.fa-tint').eq(2).parents('.menu-bar');
 
@@ -245,14 +251,10 @@ setColor = (e: string) => {
       .css( { stroke: $(e).css('background-color') })
 
     $('   .fa.fa-tint').eq(2).css({ background: $('.Head #head').css('fill')                })
-    mainObj.find('      p.h').css({ border: `.33vmin solid ` + $('.Head #head').css('fill') })
     mainObj.find('#favColor').css({ background: $('.Head #head').css('fill')                })
 
     let HSL = rgbToHsl($('.Head #head').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
-
-    mainObj.css({'background-image':
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 25%), #333)` })
   }
 },
 
@@ -364,11 +366,6 @@ $('.fa.fa-tint').each((i:number) => {
     
     let HSL = rgbToHsl($('.Hair #front').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
-
-    mainObj.css({ 'background-image': 
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 10%), #333)` })
-    mainObj.find('p.h').css({ border: `.33vmin solid ` + $('.Hair #front').css('fill') })
-  
   } else if (text === 'Eyes') {
     obj.css({                       background: $('defs #grad_Eyes #1').css('stop-color') })
     mainObj.find('#favColor').css({ background: $('defs #grad_Eyes #1').css('stop-color') })
@@ -376,10 +373,6 @@ $('.fa.fa-tint').each((i:number) => {
     let HSL = rgbToHsl($('defs #grad_Eyes #1').css('stop-color'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
 
-    mainObj.css({ 'background-image':
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 10%), #333)` })
-    mainObj.find('p.h:eq(0)')
-      .css({ border: `.33vmin solid ` + $('defs #grad_Eyes #1').css('stop-color') })
     mainObj.find('#sliderBox svg > path').eq(0)
       .css({ stroke: $('defs #grad_Eyes #1').css('stop-color') })
     mainObj.find('p span#number:eq(0), p span#number:eq(1), p span#number:eq(2)')
@@ -392,10 +385,6 @@ $('.fa.fa-tint').each((i:number) => {
 
     let HSL = rgbToHsl($('.Head #head').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
-
-    mainObj.css({ 'background-image':
-      `linear-gradient(to bottom right, hsl(${ Hue + 210 }, ${ Satur }%, ${ Light }%, 10%), #333)` })
-    mainObj.find('p.h').css({ border: `.33vmin solid ` + $('.Head #head').css('fill') })
   }
 })
 

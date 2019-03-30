@@ -41,33 +41,18 @@ APP.use((err, req, res, next) => {
 APP.use(BODY_PARSER.json());
 APP.use(BODY_PARSER.urlencoded({ extended: true }));
 
-APP.use('/content', EXPRESS.static(__dirname + '/web/img'));
+APP.use(EXPRESS.static(__dirname + '/web'));
 
-APP.use('/', EXPRESS.static(__dirname + '/web/intro'));
-APP.get('/', (req, res) => {
-  res.render('intro/page');
-  log(req); 
-});
+APP.get('/',        (req, res) => { res.render('intro');   log(req); });
+APP.get('/about',   (req, res) => { res.render('about');   log(req); });
+APP.get('/support', (req, res) => { res.render('support'); log(req); });
 
-APP.use('/about', EXPRESS.static(__dirname + '/web/about'));
-APP.get('/about', (req, res) => {
-  res.render('about/page');
-  log(req);
-});
-
-APP.use('/support', EXPRESS.static(__dirname + '/web/support'));
-APP.get('/support', (req, res) => {
-  res.render('support/page');
-  log(req);
-});
-
-APP.use('/editor/pony', EXPRESS.static(__dirname + '/web/editor'));
 APP.get('/editor/pony', (req, res) => {
   if (req.query.g !== 'female' ) {  // g is gender
     res.redirect('/');
     log(req, 'UNKNOWN DATA');
   } else {
-    res.render('editor/page');
+    res.render('editor');
     log(req);
   }
 });

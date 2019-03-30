@@ -4,21 +4,24 @@
     UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
     path = require('path');
 
+/*module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+};*/
+
 module.exports = [
   {
-    name: 'JS_EDITOR',
+    name: 'JS_Editor',
     mode: 'production',
-    entry: {
-      'code.js': [
-        path.resolve(__dirname, 'src/editor/editor.ts'),
-        path.resolve(__dirname, 'src/editor/interface.ts')
-      ]
-    },
+    entry: [
+      './src/editor/editor.ts',
+      './src/editor/interface.ts'
+    ],
     output: {
-      path: path.resolve(__dirname, 'web/editor'),
-      filename: '[name]'
+      path: path.resolve(__dirname, 'web/js/'),
+      filename: 'editor.js'
     },
-
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
     },
@@ -42,15 +45,50 @@ module.exports = [
     optimization: {
       minimizer: [new UglifyJsPlugin({ cache: true })]
     },
-    plugins: [
-      //new BundleAnalyzerPlugin()
-    ],
     externals: {
       jquery: 'jQuery',
       polymorph: 'polymorph',
-      anime: 'anime',
-      react: 'React',
-      'react-dom': 'ReactDOM'
+      anime: 'anime'
+    }
+  },
+
+  {
+    name: 'JS_Pages',
+    mode: 'production',
+    entry: {
+        intro: './src/intro/code.ts',
+        about: './src/about/code.ts',
+      support: './src/support/code.ts'
+    },
+    output: {
+      path: path.resolve(__dirname, 'web/js/'),
+      filename: '[name].js'
+    },
+    resolve: {
+      extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+    },
+    module: {
+      rules: [ 
+        { test: /\.(ts|tsx)$/,
+          loader: 'awesome-typescript-loader',
+          exclude: /node_modules/ },
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }
+      ]
+    },
+    optimization: {
+      minimizer: [new UglifyJsPlugin({ cache: true })]
+    },
+    externals: {
+      jquery: 'jQuery'
     }
   },
 
@@ -64,11 +102,11 @@ module.exports = [
       support: './src/support/visual.sass'
     },
     output: {
-      path: path.resolve(__dirname, 'web/[name]'),
-      filename: 'style.css'
+      path: path.resolve(__dirname, 'web/css/'),
+      filename: '[name].css'
     },
     plugins: [
-      new ExtractTextPlugin('style.css'),
+      new ExtractTextPlugin('[name].css'),
       new OptimizeCssAssetsPlugin({ cssProcessorOptions: { discardComments: { removeAll: true } } })
     ],
     module: {

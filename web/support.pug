@@ -2,28 +2,32 @@ doctype html
 head
   title The Fluffies: Support us
 
-  include ../meta.pug
+  include meta.pug
 
   meta(name="application-name" content="The Fluffies: Support us")
   
-  link(rel="icon" href="../content/fluffies.ico")
-  link(rel="stylesheet" href="style.css")
-  link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
+  link(rel="icon" href="./img/fluffies.ico")
+  link(rel="stylesheet" href="./css/support.css")
+  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' 
+    integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' 
+    crossorigin='anonymous')
+
+  script(src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+
+  script(type="text/javascript" src="./js/support.js" defer)
 body
-  #background
   h1#title support us
   #back
     a(href="/")
-      i.fa.fa-chevron-left(style="font-size: 2vmin")
       button back
     
   #about
     a(href="/about")
-      i.fa.fa-chevron-right(style="font-size: 2vmin")
       button about
 
-  h2 how to draw
   #text
+    h2 how to draw
     p Frames use vector format (SVG), you need to take the coordinates of the shape from the file they are located at (digital sequence of text)
     p All parts of the "avatar" are divided into frames, on average they are 3, 5, 7 horizontal frames (there are no vertical ones)
     p In order for animation to work properly, it is necessary for points to be in right order, with the same quantity in frames, it is easy to observe if copied from the previous frame, afterwards providing changes for new one
@@ -33,24 +37,27 @@ body
     a(href="https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f") SVG Morphing (the easy way and the hard way)
       i.fa.fa-external-link-square(style="font-size: 1.75vmin; margin-left: 0.5vmin")
 
-  h2 how to help improve the code
   #text
+    h2 how to help improve the code
     p The project code is publicly available on the #[span GitHub] site with a #[span GNU General Public License v2.0], it can be improved by anyone
 
     a(href="https://github.com/Electrum18/The-Fluffies") The Fluffies on GitHub
       i.fa.fa-external-link-square(style="font-size: 1.75vmin; margin-left: 0.5vmin")
 
-  h2 issues
   #text
+    h2 issues
     p Not all head positions look good
     p The eye view in Firefox is incorrect
     p In Edge and Internet Explorer browsers may not display properly
     p We advise you to upgrade your browser to the latest version
-
-  h2 adding to the project
-  #text(style="margin-bottom: 6vmin")
+  
+  #text(style="margin: 1.5vmin 0 10vmin")
+    h2 adding to the project
     p(style="width: 90%") If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered
     p(style="width: 90%") Use that email to send: #[span(style="width: 90%") thefluffiessite@gmail.com]
+
+  i#night.fas.fa-moon
+  i#light.fas.fa-sun
 
   p#copyright © 2019 The Fluffies
   #vignette

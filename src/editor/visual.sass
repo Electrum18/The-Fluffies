@@ -17,6 +17,7 @@ div
   transition: all .25s ease
 
 .scale
+  -moz-transform: translate(50%, 50%)
   transform: translate(50%, 50%)
 
 
@@ -29,24 +30,26 @@ div
   transition: none
 
 #avatar
-  width: 100vmin
-  height: 100vmin
+  min-width: 100vmin
+  min-height: 100vmin
   bottom: -100%
   left: 50%
+  -moz-transform: translate(-50%, 0%)
   transform: translate(-50%, 0%)
   transition: all 1.5s ease-out
 
-.morphing
+#avatar svg
   display: inline-block
   position: fixed
-  width: 100%
-  height: 100%
+  min-width: 100%
+  min-height: 100%
+  pointer-events: none
 
 #brand
-  width: 20vmax
+  width: 15vmax
   position: fixed
-  bottom: 4vmin
-  opacity: 0.25
+  bottom: 6vmax
+  opacity: 0.15
 
 .Head, .Neck, .Hair, .Hair2, .HairBack, .HairBack2, .HairBack3, #sliderBox svg > path
   stroke: #888
@@ -62,6 +65,7 @@ div
   mask: url(#mask_Head)
 
 #eyeGlare_Left, #eyeGlare_Right, #eyeGlare2_Left, #eyeGlare2_Right
+  -moz-transform: rotate(30deg)
   transform: rotate(30deg)
 
 .inside
@@ -189,12 +193,19 @@ input#jawOpen
   transition: none
 
 .menu-bar
-  width: 100%
+  width: 95%
   background: #353535
   top: -10%
-  border-radius: 1vmax
+  border-radius: 1.5vmax
   opacity: 0
   display: block
+  margin: .25vmax 1.4vmax
+
+.menu-bar:not(#title, #title *) *
+  pointer-events: none
+
+.menu-bar:first-of-type, .menu-bar:last-of-type
+  margin: 0 1.4vmax
 
 .menu-bar p
   color: #ccc
@@ -213,8 +224,14 @@ input#jawOpen
 .menu-bar #title
   height: 6vmin
   background: #444
-  border-radius: 1vmax 0 0 1vmax
+  border-radius: 0
   box-shadow: 0 0 5vmin rgba(0, 0, 0, 0.2)
+
+#name
+  color: #888
+  font-variant: all-small-caps
+  font-weight: bolder
+  font-family: Arial, Helvetica, sans-serif
 
 #title #favColor
   width: 3vmin
@@ -296,7 +313,7 @@ input#jawOpen
 
 #sliderBox svg > path
   fill: #333
-  stroke: #fa4
+  stroke: #fff
   stroke-width: 2.5vmin
 
 .menu-bar input
@@ -326,8 +343,9 @@ p.h
   font-variant: small-caps
   margin: 1vmin
   padding: .5vmin .5vmin .45vmin 2vmin
-  border: 0.33vmin solid #555
-  border-radius: 1vmin
+  border-radius: .5vmin
+  background: #0004
+  height: 2.75vmin
 
 p.sm, p.X
   color: #999
@@ -378,7 +396,7 @@ p.X span, p.sm span
 .fa.fa-tint
   color: #333
   background: #fa3
-  border-radius: 0 25% 25% 0
+  border-radius: 0 .5vmin .5vmin 0
   top: 7vmin
   right: 2.5%
   font-size: 3vmin
