@@ -115,8 +115,8 @@ Toggle_tab = (e: any) => {
       };
 
   obj.height() === $(e.target).parent().height() ? 
-    apply('', 1, 'all', 0, 1, '1.5vmax') 
-  : apply('6vmin', 0, 'none', 1, 0, '0')
+    apply(     '', 1,     '', 0, 1, '1.5vmax') 
+  : apply('6vmin', 0, 'none', 1, 0,       '0')
 },
 
 Open_MM = () => {
@@ -392,3 +392,7 @@ $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
 $('#avatar').css({ bottom: 0 })
  
 setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
+
+$('.menu-bar').each((i: number) => {
+  $('.menu-bar').eq(i).find('*').not('#title, #title *').css({ opacity: 0, 'pointer-events': 'none' })
+})

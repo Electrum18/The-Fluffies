@@ -36,10 +36,7 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
       left  = ((($( '#eye_Left').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
       right = ((($('#eye_Right').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
 
-      top = {
-        left:  ((($( '#eye_Left').position().top - $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48,
-        right: ((($('#eye_Right').position().top - $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48
-      };
+      top =  ((($('#eye_Right').position().top - $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48;
 
   Scale > 0 ? ( right = right + (ratioX * right * 0.15)  )
             : ( left = 1024 - left, right = 1024 - right )
@@ -51,39 +48,39 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
 
   // Left
 
-  $( '#eyeIris_Left').attr({ cx: left - 6,  cy: top.left,
+  $( '#eyeIris_Left').attr({ cx: left - 6,  cy: top,
     rx: (7.5 * sclIris) + '%', ry: (13.5 * sclIris) + '%' })
   $('#eyePupil_Left').attr({ cx: left - 6 + (6 * sclPpl_LX) - (15 * sclIris), 
-    cy: top.left, rx: (6 * sclPpl_LX * sclIris) + '%',
+    cy: top, rx: (6 * sclPpl_LX * sclIris) + '%',
     ry: (10 * sclPpl_LY * sclIris) + '%',
-    'transform-origin': `${ left - 21 }px ${ top.left }px` })
+    'transform-origin': `${ left - 21 }px ${ top }px` })
   
-  $('#eyeGlare_Left').attr({   cx: left - 21,         cy: top.left, rx: 3 + '%', ry: 5.5 + '%' })
-    .css({ 'transform-origin': `${ left - 21 + 100 }px ${ top.left - 65 }px` })
-  $('#eyeGlare2_Left').attr({  cx: left - 21,   cy: top.left, rx: 1.25 + '%', ry: 2 + '%' })
-    .css({ 'transform-origin': `${ left - 21 }px ${ top.left }px` })
+  $('#eyeGlare_Left').attr({   cx: left - 21,         cy: top, rx: 3 + '%', ry: 5.5 + '%' })
+    .css({ 'transform-origin': `${ left - 21 + 100 }px ${ top - 65 }px` })
+  $('#eyeGlare2_Left').attr({  cx: left - 21,   cy: top, rx: 1.25 + '%', ry: 2 + '%' })
+    .css({ 'transform-origin': `${ left - 21 }px ${ top }px` })
 
   $('#eyeGlare_Left').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
-    'transform-origin': `${ left - 21 }px ${ top.left }px`
+    'transform-origin': `${ left - 21 }px ${ top }px`
   })
 
   // Right
 
-  $( '#eyeIris_Right').attr({ cx: right + 8,  cy: top.right, rx: (7.5 * sclIris) + '%', ry: (13.5 * sclIris) + '%' })
+  $( '#eyeIris_Right').attr({ cx: right + 8,  cy: top, rx: (7.5 * sclIris) + '%', ry: (13.5 * sclIris) + '%' })
   $('#eyePupil_Right').attr({ cx: right + 8 - (6 * sclPpl_LX) + (15 * sclIris),
-    cy: top.right, rx: (6 * sclPpl_LX * sclIris) + '%',
+    cy: top, rx: (6 * sclPpl_LX * sclIris) + '%',
     ry: (10 * sclPpl_LY * sclIris) + '%',
-    'transform-origin': `${ right + 23 }px ${ top.right }px` })
+    'transform-origin': `${ right + 23 }px ${ top }px` })
   
-  $('#eyeGlare_Right').attr({  cx: right + 23,         cy: top.right, rx: 3 + '%', ry: 5.5 + '%' })
-    .css({ 'transform-origin': `${ right + 23 + 100 }px ${ top.right - 65 }px` })
-  $('#eyeGlare2_Right').attr({ cx: right + 23,   cy: top.right, rx: 1.25 + '%', ry: 2 + '%' })
-    .css({ 'transform-origin': `${ right + 23 }px ${ top.right }px` })
+  $('#eyeGlare_Right').attr({  cx: right + 23,         cy: top, rx: 3 + '%', ry: 5.5 + '%' })
+    .css({ 'transform-origin': `${ right + 23 + 100 }px ${ top - 65 }px` })
+  $('#eyeGlare2_Right').attr({ cx: right + 23,   cy: top, rx: 1.25 + '%', ry: 2 + '%' })
+    .css({ 'transform-origin': `${ right + 23 }px ${ top }px` })
 
   $('#eyeGlare_Right').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
-    'transform-origin': `${ right + 23 }px ${ top.right }px`
+    'transform-origin': `${ right + 23 }px ${ top }px`
   })
 
   return ratioX
