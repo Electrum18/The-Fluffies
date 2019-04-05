@@ -1,6 +1,7 @@
-var mode = 0,
+var mode   = 0,
     custom = 0,
-    date = new Date(),
+    date   = new Date(),
+    $      = require('jquery'),
 
 setMode = (mode: number) => {
   mode > 0 ? (

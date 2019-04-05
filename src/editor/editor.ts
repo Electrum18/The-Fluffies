@@ -4,7 +4,8 @@ import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
 
-var polymorph = require('polymorph'),
+var $         = require('jquery'),
+    polymorph = require('polymorph'),
 
        svgBody: any = [],    svgBodyName: string[] = [],   svgs: any = svg,
        svgHair: any = [],    svgHairName: string[] = [],  svgHs: any = svgHairs,
@@ -42,7 +43,7 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
             : ( left = 1024 - left, right = 1024 - right )
 
   $('#headClip, #headClip2, #headClip3, #headClip4').attr('d', $('#head').attr('d'))
-  $(     '#noseClip').attr('d', $('#nose').attr('d')     )
+  $(     '#noseClip').attr('d', $(     '#nose').attr('d'))
   $( '#eyeClip_Left').attr('d', $( '#eye_Left').attr('d'))
   $('#eyeClip_Right').attr('d', $('#eye_Right').attr('d'))
 

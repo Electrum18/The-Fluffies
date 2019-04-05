@@ -1,27 +1,30 @@
-let $        = require('jquery'),
-    anime    = require('anime'),
+import { attr, css } from './shorthands'
+
+let $     = require('jquery'),
+    anime = require('anime'),
 
 rgbToHsl = (Color: any) => {
   let ColrArr = Color.replace(/[^\d,]/g, '').split(','),
-      r = ColrArr[0], g = ColrArr[1], b = ColrArr[2] ;
+      r = ColrArr[0], g = ColrArr[1], b = ColrArr[2];
   
   r /= 255, g /= 255, b /= 255
 
   var max = Math.max(r, g, b), min = Math.min(r, g, b),
       h, s, l = (max + min) / 2;
 
-  if (max == min) { h = s = 0 } else {
-      var d = max - min;
+  if (max == min) { h = s = 0 } 
+  else {
+    var d = max - min;
 
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
 
-      switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break
-          case g: h = (b - r) / d + 2; break
-          case b: h = (r - g) / d + 4; break
-      }
+    switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break
+        case g: h = (b - r) / d + 2; break
+        case b: h = (r - g) / d + 4; break
+    }
 
-      h /= 6
+    h /= 6
   }
 
   return [h, s, l]
@@ -31,9 +34,10 @@ menu_opened = 0,
 
 Open_menu = () => {
   if (menu_opened < 1) {
-    $('#menu-circle').css({ transform: 'translate(50%, 50%) scale(1)' })
-    $('         #menu-button #button').attr({  fill: '#333' })
-    $('#menu-button .fa.fa.fa-reorder').css({ color: '#fff' })
+    css(                  '#menu-circle', { transform: 'translate(50%, 50%) scale(1)' })
+    css('#menu-button .fa.fa.fa-reorder', {     color: '#fff'                         })
+    
+    attr('#menu-button #button', ['fill', '#333'])
 
     menu_opened = 1
   } else {
