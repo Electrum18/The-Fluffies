@@ -1,6 +1,6 @@
 var
 
-es = (elem: string) => {  // ELement selector
+es = (elem: string) => {  // Element selector
   return document.querySelectorAll(elem)
 },
 
