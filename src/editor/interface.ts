@@ -1,7 +1,6 @@
-import { attr, css } from './shorthands'
-
-let $     = require('jquery'),
-    anime = require('anime'),
+let { html, css, attr } = require('./shorthands.ts'),
+    $        = require('jquery'),
+    anime    = require('anime'),
 
 rgbToHsl = (Color: any) => {
   let ColrArr = Color.replace(/[^\d,]/g, '').split(','),
@@ -12,7 +11,7 @@ rgbToHsl = (Color: any) => {
   var max = Math.max(r, g, b), min = Math.min(r, g, b),
       h, s, l = (max + min) / 2;
 
-  if (max == min) { h = s = 0 } 
+  if (max == min) { h = s = 0 }
   else {
     var d = max - min;
 
@@ -34,10 +33,13 @@ menu_opened = 0,
 
 Open_menu = () => {
   if (menu_opened < 1) {
-    css(                  '#menu-circle', { transform: 'translate(50%, 50%) scale(1)' })
-    css('#menu-button .fa.fa.fa-reorder', {     color: '#fff'                         })
-    
-    attr('#menu-button #button', ['fill', '#333'])
+    css([ 
+      ['#menu-button .fa.fa.fa-reorder', 
+                               {     color: '#fff'                         }],
+      [        '#menu-circle', { transform: 'translate(50%, 50%) scale(1)' }] 
+    ])
+  
+    attr('#menu-button #button', { fill: '#333' })
 
     menu_opened = 1
   } else {
@@ -51,41 +53,50 @@ Open_menu = () => {
 },
 
 Menu_close = () => {
-  $('#menu-circle').css({ transform: 'translate(50%, 50%) scale(0)' })
-  $('      #menu-button #button').attr({  fill: '#fff' })
-  $('#menu-button .fa.fa-reorder').css({ color: '#333' })
-  
-  $('.menu-bar #title .fa-caret-down').css({ transform: 'translate(-50%, -50%) scale(1)', opacity: 1 })
-  $('     .menu-bar #title .fa-times').css({ transform: 'translate(-80%, -50%) scale(0)', opacity: 0 })
+  attr('#menu-button #button', { fill: '#fff' })
+
+  css([
+    [                   '#menu-circle', { transform: 'translate(50%, 50%) scale(0)'               }],
+    [    '#menu-button .fa.fa-reorder', {     color: '#333'                                       }],
+    ['.menu-bar #title .fa-caret-down', { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }],
+    ['     .menu-bar #title .fa-times', { transform: 'translate(-80%, -50%) scale(0)', opacity: 0 }]
+  ])
   
   $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
 },
 
 Open_menu_editor = () => {
-  $('#menu-back').attr({ r: '165%' })
-  $('#avatar').css({  left: '33%'  })
-  $('      #menu-button #button').attr({ fill: '#333'                         })
-  $('#menu-button .fa.fa-reorder').css({ color: '#fff', transform: 'scale(0)', opacity: 0 })
-  $('  #menu-button .fa.fa-times').css({ transform: 'scale(1.25)', opacity: 1             })
-  $('#menu').css({ 'pointer-events': 'all' })
+  attr([ [          '#menu-back', {    r: '165%' }],
+         ['#menu-button #button', { fill: '#333' }] ])
 
-  setTimeout(() => { $('.menu-bar').css({ top: '0', opacity: 1,
-    height: '6vmin', 'pointer-events': 'all' }) }, 250)
+  css([ 
+    [                    '#avatar', {  left: '33%'                                        }],
+    ['#menu-button .fa.fa-reorder', { color: '#fff', transform: 'scale(0)',    opacity: 0 }],
+    ['  #menu-button .fa.fa-times', {                transform: 'scale(1.25)', opacity: 1 }],
+    [                      '#menu', { 'pointer-events': 'all'                             }] 
+  ])
+
+  setTimeout(() => {
+    css('.menu-bar', { top: '0', opacity: 1, height: '6vmin', 'pointer-events': 'all' })
+  }, 250)
+
   Menu_close()
 },
 
 Menu_editor_close = (allow = 0) => {
-  $('.menu-bar').css({ top: '-30vmin', opacity: 0, 'padding-bottom': '0',
-    height: '6vmin', 'pointer-events': 'none' })
-  $('#menu').css({ 'pointer-events': 'none' })
+  css([
+    [    '#menu', { 'pointer-events': 'none' }],
+    ['.menu-bar', { top: '-30vmin', opacity: 0, 'padding-bottom': '0', height: '6vmin',
+      'pointer-events': 'none' }]
+  ])
 
   if (allow > 0) {
-    $('#menu-button .fa.fa-reorder').css({ color: '#333', transform: 'scale(1)', opacity: 1 })
-    $('  #menu-button .fa.fa-times').css({ transform: 'scale(0)', opacity: 0                })
+    css([ ['#menu-button .fa.fa-reorder', { color: '#333', transform: 'scale(1)', opacity: 1 }],
+          ['  #menu-button .fa.fa-times', { transform: 'scale(0)', opacity: 0                }] ])
 
     setTimeout(() => {
-      $('#menu-back').attr({   r: '0%'  })
-      $('#avatar')   .css({ left: '50%' })
+      attr('#menu-back', {    r: '0%'  })
+       css(   '#avatar', { left: '50%' })
     }, 250)
   }
 },
@@ -96,8 +107,10 @@ Toggle_tab = (e: any) => {
         obj.css({ height: h })
         obj.find('*').not('#title, #title *').css({ opacity: o, 'pointer-events': pe })
 
-        obj.find('#title .fa-caret-down').css({ transform:`translate(-50%, -50%) scale(${n})`,  opacity: n  })
-        obj.find(     '#title .fa-times').css({ transform:`translate(-80%, -50%) scale(${n2})`, opacity: n2 })
+        obj.find('#title .fa-caret-down').css({ transform:`translate(-50%, -50%) scale(${n})`,
+          opacity: n  })
+        obj.find('#title .fa-times').css({ transform:`translate(-80%, -50%) scale(${n2})`,
+          opacity: n2 })
 
         if (obj.index() !== $('.menu-bar').length) {
           let b = obj.find('#title').css('border-radius').match(/\S+/g),
@@ -127,7 +140,7 @@ Open_MM = () => {
   let ang = 0;
   Menu_editor_close()
 
-  $('#menu svg').attr({ preserveAspectRatio: 'xMaxYMid meet' })
+  attr('#menu svg', { preserveAspectRatio: 'xMaxYMid meet' })
 
   anime({
     targets: '#mask_Menu path',
@@ -136,8 +149,8 @@ Open_MM = () => {
     duration: 250
   })
 
-  $('#avatar').css({   left: '30vmax' })
-  $('.MM-block').css({ right: '-1%'   })
+  css([ [  '#avatar', {  left: '30vmax' }],
+        ['.MM-block', { right: '-1%'    }] ])
 
   $('body').mousewheel((event: any) =>{
     ang += event.deltaY * 3
@@ -151,7 +164,7 @@ Open_MM = () => {
 },
 
 Close_MM = () => {
-  $('#menu svg').attr({ preserveAspectRatio: 'none' })
+  attr('#menu svg', { preserveAspectRatio: 'none' })
 
   anime({
     targets: '#mask_Menu path',
@@ -160,7 +173,7 @@ Close_MM = () => {
     duration: 250
   })
 
-  $('.MM-block').css({ right: '-150%' })
+  css('.MM-block', { right: '-150%' })
 },
 
 Hue = 0, Satur = 100, Light = 50, trueLight = 100,
@@ -173,9 +186,10 @@ Circle_Ang = (x: any, y: any) => {
 
   Hue = Ang
 
-  $('#color_circle').css({    transform: `translate(-50%, -1075%) rotate(${ Ang }deg)`   })
-  $('#body #color').attr({ 'stop-color': `hsl(${ Hue }, 100%, 50%)`                      })
-  $('#color_pallete #color').css({ background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)` })
+  attr('#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` })
+
+  css([ [        '#color_circle', {  transform: `translate(-50%, -1075%) rotate(${ Ang }deg)` }],
+        ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)`     }] ])
   
   setColor('#color_pallete #color')
 },
@@ -190,36 +204,39 @@ Box_Ang = (x: any, y: any) => {
   X > 1 ? (X = 1, trnsX = 900) : X < 0 ? (X = 0, trnsX = -1000) : void 0
   Y > 1 ? (Y = 1, trnsY = 900) : Y < 0 ? (Y = 0, trnsY = -1000) : void 0
 
-  Satur = 100 * X, Light = 15 + (-(100 * Y) + (50 * X * Y) - (50 * X) + 100) * 0.85,
+  Satur = 100 * X, Light = 15 + (-(100 * Y) + (50 * X * Y) - (50 * X) + 100) * 0.70,
   trueLight = -(100 * Y) + 100
 
-             $('#color_box').css({ transform: `translate(${ trnsX }%, ${ trnsY }%)`        })
-      $('#color_box circle').css({ stroke: Y > 0.5 ? '#fff' : '#000'                })
-  $('#color_pallete #color').css({ background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)` })
+  css([ [           '#color_box', {  transform: `translate(${ trnsX }%, ${ trnsY }%)`     }],
+        [    '#color_box circle', {     stroke: Y > 0.5 ? '#fff' : '#000'                 }],
+        ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)` }] ])
 
   setColor('#color_pallete #color')
 },
 
 setColor = (e: string) => {
   let Color = $(e).css('background-color'),
-      ColrArr = Color.replace(/[^\d,]/g, '').split(','),
+      ColrArr = Color.match(/\d+/g),
 
-      i = 0, Target: any, Type: number;
+      Target: any, Type: number;
 
   switch ($(e).parents('#color_pallete').find('p.h').text()) {
     case 'fur':  Type = 3; break
     case 'eyes': Type = 2; break
     case 'mane': Type = 1,
-      Target = '.Hair #front, #back, .Head #hair_Front, .Hair2 #front, .HairBack #tail, .HairBack2 #tail, .HairBack3 #back'
+      Target = '.Hair #front, #back, .Head #hair_Front, ' +
+        '.Hair2 #front, .HairBack #tail, .HairBack2 #tail, .HairBack3 #back'
   }
 
   if(Type === 2) {
     let mainObj = $('.fa.fa-tint').eq(0).parents('.menu-bar');
 
-    ( $('defs #grad_Eyes #1').css({ 'stop-color': $(e).css('background-color') }),
-      $('defs #grad_Eyes #2').css({ 'stop-color': `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }) )
-
-    $(   '.fa.fa-tint').eq(0).css({ background: $('defs #grad_Eyes #1').css('stop-color') })
+    css([
+      [       '.fa.fa-tint', {   background: $('defs #grad_Eyes #1').css('stop-color') }, 0],
+      ['defs #grad_Eyes #1', { 'stop-color': $(e).css('background-color')              }   ],
+      ['defs #grad_Eyes #2', { 'stop-color':
+        `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }]
+    ])
       
     let HSL = rgbToHsl($('defs #grad_Eyes #1').css('stop-color'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
@@ -231,12 +248,15 @@ setColor = (e: string) => {
   } else if(Type === 1) {
     let mainObj = $('.fa.fa-tint').eq(1).parents('.menu-bar');
 
-    $(Target)
-      .attr({ fill: $(e).css('background-color') })
-      .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
+    attr(Target, { fill: $(e).css('background-color') })
+
+    css([ 
+      [Target, { stroke:
+        `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }   ],
+      ['.fa.fa-tint', { background: $(e).css('background-color')           }, 1] 
+    ])
     
-    $('   .fa.fa-tint').eq(1).css({ background: $('.Hair #front').css('fill')                })
-    mainObj.find('#favColor').css({ background: $('.Hair #front').css('fill')                })
+    mainObj.find('#favColor').css({ background: $('.Hair #front').css('fill') })
 
     let HSL = rgbToHsl($('.Hair #front').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
@@ -247,15 +267,16 @@ setColor = (e: string) => {
       .attr({ fill: $(e).css('background-color') })
       .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
 
-    $('#mouth')
-      .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
-
-    $('.Neck .inner, .Head .inner2')
-      .attr({   fill: $(e).css('background-color') })
-      .css( { stroke: $(e).css('background-color') })
-
-    $('   .fa.fa-tint').eq(2).css({ background: $('.Head #head').css('fill')                })
-    mainObj.find('#favColor').css({ background: $('.Head #head').css('fill')                })
+    attr('.Neck .inner, .Head .inner2', { fill: $(e).css('background-color') })
+    
+    css([
+      ['#mouth', { 
+        stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }   ],
+      ['.Neck .inner, .Head .inner2', {     stroke: $(e).css('background-color')   }   ],
+      [                '.fa.fa-tint', { background: $('.Head #head').css('fill')   }, 2]
+    ])
+    
+    mainObj.find('#favColor').css({ background: $('.Head #head').css('fill') })
 
     let HSL = rgbToHsl($('.Head #head').css('fill'));
     Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
@@ -267,22 +288,25 @@ getColor = (name: string) => {
       Type = 0;
 
   switch (name) {
-    case 'Fur':  Type = 2; break
+    case 'Mane': Type = 2; break
     case 'Eyes': Type = 1; break
-    case 'Mane': Type = 0
+    case 'Fur':  Type = 0; break
   }
 
   let HSL = rgbToHsl(Type === 1 ? $(Target[Type]).css('stop-color') : $(Target[Type]).css('fill'));
 
   Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
+  
+  attr('#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` })
 
-  $(        '#color_circle').css({ transform: `translate(-50%, -1075%) rotate(${ Hue }deg)` })
-  $(        '#body #color').attr({ 'stop-color': `hsl(${ Hue }, 100%, 50%)`                 })
-  $('#color_pallete #color').css({ background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)`    })
-  $('#color_box').css({ 
-    transform: `translate(${ (19 * Satur) - 1000 }%, ${ -(19 * trueLight) + 900 }%)`
-  })
-  $('#color_box circle').css({ stroke: trueLight < 50 ? '#fff' : '#000' })
+  css([ 
+    [        '#color_circle', {  transform: `translate(-50%, -1075%) rotate(${ Hue }deg)` }],
+    ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)`     }],
+    [           '#color_box', { 
+      transform: `translate(${ (19 * Satur) - 1000 }%, ${ -(19 * trueLight) + 900 }%)`
+    }],
+    [    '#color_box circle', { stroke: trueLight < 50 ? '#fff' : '#000' }] 
+  ])
 },
 
 Box_Scale = (x: any, y: any, id: number) => {
@@ -294,10 +318,10 @@ Box_Scale = (x: any, y: any, id: number) => {
   X > 1 ? X = 1 : X < 0 ? X = 0 : void 0
   Y > 1 ? Y = 1 : Y < 0 ? Y = 0 : void 0
 
-  $('p span#number').eq(id + 1).html(Math.round(10 + X * 115))
-  $('p span#number').eq(id + 2).html(Math.round(10 + Y * 115))
+  html([ ['p span#number', Math.round(10 + X * 115), id + 1],
+         ['p span#number', Math.round(10 + Y * 115), id + 2] ])
 
-  $('#sliderBox #tapPoint').eq(id).css({ transform: `translate(${(755 * X) - 50}%, ${-730 * Y + 365}%)` })
+  css('#sliderBox #tapPoint', { transform: `translate(${(755 * X) - 50}%, ${-730 * Y + 365}%)` }, id)
 },
 
 Hold = 0;
@@ -317,7 +341,8 @@ $('i.fa').click((e: any) => {
       switch ($(e.target).parents('.menu-bar').find('#title p').text()) {
         case '':
           if ($(e.target).attr('class') === 'fa fa-times') {
-            $(e.target).parents('#color_pallete').css({ top: '-31vmax', opacity: 0, 'pointer-events': 'none' })
+            $(e.target).parents('#color_pallete')
+              .css({ top: '-40vmax', opacity: 0, 'pointer-events': 'none' })
           }
           break
         default:
@@ -393,8 +418,8 @@ $('.fa.fa-tint').each((i:number) => {
 })
 
 $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
-$('#avatar').css({ bottom: 0 })
- 
+css('#avatar', { bottom: 0 })
+
 setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
 
 $('.menu-bar').each((i: number) => {

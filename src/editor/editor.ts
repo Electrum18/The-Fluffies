@@ -4,7 +4,8 @@ import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
 
-var $         = require('jquery'),
+var { css, attr } = require('./shorthands.ts'),
+    $         = require('jquery'),
     polymorph = require('polymorph'),
 
        svgBody: any = [],    svgBodyName: string[] = [],   svgs: any = svg,
@@ -34,50 +35,73 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
       sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
       sclIris   = $('input#eyesScale').val() / 100,
 
-      left  = ((($( '#eye_Left').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
-      right = ((($('#eye_Right').position().left - $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
+      left  = ((($( '#eye_Left').position().left - 
+        $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
 
-      top =  ((($('#eye_Right').position().top - $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48;
+      right = ((($('#eye_Right').position().left - 
+        $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
+
+      top =  ((($('#eye_Right').position().top - 
+        $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48;
 
   Scale > 0 ? ( right = right + (ratioX * right * 0.15)  )
             : ( left = 1024 - left, right = 1024 - right )
 
-  $('#headClip, #headClip2, #headClip3, #headClip4').attr('d', $('#head').attr('d'))
-  $(     '#noseClip').attr('d', $(     '#nose').attr('d'))
-  $( '#eyeClip_Left').attr('d', $( '#eye_Left').attr('d'))
-  $('#eyeClip_Right').attr('d', $('#eye_Right').attr('d'))
-
-  // Left
-
-  $( '#eyeIris_Left').attr({ cx: left - 6,  cy: top,
-    rx: (7.5 * sclIris) + '%', ry: (13.5 * sclIris) + '%' })
-  $('#eyePupil_Left').attr({ cx: left - 6 + (6 * sclPpl_LX) - (15 * sclIris), 
-    cy: top, rx: (6 * sclPpl_LX * sclIris) + '%',
-    ry: (10 * sclPpl_LY * sclIris) + '%',
-    'transform-origin': `${ left - 21 }px ${ top }px` })
+  attr([ 
+    ['#headClip, #headClip2, #headClip3, #headClip4', 
+                       { d: $('#head').attr('d')      }],
+    [     '#noseClip', { d: $('#nose').attr('d')      }],
+    [ '#eyeClip_Left', { d: $('#eye_Left').attr('d')  }],
+    ['#eyeClip_Right', { d: $('#eye_Right').attr('d') }],
+    
+    [ '#eyeIris_Left', { 
+      cx: left - 6,
+      cy: top,
+      rx: (7.5  * sclIris) + '%',
+      ry: (13.5 * sclIris) + '%' 
+    }],
+    
+    ['#eyePupil_Left', {
+      cx: left - 6 + (6 * sclPpl_LX) - (15 * sclIris),
+      cy: top,
+      rx: (6  * sclPpl_LX * sclIris) + '%',
+      ry: (10 * sclPpl_LY * sclIris) + '%',
+      'transform-origin': `${ left - 21 }px ${ top }px` 
+    }],
+    
+    [ '#eyeGlare_Left', { cx: left - 21, cy: top, rx: 3    + '%', ry: 5.5 + '%' }],
+    ['#eyeGlare2_Left', { cx: left - 21, cy: top, rx: 1.25 + '%', ry: 2   + '%' }],
+    
+    [ '#eyeIris_Right', {
+      cx: right + 8,
+      cy: top,
+      rx: (7.5  * sclIris) + '%',
+      ry: (13.5 * sclIris) + '%'
+    }],
+    
+    ['#eyePupil_Right', { 
+      cx: right + 8 - (6 * sclPpl_LX) + (15 * sclIris),
+      cy: top,
+      rx: (6  * sclPpl_LX * sclIris) + '%',
+      ry: (10 * sclPpl_LY * sclIris) + '%',
+      'transform-origin': `${ right + 23 }px ${ top }px`
+    }],
+    
+    [ '#eyeGlare_Right', { cx: right + 23, cy: top, rx: 3    + '%', ry: 5.5 + '%' }],
+    ['#eyeGlare2_Right', { cx: right + 23, cy: top, rx: 1.25 + '%', ry: 2   + '%' }]
+  ])
   
-  $('#eyeGlare_Left').attr({   cx: left - 21,         cy: top, rx: 3 + '%', ry: 5.5 + '%' })
-    .css({ 'transform-origin': `${ left - 21 + 100 }px ${ top - 65 }px` })
-  $('#eyeGlare2_Left').attr({  cx: left - 21,   cy: top, rx: 1.25 + '%', ry: 2 + '%' })
-    .css({ 'transform-origin': `${ left - 21 }px ${ top }px` })
+  css([ 
+    [  '#eyeGlare_Left', { 'transform-origin': `${  left - 21 + 100 }px ${ top - 65 }px` }],
+    [ '#eyeGlare2_Left', { 'transform-origin': `${  left - 21       }px ${ top      }px` }],
+    [ '#eyeGlare_Right', { 'transform-origin': `${ right + 23 + 100 }px ${ top - 65 }px` }],
+    ['#eyeGlare2_Right', { 'transform-origin': `${ right + 23       }px ${ top      }px` }] 
+  ])
 
   $('#eyeGlare_Left').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
     'transform-origin': `${ left - 21 }px ${ top }px`
   })
-
-  // Right
-
-  $( '#eyeIris_Right').attr({ cx: right + 8,  cy: top, rx: (7.5 * sclIris) + '%', ry: (13.5 * sclIris) + '%' })
-  $('#eyePupil_Right').attr({ cx: right + 8 - (6 * sclPpl_LX) + (15 * sclIris),
-    cy: top, rx: (6 * sclPpl_LX * sclIris) + '%',
-    ry: (10 * sclPpl_LY * sclIris) + '%',
-    'transform-origin': `${ right + 23 }px ${ top }px` })
-  
-  $('#eyeGlare_Right').attr({  cx: right + 23,         cy: top, rx: 3 + '%', ry: 5.5 + '%' })
-    .css({ 'transform-origin': `${ right + 23 + 100 }px ${ top - 65 }px` })
-  $('#eyeGlare2_Right').attr({ cx: right + 23,   cy: top, rx: 1.25 + '%', ry: 2 + '%' })
-    .css({ 'transform-origin': `${ right + 23 }px ${ top }px` })
 
   $('#eyeGlare_Right').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
@@ -173,7 +197,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
       case 'front':
         if (part !== 0) {  // not hairType = Float
           angX > 0 ? ($( 'g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', ''))
-                  : ($('g.Hair2 #front').attr('d', interpolatorX(X)), $('g.Hair #front').attr('d', '') )
+                   : ($('g.Hair2 #front').attr('d', interpolatorX(X)), $('g.Hair #front').attr('d',  ''))
         } else {
           $('g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', '')
         }
@@ -269,13 +293,15 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
   Animate(angX * 90, angY * 90)
   
-  $('.Head').css('transform', `scale(${ Scale }, 1) rotate(${ Rotate }deg)`)
-  $('.move, #eyeClip_Left, #eyeClip_Right')
-    .css('transform', `translate(0, ${ angY * 12 * pow }%)`)
-  $('#headClip').css('transform', `translate(0, ${ -angY * 12 * pow }%)`)
-  $( '.moveEar').css('transform', `translate(0, ${ -angY * 6 * pow }%)`)
-  $(     '.Neck').css('transform', `scale(${ Scale }, 1)`)
-  $('.HairBack2').css('transform', `translate(0%, ${ -angY / 1.5 }%)`)
+  css([
+    ['.move, #eyeClip_Left, #eyeClip_Right', 
+                   { transform: `translate(0, ${ angY * 12 * pow }%)`         }],
+    [     '.Head', { transform: `scale(${ Scale }, 1) rotate(${ Rotate }deg)` }],
+    [ '#headClip', { transform: `translate(0, ${ -angY * 12 * pow }%)`        }],
+    [  '.moveEar', { transform: `translate(0, ${ -angY * 6 * pow }%)`         }],
+    [     '.Neck', { transform: `scale(${ Scale }, 1)`                        }],
+    ['.HairBack2', { transform: `translate(0%, ${ -angY / 1.5 }%)`            }]
+  ])
 
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
        scaleOffset = angY >= 0 ? 1 + ((angY / 2) * pow)

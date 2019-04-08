@@ -4,61 +4,18 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin'),
     UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
     path = require('path');
 
-/*module.exports = {
-  plugins: [
-    new BundleAnalyzerPlugin()
-  ]
-};*/
-
 module.exports = [
   {
-    name: 'JS_Editor',
-    mode: 'production',
-    entry: [
-      './src/editor/editor.ts',
-      './src/editor/interface.ts'
-    ],
-    output: {
-      path: path.resolve(__dirname, 'web/js/'),
-      filename: 'editor.js'
-    },
-    resolve: {
-      extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
-    },
-    module: {
-      rules: [ 
-        { test: /\.(ts|tsx)$/,
-          loader: 'awesome-typescript-loader',
-          exclude: /node_modules/ },
-        {
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }
-      ]
-    },
-    optimization: {
-      minimizer: [new UglifyJsPlugin({ cache: true })]
-    },
-    externals: {
-      jquery: 'jQuery',
-      polymorph: 'polymorph',
-      anime: 'anime'
-    }
-  },
-
-  {
-    name: 'JS_Pages',
+    name: 'JS',
     mode: 'production',
     entry: {
         intro: './src/intro/code.ts',
         about: './src/about/code.ts',
-      support: './src/support/code.ts'
+      support: './src/support/code.ts',
+       editor: [
+        './src/editor/editor.ts',
+        './src/editor/interface.ts'
+      ]
     },
     output: {
       path: path.resolve(__dirname, 'web/js/'),
@@ -88,8 +45,13 @@ module.exports = [
       minimizer: [new UglifyJsPlugin({ cache: true })]
     },
     externals: {
-      jquery: 'jQuery'
-    }
+      jquery: 'jQuery',
+      polymorph: 'polymorph',
+      anime: 'anime'
+    },
+    plugins: [
+      //new BundleAnalyzerPlugin()
+    ]
   },
 
   {
