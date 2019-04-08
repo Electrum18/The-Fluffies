@@ -1,18 +1,7 @@
-var timeEnd = Date.now();
+var 
+  timeEnd = Date.now(),
 
-const 
-  PATH = require('path'),
-
-  EXPRESS = require('express'),
-
-  BODY_PARSER = require('body-parser'),
-  COMPRESSION = require('compression'),
-  HELMET = require('helmet'),
-  APP = EXPRESS();
-
-var log = (req, reason) => {
-    if (!reason) { reason = ''; }
-
+  log = (req, reason) => {
     let ip = req.ip,
         ip_length = 15 - ip.length,
         
@@ -22,47 +11,65 @@ var log = (req, reason) => {
     ip  = ip  + new Array(ip_length + 1).join(' ');
     url = url + new Array(url_length + 1).join(' ');
 
-    console.log(`\x1b[36m${ip}\x1b[0m | ${url} | ${Date()} \x1b[41m\x1b[30m${reason}\x1b[0m`);
-};
+    console.log(`\x1b[36m${ip}\x1b[0m | ${url} | ${Date()} \x1b[41m\x1b[30m${reason || ''}\x1b[0m`);
+  };
 
-APP.enable('trust proxy');
+const
+  Koa = require("koa"),
 
-APP.set('view engine', 'pug');
-APP.set('views', PATH.join(__dirname, 'web'));
+  compress = require('koa-compress'),
+  helmet   = require("koa-helmet"),
+  router   = require('koa-router'),
+  serve    = require('koa-static'),
+  Pug      = require('koa-pug'),
+  
+  app = new Koa(),
+  pug = new Pug({
+    viewPath: './web',
+    basedir: './web',
+    app: app
+  }),
 
-APP.use(HELMET({ dnsPrefetchControl: { allow: true } }));
-APP.use(COMPRESSION());
+  route = router();
+  
+app.use(serve('./web'));
+app.use(helmet({ dnsPrefetchControl: { allow: true } }));
+app.use(compress({
+  flush: require('zlib').Z_SYNC_FLUSH
+}));
 
-APP.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send('Something broke!');
-});
-
-APP.use(BODY_PARSER.json());
-APP.use(BODY_PARSER.urlencoded({ extended: true }));
-
-APP.use(EXPRESS.static(__dirname + '/web'));
-
-APP.get('/',        (req, res) => { res.render('intro');   log(req); });
-APP.get('/about',   (req, res) => { res.render('about');   log(req); });
-APP.get('/support', (req, res) => { res.render('support'); log(req); });
-
-APP.get('/editor/pony', (req, res) => {
-  if (req.query.g !== 'female' ) {  // g is gender
-    res.redirect('/');
-    log(req, 'UNKNOWN DATA');
-  } else {
-    res.render('editor');
-    log(req);
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    err.status = err.statusCode || err.status || 500;
+    ctx.body = err.message;
+    ctx.app.emit('error', err, ctx);
   }
 });
 
-APP.get('*', (req, res) => {
-  res.redirect('/');
-  log(req, 'UNKNOWN PAGE');
+route.get('/',        ctx => { ctx.render('intro');   log(ctx); });
+route.get('/about',   ctx => { ctx.render('about');   log(ctx); });
+route.get('/support', ctx => { ctx.render('support'); log(ctx); });
+
+route.get('/editor/pony', ctx => {
+  if (ctx.query.g !== 'female' ) {  // g is gender
+    ctx.redirect('/');
+    log(ctx, 'UNKNOWN DATA');
+  } else {
+    ctx.render('editor');
+    log(ctx);
+  }
 });
 
-APP.listen(process.env.PORT || 5000, (err) => {
+route.get('*', ctx => {
+  ctx.redirect('/');
+  log(ctx, 'UNKNOWN PAGE');
+});
+
+app.use(route.routes());
+
+app.listen(process.env.PORT || 3000, err => {
   if (err) { return console.log('Happened something bad!', err); }
   console.log(`\x1b[33m Server ready, port: \x1b[35m${process.env.PORT || 5000}\x1b[0m | ${Date.now() - timeEnd} msec`);
 });
