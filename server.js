@@ -1,11 +1,11 @@
 var 
   timeEnd = Date.now(),
 
-  log = (req, reason) => {
-    let ip = req.ip,
+  log = (ctx, reason) => {
+    let ip = ctx.ip,
         ip_length = 15 - ip.length,
         
-        url = decodeURIComponent(req.originalUrl.replace(/\+/g,' ')),
+        url = decodeURIComponent(ctx.originalUrl.replace(/\+/g,' ')),
         url_length = 30 - url.length;
         
     ip  = ip  + new Array(ip_length + 1).join(' ');
@@ -30,6 +30,8 @@ const
     basedir: './web',
     app: app
   });
+
+app.proxy = true;
   
 app.use(serve('./web'));
 
