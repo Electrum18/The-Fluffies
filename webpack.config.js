@@ -13,12 +13,12 @@ module.exports = [
         about: './src/about/code.ts',
       support: './src/support/code.ts',
        editor: [
-        './src/editor/editor.ts',
-        './src/editor/interface.ts'
+         './src/editor/editor.ts',
+         './src/editor/interface.ts'
       ]
     },
     output: {
-      path: path.resolve(__dirname, 'web/js/'),
+      path: path.resolve(__dirname, 'web/js'),
       filename: '[name].js'
     },
     resolve: {

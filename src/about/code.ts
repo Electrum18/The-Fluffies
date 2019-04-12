@@ -1,27 +1,42 @@
-var mode   = 0,
-    custom = 0,
-    date   = new Date(),
+var 
+  mode   = 0,
+  custom = 0,
+  date   = new Date(),
+
+  { on_, css_ } = require('../shorthands_mini.ts'),
 
 setMode = (mode: number) => {
-  mode > 0 ? (
-       $('body').css({ background: '#333' }),
-    $('i#night').css({ transform: 'scale(0)' }),
-    $('i#light').css({ transform: 'scale(1)' }),
-
-               $('#title').css({ color: '#222', background: '#eee' }),
-               $('button').css({ color: '#222', border: '.5vmin solid #222', background: 'transparent' }),
-    $('p:not(#copyright)').css({ color: '#bbb' }),
-    $('p:not(#copyright) span, h2 span').css({ color: '#eee' })
-  ) : (
-       $('body').css({ background: '#fff' }),
-    $('i#night').css({ transform: 'scale(1)' }),
-    $('i#light').css({ transform: 'scale(0)' }),
-    
-               $('#title').css({ color: '#eee', background: '#222' }),
-               $('button').css({ color: '#eee', border: '.5vmin solid #eee', background: 'transparent' }),
-    $('p:not(#copyright)').css({ color: '#666' }),
-    $('p:not(#copyright) span, h2 span').css({ color: '#444' })
-  )
+  if (mode > 0) {
+    css_([
+      ['p:not(#copyright) span, h2 span',
+                            {      color: '#eee'                     }],
+      [             'body', { background: '#333'                     }],
+      [         '#toNight', {  transform: 'scale(0)'                 }],
+      [         '#toLight', {  transform: 'scale(1)'                 }],
+      [           '#title', {      color: '#222', background: '#eee' }],
+      ['p:not(#copyright)', {      color: '#bbb'                     }],
+      [           'button', {
+             color: '#222',
+            border: '.5vmin solid #222',
+        background: 'transparent'
+      }]
+    ])
+  } else {
+    css_([
+      ['p:not(#copyright) span, h2 span',
+                            {      color: '#444'                     }],
+      [             'body', { background: '#fff'                     }],
+      [         '#toNight', {  transform: 'scale(1)'                 }],
+      [         '#toLight', {  transform: 'scale(0)'                 }],
+      [           '#title', {      color: '#eee', background: '#222' }],
+      ['p:not(#copyright)', {      color: '#666'                     }],
+      [           'button', {
+             color: '#eee',
+            border: '.5vmin solid #eee',
+        background: 'transparent'
+      }]
+    ])
+  }
 };
 
 
@@ -34,39 +49,45 @@ setInterval(() => {
 }, 1e3)
 
 
-$('i#night').click(() => {
-  date.getHours() >= 18 || date.getHours() <= 8 ? custom = 1 : custom = 0
-  
-  mode = 1;
-  setMode(mode)
-})
+on_([ 
+  ['#toNight', 'click', () => {
+    date.getHours() >= 18 || date.getHours() <= 8 ? custom = 1 : custom = 0
+    
+    mode = 1;
+    setMode(mode)
+  }],
 
-$('i#light').click(() => {
-  date.getHours() < 18 && date.getHours() > 8 ? custom = 1 : custom = 0
-  
-  mode = 0;
-  setMode(mode)
-})
+  ['#toLight', 'click', () => {
+    date.getHours() < 18 && date.getHours() > 8 ? custom = 1 : custom = 0
+    
+    mode = 0;
+    setMode(mode)
+  }],
 
-$('#back, #back button').hover(() => {
-  mode > 0 ? $('#back button').css({ color: '#eee', background: '#222' })
-           : $('#back button').css({ color: '#222', background: '#eee' })
-}, () => {
-  $('body').css('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
-  
-  mode > 0 ? $('#back button').css({ color: '#222', background: '#eee' })
-           : $('#back button').css({ color: '#eee', background: '#222' })
-})
+  ['#back, #back button', 'mouseover', () => {
+    mode > 0 ? css_('#back button', { color: '#eee', background: '#222' })
+             : css_('#back button', { color: '#222', background: '#eee' })
+  }],
 
-$('#support, #support button').hover(() => {
-  mode > 0 ? $('#support button').css({ color: '#eee', background: '#222' })
-           : $('#support button').css({ color: '#222', background: '#eee' })
-}, () => {
-  $('body').css('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
+  ['#back, #back button', 'mouseout', () => {
+    $('body').css_('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
+    
+    mode > 0 ? css_('#back button', { color: '#222', background: '#eee' })
+             : css_('#back button', { color: '#eee', background: '#222' })
+  }],
+
+  ['#support, #support button', 'mouseover', () => {
+    mode > 0 ? css_('#support button', { color: '#eee', background: '#222' })
+             : css_('#support button', { color: '#222', background: '#eee' })
+  }],
   
-  mode > 0 ? $('#support button').css({ color: '#222', background: '#eee' })
-           : $('#support button').css({ color: '#eee', background: '#222' })
-})
+  ['#support, #support button', 'mouseout', () => {
+    css_('body', 'background-color', 0, 'GET') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
+  
+    mode > 0 ? css_('#support button', { color: '#222', background: '#eee' })
+             : css_('#support button', { color: '#eee', background: '#222' })
+  }]
+])
 
 
 setMode(mode)

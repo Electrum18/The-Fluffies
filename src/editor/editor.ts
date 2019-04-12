@@ -4,8 +4,7 @@ import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
 
-var { css, attr } = require('./shorthands.ts'),
-    $         = require('jquery'),
+var { css, attr } = require('../shorthands_jQuery.ts'),
     polymorph = require('polymorph'),
 
        svgBody: any = [],    svgBodyName: string[] = [],   svgs: any = svg,
@@ -31,9 +30,9 @@ for (var key in svgEmotes) {
 
 
 var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to objects
-  let sclPpl_LX = $('.menu-bar p.X span:eq(0)').html() / 100,
-      sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
-      sclIris   = $('input#eyesScale').val() / 100,
+  let sclPpl_LX = +$('.menu-bar p.X span:eq(0)').html() / 100,
+      sclPpl_LY = +$('.menu-bar p.sm.num span:eq(0)').html() / 100,
+      sclIris   = +$('input#eyesScale').val() / 100,
 
       left  = ((($( '#eye_Left').position().left - 
         $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
@@ -383,19 +382,19 @@ window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for 
 $('input#eyesScale').mousedown(() => {
   $('input#eyesScale').mousemove(() => {
     Set_Attr(angX, Scale)
-    $('.menu-bar:eq(0) p span#number:eq(0)').html($('input#eyesScale').val())
+    $('.menu-bar:eq(0) p span#number:eq(0)').html($('input#eyesScale').val().toString())
   })
 })
 
 $('input#jawOpen').mousedown(() => {
   $('input#jawOpen').mousemove(() => {
-    emoteProps['jaw_Open'] = $('input#jawOpen').val()
+    emoteProps['jaw_Open'] = +$('input#jawOpen').val()
     //emoteProps['sad'] = $('input#jawOpen').val()
     
     Animate(angX * 90, angY * 90)
     Set_Attr(angX, Scale)
 
-    $('.menu-bar:eq(3) p span#number').html($('input#jawOpen').val())
+    $('.menu-bar:eq(3) p span#number').html($('input#jawOpen').val().toString())
   })
 })
 

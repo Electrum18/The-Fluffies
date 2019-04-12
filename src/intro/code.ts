@@ -1,27 +1,42 @@
-var mode   = 0,
-    custom = 0,
-    date   = new Date(),
+var 
+  mode   = 0,
+  custom = 0,
+  date   = new Date(),
 
+  { on_, css_, html_, attr_ } = require('../shorthands_mini.ts'),
+  
 setMode = (mode: number) => {
-  mode > 0 ? (
-       $('body').css({ background: '#333' }),
-     $('#title').css({ color: '#333', 'text-shadow': '0 0 0.5vmin rgba(0,0,0,1)' }),
-    $('i#night').css({ transform: 'scale(0)' }),
-    $('i#light').css({ transform: 'scale(1)' }),
+  if (mode > 0) {
+    css_([
+      ['#brand path:not(:last-of-type)', 
+                           {       fill: '#333'     }],
+      [            'body', { background: '#333'     }],
+      [        '#toNight', {  transform: 'scale(0)' }],
+      [        '#toLight', {  transform: 'scale(1)' }],
+      ['#about, #support', {      color: '#eee'     }],
+      ['#title', {
+        color: '#333',
+        'text-shadow': '0 0 0.5vmin rgba(0,0,0,1)'
+      }]
+    ])
     
-    $('#about, #support').css({ color: '#eee' }),
-    $('#brand path:not(:last-of-type)').css({ fill: '#333' }),
-    $('#shadow feFuncA').attr({ slope: '.5' })
-  ) : (
-       $('body').css({ background: '#fff' }),
-     $('#title').css({ color: '#fff', 'text-shadow': '0 0 0.5vmin rgba(0,0,0,.25)' }),
-    $('i#night').css({ transform: 'scale(1)' }),
-    $('i#light').css({ transform: 'scale(0)' }),
+    attr_('#shadow feFuncA', { slope: '.5' }) 
+  } else {
+    css_([
+      ['#brand path:not(:last-of-type)',
+                           {       fill: '#fff'     }],
+      [            'body', { background: '#fff'     }],
+      [        '#toNight', {  transform: 'scale(1)' }],
+      [        '#toLight', {  transform: 'scale(0)' }],
+      ['#about, #support', {      color: '#222'     }],
+      ['#title', {
+        color: '#fff',
+        'text-shadow': '0 0 0.5vmin rgba(0,0,0,.25)'
+      }]
+    ])
     
-    $('#about, #support').css({ color: '#222' }),
-    $('#brand path:not(:last-of-type)').css({ fill: '#fff' }),
-    $('#shadow feFuncA').attr({ slope: '.25' })
-  )
+    attr_('#shadow feFuncA', { slope: '.25' })
+  }
 };
 
 
@@ -34,55 +49,57 @@ setInterval(() => {
 }, 1e3)
 
 
-$('i#night').click(() => {
-  date.getHours() >= 18 || date.getHours() <= 8 ? custom = 1 : custom = 0
-  
-  mode = 1;
-  setMode(mode)
-})
+on_([
+  ['#toNight', 'click', () => {
+    date.getHours() >= 18 || date.getHours() <= 8 ? custom = 1 : custom = 0
+    
+    mode = 1;
+    setMode(mode)
+  }],
 
-$('i#light').click(() => {
-  date.getHours() < 18 && date.getHours() > 8 ? custom = 1 : custom = 0
-  
-  mode = 0;
-  setMode(mode)
-})
+  ['#toLight', 'click', () => {
+    date.getHours() < 18 && date.getHours() > 8 ? custom = 1 : custom = 0
+    
+    mode = 0;
+    setMode(mode)
+  }],
 
+  ['#about', 'mouseover', () => { css_('#about', { color: '#222' }) }], 
+  ['#about',  'mouseout', () => {
+    css_('body', 'background-color', 0, 'GET') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
+    
+    mode > 0 ? css_('#about', { color: '#fff' })
+             : css_('#about', { color: '#222' })
+  }],
 
-$('#about').hover(() => {
-  $('#about').css({ color: '#222' })
-}, () => {
-  $('body').css('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
-  
-  mode > 0 ? $('#about').css({ color: '#fff' })
-           : $('#about').css({ color: '#222' })
-})
+  ['#support', 'mouseover', () => { css_('#support', { color: '#222' }) }],
+  ['#support',  'mouseout', () => {
+    css_('body', 'background-color', 0, 'GET') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
 
-$('#support').hover(() => {
-  $('#support').css({ color: '#222' })
-}, () => {
-  $('body').css('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
-
-  mode > 0 ? $('#support').css({ color: '#fff' })
-           : $('#support').css({ color: '#222' })
-})
+    mode > 0 ? css_('#support', { color: '#fff' })
+             : css_('#support', { color: '#222' })
+  }]
+])
 
 
 setMode(mode)
 
 
 var tem,
-    version: any = navigator.userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    version: any =
+      navigator.userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 
-if(version[1] === 'Chrome'){
+if (version[1] === 'Chrome') {
   tem = navigator.userAgent.match(/\b(Edge)\/(\d+)/);
   if (tem != null) version = tem;
 }
 
 version[1] === 'Firefox' ? 
-  $('#brand p:last-of-type').html(`ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) :
+  html_('#brand p:last-of-type', `ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) :
+
 version[1] === 'Edge' ? 
-  $('#brand p:last-of-type').html(`ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) : 
+  html_('#brand p:last-of-type', `ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) : 
+
 /trident/i.test(version[1]) ?
-  $('#brand p:last-of-type').html(`ATTENTION, DOES NOT WORK IN IE !!!`)
-: $('#brand p:last-of-type').css({ opacity: 0, animation: 'none' })
+  html_('#brand p:last-of-type', `ATTENTION, DOES NOT WORK IN IE !!!`)
+:  css_('#brand p:last-of-type', { opacity: 0, animation: 'none' })

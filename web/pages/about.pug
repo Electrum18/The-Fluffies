@@ -8,12 +8,6 @@ head
   
   link(rel="icon" href="./img/fluffies.ico")
   link(rel="stylesheet" href="./css/about.css")
-  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' 
-    integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' 
-    crossorigin='anonymous')
-
-  script(src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
 
   script(type="text/javascript" src="./js/about.js" defer)
 body
@@ -62,8 +56,12 @@ body
       h2 You
       p can be here
 
-  i#night.fas.fa-moon
-  i#light.fas.fa-sun
+  svg#toNight(viewBox="-40 24 384 384")
+    path(d="M224 448c86 1 164-48 200-126-23 10-47 15-72 14A176 176 0 0 1 271 3c-16-2-31-3-47-3a224 224 0 1 0 0 448zm0 0")
+  
+  svg#toLight(viewBox="0 0 512 512")
+    path(d="M256 166a90 90 0 1 0 0 180 90 90 0 0 0 0-180zm0 0")
+    path(d="M505 243l-84-55 20-99c2-11-7-20-18-18l-99 20-55-84c-6-9-20-9-26 0l-55 84-99-20c-11-2-20 7-18 18l20 99-84 55c-9 6-9 20 0 26l84 55-20 99c-2 11 7 20 18 18l99-20 55 84c6 9 20 9 26 0l55-84 99 20c11 2 20-7 18-18l-20-99 84-55c9-6 9-20 0-26zM256 376a120 120 0 1 1 0-240 120 120 0 0 1 0 240zm0 0")
 
   p#copyright © 2019 The Fluffies
   #vignette

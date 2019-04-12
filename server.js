@@ -15,26 +15,28 @@ var
   };
 
 const
-  Koa = require("koa"),
+  Koa = require('koa'),
 
-  compress = require('koa-compress'),
-  helmet   = require("koa-helmet"),
-  router   = require('koa-router'),
-  serve    = require('koa-static'),
-  Pug      = require('koa-pug'),
+  staticCache = require('koa-static-cache'),
+     compress = require('koa-compress'),
+       helmet = require('koa-helmet'),
+       router = require('koa-router')(),
+        serve = require('koa-static'),
+          Pug = require('koa-pug'),
   
   app = new Koa(),
   pug = new Pug({
     viewPath: './web',
     basedir: './web',
     app: app
-  }),
-
-  route = router();
+  });
   
 app.use(serve('./web'));
+
 app.use(helmet({ dnsPrefetchControl: { allow: true } }));
+app.use(staticCache('./web', { maxAge: 365 * 24 * 60 * 60 }));
 app.use(compress({
+  level: 9,
   flush: require('zlib').Z_SYNC_FLUSH
 }));
 
@@ -48,28 +50,28 @@ app.use(async (ctx, next) => {
   }
 });
 
-route.get('/',        ctx => { ctx.render('intro');   log(ctx); });
-route.get('/about',   ctx => { ctx.render('about');   log(ctx); });
-route.get('/support', ctx => { ctx.render('support'); log(ctx); });
+router.get('/',        ctx => { ctx.render('pages/intro');   log(ctx); });
+router.get('/about',   ctx => { ctx.render('pages/about');   log(ctx); });
+router.get('/support', ctx => { ctx.render('pages/support'); log(ctx); });
 
-route.get('/editor/pony', ctx => {
+router.get('/editor/pony', ctx => {
   if (ctx.query.g !== 'female' ) {  // g is gender
     ctx.redirect('/');
     log(ctx, 'UNKNOWN DATA');
   } else {
-    ctx.render('editor');
+    ctx.render('pages/editor/editor');
     log(ctx);
   }
 });
 
-route.get('*', ctx => {
+router.get('*', ctx => {
   ctx.redirect('/');
   log(ctx, 'UNKNOWN PAGE');
 });
 
-app.use(route.routes());
+app.use(router.routes());
 
 app.listen(process.env.PORT || 3000, err => {
   if (err) { return console.log('Happened something bad!', err); }
-  console.log(`\x1b[33m Server ready, port: \x1b[35m${process.env.PORT || 5000}\x1b[0m | ${Date.now() - timeEnd} msec`);
+  console.log(`\x1b[33m Server ready, port: \x1b[35m${process.env.PORT || 3000}\x1b[0m | ${Date.now() - timeEnd} msec`);
 });

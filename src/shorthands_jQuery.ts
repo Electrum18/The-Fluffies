@@ -1,4 +1,4 @@
-var 
+var
 // elem[i] is one of Elements
 // elem[i][0] is Element selector
 // elem[i][1] is Attribute / Styles
