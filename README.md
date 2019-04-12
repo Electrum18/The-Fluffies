@@ -58,6 +58,6 @@ Use that email to send: `thefluffiessite@gmail.com`
 - These are all developers, you can be one of them
 
 ## License 
-**[CC By-NC-ND v4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
+**[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
 
 Additional information can be found here: http://creativecommons.org/licenses/by-nc-nd/4.0/
