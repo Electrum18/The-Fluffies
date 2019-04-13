@@ -545,11 +545,24 @@ p.X span, p.sm span
   box-shadow: 0 0 5vmin rgba(0, 0, 0, .5)
   pointer-events: all
 
-.MM-block span 
+.MM-block span:first-of-type
   width: 100%
   bottom: 0
   font-size: 1.8vmin
-  color: #111
+  color: #333
   text-align: center
   text-shadow: 0 0 1vmin rgba(0, 0, 0, .25)
   pointer-events: none
+
+.MM-block span:last-of-type
+  width: 90%
+  top: 1vmin
+  font-size: 1.3vmin
+  color: #888
+  text-align: right
+  text-shadow: 0 0 1vmin rgba(0, 0, 0, .25)
+  pointer-events: none
+
+.MM-block svg
+  width: 3vmin
+  margin: 1vmin 1.5vmin

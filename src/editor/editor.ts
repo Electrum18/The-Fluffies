@@ -52,6 +52,7 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
     [     '#noseClip', { d: $('#nose').attr('d')      }],
     [ '#eyeClip_Left', { d: $('#eye_Left').attr('d')  }],
     ['#eyeClip_Right', { d: $('#eye_Right').attr('d') }],
+    ['#earClip_Right', { d: $('#ear_Right').attr('d') }],
     
     [ '#eyeIris_Left', { 
       cx: left - 6,
@@ -182,7 +183,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
     switch (type) {
       case 'tail':
-        angX > 0 ?
+        angX > 0 || (angX > -45 && angX <= 0 && angY < 0) ?
           ($('g.HairBack #tail').attr('d', interpolatorX(X)), $('g.HairBack2 #tail').attr('d', ''))
         : ($('g.HairBack #tail').attr('d', ''), $('g.HairBack2 #tail').attr('d', interpolatorX(X)))
         break
@@ -193,9 +194,8 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
             ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
           : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
         } else {
-          angX <= 0 ?
-            ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
-          : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
+          $('g.HairBack3 #back').attr('d', interpolatorX(X))
+          $('g.Hair #back').attr('d', '')
         }
         break
 
@@ -266,10 +266,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     (stageFrame_X = Ang_alv_X * 2,        frame = 2               )
 
   ApplyHair(hairType, frame, stageFrame_X, 'front')
-  
-  hairType !== "Curly ends" && hairType !== "Spiky to side" ?
-    ApplyHair(hairType, frame, stageFrame_X, 'tail')
-  : $('g.HairBack #tail, g.HairBack2 #tail').attr('d', '')
+  ApplyHair(hairType, frame, stageFrame_X, 'tail')
 
   hairType !== "Float" ?
     ApplyHair(hairType, frame, stageFrame_X, 'back')
@@ -312,14 +309,38 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
                     : 1 + ((0.25 - ((1 - angY) / 4)) * pow);
 
   $('.Hair, .Hair2')
-    .css('transform', angX >= 0 ? 
-      `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })` 
-    : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })`)
+    .css('transform',
+      hairType !== "Spiky to side" ? 
+        angX >= 0 ? 
+          `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })` 
+        : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })`
+
+      : angX > 0 ? 
+         `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
+       : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1,  ${ scaleOffset })`
+    )
 
   $('.HairBack3')
-    .css('transform', angX >= 0 ? 
-      `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
-    : `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })`)
+    .css('transform',
+      hairType !== "Spiky to side" ?
+        angX >= 0 ? 
+          `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
+        : `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })`
+      
+      : angX >= 0 ? 
+          `translate(0, ${ (alvPosOffset * pow) / 5 }%) scale(-1, 1)` 
+        : `translate(0, ${ (alvPosOffset * pow) / 5 }%) scale(-1, 1)`
+    )
+
+  
+  $('.HairBack, .HairBack2')
+    .css('transform',
+      hairType === "Spiky to side" ?
+        angX > 0 ?
+          `rotate(${  Rotate / 3 }deg) scale(-1, 1)`
+        : `rotate(${ -Rotate / 3 }deg) scale(1,  1)`
+      : void 0
+    )
 
 
   Set_Attr(angX, Scale)
@@ -327,7 +348,7 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
 Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
 
-hairType = 'Float',
+hairType = 'Spiky to side',
 
 emoteProps = {  // Emotion properties
   jaw_Open: 0,
@@ -410,9 +431,9 @@ $('input#jawOpen').mousedown(() => {
 })
 
 $('.MM-block').mousedown((e: any) => {
-  if ($(e.target).children().text().length === 0) { return }
+  if ($(e.target).children().eq(0).text().length === 0) { return }
 
-  hairType =  $(e.target).children().text()
+  hairType =  $(e.target).children().eq(0).text()
 
   $('#menu .menu-bar p.name').html(hairType)
 
