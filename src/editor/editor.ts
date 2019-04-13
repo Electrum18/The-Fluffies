@@ -189,7 +189,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
         break
 
       case 'back':
-        if (part !== 2) {  // not hairType = Spikes
+        if (part !== 2 && part !== 3) {  // not hairType = Spikes
           angX < 0 ?
             ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
           : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
@@ -266,9 +266,12 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     (stageFrame_X = Ang_alv_X * 2,        frame = 2               )
 
   ApplyHair(hairType, frame, stageFrame_X, 'front')
-  ApplyHair(hairType, frame, stageFrame_X, 'tail')
+  
+  hairType !== "Big Bang" ?
+    ApplyHair(hairType, frame, stageFrame_X, 'tail')
+  : $('g.HairBack #tail, g.HairBack2 #tail').attr('d', '')
 
-  hairType !== "Float" ?
+  hairType !== "Float" && hairType !== "Big Bang" ?
     ApplyHair(hairType, frame, stageFrame_X, 'back')
   : $('g.Hair #back, g.HairBack3 #back').attr('d', '')
 },
@@ -322,7 +325,7 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
   $('.HairBack3')
     .css('transform',
-      hairType !== "Spiky to side" ?
+      hairType !== "Spiky to side" && hairType !== "Big Bang" ?
         angX >= 0 ? 
           `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
         : `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })`
@@ -332,15 +335,14 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
         : `translate(0, ${ (alvPosOffset * pow) / 5 }%) scale(-1, 1)`
     )
 
-  
-  $('.HairBack, .HairBack2')
-    .css('transform',
-      hairType === "Spiky to side" ?
-        angX > 0 ?
-          `rotate(${  Rotate / 3 }deg) scale(-1, 1)`
-        : `rotate(${ -Rotate / 3 }deg) scale(1,  1)`
-      : void 0
-    )
+  hairType === "Spiky to side" || hairType === "Big Bang" ?
+    $('.HairBack, .HairBack2')
+      .css('transform',
+          angX > 0 ?
+            `rotate(${  Rotate / 3 }deg) scale(-1, 1)`
+          : `rotate(${ -Rotate / 3 }deg) scale(1,  1)`
+      )
+  : $('.HairBack, .HairBack2').css('transform', '')
 
 
   Set_Attr(angX, Scale)
@@ -388,6 +390,7 @@ $('body')  // Change avatar by mouse
 
     lastX = mousex, lastY = mousey
     return { resultX, resultY }
+  
   } else if (Hold === 2) {
     Set_Attr(angX, Scale)
   }
