@@ -12,7 +12,7 @@ shorty = (type: string, elem: string | any[], text: string | object = '', id = -
     : $(elem)[type](text)
 
   } else {  // Multiple mode
-    for (var i = 0, len = elem.length; i < len; i++) {
+    for (let i = 0, len = elem.length; i < len; i++) {
       if (elem[i][2] === undefined) { elem[i][2] = -1 }
       
       elem[i][2] > -1 ?  // Custom id mode

@@ -52,6 +52,7 @@ module.exports = [
     plugins: [
       //new BundleAnalyzerPlugin()
     ]
+    //devtool: 'eval-source-map'
   },
 
   {

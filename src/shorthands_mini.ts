@@ -12,7 +12,7 @@ on_ = (elem: any, event = '', func: any = {}, id = -1) => {
     }
   
   } else {
-    for (var i = 0, len = elem.length; i < len; i++) {
+    for (let i = 0, len = elem.length; i < len; i++) {
       if (elem[i][3] === undefined) { elem[i][3] = -1 }
 
       if (id > -1) {
@@ -41,7 +41,7 @@ css_ = (elem: any, text: any = '', id = -1, get = '') => {
       }
     
     } else {
-      for (var i = 0, len = elem.length; i < len; i++) {
+      for (let i = 0, len = elem.length; i < len; i++) {
         if (elem[i][2] === undefined) { elem[i][2] = -1 }
 
         if (id > -1) {
@@ -73,7 +73,7 @@ html_ = (elem: any, text: any = '', id = -1) => {
       }
     
     } else {
-      for (var i = 0, len = elem.length; i < len; i++) {
+      for (let i = 0, len = elem.length; i < len; i++) {
         if (elem[i][2] === undefined) { elem[i][2] = -1 }
 
         if (id > -1) {
@@ -105,7 +105,7 @@ attr_ = (elem: any, text: any = '', id = -1, get = '') => {
       }
     
     } else {
-      for (var i = 0, len = elem.length; i < len; i++) {
+      for (let i = 0, len = elem.length; i < len; i++) {
         if (elem[i][2] === undefined) { elem[i][2] = -1 }
 
         if (id > -1) {

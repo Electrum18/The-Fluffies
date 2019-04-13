@@ -170,7 +170,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
   ApplyHair = (part: any, frame: number, X_type: number, type: string) => {  // Morph calculation of hair part
     if (isNaN(part)) { part = svgHairName.indexOf('#' + part) }  // Translate name to index
 
-    let X = Math.round(   X_type * 10) / 900,
+    let X = Math.round(X_type * 10) / 900,
         interpolate = () => {  // X interpolation from center of frames like a function
             let parts = svgHair[part][type].main;
             
@@ -188,19 +188,28 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
         break
 
       case 'back':
-        angX < 0 ?
-          ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
-        : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
+        if (part !== 2) {  // not hairType = Spikes
+          angX < 0 ?
+            ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
+          : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
+        } else {
+          angX <= 0 ?
+            ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
+          : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
+        }
         break
 
       case 'front':
         if (part !== 0) {  // not hairType = Float
-          angX > 0 ? ($( 'g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', ''))
-                   : ($('g.Hair2 #front').attr('d', interpolatorX(X)), $('g.Hair #front').attr('d',  ''))
+          angX > 0 ?
+            ($( 'g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', ''))
+          : ($('g.Hair2 #front').attr('d', interpolatorX(X)), $('g.Hair #front').attr('d',  ''))
         } else {
           $('g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', '')
         }
         break
+
+      default: return
     }
   },
 
@@ -256,14 +265,10 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     (stageFrame_X = (Ang_alv_X - 45) * 2, frame = angX > 0 ? 1 : 3) :
     (stageFrame_X = Ang_alv_X * 2,        frame = 2               )
 
-  hairType !== "Spiky to side" ?
-    ApplyHair(hairType, frame, stageFrame_X, 'front')
-  : $('g.Hair #front, g.Hair2 #front').attr('d', '')
+  ApplyHair(hairType, frame, stageFrame_X, 'front')
   
-  hairType !== "Curly ends" ?
-    hairType !== "Spiky to side" ?
-      ApplyHair(hairType, frame, stageFrame_X, 'tail')
-    : $('g.HairBack #tail, g.HairBack2 #tail').attr('d', '')
+  hairType !== "Curly ends" && hairType !== "Spiky to side" ?
+    ApplyHair(hairType, frame, stageFrame_X, 'tail')
   : $('g.HairBack #tail, g.HairBack2 #tail').attr('d', '')
 
   hairType !== "Float" ?
@@ -294,22 +299,28 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   
   css([
     ['.move, #eyeClip_Left, #eyeClip_Right', 
-                   { transform: `translate(0, ${ angY * 12 * pow }%)`         }],
-    [     '.Head', { transform: `scale(${ Scale }, 1) rotate(${ Rotate }deg)` }],
-    [ '#headClip', { transform: `translate(0, ${ -angY * 12 * pow }%)`        }],
-    [  '.moveEar', { transform: `translate(0, ${ -angY * 6 * pow }%)`         }],
-    [     '.Neck', { transform: `scale(${ Scale }, 1)`                        }],
-    ['.HairBack2', { transform: `translate(0%, ${ -angY / 1.5 }%)`            }]
+                  { transform: `translate(0, ${ angY * 12 * pow }%)`         }],
+    [    '.Head', { transform: `scale(${ Scale }, 1) rotate(${ Rotate }deg)` }],
+    ['#headClip', { transform: `translate(0, ${ -angY * 12 * pow }%)`        }],
+    [ '.moveEar', { transform: `translate(0, ${ -angY * 6 * pow }%)`         }],
+    [    '.Neck', { transform: `scale(${ Scale }, 1)`                        }]
   ])
 
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
-       scaleOffset = angY >= 0 ? 1 + ((angY / 2) * pow)
-                : 1 + ((0.25 - ((1 - angY) / 4)) * pow)
+       scaleOffset =
+          angY >= 0 ? 1 + ((angY / 2) * pow)
+                    : 1 + ((0.25 - ((1 - angY) / 4)) * pow);
 
-  $('.Hair, .Hair2, .HairBack3')
+  $('.Hair, .Hair2')
     .css('transform', angX >= 0 ? 
-      `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset})` 
-    : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset})`)
+      `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })` 
+    : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })`)
+
+  $('.HairBack3')
+    .css('transform', angX >= 0 ? 
+      `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
+    : `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })`)
+
 
   Set_Attr(angX, Scale)
 },
@@ -399,7 +410,9 @@ $('input#jawOpen').mousedown(() => {
 })
 
 $('.MM-block').mousedown((e: any) => {
-  hairType = $(e.target).children().text() != '' ? $(e.target).children().text() : void 0
+  if ($(e.target).children().text().length === 0) { return }
+
+  hairType =  $(e.target).children().text()
 
   $('#menu .menu-bar p.name').html(hairType)
 

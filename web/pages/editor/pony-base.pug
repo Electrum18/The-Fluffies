@@ -9,7 +9,9 @@
         path#ear_Right_Inside.inner2.moveEar(d fill="#ccc")
         path#ear_Left.moveEar( d fill-opacity="0")
         path#ear_Right.moveEar(d fill-opacity="0")
-        path#head(d fill="#ccc")
+        g.HairBack3
+          path#back(d fill="#666" style="stroke: #444")
+        path#head(  d fill="#ccc")
       
       g.Neck
         path#chest(d      fill="#ccc")
@@ -20,11 +22,8 @@
       g.HairBack2
         path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_Out_Head2)")
 
-      g.HairBack3
-        path#back(d fill="#666" style="stroke: #444")
-
       g.Head
-        path#head2(d fill="#ccc").inner2
+        path#head2(d fill="#ccc").inner3
         path#ear_Left_Inside_Front.inner2.moveEar( d fill="#ccc")
         path#ear_Left_Front.moveEar(       d fill-opacity="0")
 
@@ -48,9 +47,9 @@
         path#chin_angle(         d fill-opacity="0")
         path#chin(               d fill-opacity="0" mask="url(#mask_Out_Head)")
         path#bridge.move(        d fill="#ccc")
-        path#mouth.move(         d fill="#c47" stroke-width=9 mask="url(#mask_In_Head)")
-        path#nostril_left.move(  d fill="#ccc" stroke-width=9 mask="url(#mask_In_Head)")
-        path#nostril_right.move( d fill="#ccc" stroke-width=9)
+        path#mouth.move(         d fill="#c47" stroke-width=7 mask="url(#mask_In_Head)")
+        path#nostril_left.move(  d fill="#ccc" stroke-width=7 mask="url(#mask_In_Head)")
+        path#nostril_right.move( d fill="#ccc" stroke-width=7)
         path#eye_Right.eyes.move(d fill="#fff" mask="url(#mask_Head)")
 
         g.eyes.inside.Right
@@ -66,19 +65,20 @@
 
     defs
       mask#mask_Head(x="0" y="0" width="1024" height="1024")
-        path#headClip(d fill="#fff" style="stroke: #000; stroke-width: 15; stroke-linecap: round")
+        path#headClip(d fill="#fff" style="stroke: #000; stroke-width: 10; stroke-linecap: round")
 
       mask#mask_Out_Head(x="0" y="0" width="1024" height="1024")
         rect(width="100%" height="100%" fill="#fff")
-        path#headClip2(d fill="#000" style="stroke: #fff; stroke-width: 15; stroke-linecap: round")
+        path#headClip2(d fill="#000" style="stroke: #fff; stroke-width: 10; stroke-linecap: round")
 
+        
       mask#mask_Out_Head2(x="0" y="0" width="1024" height="1024")
         rect(width="100%" height="100%" fill="#fff")
-        path#headClip3(d fill="#000" style="stroke: #000; stroke-width: 8; stroke-linecap: round")
+        path#headClip2(d fill="#000" style="stroke: #000; stroke-width: 10; stroke-linecap: round")
 
       mask#mask_In_Head(x="0" y="0" width="1024" height="1024")
-        path#headClip4(d fill="#fff" style="stroke: #fff; stroke-width: 16; stroke-linecap: round")
-        path#noseClip(d fill="#fff" style="stroke: #fff; stroke-width: 18; stroke-linecap: round")
+        path#headClip4(d fill="#fff" style="stroke: #fff; stroke-width: 10; stroke-linecap: round")
+        path#noseClip( d fill="#fff" style="stroke: #fff; stroke-width: 10; stroke-linecap: round")
 
       mask#mask_Eyes(x="0" y="0" width="1024" height="1024")
         path#eyeClip_Left.eyes.mask.Left( d fill="#fff")
