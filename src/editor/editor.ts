@@ -48,11 +48,12 @@ var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to ob
 
   attr([ 
     ['#headClip, #headClip2, #headClip3, #headClip4', 
-                       { d: $('#head').attr('d')      }],
-    [     '#noseClip', { d: $('#nose').attr('d')      }],
-    [ '#eyeClip_Left', { d: $('#eye_Left').attr('d')  }],
-    ['#eyeClip_Right', { d: $('#eye_Right').attr('d') }],
-    ['#earClip_Right', { d: $('#ear_Right').attr('d') }],
+                        { d: $('#head').attr('d')      }],
+    [     '#noseClip',  { d: $('#nose').attr('d')      }],
+    [ '#eyeClip_Left',  { d: $('#eye_Left').attr('d')  }],
+    ['#eyeClip_Right',  { d: $('#eye_Right').attr('d') }],
+    ['#earClip_Right',  { d: $('#ear_Right').attr('d') }],
+    ['#earClip_Right2', { d: $('#ear_Right_Front').attr('d') || $('#ear_Right').attr('d') }],
     
     [ '#eyeIris_Left', { 
       cx: left - 6,
@@ -183,13 +184,13 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
     switch (type) {
       case 'tail':
-        angX > 0 || (angX > -45 && angX <= 0 && angY < 0) ?
+        angX > 0 || (angX > -45 && angX <= 0 && angY < 0 && hairType === 'Spiky to side') ?
           ($('g.HairBack #tail').attr('d', interpolatorX(X)), $('g.HairBack2 #tail').attr('d', ''))
         : ($('g.HairBack #tail').attr('d', ''), $('g.HairBack2 #tail').attr('d', interpolatorX(X)))
         break
 
       case 'back':
-        if (part !== 2 && part !== 3) {  // not hairType = Spikes
+        if (part !== 2 && part !== 3) {  // not hairType = Spikes && Big Bang
           angX < 0 ?
             ($('g.HairBack3 #back').attr('d', interpolatorX(X)), $('g.Hair #back').attr('d', ''))
           : ($('g.HairBack3 #back').attr('d', ''), $('g.Hair #back').attr('d', interpolatorX(X)))
@@ -200,12 +201,13 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
         break
 
       case 'front':
-        if (part !== 0) {  // not hairType = Float
+        if (part === 1) {  // hairType = Curly
           angX > 0 ?
             ($( 'g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', ''))
           : ($('g.Hair2 #front').attr('d', interpolatorX(X)), $('g.Hair #front').attr('d',  ''))
         } else {
-          $('g.Hair #front').attr('d', interpolatorX(X)), $('g.Hair2 #front').attr('d', '')
+          $('g.Hair #front').attr('d', interpolatorX(X))
+          $('g.Hair2 #front').attr('d', '')
         }
         break
 
@@ -299,11 +301,12 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   
   css([
     ['.move, #eyeClip_Left, #eyeClip_Right', 
-                  { transform: `translate(0, ${ angY * 12 * pow }%)`         }],
-    [    '.Head', { transform: `scale(${ Scale }, 1) rotate(${ Rotate }deg)` }],
-    ['#headClip', { transform: `translate(0, ${ -angY * 12 * pow }%)`        }],
-    [ '.moveEar', { transform: `translate(0, ${ -angY * 6 * pow }%)`         }],
-    [    '.Neck', { transform: `scale(${ Scale }, 1)`                        }]
+                     { transform: `translate(0, ${ angY * 12 * pow }%)`                }],
+    [       '.Head', { transform: `scale(${ Scale }, 1) rotate(${ Rotate }deg)`        }],
+    [   '#headClip', { transform: `translate(0, ${ -angY * 12 * pow }%)`               }],
+    [    '.moveEar', { transform: `translate(0, ${ -angY * 4 * pow }%)`                }],
+    ['.moveEarClip', { transform: `translate(99%, ${ -angY * 6 * pow }%) scale(-1, 1)` }],
+    [       '.Neck', { transform: `scale(${ Scale }, 1)`                               }]
   ])
 
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
@@ -313,7 +316,7 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
   $('.Hair, .Hair2')
     .css('transform',
-      hairType !== "Spiky to side" ? 
+      hairType !== "Spiky to side" && hairType !== "Big Bang" ? 
         angX >= 0 ? 
           `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })` 
         : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })`
