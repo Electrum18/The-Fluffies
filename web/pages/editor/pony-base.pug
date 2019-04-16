@@ -1,16 +1,16 @@
 #avatar.transition
   svg(viewBox="512 400 1024 1024")
     g.scale
-      g.HairBack(style="transform: scale(-1, 1)" mask="url(#mask_no_RightEar)")
-        path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_Out_Head2)")
+      g.HairBack(style="transform: scale(-1, 1)")
+        path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_no_RightEar), url(#mask_Out_Head2)")
 
       g.Head
         path#ear_Left_Inside.inner2.moveEar( d fill="#ccc")
         path#ear_Right_Inside.inner2.moveEar(d fill="#ccc")
         path#ear_Left.moveEar( d fill-opacity="0")
         path#ear_Right.moveEar(d fill-opacity="0")
-        g.HairBack3(style="transform: scale(-1, 1)" mask="url(#mask_no_RightEar)")
-          path#back(d fill="#666" style="stroke: #444")
+        g.HairBack3(style="transform: scale(-1, 1)")
+          path#back(d fill="#666" style="stroke: #444" mask="url(#mask_no_RightEar)")
         path#head(  d fill="#ccc")
       
       g.Neck
@@ -60,7 +60,7 @@
             ellipse#eyeGlare2_Right(fill="#fff")
         
       g.Hair(style="transform: scale(-1, 1)")
-        path#front(d fill="#666" style="stroke: #444" mask="url(#mask_no_RightEar)")
+        path#front(d fill="#666" style="stroke: #444")
         path#back( d fill="#666" style="stroke: #444")
 
     defs

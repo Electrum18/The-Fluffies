@@ -2,6 +2,7 @@ let { html, css, attr } = require('../shorthands_jQuery.ts'),
     anime = require('anime'),
     $     = require('jquery'),
 
+
 rgbToHsl = (Color: any) => {
   let ColrArr = Color.replace(/[^\d,]/g, '').split(','),
       r = ColrArr[0], g = ColrArr[1], b = ColrArr[2];
@@ -31,6 +32,7 @@ rgbToHsl = (Color: any) => {
 
 menu_opened = 0,
 
+
 Open_menu = () => {
   if (menu_opened < 1) {
     css('#menu-circle', { transform: 'translate(50%, 50%) scale(1)' })
@@ -49,6 +51,7 @@ Open_menu = () => {
   return menu_opened
 },
 
+
 Menu_close = () => {
   attr([ [   '#menu-button #button', { fill: '#fff' }],
          ['#menu-button #bars path', { fill: '#333' }] ])
@@ -61,6 +64,7 @@ Menu_close = () => {
   
   $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
 },
+
 
 Open_menu_editor = () => {
   attr([ [             '#menu-back', {    r: '165%' }],
@@ -98,6 +102,7 @@ Menu_editor_close = (allow = 0) => {
     }, 250)
   }
 },
+
 
 Toggle_tab = (e: any) => {
   let obj = $(e.target).parents('.menu-bar'),
@@ -138,6 +143,7 @@ Toggle_tab = (e: any) => {
   : apply('6vmin', 0, 'none', 1, 0,       '0')
 },
 
+
 Open_MM = () => {
   let ang = 0;
   Menu_editor_close()
@@ -167,6 +173,7 @@ Open_MM = () => {
   })
 },
 
+
 Close_MM = () => {
   attr('#menu svg', { preserveAspectRatio: 'none' })
 
@@ -180,7 +187,9 @@ Close_MM = () => {
   css('.MM-block', { right: '-150%' })
 },
 
+
 Hue = 0, Satur = 100, Light = 50, trueLight = 100,
+
 
 Circle_Ang = (x: any, y: any) => {
   let mouseX = x - ($('#color_pallete #body').offset().left + ($('#color_pallete #body').width() / 2)), 
@@ -197,6 +206,7 @@ Circle_Ang = (x: any, y: any) => {
   
   setColor('#color_pallete #color')
 },
+
 
 Box_Ang = (x: any, y: any) => {
   let X = (x - $('#body #box').offset().left) / $('#body #box').outerWidth(),
@@ -217,6 +227,7 @@ Box_Ang = (x: any, y: any) => {
 
   setColor('#color_pallete #color')
 },
+
 
 setColor = (e: string) => {
   let Color = $(e).css('background-color'),
@@ -272,16 +283,17 @@ setColor = (e: string) => {
     case 3:
       mainObj = $('.menu-bar').eq(2);
 
-      $('.Head path, .Neck path').not('.inner, .inner2, .eyes, #mouth')
+      $('.Head path, .Neck path').not('.inner, .inner2, .inner3, .HairBack3 #back, .eyes, #mouth')
         .attr({ fill: $(e).css('background-color') })
         .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
 
-      attr('.Neck .inner, .Head .inner2', { fill: $(e).css('background-color') })
+      attr('.Neck .inner, .Head .inner2, .Head .inner3', { fill: $(e).css('background-color') })
       
       css([
+        ['.Neck .inner, .Head .inner2, .Head .inner3',
+                   { stroke: $(e).css('background-color')                            }],
         ['#mouth', { 
           stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }],
-        ['.Neck .inner, .Head .inner2', {     stroke: $(e).css('background-color')   }],
         [     '.menu-bar:eq(2) #color', { background: $('.Head #head').css('fill')   }]
       ])
       
@@ -294,6 +306,7 @@ setColor = (e: string) => {
     default: return
   }
 },
+
 
 getColor = (name: string) => {
   let Target = ['.Head #head', 'defs #grad_Eyes #1', '.Hair #front'],
@@ -321,6 +334,7 @@ getColor = (name: string) => {
   ])
 },
 
+
 Box_Scale = (x: any, y: any, id: number) => {
   let X =      (x - $('#menu #sliderBox').eq(id).offset().left) / $('#menu #sliderBox').eq(id).outerWidth(),
       Y = 1 - ((y - $('#menu #sliderBox').eq(id).offset().top ) / $('#menu #sliderBox').eq(id).outerHeight());
@@ -336,6 +350,7 @@ Box_Scale = (x: any, y: any, id: number) => {
   css('#sliderBox #tapPoint', { transform: `translate(${(755 * X) - 50}%, ${-730 * Y + 365}%)` }, id)
 },
 
+
 Hold = 0;
 
 $(             '#menu-button').click((e: any) => { switch (e.which) { case 1: default: Open_menu()        }})
@@ -345,6 +360,7 @@ $('#menu .mark-arrow').not('#favColor')
   .click((e: any) => { switch (e.which) { case 1: default: Toggle_tab(e) } })
 
 Menu_close()
+
 
 $('body') // Change avatar on hold after click
   .mousedown((e: any) => {
@@ -386,6 +402,7 @@ $('body') // Change avatar on hold after click
     }
   })
 
+
 window.addEventListener('touchmove', (e: any) => {
   switch (Hold) {
     case 1: Circle_Ang(e.touches[0].pageX, e.touches[0].pageY); break
@@ -393,6 +410,7 @@ window.addEventListener('touchmove', (e: any) => {
     case 3: Box_Scale( e.touches[0].pageX, e.touches[0].pageY, 0)
   }
 })
+
 
 $('.menu-bar').each((i:number) => {
   let regExp = /\S+/g,
@@ -443,10 +461,12 @@ $('.menu-bar').each((i:number) => {
   }
 })
 
+
 $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
 css('#avatar', { bottom: 0 })
 
 setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
+
 
 $('.menu-bar').each((i: number) => {
   $('.menu-bar').eq(i).find('*').not('#title, #title *').css({ opacity: 0, 'pointer-events': 'none' })

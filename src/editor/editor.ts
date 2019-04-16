@@ -184,7 +184,8 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
     switch (type) {
       case 'tail':
-        angX > 0 || (angX > -45 && angX <= 0 && angY < 0 && hairType === 'Spiky to side') ?
+        (angX > 0 || (angX > -45 && angX <= 0) ||
+           (hairType === 'Spiky to side' || hairType === 'Curly ends')) ?
           ($('g.HairBack #tail').attr('d', interpolatorX(X)), $('g.HairBack2 #tail').attr('d', ''))
         : ($('g.HairBack #tail').attr('d', ''), $('g.HairBack2 #tail').attr('d', interpolatorX(X)))
         break
@@ -236,6 +237,8 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     ApplyBody('chin', frame, stageFrame_X)
 
   Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6, frame = 4) : void 0
+
+    console.log(stageFrame_X, Ang_alv_X, frame)
 
     ApplyBody('bridge', frame, stageFrame_X)
     ApplyBody('nose',   frame, stageFrame_X)
