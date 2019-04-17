@@ -147,7 +147,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
       //case 18: 
       //  indx = 1; $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['sad'] / 100)); break
       
-      case 5: case 7:
+      case 5: case 7: case 19:
         if (angY >= 0 && Ang_alv_X === 0) {
           $(svgBodyName[part]).attr('d', '')
           $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
@@ -156,7 +156,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
           $(svgBodyName[part] + '_Front').attr('d', '')
         }; break
 
-      case 6: case 8:
+      case 6: case 8: case 20:
         if (angY < 0 && Ang_alv_X < 22.5) {
           $(svgBodyName[part]).attr('d', interpolatorX(X))
           $(svgBodyName[part] + '_Front').attr('d', '')
@@ -238,8 +238,6 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
   Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6, frame = 4) : void 0
 
-    console.log(stageFrame_X, Ang_alv_X, frame)
-
     ApplyBody('bridge', frame, stageFrame_X)
     ApplyBody('nose',   frame, stageFrame_X)
 
@@ -252,10 +250,13 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     (stageFrame_X = (Ang_alv_X - 45) * 2, frame = 1) :
     (stageFrame_X = Ang_alv_X * 2,        frame = 2)
 
+    ApplyBody('ear_Left_Pinna',  frame, stageFrame_X)
+    ApplyBody('ear_Right_Pinna', frame, stageFrame_X)
+
   let obj = 5;
   while(obj < 13) {
-    obj <= 8 ? ApplyBody(obj, frame, stageFrame_X) :
-           ApplyBody(obj + 2, frame, stageFrame_X)
+    obj <= 8 ? ApplyBody(obj,     frame, stageFrame_X) :
+               ApplyBody(obj + 2, frame, stageFrame_X)
     obj++
   }
 
