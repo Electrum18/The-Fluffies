@@ -8,34 +8,28 @@ var
 setMode = (mode: number) => {
   if (mode > 0) {
     css_([
-      ['#brand path:not(:last-of-type)', 
-                           {       fill: '#333'     }],
       [            'body', { background: '#333'     }],
       [        '#toNight', {  transform: 'scale(0)' }],
       [        '#toLight', {  transform: 'scale(1)' }],
       ['#about, #support', {      color: '#eee'     }],
-      ['#title', {
-        color: '#333',
-        'text-shadow': '0 0 0.5vmin rgba(0,0,0,1)'
-      }]
+      [           '#mode', {      color: '#fff'     }]
     ])
     
-    attr_('#shadow feFuncA', { slope: '.5' }) 
+    attr_('#shadow feFuncA', { slope: '.5' })
+
+    html_('#mode', 'dark mode')
   } else {
     css_([
-      ['#brand path:not(:last-of-type)',
-                           {       fill: '#fff'     }],
       [            'body', { background: '#fff'     }],
       [        '#toNight', {  transform: 'scale(1)' }],
       [        '#toLight', {  transform: 'scale(0)' }],
       ['#about, #support', {      color: '#222'     }],
-      ['#title', {
-        color: '#fff',
-        'text-shadow': '0 0 0.5vmin rgba(0,0,0,.25)'
-      }]
+      [           '#mode', {      color: '#111'     }]
     ])
     
     attr_('#shadow feFuncA', { slope: '.25' })
+
+    html_('#mode', 'light mode')
   }
 };
 

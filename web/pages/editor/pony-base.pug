@@ -10,7 +10,7 @@
         path#ear_Left.moveEar( d fill-opacity="0")
         path#ear_Right.moveEar(d fill-opacity="0")
         g.HairBack3(style="transform: scale(-1, 1)")
-          path#back(d fill="#666" style="stroke: #444" mask="url(#mask_no_RightEar)")
+          path#back(d fill="#666" style="stroke: #444")
         path#head(  d fill="#ccc")
       
       g.Neck
@@ -45,12 +45,12 @@
 
         path#nose.move(          d fill="#ccc")
         path#chin_angle(         d fill-opacity="0")
-        path#chin(               d fill-opacity="0" mask="url(#mask_Out_Head)")
+        path#chin(               d fill-opacity="0"           mask="url(#mask_Out_Head)")
         path#bridge.move(        d fill="#ccc")
         path#mouth.move(         d fill="#c47" stroke-width=7 mask="url(#mask_In_Head)")
         path#nostril_left.move(  d fill="#ccc" stroke-width=7 mask="url(#mask_In_Head)")
         path#nostril_right.move( d fill="#ccc" stroke-width=7)
-        path#eye_Right.eyes.move(d fill="#fff" mask="url(#mask_Head)")
+        path#eye_Right.eyes.move(d fill="#fff"                mask="url(#mask_Head)")
 
         g.eyes.inside.Right
           ellipse#eyeIris_Right( fill="url(#grad_Eyes)")
