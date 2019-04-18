@@ -29,87 +29,107 @@ for (var key in svgEmotes) {
 // JSON import's end
 
 
-var Set_Attr = (ratioX: number, Scale: number) => {  // Direct application to objects
-  let sclPpl_LX = +$('.menu-bar p.X span:eq(0)').html() / 100,
-      sclPpl_LY = +$('.menu-bar p.sm.num span:eq(0)').html() / 100,
-      sclIris   = +$('input#eyesScale').val() / 100,
+var Set_Attr = (ratioX: number, ratioY: number, Scale: number) => {  // Direct application to objects
+  let sclPpl_LX = $('.menu-bar p.X span:eq(0)').html() / 100,
+      sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
+      sclIris   = $('input#eyesScale').val() / 100,
 
-      left  = ((($( '#eye_Left').position().left - 
-        $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
+      bboxEyeLeft  =  $('#eye_Left').get(0).getBBox(),
+      bboxEyeRight = $('#eye_Right').get(0).getBBox(),
 
-      right = ((($('#eye_Right').position().left - 
-        $('#avatar').offset().left) / $('#avatar').width()) * 1024) + 80,
+      Ang_alv_X = ratioX < 0 ? -ratioX : ratioX,
 
-      top =  ((($('#eye_Right').position().top - 
-        $('#avatar').offset().top) / $('#avatar').height()) * 1024) + 48;
+      left  = {
+          x: bboxEyeLeft.x + 80,
+        top: bboxEyeLeft.y + bboxEyeLeft.height / 2 + 16
+      },
+      
+      right = {
+          x: bboxEyeRight.x + 80,
+        top: bboxEyeRight.y + bboxEyeRight.height / 2 + 16
+      };
 
-  Scale > 0 ? ( right = right + (ratioX * right * 0.15)  )
-            : ( left = 1024 - left, right = 1024 - right )
+  left.top  = left.top  * (1 + (ratioY / 4) * (1 - Ang_alv_X))
+  right.top = right.top * (1 + (ratioY / 4) * (1 - Ang_alv_X))
 
-  attr([ 
+  ratioX > 0 ?
+    ratioX >= 1/3 ? 
+      right.x = right.x + (40 + 16   * ratioX) 
+    : right.x = right.x + (56 * 2.66 * ratioX)
+
+  : ratioX <= -1/3 ?
+      right.x = right.x + (40 + 16   * -ratioX)
+    : right.x = right.x + (56 * 2.66 * -ratioX)
+
+  attr([
     ['#headClip, #headClip2, #headClip3, #headClip4', 
-                        { d: $('#head').attr('d')      }],
-    [     '#noseClip',  { d: $('#nose').attr('d')      }],
-    [ '#eyeClip_Left',  { d: $('#eye_Left').attr('d')  }],
-    ['#eyeClip_Right',  { d: $('#eye_Right').attr('d') }],
-    ['#earClip_Right',  { d: $('#ear_Right').attr('d') }],
+                        { d: $('#head').attr('d')            }],
+    [      '#noseClip', { d: $('#nose').attr('d')            }],
+    [  '#eyeClip_Left', { d: $('#eye_Left').attr('d')        }],
+    [ '#eyeClip_Right', { d: $('#eye_Right').attr('d')       }],
+    [ '#earClip_Right', { d: $('#ear_Right').attr('d')       }],
     ['#earClip_Right2', { d: $('#ear_Right_Front').attr('d') || $('#ear_Right').attr('d') }],
-    
+    [ '#ear_Left_Zone', { d: $('#ear_Left').attr('d')  || $('#ear_Left_Front').attr('d')  }],
+    ['#ear_Right_Zone', { d: $('#ear_Right').attr('d') || $('#ear_Right_Front').attr('d') }],
+    /*[   '#nostril_left_Zone', { d: $('#nostril_left').attr('d')    }],
+    [  '#nostril_right_Zone', { d: $('#nostril_right').attr('d')   }],
+    [          '#mouth_Zone', { d: $('#mouth').attr('d')           }],*/
+
     [ '#eyeIris_Left', { 
-      cx: left - 6,
-      cy: top,
+      cx: left.x - 6,
+      cy: left.top,
       rx: (7.5  * sclIris) + '%',
       ry: (13.5 * sclIris) + '%' 
     }],
     
     ['#eyePupil_Left', {
-      cx: left - 6 + (6 * sclPpl_LX) - (15 * sclIris),
-      cy: top,
+      cx: left.x - 6 + (6 * sclPpl_LX) - (15 * sclIris),
+      cy: left.top,
       rx: (6  * sclPpl_LX * sclIris) + '%',
       ry: (10 * sclPpl_LY * sclIris) + '%',
-      'transform-origin': `${ left - 21 }px ${ top }px` 
+      'transform-origin': `${ left.x - 21 }px ${ left.top }px` 
     }],
     
-    [ '#eyeGlare_Left', { cx: left - 21, cy: top, rx: 3    + '%', ry: 5.5 + '%' }],
-    ['#eyeGlare2_Left', { cx: left - 21, cy: top, rx: 1.25 + '%', ry: 2   + '%' }],
+    [ '#eyeGlare_Left', { cx: left.x - 21, cy: left.top, rx: 3    + '%', ry: 5.5 + '%' }],
+    ['#eyeGlare2_Left', { cx: left.x - 21, cy: left.top, rx: 1.25 + '%', ry: 2   + '%' }],
     
     [ '#eyeIris_Right', {
-      cx: right + 8,
-      cy: top,
+      cx: right.x + 8,
+      cy: right.top,
       rx: (7.5  * sclIris) + '%',
       ry: (13.5 * sclIris) + '%'
     }],
     
     ['#eyePupil_Right', { 
-      cx: right + 8 - (6 * sclPpl_LX) + (15 * sclIris),
-      cy: top,
+      cx: right.x + 8 - (6 * sclPpl_LX) + (15 * sclIris),
+      cy: right.top,
       rx: (6  * sclPpl_LX * sclIris) + '%',
       ry: (10 * sclPpl_LY * sclIris) + '%',
-      'transform-origin': `${ right + 23 }px ${ top }px`
+      'transform-origin': `${ right.x + 23 }px ${ right.top }px`
     }],
     
-    [ '#eyeGlare_Right', { cx: right + 23, cy: top, rx: 3    + '%', ry: 5.5 + '%' }],
-    ['#eyeGlare2_Right', { cx: right + 23, cy: top, rx: 1.25 + '%', ry: 2   + '%' }]
+    [ '#eyeGlare_Right', { cx: right.x + 23, cy: right.top, rx: 3    + '%', ry: 5.5 + '%' }],
+    ['#eyeGlare2_Right', { cx: right.x + 23, cy: right.top, rx: 1.25 + '%', ry: 2   + '%' }]
   ])
   
   css([ 
-    [  '#eyeGlare_Left', { 'transform-origin': `${  left - 21 + 100 }px ${ top - 65 }px` }],
-    [ '#eyeGlare2_Left', { 'transform-origin': `${  left - 21       }px ${ top      }px` }],
-    [ '#eyeGlare_Right', { 'transform-origin': `${ right + 23 + 100 }px ${ top - 65 }px` }],
-    ['#eyeGlare2_Right', { 'transform-origin': `${ right + 23       }px ${ top      }px` }] 
+    [  '#eyeGlare_Left', { 'transform-origin': `${  left.x - 21 + 100 }px ${ left.top  - 65 }px` }],
+    [ '#eyeGlare2_Left', { 'transform-origin': `${  left.x - 21       }px ${ left.top       }px` }],
+    [ '#eyeGlare_Right', { 'transform-origin': `${ right.x + 23 + 100 }px ${ right.top - 65 }px` }],
+    ['#eyeGlare2_Right', { 'transform-origin': `${ right.x + 23       }px ${ right.top      }px` }] 
   ])
 
   $('#eyeGlare_Left').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
-    'transform-origin': `${ left - 21 }px ${ top }px`
+    'transform-origin': `${ left.x - 21 }px ${ left.top }px`
   })
 
   $('#eyeGlare_Right').parent('g').css({
     transform: `scale(${ -Scale }, 1)`,
-    'transform-origin': `${ right + 23 }px ${ top }px`
+    'transform-origin': `${ right.x + 23 }px ${ right.top }px`
   })
 
-  return ratioX
+  return { ratioX, ratioY }
 },
 
 Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
@@ -316,7 +336,13 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
        scaleOffset =
           angY >= 0 ? 1 + ((angY / 2) * pow)
-                    : 1 + ((0.25 - ((1 - angY) / 4)) * pow);
+                    : 1 + ((0.25 - ((1 - angY) / 4)) * pow),
+                    
+      Length = $('#ear_Right_Front').get(0).getTotalLength(),
+      Pos    = $('#ear_Right_Front').get(0).getPointAtLength(10 * Length / 100);
+      
+      Length === 0 ? Length = $('#ear_Right').get(0).getTotalLength()                    : void 0
+      Pos.x  === 0 ? Pos    = $('#ear_Right').get(0).getPointAtLength(10 * Length / 100) : void 0
 
   $('.Hair, .Hair2')
     .css('transform',
@@ -351,8 +377,16 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
       )
   : $('.HairBack, .HairBack2').css('transform', '')
 
+  attr('#earRightPiercing ellipse', { 
+      cx: Pos.x,
+      cy: Pos.y,
+      rx: 2 + '%',
+      ry: 2 + '%',
+    fill: '#f0a',
+    'stroke-width': 0
+  })
 
-  Set_Attr(angX, Scale)
+  Set_Attr(angX, angY, Scale)
 },
 
 Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
@@ -364,7 +398,7 @@ emoteProps = {  // Emotion properties
   sad: 0
 };
 
-Animate(30), Set_Attr(1, 1)  // Apply first frame
+Animate(30), Set_Attr(1, 0, 1)  // Apply first frame
 
 $('body')  // Change avatar by mouse
   .mousedown((e: any) => {
@@ -399,7 +433,7 @@ $('body')  // Change avatar by mouse
     return { resultX, resultY }
   
   } else if (Hold === 2) {
-    Set_Attr(angX, Scale)
+    Set_Attr(angX, angY, Scale)
   }
 })
 
@@ -423,7 +457,7 @@ window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for 
 
 $('input#eyesScale').mousedown(() => {
   $('input#eyesScale').mousemove(() => {
-    Set_Attr(angX, Scale)
+    Set_Attr(angX, angY, Scale)
     $('.menu-bar:eq(0) p span#number:eq(0)').html($('input#eyesScale').val().toString())
   })
 })
@@ -434,7 +468,7 @@ $('input#jawOpen').mousedown(() => {
     //emoteProps['sad'] = $('input#jawOpen').val()
     
     Animate(angX * 90, angY * 90)
-    Set_Attr(angX, Scale)
+    Set_Attr(angX, angY, Scale)
 
     $('.menu-bar:eq(3) p span#number').html($('input#jawOpen').val().toString())
   })
@@ -451,3 +485,30 @@ $('.MM-block').mousedown((e: any) => {
 })
 
 $('#menu .menu-bar p.name').html(hairType)
+
+let   elem   = $('#ear_Right_Front').get(0),
+      Length = elem.getTotalLength(),
+      Pos    = elem.getPointAtLength(10 * Length / 100),
+  bboxAvatar = elem.getBBox(),
+     Percent = 0.1;
+
+Length === 0 ? Length = $('#ear_Right').get(0).getTotalLength()                         : void 0
+Pos.x  === 0 ? Pos    = $('#ear_Right').get(0).getPointAtLength(Percent * Length) : void 0
+
+$('#avatar').mousemove((e: any) =>{
+  let x = (e.pageX - $('#avatar').offset().left) / $('#avatar').width() * 1024;
+
+  x >= Pos.x && x <= Pos.x + bboxAvatar.x ? Percent = x / (Pos.x + bboxAvatar.x) : void 0
+
+  Length = elem.getTotalLength()
+  Pos    = elem.getPointAtLength(Percent * Length)
+
+  attr('#earRightPiercing ellipse', { 
+      cx: Pos.x,
+      cy: Pos.y,
+      rx: 2 + '%',
+      ry: 2 + '%',
+    fill: '#f0a',
+    'stroke-width': 0
+  })
+});

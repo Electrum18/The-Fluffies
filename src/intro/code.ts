@@ -88,9 +88,6 @@ if (version[1] === 'Chrome') {
   if (tem != null) version = tem;
 }
 
-version[1] === 'Firefox' ? 
-  html_('#brand p:last-of-type', `ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) :
-
 version[1] === 'Edge' ? 
   html_('#brand p:last-of-type', `ATTENTION, DOES NOT WORK IN ${ version[1].toUpperCase() } !!!`) : 
 

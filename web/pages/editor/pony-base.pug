@@ -7,17 +7,24 @@
       g.Head
         path#ear_Left_Inside.inner2.moveEar( d fill="#ccc")
         path#ear_Right_Inside.inner2.moveEar(d fill="#ccc")
+        
         path#ear_Left_Pinna.moveEar( d fill-opacity="0" stroke-width=7)
         path#ear_Right_Pinna.moveEar(d fill-opacity="0" stroke-width=7)
+        
         path#ear_Left.moveEar( d fill-opacity="0")
         path#ear_Right.moveEar(d fill-opacity="0")
+        
+
         g.HairBack3(style="transform: scale(-1, 1)")
           path#back(d fill="#666" style="stroke: #444")
-        path#head(  d fill="#ccc")
+        
+        path#head(d fill="#ccc")
       
       g.Neck
-        path#chest(d      fill="#ccc")
+        path#chest(d fill="#ccc")
+        
         path#neck.inner(d fill="#ccc")
+        
         path#neck_back_right(d fill-opacity="0")
         path#neck_front_left(d fill-opacity="0")
         
@@ -26,17 +33,22 @@
 
       g.Head
         path#head2(d fill="#ccc").inner3
+        
         path#ear_Left_Inside_Front.inner2.moveEar( d fill="#ccc")
-        path#ear_Left_Pinna_Front.moveEar(d fill-opacity="0" stroke-width=7)
-        path#ear_Left_Front.moveEar(       d fill-opacity="0")
+        path#ear_Left_Pinna_Front.moveEar(    d fill-opacity="0" stroke-width=7)
+        path#ear_Left_Front.moveEar(          d fill-opacity="0")
 
       g.Hair2
         path#front(d fill="#666" style="stroke: #444")
 
       g.Head
-        path#ear_Right_Inside_Front.inner2.moveEar(d fill="#ccc")
-        path#ear_Right_Pinna_Front.moveEar(d fill-opacity="0" stroke-width=7)
-        path#ear_Right_Front.moveEar(d fill-opacity="0")
+        g.moveEar
+          path#ear_Right_Inside_Front.inner2(d fill="#ccc")
+          path#ear_Right_Pinna_Front(    d fill-opacity="0" stroke-width=7)
+          path#ear_Right_Front(          d fill-opacity="0")
+
+          //g#earRightPiercing
+            ellipse.piercing
 
         path#eye_Left.eyes.move( d fill="#fff" mask="url(#mask_Head)")
 
@@ -48,13 +60,24 @@
             ellipse#eyeGlare2_Left(fill="#fff")
 
         path#nose.move(          d fill="#ccc")
+        
         path#chin_angle(         d fill-opacity="0")
-        path#chin(               d fill-opacity="0"           mask="url(#mask_Out_Head)")
+        path#chin(               d fill-opacity="0" mask="url(#mask_Out_Head)")
         path#bridge.move(        d fill="#ccc")
-        path#mouth.move(         d fill="#c47" stroke-width=7 mask="url(#mask_In_Head)")
-        path#nostril_left.move(  d fill="#ccc" stroke-width=7 mask="url(#mask_In_Head)")
+
+        g(mask="url(#mask_In_Head)")
+          path#mouth.move(         d fill="#c47" stroke-width=7) 
+          path#nostril_left.move(  d fill="#ccc" stroke-width=7)
+        
         path#nostril_right.move( d fill="#ccc" stroke-width=7)
-        path#eye_Right.eyes.move(d fill="#fff"                mask="url(#mask_Head)")
+
+        path#nostril_right_Zone.Zone.move( d fill="#ccc")
+
+        g(mask="url(#mask_In_Head)")
+          path#nostril_left_Zone.Zone.move(  d fill="#ccc")
+          path#mouth_Zone.Zone.move(         d fill="#c47")
+        
+        path#eye_Right.eyes.move(d fill="#fff" mask="url(#mask_Head)")
 
         g.eyes.inside.Right
           ellipse#eyeIris_Right( fill="url(#grad_Eyes)")
@@ -66,6 +89,12 @@
       g.Hair(style="transform: scale(-1, 1)")
         path#front(d fill="#666" style="stroke: #444")
         path#back( d fill="#666" style="stroke: #444")
+
+      //g.Head
+        g.moveEar.Zone
+          path#ear_Left_Zone( d fill-opacity="0")
+          path#ear_Right_Zone(d fill-opacity="0")
+
 
     defs
       mask#mask_Head(x="0" y="0" width="1024" height="1024")
@@ -81,6 +110,7 @@
         path#earClip_Right(d fill="#000" style="stroke: #000; stroke-width: 9.5; stroke-linecap: round")
 
       mask#mask_In_Head(x="0" y="0" width="1024" height="1024")
+        rect(width="100%" height="100%" fill="#000")
         path#headClip4(d fill="#fff" style="stroke: #fff; stroke-width: 9.5; stroke-linecap: round")
         path#noseClip( d fill="#fff" style="stroke: #fff; stroke-width: 9.5; stroke-linecap: round")
         
