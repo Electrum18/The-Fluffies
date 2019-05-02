@@ -14,8 +14,6 @@ head
   script(src="https://unpkg.com/polymorph-js/dist/polymorph.min.js")
   script(src="https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js")
   script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js")
-  
-  script(type="text/javascript" src="../../js/editor.js" defer)
 body
   include pony-base.pug
 
@@ -30,95 +28,9 @@ body
           path(d="M10 0c0 255 0 545 0 800h625V0h-625z" fill="#fff")
 
     // Avatar editor panel bars
-
-    .menu-bar
-      svg#color(viewBox="-21 -21 683 682")
-        path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
-      
-      #title
-        p Eyes
-        .mark-arrow
-          #favColor
-            #favColorMini
-
-          svg#arrowDown(viewBox="-110 -150 675 675")
-            path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-      
-          svg#close(viewBox="-17 -18 76 76")
-            path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
-
-      p.h iris
-      p.sm scale #[span#number(style="float: right; margin: 0 1vmin 0 0") 100]
-      
-      input#eyesScale(type="range" min="50" max="125" value="100")
-        
-      p.h pupils
-      p.sm scale
-
-        #sliderBox
-          svg(width="100%" height="100%" viewBox="0 -10 755 755" preserveAspectRatio="none")
-            path(d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
-            defs
-              mask#mask_Pad(x="0" y="0" width="1024" height="1024")
-                path(fill="#fff" d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
-             
-          #X.line
-          #X2.line
-          #Y.line
-          #Y2.line
-          #Parall.line
-          #tapPoint(style="mask: url(#mask_Pad)")
-        p.X       width #[span#number 100]
-        p.sm.num height #[span#number 100]
-
-    .menu-bar
-      svg#color(viewBox="-21 -21 683 682")
-        path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
-      
-      #title
-        p Mane
-        .mark-arrow
-          #favColor
-
-          svg#arrowDown(viewBox="-110 -150 675 675")
-            path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-      
-          svg#close(viewBox="-17 -18 76 76")
-            path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
-
-      p.h hair style
-      p.name Float
-      #menu_of_models change
-    .menu-bar
-      svg#color(viewBox="-21 -21 683 682")
-        path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
-      
-      #title
-        p Fur
-        .mark-arrow
-          #favColor
-
-          svg#arrowDown(viewBox="-110 -150 675 675")
-            path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-      
-          svg#close(viewBox="-17 -18 76 76")
-            path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
-
-      p.h set color
-    .menu-bar
-      #title(style="border-radius: 0 0 0 1.5vmax")
-        p Mouth
-        .mark-arrow
-
-          svg#arrowDown(viewBox="-110 -150 675 675")
-            path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-      
-          svg#close(viewBox="-17 -18 76 76")
-            path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
-
-      p.sm jaw open #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
-      input#jawOpen(type="range" min="0" max="100" value="0")
-
+    #wrapper
+      include menu/bars.pug
+    
     #color_pallete
       p color picker
 
@@ -185,55 +97,7 @@ body
 
     // Menu of Models - list
 
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(0deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-        span Float
-        span @Electrum18
-        
-      .MM-block(style="border-radius: 5%")
-        span Curly ends
-        span @Electrum18
-
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-        span Spiky to side
-        span @Electrum18
-        svg#mirror(viewBox="0 0 512 512")
-          path(fill="#333" d="M256 0c-8 0-15 7-15 15v70a15 15 0 0 0 30 0V15c0-8-7-15-15-15zM256 137c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM256 275c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM256 412c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM179 104L59 67a15 15 0 0 0-19 14v350a15 15 0 0 0 19 14l120-37c7-1 11-7 11-14V118c0-7-4-13-11-14zM466 69c-4-3-9-4-13-2l-120 37c-7 1-11 7-11 14v276c0 7 4 13 11 14l120 37a15 15 0 0 0 19-14V81c0-5-2-9-6-12z")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(8deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-        span Big Bang
-        span @Electrum18
-        svg#mirror(viewBox="0 0 512 512")
-          path(fill="#333" d="M256 0c-8 0-15 7-15 15v70a15 15 0 0 0 30 0V15c0-8-7-15-15-15zM256 137c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM256 275c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM256 412c-8 0-15 7-15 15v70a15 15 0 0 0 30 0v-70c0-8-7-15-15-15zM179 104L59 67a15 15 0 0 0-19 14v350a15 15 0 0 0 19 14l120-37c7-1 11-7 11-14V118c0-7-4-13-11-14zM466 69c-4-3-9-4-13-2l-120 37c-7 1-11 7-11 14v276c0 7 4 13 11 14l120 37a15 15 0 0 0 19-14V81c0-5-2-9-6-12z")
-
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(16deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(24deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(32deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(40deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
-
-    .MM-bar(style="transform: translate(-110%, -50%) rotate(48deg)")
-      .MM-block(style="border-radius: 20% 5% 5% 20%")
-      .MM-block(style="border-radius: 5%")
-      .MM-block(style="border-radius: 5% 20% 20% 5%")
+    include menu/models_menu.pug
 
     #menu-circle
       #settings
@@ -272,3 +136,5 @@ body
         path(fill="#333" d="M14.1 11.3a.5.5 0 0 1 0-.7l7.5-7.5c.2-.2.3-.5.3-.7s-.1-.5-.3-.7L20.2.3a1 1 0 0 0-.7-.3 1 1 0 0 0-.7.3l-7.5 7.5c-.2.2-.5.2-.7 0L3.1.3C2.9.1 2.6 0 2.4 0s-.5.1-.7.3L.3 1.7c-.2.2-.3.5-.3.7s.1.5.3.7l7.5 7.5c.2.2.2.5 0 .7L.3 18.8c-.2.2-.3.5-.3.7s.1.5.3.7l1.4 1.4c.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.2-.2.5-.2.7 0l7.5 7.5c.2.2.5.3.7.3s.5-.1.7-.3l1.4-1.4c.2-.2.3-.5.3-.7s-.1-.5-.3-.7l-7.5-7.5z")
 
   include ../mini-logo.pug
+  
+  script(type="text/javascript" src="../../js/editor.js" defer)

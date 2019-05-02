@@ -5,16 +5,24 @@
         path#tail(d fill="#666" style="stroke: #444" mask="url(#mask_no_RightEar), url(#mask_Out_Head2)")
 
       g.Head
-        path#ear_Left_Inside.inner2.moveEar( d fill="#ccc")
-        path#ear_Right_Inside.inner2.moveEar(d fill="#ccc")
-        
-        path#ear_Left_Pinna.moveEar( d fill-opacity="0" stroke-width=7)
-        path#ear_Right_Pinna.moveEar(d fill-opacity="0" stroke-width=7)
-        
-        path#ear_Left.moveEar( d fill-opacity="0")
-        path#ear_Right.moveEar(d fill-opacity="0")
-        
+        g.moveEar
+          path#ear_Left_Inside.inner2( d fill="#ccc")
+          path#ear_Right_Inside.inner2(d fill="#ccc")
+          
+          path#ear_Left_Pinna( d fill-opacity="0" stroke-width=7)
+          path#ear_Right_Pinna(d fill-opacity="0" stroke-width=7)
+          
+          path#ear_Left( d fill-opacity="0")
+          path#ear_Right(d fill-opacity="0")
+          
+          path#ear_Left_Tassel_Inside.inner4( d fill-opacity="0")
+          path#ear_Right_Tassel_Inside.inner4(d fill-opacity="0")
+          
+          path#ear_Left_Tassel( d fill="#ccc" stroke-width=7)
+          path#ear_Right_Tassel(d fill="#ccc" stroke-width=7)
 
+          g#earLeftPiercing
+        
         g.HairBack3(style="transform: scale(-1, 1)")
           path#back(d fill="#666" style="stroke: #444")
         
@@ -34,9 +42,12 @@
       g.Head
         path#head2(d fill="#ccc").inner3
         
-        path#ear_Left_Inside_Front.inner2.moveEar( d fill="#ccc")
-        path#ear_Left_Pinna_Front.moveEar(    d fill-opacity="0" stroke-width=7)
-        path#ear_Left_Front.moveEar(          d fill-opacity="0")
+        g.moveEar
+          path#ear_Left_Inside_Front.inner2( d fill="#ccc")
+          path#ear_Left_Pinna_Front(         d fill-opacity="0" stroke-width=7)
+          path#ear_Left_Front(               d fill-opacity="0")
+          path#ear_Left_Tassel_Inside_Front.inner4(d fill-opacity="0")
+          path#ear_Left_Tassel_Front(d fill="#ccc" stroke-width=7)
 
       g.Hair2
         path#front(d fill="#666" style="stroke: #444")
@@ -44,13 +55,20 @@
       g.Head
         g.moveEar
           path#ear_Right_Inside_Front.inner2(d fill="#ccc")
-          path#ear_Right_Pinna_Front(    d fill-opacity="0" stroke-width=7)
-          path#ear_Right_Front(          d fill-opacity="0")
+          path#ear_Right_Pinna_Front(        d fill-opacity="0" stroke-width=7)
+          path#ear_Right_Front(              d fill-opacity="0")
+          path#ear_Right_Tassel_Inside_Front.inner4(d fill-opacity="0")
+          path#ear_Right_Tassel_Front(d fill="#ccc" stroke-width=7)
 
-          //g#earRightPiercing
-            ellipse.piercing
+          g#earRightPiercing
+            path.piercing(
+              d="M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z"
+              fill="#fc4" 
+              stroke="#ca2" 
+              stroke-width="6" 
+              style="transform: translate(235.352px, 460.282px) scale(1.5) rotate(130.449deg)")
 
-        path#eye_Left.eyes.move( d fill="#fff" mask="url(#mask_Head)")
+        path#eye_Left.eyes.move(d fill="#fff" mask="url(#mask_Head)")
 
         g.eyes.inside.Left
           ellipse#eyeIris_Left( fill="url(#grad_Eyes)")
@@ -59,23 +77,28 @@
             ellipse#eyeGlare_Left( fill="#fff")
             ellipse#eyeGlare2_Left(fill="#fff")
 
-        path#nose.move(          d fill="#ccc")
+        path#nose.move(  d fill="#ccc")
         
-        path#chin_angle(         d fill-opacity="0")
-        path#chin(               d fill-opacity="0" mask="url(#mask_Out_Head)")
-        path#bridge.move(        d fill="#ccc")
+        path#chin_angle( d fill-opacity="0")
+        path#chin(       d fill-opacity="0" mask="url(#mask_Out_Head)")
+        path#bridge.move(d fill="#ccc")
 
         g(mask="url(#mask_In_Head)")
-          path#mouth.move(         d fill="#c47" stroke-width=7) 
-          path#nostril_left.move(  d fill="#ccc" stroke-width=7)
+          path#mouth.move(       d fill="#c47" stroke-width=7)
+          
+          path#fangs_Left.move(  d fill="#ffc" stroke-width=3 stroke="#cca")
+          path#fangs_Right.move( d fill="#ffc" stroke-width=3 stroke="#cca")
+
+          path#mouthOuter.move(  d fill="transparent" stroke-width=7)
+          
+          path#nostril_left.move(d fill="#ccc" stroke-width=7)
         
         path#nostril_right.move( d fill="#ccc" stroke-width=7)
-
-        path#nostril_right_Zone.Zone.move( d fill="#ccc")
+        path#nostril_right_Zone.Zone.move(d fill="#ccc")
 
         g(mask="url(#mask_In_Head)")
-          path#nostril_left_Zone.Zone.move(  d fill="#ccc")
-          path#mouth_Zone.Zone.move(         d fill="#c47")
+          path#nostril_left_Zone.Zone.move(d fill="#ccc")
+          path#mouth_Zone.Zone.move(       d fill="#c47")
         
         path#eye_Right.eyes.move(d fill="#fff" mask="url(#mask_Head)")
 

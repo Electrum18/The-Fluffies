@@ -1,9 +1,40 @@
-let { html, css, attr } = require('../shorthands_jQuery.ts'),
-    anime = require('anime'),
-    $     = require('jquery'),
+
+/* global variables */
+
+let 
+  { html, css, attr } = require('../shorthands_jQuery.ts'),
+    
+  anime = require('anime'),
+  $     = require('jquery'),
+
+  menu_opened = 0,
+  
+  Hue = 0, Satur = 100, Light = 50, trueLight = 100,
+
+  piercID = 0,
+  Hold    = 0;
+
+/* global variables end */
 
 
-rgbToHsl = (Color: any) => {
+// Applying first functions
+
+  
+$('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
+
+$('.menu-bar').each((i: number) => {
+  $('.menu-bar').eq(i).find('*').not('#title, #title *').css({ opacity: 0, 'pointer-events': 'none' })
+})
+
+css('#avatar', { bottom: 0 })
+
+setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
+
+
+Menu_close()
+
+
+function rgbToHsl (Color: any) {
   let ColrArr = Color.replace(/[^\d,]/g, '').split(','),
       r = ColrArr[0], g = ColrArr[1], b = ColrArr[2];
   
@@ -28,12 +59,10 @@ rgbToHsl = (Color: any) => {
   }
 
   return [h, s, l]
-},
-
-menu_opened = 0,
+}
 
 
-Open_menu = () => {
+function Open_menu() {
   if (menu_opened < 1) {
     css('#menu-circle', { transform: 'translate(50%, 50%) scale(1)' })
   
@@ -49,10 +78,10 @@ Open_menu = () => {
     menu_opened = 0
   }
   return menu_opened
-},
+}
 
 
-Menu_close = () => {
+function Menu_close () {
   attr([ [   '#menu-button #button', { fill: '#fff' }],
          ['#menu-button #bars path', { fill: '#333' }] ])
 
@@ -63,19 +92,21 @@ Menu_close = () => {
   ])
   
   $('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
-},
+}
 
 
-Open_menu_editor = () => {
+function Open_menu_editor () {
   attr([ [             '#menu-back', {    r: '165%' }],
          [   '#menu-button #button', { fill: '#333' }],
          ['#menu-button #bars path', { fill: '#fff' }] ])
 
   css([ 
-    [            '#avatar', {      left: '33%'                  }],
-    [ '#menu-button #bars', { transform: 'scale(0)', opacity: 0 }],
-    ['#menu-button #close', { transform: 'scale(1)', opacity: 1 }],
-    [              '#menu', { 'pointer-events': 'all'           }] 
+    [            '#avatar', {      left: '33%'                      }],
+    [ '#menu-button #bars', { transform: 'scale(0)', opacity: 0     }],
+    ['#menu-button #close', { transform: 'scale(1)', opacity: 1     }],
+    [           '#wrapper', {  overflow: '', 'overflow-x': 'hidden' }],
+    [              '#menu', { 'pointer-events': 'all', overflow: '',
+      'overflow-x': 'hidden'                                        }] 
   ])
 
   setTimeout(() => {
@@ -83,11 +114,12 @@ Open_menu_editor = () => {
   }, 250)
 
   Menu_close()
-},
+}
 
-Menu_editor_close = (allow = 0) => {
+
+function Menu_editor_close (allow = 0) {
   css([
-    [    '#menu', { 'pointer-events': 'none' }],
+    [    '#menu', { 'pointer-events': 'none', overflow: 'hidden', 'overflow-x': 'hidden' }],
     ['.menu-bar', { top: '-30vmin', opacity: 0, 'padding-bottom': '0', height: '6vmin',
       'pointer-events': 'none' }]
   ])
@@ -101,18 +133,19 @@ Menu_editor_close = (allow = 0) => {
        css(   '#avatar', { left: '50%' })
     }, 250)
   }
-},
+}
 
 
-Toggle_tab = (e: any) => {
+function Toggle_tab (e: any) {
   let obj = $(e.target).parents('.menu-bar'),
-      apply = (h: string, o: number, pe: string, n: number, n2: number, round: string) => {
+      apply = (h: string, o: number, pe: string, n: number, n2: number, he: string, round: string) => {
         obj.css({ height: h })
-        obj.find('*').not('#title, #title *').css({ opacity: o, 'pointer-events': pe })
+        obj.find('*').not('#title, #title *')
+          .css({ opacity: o, 'pointer-events': pe, height: he })
 
-        obj.find('#title #arrowDown').css({ transform:`translate(-50%, -50%) scale(${n})`,
+        obj.find('#title #arrowDown').css({ transform:`translate(-50%, -50%) scale(${ n })`,
           opacity: n  })
-        obj.find('#title #close').css({ transform:`translate(-50%, -50%) scale(${n2})`,
+        obj.find('#title #close').css({ transform:`translate(-50%, -50%) scale(${ n2 })`,
           opacity: n2 })
 
         if (obj.index() !== $('.menu-bar').length) {
@@ -127,24 +160,24 @@ Toggle_tab = (e: any) => {
           b2.length < 4 ? b2[3] = 0 : void 0
 
           $('.menu-bar').eq(obj.index() - 1).find('#title')
-            .css({ 'border-radius': `${b[0]} 0 0 ` + round  })
+            .css({ 'border-radius': `${ b[0] } 0 0 ` + round  })
           $('.menu-bar').eq(obj.index()    ).find('#title')
-            .css({ 'border-radius': round + ` 0 0 ${b2[3]}` })
+            .css({ 'border-radius': round + ` 0 0 ${ b2[3] }` })
         } else {
           let b = obj.find('#title').css('border-radius').match(/\S+/g)
 
           $('.menu-bar').eq(obj.index() - 1).find('#title')
-            .css({ 'border-radius': `${b[0]} 0 0 1.5vmax` })
+            .css({ 'border-radius': `${ b[0] } 0 0 1.5vmax` })
         }
       };
 
   obj.height() === $(e.target).parent().height() ? 
-    apply(     '', 1,     '', 0, 1, '1.5vmax') 
-  : apply('6vmin', 0, 'none', 1, 0,       '0')
-},
+    apply(     '', 1,     '', 0, 1, '',  '1.5vmax') 
+  : apply('6vmin', 0, 'none', 1, 0, '1%',      '0')
+}
 
 
-Open_MM = () => {
+function Open_MM () {
   let ang = 0;
   Menu_editor_close()
 
@@ -157,8 +190,10 @@ Open_MM = () => {
     duration: 250
   })
 
-  css([ [  '#avatar', {  left: '30vmax' }],
-        ['.MM-block', { right: '-1%'    }] ])
+  css([ [  '#avatar', {         left: '30vmax' }],
+        ['.MM-block', {        right: '-1%'    }],
+        [    '#menu', { 'overflow-x': '',
+                        'overflow-y': ''       }] ])
 
   $('body').mousewheel((event: any) =>{ 
     ang += event.deltaY * 3
@@ -168,13 +203,13 @@ Open_MM = () => {
       { ang = ($('.MM-bar').length - 1) * 8 }
     
     $('.MM-bar').each((i:number) => {
-      $('.MM-bar').eq(i).css({ transform: `translate(-110%, -50%) rotate(${-ang + (i * 8)}deg)` })
+      $('.MM-bar').eq(i).css({ transform: `translate(-110%, -50%) rotate(${ -ang + (i * 8) }deg)` })
     })
   })
-},
+}
 
 
-Close_MM = () => {
+function Close_MM () {
   attr('#menu svg', { preserveAspectRatio: 'none' })
 
   anime({
@@ -184,14 +219,12 @@ Close_MM = () => {
     duration: 250
   })
 
-  css('.MM-block', { right: '-150%' })
-},
+  css([ ['.MM-block', {        right: '-150%'  }],
+        [    '#menu', { 'overflow-x': 'hidden' }] ])
+}
 
 
-Hue = 0, Satur = 100, Light = 50, trueLight = 100,
-
-
-Circle_Ang = (x: any, y: any) => {
+function Circle_Ang (x: any, y: any) {
   let mouseX = x - ($('#color_pallete #body').offset().left + ($('#color_pallete #body').width() / 2)), 
       mouseY = ($('#color_pallete #body').offset().top + ($('#color_pallete #body').height() / 2)) - y,
 
@@ -205,10 +238,10 @@ Circle_Ang = (x: any, y: any) => {
         ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)`     }] ])
   
   setColor('#color_pallete #color')
-},
+}
 
 
-Box_Ang = (x: any, y: any) => {
+function Box_Ang (x: any, y: any) {
   let X = (x - $('#body #box').offset().left) / $('#body #box').outerWidth(),
       Y = (y - $('#body #box').offset().top ) / $('#body #box').outerHeight(),
 
@@ -226,24 +259,49 @@ Box_Ang = (x: any, y: any) => {
         ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)` }] ])
 
   setColor('#color_pallete #color')
-},
+}
 
 
-setColor = (e: string) => {
+function setColor (e: string) {
   let Color = $(e).css('background-color'),
       ColrArr: any[] = Color.match(/\d+/g),
 
+      text = $(e).parents('#color_pallete').find('p.h').text(),
+
       Target: any, Type: number, HSL: number[], mainObj: any;
 
-  switch ($(e).parents('#color_pallete').find('p.h').text()) {
-    case 'fur':  Type = 3; break
-    case 'eyes': Type = 2; break
+  switch (text) {
     case 'mane': Type = 1,
       Target = '.Hair #front, #back, .Head #hair_Front, ' +
         '.Hair2 #front, .HairBack #tail, .HairBack2 #tail, .HairBack3 #back'
+    break
+
+    case 'eyes': Type = 2; break
+    case 'fur':  Type = 3; break
+  }
+
+  if (/\w+ \w+ ear #\d+/g.test(text)) {
+    if (text === text.match(/\w+ \w+ ear #\d+/g)[0]) Type = 4
   }
 
   switch (Type) {
+    case 1:
+      mainObj = $('.menu-bar').eq(1);
+
+      attr(Target, { fill: $(e).css('background-color') })
+
+      css([
+        ['.menu-bar:eq(1) #color', { background: $(e).css('background-color') }],
+        [Target, 
+          { stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` }],
+      ])
+      
+      mainObj.find('#favColor').css({ background: $('.Hair #front').css('fill') })
+
+      HSL = rgbToHsl($('.Hair #front').css('fill'));
+      Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
+    break
+    
     case 2:
       mainObj = $('.menu-bar').eq(0);
 
@@ -251,7 +309,7 @@ setColor = (e: string) => {
         ['.menu-bar:eq(0) #color', {   background: $('defs #grad_Eyes #1').css('stop-color') }],
         [    'defs #grad_Eyes #1', { 'stop-color': $(e).css('background-color')              }],
         [    'defs #grad_Eyes #2', { 'stop-color':
-          `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }]
+          `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` }]
       ])
         
       HSL = rgbToHsl($('defs #grad_Eyes #1').css('stop-color'));
@@ -263,37 +321,25 @@ setColor = (e: string) => {
         .css({ background: $('defs #grad_Eyes #1').css('stop-color') })
     break
 
-    case 1:
-      mainObj = $('.menu-bar').eq(1);
-
-      attr(Target, { fill: $(e).css('background-color') })
-
-      css([
-        ['.menu-bar:eq(1) #color', { background: $(e).css('background-color') }],
-        [Target, 
-          { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }],
-      ])
-      
-      mainObj.find('#favColor').css({ background: $('.Hair #front').css('fill') })
-
-      HSL = rgbToHsl($('.Hair #front').css('fill'));
-      Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
-    break
-
     case 3:
       mainObj = $('.menu-bar').eq(2);
 
-      $('.Head path, .Neck path').not('.inner, .inner2, .inner3, .HairBack3 #back, .eyes, #mouth')
+      $('.Head path, .Neck path')
+        .not('.inner, .inner2, .inner3, .inner4, .HairBack3 #back, .eyes, #mouth')
+        .not('#earLeftPiercing path, #earRightPiercing path')
+        .not('#fangs_Left, #fangs_Right')
         .attr({ fill: $(e).css('background-color') })
-        .css( { stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` })
+        .css( { stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` })
 
-      attr('.Neck .inner, .Head .inner2, .Head .inner3', { fill: $(e).css('background-color') })
+      attr('.Neck .inner, .Head .inner2, .Head .inner3, .Head .inner4',
+        { fill: $(e).css('background-color') }
+      )
       
       css([
-        ['.Neck .inner, .Head .inner2, .Head .inner3',
+        ['.Neck .inner, .Head .inner2, .Head .inner3, .Head .inner4',
                    { stroke: $(e).css('background-color')                            }],
         ['#mouth', { 
-          stroke: `rgb(${ColrArr[0] / 1.5},${ColrArr[1] / 1.5},${ColrArr[2] / 1.5})` }],
+          stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` }],
         [     '.menu-bar:eq(2) #color', { background: $('.Head #head').css('fill')   }]
       ])
       
@@ -303,20 +349,44 @@ setColor = (e: string) => {
       Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
     break
 
+    case 4:
+      css([
+        [`.menu-bar #block:eq(${ piercID }) p.sm span`, 
+                              { background: $(e).css('background-color') }         ],
+        ['.menu-bar #color2', { background: $(e).css('background-color') }, piercID]
+      ])
+
+      if (text.match(/\w+/g)[1] === 'left') {
+        $(`#earLeftPiercing path:eq(${piercID})`)
+          .attr({ fill: $(e).css('background-color') })
+          .css( { stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` })
+      } else {
+        $(`#earRightPiercing path:eq(${piercID})`)
+          .attr({ fill: $(e).css('background-color') })
+          .css( { stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` })
+      }
+    break
+
     default: return
   }
-},
+}
 
 
-getColor = (name: string) => {
-  let Target = ['.Head #head', 'defs #grad_Eyes #1', '.Hair #front'],
+function getColor (name: string) {
+  let id = piercID,
+      Target = ['.Head #head', 'defs #grad_Eyes #1', '.Hair #front',
+        `#earRightPiercing path:eq(${ id })`, `#earLeftPiercing path:eq(${ id })`],
       Type = 0;
 
   switch (name) {
-    case 'Mane': Type = 2; break
-    case 'Eyes': Type = 1; break
     case 'Fur':  Type = 0; break
+    case 'Eyes': Type = 1; break
+    case 'Mane': Type = 2; break
   }
+
+  if (/right ear #\d+/g.test(name) === true) Type = 3
+  if (/left ear #\d+/g.test(name)  === true) Type = 4
+
 
   let HSL = rgbToHsl(Type === 1 ? $(Target[Type]).css('stop-color') : $(Target[Type]).css('fill'));
 
@@ -332,10 +402,10 @@ getColor = (name: string) => {
     }],
     [    '#color_box circle', { stroke: trueLight < 50 ? '#fff' : '#000' }] 
   ])
-},
+}
 
 
-Box_Scale = (x: any, y: any, id: number) => {
+function Box_Scale (x: any, y: any, id: number) {
   let X =      (x - $('#menu #sliderBox').eq(id).offset().left) / $('#menu #sliderBox').eq(id).outerWidth(),
       Y = 1 - ((y - $('#menu #sliderBox').eq(id).offset().top ) / $('#menu #sliderBox').eq(id).outerHeight());
 
@@ -347,19 +417,15 @@ Box_Scale = (x: any, y: any, id: number) => {
   html([ ['p span#number', Math.round(10 + X * 115), id + 1],
          ['p span#number', Math.round(10 + Y * 115), id + 2] ])
 
-  css('#sliderBox #tapPoint', { transform: `translate(${(755 * X) - 50}%, ${-730 * Y + 365}%)` }, id)
-},
+  css('#sliderBox #tapPoint', { transform: `translate(${ (755 * X) - 50 }%, ${ -730 * Y + 365 }%)` }, id)
+}
 
-
-Hold = 0;
 
 $(             '#menu-button').click((e: any) => { switch (e.which) { case 1: default: Open_menu()        }})
 $('#menu-circle #menu-avatar').click((e: any) => { switch (e.which) { case 1: default: Open_menu_editor() }})
 $(          '#menu_of_models').click((e: any) => { switch (e.which) { case 1: default: Open_MM()          }})
 $('#menu .mark-arrow').not('#favColor')
   .click((e: any) => { switch (e.which) { case 1: default: Toggle_tab(e) } })
-
-Menu_close()
 
 
 $('body') // Change avatar on hold after click
@@ -412,6 +478,9 @@ window.addEventListener('touchmove', (e: any) => {
 })
 
 
+// Editor menu bars system
+
+
 $('.menu-bar').each((i:number) => {
   let regExp = /\S+/g,
       text = regExp.exec($('.menu-bar').eq(i).find('#title p').text())[0],
@@ -462,12 +531,211 @@ $('.menu-bar').each((i:number) => {
 })
 
 
-$('.menu-bar *').not('#title, #title *').css({ opacity: 0 })
-css('#avatar', { bottom: 0 })
-
-setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
+// Piercing system
 
 
-$('.menu-bar').each((i: number) => {
-  $('.menu-bar').eq(i).find('*').not('#title, #title *').css({ opacity: 0, 'pointer-events': 'none' })
+$('p.h span span').click((e: any) => {
+  let 
+    $$   = $(e.target),
+    side = $$.parent().text().match(/\w+ /g)[0]
+      .split(' ')
+      .map((s: any) => s.charAt(0).toUpperCase() + s.substring(1))
+      .join(' '),
+
+    sideID = $$.parents('.menu-bar').children('#block').length + 1,
+      
+    path = '';
+
+  if ($$.text() === "point") {
+    path = 'M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0'
+  } else {
+    path = 'M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z'
+  };
+
+  $('p.h span span').parents('p.h').before(
+    `<div id="block">
+      <svg id="close2" viewBox="-12 -12 64 64">
+        <path fill="#f35" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z"/>
+      </svg>
+      <p class="h"> ${ $$.text() } ${ side.toLowerCase() }ear #${ sideID } </p>
+    
+      
+      <svg id="color2" viewBox="-21 -21 683 682">
+        <path fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0">
+      </svg>
+      <p class="h"> set color </p>
+
+      <p class="sm"> position
+        <span id="number" style="position: absolute; margin: 0 1vmin 0 0; right: 0">0</span>
+      </p>
+      <input id="piercPos" type="range" min="0" max="100" value="0"></input>
+      
+      <p class="sm"> scale
+        <span id="number" style="position: absolute; margin: 0 1vmin 0 0; right: 0">0</span>
+      </p>
+      <input id="piercScl" type="range" min="50" max="100" value="50"></input>
+    </div>`
+  )
+
+  $$ = $('.menu-bar #block')
+
+  $$.eq($$.length - 1).find('svg:first-child').after('<div class="line"></div>')
+
+  html([
+    ['#block #number', 0, $$.length * 2 - 2 ],
+    ['#block #number', 1, $$.length * 2 - 1 ]
+  ])
+
+  side = side.replace(/\s/g, '')
+
+  $(`#ear${ side }Piercing`).append('<path class="piercing"></path>')
+
+  $$ = $(`#ear${ side }Piercing path`);
+
+  let 
+    elem  = $(`#ear_${ side }_Front`).get(0),
+    elem2 = $(`#ear_${ side }`).get(0),
+    Pos   = elem.getPointAtLength(0);
+  
+    Pos.x  === 0 ? Pos = elem2.getPointAtLength(0) : void 0
+
+  let 
+    ParPos = elem.getBBox() || elem2.getBBox(),
+
+    deltaX = Pos.x - (ParPos.x + ParPos.width  / 1.5),
+    deltaY = Pos.y - (ParPos.y + ParPos.height / 2  ),
+    
+    DiffAng = Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+
+  $$.eq($$.length - 1)
+    .css({ transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(1) rotate(${ -DiffAng + 90 }deg)` })
+    .attr({
+      d:      path,
+      fill:   '#fc4',
+      stroke: '#ca2',
+      'stroke-width': 6
+    })
+
+  $$ = $("#avatar")
+
+  $$.html($$.html())
+
+  $('#block #close2').click((e: any) => {
+    if ($(e.target).parent().index() - 1 >= 0) {
+      $(`#ear${ side }Piercing path`).eq($(e.target).parent().index() - 1).remove()
+    }
+
+    $(e.target).parents('#block').empty().remove()
+  })
+
+  $('#block #piercPos, #block #piercScl').mousemove((e: any) => {
+    let
+      $$  = $(e.target).parent('#block').find('#piercPos').val(),
+      $$2 = $(e.target).parent('#block').find('#piercScl').val(),
+
+      elem  = $(`#ear_${ side }_Front`).get(0),
+      elem2 = $(`#ear_${ side }`).get(0),
+
+      Length = elem.getTotalLength(),
+      Pos    = elem.getPointAtLength($$ / 100 * Length);
+
+    Length === 0 ? Length = elem2.getTotalLength()                    : void 0
+    Pos.x  === 0 ? Pos    = elem2.getPointAtLength($$ / 100 * Length) : void 0
+    
+    let ParPos = elem.getBBox();
+
+    if (elem.getBBox().x === 0) ParPos = elem2.getBBox()
+
+    let
+      deltaX = Pos.x - (ParPos.x + ParPos.width  / 1.5),
+      deltaY = Pos.y - (ParPos.y + ParPos.height / 2  ),
+      
+      DiffAng = -Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+    
+    css(`#ear${ side }Piercing path`, {
+      transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
+    }, $(e.target).parent().index() - 1)
+
+    attr(`#ear${ side }Piercing path`, {
+      'stroke-width': 6 / ($$2 / 50)
+    }, $(e.target).parent().index() - 1)
+
+    $(e.target).parent().find('.sm #number').eq(0).html($$)
+    $(e.target).parent().find('.sm #number').eq(1).html(Math.round($$2 / 5) / 10) 
+  })
+
+  let $$2 = $(e.target);
+
+  $('#block #color2').click((e: any) => {
+    piercID = $(e.target).parent().index() - 1
+
+    $('#color_pallete').css({ top: '0%', opacity: 1, 'pointer-events': 'all'})
+    $('#color_pallete p.h').text(`${ $$2.text() } ${ side.toLowerCase() } ear #${ sideID }`)
+  })
+  
+  getColor(`${side.toLowerCase()} ear #${sideID}`)
+
+  css([
+    [`.menu-bar #block:eq(${ sideID - 1 }) p.sm span`, { background: '#fc4' }],
+    [  `.menu-bar #block:eq(${ sideID - 1 }) #color2`, { background: '#fc4' }]
+  ])
+})
+
+
+// Applying first piercing settings
+
+
+$('#block #close2').click((e: any) => {
+  let $$ = $(e.target)
+
+  if ($$.parent().index() - 1 >= 0) {
+    $(`#earRightPiercing path`).eq($$.parent().index() - 1).remove()
+  }
+
+  $$.parents('#block').empty().remove()
+})
+
+
+$('#block #piercPos, #block #piercScl').mousemove((e: any) => {
+  let
+    $$  = $(e.target).parent('#block').find('#piercPos').val(),
+    $$2 = $(e.target).parent('#block').find('#piercScl').val(),
+
+    elem  = $(`#ear_Right_Front`).get(0),
+    elem2 = $(`#ear_Right`).get(0),
+
+    Length = elem.getTotalLength(),
+    Pos    = elem.getPointAtLength($$ / 100 * Length);
+
+  Length === 0 ? Length = elem2.getTotalLength()                    : void 0
+  Pos.x  === 0 ? Pos    = elem2.getPointAtLength($$ / 100 * Length) : void 0
+  
+  let ParPos = elem.getBBox();
+
+  if (elem.getBBox().x === 0) ParPos = elem2.getBBox()
+
+  let
+    deltaX = Pos.x - (ParPos.x + ParPos.width  / 1.5),
+    deltaY = Pos.y - (ParPos.y + ParPos.height / 2  ),
+    
+    DiffAng = -Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+  
+  css(`#earRightPiercing path`, {
+    transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
+  }, $(e.target).parent().index() - 1)
+
+  attr(`#earRightPiercing path`, {
+    'stroke-width': 6 / ($$2 / 50)
+  }, $(e.target).parent().index() - 1)
+
+  $(e.target).parent().find('.sm #number').eq(0).html($$)
+  $(e.target).parent().find('.sm #number').eq(1).html(Math.round($$2 / 5) / 10) 
+})
+
+
+$('#block #color2').click((e: any) => {
+  piercID = $(e.target).parent().index() - 1
+
+  $('#color_pallete').css({ top: '0%', opacity: 1, 'pointer-events': 'all'})
+  $('#color_pallete p.h').text(`ring right ear #1`)
 })

@@ -1,35 +1,73 @@
+
 // JSON coordinates import's
 
 import * as svg from './pony/body.json'
 import * as svgHairs from './pony/hair.json'
 import * as svgEmotes from './pony/emotions.json'
 
-var { css, attr } = require('../shorthands_jQuery.ts'),
+
+/* global variables */
+
+let { css, attr } = require('../shorthands_jQuery.ts'),
     polymorph = require('polymorph'),
 
        svgBody: any = [],    svgBodyName: string[] = [],   svgs: any = svg,
        svgHair: any = [],    svgHairName: string[] = [],  svgHs: any = svgHairs,
-    svgEmotion: any = [], svgEmotionName: string[] = [], svgEms: any = svgEmotes;
+    svgEmotion: any = [], svgEmotionName: string[] = [], svgEms: any = svgEmotes,
 
-for (var key in svg) {
+  
+  Angle = 10,
+
+  Scale = 1,
+  Hold  = 0,
+
+  angX  = Angle / 90,
+  angY  = 0,
+
+  lastX = 0,
+  lastY = 0,
+
+  resultX = ((Angle / 2.45) / 90) * window.innerWidth,
+  resultY = 0,
+
+  hairType = 'Spiky to side',
+
+  emoteProps = {  // Emotion properties
+    jaw_Open: 0,
+    sad: 100
+  };
+
+
+/* global variables end */
+
+
+for (let key in svg) {
   svgBody.push(svgs[key])
-  if (svg.hasOwnProperty(key)) { svgBodyName.push('#' + key) }
+  
+  if (svg.hasOwnProperty(key)) svgBodyName.push('#' + key)
 }
 
-for (var key in svgHairs) {
+for (let key in svgHairs) {
   svgHair.push(svgHs[key])
-  if (svgHairs.hasOwnProperty(key)) { svgHairName.push('#' + key) }
+  
+  if (svgHairs.hasOwnProperty(key)) svgHairName.push('#' + key)
 }
 
-for (var key in svgEmotes) {
+for (let key in svgEmotes) {
   svgEmotion.push(svgEms[key])
-  if (svgEmotes.hasOwnProperty(key)) { svgEmotionName.push('#' + key) }
+  
+  if (svgEmotes.hasOwnProperty(key)) svgEmotionName.push('#' + key)
 }
 
 // JSON import's end
 
 
-var Set_Attr = (ratioX: number, ratioY: number, Scale: number) => {  // Direct application to objects
+// Applying first functions
+
+Animate(10), Set_Attr(angX, angY, Scale)  // Apply first frame
+
+
+function Set_Attr (ratioX: number, ratioY: number, Scale: number) {  // Direct application to objects
   let sclPpl_LX = $('.menu-bar p.X span:eq(0)').html() / 100,
       sclPpl_LY = $('.menu-bar p.sm.num span:eq(0)').html() / 100,
       sclIris   = $('input#eyesScale').val() / 100,
@@ -69,11 +107,8 @@ var Set_Attr = (ratioX: number, ratioY: number, Scale: number) => {  // Direct a
     [ '#eyeClip_Right', { d: $('#eye_Right').attr('d')       }],
     [ '#earClip_Right', { d: $('#ear_Right').attr('d')       }],
     ['#earClip_Right2', { d: $('#ear_Right_Front').attr('d') || $('#ear_Right').attr('d') }],
-    [ '#ear_Left_Zone', { d: $('#ear_Left').attr('d')  || $('#ear_Left_Front').attr('d')  }],
-    ['#ear_Right_Zone', { d: $('#ear_Right').attr('d') || $('#ear_Right_Front').attr('d') }],
-    /*[   '#nostril_left_Zone', { d: $('#nostril_left').attr('d')    }],
-    [  '#nostril_right_Zone', { d: $('#nostril_right').attr('d')   }],
-    [          '#mouth_Zone', { d: $('#mouth').attr('d')           }],*/
+    /*[ '#ear_Left_Zone', { d: $('#ear_Left').attr('d')  || $('#ear_Left_Front').attr('d')  }],
+    ['#ear_Right_Zone', { d: $('#ear_Right').attr('d') || $('#ear_Right_Front').attr('d') }],*/
 
     [ '#eyeIris_Left', { 
       cx: left.x - 6,
@@ -130,77 +165,140 @@ var Set_Attr = (ratioX: number, ratioY: number, Scale: number) => {  // Direct a
   })
 
   return { ratioX, ratioY }
-},
+}
 
-Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
-  let ApplyBody = (part: any, frame: number, X_type: number) => {
+
+function Animate (angX = 0, angY = 0) { // Animation process (objects calculation)
+  function ApplyBody (part: any, frame: number, X_type: number) {
     // Morph calculation of body - head part
-    if (isNaN(part)) { part = svgBodyName.indexOf('#' + part) }  // Translate name to index
+
+    if (isNaN(part)) part = svgBodyName.indexOf('#' + part)  // Translate name to index
 
     let id = '',
-        X = Math.round(X_type * 10) / 900,
-        interpolatorX = polymorph.interpolate(
-          [svgBody[part][frame], svgBody[part][frame - 1]], { precision: 1 }
+        X  = Math.round(X_type * 10) / 900,
+
+        morphX = polymorph.interpolate(
+          [svgBody[part][frame], svgBody[part][frame - 1]], { precision: 0 }
         );
 
     switch (part) {
-      case 2:  id = 'chin'; break
-      case 4:  id = 'nose'; break
-      case 18: id = 'jaw';  break
-      default: id = ''
+      case 2: id = 'chin'; break
+      case 4: id = 'nose'; break
     }
 
-    if (id.length > 0) {
-      var indx = 0;
+    if (part === 18 || part === 27) {
+      let 
+        morphOpen = polymorph.interpolate(
+          [ svgEmotion[0]['jaw'][frame    ],
+            svgEmotion[0]['jaw'][frame - 1] ], { precision: 0 }
+        ),
 
-      let interpolatorEmotes = polymorph.interpolate(
-        [svgEmotion[indx][id][frame], svgEmotion[indx][id][frame - 1]], { precision: 1 }
-      );
+        morphSad = polymorph.interpolate(
+          [ svgEmotion[1]['jaw'][frame    ],
+            svgEmotion[1]['jaw'][frame - 1] ], { precision: 0 }
+        ),
 
-      var interpolatorTwos = polymorph.interpolate([interpolatorX(X), interpolatorEmotes(X)], { precision: 1 });
+        morphSadOpen = polymorph.interpolate(
+          [ svgEmotion[2]['jaw'][frame    ],
+            svgEmotion[2]['jaw'][frame - 1] ], { precision: 0 }
+        );
+
+      var Happy = polymorph.interpolate([  morphX(X),    morphOpen(X)], { precision: 0 }),
+          Sad   = polymorph.interpolate([morphSad(X), morphSadOpen(X)], { precision: 0 });
+
+      var morphEmotes = polymorph.interpolate(
+            [ Happy(0),
+              Sad(  0) ],
+            { precision: 0 }
+          );
+
+    } else if (part === 2 || part === 4) {
+      let morphJaw = polymorph.interpolate(
+            [ svgEmotion[0][id][frame],
+              svgEmotion[0][id][frame - 1] ], { precision: 0 },
+          );
+
+      var Jaw = polymorph.interpolate([morphX(X), morphJaw(X)], { precision: 0 });
     }
     
     switch (part) {
-      case 2: case 4: case 18: 
-        $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['jaw_Open'] / 100)); break
+      case 2: case 4: 
+        $(svgBodyName[part]).attr('d', Jaw(emoteProps['jaw_Open'] / 100)); break
 
-      //case 18: 
-      //  indx = 1; $(svgBodyName[part]).attr('d', interpolatorTwos(emoteProps['sad'] / 100)); break
+      case 18: case 27: 
+        $(svgBodyName[part]).attr('d', Happy(emoteProps['jaw_Open'] / 100)); break
       
-      case 5: case 7: case 19:
+      case 5: case 7: case 19: case 21: case 23:
+        if (part === 21 || part === 23) {
+          if ($('#checkbox input#haveTassels').prop('checked') === false) {
+            $(svgBodyName[part]           ).attr('d', '')
+            $(svgBodyName[part] + '_Front').attr('d', '')
+
+            return
+          }
+        }
+
         if (angY >= 0 && Ang_alv_X === 0) {
-          $(svgBodyName[part]).attr('d', '')
-          $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
+          $(svgBodyName[part]           ).attr('d', ''              )
+          $(svgBodyName[part] + '_Front').attr('d', morphX(X))
         } else {
-          $(svgBodyName[part]).attr('d', interpolatorX(X))
-          $(svgBodyName[part] + '_Front').attr('d', '')
+          $(svgBodyName[part]           ).attr('d', morphX(X))
+          $(svgBodyName[part] + '_Front').attr('d', ''              )
         }; break
 
-      case 6: case 8: case 20:
+      case 6: case 8: case 20: case 22: case 24:
+        if (part === 22 || part === 24) {
+          if ($('#checkbox input#haveTassels').prop('checked') === false) {
+            $(svgBodyName[part]           ).attr('d', '')
+            $(svgBodyName[part] + '_Front').attr('d', '')
+
+            return
+          }
+        }
+
         if (angY < 0 && Ang_alv_X < 22.5) {
-          $(svgBodyName[part]).attr('d', interpolatorX(X))
-          $(svgBodyName[part] + '_Front').attr('d', '')
+          $(svgBodyName[part]           ).attr('d', morphX(X))
+          $(svgBodyName[part] + '_Front').attr('d', ''              )
         } else {
-          $(svgBodyName[part]).attr('d', '')
-          $(svgBodyName[part] + '_Front').attr('d', interpolatorX(X))
+          $(svgBodyName[part]           ).attr('d', ''              )
+          $(svgBodyName[part] + '_Front').attr('d', morphX(X))
         }; break
 
-      default: $(svgBodyName[part]).attr('d', interpolatorX(X))
-    }
-  },
+      case 25: case 26:
+        if (part === 25 || part === 26) {
+          if ($('#checkbox input#haveFangs').prop('checked') === false) {
+            $(svgBodyName[part] ).attr('d', '')
 
-  ApplyHair = (part: any, frame: number, X_type: number, type: string) => {  // Morph calculation of hair part
+            return
+          }
+        }
+
+        $(svgBodyName[part]).attr('d', morphX(X))
+        break
+
+      default: $(svgBodyName[part]).attr('d', morphX(X))
+    }
+  }
+
+
+  function ApplyHair (part: any, frame: number, X_type: number, type: string) {
+    // Morph calculation of hair part
+
     if (isNaN(part)) { part = svgHairName.indexOf('#' + part) }  // Translate name to index
 
     let X = Math.round(X_type * 10) / 900,
         interpolate = () => {  // X interpolation from center of frames like a function
-            let parts = svgHair[part][type].main;
-            
-            if (angX > 0) { return polymorph.interpolate([parts[frame], parts[frame - 1]], { precision: 1 }) }
-                     else { return polymorph.interpolate([parts[frame], parts[frame + 1]], { precision: 1 }) }
+          let parts = svgHair[part][type].main;
+          
+          if (angX > 0) {
+            return polymorph.interpolate([parts[frame], parts[frame - 1]], { precision: 0 })
+          } else {
+            return polymorph.interpolate([parts[frame], parts[frame + 1]], { precision: 0 })
+          }
         },
 
         interpolatorX = interpolate();
+
 
     switch (type) {
       case 'tail':
@@ -234,13 +332,14 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
       default: return
     }
-  },
+  }
 
-  Ang_alv_X = angX < 0 ? -angX : angX,
 
-  stageFrame_X: number , frame: number;
+  let Ang_alv_X = angX < 0 ? -angX : angX,
 
-    ApplyBody('head',  1, Ang_alv_X)
+      stageFrame_X: number , frame: number;
+
+    ApplyBody( 'head', 1, Ang_alv_X)
     ApplyBody('head2', 1, Ang_alv_X)
 
   // Objects frames
@@ -259,19 +358,29 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
   Ang_alv_X < 15 ? (stageFrame_X = Ang_alv_X * 6, frame = 4) : void 0
 
     ApplyBody('bridge', frame, stageFrame_X)
-    ApplyBody('nose',   frame, stageFrame_X)
+    ApplyBody(  'nose', frame, stageFrame_X)
 
-    ApplyBody('mouth',  frame, stageFrame_X)
+    ApplyBody(      'mouth',  frame, stageFrame_X)
+    ApplyBody( 'mouthOuter',  frame, stageFrame_X)
+    ApplyBody( 'fangs_Left',  frame, stageFrame_X)
+    ApplyBody('fangs_Right',  frame, stageFrame_X)
 
-    ApplyBody('nostril_left',  frame, stageFrame_X)
+    ApplyBody( 'nostril_left', frame, stageFrame_X)
     ApplyBody('nostril_right', frame, stageFrame_X)
 
   Ang_alv_X >= 45 ?
     (stageFrame_X = (Ang_alv_X - 45) * 2, frame = 1) :
     (stageFrame_X = Ang_alv_X * 2,        frame = 2)
 
-    ApplyBody('ear_Left_Pinna',  frame, stageFrame_X)
+    ApplyBody( 'ear_Left_Pinna', frame, stageFrame_X)
     ApplyBody('ear_Right_Pinna', frame, stageFrame_X)
+    
+    ApplyBody( 'ear_Left_Tassel', frame, stageFrame_X)
+    ApplyBody('ear_Right_Tassel', frame, stageFrame_X)
+    
+    ApplyBody( 'ear_Left_Tassel_Inside', frame, stageFrame_X)
+    ApplyBody('ear_Right_Tassel_Inside', frame, stageFrame_X)
+
 
   let obj = 5;
   while(obj < 13) {
@@ -284,7 +393,7 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
     (stageFrame_X = (Ang_alv_X - 30) * 1.5, frame = 1) :
     (stageFrame_X = Ang_alv_X * 3,          frame = 2)
 
-    ApplyBody('eye_Left',  frame, stageFrame_X)
+    ApplyBody( 'eye_Left', frame, stageFrame_X)
     ApplyBody('eye_Right', frame, stageFrame_X)
 
   Ang_alv_X >= 45 ? 
@@ -293,18 +402,17 @@ Animate = (angX = 0, angY = 0) => { // Animation process (objects calculation)
 
   ApplyHair(hairType, frame, stageFrame_X, 'front')
   
-  hairType !== "Big Bang" ?
+  hairType !== 'Big Bang' ?
     ApplyHair(hairType, frame, stageFrame_X, 'tail')
   : $('g.HairBack #tail, g.HairBack2 #tail').attr('d', '')
 
-  hairType !== "Float" && hairType !== "Big Bang" ?
+  hairType !== 'Float' && hairType !== 'Big Bang' ?
     ApplyHair(hairType, frame, stageFrame_X, 'back')
   : $('g.Hair #back, g.HairBack3 #back').attr('d', '')
-},
+}
 
-Scale = 1, angX = 30 / 90, angY = 0,
 
-Transition = (x: number, y: number) => {  // "Avatar" changes - applying
+function Transition (x: number, y: number) {  // "Avatar" changes - applying
   let ratioX = x / ($('#avatar').width()  / 2  ),
       ratioY = y / ($('#avatar').height() / 1.5);
 
@@ -336,17 +444,11 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
   let alvPosOffset = angY >= 0 ? angY * 22 : angY * 6,  // Always positive offset
        scaleOffset =
           angY >= 0 ? 1 + ((angY / 2) * pow)
-                    : 1 + ((0.25 - ((1 - angY) / 4)) * pow),
-                    
-      Length = $('#ear_Right_Front').get(0).getTotalLength(),
-      Pos    = $('#ear_Right_Front').get(0).getPointAtLength(10 * Length / 100);
-      
-      Length === 0 ? Length = $('#ear_Right').get(0).getTotalLength()                    : void 0
-      Pos.x  === 0 ? Pos    = $('#ear_Right').get(0).getPointAtLength(10 * Length / 100) : void 0
+                    : 1 + ((0.25 - ((1 - angY) / 4)) * pow);
 
   $('.Hair, .Hair2')
     .css('transform',
-      hairType !== "Spiky to side" && hairType !== "Big Bang" ? 
+      hairType !== 'Spiky to side' && hairType !== 'Big Bang' ? 
         angX >= 0 ? 
           `rotate(${  Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })` 
         : `rotate(${ -Rotate }deg) translate(0, ${ alvPosOffset * pow }%) scale(1, ${ scaleOffset })`
@@ -358,7 +460,7 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
 
   $('.HairBack3')
     .css('transform',
-      hairType !== "Spiky to side" && hairType !== "Big Bang" ?
+      hairType !== 'Spiky to side' && hairType !== 'Big Bang' ?
         angX >= 0 ? 
           `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })` 
         : `translate(0, ${ alvPosOffset * pow }%) scale(-1, ${ scaleOffset })`
@@ -368,7 +470,7 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
         : `translate(0, ${ (alvPosOffset * pow) / 5 }%) scale(-1, 1)`
     )
 
-  hairType === "Spiky to side" || hairType === "Big Bang" ?
+  hairType === 'Spiky to side' || hairType === 'Big Bang' ?
     $('.HairBack, .HairBack2')
       .css('transform',
           angX > 0 ?
@@ -377,28 +479,69 @@ Transition = (x: number, y: number) => {  // "Avatar" changes - applying
       )
   : $('.HairBack, .HairBack2').css('transform', '')
 
-  attr('#earRightPiercing ellipse', { 
-      cx: Pos.x,
-      cy: Pos.y,
-      rx: 2 + '%',
-      ry: 2 + '%',
-    fill: '#f0a',
-    'stroke-width': 0
+  $('#earRightPiercing path').each((i: number) => {
+    let 
+      $$  = $('.menu-bar #block').eq(i - 1).find('p #number').eq(0).html(),
+      $$2 = $('.menu-bar #block').eq(i - 1).find('p #number').eq(1).html(),
+        
+      elem  = $('#ear_Right_Front').get(0),
+      elem2 = $('#ear_Right').get(0),
+
+      Length = elem.getTotalLength(),
+      Pos    = elem.getPointAtLength($$ / 100 * Length);
+    
+    Length === 0 ? Length = elem2.getTotalLength()                    : void 0
+    Pos.x  === 0 ? Pos    = elem2.getPointAtLength($$ / 100 * Length) : void 0
+
+    let ParPos = elem.getBBox();
+
+    if (elem.getBBox().x === 0) ParPos = elem2.getBBox()
+
+    let
+      deltaX = Pos.x - (ParPos.x + ParPos.width  / 1.5),
+      deltaY = Pos.y - (ParPos.y + ParPos.height / 2  ),
+      
+      DiffAng = -Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+
+    css('#earRightPiercing path', { 
+      transform: `translate(${Pos.x}px, ${Pos.y}px) scale(${$$2}) rotate(${DiffAng + 90}deg)`
+    }, i - 1)
+  })
+
+  $('#earLeftPiercing path').each((i: number) => {
+    let 
+      $$  = $('.menu-bar #block').eq(i - 1).find('p #number').eq(0).html(),
+      $$2 = $('.menu-bar #block').eq(i - 1).find('p #number').eq(1).html(),
+        
+      elem  = $('#ear_Left_Front').get(0),
+      elem2 = $('#ear_Left').get(0),
+
+      Length = elem.getTotalLength(),
+      Pos    = elem.getPointAtLength($$ / 100 * Length);
+    
+    Length === 0 ? Length = elem2.getTotalLength()                    : void 0
+    Pos.x  === 0 ? Pos    = elem2.getPointAtLength($$ / 100 * Length) : void 0
+
+    let ParPos = elem.getBBox();
+
+    if (elem.getBBox().x === 0) ParPos = elem2.getBBox()
+
+    let
+      deltaX = Pos.x - (ParPos.x + ParPos.width  / 1.5),
+      deltaY = Pos.y - (ParPos.y + ParPos.height / 2  ),
+      
+      DiffAng = Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+
+    if (elem2.getBBox().x !== 0) DiffAng = -DiffAng + 20
+
+    css('#earLeftPiercing path', {
+      transform: `translate(${Pos.x}px, ${Pos.y}px) scale(${$$2 / 50}) rotate(${DiffAng + 90}deg)`
+  }, i - 1)
   })
 
   Set_Attr(angX, angY, Scale)
-},
+}
 
-Hold = 0, lastX = 0, lastY = 0, resultX = 0.3333, resultY = 0,
-
-hairType = 'Spiky to side',
-
-emoteProps = {  // Emotion properties
-  jaw_Open: 0,
-  sad: 0
-};
-
-Animate(30), Set_Attr(1, 0, 1)  // Apply first frame
 
 $('body')  // Change avatar by mouse
   .mousedown((e: any) => {
@@ -416,7 +559,8 @@ $('body')  // Change avatar by mouse
   })
   .mouseup  ((e: any) => { switch (e.which) { case 1: default: Hold = 0 } })
   .mousemove((e: any) => { if (Hold === 1) {
-    let mousex = e.pageX, mousey = e.pageY;
+    let mousex = e.pageX,
+        mousey = e.pageY;
 
     resultX = resultX +  (mousex - lastX)
     resultY = resultY + ((mousey - lastY) * 3)
@@ -428,7 +572,7 @@ $('body')  // Change avatar by mouse
     ratioY > 1 ? (resultY = resultY > 0 ? $('#avatar').height() / 1.5 : -$('#avatar').height() / 1.5) : void 0
 
     Transition(resultX, resultY)
-
+    
     lastX = mousex, lastY = mousey
     return { resultX, resultY }
   
@@ -437,8 +581,10 @@ $('body')  // Change avatar by mouse
   }
 })
 
+
 window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for extra situations)
-  let mousex = e.touches[0].pageX, mousey = e.touches[0].pageY
+  let mousex = e.touches[0].pageX,
+      mousey = e.touches[0].pageY
 
   resultX = resultX +  (mousex-lastX)
   resultY = resultY + ((mousey-lastY) * 3)
@@ -454,6 +600,7 @@ window.addEventListener('touchmove', (e: any) => {  // Phone compatibility (for 
   lastX = mousex, lastY = mousey
   return { resultX, resultY }
 })
+
 
 $('input#eyesScale').mousedown(() => {
   $('input#eyesScale').mousemove(() => {
@@ -486,29 +633,24 @@ $('.MM-block').mousedown((e: any) => {
 
 $('#menu .menu-bar p.name').html(hairType)
 
-let   elem   = $('#ear_Right_Front').get(0),
-      Length = elem.getTotalLength(),
-      Pos    = elem.getPointAtLength(10 * Length / 100),
-  bboxAvatar = elem.getBBox(),
-     Percent = 0.1;
 
-Length === 0 ? Length = $('#ear_Right').get(0).getTotalLength()                         : void 0
-Pos.x  === 0 ? Pos    = $('#ear_Right').get(0).getPointAtLength(Percent * Length) : void 0
+// If tassels enabled
 
-$('#avatar').mousemove((e: any) =>{
-  let x = (e.pageX - $('#avatar').offset().left) / $('#avatar').width() * 1024;
+$('#checkbox input#haveTassels').change((e: any) => {
+  $(e.target).prop('checked') === false ?
+    attr([
+      ['path#ear_Left_Tassel,        path#ear_Left_Tassel_Inside',        { d: '' }],
+      ['path#ear_Left_Tassel_Front,  path#ear_Left_Tassel_Inside_Front',  { d: '' }],
+      ['path#ear_Right_Tassel,       path#ear_Right_Tassel_Inside',       { d: '' }],
+      ['path#ear_Right_Tassel_Front, path#ear_Right_Tassel_Inside_Front', { d: '' }]
+    ])
+  
+  : Transition(resultX, resultY)
+})
 
-  x >= Pos.x && x <= Pos.x + bboxAvatar.x ? Percent = x / (Pos.x + bboxAvatar.x) : void 0
-
-  Length = elem.getTotalLength()
-  Pos    = elem.getPointAtLength(Percent * Length)
-
-  attr('#earRightPiercing ellipse', { 
-      cx: Pos.x,
-      cy: Pos.y,
-      rx: 2 + '%',
-      ry: 2 + '%',
-    fill: '#f0a',
-    'stroke-width': 0
-  })
-});
+$('#checkbox input#haveFangs').change((e: any) => {
+  $(e.target).prop('checked') === false ?
+    attr('path#fangs_Left, path#fangs_Right', { d: '' })
+  
+  : Transition(resultX, resultY)
+})
