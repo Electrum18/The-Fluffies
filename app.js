@@ -28,18 +28,18 @@ const
   
   app = new Koa(),
   pug = new Pug({
-    viewPath: './web',
-    basedir: './web',
+    viewPath: './public',
+    basedir: './public',
     app: app
   });
 
 app.proxy = true;
   
-app.use(serve('./web'));
+app.use(serve('./public'));
 app.use(serve('./robots.txt'));
 
 app.use(helmet({ dnsPrefetchControl: { allow: true } }));
-app.use(staticCache('./web', { maxAge: 365 * 24 * 60 * 60 }));
+app.use(staticCache('./public', { maxAge: 365 * 24 * 60 * 60 }));
 app.use(compress({
   level: 9,
   flush: require('zlib').Z_SYNC_FLUSH
@@ -76,7 +76,7 @@ router.get('*', ctx => {
     ctx.body = fs.readFileSync('robots.txt', 'utf8');
     log(ctx, 'GET DATA', '\x1b[46m\x1b[30m');
   } else if (url === '/favicon.ico') {
-    ctx.body = fs.readFileSync('web/img/fluffies.ico');
+    ctx.body = fs.readFileSync('public/img/fluffies.ico');
   } else {
     ctx.redirect('/');
     log(ctx, 'UNKNOWN PAGE', '\x1b[41m\x1b[30m');

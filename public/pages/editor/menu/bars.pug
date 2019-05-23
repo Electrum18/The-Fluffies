@@ -19,29 +19,84 @@
   
   input#eyesScale(type="range" min="50" max="125" value="100")
     
+  .line
+
   p.h pupils
   p.sm scale
-
     #sliderBox
       svg(width="100%" height="100%" viewBox="0 -10 755 755" preserveAspectRatio="none")
         path(d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
-        defs
-          mask#mask_Pad(x="0" y="0" width="1024" height="1024")
-            path(fill="#fff" d="M301 765c-17 0-31-14-31-30V496c0-6-5-11-10-11H21c-17 0-31-14-31-30V21c0-17 14-31 31-31h714c16 0 30 14 30 31v714c0 16-14 30-30 30H301z")
-          
+        
       #X2.line
       #X.line
       #Y2.line
       #Y.line
       #Parall.line
-      #tapPoint(style="mask: url(#mask_Pad)")
+      #tapPoint
+
     p.X       width #[span#number 10]
     p.sm.num height #[span#number 100]
-
-.menu-bar
-  svg#color(viewBox="-21 -21 683 682")
-    path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
   
+  .line
+
+  p.h position
+  p.sm
+    #sliderBox
+      svg(width="100%" height="100%" viewBox="0 -10 755 755" preserveAspectRatio="none")
+        rect(x="0" y="0" rx="25" ry="25" width="755" height="755")
+
+      #X.line(style="transform: translate(-45%,-100%)")
+      #Y.line(style="transform: translate(-45%,-200%) rotate(90deg)")
+      #tapPoint(style="transform: translate(360%, 285%)")
+      
+    p.X(style="word-spacing: 5vmin") horizontal #[span#number 50]
+    p.sm.num                           vertical #[span#number 50]
+
+  #outerRadio
+    #radio(style="border-radius: 1vmin 0 0 1vmin")
+      input#isRelative(type="radio" name="radio" checked)
+      #checkmark(style="border-radius: 1vmin 0 0 1vmin") relative
+
+    #radio(style="border-radius: 0 1vmin 1vmin 0")
+      input#isAbsolute(type="radio" name="radio")
+      #checkmark(style="border-radius: 0 1vmin 1vmin 0") absolute
+    
+  .line
+
+  p.sm focus #[span#number(style="float: right; margin: 0 1vmin 0 0") 100]
+
+  input#eyeFocus(type="range" min="0" max="100" value="100")
+
+  p.sm derp #[span#number(style="float: right; margin: 0 1vmin 0 0") 0]
+
+  input#eyeDerp(type="range" min="-100" max="100" value="0")
+
+  .line
+
+  p.h left eyelids
+  p.sm up #[span#number(style="float: right; margin: 0 1vmin 0 0") 0]
+
+  input#leftUpLid(type="range" min="0" max="100" value="0")
+
+  p.sm down #[span#number(style="float: right; margin: 0 1vmin 0 0") 0]
+
+  input#leftDownLid(type="range" min="0" max="100" value="0")
+  
+  .line
+
+  p.h right eyelids
+  p.sm up #[span#number(style="float: right; margin: 0 1vmin 0 0") 0]
+
+  input#rightUpLid(type="range" min="0" max="100" value="0")
+
+  p.sm down #[span#number(style="float: right; margin: 0 1vmin 0 0") 0]
+
+  input#rightDownLid(type="range" min="0" max="100" value="0")
+
+  .line
+
+//-bar(title="Mane")
+.menu-bar
   #title
     p Mane
     .mark-arrow
@@ -49,18 +104,20 @@
 
       svg#arrowDown(viewBox="-110 -150 675 675")
         path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-  
+
       svg#close(viewBox="-17 -18 76 76")
         path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
+
+  svg#color(viewBox="-21 -21 683 682")
+    path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
+  
   p.h hair style
   p.name Float
   #menu_of_models change
 
+//-bar(title="Fur")
 .menu-bar
-  svg#color(viewBox="-21 -21 683 682")
-    path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
-  
   #title
     p Fur
     .mark-arrow
@@ -68,62 +125,106 @@
 
       svg#arrowDown(viewBox="-110 -150 675 675")
         path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-  
+
       svg#close(viewBox="-17 -18 76 76")
         path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
+  svg#color(viewBox="-21 -21 683 682")
+    path(fill="#333" d="M640 315A318 318 0 0 0 320 0 318 318 0 0 0 0 320a318 318 0 0 0 319 320 92 92 0 0 0 91-108 107 107 0 0 1 30-92 106 106 0 0 1 92-30 92 92 0 0 0 108-95zM147 192a56 56 0 1 1 0 113 56 56 0 0 1 0-113zm0 256a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0-347a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm144 0a56 56 0 1 1 0-112 56 56 0 0 1 0 112zm101 102a56 56 0 1 1 0-113 56 56 0 0 1 0 113zm0 0")
+
   p.h set color
+
+//-bar(title="Mouth")
+.menu-bar
+  #title
+    p Mouth
+    .mark-arrow
+      svg#arrowDown(viewBox="-110 -150 675 675")
+        path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
+
+      svg#close(viewBox="-17 -18 76 76")
+        path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
+
+  #checker
+    p.h(style="width: 16vmax") catlike
+    
+    #checkbox
+      input#haveCatlike(type="checkbox")
+      #checkmark
   
+//-bar(title="Emotion")
 .menu-bar
   #title
     p Emotion
     .mark-arrow
-
       svg#arrowDown(viewBox="-110 -150 675 675")
         path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-  
+
       svg#close(viewBox="-17 -18 76 76")
         path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
-  p.h(style="width: 16vmax") fangs
-  
-  #checkbox
-    input#haveFangs(type="checkbox" checked)
-    #checkmark
+  #checker
+    p.h(style="width: 16vmax") fangs
+    
+    #checkbox
+      input#haveFangs(type="checkbox" checked)
+      #checkmark
 
-  p.sm jaw open #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
+  .line
+
+  p.h jaw
+
+  p.sm open #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
   input#jawOpen(type="range" min="0" max="100" value="0")
 
+  p.sm sad #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
+  input#jawSad(type="range" min="0" max="100" value="0")
+
+  //p.sm surprised #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 0]
+  //input#jawSurprised(type="range" min="0" max="100" value="0")
+
+  .line
+
+  p.h teeth
+
+  p.sm upper #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 100]
+  input#teethUpper(type="range" min="0" max="100" value="100")
+
+  p.sm lower #[span#number(style="position: absolute; margin: 0 1vmin 0 0; right: 0") 100]
+  input#teethLower(type="range" min="0" max="100" value="100")
+
+//-bar(title="Ears")
 .menu-bar
   #title
     p Ears
     .mark-arrow
-
       svg#arrowDown(viewBox="-110 -150 675 675")
         path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-  
+
       svg#close(viewBox="-17 -18 76 76")
         path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
-  p.h(style="width: 16vmax") tassels
-  
-  #checkbox
-    input#haveTassels(type="checkbox" checked)
-    #checkmark
+  #checker
+    p.h(style="width: 16vmax") tassels
+    
+    #checkbox
+      input#haveTassels(type="checkbox" checked)
+      #checkmark
 
+//-bar(title="Piercing")
 .menu-bar
-  #title(style="border-radius: 0 0 0 1.5vmax")
+  #title
     p Piercing
     .mark-arrow
-
       svg#arrowDown(viewBox="-110 -150 675 675")
         path(fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z")
-  
+
       svg#close(viewBox="-17 -18 76 76")
         path(fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
   #block(style="pointer-events: none; height: 1%")
     .line
+
     svg#close2(viewBox="-12 -12 64 64")
       path(fill="#f35" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
     

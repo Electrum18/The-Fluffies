@@ -15,10 +15,6 @@ div
 .transition, div 
   transition: all 0.25s ease
 
-.scale 
-  -moz-transform: translate(50%, 50%)
-  transform: translate(50%, 50%)
-
 #vignette 
   width: 100%
   height: 100%
@@ -42,12 +38,6 @@ div
   min-width: 100%
   min-height: 100%
   pointer-events: none
-
-#brand 
-  width: 15vmax
-  position: fixed
-  bottom: 6vmax
-  opacity: 0.15
 
 #sliderBox svg > path, .Hair, .Hair2,.HairBack, .HairBack2, .HairBack3, .Head, .Neck
   stroke: #888
@@ -98,10 +88,15 @@ div
   stroke-width: 7
   stroke-linejoin: bevel
 
-#menu-circle, #menu-social, .MM-block, input#jawOpen, input#piercPos, input#piercScl
+.outer
+  stroke: #888
+  stroke-width: 7
+  stroke-linejoin: bevel
+
+#menu-circle, #menu-social, .MM-block, .menu-bar:eq(3) input, input#piercPos, input#piercScl
   background: #eee
 
-input#jawOpen, input#piercPos, input#piercScl
+.menu-bar:eq(3) input, input#piercPos, input#piercScl
   margin: 7.5% 0 5%
 
 #menu-circle 
@@ -109,6 +104,7 @@ input#jawOpen, input#piercPos, input#piercScl
   right: 4.5vmin
   transform: translate(50%, 50%) scale(0)
   pointer-events: all
+  background: #eee
 
 #menu-circle, #menu-social 
   width: 30vmin
@@ -136,6 +132,15 @@ input#jawOpen, input#piercPos, input#piercScl
   bottom: 0
   right: 0
   pointer-events: none
+
+#menu-screener
+  width: 60vmax
+  height: 8vmin
+  bottom: -8vmin
+  left: 50%
+  transform: translate(-50%)
+  border-radius: 2vmin 2vmin 0 0
+  background: #333
 
 #menu-circle *
   width: 6vmin
@@ -167,7 +172,6 @@ input#jawOpen, input#piercPos, input#piercScl
 #menu-circle div:nth-child(2)
   transform: translate(50%, -225%) rotate(-63.33deg)
   transform-origin: 50% 225%
-  cursor: not-allowed
 
 #menu-circle div:nth-child(3)
   transform: translate(50%, -200%) rotate(12.5deg)
@@ -176,13 +180,15 @@ input#jawOpen, input#piercPos, input#piercScl
 #menu-circle div:nth-child(4)
   transform: translate(50%, -225%) rotate(-26.66deg)
   transform-origin: 50% 225%
+  cursor: not-allowed
 
 #wrapper
   height: 90%
   width: 25vmax
 
-#color_pallete input, #title #favColor, #title #favColorMini, 
-.MM-block, .menu-bar, .menu-bar #title, .menu-bar input 
+#color_pallete input, #title #favColor, #title #favColorMini,
+.MM-block, .menu-bar, .menu-bar #title, .menu-bar input,
+bar-title
   position: relative
 
 #color_pallete, #color_pallete #body, #color_pallete #body #box, 
@@ -197,6 +203,12 @@ input#jawOpen, input#piercPos, input#piercScl
 #title #favColor, #title #favColorMini, .menu-bar #sliderBox 
   transition: none
 
+#takePhoto
+  width: 5vmin
+  margin: 1.75vmin
+  right: 0
+  cursor: pointer
+
 .menu-bar 
   width: 95%
   background: #353535
@@ -205,6 +217,7 @@ input#jawOpen, input#piercPos, input#piercScl
   opacity: 0
   display: block
   margin: 0.25vmax 1.4vmax
+  overflow: hidden
 
 .menu-bar:not(#title, #title *) * 
   pointer-events: none
@@ -219,14 +232,14 @@ input#jawOpen, input#piercPos, input#piercScl
   font-size: 2.5vmin
 
 .mark-arrow 
-  width: 4.5vmin
-  height: 4.5vmin
+  width: 4vmin
+  height: 4vmin
   background: #555
   border-radius: 50% 0 50% 50%
   box-shadow: 0 0 2vmin rgba(0, 0, 0, .2)
   cursor: pointer
 
-.menu-bar #title 
+.menu-bar #title, bar-title
   height: 6vmin
   background: #444
   border-radius: 0
@@ -275,16 +288,16 @@ input#jawOpen, input#piercPos, input#piercScl
   width: 3vmin
   height: 3vmin
   background: #fff
-  border-radius: 25%
+  border-radius: 100%
   top: 1.5vmin
   right: 4vmin
-  pointer-events: none
+  cursor: not-allowed
 
 #title #favColorMini 
   width: 1.2vmin
   height: 1.2vmin
   background: #222
-  border-radius: 33%
+  border-radius: 100%
   top: 50%
   left: 50%
   pointer-events: none
@@ -307,10 +320,9 @@ input#jawOpen, input#piercPos, input#piercScl
   transition: transform 0.2s ease, opacity 0.2s ease
 
 .menu-bar #title .fa.fa-times 
-  transform: translate(-80%, -50%) scale(0)
+  transform: translate(-50%, -50%) scale(0)
   font-size: 3.5vmin
   left: 55%
-  opacity: 0
 
 #sliderBox .line 
   left: 50%
@@ -352,9 +364,9 @@ input#jawOpen, input#piercPos, input#piercScl
   border-radius: 50%
   transform: translate(-50%, -215%)
 
-#sliderBox svg > path 
-  fill: #333
-  stroke: #fff
+#sliderBox svg > path, #sliderBox svg > rect
+  fill: #222
+  stroke: #fa0
   stroke-width: 2.5vmin
 
 #checkbox
@@ -362,8 +374,8 @@ input#jawOpen, input#piercPos, input#piercScl
   height: 3vmin
   position: absolute
   right: 1vmax
-  top: 7vmin
-  margin: .5vmin
+  margin: .33vmin 0 .33vmin 3%
+  display: inline-block
 
 #checkbox input
   left: 0
@@ -396,6 +408,64 @@ input#jawOpen, input#piercPos, input#piercScl
   display: none
   content: ""
 
+#outerRadio
+  position: relative
+  width: 90%
+  height: 3vmin
+  margin: 0 5%
+  white-space: nowrap
+
+#radio
+  width: 44%
+  height: 3vmin
+  left: -1vmin
+  margin: 0 2%
+  display: inline-block
+  border: .2vmin solid #fa0
+  position: relative
+
+#radio input
+  left: 0
+  top: 0
+  width: 100%
+  height: 3vmin
+  background: transparent
+  cursor: pointer
+  margin: 0
+  opacity: 0
+  position: absolute
+
+#radio input:checked ~ #checkmark
+  display: block
+  background: #fa3
+  color: #111
+
+#radio #checkmark
+  padding: .8vmin 11%
+  top: -.2vmin
+  left: 0
+  width: 81%
+  height: 1.7vmin
+  position: absolute
+  pointer-events: none
+  background: transparent
+  font-family: Arial,Helvetica,sans-serif
+  font-variant: small-caps
+  font-weight: 700
+  font-size: 1.5vmin
+  color: #eee
+
+#checker
+  position: relative
+  width: 100%
+  height: 4vmin
+  display: block
+
+#checker p
+  margin: 0 0 0 1vmin
+  padding: 0.5vmin 50% .45vmin 2vmin
+  position: absolute
+
 .menu-bar input
   width: 90%
   height: 1vmin
@@ -408,7 +478,9 @@ input#jawOpen, input#piercPos, input#piercScl
   margin: 0
   cursor: e-resize
 
-input#jawOpen::-moz-range-thumb, input#jawOpen::-ms-thumb, input#jawOpen::-webkit-slider-thumb,
+.menu-bar:eq(3) input::-moz-range-thumb,
+.menu-bar:eq(3) input::-ms-thumb,
+.menu-bar:eq(3) input::-webkit-slider-thumb,
 input#piercPos::-moz-range-thumb, input#piercPos::-ms-thumb, input#piercPos::-webkit-slider-thumb,
 input#piercScl::-moz-range-thumb, input#piercScl::-ms-thumb, input#piercScl::-webkit-slider-thumb
   -webkit-appearance: none
@@ -560,15 +632,11 @@ p.X span, p.sm span
 #menu svg 
   pointer-events: none
 
-#menu .mark-arrow svg 
+#menu .mark-arrow svg
   top: 50%
   left: 50%
   transition: transform 0.2s ease, opacity 0.2s ease
   transform: translate(-50%, -50%)
-
-#menu .mark-arrow #close 
-  opacity: 0
-  transform: translate(-50%, -50%) scale(0)
 
 #color_circle 
   transform: translate(-50%, -1075%) rotate(0deg)
@@ -631,6 +699,7 @@ p.X span, p.sm span
   height: 18vmin
   right: -150%
   top: 45%
+  background: #eee
   margin: 1%
   transform: translateY(-50%) rotate(0deg)
   float: left
@@ -672,3 +741,117 @@ svg#adding
   position: relative
   background: #fff1
   border-radius: 100vmin
+
+#imageType
+  width: 8vmin
+  height: 4.8vmin
+  right: 8vmin
+  margin: 1.65vmin .33vmin
+  display: inline-block
+  float: right
+  border: .2vmin solid #fa0
+  position: relative
+
+#imageType input
+  width: 100%
+  height: 100%
+  background: transparent
+  cursor: pointer
+  margin: 0
+  opacity: 0
+  position: absolute
+
+#imageType input:checked ~ #checkmark
+  display: block
+  background: #fa3
+  color: #111
+
+#imageType #checkmark
+  padding: 7% 20%
+  top: -3%
+  left: -3%
+  width: 65%
+  height: 80%
+  position: absolute
+  pointer-events: none
+  background: transparent
+  font-family: Arial,Helvetica,sans-serif
+  font-variant: small-caps
+  font-weight: bold
+  font-size: 3vmin
+  color: #eee
+
+#menu-screener input.scr
+  width: 6vmin
+  height: 3vmin
+  font-size: 2.25vmin
+  background: #222
+  color: #eee
+  border: .2vmin solid #aaa
+  border-radius: .75vmin
+  padding: 0.2vmin 0 0 1.1vmin
+
+input.scr
+  -moz-appearance: textfield
+
+input.scr::-webkit-inner-spin-button
+  display: none
+
+input.scr::-webkit-outer-spin-button,
+input.scr::-webkit-inner-spin-button
+  -webkit-appearance: none
+  margin: 0
+
+#menu-screener p.middle
+  position: relative
+  display: inline-block
+  color: #aaa
+  background: transparent
+  font-family: Arial,Helvetica,sans-serif
+  font-variant: small-caps
+  font-weight: lighter
+  font-size: 2.5vmin
+  padding: .75vmin
+  margin: 0
+
+#menu-screener p.header
+  position: absolute
+  color: #ccc
+  background: #222
+  margin: .5vmin 2vmin
+  font-size: 1.5vmin
+  padding: .25vmin 0 .25vmin 1vmin
+  border-radius: .5vmin
+  font-family: Arial,Helvetica,sans-serif
+  font-variant: small-caps
+  font-weight: bold
+
+#menu-screener p.header span
+  background: #fa0
+  color: #222
+  padding: 0.2vmin 0.5vmin
+  margin: 0 0 0 5.25vmin
+  border-radius: 0 .5vmin .5vmin 0
+
+#version
+  left: 0
+  bottom: 0
+  width: 13.5vmin
+  padding: .5vmin 1.5vmin
+  margin: 1vmin
+  border-radius: 1vmin
+  background: #222
+  color: #eee
+  position: fixed
+  font-size: 1.5vmin
+  font-weight: lighter
+  font-variant: small-caps;
+
+#version span
+  top: 0
+  right: 0
+  background: yellow
+  color: #111
+  padding: 0.5vmin 0.7vmin
+  position: absolute
+  border-radius: .5vmin 1vmin 1vmin .5vmin

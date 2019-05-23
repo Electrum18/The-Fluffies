@@ -18,7 +18,7 @@ module.exports = [
       ]
     },
     output: {
-      path: path.resolve(__dirname, 'web/js'),
+      path: path.resolve(__dirname, 'public/js'),
       filename: '[name].js'
     },
     resolve: {
@@ -47,7 +47,8 @@ module.exports = [
     externals: {
       jquery: 'jQuery',
       polymorph: 'polymorph',
-      anime: 'anime'
+      anime: 'anime',
+      vue: 'Vue'
     },
     plugins: [
       //new BundleAnalyzerPlugin()
@@ -65,7 +66,7 @@ module.exports = [
       support: './src/support/visual.sass'
     },
     output: {
-      path: path.resolve(__dirname, 'web/css/'),
+      path: path.resolve(__dirname, 'public/css/'),
       filename: '[name].css'
     },
     plugins: [

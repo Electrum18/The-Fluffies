@@ -1,9 +1,9 @@
+import { on_, css_, html_, attr_ } from '../shorthands_mini'
+
 var 
   mode   = 0,
   custom = 0,
   date   = new Date(),
-
-  { on_, css_, html_, attr_ } = require('../shorthands_mini.ts'),
   
 setMode = (mode: number) => {
   if (mode > 0) {

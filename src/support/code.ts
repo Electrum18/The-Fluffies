@@ -1,9 +1,9 @@
+import { on_, css_ } from '../shorthands_mini'
+
 var
   mode   = 0,
   custom = 0,
   date   = new Date(),
-
-  { on_, css_ } = require('../shorthands_mini.ts'),
 
 setMode = (mode: number) => {
   if (mode > 0) {
@@ -70,7 +70,7 @@ on_([
   }],
 
   ['#back, #back button', 'mouseout', () => {
-    $('body').css_('background-color') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
+    css_('body', 'background-color', 0, 'GET') === 'rgb(255, 255, 255)' ? mode = 0 : mode = 1
     
     mode > 0 ? css_('#back button', { color: '#222', background: '#eee' })
              : css_('#back button', { color: '#eee', background: '#222' })

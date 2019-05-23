@@ -1,15 +1,17 @@
 
 /* global variables */
 
+import { html, css, attr } from '../shorthands_jQuery'
+import { Save_Image } from './screener'
+
 let 
-  { html, css, attr } = require('../shorthands_jQuery.ts'),
-    
   anime = require('anime'),
   $     = require('jquery'),
+  //Vue   = require('vue'),
 
   menu_opened = 0,
   
-  Hue = 0, Satur = 100, Light = 50, trueLight = 100,
+  Hue = 0, Satur = 100, Light = 50, trueLight = 100,  // HSL + visibility of point in pallete
 
   piercID = 0,
   Hold    = 0;
@@ -26,9 +28,64 @@ $('.menu-bar').each((i: number) => {
   $('.menu-bar').eq(i).find('*').not('#title, #title *').css({ opacity: 0, 'pointer-events': 'none' })
 })
 
-css('#avatar', { bottom: 0 })
+css([ ['#avatar', { bottom: 0 }] ])
 
 setTimeout(() => { $('#avatar').css({ transition: 'all .25s ease' }) }, 1500)
+
+/*Vue.component('bar', {
+  props: ['title', 'fav-color', 'fav-color-eye'],
+
+  data: function() {
+    return {
+      expanded: false,
+
+      open:  { transform: 'translate(-50%, -50%) scale(1)' },
+      close: { transform: 'translate(-50%, -50%) scale(0)' },
+      
+    }
+  },
+
+  template: `<div class="menu-bar" :style="{ height: expanded ? 'fit-content' : '6vmin' }">
+  <div id="title">
+    <slot name="color"></slot>
+
+    <p>{{ title }}</p>
+
+    <div class="mark-arrow" @click="expanded = !expanded">
+      <div id="favColor"></div>
+
+      <svg id="arrowDown" viewBox="-110 -150 675 675" :style="expanded ? close : open">
+        <path fill="#aaa" d="M434 114l-21-21c-8-7-16-11-26-11s-19 4-26 11L222 232 84 93a37 37 0 0 0-52 0l-21 21c-7 7-11 16-11 26s4 19 11 26l186 186a35 35 0 0 0 52 0l185-186a37 37 0 0 0 0-52z" />
+      </svg>
+
+      <svg id="close" viewBox="-17 -18 76 76" :style="expanded ? open : close">
+        <path fill="#aaa" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z" />
+      </svg>
+    </div>
+  </div>
+
+  <slot></slot>
+</div>`
+})
+
+new Vue({ 
+  el: '#avatar',
+  data: {
+    ready: { bottom: '', transition: '' }
+  },
+
+  beforeMount() {
+    let e: any = this
+
+    setTimeout(() => { e.ready.bottom     = '0%'            }      )
+    setTimeout(() => { e.ready.transition = 'all .25s ease' }, 1500)
+  },
+})
+
+new Vue({ 
+  el: '#menu'
+})*/
+
 
 
 Menu_close()
@@ -40,7 +97,8 @@ function rgbToHsl (Color: any) {
   
   r /= 255, g /= 255, b /= 255
 
-  var max = Math.max(r, g, b), min = Math.min(r, g, b),
+  var max = Math.max(r, g, b),
+      min = Math.min(r, g, b),
       h, s, l = (max + min) / 2;
 
   if (max == min) { h = s = 0 }
@@ -64,10 +122,10 @@ function rgbToHsl (Color: any) {
 
 function Open_menu() {
   if (menu_opened < 1) {
-    css('#menu-circle', { transform: 'translate(50%, 50%) scale(1)' })
+    css([ ['#menu-circle', { transform: 'translate(50%, 50%) scale(1)' }] ])
   
-    attr([ ['#menu-button #button', { fill: '#333' }],
-           [  '#menu-button #bars path', { fill: '#fff' }] ])
+    attr([ [   '#menu-button #button', { fill: '#333' }],
+           ['#menu-button #bars path', { fill: '#fff' }] ])
 
     menu_opened = 1
   } else {
@@ -86,6 +144,7 @@ function Menu_close () {
          ['#menu-button #bars path', { fill: '#333' }] ])
 
   css([
+    [             '#menu-screener', {    bottom: '-8vmin'                                     }],
     [               '#menu-circle', { transform: 'translate(50%, 50%) scale(0)'               }],
     ['.menu-bar #title #arrowDown', { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }],
     [    '.menu-bar #title #close', { transform: 'translate(-80%, -50%) scale(0)', opacity: 0 }]
@@ -100,26 +159,42 @@ function Open_menu_editor () {
          [   '#menu-button #button', { fill: '#333' }],
          ['#menu-button #bars path', { fill: '#fff' }] ])
 
-  css([ 
+  css([
     [            '#avatar', {      left: '33%'                      }],
     [ '#menu-button #bars', { transform: 'scale(0)', opacity: 0     }],
     ['#menu-button #close', { transform: 'scale(1)', opacity: 1     }],
     [           '#wrapper', {  overflow: '', 'overflow-x': 'hidden' }],
-    [              '#menu', { 'pointer-events': 'all', overflow: '',
-      'overflow-x': 'hidden'                                        }] 
+    [              '#menu', { 'pointer-events': 'all'               }]
   ])
 
   setTimeout(() => {
-    css('.menu-bar', { top: '0', opacity: 1, height: '6vmin', 'pointer-events': 'all' })
+    css([ ['.menu-bar', { top: '0', opacity: 1, height: '6vmin', 'pointer-events': 'all' }] ])
   }, 250)
 
   Menu_close()
 }
 
 
+function Open_screenshoter () {
+  attr([ [   '#menu-button #button', { fill: '#fff' }],
+         ['#menu-button #bars path', { fill: '#333' }] ])
+
+  css([
+    [     '#menu-screener', {    bottom: '0%'                           }],
+    [       '#menu-circle', { transform: 'translate(50%, 50%) scale(0)' }],
+    [ '#menu-button #bars', { transform: 'scale(0)', opacity: 0         }],
+    ['#menu-button #close', { transform: 'scale(1)', opacity: 1         }]
+  ])
+
+  $('#menu-screener input.scr:eq(0)').val(1920)
+  $('#menu-screener input.scr:eq(1)').val(1080)
+}
+
+
 function Menu_editor_close (allow = 0) {
   css([
-    [    '#menu', { 'pointer-events': 'none', overflow: 'hidden', 'overflow-x': 'hidden' }],
+    [    '#menu', { 'pointer-events': 'none'                    }],
+    [ '#wrapper', {  overflow: 'hidden', 'overflow-x': 'hidden' }],
     ['.menu-bar', { top: '-30vmin', opacity: 0, 'padding-bottom': '0', height: '6vmin',
       'pointer-events': 'none' }]
   ])
@@ -129,8 +204,8 @@ function Menu_editor_close (allow = 0) {
           [ '#menu-button #bars', { transform: 'scale(1)', opacity: 1 }], ])
 
     setTimeout(() => {
-      attr('#menu-back', {    r: '0%'  })
-       css(   '#avatar', { left: '50%' })
+      attr([ ['#menu-back', {    r: '0%'  }] ])
+       css([ [   '#avatar', { left: '50%' }] ])
     }, 250)
   }
 }
@@ -181,7 +256,7 @@ function Open_MM () {
   let ang = 0;
   Menu_editor_close()
 
-  attr('#menu svg', { preserveAspectRatio: 'xMaxYMid meet' })
+  attr([ ['#menu svg', { preserveAspectRatio: 'xMaxYMid meet' }] ])
 
   anime({
     targets: '#mask_Menu path',
@@ -210,7 +285,7 @@ function Open_MM () {
 
 
 function Close_MM () {
-  attr('#menu svg', { preserveAspectRatio: 'none' })
+  attr([ ['#menu svg', { preserveAspectRatio: 'none' }] ])
 
   anime({
     targets: '#mask_Menu path',
@@ -232,7 +307,7 @@ function Circle_Ang (x: any, y: any) {
 
   Hue = Ang
 
-  attr('#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` })
+  attr([ ['#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` }] ])
 
   css([ [        '#color_circle', {  transform: `translate(-50%, -1075%) rotate(${ Ang }deg)` }],
         ['#color_pallete #color', { background: `hsl(${ Hue }, ${ Satur }%, ${ Light }%)`     }] ])
@@ -288,7 +363,7 @@ function setColor (e: string) {
     case 1:
       mainObj = $('.menu-bar').eq(1);
 
-      attr(Target, { fill: $(e).css('background-color') })
+      attr([ [Target, { fill: $(e).css('background-color') }] ])
 
       css([
         ['.menu-bar:eq(1) #color', { background: $(e).css('background-color') }],
@@ -327,13 +402,14 @@ function setColor (e: string) {
       $('.Head path, .Neck path')
         .not('.inner, .inner2, .inner3, .inner4, .HairBack3 #back, .eyes, #mouth')
         .not('#earLeftPiercing path, #earRightPiercing path')
-        .not('#fangs_Left, #fangs_Right')
+        .not('#fangsLeft, #fangsRight')
         .attr({ fill: $(e).css('background-color') })
         .css( { stroke: `rgb(${ ColrArr[0] / 1.5 },${ ColrArr[1] / 1.5 },${ ColrArr[2] / 1.5 })` })
 
-      attr('.Neck .inner, .Head .inner2, .Head .inner3, .Head .inner4',
-        { fill: $(e).css('background-color') }
-      )
+      attr([ 
+        ['.Neck .inner, .Head .inner2, .Head .inner3, .Head .inner4',
+          { fill: $(e).css('background-color') }]
+      ])
       
       css([
         ['.Neck .inner, .Head .inner2, .Head .inner3, .Head .inner4',
@@ -392,7 +468,7 @@ function getColor (name: string) {
 
   Hue = HSL[0] * 360, Satur = HSL[1] * 100, Light = HSL[2] * 100
   
-  attr('#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` })
+  attr([ ['#body #color', { 'stop-color': `hsl(${ Hue }, 100%, 50%)` }] ])
 
   css([ 
     [        '#color_circle', {  transform: `translate(-50%, -1075%) rotate(${ Hue }deg)` }],
@@ -407,23 +483,44 @@ function getColor (name: string) {
 
 function Box_Scale (x: any, y: any, id: number) {
   let X =      (x - $('#menu #sliderBox').eq(id).offset().left) / $('#menu #sliderBox').eq(id).outerWidth(),
-      Y = 1 - ((y - $('#menu #sliderBox').eq(id).offset().top ) / $('#menu #sliderBox').eq(id).outerHeight());
+      Y = 1 - ((y - $('#menu #sliderBox').eq(id).offset().top ) / $('#menu #sliderBox').eq(id).outerHeight()),
 
-  if (X < 0.35 && Y < 0.35) { Y < X ? X = 0.35 : Y = 0.35 }
+      rangeX, rangeY;
+
 
   X > 1 ? X = 1 : X < 0 ? X = 0 : void 0
   Y > 1 ? Y = 1 : Y < 0 ? Y = 0 : void 0
 
-  html([ ['p span#number', Math.round(10 + X * 115), id + 1],
-         ['p span#number', Math.round(10 + Y * 115), id + 2] ])
+  if (id === 0) {
+    if (X < 0.35 && Y < 0.35) { Y < X ? X = 0.35 : Y = 0.35 }
+    
+    rangeX = 10 + X * 115
+    rangeY = 10 + Y * 115
+  } else {
+    rangeX = X * 100
+    rangeY = Y * 100
+  }
 
-  css('#sliderBox #tapPoint', { transform: `translate(${ (755 * X) - 50 }%, ${ -730 * Y + 365 }%)` }, id)
+  html([ ['p span#number', Math.round(rangeX), id + id + 1],
+         ['p span#number', Math.round(rangeY), id + id + 2] ])
+
+  if (id === 1) {
+    css([
+      ['#sliderBox #tapPoint', { transform: `translate(${ (755 * X) - 25 }%, ${ -755 * Y + 680 }%)` }, id]
+    ])
+  } else {
+    css([
+      ['#sliderBox #tapPoint', { transform: `translate(${ (755 * X) - 50 }%, ${ -730 * Y + 365 }%)` }, id]
+    ])
+  }
 }
 
 
-$(             '#menu-button').click((e: any) => { switch (e.which) { case 1: default: Open_menu()        }})
-$('#menu-circle #menu-avatar').click((e: any) => { switch (e.which) { case 1: default: Open_menu_editor() }})
-$(          '#menu_of_models').click((e: any) => { switch (e.which) { case 1: default: Open_MM()          }})
+$(               '#takePhoto').click((e: any) => { switch (e.which) { case 1: default: Save_Image()        }})
+$(    '#menu-circle #capture').click((e: any) => { switch (e.which) { case 1: default: Open_screenshoter() }})
+$(             '#menu-button').click((e: any) => { switch (e.which) { case 1: default: Open_menu()         }})
+$('#menu-circle #menu-avatar').click((e: any) => { switch (e.which) { case 1: default: Open_menu_editor()  }})
+$(          '#menu_of_models').click((e: any) => { switch (e.which) { case 1: default: Open_MM()           }})
 $('#menu .mark-arrow').not('#favColor')
   .click((e: any) => { switch (e.which) { case 1: default: Toggle_tab(e) } })
 
@@ -432,8 +529,11 @@ $('body') // Change avatar on hold after click
   .mousedown((e: any) => {
     // dont delete this 'debugger' pls
     //console.log(e.target.id, $(e.target).attr('class'), $(e.target).parent().attr('id'))
+
     if ($(e.target).index('.menu-bar #sliderBox') === 0 && e.target.id === 'sliderBox' )
                                        { switch (e.which) { case 1: default: Hold = 3 }
+    } else if ($(e.target).index('.menu-bar #sliderBox') === 1 && e.target.id === 'sliderBox' )
+                                       { switch (e.which) { case 1: default: Hold = 4 }
     } else if ($(e.target).parent().attr('id') === 'picker' )
                                        { switch (e.which) { case 1: default: Hold = 1 }
     } else if (e.target.id === 'box' ) { switch (e.which) { case 1: default: Hold = 2 }
@@ -444,7 +544,8 @@ $('body') // Change avatar on hold after click
     switch (Hold) {
       case 1: Circle_Ang(e.pageX, e.pageY); break
       case 2: Box_Ang(   e.pageX, e.pageY); break
-      case 3: Box_Scale( e.pageX, e.pageY, 0)
+      case 3: Box_Scale( e.pageX, e.pageY, 0); break
+      case 4: Box_Scale( e.pageX, e.pageY, 1)
     }
   })
   .click((e: any) => {
@@ -546,7 +647,7 @@ $('p.h span span').click((e: any) => {
       
     path = '';
 
-  if ($$.text() === "point") {
+  if ($$.text() === 'point') {
     path = 'M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0'
   } else {
     path = 'M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z'
@@ -593,8 +694,8 @@ $('p.h span span').click((e: any) => {
   $$ = $(`#ear${ side }Piercing path`);
 
   let 
-    elem  = $(`#ear_${ side }_Front`).get(0),
-    elem2 = $(`#ear_${ side }`).get(0),
+    elem  = $(`#ear${ side }Front`).get(0),
+    elem2 = $(`#ear${ side }`).get(0),
     Pos   = elem.getPointAtLength(0);
   
     Pos.x  === 0 ? Pos = elem2.getPointAtLength(0) : void 0
@@ -633,8 +734,8 @@ $('p.h span span').click((e: any) => {
       $$  = $(e.target).parent('#block').find('#piercPos').val(),
       $$2 = $(e.target).parent('#block').find('#piercScl').val(),
 
-      elem  = $(`#ear_${ side }_Front`).get(0),
-      elem2 = $(`#ear_${ side }`).get(0),
+      elem  = $(`#ear${ side }Front`).get(0),
+      elem2 = $(`#ear${ side }`).get(0),
 
       Length = elem.getTotalLength(),
       Pos    = elem.getPointAtLength($$ / 100 * Length);
@@ -652,13 +753,16 @@ $('p.h span span').click((e: any) => {
       
       DiffAng = -Math.atan2(deltaX, deltaY) * 180 / Math.PI;
     
-    css(`#ear${ side }Piercing path`, {
-      transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
-    }, $(e.target).parent().index() - 1)
+    css([
+      [`#ear${ side }Piercing path`, {
+        transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
+      }, $(e.target).parent().index() - 1] 
+    ])
 
-    attr(`#ear${ side }Piercing path`, {
-      'stroke-width': 6 / ($$2 / 50)
-    }, $(e.target).parent().index() - 1)
+    attr([
+      [`#ear${ side }Piercing path`, { 'stroke-width': 6 / ($$2 / 50) },
+        $(e.target).parent().index() - 1]
+    ])
 
     $(e.target).parent().find('.sm #number').eq(0).html($$)
     $(e.target).parent().find('.sm #number').eq(1).html(Math.round($$2 / 5) / 10) 
@@ -696,13 +800,13 @@ $('#block #close2').click((e: any) => {
 })
 
 
-$('#block #piercPos, #block #piercScl').mousemove((e: any) => {
+$('#block input#piercPos, #block input#piercScl').mousemove((e: any) => {
   let
     $$  = $(e.target).parent('#block').find('#piercPos').val(),
     $$2 = $(e.target).parent('#block').find('#piercScl').val(),
 
-    elem  = $(`#ear_Right_Front`).get(0),
-    elem2 = $(`#ear_Right`).get(0),
+    elem  = $(`#earRightFront`).get(0),
+    elem2 = $(`#earRight`).get(0),
 
     Length = elem.getTotalLength(),
     Pos    = elem.getPointAtLength($$ / 100 * Length);
@@ -720,13 +824,16 @@ $('#block #piercPos, #block #piercScl').mousemove((e: any) => {
     
     DiffAng = -Math.atan2(deltaX, deltaY) * 180 / Math.PI;
   
-  css(`#earRightPiercing path`, {
-    transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
-  }, $(e.target).parent().index() - 1)
+  css([
+    [`#earRightPiercing path`, {
+      transform: `translate(${ Pos.x }px, ${ Pos.y }px) scale(${ $$2 / 50 }) rotate(${ DiffAng + 90 }deg)`
+    }, $(e.target).parent().index() - 1]
+  ])
 
-  attr(`#earRightPiercing path`, {
-    'stroke-width': 6 / ($$2 / 50)
-  }, $(e.target).parent().index() - 1)
+  attr([
+    [`#earRightPiercing path`, { 'stroke-width': 6 / ($$2 / 50) },
+      $(e.target).parent().index() - 1]
+  ])
 
   $(e.target).parent().find('.sm #number').eq(0).html($$)
   $(e.target).parent().find('.sm #number').eq(1).html(Math.round($$2 / 5) / 10) 
