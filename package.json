@@ -1,45 +1,60 @@
 {
-  "dependencies": {
-    "koa": "^2.7.0",
-    "koa-compress": "^3.0.0",
-    "koa-helmet": "^4.1.0",
-    "koa-pug": "^3.0.0-2",
-    "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
-    "koa-static-cache": "^5.1.2",
-    "fs": "0.0.1-security"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@types/node": "^11.13.5",
-    "awesome-typescript-loader": "^x",
-    "babel-loader": "^8.0.5",
-    "css-loader": "^2.1.1",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "json-loader": "^x",
-    "node-sass": "^x",
-    "optimize-css-assets-webpack-plugin": "^x",
-    "sass-loader": "^x",
-    "style-loader": "^x",
-    "ts-loader": "^x",
-    "typescript": "^3.4.4",
-    "uglifyjs-webpack-plugin": "^2.1.2",
-    "webpack": "^4.30.0",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.0"
-  },
-  "description": "Make your own furry-cartoon creation with that service like vector image. Created by Electrum18",
-  "main": "start",
+  "name": "the_fluffies",
+  "version": "0.2.5",
   "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
-  "engines": {
-    "node": "10.x"
-  },
+  "description": "Make your own furry-cartoon creation with that service like vector image. Created by Electrum18",
   "author": "Electrum18 <thefluffiessite@gmail.com>",
   "license": "CC BY-NC-ND 4.0",
-  "homepage": "https://github.com/Electrum18/The-Fluffies/"
+  "homepage": "https://github.com/Electrum18/The-Fluffies/",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "webpack": "webpack --mode=production",
+    "webpack:dev": "webpack --mode=development"
+  },
+  "dependencies": {
+    "core-js": "^2.6.5",
+    "polymorph-js": "0.2.4",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
+    "acorn": "^6.2.0",
+    "babel-loader": "^8.0.6",
+    "coffee-loader": "^0.9.0",
+    "coffeescript": "^2.4.1",
+    "copy-webpack-plugin": "^5.0.3",
+    "css-loader": "^3.0.0",
+    "extract-loader": "^3.1.0",
+    "file-loader": "^4.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "node-sass": "^4.9.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "path": "^0.12.7",
+    "prerender-spa-plugin": "^3.4.0",
+    "pug-plain-loader": "^1.0.0",
+    "raw-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "vue-cli-plugin-coffeescript": "0.0.3",
+    "vue-cli-plugin-pug": "^1.0.7",
+    "vue-loader": "^15.7.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.35.3",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.5"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
