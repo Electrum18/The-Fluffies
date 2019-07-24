@@ -57,7 +57,7 @@ Use that email to send: `thefluffiessite@gmail.com`
 - Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18) &middot; [Deviantart](https://www.deviantart.com/electedpony)
 - These are all developers, you can be one of them
 
-## License 
+## License
 **[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
 
 Additional information can be found here: http://creativecommons.org/licenses/by-nc-nd/4.0/

@@ -1,4 +1,6 @@
-var VueLoaderPlugin = require('vue-loader/lib/plugin'),
+var webpack = require('webpack'),
+
+  VueLoaderPlugin = require('vue-loader/lib/plugin'),
 
   BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
   OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
@@ -6,11 +8,22 @@ var VueLoaderPlugin = require('vue-loader/lib/plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   PrerenderSPAPlugin = require('prerender-spa-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
+  TerserPlugin = require('terser-webpack-plugin'),
   CopyPlugin = require('copy-webpack-plugin'),
 
   Renderer = PrerenderSPAPlugin.PuppeteerRenderer,
 
-  path = require('path')
+  path = require('path'),
+
+codeComment =
+
+`Content of the-fluffies.net
+
+Author: Electrum18
+License: CC BY-NC-ND 4.0 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+2018 - ${new Date().getFullYear()}`;
+
 
 module.exports = {
   entry: {
@@ -25,11 +38,11 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        exclude: /node_modules/
+        exclude: /(node_modules|bower_components)/
       }, {
         test: /\.coffee$/,
         loader: 'coffee-loader',
-        exclude: /node_modules/
+        exclude: /(node_modules|bower_components)/
       }, {
         test: /\.sass$/,
         use: [
@@ -77,62 +90,81 @@ module.exports = {
   },
 
   plugins: [
-    new VueLoaderPlugin(),
     new FriendlyErrorsWebpackPlugin(),
+    new VueLoaderPlugin(),
     //new BundleAnalyzerPlugin(),
 
-
     new HtmlWebpackPlugin({
-      template: 'src/template/pages/render/index.pug',
-      filename: 'pages/main/index.html',
+      filename: "pages/main/index.html",
+      template: "./src/template/pages/render/main.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      template: 'src/template/pages/render/about.pug',
-      filename: 'pages/about/index.html',
+      filename: "pages/about/index.html",
+      template: "./src/template/pages/render/about.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      template: 'src/template/pages/render/editor.pug',
-      filename: 'pages/editor/pony/index.html',
+      filename: "pages/editor/pony/index.html",
+      template: "./src/template/pages/render/editor.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      template: 'src/template/pages/render/support.pug',
-      filename: 'pages/support/index.html',
+      filename: "pages/support/index.html",
+      template: "./src/template/pages/render/support.pug",
       inject: false
     }),
 
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist'),
-      outputDir: path.join(__dirname, 'dist', 'pages'),
-      indexPath: path.join(__dirname, 'dist', 'pages', 'main', 'index.html'),
-      routes: ['/main']
+      staticDir: path.join(__dirname, 'dist', 'pages', 'main'),
+      routes: ['/'],
+      postProcess(renderedRoute) {
+        renderedRoute.html = renderedRoute.html
+          .replace(/<script (.*?)>/g, '<script $1 defer>')
+          .replace('id="app"', 'id="app" data-server-rendered="true"');
+
+        return renderedRoute;
+      }
     }),
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist'),
-      outputDir: path.join(__dirname, 'dist', 'pages'),
-      indexPath: path.join(__dirname, 'dist', 'pages', 'about', 'index.html'),
-      routes: ['/about']
+      staticDir: path.join(__dirname, 'dist', 'pages', 'about'),
+      routes: ['/'],
+      postProcess(renderedRoute) {
+        renderedRoute.html = renderedRoute.html
+          .replace(/<script (.*?)>/g, '<script $1 defer>')
+          .replace('id="app"', 'id="app" data-server-rendered="true"');
+
+        return renderedRoute;
+      }
     }),
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist'),
-      outputDir: path.join(__dirname, 'dist', 'pages'),
-      indexPath: path.join(__dirname, 'dist', 'pages', 'editor', 'pony', 'index.html'),
-      routes: ['/editor/pony']
+      staticDir: path.join(__dirname, 'dist', 'pages', 'editor', 'pony'),
+      routes: ['/'],
+      postProcess(renderedRoute) {
+        renderedRoute.html = renderedRoute.html
+          .replace(/<script (.*?)>/g, '<script $1 defer>')
+          .replace('id="app"', 'id="app" data-server-rendered="true"');
+
+        return renderedRoute;
+      }
     }),
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist'),
-      outputDir: path.join(__dirname, 'dist', 'pages'),
-      indexPath: path.join(__dirname, 'dist', 'pages', 'support', 'index.html'),
-      routes: ['/support']
+      staticDir: path.join(__dirname, 'dist', 'pages', 'support'),
+      routes: ['/'],
+      postProcess(renderedRoute) {
+        renderedRoute.html = renderedRoute.html
+          .replace(/<script (.*?)>/g, '<script $1 defer>')
+          .replace('id="app"', 'id="app" data-server-rendered="true"');
+
+        return renderedRoute;
+      }
     }),
 
 
@@ -140,6 +172,10 @@ module.exports = {
 
     new MiniCssExtractPlugin({
       filename: 'pages/[name]/style.css'
+    }),
+
+    new webpack.BannerPlugin({
+      banner: codeComment
     }),
 
     new CopyPlugin([

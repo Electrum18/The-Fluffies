@@ -800,10 +800,8 @@
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs...}
 
-      ready = @ready
-
-      setTimeout (-> ready.bottom     = "0%")
-      setTimeout (-> ready.transition = "all 0s, left .25s"), 1500
+      @ready.bottom = "0%"
+      @ready.transition = "all 0s, left .25s"
 
 
       # SVG parsing - import
