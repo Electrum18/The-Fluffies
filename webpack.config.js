@@ -8,10 +8,7 @@ var webpack = require('webpack'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   PrerenderSPAPlugin = require('prerender-spa-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  TerserPlugin = require('terser-webpack-plugin'),
   CopyPlugin = require('copy-webpack-plugin'),
-
-  Renderer = PrerenderSPAPlugin.PuppeteerRenderer,
 
   path = require('path'),
 
@@ -27,7 +24,7 @@ License: CC BY-NC-ND 4.0 https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 module.exports = {
   entry: {
-    main: './src/pages/index/main.coffee',
+    index: './src/pages/index/main.coffee',
     about: './src/pages/about/main.coffee',
     support: './src/pages/support/main.coffee',
     "editor/pony": './src/pages/editor/pony/main.coffee'
@@ -75,7 +72,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'pages/img'
+              outputPath: 'img'
             }
           }
         ]
@@ -85,7 +82,7 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'pages/[name]/script.js',
+    filename: 'js/[name].js',
     publicPath: '/'
   },
 
@@ -95,32 +92,43 @@ module.exports = {
     //new BundleAnalyzerPlugin(),
 
     new HtmlWebpackPlugin({
-      filename: "pages/main/index.html",
-      template: "./src/template/pages/render/main.pug",
+      filename: "index.html",
+      template: "./src/template/pages/render/index.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      filename: "pages/about/index.html",
+      filename: "about/index.html",
       template: "./src/template/pages/render/about.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      filename: "pages/editor/pony/index.html",
+      filename: "editor/pony/index.html",
       template: "./src/template/pages/render/editor.pug",
       inject: false
     }),
 
     new HtmlWebpackPlugin({
-      filename: "pages/support/index.html",
+      filename: "support/index.html",
       template: "./src/template/pages/render/support.pug",
       inject: false
     }),
 
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'pages', 'main'),
+      staticDir: path.join(__dirname, 'dist'),
+      routes: ['/'],
+      postProcess(renderedRoute) {
+        renderedRoute.html = renderedRoute.html
+          .replace('id="app"', 'id="app" data-server-rendered="true"');
+
+        return renderedRoute;
+      }
+    }),
+
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, 'dist', 'about'),
       routes: ['/'],
       postProcess(renderedRoute) {
         renderedRoute.html = renderedRoute.html
@@ -132,7 +140,7 @@ module.exports = {
     }),
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'pages', 'about'),
+      staticDir: path.join(__dirname, 'dist', 'editor', 'pony'),
       routes: ['/'],
       postProcess(renderedRoute) {
         renderedRoute.html = renderedRoute.html
@@ -144,19 +152,7 @@ module.exports = {
     }),
 
     new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'pages', 'editor', 'pony'),
-      routes: ['/'],
-      postProcess(renderedRoute) {
-        renderedRoute.html = renderedRoute.html
-          .replace(/<script (.*?)>/g, '<script $1 defer>')
-          .replace('id="app"', 'id="app" data-server-rendered="true"');
-
-        return renderedRoute;
-      }
-    }),
-
-    new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'pages', 'support'),
+      staticDir: path.join(__dirname, 'dist', 'support'),
       routes: ['/'],
       postProcess(renderedRoute) {
         renderedRoute.html = renderedRoute.html
@@ -171,7 +167,7 @@ module.exports = {
     new OptimizeCssAssetsPlugin({ cssProcessorOptions: { discardComments: { removeAll: true } } }),
 
     new MiniCssExtractPlugin({
-      filename: 'pages/[name]/style.css'
+      filename: 'css/[name].css'
     }),
 
     new webpack.BannerPlugin({

@@ -1,6 +1,6 @@
 fs = require 'fs'
 
-path = "./dist/pages/main/script.js"
+path = "./dist/js/support.js"
 
 
 fs.readFile path, 'utf8', (err, data) ->
