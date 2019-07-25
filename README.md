@@ -18,16 +18,23 @@ Created in the summer of 2018 with the idea of &#8203;&#8203;using vector animat
 
 If you are interested in drawing, programming and other activities, tell me, Electrum18, I don’t have enough time to develop alone.
 
-The site uses `JavaScript` for the project, using `Webpack` to compile the `TypeScript` code on which the animation for the site itself is written.
+The site uses `Coffeescript` for writing interactive on the editor page
 
-`jQuery` and `Animejs` is used for the interface, `Polymorph` is used for animation calculations.
+`Vue.js` framework is used to manipulate elements, `Polymorph` will be used for animation calculations
+
+For compilation used `Webpack` bandler
 
 ### In future plans
-- Change `jQuery` to `Vue` in order to use modern technologies for creating `Single Page Applications`.
-- Add the ability to create `batponies`, make many other races or creatures of furry - brony fendoms.
-- Improve and add more animation frames.
-- Add `male gender`, add more `hairstyles` and fix existing ones.
-- Finish the interface, add more details and more variations.
+- Add the ability to make many other races or creatures of furry - brony fendoms
+- Improve and add more animation frames
+- Add `male gender`, add more `hairstyles` and fix existing ones
+- Finish the interface, add more details and more variations
+- Using the `webcamera` to capture movements to control the "avatar"
+- The ability to `create widgets` for embedding in websites and forums (iframe)
+- Adding more `accessories`
+- Creating a chat, sociality
+- Adding `premium` features via donation
+- Adding `animation` and avatar manipulation tools
 
 ## Support us
 
