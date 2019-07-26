@@ -11,7 +11,7 @@
       g.scale
         g.HairBack(:style="[$root.headRotate, $root.hairSide]")
           Mane(name="hairTail" style="transform: scale(-1, 1) translate(-100%)"
-            mask="url(#mask_no_RightEar), url(#mask_Out_Head2)")
+            mask="url(#mask_Out_Head2)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
           g.moveEar(:style="$root.earsMove")
@@ -184,9 +184,13 @@
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="earRightClip" fill="#000" stroke="#000" :style="$root.earsClipAlt")
 
-        mask#mask_Eyes(x="0" y="0" width="1024" height="1024")
-          path#eyeLeftClip.eyes.mask.Left(  :d="$root.path.eyeLeftClip"  fill="#fff")
-          path#eyeRightClip.eyes.mask.Right(:d="$root.path.eyeRightClip" fill="#fff")
+        mask#mask_Eyes(x="0" y="0" width="2024" height="2024")
+          path#eyeLeftClip.eyes.Left(  :d="$root.path.eyeLeftClip"  fill="#fff")
+          path#eyeRightClip.eyes.Right(:d="$root.path.eyeRightClip" fill="#fff")
+
+          g(:style="$root.faceMoveReverse")
+            Clip(name="headClip" fill="#0000" stroke="#000" width="10")
+            circle(cx="512" cy="512" r="512" stroke="#000" stroke-width="517" fill="#0000")
 
         mask#mask_In_Mouth(x="0" y="0" width="1024" height="1024")
           Clip(name="mouthClip" fill="#fff" stroke="#000" width="6.5")
