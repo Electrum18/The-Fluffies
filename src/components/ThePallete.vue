@@ -7,14 +7,17 @@
 
     p.h {{ name }}
     #body
-      svg(viewBox="-10 -10 220 220" preserveAspectRatio="xMidYMin meet")
+      svg(
+        viewBox="-10 -10 220 220"
+        preserveAspectRatio="xMidYMin meet"
+        style="pointer-events: all"
+
+        v-press-hold="angColor"
+      )
         g#picker(
           fill="none" stroke-width="15"
-          transform="translate(100, 100)" style="pointer-events: all"
-          @mousedown="hold = 1"
-          @mousemove="angColor($event)"
-          @mouseup="hold = 0"
-          @mouseleave="hold = 0"
+          transform="translate(100, 100)"
+          style="pointer-events: none"
         )
           path(d="M 0,-100 A 100,100 0 0,1 86.6,-50"    stroke="url(#redyel)")
           path(d="M 86.6,-50 A 100,100 0 0,1 86.6,50"   stroke="url(#yelgre)")
@@ -50,10 +53,8 @@
 
       #box(
         ref="colorBox"
-        @mousedown="hold = 1"
-        @mousemove="padColor($event)"
-        @mouseup="hold = 0"
-        @mouseleave="hold = 0"
+
+        v-press-hold="padColor"
       )
         svg(viewBox="0 0 1 1" preserveAspectRatio="xMidYMin meet")
           rect(width="1" height="1" fill="url(#boxSatur)")
@@ -81,7 +82,6 @@
   export default
     data: ->
       name: ""
-      hold: no
       opened: no
       target: ""
 
@@ -118,7 +118,7 @@
         @target = pallete.target
         @color  = pallete.color
 
-      opened: ->
+      opened: (e) ->
         HSL = @hexToHsl @color.basic
 
         @ang.basic = HSL[0]
@@ -153,17 +153,42 @@
           @$root[t.target][t.side][t.id].color = basic
           @$root[t.target][t.side][t.id].shade = @color.shade
 
-    method:
-      padColor: (event) ->
+      padMove: (e) ->
         if not @hold then return
 
         BCR = @$refs.colorBox.getBoundingClientRect()
 
-        X = (event.pageX - BCR.left) / BCR.width
-        Y = (event.pageY - BCR.top)  / BCR.height
+        X = (e.pageX - BCR.left) / BCR.width
+        Y = (e.pageY - BCR.top)  / BCR.height
 
         @x =     X
         @y = 1 - Y
+
+    method:
+      angColor: (event) ->
+        BCR = @$refs.colorBox.getBoundingClientRect()
+
+        Xmid = BCR.left + BCR.width  / 2
+        Ymid = BCR.top  + BCR.height / 2
+
+        ang = Math.atan2(event.pageY - Ymid, event.pageX - Xmid) * 180 / Math.PI + 90;
+
+        if ang < 0 then ang = ang + 360
+
+        @pallete.ang.basic = ang / 360
+
+
+      circleMove: (e) ->
+        BCR = @$refs.colorBox.getBoundingClientRect()
+
+        Xmid = BCR.left + BCR.width  / 2
+        Ymid = BCR.top  + BCR.height / 2
+
+        ang = Math.atan2(e.pageY - Ymid, e.pageX - Xmid) * 180 / Math.PI + 90;
+
+        if ang < 0 then ang = ang + 360
+
+        @ang.basic = ang / 360
 
       setPadColor: ->
         @color.abs   = @hslToHex(@ang.basic, 1, 0.5)
@@ -182,20 +207,6 @@
         if Y <= 0.5
              @color.stroke = stroke: "#eee"
         else @color.stroke = stroke: "#111"
-
-      angColor: (e) ->
-        if not @hold then return
-
-        BCR = @$refs.colorBox.getBoundingClientRect()
-
-        Xmid = BCR.left + BCR.width  / 2
-        Ymid = BCR.top  + BCR.height / 2
-
-        ang = Math.atan2(e.pageY - Ymid, e.pageX - Xmid) * 180 / Math.PI + 90;
-
-        if ang < 0 then ang = ang + 360
-
-        @ang.basic = ang / 360
 
       hexToHsl: (hex) ->
         result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec hex

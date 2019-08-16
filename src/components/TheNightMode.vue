@@ -41,8 +41,8 @@
     right: 1vmin
     box-shadow: 0 0 3vmin rgba(0, 0, 0, .4)
     border-radius: 100vmin
-    width: 4vmin
-    height: 5vmin
+    width: 3.5vmax
+    height: 4.5vmax
     transition: background 0.25s ease-out, transform 0.25s ease-out
     cursor: pointer
 
@@ -59,8 +59,8 @@
     right: 1vmin
     box-shadow: 0 0 3vmin rgba(0, 0, 0, .67)
     border-radius: 100vmin
-    width: 5vmin
-    height: 5vmin
+    width: 4.5vmax
+    height: 4.5vmax
     transition: background 0.25s ease-out, transform 0.25s ease-out
     transform: scale(0)
     cursor: pointer

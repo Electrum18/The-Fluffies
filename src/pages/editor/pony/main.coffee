@@ -1,7 +1,29 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import * as hairs from "../../../assets/data/pony/hairNames.json"
+
 Vue.config.productionTip = false
+
+Vue.directive "press-hold",
+  bind: (elem, binding) ->
+    hold = no
+
+    holding =   -> hold = yes
+    unholding = -> hold = no
+
+    event = (val) ->
+      if hold then binding.value val else return
+
+    elem.addEventListener 'mousedown', holding
+    elem.addEventListener 'mouseup', unholding
+    elem.addEventListener 'mouseleave', unholding
+    elem.addEventListener 'mousemove', event
+
+    elem.addEventListener 'touchstart', holding
+    elem.addEventListener 'touchend', unholding
+    elem.addEventListener 'touchcancel', unholding
+    elem.addEventListener 'touchmove', event
 
 new Vue
   render: (h) -> h App
@@ -16,6 +38,8 @@ new Vue
     hairSide: { transform: '' }
     hairSideAlt: { transform: 'scale(-1, 1)' }
     hairSideFront: { transform: 'scale(-1, 1) translate(-100%)' }
+
+    hairs: hairs.hairs,
 
     tassels: on
     fangs: on

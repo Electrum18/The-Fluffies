@@ -3,10 +3,8 @@
     p.sm(v-if="name.length > 0") {{ name }}
 
     #sliderBox(
-      @mousedown="hold = true"
-      @mousemove="padMove"
-      @mouseup="hold = false"
-      @mouseleave="hold = false"
+      v-press-hold="padMove"
+
       ref="pad"
     )
       svg(width="100%" height="100%" viewBox="0 -10 755 755" preserveAspectRatio="none")
@@ -29,7 +27,6 @@
 
     data: ->
       pos: {}
-      hold: no
 
       parse:
         x: @x.match(/\w+/g)
@@ -48,8 +45,6 @@
 
     methods:
       padMove: (event) ->
-        if not @hold then return
-
         BCR = @$refs.pad.getBoundingClientRect()
 
         X =     (event.pageX - BCR.left) / BCR.width

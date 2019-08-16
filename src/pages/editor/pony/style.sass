@@ -470,7 +470,20 @@ p.X span, p.sm span
     path
       pointer-events: none
 
-  p:not(.h)
+  input
+    width: 23%
+    height: 2.25vmin
+    color: #eee
+    background: #444
+    right: 5%
+    border-radius: .3vmax
+    border: .2vmin solid #666
+    position: absolute
+    -webkit-appearance: none
+    margin: 0
+    padding: 0
+
+  p:not(.h):not(.sm)
     color: #aaa
     background: #444
     padding: 1.5vmin 1.5vmin 1.5vmin 2vmax
@@ -480,17 +493,6 @@ p.X span, p.sm span
     font-variant: small-caps
     margin: 0
     border-radius: 1vmax
-
-  input
-    width: 90%
-    height: 1vmin
-    background: #fa3
-    top: 66%
-    left: 5%
-    border-radius: .3vmax
-    box-shadow: 0 0 2.5vmin rgba(0, 0, 0, .2)
-    -webkit-appearance: none
-    margin: 0
 
 #menu svg 
   pointer-events: none
@@ -537,6 +539,16 @@ p.X span, p.sm span
   width: 3vmax
   height: 3vmax
   margin: .75vmin .75vmin .75vmin .85vmin
+
+#color_pallete .colors
+  width: 4vmax
+  height: 4vmax
+  position: relative
+  background: #aaa
+  border-radius: 1vmin
+  margin: .25vmax
+  float: left
+  cursor: pointer
 
 #menu-circle-MM
   fill: transparent
@@ -624,3 +636,7 @@ input.scr::-webkit-inner-spin-button
     position: relative
     border-radius: .5vmin 1vmin 1vmin .5vmin
     left: 1vmin
+
+#nose
+  stroke-opacity: 1;
+  stroke-width: 14;

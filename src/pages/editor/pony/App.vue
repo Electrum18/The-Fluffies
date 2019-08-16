@@ -26,15 +26,19 @@
           path(fill="#f35" d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
 
         p.h {{ pallete.name }}
+
         #body
-          svg(viewBox="-10 -10 220 220" preserveAspectRatio="xMidYMin meet")
+          svg(
+            viewBox="-10 -10 220 220"
+            preserveAspectRatio="xMidYMin meet"
+            style="pointer-events: all"
+
+            v-press-hold="angColor"
+          )
             g#picker(
               fill="none" stroke-width="15"
-              transform="translate(100, 100)" style="pointer-events: all"
-              @mousedown="pallete.hold = 1"
-              @mousemove="angColor"
-              @mouseup="pallete.hold = 0"
-              @mouseleave="pallete.hold = 0"
+              transform="translate(100, 100)"
+              style="pointer-events: none"
             )
               path(d="M 0,-100 A 100,100 0 0,1 86.6,-50"    stroke="url(#redyel)")
               path(d="M 86.6,-50 A 100,100 0 0,1 86.6,50"   stroke="url(#yelgre)")
@@ -70,10 +74,8 @@
 
           #box(
             ref="colorBox"
-            @mousedown="pallete.hold = 1"
-            @mousemove="padColor"
-            @mouseup="pallete.hold = 0"
-            @mouseleave="pallete.hold = 0"
+
+            v-press-hold="padColor"
           )
             svg(viewBox="0 0 1 1" preserveAspectRatio="xMidYMin meet")
               rect(width="1" height="1" fill="url(#boxSatur)")
@@ -96,6 +98,29 @@
 
           #color(:style="{ background: pallete.color.basic }")
 
+        p.h hex
+          input(pattern="[a-fA-F\d]+" maxlength="7" v-model="pallete.color.basic")
+
+        .line
+
+        div(style="position: relative")
+
+          p.sm lightness
+
+          .colors(:style="getLight(50)" @click="setLight(50)")
+          .colors(:style="getLight(40)" @click="setLight(40)")
+          .colors(:style="getLight(30)" @click="setLight(30)")
+          .colors(:style="getLight(20)" @click="setLight(20)")
+          .colors(:style="getLight(10)" @click="setLight(10)")
+
+          p.sm saturation
+
+          .colors(:style="getSatur(100)" @click="setSatur(100)")
+          .colors(:style="getSatur(75)" @click="setSatur(75)")
+          .colors(:style="getSatur(50)" @click="setSatur(50)")
+          .colors(:style="getSatur(25)" @click="setSatur(25)")
+          .colors(:style="getSatur(0)" @click="setSatur(0)")
+
       // Menu of Models - list
 
       #MoM-bars(:style="menuOfModels.style.back")
@@ -104,9 +129,11 @@
             r="256" stroke="#222" stroke-width="100"
             fill-opacity=0
             style="pointer-events: stroke"
+
+            @mousewheel="scroll"
           )
 
-        MenuOfModels
+        MoMBar(v-for="(hair, i) in $root.hairs" :key="hair + i" :id="i" :elem="hair")
 
       #menu-circle(:style="circle.style")
         #settings
@@ -158,7 +185,7 @@
 </template>
 
 <script lang="coffee">
-  import MenuOfModels from "../../../components/TheMenuOfModels.vue"
+  import MoMBar from "../../../components/MoMBars.vue"
   import Screener from "../../../components/TheScreener.vue"
   import MenuBars from "../../../components/TheMenuBars.vue"
   import Avatar from "../../../components/TheAvatar.vue"
@@ -168,7 +195,6 @@
     data: ->
       pallete:
         name: ""
-        hold: no
         opened: no
         target: ""
 
@@ -182,7 +208,6 @@
         color:
           basic: ""
           abs: ""
-          shade: ""
 
         open:
           top: "0%"
@@ -232,10 +257,11 @@
         opened: no
 
       menuOfModels:
+        angle: 0
+
         style:
           bar: { left: "110%" }
           back: { right: "0vmax" }
-
 
     watch:
       "pallete.opened": ->
@@ -260,10 +286,22 @@
       "pallete.color.basic": (basic) ->
         target = @pallete.target
 
+        r = parseInt(basic[1] + basic[2], 16)
+        g = parseInt(basic[3] + basic[4], 16)
+        b = parseInt(basic[5] + basic[6], 16)
+
+        componentToHex = (c) ->
+          c   = Math.round c
+          hex = c.toString 16
+
+          if hex.length is 1 then "0" + hex else hex
+
         if typeof target isnt "object"
+
           @$root[target].color.basic = basic
-          @$root[target].color.shade = @pallete.color.shade
           @$root[target].color.set   = background: @$root[target].color.basic
+          @$root[target].color.shade =
+            "#" + componentToHex(r * 0.66)  + componentToHex(g * 0.66)  + componentToHex b * 0.66
 
           if name is "eyes" then @eyes.color.stroke = stroke: @eyes.color.basic
 
@@ -271,7 +309,14 @@
           t = target
 
           @$root[t.target][t.side][t.id].color = basic
-          @$root[t.target][t.side][t.id].shade = @pallete.color.shade
+          @$root[t.target][t.side][t.id].shade =
+            "#" + componentToHex(r * 0.66)  + componentToHex(g * 0.66)  + componentToHex b * 0.66
+
+        HSL = @hexToHsl @pallete.color.basic
+
+        @pallete.ang.basic = HSL[0]
+        @pallete.x         = HSL[1]
+        @pallete.y         = HSL[2] / (1 - (HSL[1] / 2))
 
       "circle.opened": (e) ->
         if e
@@ -307,13 +352,29 @@
       hair: (val) -> @earClipEnabled = if val is "Float" then no else yes
 
     methods:
+      setLight: (val) -> @pallete.y = val / 50
+      getLight: (val) ->
+        background: "hsl(#{@pallete.ang.basic * 360}, #{@pallete.x * 100}%, " +
+          (val + val * (1 - @pallete.x)) + "%)"
+
+      setSatur: (val) -> @pallete.x = val / 100
+      getSatur: (val) ->
+        background: "hsl(#{@pallete.ang.basic * 360}, #{val}%, " +
+          (@pallete.y * 50 + (50 - val / 2) * @pallete.y) + "%)"
+
       padColor: (event) ->
-        if not @pallete.hold then return
+        if not event.pageX then event = event.touches[0]
 
         BCR = @$refs.colorBox.getBoundingClientRect()
 
         X = (event.pageX - BCR.left) / BCR.width
         Y = (event.pageY - BCR.top)  / BCR.height
+
+        if X > 1 then X = 1 else
+        if X < 0 then X = 0
+
+        if Y > 1 then Y = 1 else
+        if Y < 0 then Y = 0
 
         @pallete.x =     X
         @pallete.y = 1 - Y
@@ -322,8 +383,6 @@
         @pallete.color.abs   = @hslToHex(@pallete.ang.basic, 1, 0.5)
         @pallete.color.basic =
           @hslToHex(@pallete.ang.basic, @pallete.x, @pallete.y * (1 - (@pallete.x / 2)))
-        @pallete.color.shade =
-          @hslToHex(@pallete.ang.basic, @pallete.x, @pallete.y * (1 - (@pallete.x / 2)) * 0.66)
 
       setPadPoint: (X, Y) ->
         if X < 0 then X = 0
@@ -337,7 +396,7 @@
         else @pallete.color.stroke = stroke: "#111"
 
       angColor: (event) ->
-        if not @pallete.hold then return
+        if not event.pageX then event = event.touches[0]
 
         BCR = @$refs.colorBox.getBoundingClientRect()
 
@@ -506,12 +565,21 @@
         @button.mode = "back"
         @button.type = "back"
 
+      scroll: (val) ->
+        ang = @menuOfModels.angle
+
+        if ang <= 0 and val.wheelDelta < 0
+          @menuOfModels.angle = 0
+
+        else if ang < (@$root.hairs.length - 1) * 1.5 or val.wheelDelta < 0
+          @menuOfModels.angle += val.wheelDelta / 80  # 1.5 degress
+
     components: {
       Avatar
       Screener
       Social
       MenuBars
-      MenuOfModels
+      MoMBar
     }
 </script>
 

@@ -2,10 +2,7 @@
   #avatar.transition(
     :style="[ready, mirror.style]"
 
-    @mousemove="mouseMove = $event"
-    @mousedown="hold = true"
-    @mouseup="hold = false"
-    @mouseleave="hold = false"
+    v-press-hold="mouseMove"
   )
     svg(viewBox="0 -112 1024 1024")
       g.scale
@@ -101,7 +98,7 @@
           path#eyeLeftLidUp.outer.move(  d fill-opacity="0" mask="url(#mask_Head)"
             :style="[$root.faceMove, { stroke: '#222' }]" ref="eyeLeftLidUp")
 
-          Fur(name="nose"      not-stroke='yes')
+          Fur(name="nose" stroke-width=7 :style="$root.furStroke")
           Fur(name="chinAngle" not-fill='yes')
           Fur(name="chin"      not-fill='yes' mask="url(#mask_Out_Head)")
 
@@ -119,7 +116,9 @@
             path#fangsRight.move(d fill="#ffe" stroke-width=3 stroke="#ccb" ref="fangsRight")
 
             Fur.move(name="mouthOuter"  stroke-width=7 not-fill='yes')
-            Fur.move(name="nostrilLeft" stroke-width=7)
+
+          Fur.move(name="nostrilLeft" stroke-width=7 :style="$root.faceMove"
+            mask="url(#mask_In_Nose)")
 
           Fur.move(name="nostrilRight" stroke-width=7 :style="$root.faceMove")
 
@@ -176,6 +175,9 @@
           Clip(name="headClip" fill="#fff" stroke="#fff" width="9.5")
           Clip(name="noseClip" fill="#fff" stroke="#fff" width="9.5")
 
+        mask#mask_In_Nose(x="0" y="0" width="1024" height="1024")
+          Clip(name="noseClip" fill="#fff" stroke="#fff" width="14")
+
         mask#mask_no_RightEar(x="0" y="0" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="earRightClip" fill="#000" stroke="#000" :style="$root.earsClip")
@@ -221,10 +223,6 @@
 
       interpolate: interpolate
 
-      hold: no
-
-      mouseMove: {}
-
       furs:     {}
       hairs:    hair.default
       emotions: emotion.default
@@ -252,8 +250,14 @@
              @mirror.basic = yes
         else @mirror.basic = no
 
+      "$root.hair": -> @hair()
+
+    computed:
+      absoluteDegress: -> if @degress < 0 then -@degress else @degress
+
+    methods:
       mouseMove: (e) ->
-        if not @hold then return
+        if not e.pageX then e = e.touches[0]
 
         if @ready.transition isnt "all 0s, left .25s"
           @ready.transition = "all 0s, left .25s"
@@ -266,7 +270,7 @@
         ) * 180 / Math.PI
 
         percent =               (e.pageX / (BCR.left + BCR.width / 2) - 1) * 1.5
-        horiz   = -(e.pageY - (BCR.top)) / (BCR.left + BCR.width / 2)      * 1.5 + 1
+        horiz   = -(e.pageY - (BCR.top)) / (BCR.left + BCR.width / 2)      + 1
 
         if percent >  1 then percent =  1 else
           if percent < -1 then percent = -1
@@ -280,6 +284,8 @@
         if percent < 0 then percent = -percent
         if ang < 0 then ang = -ang
 
+        if horiz < 0 then horiz = horiz / 2
+
         @$root.horiz   = horiz * (1 - percent) ** 7
         @$root.ang     = -((ang - 90) * percent) / 2
         @$root.degress = @degress
@@ -287,13 +293,7 @@
         @animate()
         @eyes()
         @hair()
-
-      "$root.hair": -> @hair()
-
-    computed:
-      absoluteDegress: -> if @degress < 0 then -@degress else @degress
-
-    methods:
+      
       applySvg: (text) ->
         pathTo = text.split /(?=[A-Z])/
         elem   = @$root.$refs
@@ -334,17 +334,17 @@
           paths = @furs[key]
           fullRange = @degress / 90 * (paths.length - 1)
 
-          if key in [ "nose", "bridge", "mouth", "fangsLeft", "fangsRight",
-            "nostrilLeft", "nostrilRight" ]
+          if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
+            "nostrilLeft", "nostrilRight"]
 
             if @degress > 0
               if @degress > 30
-                   fullRange = (@absoluteDegress / 90) ** 0.64 * (paths.length - 1)
-              else fullRange = (@absoluteDegress / 90) ** 1.5  * (paths.length - 1) * 2.5
+                   fullRange = (@absoluteDegress / 90) ** 0.7 * (paths.length - 1)
+              else fullRange = (@absoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
             else
               if @degress > -30
-                   fullRange = (@absoluteDegress / 90) ** 1.5  * (paths.length - 1) * 2.5
-              else fullRange = (@absoluteDegress / 90) ** 0.64 * (paths.length - 1)
+                   fullRange = (@absoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
+              else fullRange = (@absoluteDegress / 90) ** 0.7 * (paths.length - 1)
 
           else if key in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
             "eyeLeftLashesLower" ]
@@ -369,19 +369,20 @@
 
           if frame < 0 then frame = 0; range = 1
 
-          animHoriz = @interpolate [paths[frame + 1], paths[frame]]
           isEyelid  =
             [ "eyeLeftLidUp",  "eyeLeftLidUpFill",  "eyeLeftLidDown",  "eyeLeftLidDownFill",
               "eyeRightLidUp", "eyeRightLidUpFill", "eyeRightLidDown", "eyeRightLidDownFill" ]
 
           lashes =
-            left:  [ "eyeLeftLashesUpper",  "eyeLeftLashesMiddle",  "eyeLeftLashesLower" ]
-            right: [ "eyeRightLashesUpper", "eyeRightLashesMiddle", "eyeRightLashesLower"]
+            left:  ["eyeLeftLashesUpper",  "eyeLeftLashesMiddle",  "eyeLeftLashesLower" ]
+            right: ["eyeRightLashesUpper", "eyeRightLashesMiddle", "eyeRightLashesLower"]
 
           # Set ear to "front or not"
 
-          if key in [ "earRightInside", "earRightPinna", "earRight",
-            "earRightTasselInside", "earRightTassel" ]
+          if key in ["earRightInside", "earRightPinna", "earRight",
+            "earRightTasselInside", "earRightTassel"]
+
+            key2 = key
 
             if @$root.horiz <= 0 or @absoluteDegress >= 45
               if key in ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
@@ -389,15 +390,19 @@
                 refs[key].setAttribute "d", ""
 
               else
-                refs[key + "Front"].setAttribute "d", animHoriz range
-                refs[key].setAttribute "d", ""
+                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
+                refs[key2 + "Front"].setAttribute "d", animHoriz range
+                refs[key2].setAttribute "d", ""
 
             else
-              if key is ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
+              if key in ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
                 refs[key + "Front"].setAttribute "d", ""
                 refs[key].setAttribute "d", ""
 
               else
+                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
                 refs[key + "Front"].setAttribute "d", ""
                 refs[key].setAttribute "d", animHoriz range
 
@@ -447,6 +452,7 @@
                   animSecond = @interpolate [target[frame + 1], target[frame]]
                   target     = animSecond range
 
+                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
                 animSumm = @interpolate [animHoriz(range), target]
 
                 refs[key].setAttribute "d", animSumm val / 100
@@ -455,12 +461,18 @@
 
           else if key in ["earLeftTasselInside", "earLeftTassel"]
             if @$root.tassels
-                 refs[key].setAttribute "d", animHoriz range
+              animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
+              refs[key].setAttribute "d", animHoriz range
+
             else refs[key].setAttribute "d", ""
 
           else if key in ["fangsLeft", "fangsRight"]
             if @$root.fangs
-                 refs[key].setAttribute "d", animHoriz range
+              animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
+              refs[key].setAttribute "d", animHoriz range
+
             else refs[key].setAttribute "d", ""
 
           else if key is "mouth"
@@ -470,6 +482,8 @@
                   @emotions.catlike.jaw[frame + 1],
                   @emotions.catlike.jaw[frame]
                 ]
+
+            else animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 
             jaw  = @$root.jaw
             type = if @$root.catlike then "catlike" else "basic"
@@ -518,6 +532,8 @@
             parts = ["upper", "middle", "lower"]
             path  = closed[parts[index]].closed
 
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
             animLashesDown = @interpolate [path[frame + 1], path[frame]]
             animLashesSumm =
               @interpolate [animHoriz(range), animLashesDown range]
@@ -538,6 +554,8 @@
             index = lashes.right.indexOf key
             parts = ["upper", "middle", "lower"]
             path  = closed[parts[index]].closed
+
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 
             animLashesDown = @interpolate [path[frame + 1], path[frame]]
             animLashesSumm =
@@ -561,6 +579,8 @@
               evil: if @degress >= 0 then brow[sideAlt].evil else brow[side].evil
               wide: if @degress >= 0 then brow[sideAlt].wide else brow[side].wide
 
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
             animBrowEvil = @interpolate [evil[frame + 1], evil[frame]]
             animBrowSumm =
               @interpolate [animHoriz(range), animBrowEvil range]
@@ -571,7 +591,10 @@
 
             refs[key].setAttribute "d", if brow.show then animBrowSumm2 val.wide / 100 else ""
 
-          else refs[key].setAttribute "d", animHoriz range
+          else
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
+            refs[key].setAttribute "d", animHoriz range
 
 
           # Teeth position
@@ -592,10 +615,13 @@
           # Set clip paths
 
           else if key in ["head", "nose", "eyeLeft", "eyeRight"]
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 
             clips[key + "Clip"] = animHoriz range
 
           else if key in ["earLeft", "earRight"] and @$root.earClipEnabled
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+
             clips[key + "Clip"] = animHoriz range
 
 
