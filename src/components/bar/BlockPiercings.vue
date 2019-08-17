@@ -81,13 +81,17 @@
 
     watch:
       position: -> @set()
-      x:        -> @apply()
-      y:        -> @apply()
-      scale:    -> @apply()
+      x:     -> @apply()
+      y:     -> @apply()
+      scale: -> @apply()
 
       "$root.ang": ->
         @set()
         @apply()
+
+      "$root.path":
+        handler: -> @set()
+        deep: yes
 
     mounted: ->
       @set()

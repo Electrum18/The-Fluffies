@@ -16,7 +16,8 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "polymorph-js": "0.2.4",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-resource": "^1.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
@@ -48,7 +49,8 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.37.0",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "webpack-node-externals": "^1.7.2"
   },
   "postcss": {
     "plugins": {

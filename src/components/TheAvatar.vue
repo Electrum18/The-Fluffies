@@ -1,8 +1,8 @@
 <template lang="pug">
   #avatar.transition(
-    :style="[ready, mirror.style]"
+    :style="mirror.style"
 
-    v-press-hold="mouseMove"
+    v-press-hold="MouseMove"
   )
     svg(viewBox="0 -112 1024 1024")
       g.scale
@@ -207,25 +207,14 @@
   import Fur  from "./avatar/Furs.vue"
   import Mane from "./avatar/Manes.vue"
 
-  import * as bodyFirst from "./../assets/data/pony/body.json"
-  import * as hair from "./../assets/data/pony/hair.json"
-  import * as emotion from "./../assets/data/pony/emotions.json"
-
-  { interpolate } = require "polymorph-js"
-
-  body = bodyFirst.default
-
   export default
     data: ->
-      ready:
-        bottom: ""
-        transition: ""
+      interpolate: require("polymorph-js").interpolate
 
-      interpolate: interpolate
-
-      furs:     {}
-      hairs:    hair.default
-      emotions: emotion.default
+      body: {}
+      furs: {}
+      hairs: {}
+      emotions: {}
 
       degress: 10
 
@@ -250,17 +239,46 @@
              @mirror.basic = yes
         else @mirror.basic = no
 
-      "$root.hair": -> @hair()
+      "$root.hair": (val) ->
+        if @hairs[val] then @hair()
+        else
+          self = this
+          hairName = @$root.hair.toLowerCase().replace /\W/g, "_"
+
+          @get "hairs", "/data/pony/hairs/" + hairName + ".json", -> self.hair()
+
+      "$root.eyes":
+        handler: -> @eyes()
+        deep: yes
+
+      "$root.eyes.brows":
+        handler: -> @animate()
+        deep: yes
+
+      "$root.eyes.eyelids":
+        handler: -> @animate()
+        deep: yes
 
     computed:
-      absoluteDegress: -> if @degress < 0 then -@degress else @degress
+      AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
 
     methods:
-      mouseMove: (e) ->
-        if not e.pageX then e = e.touches[0]
+      get: (target, url, callback) ->
+        self = this
 
-        if @ready.transition isnt "all 0s, left .25s"
-          @ready.transition = "all 0s, left .25s"
+        @$http.get(window.location.origin + url).then (res) ->
+          self[target] = res.body
+          callback()
+
+        , (err) ->
+          # Trying get again if not loaded
+
+          setTimeout ->
+            self.get(target, url, callback)
+          , 5e3
+
+      MouseMove: (e) ->
+        if not e.pageX then e = e.touches[0]
 
         BCR = @$el.getBoundingClientRect()
 
@@ -293,8 +311,8 @@
         @animate()
         @eyes()
         @hair()
-      
-      applySvg: (text) ->
+
+      ApplySvg: (text) ->
         pathTo = text.split /(?=[A-Z])/
         elem   = @$root.$refs
 
@@ -324,7 +342,7 @@
 
             else give inPath["basic"], i
 
-        give body, 0
+        give @body, 0
 
       animate: ->
         clips  = @$root.path
@@ -339,24 +357,24 @@
 
             if @degress > 0
               if @degress > 30
-                   fullRange = (@absoluteDegress / 90) ** 0.7 * (paths.length - 1)
-              else fullRange = (@absoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
+                   fullRange = (@AbsoluteDegress / 90) ** 0.7 * (paths.length - 1)
+              else fullRange = (@AbsoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
             else
               if @degress > -30
-                   fullRange = (@absoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
-              else fullRange = (@absoluteDegress / 90) ** 0.7 * (paths.length - 1)
+                   fullRange = (@AbsoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
+              else fullRange = (@AbsoluteDegress / 90) ** 0.7 * (paths.length - 1)
 
           else if key in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
             "eyeLeftLashesLower" ]
 
             if @degress > 0
               if @degress > 30
-                   fullRange = (@absoluteDegress / 90) ** 0.25 * (paths.length - 1)
-              else fullRange = (@absoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
+                   fullRange = (@AbsoluteDegress / 90) ** 0.25 * (paths.length - 1)
+              else fullRange = (@AbsoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
             else
               if @degress > -30
-                   fullRange = (@absoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
-              else fullRange = (@absoluteDegress / 90) ** 0.25 * (paths.length - 1)
+                   fullRange = (@AbsoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
+              else fullRange = (@AbsoluteDegress / 90) ** 0.25 * (paths.length - 1)
 
           frame = Math.floor fullRange
           range = fullRange - frame
@@ -384,7 +402,7 @@
 
             key2 = key
 
-            if @$root.horiz <= 0 or @absoluteDegress >= 45
+            if @$root.horiz <= 0 or @AbsoluteDegress >= 45
               if key in ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
                 refs[key + "Front"].setAttribute "d", ""
                 refs[key].setAttribute "d", ""
@@ -526,7 +544,7 @@
               continue
 
             val     = @$root.eyes.eyelids.left.up
-            closed = body.eye.left.lashes
+            closed = @body.eye.left.lashes
 
             index = lashes.left.indexOf key
             parts = ["upper", "middle", "lower"]
@@ -549,7 +567,7 @@
               continue
 
             val    = @$root.eyes.eyelids.right.up
-            closed = body.eye.right.lashes
+            closed = @body.eye.right.lashes
 
             index = lashes.right.indexOf key
             parts = ["upper", "middle", "lower"]
@@ -570,7 +588,7 @@
             sideAlt = if side is "left"        then "right" else "left"
 
             brow = @$root.eyes.brows
-            eye  = body.eye
+            eye  = @body.eye
 
             evil = eye[side].brow.evil
             wide = eye[side].brow.wide
@@ -661,7 +679,7 @@
         absolute = 0
 
         if @$root.eyes.position.mode is "absolute"
-          absolute = -@absoluteDegress / 2
+          absolute = -@AbsoluteDegress / 2
 
 
         # Iris
@@ -678,7 +696,7 @@
         set
           elem: refs.eyeIrisRight
 
-          cx: middle.right.x + (@absoluteDegress / 3) + absolute
+          cx: middle.right.x + (@AbsoluteDegress / 3) + absolute
           cy: middle.right.y
 
           rx: 7.5  * scale + "%"
@@ -699,7 +717,7 @@
         set
           elem: refs.eyePupilRight
 
-          cx: middle.right.x + 10 + (@absoluteDegress / 3) + absolute
+          cx: middle.right.x + 10 + (@AbsoluteDegress / 3) + absolute
           cy: middle.right.y
 
           rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
@@ -714,7 +732,7 @@
         set
           elem: refs.eyeGlareLeft
 
-          cx: middle.left.x - (pos - (@absoluteDegress / 3) * scale) + absolute
+          cx: middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute
           cy: middle.left.y - (85 * scale)
 
           rx: 3   * scale + "%"
@@ -722,13 +740,13 @@
 
         refs.eyeGlareLeft.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x - (pos - (@absoluteDegress / 3) * scale) + absolute }px " +
+            "#{ middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute }px " +
             "#{ middle.left.y - (85 * scale) }px"
 
         set
           elem: refs.eyeGlare2Left
 
-          cx: middle.left.x + (pos * 2) + (@absoluteDegress / 3) + absolute
+          cx: middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute
           cy: middle.left.y - (60 * scale)
 
           rx: 1.25 * scale + "%"
@@ -736,14 +754,14 @@
 
         refs.eyeGlare2Left.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x + (pos * 2) + (@absoluteDegress / 3) + absolute }px " +
+            "#{ middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute }px " +
             "#{ middle.left.y - (60 * scale) }px"
 
 
         set
           elem: refs.eyeGlareRight
 
-          cx: middle.right.x - (pos - (@absoluteDegress / 3) * scale) + absolute
+          cx: middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute
           cy: middle.right.y - (85 * scale)
 
           rx: 3   * scale + "%"
@@ -751,13 +769,13 @@
 
         refs.eyeGlareRight.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x - (pos - (@absoluteDegress / 3) * scale) + absolute }px " +
+            "#{ middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute }px " +
             "#{ middle.right.y - (85 * scale) }px"
 
         set
           elem: refs.eyeGlare2Right
 
-          cx: middle.right.x + (pos * 2) + (@absoluteDegress / 3) + absolute
+          cx: middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute
           cy: middle.right.y - (60 * scale)
 
           rx: 1.25 * scale + "%"
@@ -765,7 +783,7 @@
 
         refs.eyeGlare2Right.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x + (pos * 2) + (@absoluteDegress / 3) + absolute }px " +
+            "#{ middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute }px " +
             "#{ middle.right.y - (60 * scale) }px"
 
       hair: ->
@@ -830,75 +848,46 @@
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs...}
 
-      @ready.bottom = "0%"
-      @ready.transition = "all 0s, left .25s"
+      self = this
 
 
-      # SVG parsing - import
+      # Get JSON data to client and execute
 
-      for key of @$root.$refs
-        if key not in [ "mouthOuter", "hair", "hairFront", "hairNape",
-          "hairNapeFront", "hairTail", "hairTailFront" ]
+      @get "body", "/data/pony/body.json", ->
 
-          @applySvg(key)
+        # SVG parsing - import
+
+        for key of self.$root.$refs
+          if key not in [ "mouthOuter", "hair", "hairFront", "hairNape",
+            "hairNapeFront", "hairTail", "hairTailFront" ]
+
+            self.ApplySvg(key)
+
+      # Load first hair
+
+      hairName = @$root.hair.toLowerCase().replace /\W/g, "_"
+
+      @get "hairs", "/data/pony/hairs/" + hairName + ".json", -> self.hair()
+
+      @get "emotions", "/data/pony/emotions.json", ->
+        self.animate()
+        self.eyes()
 
 
       # Set multi watcher
 
-      eyes     = @$root.eyes
-      pupils   = eyes.pupils
-      position = eyes.position
-      eyelids  = eyes.eyelids
-      brows    = eyes.brows
-
       @$watch (->
-        [
-          eyes.iris.scale,
-          pupils.width, pupils.height,
-
-          position.horiz, position.verti, position.focus, position.derp,
-
-          position.mode
-        ].join()
-
-      ), -> @eyes(); return
-
-      @$watch (->
-        [ eyes.iris.scale
-
-          pupils.width, pupils.height
-          position.horiz, position.verti
-
-          position.focus, position.derp
-          position.mode
-        ].join()
-
-      ), -> @eyes(); return
-
-      @$watch (->
-        [ eyelids.left.up,  eyelids.left.down,
-          eyelids.right.up, eyelids.right.down,
-
-          @$root.tassels, @$root.fangs, @$root.catlike,
+        [ @$root.tassels, @$root.fangs, @$root.catlike,
 
           @$root.jaw.open, @$root.jaw.sad,
           @$root.teeth.upper, @$root.teeth.lower,
 
           @$root.earClipEnabled,
 
-          eyes.lashes.show,
-
-          brows.show,
-          brows.left.height, brows.right.height,
-          brows.left.evil,   brows.right.evil,
-          brows.left.wide,   brows.right.wide
+          @$root.eyes.lashes.show
         ].join()
 
       ), -> @animate(); return
-
-      @animate()
-      @eyes()
-      @hair()
 
     components: {
       Clip

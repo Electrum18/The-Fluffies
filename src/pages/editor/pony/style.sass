@@ -12,6 +12,13 @@ svg
 div
   position: fixed
 
+@keyframes start
+  0%
+    bottom: -50%
+
+  100%
+    bottom: 0%
+
 .transition, div
   transition: all .25s ease
 
@@ -34,9 +41,11 @@ div
   left: 50%
   -moz-transform: translate(-50%)
   transform: translate(-50%)
-  transition: all 1.5s ease-out
+  transition: all 0s, left .25s ease-out
   pointer-events: all
   cursor: move
+  bottom: 0%
+  animation: start 1s cubic-bezier(0.25, 0.5, 0.5, 1)
 
   svg
     display: inline-block

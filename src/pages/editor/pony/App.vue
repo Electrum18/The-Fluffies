@@ -133,7 +133,7 @@
             @mousewheel="scroll"
           )
 
-        MoMBar(v-for="(hair, i) in $root.hairs" :key="hair + i" :id="i" :elem="hair")
+        MoMBar(v-for="(hair, i) in $root.hairInfo" :key="hair + i" :id="i" :elem="hair")
 
       #menu-circle(:style="circle.style")
         #settings
@@ -571,7 +571,7 @@
         if ang <= 0 and val.wheelDelta < 0
           @menuOfModels.angle = 0
 
-        else if ang < (@$root.hairs.length - 1) * 1.5 or val.wheelDelta < 0
+        else if ang < (@$root.hairInfo.length - 1) * 1.5 or val.wheelDelta < 0
           @menuOfModels.angle += val.wheelDelta / 80  # 1.5 degress
 
     components: {

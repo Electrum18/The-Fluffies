@@ -13,7 +13,6 @@ var webpack = require('webpack'),
   path = require('path'),
 
 codeComment =
-
 `Content of the-fluffies.net
 
 Author: Electrum18
@@ -35,11 +34,11 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        exclude: /(node_modules|bower_components)/
+        exclude: /node_modules/
       }, {
         test: /\.coffee$/,
         loader: 'coffee-loader',
-        exclude: /(node_modules|bower_components)/
+        exclude: /node_modules/
       }, {
         test: /\.sass$/,
         use: [
@@ -181,6 +180,7 @@ module.exports = {
 
   externals: {
     polymorph: 'polymorph',
+    'vue-resource': 'VueResource',
     vue: 'Vue'
   }
 }

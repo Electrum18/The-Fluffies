@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-
-import * as hairs from "../../../assets/data/pony/hairNames.json"
+import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
+
+Vue.use VueResource
 
 Vue.directive "press-hold",
   bind: (elem, binding) ->
@@ -39,7 +40,7 @@ new Vue
     hairSideAlt: { transform: 'scale(-1, 1)' }
     hairSideFront: { transform: 'scale(-1, 1) translate(-100%)' }
 
-    hairs: hairs.hairs,
+    hairInfo: {},
 
     tassels: on
     fangs: on
@@ -178,9 +179,31 @@ new Vue
     eyesSet: -> background: @eyes.color.basic
 
   methods:
+    get: (target, url, callback) ->
+      self = this
+
+      @$http.get(window.location.origin + url).then (res) ->
+        self[target] = res.body
+        callback()
+
+      , (err) ->
+        # Trying get again if not loaded
+
+        setTimeout ->
+          self.get(target, url, callback)
+        , 5e3
+
     createLeftRing: -> @piercings.left.push    { type: "ring",  color: "#ffcc44", shade: "#ccaa22" }
     createLeftPoint: -> @piercings.left.push   { type: "point", color: "#ffcc44", shade: "#ccaa22" }
     createRightRing: -> @piercings.right.push  { type: "ring",  color: "#ffcc44", shade: "#ccaa22" }
     createRightPoint: -> @piercings.right.push { type: "point", color: "#ffcc44", shade: "#ccaa22" }
+
+  mounted: ->
+    self = this
+
+    # Get JSON data to client and execute
+
+    @get "hairInfo", "/data/pony/hairNames.json", ->
+      self.hairInfo = self.hairInfo.hairs
 
 .$mount '#app'
