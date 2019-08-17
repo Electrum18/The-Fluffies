@@ -1,5 +1,5 @@
 <template lang="pug">
-  .menu-bar(:style="{ height: expanded ? 'fit-content' : '6vmin' }")
+  .menu-bar(:style="expand")
     #title
       p {{ capitalize(title) }}
 
@@ -24,15 +24,16 @@
     props: ["title", "icon", "iconEye"]
 
     data: ->
-        expanded: no
+      expanded: no
 
-        open:
-          transform: "translate(-50%, -50%) scale(1)"
 
-        close:
-          transform: "translate(-50%, -50%) scale(0)"
+      close:
+        transform: "translate(-50%, -50%) scale(0)"
 
-        color: {}
+      color: {}
+
+      version: navigator.userAgent
+        .match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
 
     methods:
       capitalize: (value) ->
@@ -41,6 +42,17 @@
         value = value.toString()
 
         value.charAt(0).toUpperCase() + value.slice 1
+
+    computed:
+      expand: ->
+        fox = if @version[1] is "Firefox" then "-moz-" else ""
+
+        height: if @expanded then fox + "fit-content" else "6vmin"
+
+      open: ->
+        size = if @version[1] is "Firefox" then 2 else 1
+
+        transform: "translate(-50%, -50%) scale(" + size + ")"
 
     mounted: ->
       if @$root[@title]
