@@ -3,6 +3,9 @@
     { "name": "Float", "author": "Electrum18", "mirroring": false },
     { "name": "Curly ends", "author": "Electrum18", "mirroring": false },
     { "name": "Spiky to side", "author": "Electrum18", "mirroring": true },
-    { "name": "Big Bang", "author": "Electrum18", "mirroring": true }
+    { "name": "Big Bang", "author": "Electrum18", "mirroring": true },
+    { "name": "Smooth short", "author": "Electrum18", "mirroring": true },
+    { "name": "Smooth", "author": "Electrum18", "mirroring": true },
+    { "name": "Smooth long", "author": "Electrum18", "mirroring": true }
   ]
 }

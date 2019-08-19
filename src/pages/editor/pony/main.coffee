@@ -16,15 +16,15 @@ Vue.directive "press-hold",
     event = (val) ->
       if hold then binding.value val else return
 
-    elem.addEventListener 'mousedown', holding
-    elem.addEventListener 'mouseup', unholding
-    elem.addEventListener 'mouseleave', unholding
-    elem.addEventListener 'mousemove', event
+    elem.addEventListener 'mousedown', holding, { passive: yes }
+    elem.addEventListener 'mouseup', unholding, { passive: yes }
+    elem.addEventListener 'mouseleave', unholding, { passive: yes }
+    elem.addEventListener 'mousemove', event, { passive: yes }
 
-    elem.addEventListener 'touchstart', holding
-    elem.addEventListener 'touchend', unholding
-    elem.addEventListener 'touchcancel', unholding
-    elem.addEventListener 'touchmove', event
+    elem.addEventListener 'touchstart', holding, { passive: yes }
+    elem.addEventListener 'touchend', unholding, { passive: yes }
+    elem.addEventListener 'touchcancel', unholding, { passive: yes }
+    elem.addEventListener 'touchmove', event, { passive: yes }
 
 new Vue
   render: (h) -> h App
@@ -34,13 +34,15 @@ new Vue
     horiz: 0
     degress: 0
 
-    hair: 'Spiky to side'
+    hair:
+      name: 'Spiky to side'
+      id: 3
 
-    hairSide: { transform: '' }
-    hairSideAlt: { transform: 'scale(-1, 1)' }
-    hairSideFront: { transform: 'scale(-1, 1) translate(-100%)' }
-
-    hairInfo: {},
+      info: {}
+      side:
+        basic: { transform: '' }
+        front: { transform: 'scale(-1, 1) translate(-100%)' }
+        alt: { transform: 'scale(-1, 1)' }
 
     tassels: on
     fangs: on
@@ -125,10 +127,10 @@ new Vue
 
     faceMove: -> transform: "translateY(#{ -@horiz * 6 }%)"
     earsMove: -> transform: "translateY(#{ @horiz * 2 }%)"
-    earsClip: -> transform: "translateY(#{ @horiz * 2 }%) " + @hairSide.transform
+    earsClip: -> transform: "translateY(#{ @horiz * 2 }%) " + @hair.side.basic.transform
 
     earsClipAlt: ->
-      transform: "translateX(100%) translateY(#{ @horiz * 2 }%) " + @hairSideAlt.transform
+      transform: "translateX(100%) translateY(#{ @horiz * 2 }%) " + @hair.side.alt.transform
 
     headRotate: -> transform: "rotate(#{ @ang }deg)"
     headRotateHair: -> transform: "rotate(#{ @ang }deg) scale(-1, 1)"
@@ -183,8 +185,14 @@ new Vue
       self = this
 
       @$http.get(window.location.origin + url).then (res) ->
-        self[target] = res.body
-        callback()
+        if target[1]
+          self[target[0]][target[1]] = { self[target[0]][target[1]]..., res.body... }
+
+        else self[target] =  { self[target]..., res.body... }
+
+        setTimeout ->
+          callback()
+        , 100
 
       , (err) ->
         # Trying get again if not loaded
@@ -203,7 +211,7 @@ new Vue
 
     # Get JSON data to client and execute
 
-    @get "hairInfo", "/data/pony/hairNames.json", ->
-      self.hairInfo = self.hairInfo.hairs
+    @get ["hair", "info"], "/data/pony/hairNames.json", ->
+      self.hair.info = self.hair.info.hairs
 
 .$mount '#app'

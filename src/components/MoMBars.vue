@@ -1,7 +1,7 @@
 <template lang="pug">
   .MM-bar(
     :style="style"
-    @click="$root.hair = elem.name"
+    @click="$root.hair.name = elem.name; $root.hair.id = id"
     @mousewheel="$parent.scroll"
   )
     div(v-if="id === 0")
@@ -43,7 +43,7 @@
         }
 
       selected: ->
-        if @$root.hair is @elem.name
+        if @$root.hair.name is @elem.name
              background: "#fa0"
         else background: "#0000"
 </script>

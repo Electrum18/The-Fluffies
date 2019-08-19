@@ -6,7 +6,7 @@
   )
     svg(viewBox="0 -112 1024 1024")
       g.scale
-        g.HairBack(:style="[$root.headRotate, $root.hairSide]")
+        g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]")
           Mane(name="hairTail" style="transform: scale(-1, 1) translate(-100%)"
             mask="url(#mask_Out_Head2)")
 
@@ -29,7 +29,8 @@
 
             g#earLeftPiercing
 
-          g.HairBack3(style="transform: scale(-1, 1)" :style="$root.hairSideAlt")
+          g.HairBack3(style="transform: scale(-1, 1)"
+            :style="$root.hair.side.alt" mask="url(#mask_no_RightEar_alt)")
             Mane(name="hairNape")
 
           Fur(name="head")
@@ -48,7 +49,7 @@
         g.Head(:style="[$root.headRotate, $root.furTint]")
           Fur.inner3(name="head2" alt='yes' :style="$root.furStroke")
 
-        g.Hair2(:style="[$root.headRotate, $root.hairSide]")
+        g.Hair2(:style="[$root.headRotate, $root.hair.side.basic]")
           Mane(name="hair" style="transform: scale(-1, 1) translate(-100%)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
@@ -93,8 +94,6 @@
           Fur.inner4.move(name="eyeLeftLidDownFill" mask="url(#mask_Head)" :style="[$root.faceMove, $root.furStroke]")
           Fur.inner4.move(name="eyeLeftLidUpFill"   mask="url(#mask_Head)" :style="[$root.faceMove, $root.furStroke]")
 
-          path#eyeLeftLidDown.outer.move(d fill-opacity="0" mask="url(#mask_Head)"
-            :style="[$root.faceMove, $root.furTint]" ref="eyeLeftLidDown")
           path#eyeLeftLidUp.outer.move(  d fill-opacity="0" mask="url(#mask_Head)"
             :style="[$root.faceMove, { stroke: '#222' }]" ref="eyeLeftLidUp")
 
@@ -139,8 +138,6 @@
           Fur.inner4.move(name="eyeRightLidUpFill"   mask="url(#mask_Head)"
             :style="[$root.faceMove, $root.furStroke]")
 
-          path#eyeRightLidDown.outer.move(d fill-opacity="0" mask="url(#mask_Head)"
-            :style="[$root.faceMove, $root.furTint]" ref="eyeRightLidDown")
           path#eyeRightLidUp.outer.move(  d fill-opacity="0" mask="url(#mask_Head)"
             :style="[$root.faceMove, { stroke: '#222' }]" ref="eyeRightLidUp")
 
@@ -155,8 +152,8 @@
             :style="[$root.rightBrowWidth, $root.rightBrowHeight, { stroke: '#222' }]")
 
         g.Hair(:style="$root.headRotate" mask="url(#mask_no_RightEar)")
-          Mane(name="hairFront"     :style="$root.hairSideFront")
-          Mane(name="hairNapeFront" :style="$root.hairSideFront")
+          Mane(name="hairFront"     :style="$root.hair.side.front")
+          Mane(name="hairNapeFront" :style="$root.hair.side.front")
 
       defs
         mask#mask_Head(x="0" y="0" width="1024" height="1024")
@@ -239,13 +236,16 @@
              @mirror.basic = yes
         else @mirror.basic = no
 
-      "$root.hair": (val) ->
+      "$root.hair.name": (val) ->
         if @hairs[val] then @hair()
         else
           self = this
-          hairName = @$root.hair.toLowerCase().replace /\W/g, "_"
+          hairName = @$root.hair.name.toLowerCase().replace /\W/g, "_"
 
-          @get "hairs", "/data/pony/hairs/" + hairName + ".json", -> self.hair()
+          @get "hairs", "/data/pony/hairs/" + hairName + ".json", ->
+            self.hair()
+
+      "$root.hair.info": -> @hair()
 
       "$root.eyes":
         handler: -> @eyes()
@@ -267,8 +267,11 @@
         self = this
 
         @$http.get(window.location.origin + url).then (res) ->
-          self[target] = res.body
-          callback()
+          self[target] = { self[target]..., res.body... }
+
+          setTimeout ->
+            callback()
+          , 100
 
         , (err) ->
           # Trying get again if not loaded
@@ -787,8 +790,12 @@
             "#{ middle.right.y - (60 * scale) }px"
 
       hair: ->
+        hair = @$root.hair
+
+        if !hair.info[hair.id] then return
+
         refs      = @$root.$refs
-        hairPaths = @hairs[@$root.hair]
+        hairPaths = @hairs[hair.name]
 
         elems   = ["hair", "hairNape", "hairTail"]
         imports = [
@@ -798,11 +805,13 @@
         ]
 
         for elem, i in elems
+
           paths     = imports[i]
           fullRange = @degress / 90 * 2
 
           frame = Math.floor fullRange
           range = fullRange - frame
+          mirroring = hair.info[hair.id].mirroring
 
           setBehind = ->
             refs[elem].setAttribute "d", animHoriz range
@@ -820,36 +829,40 @@
 
           if frame > 3 then frame = 3; range = 1
 
-          if not paths[frame] then setClear(); continue
+          if paths.length is 0 then setClear(); continue
 
-          animHoriz = @interpolate [paths[frame], paths[frame + 1]]
+          if frame > 1 and mirroring
+            animHoriz = @interpolate [paths[4 - frame], paths[3 - frame]]
+          else
+            animHoriz = @interpolate [paths[frame], paths[frame + 1]]
 
           if elem is "hair" then setFront()
-          else if elem is "hairTail" and @$root.hair isnt "Curly ends" and @degress > 0
+          else if elem is "hairTail" and hair isnt "Curly ends" and @degress > 0
             setFront()
 
-          else if @$root.hair is "Curly ends"
+          else if hair.name in ["Curly ends"]
             if elem is "hairTail" and @degress > 0 then setFront() else
             if elem is "hairNape" and @degress < 0 then setFront()
             else setBehind()
 
           else setBehind()
 
-        if @degress < 0 and @$root.hair not in ["Spiky to side", "Big Bang"]
-          @$root.hairSide      = transform: "scale(-1, 1)"
-          @$root.hairSideAlt   = transform: ""
-          @$root.hairSideFront = transform: ""
+        side = hair.side
+
+        if @degress < 0 and not mirroring
+          side.basic = transform: "scale(-1, 1)"
+          side.alt   = transform: ""
+          side.front = transform: ""
 
         else
-          @$root.hairSide      = transform: ""
-          @$root.hairSideAlt   = transform: "scale(-1, 1)"
-          @$root.hairSideFront = transform: "scale(-1, 1) translate(-100%)"
+          side.basic = transform: ""
+          side.alt   = transform: "scale(-1, 1)"
+          side.front = transform: "scale(-1, 1) translate(-100%)"
 
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs...}
 
       self = this
-
 
       # Get JSON data to client and execute
 
@@ -865,7 +878,7 @@
 
       # Load first hair
 
-      hairName = @$root.hair.toLowerCase().replace /\W/g, "_"
+      hairName = @$root.hair.name.toLowerCase().replace /\W/g, "_"
 
       @get "hairs", "/data/pony/hairs/" + hairName + ".json", -> self.hair()
 
