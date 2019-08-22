@@ -9,8 +9,7 @@
     SetColor(
       name="set color"
       :title="type + ' ' + side + ' ear ' + '#'+ idPlus1 "
-      :color="$root.piercings[side][id].color"
-      :color-style="{ background: $root.piercings[side][id].color }"
+      :color="path"
       :target='{ "target": "piercings", "side": side, "id": id }'
     )
 
@@ -49,9 +48,23 @@
 
       idPlus1: @id + 1
 
+    watch:
+      position: -> @set()
+      x:     -> @apply()
+      y:     -> @apply()
+      scale: -> @apply()
+
+      "$root.ang": ->
+        @set()
+        @apply()
+
+      "$root.path":
+        handler: -> @set()
+        deep: yes
+
     methods:
       remove: ->
-        @$root.piercings[@side].splice @id, 1
+        @$root.piercings[@side].splice(@id, 1)
 
       set: ->
         side = @side.charAt(0).toUpperCase() + @side.slice 1
@@ -79,19 +92,9 @@
         @$root.piercings[@side][@id].style =
           "transform: translate(#{@x}px, #{@y}px) scale(#{1 + +(@scale / 100).toFixed 1}) rotate(#{@ang}deg)"
 
-    watch:
-      position: -> @set()
-      x:     -> @apply()
-      y:     -> @apply()
-      scale: -> @apply()
-
-      "$root.ang": ->
-        @set()
-        @apply()
-
-      "$root.path":
-        handler: -> @set()
-        deep: yes
+    computed:
+      path: ->
+        "piercings.#{@side}.#{@id}.color"
 
     mounted: ->
       @set()

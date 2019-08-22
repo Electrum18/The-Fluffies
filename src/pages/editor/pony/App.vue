@@ -182,6 +182,17 @@
           style="transition: transform .2s ease, opacity .2s ease")
           path(fill="#333" :style="button.color.icons"
             d="M383 227L164 8c-5-5-12-8-19-8s-14 3-19 8l-16 16a27 27 0 0 0 0 38l183 184-184 184a27 27 0 0 0 0 38l16 16c6 5 12 8 19 8s14-3 20-8l219-219a27 27 0 0 0 0-38z")
+
+    #loadings
+      transition-group(name="loadings")
+        .bar(v-for="text in $root.loadings" :key="text")
+          svg(viewBox="-8 -8 16 16").loader
+            circle(r="5" stroke="#fa0" stroke-width="2"
+              fill-opacity=0
+              style="pointer-events: stroke"
+            )
+
+          p {{ text }}
 </template>
 
 <script lang="coffee">
@@ -265,11 +276,17 @@
 
     watch:
       "pallete.opened": ->
-        HSL = @hexToHsl @pallete.color.basic
+        t     = @pallete.target
+        color = @$root[t[0]][t[1]][t[2]]
+
+        if color[t[3]] then color = color[t[3]]
+
+        HSL   = @hexToHsl color
 
         @pallete.ang.basic = HSL[0]
         @pallete.x         = HSL[1]
         @pallete.y         = HSL[2] / (1 - (HSL[1] / 2))
+        @pallete.color.basic = color
 
       "pallete.ang.basic": (ang) ->
         @pallete.ang.style = transform: "translate(-50%, -1075%) rotate(#{ ang * 360 }deg)"
@@ -283,40 +300,36 @@
         @setPadColor()
         @setPadPoint @pallete.x, e
 
-      "pallete.color.basic": (basic) ->
-        target = @pallete.target
+      "pallete.color.basic": (color) ->
+        t = @pallete.target
 
-        r = parseInt(basic[1] + basic[2], 16)
-        g = parseInt(basic[3] + basic[4], 16)
-        b = parseInt(basic[5] + basic[6], 16)
+        r = parseInt(color[1] + color[2], 16)
+        g = parseInt(color[3] + color[4], 16)
+        b = parseInt(color[5] + color[6], 16)
 
-        componentToHex = (c) ->
-          c   = Math.round c
-          hex = c.toString 16
+        toHex = (c) ->
+          hex = Math.round(c).toString 16
 
           if hex.length is 1 then "0" + hex else hex
 
-        if typeof target isnt "object"
+        if @$root[t[0]][t[1]][t[2]][t[3]]
+             @$root[t[0]][t[1]][t[2]][t[3]] = color
+        else @$root[t[0]][t[1]][t[2]]       = color
 
-          @$root[target].color.basic = basic
-          @$root[target].color.set   = background: @$root[target].color.basic
-          @$root[target].color.shade =
-            "#" + componentToHex(r * 0.66)  + componentToHex(g * 0.66)  + componentToHex b * 0.66
+        mul = 0.75
 
-          if name is "eyes" then @eyes.color.stroke = stroke: @eyes.color.basic
+        if t[0] is "piercings" then mul = 0.8 else
+        if t[0] is "eyes"      then mul = 0.66
 
-        else
-          t = target
+        if @$root[t[0]][t[1]].shade
+          @$root[t[0]][t[1]].shade =
+            "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
 
-          @$root[t.target][t.side][t.id].color = basic
-          @$root[t.target][t.side][t.id].shade =
-            "#" + componentToHex(r * 0.66)  + componentToHex(g * 0.66)  + componentToHex b * 0.66
+        if @$root[t[0]][t[1]][t[2]].shade
+          @$root[t[0]][t[1]][t[2]].shade =
+            "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
 
-        HSL = @hexToHsl @pallete.color.basic
-
-        @pallete.ang.basic = HSL[0]
-        @pallete.x         = HSL[1]
-        @pallete.y         = HSL[2] / (1 - (HSL[1] / 2))
+        if name is "eyes" then @eyes.color.stroke = stroke: @eyes.color.basic
 
       "circle.opened": (e) ->
         if e

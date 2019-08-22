@@ -9,7 +9,7 @@
       p#sub scroll for navigation
 
     p#name {{ elem.name }}
-    p @{{ elem.author }}
+    p by {{ elem.author }}
     p#id(:style="selected") {{ id }}
 
     svg#mirror(v-if="elem.mirroring" viewBox="0 0 512 512")

@@ -4,7 +4,7 @@
       p {{ capitalize(title) }}
 
       .mark-arrow(@click="expanded = !expanded")
-        #favColor(:style="color.set" v-if="icon === 'yes'")
+        #favColor(:style="{ background: color }" v-if="icon === 'yes'")
           #favColorMini(v-if="iconEye === 'yes'")
 
         svg#arrowDown(viewBox="-110 -150 675 675" :style="expanded ? close : open")
@@ -26,7 +26,6 @@
     data: ->
       expanded: no
 
-
       close:
         transform: "translate(-50%, -50%) scale(0)"
 
@@ -45,9 +44,7 @@
 
     computed:
       expand: ->
-        fox = if @version[1] is "Firefox" then "-moz-" else ""
-
-        height: if @expanded then fox + "fit-content" else "6vmin"
+        height: if @expanded then "auto" else "6vmin"
 
       open: ->
         size = if @version[1] is "Firefox" then 2 else 1
@@ -56,8 +53,10 @@
 
     mounted: ->
       if @$root[@title]
-        @color = @$root[@title] # Import
-        @color = @color.color
+        @color = @$root[@title].color.basic # Import
+
+        @$watch (-> [@$root[@title].color.basic].join()),
+          (val) -> @color = val
 
       else return
 </script>

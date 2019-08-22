@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import App from './App.vue'
-import VueResource from 'vue-resource'
+import Vue from "vue"
+import App from "./App.vue"
+import VueResource from "vue-resource"
 
 Vue.config.productionTip = false
 
@@ -16,15 +16,15 @@ Vue.directive "press-hold",
     event = (val) ->
       if hold then binding.value val else return
 
-    elem.addEventListener 'mousedown', holding, { passive: yes }
-    elem.addEventListener 'mouseup', unholding, { passive: yes }
-    elem.addEventListener 'mouseleave', unholding, { passive: yes }
-    elem.addEventListener 'mousemove', event, { passive: yes }
+    elem.addEventListener "mousedown", holding, { passive: yes }
+    elem.addEventListener "mouseup", unholding, { passive: yes }
+    elem.addEventListener "mouseleave", unholding, { passive: yes }
+    elem.addEventListener "mousemove", event, { passive: yes }
 
-    elem.addEventListener 'touchstart', holding, { passive: yes }
-    elem.addEventListener 'touchend', unholding, { passive: yes }
-    elem.addEventListener 'touchcancel', unholding, { passive: yes }
-    elem.addEventListener 'touchmove', event, { passive: yes }
+    elem.addEventListener "touchstart", holding, { passive: yes }
+    elem.addEventListener "touchend", unholding, { passive: yes }
+    elem.addEventListener "touchcancel", unholding, { passive: yes }
+    elem.addEventListener "touchmove", event, { passive: yes }
 
 new Vue
   render: (h) -> h App
@@ -34,15 +34,17 @@ new Vue
     horiz: 0
     degress: 0
 
+    loadings: []
+
     hair:
-      name: 'Spiky to side'
+      name: "Spiky to side"
       id: 3
 
       info: {}
       side:
-        basic: { transform: '' }
-        front: { transform: 'scale(-1, 1) translate(-100%)' }
-        alt: { transform: 'scale(-1, 1)' }
+        basic: { transform: "" }
+        front: { transform: "scale(-1, 1) translate(-100%)" }
+        alt: { transform: "scale(-1, 1)" }
 
     tassels: on
     fangs: on
@@ -53,11 +55,9 @@ new Vue
 
     eyes:
       color:
-        basic: '#ffcc00'
-        shade: '#b89714'
-
-        set: { background: '#ffcc00' }
-        stroke: { stroke: '#ffcc00' }
+        basic: "#ffcc00"
+        shade: "#a88700"
+        stroke: { stroke: "#ffcc00" }
 
       iris: { scale: 100 }
       pupils: { width: 10, height: 100 }
@@ -65,7 +65,7 @@ new Vue
       position:
         horiz: 50, verti: 50
         focus: 100, derp: 0
-        mode: 'absolute'
+        mode: "absolute"
 
       eyelids:
         left: { up: 0, down: 0 }
@@ -89,35 +89,42 @@ new Vue
           wide: 0
 
     mane:
+      second:
+        enable: yes
+        notLines: yes
+
       color:
-        basic: '#666666',
-        shade: '#444444',
-        set: { background: '#666666' }
+        basic: "#666666"
+        shade: "#4d4d4d"
+        second: "#555555"
 
     fur:
       color:
-        basic: '#cccccc'
-        shade: '#888888'
-        set: { background: '#cccccc' }
+        basic: "#cccccc"
+        shade: "#999999"
 
     piercings:
-      ring: 'M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z',
-      point: 'M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0',
+      ring: "M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z",
+      point: "M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0",
 
       left: [],
-      right: [{ type: 'ring', color: '#ffcc44', shade: '#ccaa22' }]
+      right: [{ type: "ring", color: "#ffcc00", shade: "#bf9900" }]
 
     path:
-      headClip: ''
-      noseClip: ''
+      headClip: ""
+      noseClip: ""
 
-      eyeLeftClip: ''
-      eyeRightClip: ''
+      eyeLeftClip: ""
+      eyeRightClip: ""
 
-      earLeftClip: ''
-      earRightClip: ''
+      earLeftClip: ""
+      earRightClip: ""
 
-      mouthClip: ''
+      mouthClip: ""
+
+      hairClip: ""
+      hairNapeClip: ""
+      hairTailClip: ""
 
     earClipEnabled: yes
 
@@ -138,16 +145,16 @@ new Vue
     furTint: -> stroke: @fur.color.shade
 
     furCheckedEyelashes: ->
-      if @eyes.lashes.show then @eyes.color.set else false
+      if @eyes.lashes.show then background: @eyes.color.basic else false
 
     furCheckedEyebrows: ->
-      if @eyes.brows.show then @eyes.color.set else false
+      if @eyes.brows.show then background: @eyes.color.basic else false
 
     ifIsRelative: ->
-      if @eyes.position.mode is "relative" then @eyes.color.set else false
+      if @eyes.position.mode is "relative" then background: @eyes.color.basic else false
 
     ifIsAbsolute: ->
-      if @eyes.position.mode is "absolute" then @eyes.color.set else false
+      if @eyes.position.mode is "absolute" then background: @eyes.color.basic else false
 
     leftBrowHeight: ->
       val = if @degress < 0
@@ -201,17 +208,18 @@ new Vue
           self.get(target, url, callback)
         , 5e3
 
-    createLeftRing: -> @piercings.left.push    { type: "ring",  color: "#ffcc44", shade: "#ccaa22" }
-    createLeftPoint: -> @piercings.left.push   { type: "point", color: "#ffcc44", shade: "#ccaa22" }
-    createRightRing: -> @piercings.right.push  { type: "ring",  color: "#ffcc44", shade: "#ccaa22" }
-    createRightPoint: -> @piercings.right.push { type: "point", color: "#ffcc44", shade: "#ccaa22" }
+    createLeftRing: -> @piercings.left.push    { type: "ring",  color: "#ffcc00", shade: "#ccaa22" }
+    createLeftPoint: -> @piercings.left.push   { type: "point", color: "#ffcc00", shade: "#ccaa22" }
+    createRightRing: -> @piercings.right.push  { type: "ring",  color: "#ffcc00", shade: "#ccaa22" }
+    createRightPoint: -> @piercings.right.push { type: "point", color: "#ffcc00", shade: "#ccaa22" }
 
   mounted: ->
     self = this
+
 
     # Get JSON data to client and execute
 
     @get ["hair", "info"], "/data/pony/hairNames.json", ->
       self.hair.info = self.hair.info.hairs
 
-.$mount '#app'
+.$mount "#app"

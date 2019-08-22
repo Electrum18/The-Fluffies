@@ -10,6 +10,12 @@
           Mane(name="hairTail" style="transform: scale(-1, 1) translate(-100%)"
             mask="url(#mask_Out_Head2)")
 
+          Mane(name="hairTailSecond"
+            :hide="!$root.mane.second.enable"
+            :is-not-stroke="$root.mane.second.notLines"
+            style="transform: scale(-1, 1) translate(-100%)"
+            mask="url(#mask_Out_Head2), url(#mask_In_Hair_Tail)")
+
         g.Head(:style="[$root.headRotate, $root.furTint]")
           g.moveEar(:style="$root.earsMove")
             Fur.inner2(name="earLeftInside"  :style="$root.furStroke")
@@ -32,6 +38,9 @@
           g.HairBack3(style="transform: scale(-1, 1)"
             :style="$root.hair.side.alt" mask="url(#mask_no_RightEar_alt)")
             Mane(name="hairNape")
+            Mane(name="hairNapeSecond" mask="url(#mask_In_Hair_Nape)"
+              :hide="!$root.mane.second.enable"
+              :is-not-stroke="$root.mane.second.notLines")
 
           Fur(name="head")
 
@@ -45,12 +54,20 @@
 
         g.HairBack2(:style="$root.headRotateHair" mask="url(#mask_Out_Head2)")
           Mane(name="hairTailFront" mask="url(#mask_no_RightEar_alt)")
+          Mane(name="hairTailSecondFront"
+            :hide="!$root.mane.second.enable"
+            :is-not-stroke="$root.mane.second.notLines"
+            mask="url(#mask_no_RightEar_alt), url(#mask_In_Hair_Tail)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
           Fur.inner3(name="head2" alt='yes' :style="$root.furStroke")
 
         g.Hair2(:style="[$root.headRotate, $root.hair.side.basic]")
           Mane(name="hair" style="transform: scale(-1, 1) translate(-100%)")
+          Mane(name="hairSecond" mask="url(#mask_In_Hair)"
+            :hide="!$root.mane.second.enable"
+            :is-not-stroke="$root.mane.second.notLines"
+            style="transform: scale(-1, 1) translate(-100%)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
           g.moveEar(:style="$root.earsMove")
@@ -152,8 +169,17 @@
             :style="[$root.rightBrowWidth, $root.rightBrowHeight, { stroke: '#222' }]")
 
         g.Hair(:style="$root.headRotate" mask="url(#mask_no_RightEar)")
-          Mane(name="hairFront"     :style="$root.hair.side.front")
+          Mane(name="hairFront" :style="$root.hair.side.front")
+          Mane(name="hairSecondFront" mask="url(#mask_In_Hair)"
+            :hide="!$root.mane.second.enable"
+            :is-not-stroke="$root.mane.second.notLines"
+            :style="$root.hair.side.front")
+
           Mane(name="hairNapeFront" :style="$root.hair.side.front")
+          Mane(name="hairNapeSecondFront" mask="url(#mask_In_Hair_Nape)"
+            :hide="!$root.mane.second.enable"
+            :is-not-stroke="$root.mane.second.notLines"
+            :style="$root.hair.side.front")
 
       defs
         mask#mask_Head(x="0" y="0" width="1024" height="1024")
@@ -193,6 +219,15 @@
 
         mask#mask_In_Mouth(x="0" y="0" width="1024" height="1024")
           Clip(name="mouthClip" fill="#fff" stroke="#000" width="6.5")
+
+        mask#mask_In_Hair(x="0" y="0" width="1024" height="1024")
+          Clip(name="hairClip" fill="#fff" stroke-width=8 stroke="#000")
+
+        mask#mask_In_Hair_Nape(x="0" y="0" width="1024" height="1024")
+          Clip(name="hairNapeClip" fill="#fff" stroke-width=8 stroke="#000")
+
+        mask#mask_In_Hair_Tail(x="0" y="0" width="1024" height="1024")
+          Clip(name="hairTailClip" fill="#fff" stroke-width=8 stroke="#000")
 
         linearGradient#grad_Eyes(x1="0%" y1="100%" x2="0%" y2="0%")
           stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.basic, 'stop-opacity': 1 }")
@@ -264,16 +299,26 @@
 
     methods:
       get: (target, url, callback) ->
-        self = this
+        self   = this
+        loader = @$root.loadings
+        capital = target[0].toUpperCase() + target.slice 1
+
+        if target is "hairs"
+          loader.push "#{capital} | #{@$root.hair.name}"
+        else
+          loader.push capital
 
         @$http.get(window.location.origin + url).then (res) ->
           self[target] = { self[target]..., res.body... }
+
+          loader.splice loader.indexOf capital, 1
 
           setTimeout ->
             callback()
           , 100
 
         , (err) ->
+
           # Trying get again if not loaded
 
           setTimeout ->
@@ -353,7 +398,7 @@
 
         for key in @keys
           paths = @furs[key]
-          fullRange = @degress / 90 * (paths.length - 1)
+          fullRange = (@degress / 90) * (paths.length - 1)
 
           if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
             "nostrilLeft", "nostrilRight"]
@@ -797,15 +842,22 @@
         refs      = @$root.$refs
         hairPaths = @hairs[hair.name]
 
-        elems   = ["hair", "hairNape", "hairTail"]
+        elems   = [
+          "hair", "hairSecond",
+          "hairNape", "hairNapeSecond",
+          "hairTail", "hairTailSecond"
+        ]
+
         imports = [
           hairPaths.front.main,
+          hairPaths.front.second,
           hairPaths.back.main,
-          hairPaths.tail.main
+          hairPaths.back.second,
+          hairPaths.tail.main,
+          hairPaths.tail.second
         ]
 
         for elem, i in elems
-
           paths     = imports[i]
           fullRange = @degress / 90 * 2
 
@@ -831,18 +883,23 @@
 
           if paths.length is 0 then setClear(); continue
 
-          if frame > 1 and mirroring
-            animHoriz = @interpolate [paths[4 - frame], paths[3 - frame]]
-          else
-            animHoriz = @interpolate [paths[frame], paths[frame + 1]]
+          animHoriz =
+            if frame > 1 and mirroring
+              @interpolate [paths[4 - frame], paths[3 - frame]]
+            else
+              @interpolate [paths[frame], paths[frame + 1]]
 
-          if elem is "hair" then setFront()
-          else if elem is "hairTail" and hair isnt "Curly ends" and @degress > 0
+
+          if elem in ["hair", "hairNape", "hairTail"]
+            @$root.path[elem + "Clip"] = animHoriz range
+
+          if elem in ["hair", "hairSecond"] then setFront()
+          else if elem in ["hairTail", "hairTailSecond"] and hair isnt "Curly ends" and @degress > 0
             setFront()
 
           else if hair.name in ["Curly ends"]
-            if elem is "hairTail" and @degress > 0 then setFront() else
-            if elem is "hairNape" and @degress < 0 then setFront()
+            if elem in ["hairTail", "hairTailSecond"] and @degress > 0 then setFront() else
+            if elem in ["hairNape", "hairNapeSecond"] and @degress < 0 then setFront()
             else setBehind()
 
           else setBehind()
@@ -864,6 +921,7 @@
 
       self = this
 
+
       # Get JSON data to client and execute
 
       @get "body", "/data/pony/body.json", ->
@@ -871,10 +929,21 @@
         # SVG parsing - import
 
         for key of self.$root.$refs
-          if key not in [ "mouthOuter", "hair", "hairFront", "hairNape",
-            "hairNapeFront", "hairTail", "hairTailFront" ]
+          if key not in [
+            "mouthOuter",
+            "hair", "hairFront",
+            "hairSecond", "hairSecondFront",
+            "hairNape", "hairNapeFront",
+            "hairNapeSecond", "hairNapeSecondFront",
+            "hairTail", "hairTailFront",
+            "hairTailSecond", "hairTailSecondFront"
+          ]
 
             self.ApplySvg(key)
+
+        self.animate()
+        self.eyes()
+
 
       # Load first hair
 

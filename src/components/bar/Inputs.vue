@@ -1,11 +1,11 @@
 <template lang="pug">
   div(style="position: relative")
     p.sm {{ name }}
-      span#number(:style="color ? color.color.set : '#fa0'"
+      span#number(:style="{ background: color ? color.color.basic : '#fa0' }"
         style="float: right; margin: 0 1vmin 0 0") {{ percent }}
 
     input(type="range" :min="min" :max="max" value="type"
-      :style="color ? color.color.set : '#fa0'" v-model="percent")
+      :style="{ background: color ? color.color.basic : '#fa0' }" v-model="percent")
 </template>
 
 <script lang="coffee">

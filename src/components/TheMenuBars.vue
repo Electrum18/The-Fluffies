@@ -1,7 +1,7 @@
 <template lang="pug">
   #MenuBars(style="position: absolute; width: 100%")
     BarModule(title="eyes" icon="yes" icon-eye="yes")
-      SetColor(name="iris" title="eyes" :color="$root.eyes.color.basic" :color-style="$root.eyes.color.set")
+      SetColor(name="iris" title="eyes" color="eyes.color.basic")
 
       BarInput(name="scale" :color="$root.eyes" :type="$root.eyes.iris" min="50" max="125")
 
@@ -33,7 +33,7 @@
       #outerRadio
         #radio(style="border-radius: 1vmin 0 0 1vmin" :style="{ 'border-color': $root.eyes.color.basic }")
           input#isRelative(type="radio" name="radio"
-            value="relative" checked v-model="$root.eyes.position.mode")
+            value="relative" v-model="$root.eyes.position.mode")
           #checkmark(style="border-radius: 1vmin 0 0 1vmin" :style="$root.ifIsRelative") relative
 
         #radio(style="border-radius: 0 1vmin 1vmin 0" :style="{ 'border-color': $root.eyes.color.basic }")
@@ -82,30 +82,54 @@
 
       .line
 
-      p.h left eyebrow
+      div(style="position: relative" :style="enableByVal($root.eyes.brows.show)")
+        p.h left eyebrow
 
-      BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.left" min="50" max="150")
-      BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.left" min="-100")
-      BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="wide")
-      BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="evil")
+        BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.left" min="50" max="150")
+        BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.left" min="-100")
+        BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="wide")
+        BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="evil")
 
       .line
 
-      p.h right eyebrow
+      div(style="position: relative" :style="enableByVal($root.eyes.brows.show)")
+        p.h right eyebrow
 
-      BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.right" min="50" max="150")
-      BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.right" min="-100")
-      BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="wide")
-      BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="evil")
+        BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.right" min="50" max="150")
+        BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.right" min="-100")
+        BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="wide")
+        BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="evil")
 
     BarModule(title="mane" icon="yes")
-      SetColor(name="hair style" title="mane" :color="$root.mane.color.basic" :color-style="$root.mane.color.set")
+      SetColor(name="hair style" title="mane" color="mane.color.basic")
 
-      p.name Float
+      p.name {{ $root.hair.name }}
       #menu_of_models(@click="$parent.openMenuOfModels") change
 
+      .line
+
+      p.h second & lines
+
+      #checker
+        p.h(style="width: 16vmax") enable
+
+        #checkbox
+          input#haveCatlike(v-model="$root.mane.second.enable" type="checkbox")
+          #checkmark
+
+      div(style="position: relative" :style="enableByVal($root.mane.second.enable)")
+        #checker
+          p.h(style="width: 16vmax") second color
+
+          #checkbox
+            input#haveCatlike(v-model="$root.mane.second.notLines" type="checkbox")
+            #checkmark
+
+        SetColor(name="set color" title="second color" color="mane.color.second"
+          :style="enableByVal($root.mane.second.notLines)")
+
     BarModule(title="fur" icon="yes")
-      SetColor(name="set color" title="fur" :color="$root.fur.color.basic" :color-style="$root.fur.color.set")
+      SetColor(name="set color" title="fur" color="fur.color.basic")
 
     BarModule(title="mouth")
       #checker
@@ -149,11 +173,12 @@
           #checkmark
 
     BarModule(title="piercing")
-      BlockPiercing(v-for="(obj, i) in $root.piercings.right" :type="obj.type" side="right" :id="i"
-        :key="'piercingRight' + i")
+      transition-group(name="piercings")
+        BlockPiercing(v-for="(obj, i) in $root.piercings.right" :type="obj.type" side="right" :id="i"
+          :key="'piercingRight' + i")
 
-      BlockPiercing(v-for="(obj, i) in $root.piercings.left" :type="obj.type" side="left" :id="i"
-        :key="'piercingLeft' + i")
+        BlockPiercing(v-for="(obj, i) in $root.piercings.left" :type="obj.type" side="left" :id="i"
+          :key="'piercingLeft' + i")
 
       p.h(style="pointer-events: none; height: 1%") add
 
@@ -177,6 +202,18 @@
 
   export default
     name: "MenuBar"
+
+    methods:
+      enableByVal: (val) ->
+        if not val
+          filter: "blur(.1vmax) contrast(0)"
+          opacity: 0.8
+          "pointer-events": "none"
+
+        else
+          filter: ""
+          opacity: ""
+          "pointer-events": ""
 
     components: {
       BarModule
@@ -275,4 +312,16 @@
 
   .menu-bar:first-of-type, .menu-bar:last-of-type
     margin: 0 1.4vmax
+
+  .piercings-enter, .piercings-leave-to
+    opacity: 0
+    transform: translate(100%)
+
+  .loadings-enter
+    opacity: 0
+    transform: translateY(-100%)
+
+  .loadings-leave-to
+    opacity: 0
+    transform: translate(-100%)
 </style>
