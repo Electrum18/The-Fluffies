@@ -857,6 +857,17 @@
           hairPaths.tail.second
         ]
 
+        fixPath = hairPaths.fix
+
+        fixing = [
+          fixPath.front.main,
+          fixPath.front.second,
+          fixPath.back.main,
+          fixPath.back.second,
+          fixPath.tail.main,
+          fixPath.tail.second
+        ]
+
         for elem, i in elems
           paths     = imports[i]
           fullRange = @degress / 90 * 2
@@ -864,6 +875,10 @@
           frame = Math.floor fullRange
           range = fullRange - frame
           mirroring = hair.info[hair.id].mirroring
+
+          if fixing[i].x
+               origin = origin: fixing[i]
+          else origin = origin: x: 0, y: 0
 
           setBehind = ->
             refs[elem].setAttribute "d", animHoriz range
@@ -885,10 +900,9 @@
 
           animHoriz =
             if frame > 1 and mirroring
-              @interpolate [paths[4 - frame], paths[3 - frame]]
+              @interpolate [paths[4 - frame], paths[3 - frame]], origin
             else
-              @interpolate [paths[frame], paths[frame + 1]]
-
+              @interpolate [paths[frame], paths[frame + 1]], origin
 
           if elem in ["hair", "hairNape", "hairTail"]
             @$root.path[elem + "Clip"] = animHoriz range

@@ -581,11 +581,11 @@
       scroll: (val) ->
         ang = @menuOfModels.angle
 
-        if ang <= 0 and val.wheelDelta < 0
+        if ang <= 0 and val.wheelDelta > 0
           @menuOfModels.angle = 0
 
-        else if ang < (@$root.hair.info.length - 1) * 1.5 or val.wheelDelta < 0
-          @menuOfModels.angle += val.wheelDelta / 80  # 1.5 degress
+        else if ang < (@$root.hair.info.length - 1) * 1.5 or val.wheelDelta > 0
+          @menuOfModels.angle -= val.wheelDelta / 80  # 1.5 degress
 
     components: {
       Avatar

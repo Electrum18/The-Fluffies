@@ -24,6 +24,29 @@
       "main": [],
 
       "second": []
+    },
+
+    "fix": {
+      "front": {
+        "main": {},
+
+        "second": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+
+      "back": {
+        "main": {},
+
+        "second": {}
+      },
+
+      "tail": {
+        "main": {},
+
+        "second": {}
+      }
     }
   }
 }
