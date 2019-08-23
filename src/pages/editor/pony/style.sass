@@ -46,25 +46,23 @@ div
   transition: none
 
 #avatar
-  min-width: 100vmin
-  min-height: 100vmin
-  bottom: -100%
+  width: 100vmax
+  height: 100vmin
+  bottom: 0
   left: 50%
-  -moz-transform: translate(-50%)
   transform: translate(-50%)
-  transition: all 0s, left .25s ease-out
   pointer-events: all
   cursor: move
-  bottom: 0%
   animation: start 1s cubic-bezier(0.25, 0.5, 0.5, 1)
 
   svg
     display: inline-block
     position: fixed
-    min-width: 100%
-    min-height: 100%
+    width: 100vmin
+    height: 100%
     pointer-events: none
     z-index: 0
+    transition: left .25s ease-out
 
 #sliderBox svg > path, .Hair, .Hair2,.HairBack, .HairBack2, .HairBack3, .Head, .Neck
   stroke: #888
@@ -347,7 +345,7 @@ bar-title
 
   p
     margin: 0 0 0 1vmin
-    padding: .5vmin 50% .45vmin 2vmin
+    padding: .5vmin 45% .45vmin 2vmin
     position: absolute
 
 p.h
@@ -459,7 +457,7 @@ p.X span, p.sm span
   background: #353535
   margin: 5%
   width: 90%
-  top: -40vmax
+  top: -55vmax
   box-shadow: 0 0 10vmin rgba(0, 0, 0, .5)
   display: block
   border-radius: 3vmin

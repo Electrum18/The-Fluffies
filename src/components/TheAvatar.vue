@@ -1,10 +1,6 @@
 <template lang="pug">
-  #avatar.transition(
-    :style="mirror.style"
-
-    v-press-hold="MouseMove"
-  )
-    svg(viewBox="0 -112 1024 1024")
+  #avatar.transition(v-press-hold="[MouseMove, Click]")
+    svg(viewBox="0 -112 1024 1024" :style="mirror.style")
       g.scale
         g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]")
           Mane(name="hairTail" style="transform: scale(-1, 1) translate(-100%)"
@@ -14,7 +10,7 @@
             :hide="!$root.mane.second.enable"
             :is-not-stroke="$root.mane.second.notLines"
             style="transform: scale(-1, 1) translate(-100%)"
-            mask="url(#mask_Out_Head2), url(#mask_In_Hair_Tail)")
+            mask="url(#mask_In_Hair_Tail)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
           g.moveEar(:style="$root.earsMove")
@@ -57,7 +53,7 @@
           Mane(name="hairTailSecondFront"
             :hide="!$root.mane.second.enable"
             :is-not-stroke="$root.mane.second.notLines"
-            mask="url(#mask_no_RightEar_alt), url(#mask_In_Hair_Tail)")
+            mask="url(#mask_In_Hair_Tail)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
           Fur.inner3(name="head2" alt='yes' :style="$root.furStroke")
@@ -102,8 +98,8 @@
             :style="[$root.leftBrowWidth, $root.leftBrowHeight, { stroke: '#222' }]" mask="url(#mask_Head)")
 
           g.eyes.inside.Left(:style="$root.faceMove")
-            ellipse#eyeIrisLeft( fill="url(#grad_Eyes)" ref="eyeIrisLeft")
-            ellipse#eyePupilLeft(fill="#111"            ref="eyePupilLeft")
+            ellipse#eyeIrisLeft(:fill="$root.eyeLeftGradient" ref="eyeIrisLeft")
+            ellipse#eyePupilLeft(fill="#111" ref="eyePupilLeft")
             g
               ellipse#eyeGlareLeft( fill="#fff" ref="eyeGlareLeft")
               ellipse#eyeGlare2Left(fill="#fff" ref="eyeGlare2Left")
@@ -144,8 +140,8 @@
           path#eyeRight.eyes.move(d fill="#fff" mask="url(#mask_Head)" :style="$root.faceMove" ref="eyeRight")
 
           g.eyes.inside.Right(:style="$root.faceMove")
-            ellipse#eyeIrisRight( fill="url(#grad_Eyes)" ref="eyeIrisRight")
-            ellipse#eyePupilRight(fill="#111"            ref="eyePupilRight")
+            ellipse#eyeIrisRight(:fill="$root.eyeRightGradient" ref="eyeIrisRight")
+            ellipse#eyePupilRight(fill="#111" ref="eyePupilRight")
             g
               ellipse#eyeGlareRight( fill="#fff" ref="eyeGlareRight")
               ellipse#eyeGlare2Right(fill="#fff" ref="eyeGlare2Right")
@@ -228,10 +224,16 @@
 
         mask#mask_In_Hair_Tail(x="0" y="0" width="1024" height="1024")
           Clip(name="hairTailClip" fill="#fff" stroke-width=8 stroke="#000")
+          Clip(name="headClip"     fill="#000" stroke="#000" width="9.5")
+          Clip(name="earRightClip" fill="#000" stroke="#000" width="9.5")
 
-        linearGradient#grad_Eyes(x1="0%" y1="100%" x2="0%" y2="0%")
-          stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.basic, 'stop-opacity': 1 }")
-          stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.shade, 'stop-opacity': 1 }")
+        linearGradient#grad_Eyes_Left(x1="0%" y1="100%" x2="0%" y2="0%")
+          stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.left.basic, 'stop-opacity': 1 }")
+          stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.left.shade, 'stop-opacity': 1 }")
+
+        linearGradient#grad_Eyes_Right(x1="0%" y1="100%" x2="0%" y2="0%")
+          stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.right.basic, 'stop-opacity': 1 }")
+          stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.right.shade, 'stop-opacity': 1 }")
 </template>
 
 <script lang="coffee">
@@ -249,8 +251,16 @@
       emotions: {}
 
       degress: 10
+      horiz: 0
 
       keys: new Array()
+
+      x: 0.1111  # 10 degress (100% / 90deg)
+      y: 0
+
+      last:
+        x: 0
+        y: 0
 
       mirror:
         basic: no  # Avatar isnt mirrored in this time
@@ -294,6 +304,23 @@
         handler: -> @animate()
         deep: yes
 
+      "$root.eyes.color.right.enable": (val) ->
+        if not val
+          left = @$root.eyes.color.left
+
+          @$root.eyes.color.right.basic  = left.basic
+          @$root.eyes.color.right.shade  = left.shade
+          @$root.eyes.color.right.stroke = left.stroke
+
+      "$root.eyes.color.left":
+        handler: (val) ->
+          if not @$root.eyes.color.right.enable
+            @$root.eyes.color.right.basic  = val.basic
+            @$root.eyes.color.right.shade  = val.shade
+            @$root.eyes.color.right.stroke = val.stroke
+
+        deep: yes
+
     computed:
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
 
@@ -325,40 +352,45 @@
             self.get(target, url, callback)
           , 5e3
 
+      Click: (e) ->
+        if not e.pageX
+          if e.touches then e = e.touches[0] else return
+
+        @last.x = e.pageX
+        @last.y = e.pageY
+
       MouseMove: (e) ->
-        if not e.pageX then e = e.touches[0]
+        if not e.pageX
+          if e.touches then e = e.touches[0] else return
 
         BCR = @$el.getBoundingClientRect()
 
         ang = Math.atan2(
-          e.pageX - (BCR.left + BCR.width  / 2),
-          e.pageY - (BCR.top  + BCR.height / 2)
+          ((@x + 1 / 2) * BCR.width)  - (BCR.left + BCR.width  / 2),
+          ((@y + 1 / 2) * BCR.height) - (BCR.top  + BCR.height / 2)
         ) * 180 / Math.PI
 
-        percent =               (e.pageX / (BCR.left + BCR.width / 2) - 1) * 1.5
-        horiz   = -(e.pageY - (BCR.top)) / (BCR.left + BCR.width / 2)      + 1
+        @x += (e.pageX - @last.x) / 500
+        @y += (e.pageY - @last.y) / 100
 
-        if percent >  1 then percent =  1 else
-          if percent < -1 then percent = -1
+        if @x > 1 then @x = 1 else if @x < -1 then @x = -1
+        if @y > 1 then @y = 1 else if @y < -1 then @y = -1
 
-        @degress = percent * 90
+        @degress = @x * 90
 
-        horiz =
-          if horiz < -1 then horiz = -1 else
-            if horiz > 1 then horiz = 1 else horiz
+        horiz  = -(@y * (1 - Math.abs(@x))) ** 7
+        @horiz = if horiz < 0 then horiz / 3 else horiz
 
-        if percent < 0 then percent = -percent
-        if ang < 0 then ang = -ang
-
-        if horiz < 0 then horiz = horiz / 2
-
-        @$root.horiz   = horiz * (1 - percent) ** 7
-        @$root.ang     = -((ang - 90) * percent) / 2
+        @$root.horiz   = @horiz
+        @$root.ang     = (@y * 90 * Math.abs(@x)) / 4
         @$root.degress = @degress
 
         @animate()
         @eyes()
         @hair()
+
+        @last.x = e.pageX
+        @last.y = e.pageY
 
       ApplySvg: (text) ->
         pathTo = text.split /(?=[A-Z])/
@@ -397,32 +429,35 @@
         refs   = @$root.$refs
 
         for key in @keys
-          paths = @furs[key]
-          fullRange = (@degress / 90) * (paths.length - 1)
+          paths  = @furs[key]
+          length = paths.length - 1
+          fullRange = (@degress / 90) * length
+
+          absPercent = @AbsoluteDegress / 90
 
           if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
             "nostrilLeft", "nostrilRight"]
 
             if @degress > 0
               if @degress > 30
-                   fullRange = (@AbsoluteDegress / 90) ** 0.7 * (paths.length - 1)
-              else fullRange = (@AbsoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
+                   fullRange = absPercent ** 0.7  * length
+              else fullRange = absPercent ** 1.55 * length * 2.5
             else
               if @degress > -30
-                   fullRange = (@AbsoluteDegress / 90) ** 1.55  * (paths.length - 1) * 2.5
-              else fullRange = (@AbsoluteDegress / 90) ** 0.7 * (paths.length - 1)
+                   fullRange = absPercent ** 1.55 * length * 2.5
+              else fullRange = absPercent ** 0.7  * length
 
           else if key in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
             "eyeLeftLashesLower" ]
 
             if @degress > 0
               if @degress > 30
-                   fullRange = (@AbsoluteDegress / 90) ** 0.25 * (paths.length - 1)
-              else fullRange = (@AbsoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
+                   fullRange = absPercent ** 0.25 * length
+              else fullRange = absPercent ** 0.75 * length * 1.75
             else
               if @degress > -30
-                   fullRange = (@AbsoluteDegress / 90) ** 0.75 * (paths.length - 1) * 1.75
-              else fullRange = (@AbsoluteDegress / 90) ** 0.25 * (paths.length - 1)
+                   fullRange = absPercent ** 0.75 * length * 1.75
+              else fullRange = absPercent ** 0.25 * length
 
           frame = Math.floor fullRange
           range = fullRange - frame
@@ -709,6 +744,13 @@
 
         if @degress < 0 then shift.x = -shift.x; derp = -derp
 
+        absolute = x: 0, y: 0
+
+        if @$root.eyes.position.mode is "absolute"
+          absolute =
+            x: -@AbsoluteDegress / 1.5
+            y: if @horiz < 0 then @horiz * 30 * 2 else @horiz * 30
+
         middle =
           left:
             x: bbox.left.x + bbox.left.width  / 2 - 10 + shift.x - (25 - posit.focus / 4)
@@ -724,19 +766,14 @@
           obj.elem.setAttribute "rx", obj.rx
           obj.elem.setAttribute "ry", obj.ry
 
-        absolute = 0
-
-        if @$root.eyes.position.mode is "absolute"
-          absolute = -@AbsoluteDegress / 2
-
 
         # Iris
 
         set
           elem: refs.eyeIrisLeft
 
-          cx: middle.left.x + absolute
-          cy: middle.left.y
+          cx: middle.left.x + absolute.x
+          cy: middle.left.y + absolute.y
 
           rx: 7.5  * scale + "%"
           ry: 13.5 * scale + "%"
@@ -744,8 +781,8 @@
         set
           elem: refs.eyeIrisRight
 
-          cx: middle.right.x + (@AbsoluteDegress / 3) + absolute
-          cy: middle.right.y
+          cx: middle.right.x + (@AbsoluteDegress / 3) + absolute.x
+          cy: middle.right.y + absolute.y
 
           rx: 7.5  * scale + "%"
           ry: 13.5 * scale + "%"
@@ -756,8 +793,8 @@
         set
           elem: refs.eyePupilLeft
 
-          cx: middle.left.x - 10 + absolute
-          cy: middle.left.y
+          cx: middle.left.x - 10 + absolute.x
+          cy: middle.left.y + absolute.y
 
           rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
           ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
@@ -765,8 +802,8 @@
         set
           elem: refs.eyePupilRight
 
-          cx: middle.right.x + 10 + (@AbsoluteDegress / 3) + absolute
-          cy: middle.right.y
+          cx: middle.right.x + 10 + (@AbsoluteDegress / 3) + absolute.x
+          cy: middle.right.y + absolute.y
 
           rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
           ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
@@ -780,59 +817,59 @@
         set
           elem: refs.eyeGlareLeft
 
-          cx: middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute
-          cy: middle.left.y - (85 * scale)
+          cx: middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
+          cy: middle.left.y - (85 * scale) + absolute.y
 
           rx: 3   * scale + "%"
           ry: 5.5 * scale + "%"
 
         refs.eyeGlareLeft.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute }px " +
-            "#{ middle.left.y - (85 * scale) }px"
+            "#{ middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
+            "#{ middle.left.y - (85 * scale) + absolute.y }px"
 
         set
           elem: refs.eyeGlare2Left
 
-          cx: middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute
-          cy: middle.left.y - (60 * scale)
+          cx: middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
+          cy: middle.left.y - (60 * scale) + absolute.y
 
           rx: 1.25 * scale + "%"
           ry: 2    * scale + "%"
 
         refs.eyeGlare2Left.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute }px " +
-            "#{ middle.left.y - (60 * scale) }px"
+            "#{ middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
+            "#{ middle.left.y - (60 * scale) + absolute.y }px"
 
 
         set
           elem: refs.eyeGlareRight
 
-          cx: middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute
-          cy: middle.right.y - (85 * scale)
+          cx: middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
+          cy: middle.right.y - (85 * scale) + absolute.y
 
           rx: 3   * scale + "%"
           ry: 5.5 * scale + "%"
 
         refs.eyeGlareRight.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute }px " +
-            "#{ middle.right.y - (85 * scale) }px"
+            "#{ middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
+            "#{ middle.right.y - (85 * scale) + absolute.y }px"
 
         set
           elem: refs.eyeGlare2Right
 
-          cx: middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute
-          cy: middle.right.y - (60 * scale)
+          cx: middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
+          cy: middle.right.y - (60 * scale) + absolute.y
 
           rx: 1.25 * scale + "%"
           ry: 2    * scale + "%"
 
         refs.eyeGlare2Right.setAttribute "style",
           "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute }px " +
-            "#{ middle.right.y - (60 * scale) }px"
+            "#{ middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
+            "#{ middle.right.y - (60 * scale) + absolute.y }px"
 
       hair: ->
         hair = @$root.hair

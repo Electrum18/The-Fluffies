@@ -53,10 +53,17 @@
 
     mounted: ->
       if @$root[@title]
-        @color = @$root[@title].color.basic # Import
+        if @title is "eyes"
+          @color = @$root[@title].color.left.basic # Import
 
-        @$watch (-> [@$root[@title].color.basic].join()),
-          (val) -> @color = val
+          @$watch (-> [@$root[@title].color.left.basic].join()),
+            (val) -> @color = val
+
+        else
+          @color = @$root[@title].color.basic # Import
+
+          @$watch (-> [@$root[@title].color.basic].join()),
+            (val) -> @color = val
 
       else return
 </script>

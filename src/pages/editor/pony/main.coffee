@@ -10,11 +10,19 @@ Vue.directive "press-hold",
   bind: (elem, binding) ->
     hold = no
 
-    holding =   -> hold = yes
+    holding = (val) ->
+      if binding.value[1]
+        binding.value[1] val
+
+      hold = yes
+
     unholding = -> hold = no
 
     event = (val) ->
-      if hold then binding.value val else return
+      if hold
+        if binding.value[0]
+             binding.value[0] val
+        else binding.value val
 
     elem.addEventListener "mousedown", holding, { passive: yes }
     elem.addEventListener "mouseup", unholding, { passive: yes }
@@ -55,9 +63,16 @@ new Vue
 
     eyes:
       color:
-        basic: "#ffcc00"
-        shade: "#a88700"
-        stroke: { stroke: "#ffcc00" }
+        left:
+          basic: "#ffcc00"
+          shade: "#a88700"
+          stroke: { stroke: "#ffcc00" }
+
+        right:
+          enable: off
+          basic: "#ffcc00"
+          shade: "#a88700"
+          stroke: { stroke: "#ffcc00" }
 
       iris: { scale: 100 }
       pupils: { width: 10, height: 100 }
@@ -108,7 +123,11 @@ new Vue
       point: "M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0",
 
       left: [],
-      right: [{ type: "ring", color: "#ffcc00", shade: "#bf9900" }]
+      right: [{ type: "ring", color: "#ffcc00", shade: "#cca300" }]
+
+    background:
+      color:
+        basic: "#ffffff"
 
     path:
       headClip: ""
@@ -145,16 +164,16 @@ new Vue
     furTint: -> stroke: @fur.color.shade
 
     furCheckedEyelashes: ->
-      if @eyes.lashes.show then background: @eyes.color.basic else false
+      if @eyes.lashes.show then background: @eyes.color.left.basic else false
 
     furCheckedEyebrows: ->
-      if @eyes.brows.show then background: @eyes.color.basic else false
+      if @eyes.brows.show then background: @eyes.color.left.basic else false
 
     ifIsRelative: ->
-      if @eyes.position.mode is "relative" then background: @eyes.color.basic else false
+      if @eyes.position.mode is "relative" then background: @eyes.color.left.basic else false
 
     ifIsAbsolute: ->
-      if @eyes.position.mode is "absolute" then background: @eyes.color.basic else false
+      if @eyes.position.mode is "absolute" then background: @eyes.color.left.basic else false
 
     leftBrowHeight: ->
       val = if @degress < 0
@@ -184,8 +203,17 @@ new Vue
 
       "stroke-width": 2.5 + val / 20
 
-    eyesStroke: -> stroke: @eyes.color.basic
-    eyesSet: -> background: @eyes.color.basic
+    eyesStroke: -> stroke: @eyes.color.left.basic
+    eyesSet: -> background: @eyes.color.left.basic
+
+    eyesCheckedRightDivide: ->
+      if @eyes.color.right.enable then background: @eyes.color.right.basic else false
+
+    eyeLeftGradient: ->
+      if @degress < 0 then "url(#grad_Eyes_Left)" else "url(#grad_Eyes_Right)"
+
+    eyeRightGradient: ->
+      if @degress < 0 then "url(#grad_Eyes_Right)" else "url(#grad_Eyes_Left)"
 
   methods:
     get: (target, url, callback) ->

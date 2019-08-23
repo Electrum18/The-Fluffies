@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app
+  #app(:style="{ background: $root.background.color.basic }")
     Avatar
 
     #vignette
@@ -321,13 +321,14 @@
         if t[0] is "piercings" then mul = 0.8 else
         if t[0] is "eyes"      then mul = 0.66
 
-        if @$root[t[0]][t[1]].shade
-          @$root[t[0]][t[1]].shade =
-            "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
+        if t[2] isnt "second"
+          if @$root[t[0]][t[1]].shade
+            @$root[t[0]][t[1]].shade =
+              "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
 
-        if @$root[t[0]][t[1]][t[2]].shade
-          @$root[t[0]][t[1]][t[2]].shade =
-            "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
+          if @$root[t[0]][t[1]][t[2]].shade
+            @$root[t[0]][t[1]][t[2]].shade =
+              "#" + toHex(r * mul) + toHex(g * mul) + toHex b * mul
 
         if name is "eyes" then @eyes.color.stroke = stroke: @eyes.color.basic
 

@@ -1,9 +1,22 @@
 <template lang="pug">
   #MenuBars(style="position: absolute; width: 100%")
     BarModule(title="eyes" icon="yes" icon-eye="yes")
-      SetColor(name="iris" title="eyes" color="eyes.color.basic")
+      SetColor(name="iris" title="eyes" color="eyes.color.left.basic")
 
-      BarInput(name="scale" :color="$root.eyes" :type="$root.eyes.iris" min="50" max="125")
+      #checker
+        p.h(style="width: 16vmax") custom right color
+
+        #checkbox
+          input(v-model="$root.eyes.color.right.enable" type="checkbox"
+            :style="[$root.eyesCheckedRightDivide, { 'border-color': $root.eyes.color.right.basic }]")
+          #checkmark
+
+      SetColor(name="right iris" title="right eye" color="eyes.color.right.basic"
+         :style="enableByVal($root.eyes.color.right.enable)")
+
+      .line
+
+      BarInput(name="scale" :color="color.eyes.left" :type="$root.eyes.iris" min="50" max="125")
 
       .line
 
@@ -31,20 +44,20 @@
         #Y.line(style="transform: translate(-45%,-200%) rotate(90deg)")
 
       #outerRadio
-        #radio(style="border-radius: 1vmin 0 0 1vmin" :style="{ 'border-color': $root.eyes.color.basic }")
+        #radio(style="border-radius: 1vmin 0 0 1vmin" :style="{ 'border-color': $root.eyes.color.left.basic }")
           input#isRelative(type="radio" name="radio"
             value="relative" v-model="$root.eyes.position.mode")
           #checkmark(style="border-radius: 1vmin 0 0 1vmin" :style="$root.ifIsRelative") relative
 
-        #radio(style="border-radius: 0 1vmin 1vmin 0" :style="{ 'border-color': $root.eyes.color.basic }")
+        #radio(style="border-radius: 0 1vmin 1vmin 0" :style="{ 'border-color': $root.eyes.color.left.basic }")
           input#isAbsolute(type="radio" name="radio"
             value="absolute" checked v-model="$root.eyes.position.mode")
           #checkmark(style="border-radius: 0 1vmin 1vmin 0" :style="$root.ifIsAbsolute") absolute
 
       .line
 
-      BarInput(name="focus" :color="$root.eyes" :type="$root.eyes.position")
-      BarInput(name="derp"  :color="$root.eyes" :type="$root.eyes.position" min="-100")
+      BarInput(name="focus" :color="color.eyes.left" :type="$root.eyes.position")
+      BarInput(name="derp"  :color="color.eyes.left" :type="$root.eyes.position" min="-100")
 
       .line
 
@@ -53,22 +66,22 @@
 
         #checkbox
           input(v-model="$root.eyes.lashes.show" type="checkbox" checked
-            :style="[$root.furCheckedEyelashes, { 'border-color': $root.eyes.color.basic }]")
+            :style="[$root.furCheckedEyelashes, { 'border-color': $root.eyes.color.left.basic }]")
           #checkmark
 
       .line
 
       p.h left eyelids
 
-      BarInput(name="up"   :color="$root.eyes" :type="$root.eyes.eyelids.left" compare="down")
-      BarInput(name="down" :color="$root.eyes" :type="$root.eyes.eyelids.left" compare="up"  )
+      BarInput(name="up"   :color="color.eyes.left" :type="$root.eyes.eyelids.left" compare="down")
+      BarInput(name="down" :color="color.eyes.left" :type="$root.eyes.eyelids.left" compare="up"  )
 
       .line
 
       p.h right eyelids
 
-      BarInput(name="up"   :color="$root.eyes" :type="$root.eyes.eyelids.right" compare="down")
-      BarInput(name="down" :color="$root.eyes" :type="$root.eyes.eyelids.right" compare="up"  )
+      BarInput(name="up"   :color="color.eyes.left" :type="$root.eyes.eyelids.right" compare="down")
+      BarInput(name="down" :color="color.eyes.left" :type="$root.eyes.eyelids.right" compare="up"  )
 
       .line
 
@@ -77,7 +90,7 @@
 
         #checkbox
           input(v-model="$root.eyes.brows.show" type="checkbox" checked
-            :style="[$root.furCheckedEyebrows, { 'border-color': $root.eyes.color.basic }]")
+            :style="[$root.furCheckedEyebrows, { 'border-color': $root.eyes.color.left.basic }]")
           #checkmark
 
       .line
@@ -85,20 +98,20 @@
       div(style="position: relative" :style="enableByVal($root.eyes.brows.show)")
         p.h left eyebrow
 
-        BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.left" min="50" max="150")
-        BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.left" min="-100")
-        BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="wide")
-        BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.left" compare="evil")
+        BarInput(name="width"  :color="color.eyes.left" :type="$root.eyes.brows.left" min="50" max="150")
+        BarInput(name="height" :color="color.eyes.left" :type="$root.eyes.brows.left" min="-100")
+        BarInput(name="evil"   :color="color.eyes.left" :type="$root.eyes.brows.left" compare="wide")
+        BarInput(name="wide"   :color="color.eyes.left" :type="$root.eyes.brows.left" compare="evil")
 
       .line
 
       div(style="position: relative" :style="enableByVal($root.eyes.brows.show)")
         p.h right eyebrow
 
-        BarInput(name="width"  :color="$root.eyes" :type="$root.eyes.brows.right" min="50" max="150")
-        BarInput(name="height" :color="$root.eyes" :type="$root.eyes.brows.right" min="-100")
-        BarInput(name="evil"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="wide")
-        BarInput(name="wide"   :color="$root.eyes" :type="$root.eyes.brows.right" compare="evil")
+        BarInput(name="width"  :color="color.eyes.left" :type="$root.eyes.brows.right" min="50" max="150")
+        BarInput(name="height" :color="color.eyes.left" :type="$root.eyes.brows.right" min="-100")
+        BarInput(name="evil"   :color="color.eyes.left" :type="$root.eyes.brows.right" compare="wide")
+        BarInput(name="wide"   :color="color.eyes.left" :type="$root.eyes.brows.right" compare="evil")
 
     BarModule(title="mane" icon="yes")
       SetColor(name="hair style" title="mane" color="mane.color.basic")
@@ -203,6 +216,11 @@
   export default
     name: "MenuBar"
 
+    data: ->
+      color:
+        eyes:
+          left: @$root.eyes.color.left.basic
+
     methods:
       enableByVal: (val) ->
         if not val
@@ -214,6 +232,9 @@
           filter: ""
           opacity: ""
           "pointer-events": ""
+
+    watch:
+      "$root.eyes.color.left.basic": (val) -> @color.eyes.left = val
 
     components: {
       BarModule
@@ -229,7 +250,7 @@
     width: 95%
     background: #353535
     top: 0%
-    border-radius: 1.5vmax
+    border-radius: 2vmin
     display: block
     margin: .25vmax 1.4vmax
     overflow: hidden

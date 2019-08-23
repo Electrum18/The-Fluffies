@@ -15,6 +15,8 @@
       input(type="radio" name="radios" value="jpeg" v-model="mode")
       #checkmark(style="border-radius: 1vmin 0 0 1vmin; padding: 7% 11%; width: 82%") jpeg
 
+    SetColor#set-color(name="set background" title="background" color="background.color.basic")
+
     p.header resolution #[span px]
     input.scr(type="number" min="1" style="margin: 3.5vmin 0 0 2vmin" v-model="width")
 
@@ -23,6 +25,8 @@
 </template>
 
 <script lang="coffee">
+  import SetColor from './bar/SetColors.vue'
+
   export default
     data: ->
       mode: "svg"
@@ -126,6 +130,7 @@
         document.body.removeChild e
 
       download: (name, type, xml) ->
+        root   = @$root
         image  = new Image()
         width  = @width
         height = @height
@@ -140,7 +145,7 @@
           canvas.width  = width
           canvas.height = height
 
-          ctx.fillStyle = "white"
+          ctx.fillStyle = root.background.color.basic
 
           ratio  = image.width / image.height
           width  = canvas.width
@@ -165,6 +170,10 @@
           e.click()
 
           document.body.removeChild e
+
+    components: {
+      SetColor
+    }
 </script>
 
 <style lang="sass">
@@ -218,6 +227,24 @@
         padding: .2vmin .5vmin
         margin: 0 0 0 5.25vmin
         border-radius: 0 .5vmin .5vmin 0
+
+    #set-color
+      width: 30%
+      position: relative
+      float: right
+      left: -10%
+      top: 1.5vmin
+
+    #color
+      background: #fa3
+      border-radius: 0 .5vmin .5vmin 0
+      top: 1vmin
+      right: 1vmin
+      padding: .6vmin
+      width: 2.5vmin
+      pointer-events: all
+      cursor: pointer
+      display: inline-block
 
   #imageType
     width: 8vmin
