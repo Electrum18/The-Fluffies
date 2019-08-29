@@ -2,7 +2,7 @@
   .MM-bar(
     :style="style"
     @click="$root.hair.name = elem.name; $root.hair.id = id"
-    @mousewheel="$parent.scroll"
+    v-scroll="$parent.scroll"
   )
     div(v-if="id === 0")
       p#header Mane list

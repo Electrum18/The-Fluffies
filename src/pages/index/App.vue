@@ -54,7 +54,7 @@
           @mouseleave="hovered.support = false"
         ) support us
 
-      a(href="/editor/pony?g=female")
+      a(href="/editor/pony?gender=female")
         button#start start using
           svg(viewBox="0 0 28 28")
             path(fill="#222" d="M22.73 17.6l-9.35 11a3.99 3.99 0 0 1-5.64.47 4 4 0 0 1-.45-5.64L14.43 15 7.28 6.59a4 4 0 1 1 6.1-5.18l9.36 11.01a4 4 0 0 1 0 5.18z")

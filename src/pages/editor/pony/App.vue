@@ -14,6 +14,16 @@
 
     #menu
       #back(:style="editor.style.back")
+      #info(:style="editor.style.info")
+        svg(viewBox="0 0 512 512" :style="editor.style.content" @click="male = !male")
+          path(fill="#f5a" d="M376 290a170 170 0 1 0-140 49v57h-40a20 20 0 1 0 0 40h40v56a20 20 0 0 0 40 0v-56h40a20 20 0 1 0 0-40h-40v-57c37-5 72-21 100-49zm-212-28A130 130 0 1 1 348 78a130 130 0 0 1-184 184z"
+            :style="editor.style.female")
+
+        svg(viewBox="-50 0 550 550" :style="editor.style.content" @click="male = !male")
+          path(fill="#5af" d="M499 19v-1l-1-1v-2l-1-2-1-1v-1l-7-7h-1l-1-1-2-1h-2l-1-1h-1l-4-1h-98a23 23 0 0 0 0 47h41L315 151a195 195 0 1 0 34 34L453 80v41a23 23 0 0 0 47 0V24l-1-5zM195 453a148 148 0 1 1 0-297 148 148 0 0 1 0 297z"
+            :style="editor.style.male")
+
+        input(type="text" value="Defaulty" v-model="name" :style="editor.style.content")
 
       // Avatar editor panel bars
       #wrapper(:style="editor.style.bars")
@@ -98,7 +108,7 @@
 
           #color(:style="{ background: pallete.color.basic }")
 
-        p.h hex
+        p.h(:style="pallete.hex.style" style="transition: color .25s") {{ pallete.hex.text }}
           input(pattern="[a-fA-F\d]+" maxlength="7" v-model="pallete.color.basic")
 
         .line
@@ -130,7 +140,7 @@
             fill-opacity=0
             style="pointer-events: stroke"
 
-            @mousewheel="scroll"
+            v-scroll="scroll"
           )
 
         MoMBar(v-for="(hair, i) in $root.hair.info" :key="hair + i" :id="i" :elem="hair")
@@ -204,6 +214,9 @@
 
   export default
     data: ->
+      name: "Defaulty"
+      male: no
+
       pallete:
         name: ""
         opened: no
@@ -211,6 +224,11 @@
 
         x: 0,
         y: 0
+
+        hex:
+          text: "hex"
+          style:
+            color: "#bbb"
 
         ang:
           basic: 0
@@ -264,6 +282,19 @@
             top: "-10%"
             "pointer-events": "none"
 
+          info: ""
+
+          content:
+            opacity: 0
+
+          male:
+            transform: "translate(50%, 50%) scale(0)"
+            opacity: 0
+
+          female:
+            transform: "translate(0%, 0%) scale(1)"
+            opacity: 1
+
       screener:
         opened: no
 
@@ -275,6 +306,31 @@
           back: { right: "0vmax" }
 
     watch:
+      male: (val) ->
+        url = window.location.pathname
+
+        if val
+          @editor.style.male =
+            transform: "translate(0%, 0%) scale(1)"
+            opacity: 1
+
+          @editor.style.female =
+            transform: "translate(50%, 50%) scale(0)"
+            opacity: 0
+
+          window.history.replaceState {}, "", url + "?gender=male"
+
+        else
+          @editor.style.female =
+            transform: "translate(0%, 0%) scale(1)"
+            opacity: 1
+
+          @editor.style.male =
+            transform: "translate(50%, 50%) scale(0)"
+            opacity: 0
+
+          window.history.replaceState {}, "", url + "?gender=female"
+
       "pallete.opened": ->
         t     = @pallete.target
         color = @$root[t[0]][t[1]][t[2]]
@@ -286,7 +342,7 @@
         @pallete.ang.basic = HSL[0]
         @pallete.x         = HSL[1]
         @pallete.y         = HSL[2] / (1 - (HSL[1] / 2))
-        @pallete.color.basic = color
+        @pallete.color.basic  = color
 
       "pallete.ang.basic": (ang) ->
         @pallete.ang.style = transform: "translate(-50%, -1075%) rotate(#{ ang * 360 }deg)"
@@ -301,6 +357,18 @@
         @setPadPoint @pallete.x, e
 
       "pallete.color.basic": (color) ->
+        if color[0] isnt "#"
+          @pallete.color.basic = "#" + color.substr 1
+
+        if color.length < 7
+          @pallete.hex.text  = "invalid hex"
+          @pallete.hex.style = color: "#f50"
+          return
+
+        else
+          @pallete.hex.text  = "hex"
+          @pallete.hex.style = color: "#bbb"
+
         t = @pallete.target
 
         r = parseInt(color[1] + color[2], 16)
@@ -525,6 +593,9 @@
             top: "-10%"
             "pointer-events": "none"
 
+          @editor.style.content =
+            opacity: 0
+
           editor = @editor
 
           setTimeout (->
@@ -535,6 +606,8 @@
               width:  "9vmin"
               height: "9vmin"
               "border-radius": "50%"
+
+            editor.style.info = off
 
             return
           ), 250
@@ -565,11 +638,17 @@
 
         @editor.opened     = yes
         @editor.style.back =
-          bottom: "50%"
+          bottom: "52%"
           right:  "45%"
           width:  "92.5%"
           height: "100%"
           "border-radius": "0%"
+
+        @editor.style.info =
+          width:  "90%"
+
+        @editor.style.content =
+          opacity: 1
 
       openMenuOfModels: ->
         @menuOfModels.style.bar  = left:  "62%"
@@ -579,14 +658,30 @@
         @button.mode = "back"
         @button.type = "back"
 
-      scroll: (val) ->
+      scroll: (delta) ->
         ang = @menuOfModels.angle
 
-        if ang <= 0 and val.wheelDelta > 0
+        if ang <= 0 and delta > 0
           @menuOfModels.angle = 0
 
-        else if ang < (@$root.hair.info.length - 1) * 1.5 or val.wheelDelta > 0
-          @menuOfModels.angle -= val.wheelDelta / 80  # 1.5 degress
+        else if ang < (@$root.hair.info.length - 1) * 1.5 or delta > 0
+          @menuOfModels.angle -= delta / 80  # 1.5 degress
+
+    mounted: ->
+      getParameterByName = (name) ->
+        name = name.replace /[\[\]]/g, '\\$&'
+
+        results = new RegExp '[?&]' + name + '(=([^&#]*)|&|#|$)'
+          .exec window.location.href
+
+        if not results    then return null
+        if not results[2] then return ''
+
+        return decodeURIComponent results[2].replace /\+/g, ' '
+
+      if getParameterByName("gender") is "male"
+          @male = yes
+      else @male = no
 
     components: {
       Avatar

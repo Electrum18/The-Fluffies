@@ -114,7 +114,7 @@
           Fur(name="chinAngle" not-fill='yes')
           Fur(name="chin"      not-fill='yes' mask="url(#mask_Out_Head)")
 
-          Fur.move(name="bridge" :style="$root.faceMove")
+          Fur.move(name="bridge" not-fill='yes' :style="$root.faceMove")
 
           g(mask="url(#mask_In_Head)" :style="$root.faceMove")
             path#mouth.move(d fill="#c47" stroke-width=7 ref="mouth")
@@ -177,6 +177,14 @@
             :is-not-stroke="$root.mane.second.notLines"
             :style="$root.hair.side.front")
 
+        g.Head(:style="[$root.headRotate, $root.furTint]")
+          Fur.move(name="horn" stroke-width=7 :hide="!$root.horn.enable")
+          Fur.move(name="hornSecond" mask="url(#mask_In_Horn)"
+            :hide="!$root.horn.enable"
+            :not-fill="!$root.horn.notLines"
+            :stroke-width="$root.horn.notLines ? 0 : 7"
+            :second="true")
+
       defs
         mask#mask_Head(x="0" y="0" width="1024" height="1024")
           Clip(name="headClip" fill="#fff" stroke="#000" width="9.5" :style="$root.faceMoveReverse")
@@ -227,6 +235,9 @@
           Clip(name="headClip"     fill="#000" stroke="#000" width="9.5")
           Clip(name="earRightClip" fill="#000" stroke="#000" width="9.5")
 
+        mask#mask_In_Horn(x="0" y="0" width="1024" height="1024")
+          Clip(name="hornClip" fill="#fff" stroke="#000" width="6.5")
+
         linearGradient#grad_Eyes_Left(x1="0%" y1="100%" x2="0%" y2="0%")
           stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.left.basic, 'stop-opacity': 1 }")
           stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.left.shade, 'stop-opacity': 1 }")
@@ -246,7 +257,9 @@
       interpolate: require("polymorph-js").interpolate
 
       body: {}
-      furs: {}
+      furs:
+        male: {}
+
       hairs: {}
       emotions: {}
 
@@ -320,6 +333,8 @@
             @$root.eyes.color.right.stroke = val.stroke
 
         deep: yes
+
+      "$parent.male": -> @animate()
 
     computed:
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
@@ -405,7 +420,7 @@
         furs = @furs
         keys = @keys
 
-        give = (inPath, i) ->
+        give = (inPath, i, isMale) ->
           if i < pathTo.length
             name = pathTo[i].toLowerCase()
 
@@ -417,10 +432,17 @@
 
               keys[keys.length] = text
 
-              if text = "mouth"
+              if isMale
+                furs.male[text] = inPath
+
+              if text is "mouth"
                 furs.mouthOuter = furs.mouth
 
-            else give inPath["basic"], i
+            else
+              if inPath.male
+                give inPath.male["basic"], i, yes
+
+              give inPath["basic"], i
 
         give @body, 0
 
@@ -429,9 +451,12 @@
         refs   = @$root.$refs
 
         for key in @keys
-          paths  = @furs[key]
+          if @$parent.male && @furs.male[key]
+               paths = @furs.male[key]
+          else paths = @furs[key]
+
           length = paths.length - 1
-          fullRange = (@degress / 90) * length
+          fullRange = @x * length
 
           absPercent = @AbsoluteDegress / 90
 
@@ -715,7 +740,7 @@
 
           # Set clip paths
 
-          else if key in ["head", "nose", "eyeLeft", "eyeRight"]
+          else if key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
             animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 
             clips[key + "Clip"] = animHoriz range
@@ -724,7 +749,6 @@
             animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 
             clips[key + "Clip"] = animHoriz range
-
 
       eyes: ->
         refs = @$root.$refs
@@ -894,26 +918,27 @@
           hairPaths.tail.second
         ]
 
-        fixPath = hairPaths.fix
+        if hairPaths.fix
+          fixPath = hairPaths.fix
 
-        fixing = [
-          fixPath.front.main,
-          fixPath.front.second,
-          fixPath.back.main,
-          fixPath.back.second,
-          fixPath.tail.main,
-          fixPath.tail.second
-        ]
+          fixing = [
+            fixPath.front.main,
+            fixPath.front.second,
+            fixPath.back.main,
+            fixPath.back.second,
+            fixPath.tail.main,
+            fixPath.tail.second
+          ]
 
         for elem, i in elems
           paths     = imports[i]
-          fullRange = @degress / 90 * 2
+          fullRange = @x * 2
 
           frame = Math.floor fullRange
           range = fullRange - frame
           mirroring = hair.info[hair.id].mirroring
 
-          if fixing[i].x
+          if fixing and fixing[i].x
                origin = origin: fixing[i]
           else origin = origin: x: 0, y: 0
 

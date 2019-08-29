@@ -28,26 +28,6 @@
       ],
 
       "second": []
-    },
-
-    "fix": {
-      "front": {
-        "main": {},
-
-        "second": {}
-      },
-
-      "back": {
-        "main": {},
-
-        "second": {}
-      },
-
-      "tail": {
-        "main": {},
-
-        "second": {}
-      }
     }
   }
 }

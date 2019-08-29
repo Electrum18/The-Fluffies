@@ -34,6 +34,22 @@ Vue.directive "press-hold",
     elem.addEventListener "touchcancel", unholding, { passive: yes }
     elem.addEventListener "touchmove", event, { passive: yes }
 
+
+Vue.directive "scroll",
+  bind: (elem, binding) ->
+    event = (e) ->
+      if e.type isnt "wheel" then return
+
+      delta = -Math.abs(e.deltaY) * (120 / e.deltaY)
+
+      if binding.value[0]
+           binding.value[0] delta
+      else binding.value delta
+
+    elem.addEventListener "wheel", event
+    elem.addEventListener "mousewheel", event
+    elem.addEventListener "DOMMouseScroll", event
+
 new Vue
   render: (h) -> h App
 
@@ -57,6 +73,9 @@ new Vue
     tassels: on
     fangs: on
     catlike: off
+    horn:
+      enable: off
+      notLines: off
 
     jaw: { open: 0, sad: 0 }
     teeth: { upper: 100, lower: 100 }
@@ -117,6 +136,7 @@ new Vue
       color:
         basic: "#cccccc"
         shade: "#999999"
+        second: "#dddddd"
 
     piercings:
       ring: "M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z",
@@ -132,6 +152,8 @@ new Vue
     path:
       headClip: ""
       noseClip: ""
+
+      hornClip: ""
 
       eyeLeftClip: ""
       eyeRightClip: ""

@@ -108,11 +108,11 @@
         stylesArr = stylesArr.join("""\n""").replace(/style="/g,"{ ").replace /"/g, " }"
 
         if @mode is "svg"
-          @downloadSVG "theFluffiesPony.svg",
+          @downloadSVG "TFs-" + @$parent.name + ".svg",
             """#{header.trim() + styles + stylesArr}\n\t</style>\n#{elem.join("\n")}\n</svg>"""
 
         else
-          @download "theFluffiesPony", @mode,
+          @download "TFs-" + @$parent.name, @mode,
             """#{header.trim() + styles + stylesArr}\n\t</style>\n#{elem.join("\n")}\n</svg>"""
 
       downloadSVG: (filename, text) ->

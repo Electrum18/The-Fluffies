@@ -53,6 +53,8 @@
 
     mounted: ->
       if @$root[@title]
+        if @title is "horn" then return
+
         if @title is "eyes"
           @color = @$root[@title].color.left.basic # Import
 

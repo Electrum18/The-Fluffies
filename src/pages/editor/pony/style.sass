@@ -500,16 +500,54 @@ p.X span, p.sm span
     margin: 0
     border-radius: 1vmax
 
-#menu svg 
+#menu svg
   pointer-events: none
 
-#menu .mark-arrow svg
-  top: 50%
-  left: 50%
-  transition: transform .2s ease, opacity .2s ease
-  transform: translate(-50%, -50%)
+#menu
+  .mark-arrow svg
+    top: 50%
+    left: 50%
+    transition: transform .2s ease, opacity .2s ease
+    transform: translate(-50%, -50%)
 
-#color_circle 
+  #info
+    width: 0%
+    height: 9vmin
+    bottom: 6vmin
+    right: 6vmin
+    transform: translate(0%, 50%)
+    pointer-events: all
+    background: #eee
+    border-radius: 50vmax 0 0 50vmax
+    position: absolute
+
+    svg
+      height: 6vmin
+      padding: 1.5vmin
+      cursor: pointer
+      pointer-events: all
+      transition: all .5s ease
+
+      path
+        transition: all .5s ease
+
+    input
+      border: #0002 0.1vmin solid
+      border-bottom: #fa0 0.5vmin solid
+      width: 60%
+      height: 4vmin
+      position: relative
+      left: 9vmin
+      top: 2vmin
+      background: transparent
+      border-radius: 1vmin
+      padding: .5vmin
+      font-size: 3vmin
+      color: #222
+      font-family: Arial, Helvetica, sans-serif
+      transition: all .5s ease
+
+#color_circle
   transform: translate(-50%, -1075%) rotate(0deg)
   transform-origin: 50% 1075%
   width: 1vmax
@@ -517,7 +555,7 @@ p.X span, p.sm span
   top: 50%
   left: 50%
 
-#color_box 
+#color_box
   transform: translate(900%, -1000%)
   width: .66vmax
   height: .66vmax

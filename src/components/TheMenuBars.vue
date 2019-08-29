@@ -127,7 +127,7 @@
         p.h(style="width: 16vmax") enable
 
         #checkbox
-          input#haveCatlike(v-model="$root.mane.second.enable" type="checkbox")
+          input(v-model="$root.mane.second.enable" type="checkbox")
           #checkmark
 
       div(style="position: relative" :style="enableByVal($root.mane.second.enable)")
@@ -135,7 +135,7 @@
           p.h(style="width: 16vmax") second color
 
           #checkbox
-            input#haveCatlike(v-model="$root.mane.second.notLines" type="checkbox")
+            input(v-model="$root.mane.second.notLines" type="checkbox")
             #checkmark
 
         SetColor(name="set color" title="second color" color="mane.color.second"
@@ -144,12 +144,31 @@
     BarModule(title="fur" icon="yes")
       SetColor(name="set color" title="fur" color="fur.color.basic")
 
+    BarModule(title="horn")
+      #checker
+        p.h(style="width: 16vmax") enable
+
+        #checkbox
+          input(v-model="$root.horn.enable" type="checkbox")
+          #checkmark
+
+      div(style="position: relative" :style="enableByVal($root.horn.enable)")
+        #checker
+          p.h(style="width: 16vmax") second color
+
+          #checkbox
+            input(v-model="$root.horn.notLines" type="checkbox")
+            #checkmark
+
+        SetColor(name="set color" title="second color" color="fur.color.second"
+          :style="enableByVal($root.horn.notLines)")
+
     BarModule(title="mouth")
       #checker
         p.h(style="width: 16vmax") catlike
 
         #checkbox
-          input#haveCatlike(v-model="$root.catlike" type="checkbox")
+          input(v-model="$root.catlike" type="checkbox")
           #checkmark
 
     BarModule(title="emotion")
