@@ -61,16 +61,6 @@
 
       .line
 
-      #checker
-        p.h(style="width: 16vmax") eyelashes
-
-        #checkbox
-          input(v-model="$root.eyes.lashes.show" type="checkbox" checked
-            :style="[$root.furCheckedEyelashes, { 'border-color': $root.eyes.color.left.basic }]")
-          #checkmark
-
-      .line
-
       p.h left eyelids
 
       BarInput(name="up"   :color="color.eyes.left" :type="$root.eyes.eyelids.left" compare="down")

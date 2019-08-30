@@ -105,8 +105,6 @@ new Vue
         left: { up: 0, down: 0 }
         right: { up: 0, down: 0 }
 
-      lashes: { show: yes }
-
       brows:
         show: yes
 

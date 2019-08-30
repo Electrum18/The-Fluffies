@@ -460,17 +460,27 @@
 
           absPercent = @AbsoluteDegress / 90
 
+          if key is "chin"
+            if @degress > 0
+              if @degress > 30
+                   fullRange = absPercent ** 0.75 * length
+              else fullRange = absPercent ** 2.5  * length * 6.8
+            else
+              if @degress > -30
+                   fullRange = absPercent ** 2.5  * length * 6.8
+              else fullRange = absPercent ** 0.75 * length
+
           if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
             "nostrilLeft", "nostrilRight"]
 
             if @degress > 0
               if @degress > 30
-                   fullRange = absPercent ** 0.7  * length
-              else fullRange = absPercent ** 1.55 * length * 2.5
+                   fullRange = absPercent ** 0.5 * length
+              else fullRange = absPercent ** 2   * length * 5.15
             else
               if @degress > -30
-                   fullRange = absPercent ** 1.55 * length * 2.5
-              else fullRange = absPercent ** 0.7  * length
+                   fullRange = absPercent ** 2   * length * 5.15
+              else fullRange = absPercent ** 0.5 * length
 
           else if key in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
             "eyeLeftLashesLower" ]
@@ -646,12 +656,12 @@
             clips[key + "Clip"] = animMouth jaw.open / 100
 
           else if key in lashes.left
-            if fullRange >= 1.9 or not @$root.eyes.lashes.show
+            if fullRange >= 1.9 or @$parent.male
               refs[key].setAttribute "d", ""
 
               continue
 
-            val     = @$root.eyes.eyelids.left.up
+            val    = @$root.eyes.eyelids.left.up
             closed = @body.eye.left.lashes
 
             index = lashes.left.indexOf key
@@ -669,7 +679,7 @@
             refs[key].setAttribute "d", animLashesSumm val / 100
 
           else if key in lashes.right
-            if not @$root.eyes.lashes.show
+            if @$parent.male
               refs[key].setAttribute "d", ""
 
               continue
@@ -716,6 +726,19 @@
               @interpolate [animBrowSumm(val.evil / 100), animBrowWide range]
 
             refs[key].setAttribute "d", if brow.show then animBrowSumm2 val.wide / 100 else ""
+
+          ###else if key in ["chin", "nose"]
+            animOpen =
+              @interpolate [
+                @emotions.open[key][frame + 1],
+                @emotions.open[key][frame]
+              ]
+
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+            animSumm  = @interpolate [animHoriz(range), animOpen range]
+
+            refs[key].setAttribute "d", animSumm @$root.jaw.open / 100
+          ###
 
           else
             animHoriz = @interpolate [paths[frame + 1], paths[frame]]
@@ -903,7 +926,7 @@
         refs      = @$root.$refs
         hairPaths = @hairs[hair.name]
 
-        elems   = [
+        elems = [
           "hair", "hairSecond",
           "hairNape", "hairNapeSecond",
           "hairTail", "hairTailSecond"
@@ -1040,9 +1063,7 @@
           @$root.jaw.open, @$root.jaw.sad,
           @$root.teeth.upper, @$root.teeth.lower,
 
-          @$root.earClipEnabled,
-
-          @$root.eyes.lashes.show
+          @$root.earClipEnabled
         ].join()
 
       ), -> @animate(); return
