@@ -30,14 +30,10 @@
 
     #text
       h2 in future plans
-      p(:style="text") Add the ability to make many other races or creatures of furry - brony fendoms
-      p(:style="text") Improve and add more animation frames
-      p(:style="text") Add #[span(:style="span") male gender], add more #[span(:style="span") hairstyles] and fix existing ones
-      p(:style="text") Finish the interface, add more details and more variations
+      p(:style="text") Add more #[span(:style="span") hairstyles]
       p(:style="text") Using the #[span(:style="span") webcamera] to capture movements to control the "avatar"
       p(:style="text") The ability to #[span(:style="span") create widgets] for embedding in websites and forums (iframe)
       p(:style="text") Adding more #[span(:style="span") accessories]
-      p(:style="text") Creating a chat, sociality
       p(:style="text") Adding #[span(:style="span") premium] features via donation
       p(:style="text") Adding #[span(:style="span") animation] and avatar manipulation tools
 

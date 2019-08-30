@@ -71,7 +71,7 @@ div
   stroke-linejoin: round
   transform-origin: 50% 50%
 
-#menu-circle, #menu-social, .MM-block, .menu-bar:eq(3) input, input#piercPos, input#piercScl
+#menu-circle, .MM-block, .menu-bar:eq(3) input, input#piercPos, input#piercScl
   background: #eee
 
 .menu-bar:eq(3) input, input#piercPos, input#piercScl
@@ -89,7 +89,7 @@ div
   position: absolute
   width: 100vmax
 
-#menu-button 
+#menu-button
   width: 9vmin
   height: 9vmin
   bottom: 6vmin
@@ -178,14 +178,14 @@ bar-title
   right: 0
   cursor: pointer
 
-#name 
+#name
   color: #888
   font-variant: all-small-caps
   font-weight: bolder
   font-family: Arial, Helvetica, sans-serif
 
 #title
-  #favColor 
+  #favColor
     width: 3vmin
     height: 3vmin
     background: #fff
@@ -194,7 +194,7 @@ bar-title
     right: 4vmin
     cursor: not-allowed
 
-  #favColorMini 
+  #favColorMini
     width: 1.2vmin
     height: 1.2vmin
     background: #222
@@ -206,7 +206,7 @@ bar-title
 
 
 #sliderBox
-  .line 
+  .line
     left: 50%
     top: 50%
     height: .25vmin
@@ -446,7 +446,7 @@ p.X span, p.sm span
   font-size: 2vmin
   cursor: pointer
 
-#menu-button .fa.fa-times 
+#menu-button .fa.fa-times
   color: #333
   padding: 1.55vmin 2.15vmin
   font-size: 6vmin
@@ -531,21 +531,20 @@ p.X span, p.sm span
       path
         transition: all .5s ease
 
-    input
-      border: #0002 0.1vmin solid
-      border-bottom: #fa0 0.5vmin solid
-      width: 60%
-      height: 4vmin
-      position: relative
-      left: 9vmin
-      top: 2vmin
-      background: transparent
-      border-radius: 1vmin
-      padding: .5vmin
-      font-size: 3vmin
-      color: #222
-      font-family: Arial, Helvetica, sans-serif
-      transition: all .5s ease
+input#text
+  border: #ccc 0.2vmin solid
+  width: 60%
+  height: 4vmin
+  position: relative
+  left: 9vmin
+  top: 2vmin
+  background: transparent
+  border-radius: 1vmin
+  padding: .5vmin
+  font-size: 3vmin
+  color: #222
+  font-family: Arial, Helvetica, sans-serif
+  transition: all .5s ease
 
 #color_circle
   transform: translate(-50%, -1075%) rotate(0deg)
@@ -628,40 +627,10 @@ input.scr::-webkit-inner-spin-button
   -webkit-appearance: none
   margin: 0
 
-#social
-  left: 0
-  bottom: 0
-  position: fixed
-  margin: 1vmin
-  float: left
-  background: #333
-  border-radius: 1vmin
 
-  .social-icon
-    width: 5vmin
-    height: 5vmin
-    position: relative
-    border-bottom: .2vmin solid #444
-    pointer-events: all
-
-    svg path
-      fill: #aaa
-      transition: fill .2s ease-out
-
-  .social-icon:last-of-type
-    border-bottom: unset
-
-#social #github:hover svg path
-  fill: #1074e7
-
-#social #twitter:hover svg path
-  fill: #10dffd
-
-#social #patreon:hover svg path
-  fill: #e7513b
 
 #version
-  left: 6vmin
+  left: 9vmin
   bottom: 0
   padding: .5vmin 0 .5vmin 1vmin
   margin: 1vmin
@@ -674,7 +643,7 @@ input.scr::-webkit-inner-spin-button
   font-variant: small-caps
 
   span
-    background: yellow
+    background: orange
     color: #111
     padding: .5vmin .7vmin
     position: relative
@@ -684,6 +653,15 @@ input.scr::-webkit-inner-spin-button
 #nose
   stroke-opacity: 1
   stroke-width: 14
+
+.loader
+  width: 6vmin
+  height: 6vmin
+  stroke-dasharray: 31.1
+  animation: loading 2s ease infinite
+  transform: rotate(-90deg)
+  float: left
+  position: relative
 
 #loadings
   width: 31vmin
@@ -697,15 +675,6 @@ input.scr::-webkit-inner-spin-button
     margin: 1vmin
     background: #222
     border-radius: 1vmin
-
-    .loader
-      width: 6vmin
-      height: 6vmin
-      stroke-dasharray: 31.1
-      animation: loading 2s ease infinite
-      transform: rotate(-90deg)
-      float: left
-      position: relative
 
     p
       color: #ddd

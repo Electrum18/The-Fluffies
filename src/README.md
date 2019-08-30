@@ -3,14 +3,16 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development (reqiures socket server!)
 ```
 npm run serve
+npm run socket
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for production (reqiures socket server!)
 ```
 npm run build
+npm run socket
 ```
 
 ### Use Webpack in production mode

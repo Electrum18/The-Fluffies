@@ -103,7 +103,7 @@
 #brand path:nth-child(10), #brand path:nth-child(11), #brand path:nth-child(12) 
   fill: #222
 
-#brandBack path 
+#brandBack path
   fill: #ff2
 
 #brand p
@@ -117,33 +117,58 @@
   animation: brand_p 3s ease-in-out
   width: 100%
 
-  p:last-of-type 
-    margin: 16vmin 1.5vmin 0
-    padding: 0.5vmin 0
-    background: transparent
-    color: #f40
-    width: 21vmin
-    border: 0.25vmin solid #f40
-    border-radius: 0.5vmin
-    animation: attention 3s ease-in-out infinite
+#brand #warning
+  margin: 16vmin 1.5vmin 0
+  padding: 0.5vmin 0
+  background: transparent
+  color: #f40
+  width: 21vmin
+  border: 0.25vmin solid #f40
+  border-radius: 0.5vmin
+  animation: attention 3s ease-in-out infinite
 
 #start
   border-radius: 3vmin
-  font-size: 4vmin
+  font-size: 2.5vmin
   font-weight: bolder
   font-variant: small-caps
   font-family: Arial, Helvetica, sans-serif
   text-align: center
-  padding: 1.2vmin 2.5vmin 1.2vmin 2vmin
   position: absolute
   border-style: none
   background: #eee
   color: #222
   transition: background 0.25s ease-out
-  width: 103%
-  height: 9vmin
+  width: 100%
+  height: 11vmin
   transform: translate(0)
-  cursor: pointer
+  pointer-events: none
+
+  #line
+    position: absolute
+    left: 15.88vmin
+    width: .2vmin
+    height: 5vmin
+    bottom: 1vmin
+    background: #0002
+
+  #text
+    position: absolute
+    top: 1vmin
+    left: 9vmin
+
+  #male
+    left: 0
+
+  #female
+    right: 0
+
+  .gender
+    position: absolute
+    font-size: 3.5vmin
+    width: 50%
+    color: #444
+    pointer-events: all
 
 #button
   position: fixed
@@ -154,17 +179,9 @@
   opacity: 1
   animation: buttonDOM 3s ease-in-out
 
-  svg
-    background: transparent
-    position: relative
-    padding: 0.9vmin 0
-    float: right
-    width: 2.5vmin
-    height: 3vmin
-
   p
     margin: 0
-    padding: 10vmin 0
+    padding: 12vmin 0
     width: 100%
     text-align: center
     position: absolute
@@ -174,11 +191,6 @@
     font-family: Arial, Helvetica, sans-serif
     font-variant: small-caps
     pointer-events: none
-
-  p:last-of-type
-    width: 100%
-    padding: 8vmin 0
-    text-align: center
 
 #phone
   width: 28vmin
@@ -200,7 +212,7 @@
     padding-top: 2vmin
     transition: none
 
-#about, #support 
+#about, #support
   font-size: 4vmin
   font-variant: small-caps
   font-family: Arial, Helvetica, sans-serif
@@ -214,18 +226,18 @@
   border-radius: 2vmin
   cursor: pointer
 
-#about 
+#about
   top: 110%
   left: -45%
   opacity: 1
   animation: about 3.5s ease-in-out
   padding: 0.5vmin 7vmin
 
-#about:hover 
+#about:hover
   padding: -.5vmin
   background: #eee
 
-#support 
+#support
   top: 110%
   left: 150%
   white-space: nowrap
@@ -233,12 +245,9 @@
   animation: support 3.5s ease-in-out
   padding: 0.5vmin 2vmin
 
-#support:hover 
+#support:hover
   padding: -.5vmin
   background: #eee
-
-#start:hover 
-  background: #fa0
 
 #mode
   margin: 3vmin

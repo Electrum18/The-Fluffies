@@ -30,7 +30,7 @@
               feMergeNode(in="SourceGraphic")
 
       p This is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
-      p(v-show="warning") {{ Warning }}
+      p#warning(v-show="warning") {{ Warning }}
 
     #phone
       svg(viewBox="0 0 310 310")
@@ -54,12 +54,23 @@
           @mouseleave="hovered.support = false"
         ) support us
 
-      a(href="/editor/pony?gender=female")
-        button#start start using
-          svg(viewBox="0 0 28 28")
-            path(fill="#222" d="M22.73 17.6l-9.35 11a3.99 3.99 0 0 1-5.64.47 4 4 0 0 1-.45-5.64L14.43 15 7.28 6.59a4 4 0 1 1 6.1-5.18l9.36 11.01a4 4 0 0 1 0 5.18z")
+        button#start(:style="HoverStart")
+          span#text start using
+          #line
 
-      p banana version
+          a(href="/editor/pony?gender=male")
+            span(
+              @mouseover=" hovered.start = true"
+              @mouseleave="hovered.start = false"
+            )#male.gender male
+
+          a(href="/editor/pony?gender=female")
+            span(
+              @mouseover=" hovered.start = true"
+              @mouseleave="hovered.start = false"
+            )#female.gender female
+
+      p carrot version
       p(style="transform: translateY(-60%); font-size: 2.5vmin; color: #f4a") pony available
 
     Social
@@ -71,18 +82,19 @@
 </template>
 
 <script lang="coffee">
-  import NightMode from '../../components/TheNightMode.vue'
+  import NightMode from "../../components/TheNightMode.vue"
   import Social   from "../../components/TheSocial.vue"
 
   export default
     data: ->
-      background: '#fff'
-      mode: '#111'
-      text: '#222'
-      slope: '.25'
-      modeText: 'light mode'
+      background: "#fff"
+      mode: "#111"
+      text: "#222"
+      slope: ".25"
+      modeText: "light mode"
 
       hovered:
+        start:   no
         about:   no
         support: no
 
@@ -92,43 +104,46 @@
       warning: off
 
     watch:
-      '$root.dark': (val) ->
+      "$root.dark": (val) ->
         if val
-          @background = background: '#333'
-          @mode  = color: '#fff'
-          @text = color: '#eee'
-          @slope = '.5'
-          @modeText = 'dark mode'
+          @background = background: "#333"
+          @mode  = color: "#fff"
+          @text = color: "#eee"
+          @slope = ".5"
+          @modeText = "dark mode"
 
         else
-          @background = background: '#fff'
-          @mode  = color: '#111'
-          @text  = color: '#222'
-          @slope = '.25'
-          @modeText = 'light mode'
+          @background = background: "#fff"
+          @mode  = color: "#111"
+          @text  = color: "#222"
+          @slope = ".25"
+          @modeText = "light mode"
 
     computed:
+      HoverStart: ->
+        if @hovered.start then background: "#fa0" else off
+
       HoverAbout: ->
-        if @hovered.about then color: '#111' else @text
+        if @hovered.about then color: "#111" else @text
 
       HoverSupport: ->
-        if @hovered.support then color: '#111' else @text
+        if @hovered.support then color: "#111" else @text
 
       Warning: ->
-        if @version[1] is 'Chrome'
+        if @version[1] is "Chrome"
           tem = navigator.userAgent.match(/\b(Edge)\/(\d+)/)
 
           if tem isnt null then @version = tem
 
-        if @version[1] is 'Edge'
+        if @version[1] is "Edge"
           @warning = on
 
-          'ATTENTION, DOES NOT WORK IN #{ version[1].toUpperCase() } !!!'
+          "ATTENTION, DOES NOT WORK IN #{ version[1].toUpperCase() } !!!"
 
         else if /trident/i.test @version[1]
           @warning = on
 
-          'ATTENTION, DOES NOT WORK IN IE !!!'
+          "ATTENTION, DOES NOT WORK IN IE !!!"
 
     components: {
       Social

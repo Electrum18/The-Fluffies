@@ -4,12 +4,10 @@
 
     #vignette
 
-    p#version version #[span banana]
+    p#version version #[span carrot]
 
     Social
-
-    //#menu-social
-
+    Chat
     Screener
 
     #menu
@@ -23,7 +21,7 @@
           path(fill="#5af" d="M499 19v-1l-1-1v-2l-1-2-1-1v-1l-7-7h-1l-1-1-2-1h-2l-1-1h-1l-4-1h-98a23 23 0 0 0 0 47h41L315 151a195 195 0 1 0 34 34L453 80v41a23 23 0 0 0 47 0V24l-1-5zM195 453a148 148 0 1 1 0-297 148 148 0 0 1 0 297z"
             :style="editor.style.male")
 
-        input(type="text" value="Defaulty" v-model="name" :style="editor.style.content")
+        input#text(type="text" placeholder="set a name" value="Defaulty" v-model="name" :style="editor.style.content")
 
       // Avatar editor panel bars
       #wrapper(:style="editor.style.bars")
@@ -211,6 +209,7 @@
   import MenuBars from "../../../components/TheMenuBars.vue"
   import Avatar from "../../../components/TheAvatar.vue"
   import Social from "../../../components/TheSocial.vue"
+  import Chat from "../../../components/TheChat.vue"
 
   export default
     data: ->
@@ -686,6 +685,7 @@
     components: {
       Avatar
       Screener
+      Chat
       Social
       MenuBars
       MoMBar
