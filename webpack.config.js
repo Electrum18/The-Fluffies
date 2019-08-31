@@ -180,8 +180,8 @@ module.exports = {
 
   externals: {
     polymorph: 'polymorph',
-    'vue-resource': 'vue-resource',
-    vue: 'vue',
-    'socket.io-client': 'socket.io-client'
+    'vue-resource': 'VueResource',
+    vue: 'Vue',
+    "socket.io-client": "socketIOClient"
   }
 }

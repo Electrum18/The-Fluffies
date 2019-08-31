@@ -1,7 +1,4 @@
-var
-  app  = require("express")(),
-  http = require("http").createServer(app),
-    io = require("socket.io")(http),
+var io = require("socket.io").listen(3000),
 
   time = () => {
     var
@@ -112,9 +109,4 @@ io.on("connection", (socket) => {
 
     io.emit("get users", length);
   });
-});
-
-
-http.listen(3000, () => {
-  console.log("listening on 3000");
 });

@@ -43,7 +43,7 @@
 </template>
 
 <script lang="coffee">
-  import io from "socket.io-client"
+  import io from "socket.io-client"  # Comment on webpack command
 
   export default
     data: ->
@@ -52,7 +52,11 @@
       opened: no
       users: 0
 
-      socket: io("localhost:3000")
+      socket: io(
+        if window.location.hostname is "localhost"
+             window.location.hostname + ":3000"
+        else window.location.host
+      )
 
       content: []
 
