@@ -740,6 +740,11 @@
             refs[key].setAttribute "d", animSumm @$root.jaw.open / 100
           ###
 
+          else if key is "hornSecond"
+            animHoriz = @interpolate [paths[frame + 1], paths[frame]], origin: x: 0.75, y: 0.75
+
+            refs[key].setAttribute "d", animHoriz range
+
           else
             animHoriz = @interpolate [paths[frame + 1], paths[frame]]
 

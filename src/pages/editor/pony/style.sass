@@ -684,3 +684,35 @@ input.scr::-webkit-inner-spin-button
       width: 70.9%
       height: 3vmin
       overflow: hidden
+
+#social
+  left: 0
+  bottom: 0
+  position: fixed
+  margin: 9vmin 1vmin
+  float: left
+  background: #333
+  border-radius: 1vmin
+
+  .social-icon
+    width: 5vmin
+    height: 5vmin
+    position: relative
+    border-bottom: .2vmin solid #444
+    pointer-events: all
+
+    svg path
+      fill: #aaa
+      transition: fill .2s ease-out
+
+  .social-icon:last-of-type
+    border-bottom: unset
+
+#social #github:hover svg path
+  fill: #1074e7
+
+#social #twitter:hover svg path
+  fill: #10dffd
+
+#social #patreon:hover svg path
+  fill: #e7513b

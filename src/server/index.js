@@ -32,7 +32,7 @@ var
     { text: "Welcome to The Fluffies carrot, enjoy! :3" }
   ],
 
-  maxMessages = 50,
+  maxMessages = 100,
 
   users = [],
   length = 0;
@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
   socket.emit("isnt nickname");   // Reset on reconect server
 
   socket.on("send message", (msg) => {
-    if (msg.text.length > 100) return;;
+    if (msg.text.length > 99) return;;
 
     if (!msg.name.trim() || msg.name.length > 15) {
       socket.emit("isnt nickname");

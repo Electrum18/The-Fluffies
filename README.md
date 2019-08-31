@@ -25,14 +25,10 @@ The site uses `Coffeescript` for writing interactive on the editor page
 For compilation used `Webpack` bandler
 
 ### In future plans
-- Add the ability to make many other races or creatures of furry - brony fendoms
-- Improve and add more animation frames
-- Add `male gender`, add more `hairstyles` and fix existing ones
-- Finish the interface, add more details and more variations
+- Add more `hairstyles`
 - Using the `webcamera` to capture movements to control the "avatar"
 - The ability to `create widgets` for embedding in websites and forums (iframe)
 - Adding more `accessories`
-- Creating a chat, sociality
 - Adding `premium` features via donation
 - Adding `animation` and avatar manipulation tools
 
@@ -49,10 +45,7 @@ For compilation used `Webpack` bandler
 
 
 ### Issues
-- Not all head positions look good.
-- The eye view in Firefox is incorrect.
-- In Edge and Internet Explorer browsers may not display properly.
-- We advise you to upgrade your browser to the latest version.
+- Animation calculation is too overloaded.
 
 ### Adding to the project
 If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered.

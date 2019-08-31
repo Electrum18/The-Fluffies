@@ -15,37 +15,3 @@
         svg(viewBox="-11 -12 44 44")
           path(d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524M.003 23.537h4.22V.524H.003")
 </template>
-
-<style lang="sass">
-  #social
-    left: 0
-    bottom: 0
-    position: fixed
-    margin: 9vmin 1vmin
-    float: left
-    background: #333
-    border-radius: 1vmin
-
-    .social-icon
-      width: 5vmin
-      height: 5vmin
-      position: relative
-      border-bottom: .2vmin solid #444
-      pointer-events: all
-
-      svg path
-        fill: #aaa
-        transition: fill .2s ease-out
-
-    .social-icon:last-of-type
-      border-bottom: unset
-
-  #social #github:hover svg path
-    fill: #1074e7
-
-  #social #twitter:hover svg path
-    fill: #10dffd
-
-  #social #patreon:hover svg path
-    fill: #e7513b
-</style>

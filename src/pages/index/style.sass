@@ -19,8 +19,8 @@
     opacity: 1
 
 @keyframes brand_p
-  0%, 66%
-    margin: 30vmax 0 0
+  0%
+    margin: 11vmax 0 0
     opacity: 0
 
   100%
@@ -28,7 +28,7 @@
     opacity: 1
 
 @keyframes buttonDOM
-  0%, 66%
+  0%, 25%
     bottom: -3vmax
     opacity: 0
 
@@ -36,17 +36,8 @@
     bottom: 20vmin
     opacity: 1
 
-@keyframes phone
-  0%, 66%
-    top: -11vmin
-    opacity: 0
-
-  100%
-    top: -1vmin
-    opacity: 1
-
 @keyframes about
-  0%, 75%
+  0%, 50%
     transform: translate(-50%)
     left: 50%
     opacity: 0
@@ -57,7 +48,7 @@
     opacity: 1
 
 @keyframes support
-  0%, 75%
+  0%, 50%
     transform: translate(-50%)
     left: 50%
     opacity: 0
@@ -84,8 +75,8 @@
   transform: translateY(-133%)
   margin: 0
   opacity: 1
-  animation: brand_title 2s ease-in-out
-  text-shadow: 0 0 0.5vmin rgba(0, 0, 0, .25)
+  animation: brand_title 2.5s ease-in-out
+  text-shadow: 0 0 .5vmin rgba(0, 0, 0, .25)
 
 #brand, #brandBack
   width: 25vmin
@@ -114,7 +105,7 @@
   text-align: center
   margin: 11vmin 0 0
   opacity: 1
-  animation: brand_p 3s ease-in-out
+  animation: brand_p 1.5s ease-in-out
   width: 100%
 
 #brand #warning
@@ -177,7 +168,7 @@
   width: 32vmin
   transform: translate(-50%)
   opacity: 1
-  animation: buttonDOM 3s ease-in-out
+  animation: buttonDOM 2s ease-in-out
 
   p
     margin: 0
@@ -198,7 +189,6 @@
   top: -1vmin
   pointer-events: none
   opacity: 1
-  animation: phone 3s ease-in-out
 
   svg
     position: relative
@@ -230,7 +220,7 @@
   top: 110%
   left: -45%
   opacity: 1
-  animation: about 3.5s ease-in-out
+  animation: about 2.5s ease-in-out
   padding: 0.5vmin 7vmin
 
 #about:hover
@@ -242,7 +232,7 @@
   left: 150%
   white-space: nowrap
   opacity: 1
-  animation: support 3.5s ease-in-out
+  animation: support 2.5s ease-in-out
   padding: 0.5vmin 2vmin
 
 #support:hover

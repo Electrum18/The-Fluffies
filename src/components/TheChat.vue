@@ -1,12 +1,12 @@
 <template lang="pug">
   #chat
     #content(:style="open")
-      #messages(ref="messages")
-        #message(v-for="mes in content")
-          span#nickname(v-if="mes.name") {{ mes.name }} #[span#id # {{ mes.id }}]
-          span#time(v-if="mes.time") {{ mes.time }}
+      ul#messages(ref="messages")
+        li.message(v-for="mes in content")
+          span.nickname(v-if="mes.name") {{ mes.name }} #[span.id # {{ mes.id }}]
+          span.time(v-if="mes.time") {{ mes.time }}
           br(v-if="mes.name || mes.time")
-          span#text {{ mes.text }}
+          span.text {{ mes.text }}
 
       svg(viewBox="-8 -8 16 16" v-if="!content").loader
         circle(r="5" stroke="#fa0" stroke-width="2"
@@ -16,7 +16,7 @@
 
       #bar
         span#name(v-if="name") {{ name }}
-        input#text(placeholder="type a message" maxlength="100"
+        input#text(placeholder="type a message" maxlength="99"
           @keyup.enter.prevent="submit" v-model="text")
 
         #send(v-if="text" @click="submit")
@@ -61,14 +61,6 @@
         close: {}
 
     watch:
-      content:
-        handler: ->
-          messages = @$refs.messages
-
-          messages.scrollTop = messages.scrollHeight
-
-        deep: yes
-
       name: (val) ->
         if val then @socket.emit("check name", @name)
 
@@ -99,8 +91,20 @@
 
     mounted: ->
       self = this
+      el   = @$refs.messages
 
-      @socket.on "get message", (msg) -> self.content = msg
+      setTimeout (-> el.scrollTop = el.scrollHeight - el.clientHeight), 100
+
+      @socket.on "get message", (msg) ->
+        setTimeout (->
+          isScrolledToBottom = el.scrollHeight - el.clientHeight <= el.scrollTop + 1
+
+          if isScrolledToBottom
+            el.scrollTop = el.scrollHeight - el.clientHeight
+        )
+
+        self.content = msg
+
       @socket.on "get users", (users) -> self.users = users
       @socket.on "isnt nickname",  () ->
         self.text = ""
@@ -142,39 +146,43 @@
         color: #222
         padding: 0 .5vmin
         border-radius: 1vmin
+        box-shadow: 0 0 1vmin #0008
 
       #messages
         width: 100%
         height: 43vmin
         position: absolute
         overflow-y: scroll
-        overflow-x: hidden
         border-radius: 3vmin 3vmin 0 0
+        word-break: break-all
+        margin: 0
+        padding: 0
+        list-style: none
 
-        #message
+        .message
           height: auto
-          margin: 1.5vmin
+          margin: 1vmin
           background: #444
           position: relative
           border-radius: 1vmin
 
-          #nickname
+          .nickname
             color: #aaa
             font-size: 1.5vmin
             padding: 1vmin 2vmin
 
-          #id
+          .id
             font-size: 1vmin
             padding: 1.2vmin .5vmin
             color: #888
             position: absolute
 
-          #text
+          .text
             font-size: 1.38vmin
             padding: 1vmin 2vmin
             display: inline-block
 
-          #time
+          .time
             color: #888
             font-size: 1.25vmin
             padding: 1vmin 2vmin
