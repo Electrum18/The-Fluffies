@@ -336,6 +336,8 @@
 
       "$parent.male": -> @animate()
 
+      "$root.mane.second.isEnds": -> @hair()
+
     computed:
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
 
@@ -727,19 +729,6 @@
 
             refs[key].setAttribute "d", if brow.show then animBrowSumm2 val.wide / 100 else ""
 
-          ###else if key in ["chin", "nose"]
-            animOpen =
-              @interpolate [
-                @emotions.open[key][frame + 1],
-                @emotions.open[key][frame]
-              ]
-
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-            animSumm  = @interpolate [animHoriz(range), animOpen range]
-
-            refs[key].setAttribute "d", animSumm @$root.jaw.open / 100
-          ###
-
           else if key is "hornSecond"
             animHoriz = @interpolate [paths[frame + 1], paths[frame]], origin: x: 0.75, y: 0.75
 
@@ -937,37 +926,31 @@
           "hairTail", "hairTailSecond"
         ]
 
-        imports = [
-          hairPaths.front.main,
-          hairPaths.front.second,
-          hairPaths.back.main,
-          hairPaths.back.second,
-          hairPaths.tail.main,
-          hairPaths.tail.second
-        ]
+        parts = ["front", "back", "tail"]
 
-        if hairPaths.fix
-          fixPath = hairPaths.fix
-
-          fixing = [
-            fixPath.front.main,
-            fixPath.front.second,
-            fixPath.back.main,
-            fixPath.back.second,
-            fixPath.tail.main,
-            fixPath.tail.second
-          ]
+        i2 = -1
 
         for elem, i in elems
-          paths     = imports[i]
+          if i % 2 is 0 then i2++
+
+          isSecond = if i % 2 is 0 then "main" else
+            if @$root.mane.second.isEnds and hairPaths[parts[i2]].ends
+              "ends"
+            else "second"
+
+          paths     = hairPaths[parts[i2]][isSecond]
           fullRange = @x * 2
 
           frame = Math.floor fullRange
           range = fullRange - frame
           mirroring = hair.info[hair.id].mirroring
 
-          if fixing and fixing[i].x
-               origin = origin: fixing[i]
+          if hairPaths.fix and hairPaths.fix[parts[i2]] and
+             hairPaths.fix[parts[i2]][isSecond] and
+             hairPaths.fix[parts[i2]][isSecond].x
+
+            origin = origin: hairPaths.fix[parts[i2]][isSecond]
+
           else origin = origin: x: 0, y: 0
 
           setBehind = ->
@@ -994,7 +977,7 @@
             else
               @interpolate [paths[frame], paths[frame + 1]], origin
 
-          if elem in ["hair", "hairNape", "hairTail"]
+          if isSecond
             @$root.path[elem + "Clip"] = animHoriz range
 
           if elem in ["hair", "hairSecond"] then setFront()

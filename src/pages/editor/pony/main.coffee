@@ -124,6 +124,7 @@ new Vue
       second:
         enable: yes
         notLines: yes
+        isEnds: no
 
       color:
         basic: "#666666"

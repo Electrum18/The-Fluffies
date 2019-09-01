@@ -128,6 +128,13 @@
             input(v-model="$root.mane.second.notLines" type="checkbox")
             #checkmark
 
+        #checker(:style="enableByVal($root.mane.second.notLines)")
+          p.h(style="width: 16vmax") ends
+
+          #checkbox
+            input(v-model="$root.mane.second.isEnds" type="checkbox")
+            #checkmark
+
         SetColor(name="set color" title="second color" color="mane.color.second"
           :style="enableByVal($root.mane.second.notLines)")
 

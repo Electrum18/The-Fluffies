@@ -36,24 +36,10 @@
 
     "fix": {
       "front": {
-        "main": {},
-
         "second": {
           "x": 0.25,
           "y": 0.25
         }
-      },
-
-      "back": {
-        "main": {},
-
-        "second": {}
-      },
-
-      "tail": {
-        "main": {},
-
-        "second": {}
       }
     }
   }
