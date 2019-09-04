@@ -260,6 +260,9 @@
       furs:
         male: {}
 
+      furs2:
+        male: {}
+
       hairs: {}
       emotions: {}
 
@@ -342,6 +345,11 @@
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
 
     methods:
+      in: (array, range) ->
+        #interpolation shorthand
+
+        @interpolate(array) range
+
       get: (target, url, callback) ->
         self   = this
         loader = @$root.loadings
@@ -413,16 +421,19 @@
         pathTo = text.split /(?=[A-Z])/
         elem   = @$root.$refs
 
-        if elem[text].parentElement.tagName isnt "g" or
-           elem[text].tagName               isnt "path" then return
+        if elem[text].tagName isnt "path" then return
 
         if pathTo[pathTo.length - 1] is "Front" or
            pathTo[pathTo.length - 1] is "Zone" then return
 
         furs = @furs
         keys = @keys
+        furs2 = @furs2
 
         give = (inPath, i, isMale) ->
+          if i is 0 and not furs2[pathTo[0]]
+            furs2[pathTo[0]] = {}
+
           if i < pathTo.length
             name = pathTo[i].toLowerCase()
 
@@ -432,13 +443,22 @@
             if Array.isArray inPath
               furs[text] = inPath
 
+              if text is pathTo[0]
+                furs2[text] = inPath
+              else
+                name = text.replace pathTo[0], ""
+
+                furs2[pathTo[0]][name] = inPath
+
               keys[keys.length] = text
 
               if isMale
                 furs.male[text] = inPath
+                furs2.male[text] = inPath
 
               if text is "mouth"
                 furs.mouthOuter = furs.mouth
+                furs2.mouthOuter = furs2.mouth
 
             else
               if inPath.male
@@ -448,324 +468,335 @@
 
         give @body, 0
 
-      animate: ->
-        clips  = @$root.path
-        refs   = @$root.$refs
+      calc: (name, callback) ->
+        if Array.isArray name
+          name2 = name[1]
+          name  = name[0]
 
-        for key in @keys
-          if @$parent.male && @furs.male[key]
-               paths = @furs.male[key]
-          else paths = @furs[key]
+        if @$parent.male and @furs2.male[name]
+          if name2
+               part = @furs2.male[name][name2]
+          else part = @furs2.male[name]
+        else
+          if name2 and @furs2[name]
+               part = @furs2[name][name2]
+          else part = @furs2[name]
 
-          length = paths.length - 1
-          fullRange = @x * length
+        self = this
+        root = @$root
 
-          absPercent = @AbsoluteDegress / 90
+        set = (name, second) ->
+          if second
+            if self.$parent.male and self.furs2.male[name] and self.furs2.male[name][second]
+              if name2
+                   part = self.furs2.male[name][name2][second]
+              else part = self.furs2.male[name][second]
+            else
+              if name2
+                   part = self.furs2[name][name2][second]
+              else part = self.furs2[name][second]
 
-          if key is "chin"
-            if @degress > 0
-              if @degress > 30
+          length = part.length - 1
+          fullRange = self.x * length
+
+          absPercent = self.AbsoluteDegress / 90
+
+          if name is "chin"
+            if self.degress > 0
+              if self.degress > 30
                    fullRange = absPercent ** 0.75 * length
               else fullRange = absPercent ** 2.5  * length * 6.8
             else
-              if @degress > -30
+              if self.degress > -30
                    fullRange = absPercent ** 2.5  * length * 6.8
               else fullRange = absPercent ** 0.75 * length
 
-          if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
-            "nostrilLeft", "nostrilRight"]
-
-            if @degress > 0
-              if @degress > 30
+          else if name in ["nose", "bridge", "mouth", "fangs", "nostril", "teeth"]
+            if self.degress > 0
+              if self.degress > 30
                    fullRange = absPercent ** 0.5 * length
               else fullRange = absPercent ** 2   * length * 5.15
             else
-              if @degress > -30
+              if self.degress > -30
                    fullRange = absPercent ** 2   * length * 5.15
               else fullRange = absPercent ** 0.5 * length
 
-          else if key in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
+          else if name in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
             "eyeLeftLashesLower" ]
 
-            if @degress > 0
-              if @degress > 30
+            if self.degress > 0
+              if self.degress > 30
                    fullRange = absPercent ** 0.25 * length
               else fullRange = absPercent ** 0.75 * length * 1.75
             else
-              if @degress > -30
+              if self.degress > -30
                    fullRange = absPercent ** 0.75 * length * 1.75
               else fullRange = absPercent ** 0.25 * length
+
 
           frame = Math.floor fullRange
           range = fullRange - frame
 
           if frame < 0
-            frame = paths.length - 1 + frame
+            frame = part.length - 1 + frame
             range = 1 - range
 
-          else frame = paths.length - 2 - frame
+          else frame = part.length - 2 - frame
 
           if frame < 0 then frame = 0; range = 1
+          if not second then second = ""
+          if not  name2 then  name2 = ""
 
-          isEyelid  =
-            [ "eyeLeftLidUp",  "eyeLeftLidUpFill",  "eyeLeftLidDown",  "eyeLeftLidDownFill",
-              "eyeRightLidUp", "eyeRightLidUpFill", "eyeRightLidDown", "eyeRightLidDownFill" ]
+          if callback then path = callback frame, part, name + name2 + second, fullRange
 
-          lashes =
-            left:  ["eyeLeftLashesUpper",  "eyeLeftLashesMiddle",  "eyeLeftLashesLower" ]
-            right: ["eyeRightLashesUpper", "eyeRightLashesMiddle", "eyeRightLashesLower"]
+          if path and path.range isnt undefined then range = path.range
 
-          # Set ear to "front or not"
+          pathData =
+            if path and path.path then path.path range else
+              if path and path.origin
+                   self.interpolate([part[frame + 1], part[frame]], origin: path.origin) range
+              else self.interpolate([part[frame + 1], part[frame]]) range
 
-          if key in ["earRightInside", "earRightPinna", "earRight",
-            "earRightTasselInside", "earRightTassel"]
+          elem = root.$refs[name + name2 + second]
 
-            key2 = key
+          if root.$refs[name + name2 + second + "Front"]
+            elemFront = root.$refs[name + name2 + second + "Front"]
 
-            if @$root.horiz <= 0 or @AbsoluteDegress >= 45
-              if key in ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
-                refs[key + "Front"].setAttribute "d", ""
-                refs[key].setAttribute "d", ""
+          if path and path.front
+            elemFront.setAttribute "d", pathData
+            elem.setAttribute "d", ""
 
-              else
-                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-                refs[key2 + "Front"].setAttribute "d", animHoriz range
-                refs[key2].setAttribute "d", ""
-
-            else
-              if key in ["earRightTassel", "earRightTasselInside"] and not @$root.tassels
-                refs[key + "Front"].setAttribute "d", ""
-                refs[key].setAttribute "d", ""
-
-              else
-                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-                refs[key + "Front"].setAttribute "d", ""
-                refs[key].setAttribute "d", animHoriz range
-
-          else if key in isEyelid
-            eyelids  = @$root.eyes.eyelids
-            refs     = @$root.$refs
-            emotions = @emotions.eyelid
-
-            ids = isEyelid.indexOf key
-
-            eyelid = [
-              { val: eyelids.left.up,    target: emotions.left.down      }
-              { val: eyelids.left.up,    target: emotions.left.up.fill   }
-              { val: eyelids.left.down,  target: emotions.left.up.basic  }
-              { val: eyelids.left.down,  target: refs["eyeLeft"].getAttribute "d" }
-              { val: eyelids.right.up,   target: emotions.right.down     }
-              { val: eyelids.right.up,   target: emotions.right.up.fill  }
-              { val: eyelids.right.down, target: emotions.right.up.basic }
-              { val: eyelids.right.down, target: refs["eyeRight"].getAttribute "d" }
-            ]
-
-            if @degress >= 0
-              id = if ids < 4 then ids + 4 else ids - 4
-
-              target = eyelid[id].target
-              val    = eyelid[ids].val
-              elem   = isEyelid[id]
-
-              if val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
-                if typeof target isnt "string"
-                  animSecond = @interpolate [target[frame + 1], target[frame]]
-                  target     = animSecond range
-
-                animSecond = @interpolate [@furs[elem][frame + 1], @furs[elem][frame]]
-                animSumm   = @interpolate [animSecond(range), target]
-
-                refs[elem].setAttribute "d", animSumm val / 100
-
-              else refs[elem].setAttribute "d", ""
-
-            else
-              target = eyelid[ids].target
-              val    = eyelid[ids].val
-
-              if eyelid[ids].val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
-                if typeof target isnt "string"
-                  animSecond = @interpolate [target[frame + 1], target[frame]]
-                  target     = animSecond range
-
-                animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-                animSumm = @interpolate [animHoriz(range), target]
-
-                refs[key].setAttribute "d", animSumm val / 100
-
-              else refs[key].setAttribute "d", ""
-
-          else if key in ["earLeftTasselInside", "earLeftTassel"]
-            if @$root.tassels
-              animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-              refs[key].setAttribute "d", animHoriz range
-
-            else refs[key].setAttribute "d", ""
-
-          else if key in ["fangsLeft", "fangsRight"]
-            if @$root.fangs
-              animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-              refs[key].setAttribute "d", animHoriz range
-
-            else refs[key].setAttribute "d", ""
-
-          else if key is "mouth"
-            if @$root.catlike
-              animHoriz =
-                @interpolate [
-                  @emotions.catlike.jaw[frame + 1],
-                  @emotions.catlike.jaw[frame]
-                ]
-
-            else animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-            jaw  = @$root.jaw
-            type = if @$root.catlike then "catlike" else "basic"
-
-            animSad =
-              @interpolate [
-                @emotions.sad.jaw[type].closed[frame + 1],
-                @emotions.sad.jaw[type].closed[frame]
-              ]
-
-            animOpen =
-              @interpolate [
-                @emotions.open.jaw[type][frame + 1],
-                @emotions.open.jaw[type][frame]
-              ]
-
-            animOpenSad =
-              @interpolate [
-                @emotions.sad.jaw[type].open[frame + 1],
-                @emotions.sad.jaw[type].open[frame]
-              ]
-
-            animSumm     = @interpolate [animHoriz(range), animSad range    ]
-            animSummOpen = @interpolate [animOpen(range),  animOpenSad range]
-            animMouth    =
-              @interpolate [
-                animSumm(jaw.sad / 100),
-                animSummOpen jaw.sad / 100
-              ]
-
-            refs[key].setAttribute          "d", animMouth jaw.open / 100
-            refs["mouthOuter"].setAttribute "d", animSumm  jaw.sad  / 100
-
-            clips[key + "Clip"] = animMouth jaw.open / 100
-
-          else if key in lashes.left
-            if fullRange >= 1.9 or @$parent.male
-              refs[key].setAttribute "d", ""
-
-              continue
-
-            val    = @$root.eyes.eyelids.left.up
-            closed = @body.eye.left.lashes
-
-            index = lashes.left.indexOf key
-            parts = ["upper", "middle", "lower"]
-            path  = closed[parts[index]].closed
-
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-            animLashesDown = @interpolate [path[frame + 1], path[frame]]
-            animLashesSumm =
-              @interpolate [animHoriz(range), animLashesDown range]
-
-            if @degress >= 0 then val = @$root.eyes.eyelids.right.up
-
-            refs[key].setAttribute "d", animLashesSumm val / 100
-
-          else if key in lashes.right
-            if @$parent.male
-              refs[key].setAttribute "d", ""
-
-              continue
-
-            val    = @$root.eyes.eyelids.right.up
-            closed = @body.eye.right.lashes
-
-            index = lashes.right.indexOf key
-            parts = ["upper", "middle", "lower"]
-            path  = closed[parts[index]].closed
-
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-            animLashesDown = @interpolate [path[frame + 1], path[frame]]
-            animLashesSumm =
-              @interpolate [animHoriz(range), animLashesDown range]
-
-            if @degress >= 0 then val = @$root.eyes.eyelids.left.up
-
-            refs[key].setAttribute "d", animLashesSumm val / 100
-
-          else if key in ["eyeLeftBrow", "eyeRightBrow"]
-            side    = if key  is "eyeLeftBrow" then "left" else "right"
-            sideAlt = if side is "left"        then "right" else "left"
-
-            brow = @$root.eyes.brows
-            eye  = @body.eye
-
-            evil = eye[side].brow.evil
-            wide = eye[side].brow.wide
-
-            val =
-              evil: if @degress >= 0 then brow[sideAlt].evil else brow[side].evil
-              wide: if @degress >= 0 then brow[sideAlt].wide else brow[side].wide
-
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
-
-            animBrowEvil = @interpolate [evil[frame + 1], evil[frame]]
-            animBrowSumm =
-              @interpolate [animHoriz(range), animBrowEvil range]
-
-            animBrowWide  = @interpolate [wide[frame + 1], wide[frame]]
-            animBrowSumm2 =
-              @interpolate [animBrowSumm(val.evil / 100), animBrowWide range]
-
-            refs[key].setAttribute "d", if brow.show then animBrowSumm2 val.wide / 100 else ""
-
-          else if key is "hornSecond"
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]], origin: x: 0.75, y: 0.75
-
-            refs[key].setAttribute "d", animHoriz range
+          else if path and path.clear
+            elem.setAttribute "d", ""
+            if elemFront then elemFront.setAttribute "d", ""
 
           else
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+            elem.setAttribute "d", pathData
+            if elemFront then elemFront.setAttribute "d", ""
 
-            refs[key].setAttribute "d", animHoriz range
+          if path and path.clip
+            root.path[name + name2 + second + "Clip"] = pathData
 
+        if Array.isArray part then setTimeout (-> set name)
+        else
+          if not part then return
 
-          # Teeth position
+          keys = Object.keys part
+          i    = 0
 
-          if key is "tongue"
+          cycle = (i) -> setTimeout (->
+            set name, keys[i]; i++
+            set name, keys[i]; i++
+
+            if not i >= keys.length
+              set name, keys[i]; i++
+
+            if i < keys.length then cycle i
+          )
+
+          cycle i
+
+      animate: ->
+        clips = @$root.path
+        refs  = @$root.$refs
+        self  = this
+        eyelids  = @$root.eyes.eyelids
+        emotions = @emotions.eyelid
+
+        eyelid = [
+          { val: eyelids.left.up,    target: emotions.left.down      }
+          { val: eyelids.left.up,    target: emotions.left.up.fill   }
+          { val: eyelids.left.down,  target: emotions.left.up.basic  }
+          { val: eyelids.left.down,  target: refs["eyeLeft"].getAttribute "d" }
+          { val: eyelids.right.up,   target: emotions.right.down     }
+          { val: eyelids.right.up,   target: emotions.right.up.fill  }
+          { val: eyelids.right.down, target: emotions.right.up.basic }
+          { val: eyelids.right.down, target: refs["eyeRight"].getAttribute "d" }
+        ]
+
+        isEyelid  =
+          [ "eyeLeftLidUp",  "eyeLeftLidUpFill",  "eyeLeftLidDown",  "eyeLeftLidDownFill",
+            "eyeRightLidUp", "eyeRightLidUpFill", "eyeRightLidDown", "eyeRightLidDownFill" ]
+
+        lashes =
+          [ "eyeLeftLashesUpper",  "eyeLeftLashesMiddle",  "eyeLeftLashesLower",
+            "eyeRightLashesUpper", "eyeRightLashesMiddle", "eyeRightLashesLower" ]
+
+        @calc "bridge"
+        @calc "chest"
+        @calc "chin"
+        @calc "neck"
+        @calc ["neck", "Back_right"]
+        @calc ["neck", "Front_left"]
+        @calc "nostril"
+
+        @calc "head2"
+        @calc "nose", () -> clip: yes
+        @calc "head", () -> clip: yes
+        @calc "horn", () -> clip: yes
+        @calc ["horn", "Second"], () ->
+          origin: x: 0.75, y: 0.75
+
+        @calc "tongue", (frame, paths, key) ->
+          refs[key].setAttribute "style",
+            "transform: translate(0%, #{ -(2 - self.$root.jaw.open / 50) }%)"
+
+        @calc "teeth", (frame, paths, key) ->
+          if key is "teethUpper"
             refs[key].setAttribute "style",
-              "transform: translate(0%, #{ -(2 - @$root.jaw.open / 50) }%)"
-
-          else if key is "teethUpper"
-            refs[key].setAttribute "style",
-              "transform: translate(0%, #{ -(4 - @$root.teeth.upper / 25) }%)"
+              "transform: translate(0%, #{ -(4 - self.$root.teeth.upper / 25) }%)"
 
           else if key is "teethLower"
             refs[key].setAttribute "style",
-              "transform: translate(0%, #{ 4 - @$root.teeth.lower / 25 }%)"
+              "transform: translate(0%, #{ 4 - self.$root.teeth.lower / 25 }%)"
 
+        @calc "fangs", (frame, paths) ->
+          path: if self.$root.fangs then self.interpolate [paths[frame + 1], paths[frame]]
+          clear: if not self.$root.fangs then true
 
-          # Set clip paths
+        @calc "ear", (frame, paths, key) ->
+          # Set ear to "front or not"
 
-          else if key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+          if /Right/.test key
+            clear = no
+            front = no
 
-            clips[key + "Clip"] = animHoriz range
+            if self.$root.horiz <= 0 or self.AbsoluteDegress >= 45
+              if key in ["earRightTassel", "earRightTasselInside"] and not self.$root.tassels
+                   clear = yes
+              else front = yes
 
-          else if key in ["earLeft", "earRight"] and @$root.earClipEnabled
-            animHoriz = @interpolate [paths[frame + 1], paths[frame]]
+            else
+              if key in ["earRightTassel", "earRightTasselInside"] and not self.$root.tassels
+                clear = yes
 
-            clips[key + "Clip"] = animHoriz range
+          path: self.interpolate [paths[frame + 1], paths[frame]]
+          clip: if key in ["earLeft", "earRight"] then true
+          front: front
+          clear: clear
+
+        anim = @in
+
+        @calc "mouth", (frame, paths, key, range) ->
+          if self.$root.catlike
+            horiz = [
+              self.emotions.catlike.jaw[frame + 1],
+              self.emotions.catlike.jaw[frame]
+            ]
+
+          else horiz = [paths[frame + 1], paths[frame]]
+
+          jaw   = self.$root.jaw
+          type  = if self.$root.catlike then "catlike" else "basic"
+          range = range - (3 - frame)
+
+          sad  = self.emotions.sad.jaw
+          open = self.emotions.open.jaw
+
+          animSumm =
+            anim [
+              anim(horiz, range),
+              anim [sad[type].closed[frame + 1], sad[type].closed[frame]], range
+            ], jaw.sad / 100
+
+          morph =
+            self.interpolate [
+              animSumm,
+              anim [
+                anim([    open[type][frame + 1],     open[type][frame]], range),
+                anim [sad[type].open[frame + 1], sad[type].open[frame]], range
+              ], jaw.sad / 100
+            ]
+
+          refs["mouthOuter"].setAttribute "d", animSumm
+
+          path: morph
+          range: jaw.open / 100
+          clip: true
+
+        @calc "eye", (frame, paths, key, range) ->
+          if range < 0 then range = -range
+
+          if key in isEyelid
+            id     = isEyelid.indexOf key
+            range  = range - (1 - frame)
+            target = eyelid[id].target
+
+            if self.degress < 0
+              if id >= 4 then id -= 4 else id += 4
+
+            val = eyelid[id].val
+
+            if eyelid[id].val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
+              if typeof target isnt "string"
+                target = anim [target[frame + 1], target[frame]], range
+
+              morph = self.interpolate [
+                anim([paths[frame + 1], paths[frame]], range),
+                target
+              ]
+
+            else clear = yes
+
+          else if key in lashes
+            if range >= 1.9 or self.$parent.male
+              clear = yes
+
+            side   = key.match(/Left|Right/)[0].toLowerCase()
+            range  = range - (1 - frame)
+            closed = self.body.eye[side].lashes
+
+            if self.degress < 0
+              side = if side is "left" then "right" else "left"
+
+            parts =
+              [ "upper", "middle", "lower",
+                "upper", "middle", "lower" ]
+
+            path2 = closed[parts[lashes.indexOf key]].closed
+            morph =
+              self.interpolate [
+                anim([paths[frame + 1], paths[frame]], range),
+                anim [path2[frame + 1], path2[frame]], range
+              ]
+
+            val = self.$root.eyes.eyelids[side].up
+
+          else if key in ["eyeLeftBrow", "eyeRightBrow"]
+            brow  = self.$root.eyes.brows
+            range = range - (1 - frame)
+
+            if brow.show
+              side    = if key  is "eyeLeftBrow" then "left" else "right"
+              sideAlt = if side is "left"        then "right" else "left"
+
+              eye  = self.body.eye
+              evil = eye[side].brow.evil
+              wide = eye[side].brow.wide
+
+              val =
+                evil: if self.degress >= 0 then brow[sideAlt].evil else brow[side].evil
+                wide: if self.degress >= 0 then brow[sideAlt].wide else brow[side].wide
+
+              morph =
+                self.interpolate [
+                  anim([
+                    anim([paths[frame + 1], paths[frame]], range),
+                    anim [evil[frame + 1], evil[frame]], range
+                  ], val.evil / 100),
+
+                  anim [wide[frame + 1], wide[frame]], range
+                ]
+
+            else clear = true
+
+          path:  if morph then morph
+          range:
+            if morph and /Brow/.test key then val.wide / 100
+            else if morph then val / 100
+
+          clip:  if key in ["eyeLeft", "eyeRight"] then true
+          clear: clear
 
       eyes: ->
         refs = @$root.$refs
@@ -773,6 +804,11 @@
         bbox =
           left:  refs.eyeLeft.getBBox()
           right: refs.eyeRight.getBBox()
+
+        if bbox.left.x is 0 or bbox.left.x is 0
+          self = this
+          setTimeout (-> self.eyes()), 100
+          return
 
         scale = @$root.eyes.iris.scale / 100
         posit = @$root.eyes.position
@@ -981,6 +1017,8 @@
             @$root.path[elem + "Clip"] = animHoriz range
 
           if elem in ["hair", "hairSecond"] then setFront()
+          else if elem in ["hairTail", "hairTailSecond"] and hair isnt "Curly ends"
+            setFront()
           else if elem in ["hairTail", "hairTailSecond"] and hair isnt "Curly ends" and @degress > 0
             setFront()
 
