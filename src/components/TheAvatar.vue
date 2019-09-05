@@ -2,17 +2,17 @@
   #avatar.transition(v-press-hold="[MouseMove, Click]")
     svg(viewBox="0 -112 1024 1024" :style="mirror.style")
       g.scale
-        g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]")
+        g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]" :filter="$root.Shading")
           Mane(name="hairTail" style="transform: scale(-1, 1) translate(-100%)"
             mask="url(#mask_Out_Head2)")
 
-          Mane(name="hairTailSecond"
+          Mane(name="hairTailSecond" :filter="$root.Shading"
             :hide="!$root.mane.second.enable"
             :is-not-stroke="$root.mane.second.notLines"
             style="transform: scale(-1, 1) translate(-100%)"
             mask="url(#mask_In_Hair_Tail)")
 
-        g.Head(:style="[$root.headRotate, $root.furTint]")
+        g.Head(:style="[$root.headRotate, $root.furTint]" :filter="$root.Shading")
           g.moveEar(:style="$root.earsMove")
             Fur.inner2(name="earLeftInside"  :style="$root.furStroke")
             Fur.inner2(name="earRightInside" :style="$root.furStroke")
@@ -40,7 +40,7 @@
 
           Fur(name="head")
 
-        g.Neck(:style="$root.furTint")
+        g.Neck(:style="$root.furTint" :filter="$root.Shading")
           Fur(name="chest")
 
           Fur.inner(name="neck" :style="$root.furStroke")
@@ -49,16 +49,16 @@
           Fur(name="neckFront_left" not-fill='yes')
 
         g.HairBack2(:style="$root.headRotateHair" mask="url(#mask_Out_Head2)")
-          Mane(name="hairTailFront" mask="url(#mask_no_RightEar_alt)")
+          Mane(name="hairTailFront" mask="url(#mask_no_RightEar_alt)" :filter="$root.Shading")
           Mane(name="hairTailSecondFront"
             :hide="!$root.mane.second.enable"
             :is-not-stroke="$root.mane.second.notLines"
             mask="url(#mask_In_Hair_Tail)")
 
-        g.Head(:style="[$root.headRotate, $root.furTint]")
+        g.Head(:style="[$root.headRotate, $root.furTint]" :filter="$root.Shading")
           Fur.inner3(name="head2" alt='yes' :style="$root.furStroke")
 
-        g.Hair2(:style="[$root.headRotate, $root.hair.side.basic]")
+        g.Hair2(:style="[$root.headRotate, $root.hair.side.basic]" :filter="$root.Shading")
           Mane(name="hair" style="transform: scale(-1, 1) translate(-100%)")
           Mane(name="hairSecond" mask="url(#mask_In_Hair)"
             :hide="!$root.mane.second.enable"
@@ -92,7 +92,7 @@
           path#eyeLeftLashesLower.outer.move(d fill-opacity="0" ref="eyeLeftLashesLower"
             :style="[$root.faceMove, { stroke: '#222' }]")
 
-          path#eyeLeft.eyes.move(d fill="#fff" mask="url(#mask_Head)" ref="eyeLeft" :style="$root.faceMove")
+          path#eyeLeft.eyes.move(d :fill="EyesStyle" mask="url(#mask_Head)" ref="eyeLeft" :style="$root.faceMove")
 
           path#eyeLeftBrow.outer.move(d fill-opacity="0" ref="eyeLeftBrow"
             :style="[$root.leftBrowWidth, $root.leftBrowHeight, { stroke: '#222' }]" mask="url(#mask_Head)")
@@ -107,7 +107,7 @@
           Fur.inner4.move(name="eyeLeftLidDownFill" mask="url(#mask_Head)" :style="[$root.faceMove, $root.furStroke]")
           Fur.inner4.move(name="eyeLeftLidUpFill"   mask="url(#mask_Head)" :style="[$root.faceMove, $root.furStroke]")
 
-          path#eyeLeftLidUp.outer.move(  d fill-opacity="0" mask="url(#mask_Head)"
+          path#eyeLeftLidUp.outer.move(d fill-opacity="0" mask="url(#mask_Head)"
             :style="[$root.faceMove, { stroke: '#222' }]" ref="eyeLeftLidUp")
 
           Fur(name="nose" stroke-width=7 :style="$root.furStroke")
@@ -137,7 +137,7 @@
           g(mask="url(#mask_In_Head)" :style="$root.faceMove")
             path#mouthZone.Zone.move(d fill="#c47" ref="mouthZone")
 
-          path#eyeRight.eyes.move(d fill="#fff" mask="url(#mask_Head)" :style="$root.faceMove" ref="eyeRight")
+          path#eyeRight.eyes.move(d :fill="EyesStyle" mask="url(#mask_Head)" :style="$root.faceMove" ref="eyeRight")
 
           g.eyes.inside.Right(:style="$root.faceMove")
             ellipse#eyeIrisRight(:fill="$root.eyeRightGradient" ref="eyeIrisRight")
@@ -164,7 +164,9 @@
           path#eyeRightBrow.outer.move(d fill-opacity="0" ref="eyeRightBrow"
             :style="[$root.rightBrowWidth, $root.rightBrowHeight, { stroke: '#222' }]")
 
-        g.Hair(:style="$root.headRotate" mask="url(#mask_no_RightEar)")
+        g.Hair(:style="$root.headRotate"
+          mask="url(#mask_no_RightEar)" :filter="$root.Shading"
+        )
           Mane(name="hairFront" :style="$root.hair.side.front")
           Mane(name="hairSecondFront" mask="url(#mask_In_Hair)"
             :hide="!$root.mane.second.enable"
@@ -180,40 +182,40 @@
         g.Head(:style="[$root.headRotate, $root.furTint]")
           Fur.move(name="horn" stroke-width=7 :hide="!$root.horn.enable")
           Fur.move(name="hornSecond" mask="url(#mask_In_Horn)"
-            :hide="!$root.horn.enable"
+            :hide="$root.horn.changeling || !$root.horn.enable"
             :not-fill="!$root.horn.notLines"
             :stroke-width="$root.horn.notLines ? 0 : 7"
             :second="true")
 
       defs
-        mask#mask_Head(x="0" y="0" width="1024" height="1024")
+        mask#mask_Head(x="-512" y="-512" width="1024" height="1024")
           Clip(name="headClip" fill="#fff" stroke="#000" width="9.5" :style="$root.faceMoveReverse")
 
-        mask#mask_Out_Head(x="0" y="0" width="1024" height="1024")
+        mask#mask_Out_Head(x="-512" y="-512" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="headClip" fill="#000" stroke="#fff" width="9.5")
 
-        mask#mask_Out_Head2(x="0" y="0" width="1024" height="1024")
+        mask#mask_Out_Head2(x="-512" y="-512" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="headClip"     fill="#000" stroke="#000" width="9.5")
           Clip(name="earRightClip" fill="#000" stroke="#000" width="9.5")
 
-        mask#mask_In_Head(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Head(x="-512" y="-512" width="1024" height="1024")
           Clip(name="headClip" fill="#fff" stroke="#fff" width="9.5")
           Clip(name="noseClip" fill="#fff" stroke="#fff" width="9.5")
 
-        mask#mask_In_Nose(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Nose(x="-512" y="-512" width="1024" height="1024")
           Clip(name="noseClip" fill="#fff" stroke="#fff" width="14")
 
-        mask#mask_no_RightEar(x="0" y="0" width="1024" height="1024")
+        mask#mask_no_RightEar(x="-512" y="-512" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="earRightClip" fill="#000" stroke="#000" :style="$root.earsClip")
 
-        mask#mask_no_RightEar_alt(x="0" y="0" width="1024" height="1024")
+        mask#mask_no_RightEar_alt(x="-512" y="-512" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
           Clip(name="earRightClip" fill="#000" stroke="#000" :style="$root.earsClipAlt")
 
-        mask#mask_Eyes(x="0" y="0" width="2024" height="2024")
+        mask#mask_Eyes(x="-512" y="-512" width="1024" height="1024")
           path#eyeLeftClip.eyes.Left(  :d="$root.path.eyeLeftClip"  fill="#fff")
           path#eyeRightClip.eyes.Right(:d="$root.path.eyeRightClip" fill="#fff")
 
@@ -221,30 +223,45 @@
             Clip(name="headClip" fill="#0000" stroke="#000" width="10")
             circle(cx="512" cy="512" r="512" stroke="#000" stroke-width="517" fill="#0000")
 
-        mask#mask_In_Mouth(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Mouth(x="-512" y="-512" width="1024" height="1024")
           Clip(name="mouthClip" fill="#fff" stroke="#000" width="6.5")
 
-        mask#mask_In_Hair(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Hair(x="-512" y="-512" width="1024" height="1024")
           Clip(name="hairClip" fill="#fff" stroke-width=8 stroke="#000")
 
-        mask#mask_In_Hair_Nape(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Hair_Nape(x="-512" y="-512" width="1024" height="1024")
           Clip(name="hairNapeClip" fill="#fff" stroke-width=8 stroke="#000")
 
-        mask#mask_In_Hair_Tail(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Hair_Tail(x="-512" y="-512" width="1024" height="1024")
           Clip(name="hairTailClip" fill="#fff" stroke-width=8 stroke="#000")
           Clip(name="headClip"     fill="#000" stroke="#000" width="9.5")
           Clip(name="earRightClip" fill="#000" stroke="#000" width="9.5")
 
-        mask#mask_In_Horn(x="0" y="0" width="1024" height="1024")
+        mask#mask_In_Horn(x="-512" y="-512" width="1024" height="1024")
           Clip(name="hornClip" fill="#fff" stroke="#000" width="6.5")
 
         linearGradient#grad_Eyes_Left(x1="0%" y1="100%" x2="0%" y2="0%")
-          stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.left.basic, 'stop-opacity': 1 }")
-          stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.left.shade, 'stop-opacity': 1 }")
+          stop(offset="25%"  :style="{ 'stop-color': $root.eyes.color.left.basic, 'stop-opacity': 1 }")
+          stop(offset="100%" :style="{ 'stop-color': $root.eyes.color.left.shade, 'stop-opacity': 1 }")
 
         linearGradient#grad_Eyes_Right(x1="0%" y1="100%" x2="0%" y2="0%")
-          stop#1(offset="25%"  :style="{ 'stop-color': $root.eyes.color.right.basic, 'stop-opacity': 1 }")
-          stop#2(offset="100%" :style="{ 'stop-color': $root.eyes.color.right.shade, 'stop-opacity': 1 }")
+          stop(offset="25%"  :style="{ 'stop-color': $root.eyes.color.right.basic, 'stop-opacity': 1 }")
+          stop(offset="100%" :style="{ 'stop-color': $root.eyes.color.right.shade, 'stop-opacity': 1 }")
+
+        radialGradient#grad_Eyes_Changeling(cx="50%" cy="50%" r="50%" fx="50%" fy="50%")
+          stop(offset="0%"   style="stop-color: #fff; stop-opacity: 1")
+          stop(offset="100%" style="stop-color: #fff; stop-opacity: 0")
+
+        linearGradient#grad_Ambient(x1="0%" y1="100%" x2="0%" y2="0%")
+          stop(offset="0%"   style="stop-color: #000; stop-opacity: 1 ")
+          stop(offset="100%" style="stop-color: #fff; stop-opacity: 0 ")
+
+        filter#filter_shadow(x="0" y="0" width="200%" height="200%")
+          feOffset(result="offOut" in="SourceGraphic" dx="0" dy="20")
+          feColorMatrix(result="matrixOut" in="offOut" type="matrix"
+            values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.5 0")
+          feGaussianBlur(result="blurOut" in="matrixOut" stdDeviation="10")
+          feBlend(in="SourceGraphic" in2="blurOut" mode="normal")
 </template>
 
 <script lang="coffee">
@@ -258,9 +275,6 @@
 
       body: {}
       furs:
-        male: {}
-
-      furs2:
         male: {}
 
       hairs: {}
@@ -344,6 +358,9 @@
     computed:
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
 
+      EyesStyle: ->
+        if @$root.eyes.changeling then @$root.eyes.color.right.basic else "#fff"
+
     methods:
       in: (array, range) ->
         #interpolation shorthand
@@ -426,13 +443,12 @@
         if pathTo[pathTo.length - 1] is "Front" or
            pathTo[pathTo.length - 1] is "Zone" then return
 
-        furs = @furs
         keys = @keys
-        furs2 = @furs2
+        furs = @furs
 
         give = (inPath, i, isMale) ->
-          if i is 0 and not furs2[pathTo[0]]
-            furs2[pathTo[0]] = {}
+          if i is 0 and not furs[pathTo[0]]
+            furs[pathTo[0]] = {}
 
           if i < pathTo.length
             name = pathTo[i].toLowerCase()
@@ -441,24 +457,20 @@
 
           else
             if Array.isArray inPath
-              furs[text] = inPath
-
               if text is pathTo[0]
-                furs2[text] = inPath
+                furs[text] = inPath
               else
                 name = text.replace pathTo[0], ""
 
-                furs2[pathTo[0]][name] = inPath
+                furs[pathTo[0]][name] = inPath
 
               keys[keys.length] = text
 
               if isMale
                 furs.male[text] = inPath
-                furs2.male[text] = inPath
 
               if text is "mouth"
                 furs.mouthOuter = furs.mouth
-                furs2.mouthOuter = furs2.mouth
 
             else
               if inPath.male
@@ -473,28 +485,28 @@
           name2 = name[1]
           name  = name[0]
 
-        if @$parent.male and @furs2.male[name]
+        if @$parent.male and @furs.male[name]
           if name2
-               part = @furs2.male[name][name2]
-          else part = @furs2.male[name]
+               part = @furs.male[name][name2]
+          else part = @furs.male[name]
         else
-          if name2 and @furs2[name]
-               part = @furs2[name][name2]
-          else part = @furs2[name]
+          if name2 and @furs[name]
+               part = @furs[name][name2]
+          else part = @furs[name]
 
         self = this
         root = @$root
 
         set = (name, second) ->
           if second
-            if self.$parent.male and self.furs2.male[name] and self.furs2.male[name][second]
+            if self.$parent.male and self.furs.male[name] and self.furs.male[name][second]
               if name2
-                   part = self.furs2.male[name][name2][second]
-              else part = self.furs2.male[name][second]
+                   part = self.furs.male[name][name2][second]
+              else part = self.furs.male[name][second]
             else
               if name2
-                   part = self.furs2[name][name2][second]
-              else part = self.furs2[name][second]
+                   part = self.furs[name][name2][second]
+              else part = self.furs[name][second]
 
           length = part.length - 1
           fullRange = self.x * length
@@ -582,19 +594,9 @@
           if not part then return
 
           keys = Object.keys part
-          i    = 0
 
-          cycle = (i) -> setTimeout (->
-            set name, keys[i]; i++
-            set name, keys[i]; i++
-
-            if not i >= keys.length
-              set name, keys[i]; i++
-
-            if i < keys.length then cycle i
-          )
-
-          cycle i
+          for key in keys
+            set name, key
 
       animate: ->
         clips = @$root.path
@@ -624,16 +626,25 @@
 
         @calc "bridge"
         @calc "chest"
-        @calc "chin"
+        @calc "chin", (frame, paths, key, range) ->
+          paths = self.body.chin.angle
+
+          # Set chinAngle by this method
+          refs["chinAngle"].setAttribute "d", self.interpolate([paths[frame + 1], paths[frame]]) range
+
         @calc "neck"
         @calc ["neck", "Back_right"]
         @calc ["neck", "Front_left"]
         @calc "nostril"
-
         @calc "head2"
         @calc "nose", () -> clip: yes
         @calc "head", () -> clip: yes
-        @calc "horn", () -> clip: yes
+        @calc "horn", (frame) ->
+          paths = self.body.horn.changeling
+
+          path: if self.$root.horn.changeling then self.interpolate [paths[frame + 1], paths[frame]]
+          clip: yes
+
         @calc ["horn", "Second"], () ->
           origin: x: 0.75, y: 0.75
 
@@ -739,28 +750,30 @@
             else clear = yes
 
           else if key in lashes
-            if range >= 1.9 or self.$parent.male
+            side = key.match(/Left|Right/)[0].toLowerCase()
+
+            if range >= 1.9 and side is "left" or self.$parent.male
               clear = yes
 
-            side   = key.match(/Left|Right/)[0].toLowerCase()
-            range  = range - (1 - frame)
-            closed = self.body.eye[side].lashes
+            else
+              range  = range - (1 - frame)
+              closed = self.body.eye[side].lashes
 
-            if self.degress < 0
-              side = if side is "left" then "right" else "left"
+              if self.degress < 0
+                side = if side is "left" then "right" else "left"
 
-            parts =
-              [ "upper", "middle", "lower",
-                "upper", "middle", "lower" ]
+              parts =
+                [ "upper", "middle", "lower",
+                  "upper", "middle", "lower" ]
 
-            path2 = closed[parts[lashes.indexOf key]].closed
-            morph =
-              self.interpolate [
-                anim([paths[frame + 1], paths[frame]], range),
-                anim [path2[frame + 1], path2[frame]], range
-              ]
+              path2 = closed[parts[lashes.indexOf key]].closed
+              morph =
+                self.interpolate [
+                  anim([paths[frame + 1], paths[frame]], range),
+                  anim [path2[frame + 1], path2[frame]], range
+                ]
 
-            val = self.$root.eyes.eyelids[side].up
+              val = self.$root.eyes.eyelids[side].up
 
           else if key in ["eyeLeftBrow", "eyeRightBrow"]
             brow  = self.$root.eyes.brows
@@ -865,88 +878,101 @@
           ry: 13.5 * scale + "%"
 
 
-        # Pupils
+        if not @$root.eyes.changeling
 
-        set
-          elem: refs.eyePupilLeft
+          # Pupils
 
-          cx: middle.left.x - 10 + absolute.x
-          cy: middle.left.y + absolute.y
+          set
+            elem: refs.eyePupilLeft
 
-          rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
-          ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
+            cx: middle.left.x - 10 + absolute.x
+            cy: middle.left.y + absolute.y
 
-        set
-          elem: refs.eyePupilRight
+            rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
+            ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
 
-          cx: middle.right.x + 10 + (@AbsoluteDegress / 3) + absolute.x
-          cy: middle.right.y + absolute.y
+          set
+            elem: refs.eyePupilRight
 
-          rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
-          ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
+            cx: middle.right.x + 10 + (@AbsoluteDegress / 3) + absolute.x
+            cy: middle.right.y + absolute.y
+
+            rx: 6  * @$root.eyes.pupils.width  * scale / 100 + "%"
+            ry: 10 * @$root.eyes.pupils.height * scale / 100 + "%"
+
+          # Glares
+
+          ang = if @degress < 0 then 45 else -45
+          pos = if @degress < 0 then 15 else -15
+
+          set
+            elem: refs.eyeGlareLeft
+
+            cx: middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
+            cy: middle.left.y - (85 * scale) + absolute.y
+
+            rx: 3   * scale + "%"
+            ry: 5.5 * scale + "%"
+
+          refs.eyeGlareLeft.setAttribute "style",
+            "transform: rotate(#{ ang }deg); transform-origin: " +
+              "#{ middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
+              "#{ middle.left.y - (85 * scale) + absolute.y }px"
+
+          set
+            elem: refs.eyeGlare2Left
+
+            cx: middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
+            cy: middle.left.y - (60 * scale) + absolute.y
+
+            rx: 1.25 * scale + "%"
+            ry: 2    * scale + "%"
+
+          refs.eyeGlare2Left.setAttribute "style",
+            "transform: rotate(#{ ang }deg); transform-origin: " +
+              "#{ middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
+              "#{ middle.left.y - (60 * scale) + absolute.y }px"
 
 
-        # Glares
+          set
+            elem: refs.eyeGlareRight
 
-        ang = if @degress < 0 then 45 else -45
-        pos = if @degress < 0 then 15 else -15
+            cx: middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
+            cy: middle.right.y - (85 * scale) + absolute.y
 
-        set
-          elem: refs.eyeGlareLeft
+            rx: 3   * scale + "%"
+            ry: 5.5 * scale + "%"
 
-          cx: middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
-          cy: middle.left.y - (85 * scale) + absolute.y
+          refs.eyeGlareRight.setAttribute "style",
+            "transform: rotate(#{ ang }deg); transform-origin: " +
+              "#{ middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
+              "#{ middle.right.y - (85 * scale) + absolute.y }px"
 
-          rx: 3   * scale + "%"
-          ry: 5.5 * scale + "%"
+          set
+            elem: refs.eyeGlare2Right
 
-        refs.eyeGlareLeft.setAttribute "style",
-          "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
-            "#{ middle.left.y - (85 * scale) + absolute.y }px"
+            cx: middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
+            cy: middle.right.y - (60 * scale) + absolute.y
 
-        set
-          elem: refs.eyeGlare2Left
+            rx: 1.25 * scale + "%"
+            ry: 2    * scale + "%"
 
-          cx: middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
-          cy: middle.left.y - (60 * scale) + absolute.y
+          refs.eyeGlare2Right.setAttribute "style",
+            "transform: rotate(#{ ang }deg); transform-origin: " +
+              "#{ middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
+              "#{ middle.right.y - (60 * scale) + absolute.y }px"
 
-          rx: 1.25 * scale + "%"
-          ry: 2    * scale + "%"
+        else
+          elems =
+            [ "eyePupilLeft",   "eyeGlareLeft",  "eyeGlare2Left",
+              "eyePupilRight", "eyeGlareRight", "eyeGlare2Right" ]
 
-        refs.eyeGlare2Left.setAttribute "style",
-          "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.left.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
-            "#{ middle.left.y - (60 * scale) + absolute.y }px"
+          for elem in elems
+            set
+              elem: refs[elem]
 
-
-        set
-          elem: refs.eyeGlareRight
-
-          cx: middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x
-          cy: middle.right.y - (85 * scale) + absolute.y
-
-          rx: 3   * scale + "%"
-          ry: 5.5 * scale + "%"
-
-        refs.eyeGlareRight.setAttribute "style",
-          "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x - (pos - (@AbsoluteDegress / 3) * scale) + absolute.x }px " +
-            "#{ middle.right.y - (85 * scale) + absolute.y }px"
-
-        set
-          elem: refs.eyeGlare2Right
-
-          cx: middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x
-          cy: middle.right.y - (60 * scale) + absolute.y
-
-          rx: 1.25 * scale + "%"
-          ry: 2    * scale + "%"
-
-        refs.eyeGlare2Right.setAttribute "style",
-          "transform: rotate(#{ ang }deg); transform-origin: " +
-            "#{ middle.right.x + (pos * 2) + (@AbsoluteDegress / 3) + absolute.x }px " +
-            "#{ middle.right.y - (60 * scale) + absolute.y }px"
+              cx: 0, cy: 0
+              rx: 0, ry: 0
 
       hair: ->
         hair = @$root.hair
@@ -1089,7 +1115,8 @@
           @$root.jaw.open, @$root.jaw.sad,
           @$root.teeth.upper, @$root.teeth.lower,
 
-          @$root.earClipEnabled
+          @$root.earClipEnabled,
+          @$root.horn.changeling
         ].join()
 
       ), -> @animate(); return

@@ -16,6 +16,16 @@
 
       .line
 
+      #checker
+        p.h(style="width: 16vmax") changeling
+
+        #checkbox
+          input(v-model="$root.eyes.changeling" type="checkbox"
+            :style="[$root.furCheckedChangeling, { 'border-color': $root.eyes.color.left.basic }]")
+          #checkmark
+
+      .line
+
       BarInput(name="scale" :color="color.eyes.left" :type="$root.eyes.iris" min="50" max="125")
 
       .line
@@ -24,7 +34,8 @@
 
       BarInputPad(name="scale" :color="$root.eyesSet" :color-stroke="$root.eyesStroke" :type="2"
         x="eyes.pupils.width" y="eyes.pupils.height"
-        xname="width" yname="height")
+        xname="width" yname="height"
+        :style="enableByVal(!$root.eyes.changeling)")
 
         #X2.line
         #X.line
@@ -150,6 +161,15 @@
           #checkmark
 
       div(style="position: relative" :style="enableByVal($root.horn.enable)")
+        #checker
+          p.h(style="width: 16vmax") changeling
+
+          #checkbox
+            input(v-model="$root.horn.changeling" type="checkbox")
+            #checkmark
+
+        .line
+
         #checker
           p.h(style="width: 16vmax") second color
 

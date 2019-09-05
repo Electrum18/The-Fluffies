@@ -58,6 +58,8 @@ new Vue
     horiz: 0
     degress: 0
 
+    shading: on
+
     loadings: []
 
     hair:
@@ -76,6 +78,7 @@ new Vue
     horn:
       enable: off
       notLines: off
+      changeling: no
 
     jaw: { open: 0, sad: 0 }
     teeth: { upper: 100, lower: 100 }
@@ -119,6 +122,8 @@ new Vue
           height: 0
           evil: 0
           wide: 0
+
+      changeling: no
 
     mane:
       second:
@@ -190,6 +195,9 @@ new Vue
     furCheckedEyebrows: ->
       if @eyes.brows.show then background: @eyes.color.left.basic else false
 
+    furCheckedChangeling: ->
+      if @eyes.changeling then background: @eyes.color.left.basic else false
+
     ifIsRelative: ->
       if @eyes.position.mode is "relative" then background: @eyes.color.left.basic else false
 
@@ -231,10 +239,15 @@ new Vue
       if @eyes.color.right.enable then background: @eyes.color.right.basic else false
 
     eyeLeftGradient: ->
-      if @degress < 0 then "url(#grad_Eyes_Left)" else "url(#grad_Eyes_Right)"
+      if @$root.eyes.changeling then "url(#grad_Eyes_Changeling)"
+      else if @degress < 0 then "url(#grad_Eyes_Left)" else "url(#grad_Eyes_Right)"
 
     eyeRightGradient: ->
-      if @degress < 0 then "url(#grad_Eyes_Right)" else "url(#grad_Eyes_Left)"
+      if @$root.eyes.changeling then "url(#grad_Eyes_Changeling)"
+      else if @degress < 0 then "url(#grad_Eyes_Right)" else "url(#grad_Eyes_Left)"
+
+    Shading: ->
+      if @shading then "url(#filter_shadow)" else no
 
   methods:
     get: (target, url, callback) ->
