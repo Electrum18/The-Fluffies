@@ -1,5 +1,5 @@
 <template lang="pug">
-  #avatar.transition(v-press-hold="[MouseMove, Click]")
+  #avatar.transition(v-press-hold="[MouseMove, Click, Holding]")
     svg(viewBox="0 -112 1024 1024" :style="mirror.style")
       g.scale
         g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]" :filter="$root.Shading")
@@ -298,6 +298,10 @@
           left: "50%"
           transform: "translate(-50%) scale(1, 1)"
 
+      worker:
+        animate: undefined
+        hair:    undefined
+
     watch:
       "mirror.basic": (e) ->
         @mirror.style.transform =
@@ -362,11 +366,6 @@
         if @$root.eyes.changeling then @$root.eyes.color.right.basic else "#fff"
 
     methods:
-      in: (array, range) ->
-        #interpolation shorthand
-
-        @interpolate(array) range
-
       get: (target, url, callback) ->
         self   = this
         loader = @$root.loadings
@@ -400,6 +399,10 @@
 
         @last.x = e.pageX
         @last.y = e.pageY
+
+      Holding: (hold) ->
+        if @$root.shading.enable
+          @$root.shading.active = !hold
 
       MouseMove: (e) ->
         if not e.pageX
@@ -447,9 +450,6 @@
         furs = @furs
 
         give = (inPath, i, isMale) ->
-          if i is 0 and not furs[pathTo[0]]
-            furs[pathTo[0]] = {}
-
           if i < pathTo.length
             name = pathTo[i].toLowerCase()
 
@@ -457,13 +457,7 @@
 
           else
             if Array.isArray inPath
-              if text is pathTo[0]
-                furs[text] = inPath
-              else
-                name = text.replace pathTo[0], ""
-
-                furs[pathTo[0]][name] = inPath
-
+              furs[text] = inPath
               keys[keys.length] = text
 
               if isMale
@@ -599,217 +593,28 @@
             set name, key
 
       animate: ->
-        clips = @$root.path
-        refs  = @$root.$refs
-        self  = this
-        eyelids  = @$root.eyes.eyelids
-        emotions = @emotions.eyelid
+        @worker.animate.postMessage
+          furs: @furs
+          keys: @keys
+          x: @x
+          AbsoluteDegress: @AbsoluteDegress
+          degress: @degress
+          emotions: @emotions
+          male: @$parent.male
 
-        eyelid = [
-          { val: eyelids.left.up,    target: emotions.left.down      }
-          { val: eyelids.left.up,    target: emotions.left.up.fill   }
-          { val: eyelids.left.down,  target: emotions.left.up.basic  }
-          { val: eyelids.left.down,  target: refs["eyeLeft"].getAttribute "d" }
-          { val: eyelids.right.up,   target: emotions.right.down     }
-          { val: eyelids.right.up,   target: emotions.right.up.fill  }
-          { val: eyelids.right.down, target: emotions.right.up.basic }
-          { val: eyelids.right.down, target: refs["eyeRight"].getAttribute "d" }
-        ]
+          root:
+            tassels: @$root.tassels
+            eyes: @$root.eyes
+            fangs: @$root.fangs
+            catlike: @$root.catlike
+            jaw: @$root.jaw
+            horn: @$root.horn
 
-        isEyelid  =
-          [ "eyeLeftLidUp",  "eyeLeftLidUpFill",  "eyeLeftLidDown",  "eyeLeftLidDownFill",
-            "eyeRightLidUp", "eyeRightLidUpFill", "eyeRightLidDown", "eyeRightLidDownFill" ]
+          body: @body
 
-        lashes =
-          [ "eyeLeftLashesUpper",  "eyeLeftLashesMiddle",  "eyeLeftLashesLower",
-            "eyeRightLashesUpper", "eyeRightLashesMiddle", "eyeRightLashesLower" ]
-
-        @calc "bridge"
-        @calc "chest"
-        @calc "chin", (frame, paths, key, range) ->
-          paths = self.body.chin.angle
-
-          # Set chinAngle by this method
-          refs["chinAngle"].setAttribute "d", self.interpolate([paths[frame + 1], paths[frame]]) range
-
-        @calc "neck"
-        @calc ["neck", "Back_right"]
-        @calc ["neck", "Front_left"]
-        @calc "nostril"
-        @calc "head2"
-        @calc "nose", () -> clip: yes
-        @calc "head", () -> clip: yes
-        @calc "horn", (frame) ->
-          paths = self.body.horn.changeling
-
-          path: if self.$root.horn.changeling then self.interpolate [paths[frame + 1], paths[frame]]
-          clip: yes
-
-        @calc ["horn", "Second"], () ->
-          origin: x: 0.75, y: 0.75
-
-        @calc "tongue", (frame, paths, key) ->
-          refs[key].setAttribute "style",
-            "transform: translate(0%, #{ -(2 - self.$root.jaw.open / 50) }%)"
-
-        @calc "teeth", (frame, paths, key) ->
-          if key is "teethUpper"
-            refs[key].setAttribute "style",
-              "transform: translate(0%, #{ -(4 - self.$root.teeth.upper / 25) }%)"
-
-          else if key is "teethLower"
-            refs[key].setAttribute "style",
-              "transform: translate(0%, #{ 4 - self.$root.teeth.lower / 25 }%)"
-
-        @calc "fangs", (frame, paths) ->
-          path: if self.$root.fangs then self.interpolate [paths[frame + 1], paths[frame]]
-          clear: if not self.$root.fangs then true
-
-        @calc "ear", (frame, paths, key) ->
-          # Set ear to "front or not"
-
-          if /Right/.test key
-            clear = no
-            front = no
-
-            if self.$root.horiz <= 0 or self.AbsoluteDegress >= 45
-              if key in ["earRightTassel", "earRightTasselInside"] and not self.$root.tassels
-                   clear = yes
-              else front = yes
-
-            else
-              if key in ["earRightTassel", "earRightTasselInside"] and not self.$root.tassels
-                clear = yes
-
-          path: self.interpolate [paths[frame + 1], paths[frame]]
-          clip: if key in ["earLeft", "earRight"] then true
-          front: front
-          clear: clear
-
-        anim = @in
-
-        @calc "mouth", (frame, paths, key, range) ->
-          if self.$root.catlike
-            horiz = [
-              self.emotions.catlike.jaw[frame + 1],
-              self.emotions.catlike.jaw[frame]
-            ]
-
-          else horiz = [paths[frame + 1], paths[frame]]
-
-          jaw   = self.$root.jaw
-          type  = if self.$root.catlike then "catlike" else "basic"
-          range = range - (3 - frame)
-
-          sad  = self.emotions.sad.jaw
-          open = self.emotions.open.jaw
-
-          animSumm =
-            anim [
-              anim(horiz, range),
-              anim [sad[type].closed[frame + 1], sad[type].closed[frame]], range
-            ], jaw.sad / 100
-
-          morph =
-            self.interpolate [
-              animSumm,
-              anim [
-                anim([    open[type][frame + 1],     open[type][frame]], range),
-                anim [sad[type].open[frame + 1], sad[type].open[frame]], range
-              ], jaw.sad / 100
-            ]
-
-          refs["mouthOuter"].setAttribute "d", animSumm
-
-          path: morph
-          range: jaw.open / 100
-          clip: true
-
-        @calc "eye", (frame, paths, key, range) ->
-          if range < 0 then range = -range
-
-          if key in isEyelid
-            id     = isEyelid.indexOf key
-            range  = range - (1 - frame)
-            target = eyelid[id].target
-
-            if self.degress < 0
-              if id >= 4 then id -= 4 else id += 4
-
-            val = eyelid[id].val
-
-            if eyelid[id].val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
-              if typeof target isnt "string"
-                target = anim [target[frame + 1], target[frame]], range
-
-              morph = self.interpolate [
-                anim([paths[frame + 1], paths[frame]], range),
-                target
-              ]
-
-            else clear = yes
-
-          else if key in lashes
-            side = key.match(/Left|Right/)[0].toLowerCase()
-
-            if range >= 1.9 and side is "left" or self.$parent.male
-              clear = yes
-
-            else
-              range  = range - (1 - frame)
-              closed = self.body.eye[side].lashes
-
-              if self.degress < 0
-                side = if side is "left" then "right" else "left"
-
-              parts =
-                [ "upper", "middle", "lower",
-                  "upper", "middle", "lower" ]
-
-              path2 = closed[parts[lashes.indexOf key]].closed
-              morph =
-                self.interpolate [
-                  anim([paths[frame + 1], paths[frame]], range),
-                  anim [path2[frame + 1], path2[frame]], range
-                ]
-
-              val = self.$root.eyes.eyelids[side].up
-
-          else if key in ["eyeLeftBrow", "eyeRightBrow"]
-            brow  = self.$root.eyes.brows
-            range = range - (1 - frame)
-
-            if brow.show
-              side    = if key  is "eyeLeftBrow" then "left" else "right"
-              sideAlt = if side is "left"        then "right" else "left"
-
-              eye  = self.body.eye
-              evil = eye[side].brow.evil
-              wide = eye[side].brow.wide
-
-              val =
-                evil: if self.degress >= 0 then brow[sideAlt].evil else brow[side].evil
-                wide: if self.degress >= 0 then brow[sideAlt].wide else brow[side].wide
-
-              morph =
-                self.interpolate [
-                  anim([
-                    anim([paths[frame + 1], paths[frame]], range),
-                    anim [evil[frame + 1], evil[frame]], range
-                  ], val.evil / 100),
-
-                  anim [wide[frame + 1], wide[frame]], range
-                ]
-
-            else clear = true
-
-          path:  if morph then morph
-          range:
-            if morph and /Brow/.test key then val.wide / 100
-            else if morph then val / 100
-
-          clip:  if key in ["eyeLeft", "eyeRight"] then true
-          clear: clear
+          d:
+            eyeLeft:  @$root.$refs["eyeLeft"].getAttribute "d"
+            eyeRight: @$root.$refs["eyeRight"].getAttribute "d"
 
       eyes: ->
         refs = @$root.$refs
@@ -975,102 +780,65 @@
               rx: 0, ry: 0
 
       hair: ->
-        hair = @$root.hair
-
-        if !hair.info[hair.id] then return
-
-        refs      = @$root.$refs
-        hairPaths = @hairs[hair.name]
-
-        elems = [
-          "hair", "hairSecond",
-          "hairNape", "hairNapeSecond",
-          "hairTail", "hairTailSecond"
-        ]
-
-        parts = ["front", "back", "tail"]
-
-        i2 = -1
-
-        for elem, i in elems
-          if i % 2 is 0 then i2++
-
-          isSecond = if i % 2 is 0 then "main" else
-            if @$root.mane.second.isEnds and hairPaths[parts[i2]].ends
-              "ends"
-            else "second"
-
-          paths     = hairPaths[parts[i2]][isSecond]
-          fullRange = @x * 2
-
-          frame = Math.floor fullRange
-          range = fullRange - frame
-          mirroring = hair.info[hair.id].mirroring
-
-          if hairPaths.fix and hairPaths.fix[parts[i2]] and
-             hairPaths.fix[parts[i2]][isSecond] and
-             hairPaths.fix[parts[i2]][isSecond].x
-
-            origin = origin: hairPaths.fix[parts[i2]][isSecond]
-
-          else origin = origin: x: 0, y: 0
-
-          setBehind = ->
-            refs[elem].setAttribute "d", animHoriz range
-            refs[elem + "Front"].setAttribute "d", ""
-
-          setFront = ->
-            refs[elem + "Front"].setAttribute "d", animHoriz range
-            refs[elem].setAttribute "d", ""
-
-          setClear = ->
-            refs[elem].setAttribute "d", ""
-            refs[elem + "Front"].setAttribute "d", ""
-
-          frame = 2 + frame
-
-          if frame > 3 then frame = 3; range = 1
-
-          if paths.length is 0 then setClear(); continue
-
-          animHoriz =
-            if frame > 1 and mirroring
-              @interpolate [paths[4 - frame], paths[3 - frame]], origin
-            else
-              @interpolate [paths[frame], paths[frame + 1]], origin
-
-          if isSecond
-            @$root.path[elem + "Clip"] = animHoriz range
-
-          if elem in ["hair", "hairSecond"] then setFront()
-          else if elem in ["hairTail", "hairTailSecond"] and hair isnt "Curly ends"
-            setFront()
-          else if elem in ["hairTail", "hairTailSecond"] and hair isnt "Curly ends" and @degress > 0
-            setFront()
-
-          else if hair.name in ["Curly ends"]
-            if elem in ["hairTail", "hairTailSecond"] and @degress > 0 then setFront() else
-            if elem in ["hairNape", "hairNapeSecond"] and @degress < 0 then setFront()
-            else setBehind()
-
-          else setBehind()
-
-        side = hair.side
-
-        if @degress < 0 and not mirroring
-          side.basic = transform: "scale(-1, 1)"
-          side.alt   = transform: ""
-          side.front = transform: ""
-
-        else
-          side.basic = transform: ""
-          side.alt   = transform: "scale(-1, 1)"
-          side.front = transform: "scale(-1, 1) translate(-100%)"
+        @worker.hair.postMessage
+          hair: @$root.hair
+          hairs: @hairs
+          mane: @$root.mane
+          x: @x
+          degress: @degress
 
     mounted: ->
-      @$root.$refs = { @$root.$refs..., @$refs...}
+      @$root.$refs = { @$root.$refs..., @$refs... }
 
       self = this
+
+      clips = @$root.path
+      refs  = @$root.$refs
+
+      animate = new Worker "../workers/animate.js"
+      animate.addEventListener "message", ($) ->
+        $ = $.data
+
+        if $.type is "refs"
+          refs[$.key].setAttribute "d", $.path
+        else
+          clips[$.key] = $.path
+
+        # Teeth position
+
+        if $.key is "tongue"
+          refs[$.key].setAttribute "style",
+            "transform: translate(0%, #{ -(2 - self.$root.jaw.open / 50) }%)"
+
+        else if $.key is "teethUpper"
+          refs[$.key].setAttribute "style",
+            "transform: translate(0%, #{ -(4 - self.$root.teeth.upper / 25) }%)"
+
+        else if $.key is "teethLower"
+          refs[$.key].setAttribute "style",
+            "transform: translate(0%, #{ 4 - self.$root.teeth.lower / 25 }%)"
+
+        # Set clip paths
+
+        else if $.key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
+          clips[$.key + "Clip"] = $.path
+
+        else if $.key in ["earLeft", "earRight"] and self.$root.earClipEnabled
+          clips[$.key + "Clip"] = $.path
+
+      , false
+
+      hair = new Worker "../workers/hair.js"
+      hair.addEventListener "message", ($) ->
+        $ = $.data
+
+        if $.type is "refs"
+          refs[$.key].setAttribute "d", $.path
+        else
+          clips[$.key] = $.path
+
+      @worker.animate = animate
+      @worker.hair    = hair
 
 
       # Get JSON data to client and execute

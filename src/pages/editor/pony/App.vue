@@ -144,7 +144,7 @@
         MoMBar(v-for="(hair, i) in $root.hair.info" :key="hair + i" :id="i" :elem="hair")
 
       #menu-circle(:style="circle.style")
-        #shading(@click="$root.shading = !$root.shading")
+        #shading(@click="$root.shading.enable = !$root.shading.enable")
           svg(viewBox="-15 -12 100 100" style="transform: translate(50%, -50%) rotate(102.5deg)")
             path(fill="#eee" d="M0 36a36 36 0 1 0 73 0 36 36 0 0 0-73 0zM23 6c13-8 31-3 41 12 9 15 6 34-6 42-13 9-32 3-41-12-10-15-7-34 6-42z")
 

@@ -16,7 +16,14 @@ Vue.directive "press-hold",
 
       hold = yes
 
-    unholding = -> hold = no
+      if binding.value[2]
+        binding.value[2] hold
+
+    unholding = ->
+      hold = no
+
+      if binding.value[2]
+        binding.value[2] hold
 
     event = (val) ->
       if hold
@@ -58,7 +65,9 @@ new Vue
     horiz: 0
     degress: 0
 
-    shading: on
+    shading:
+      enable: on
+      active: on
 
     loadings: []
 
@@ -247,7 +256,7 @@ new Vue
       else if @degress < 0 then "url(#grad_Eyes_Right)" else "url(#grad_Eyes_Left)"
 
     Shading: ->
-      if @shading then "url(#filter_shadow)" else no
+      if @shading.enable and @shading.active then "url(#filter_shadow)" else no
 
   methods:
     get: (target, url, callback) ->
