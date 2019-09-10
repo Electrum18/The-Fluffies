@@ -2,10 +2,10 @@
   #app
     #background(:style="background")
 
-    p#mode(:style="mode") {{ modeText }}
+    span#mode(:style="mode") {{ modeText }}
 
     #brandBack.transition
-      p#title welcome to
+      span#title welcome to
 
     #brand.transition
       svg(viewBox="0 0 1026 418" style="background: transparent; border: .1vmin solid #ddd; border-radius: 2.5vmin")
@@ -29,15 +29,15 @@
               feMergeNode
               feMergeNode(in="SourceGraphic")
 
-      p This is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
+      h2 This is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
       p#warning(v-show="warning") {{ Warning }}
 
     #phone
       svg(viewBox="0 0 310 310")
         path(fill="#ccc" d="M106 310c-9 0-25 1-32-5-3-3-6-8-6-17V21S68 0 87 0h133s22 0 22 21v268s0 21-22 21H106zm48-18c6 0 11-5 11-10a10 10 0 1 0-11 10zM116 19a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm71 0h-25c-9 0-17 5-17 10s8 10 17 10h25c9 0 17-5 17-10s-8-10-17-10zm20 39H104c-9 0-17 7-17 16v162c0 9 8 16 17 16h103c9 0 16-7 16-16V74c0-9-7-16-16-16z")
 
-      p(style="transform: translate(-10%, -5%);   font-size: 2.5vmin") does not work
-      p(style="transform: translate(-10%, -170%); font-size: 1.75vmin") correctly for phones
+      span(style="transform: translate(-10%, -5%);   font-size: 2.5vmin") does not work
+      span(style="transform: translate(-10%, -170%); font-size: 1.75vmin") correctly for phones
 
     #button
       a(href="/about")
@@ -77,7 +77,10 @@
 
     NightMode
 
-    p#copyright © 2019 The Fluffies
+    #copyright
+      h1 The Fluffies
+      p © 2019
+
     #vignette
 </template>
 

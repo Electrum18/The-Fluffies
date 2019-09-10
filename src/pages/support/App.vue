@@ -47,7 +47,10 @@
 
     NightMode
 
-    p#copyright © 2019 The Fluffies
+    #copyright
+      h1 The Fluffies
+      p © 2019
+
     #vignette
 </template>
 

@@ -28,7 +28,8 @@ module.exports = {
     support: './src/pages/support/main.coffee',
     "editor/pony": './src/pages/editor/pony/main.coffee',
     "editor/workers/animate": './src/pages/editor/pony/workers/animate.coffee',
-    "editor/workers/hair": './src/pages/editor/pony/workers/hair.coffee'
+    "editor/workers/hair": './src/pages/editor/pony/workers/hair.coffee',
+    "editor/workers/eyes": './src/pages/editor/pony/workers/eyes.coffee'
   },
 
   module: {

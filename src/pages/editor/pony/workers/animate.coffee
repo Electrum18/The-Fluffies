@@ -23,7 +23,7 @@ self.addEventListener "message", ($) ->
         else fullRange = absPercent ** 0.75 * length
 
     if key in ["nose", "bridge", "mouth", "fangsLeft", "fangsRight",
-      "nostrilLeft", "nostrilRight"]
+      "nostrilLeft", "nostrilRight", "teethUpper", "teethLower", "tongue"]
 
       if $.degress > 0
         if $.degress > 30

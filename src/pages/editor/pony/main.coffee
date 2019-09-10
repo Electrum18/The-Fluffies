@@ -173,6 +173,7 @@ new Vue
 
       earLeftClip: ""
       earRightClip: ""
+      earRightFrontClip: ""
 
       mouthClip: ""
 

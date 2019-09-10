@@ -1,0 +1,22 @@
+{
+  "short_name": "Fluffies",
+  "name": "The Fluffies",
+  "icons": [
+    {
+      "src": "/icons/fluffies.ico",
+      "type": "image/x-icon",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/img/fluffies.png",
+      "type": "image/png",
+      "sizes": "310x310"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "landscape",
+  "scope": "/",
+  "theme_color": "#ffaa00"
+}
