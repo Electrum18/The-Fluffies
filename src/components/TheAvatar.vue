@@ -645,6 +645,8 @@
             eyeRight: @$root.$refs["eyeRight"].getAttribute "d"
 
       eyes: ->
+        if !@$root.$refs["eyeLeft"] or !@$root.$refs["eyeRight"] then @eyes()
+
         L = @$root.$refs["eyeLeft"].getBBox()
         R = @$root.$refs["eyeRight"].getBBox()
 
@@ -684,8 +686,6 @@
 
           if refs[$.key + "Shadow"]
             refs[$.key + "Shadow"].setAttribute "d", $.path
-
-          if $.key is "eyeLeft" then self.eyes()
 
         else
           clips[$.key] = $.path

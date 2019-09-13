@@ -226,6 +226,8 @@ self.addEventListener "message", ($) ->
 
       if $.degress >= 0 then val = $.root.eyes.eyelids.right.up
 
+      self.postMessage { type: "refs", key, path: animLashesSumm val / 100 }
+
     else if key in lashes.right
       if $.male
         self.postMessage { type: "refs", key, path: "" }
