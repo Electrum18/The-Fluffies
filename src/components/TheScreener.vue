@@ -42,7 +42,10 @@
 
     methods:
       takeImage: ->
-        elem = document.querySelector("#avatar svg").innerHTML
+        style = @$root.$refs["avatarSvg"].getAttribute "style"
+          .replace /translate\(-50%\) /g, ""
+
+        elem  = document.querySelector("#avatar svg").innerHTML
           .replace /><\/path>/g,    " />"
           .replace /><\/rect>/g,    " />"
           .replace /><\/ellipse>/g, " />"
@@ -55,7 +58,7 @@
   <!-- Generated with love by the-fluffies.net at #{new Date().getFullYear()} -->
 
   <svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'
-    viewBox='0 -112 1024 1024' style='enable-background:new 0 -112 1024 1024;' xml:space='preserve'>
+    viewBox='0 -112 1024 1024' style='enable-background:new 0 -112 1024 1024; #{ style }' xml:space='preserve'>
   """
 
         styles = """\n

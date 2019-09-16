@@ -1,6 +1,6 @@
 <template lang="pug">
   #avatar.transition(v-press-hold="[MouseMove, Click, Holding]")
-    svg(viewBox="0 -112 1024 1024" :style="mirror.style")
+    svg(viewBox="0 -112 1024 1024" :style="mirror.style" ref="avatarSvg")
       g.scale
         g.HairBack(:style="[$root.headRotate, $root.hair.side.basic]")
           Shadow(name="hairTail")
