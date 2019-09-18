@@ -295,9 +295,13 @@
   import Mane from "./avatar/Manes.vue"
   import Shadow from "./avatar/Shadows.vue"
 
+  import Animate from "../assets/js/morphs/animate.coffee"
+  import Hair from "../assets/js/morphs/hair.coffee"
+  import Eyes from "../assets/js/morphs/eyes.coffee"
+
   export default
     data: ->
-      interpolate: require("polymorph-js").interpolate
+      morph: require("polymorph-js").interpolate
 
       body: {}
       furs:
@@ -325,10 +329,6 @@
         style:
           left: "50%"
           transform: "translate(-50%) scale(1, 1)"
-
-      worker:
-        animate: undefined
-        hair:    undefined
 
     watch:
       "mirror.basic": (e) ->
@@ -502,252 +502,32 @@
 
         give @body, 0
 
-      calc: (name, callback) ->
-        if Array.isArray name
-          name2 = name[1]
-          name  = name[0]
-
-        if @$parent.male and @furs.male[name]
-          if name2
-               part = @furs.male[name][name2]
-          else part = @furs.male[name]
-        else
-          if name2 and @furs[name]
-               part = @furs[name][name2]
-          else part = @furs[name]
-
-        self = this
-        root = @$root
-
-        set = (name, second) ->
-          if second
-            if self.$parent.male and self.furs.male[name] and self.furs.male[name][second]
-              if name2
-                   part = self.furs.male[name][name2][second]
-              else part = self.furs.male[name][second]
-            else
-              if name2
-                   part = self.furs[name][name2][second]
-              else part = self.furs[name][second]
-
-          length = part.length - 1
-          fullRange = self.x * length
-
-          absPercent = self.AbsoluteDegress / 90
-
-          if name is "chin"
-            if self.degress > 0
-              if self.degress > 30
-                   fullRange = absPercent ** 0.75 * length
-              else fullRange = absPercent ** 2.5  * length * 6.8
-            else
-              if self.degress > -30
-                   fullRange = absPercent ** 2.5  * length * 6.8
-              else fullRange = absPercent ** 0.75 * length
-
-          else if name in ["nose", "bridge", "mouth", "fangs", "nostril", "teeth"]
-            if self.degress > 0
-              if self.degress > 30
-                   fullRange = absPercent ** 0.5 * length
-              else fullRange = absPercent ** 2   * length * 5.15
-            else
-              if self.degress > -30
-                   fullRange = absPercent ** 2   * length * 5.15
-              else fullRange = absPercent ** 0.5 * length
-
-          else if name in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
-            "eyeLeftLashesLower" ]
-
-            if self.degress > 0
-              if self.degress > 30
-                   fullRange = absPercent ** 0.25 * length
-              else fullRange = absPercent ** 0.75 * length * 1.75
-            else
-              if self.degress > -30
-                   fullRange = absPercent ** 0.75 * length * 1.75
-              else fullRange = absPercent ** 0.25 * length
-
-
-          frame = Math.floor fullRange
-          range = fullRange - frame
-
-          if frame < 0
-            frame = part.length - 1 + frame
-            range = 1 - range
-
-          else frame = part.length - 2 - frame
-
-          if frame < 0 then frame = 0; range = 1
-          if not second then second = ""
-          if not  name2 then  name2 = ""
-
-          if callback then path = callback frame, part, name + name2 + second, fullRange
-
-          if path and path.range isnt undefined then range = path.range
-
-          pathData =
-            if path and path.path then path.path range else
-              if path and path.origin
-                   self.interpolate([part[frame + 1], part[frame]], origin: path.origin) range
-              else self.interpolate([part[frame + 1], part[frame]]) range
-
-          elem = root.$refs[name + name2 + second]
-
-          if root.$refs[name + name2 + second + "Front"]
-            elemFront = root.$refs[name + name2 + second + "Front"]
-
-          if path and path.front
-            elemFront.setAttribute "d", pathData
-            elem.setAttribute "d", ""
-
-          else if path and path.clear
-            elem.setAttribute "d", ""
-            if elemFront then elemFront.setAttribute "d", ""
-
-          else
-            elem.setAttribute "d", pathData
-            if elemFront then elemFront.setAttribute "d", ""
-
-          if path and path.clip
-            root.path[name + name2 + second + "Clip"] = pathData
-
-        if Array.isArray part then setTimeout (-> set name)
-        else
-          if not part then return
-
-          keys = Object.keys part
-
-          for key in keys
-            set name, key
-
       animate: ->
-        @worker.animate.postMessage
-          furs: @furs
-          keys: @keys
-          x: @x
-          AbsoluteDegress: @AbsoluteDegress
-          degress: @degress
-          emotions: @emotions
-          male: @$parent.male
+        refs  = @$root.$refs
+        clips = @$root.path
 
-          root:
-            tassels: @$root.tassels
-            eyes: @$root.eyes
-            fangs: @$root.fangs
-            catlike: @$root.catlike
-            jaw: @$root.jaw
-            horn: @$root.horn
-
-          body: @body
-
-          d:
-            eyeLeft:  @$root.$refs["eyeLeft"].getAttribute "d"
-            eyeRight: @$root.$refs["eyeRight"].getAttribute "d"
+        Animate this, refs, clips
 
       eyes: ->
-        if !@$root.$refs["eyeLeft"] or !@$root.$refs["eyeRight"] then @eyes()
+        refs = @$root.$refs
 
-        L = @$root.$refs["eyeLeft"].getBBox()
-        R = @$root.$refs["eyeRight"].getBBox()
+        if !refs["eyeLeft"] or !refs["eyeRight"] then @eyes()
 
-        @worker.eyes.postMessage
-          eyes: @$root.eyes
-          AbsoluteDegress: @AbsoluteDegress
-          degress: @degress
-          horiz: @horiz
+        left  = refs["eyeLeft"].getBBox()
+        right = refs["eyeRight"].getBBox()
 
-          left:  x: L.x, y: L.y, width: L.width, height: L.height
-          right: x: R.x, y: R.y, width: R.width, height: R.height
+        Eyes this, left, right, refs
 
       hair: ->
-        @worker.hair.postMessage
-          hair: @$root.hair
-          hairs: @hairs
-          mane: @$root.mane
-          x: @x
-          degress: @degress
+        refs  = @$root.$refs
+        clips = @$root.path
+
+        Hair this, refs, clips
 
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs... }
 
       self = this
-
-      clips = @$root.path
-      refs  = @$root.$refs
-
-      path = if window.location.hostname isnt "localhost" then "../" else ""
-
-      animate = new Worker path + "../js/workers/animate.js"
-      animate.addEventListener "message", ($) ->
-        $ = $.data
-
-        if $.type is "refs"
-          refs[$.key].setAttribute "d", $.path
-
-          if refs[$.key + "Shadow"]
-            refs[$.key + "Shadow"].setAttribute "d", $.path
-
-        else
-          clips[$.key] = $.path
-
-        # Teeth position
-
-        if $.key is "tongue"
-          refs[$.key].setAttribute "style",
-            "transform: translate(0%, #{ -(2 - self.$root.jaw.open / 50) }%)"
-
-        else if $.key is "teethUpper"
-          refs[$.key].setAttribute "style",
-            "transform: translate(0%, #{ -(4 - self.$root.teeth.upper / 25) }%)"
-
-        else if $.key is "teethLower"
-          refs[$.key].setAttribute "style",
-            "transform: translate(0%, #{ 4 - self.$root.teeth.lower / 25 }%)"
-
-        # Set clip paths
-
-        else if $.key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
-          clips[$.key + "Clip"] = $.path
-
-        else if $.key in ["earLeft", "earRight", "earRightFront"] and self.$root.earClipEnabled
-          clips[$.key + "Clip"] = $.path
-
-      , false
-
-      hair = new Worker path + "../js/workers/hair.js"
-      hair.addEventListener "message", ($) ->
-        $ = $.data
-
-        if $.type is "refs"
-          refs[$.key].setAttribute "d", $.path
-
-          if refs[$.key + "Shadow"]
-            refs[$.key + "Shadow"].setAttribute "d", $.path
-
-        else
-          clips[$.key] = $.path
-
-
-      set = (elem, cx, cy, rx, ry) ->
-        elem.setAttribute "cx", cx
-        elem.setAttribute "cy", cy
-        elem.setAttribute "rx", rx
-        elem.setAttribute "ry", ry
-
-      eyes = new Worker path + "../js/workers/eyes.js"
-      eyes.addEventListener "message", ($) ->
-        $ = $.data
-
-        if $.type is "refs"
-          set(refs[$.key], $.cx, $.cy, $.rx, $.ry)
-
-        else if $.type is "style"
-          refs[$.key].setAttribute "style", $.style
-
-      @worker.animate = animate
-      @worker.hair    = hair
-      @worker.eyes    = eyes
-
 
       # Get JSON data to client and execute
 

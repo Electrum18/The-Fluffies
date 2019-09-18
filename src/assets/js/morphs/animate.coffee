@@ -1,10 +1,10 @@
-morph = require("polymorph-js").interpolate
+export default (self, refs, clips) ->
+  $ = self
 
-self.addEventListener "message", ($) ->
-  $ = $.data
+  male = $.$parent.male
 
   for key in $.keys
-    if $.male && $.furs.male[key]
+    if male && $.furs.male[key]
          paths = $.furs.male[key]
     else paths = $.furs[key]
 
@@ -72,29 +72,29 @@ self.addEventListener "message", ($) ->
     if key in ["earRightInside", "earRightPinna", "earRight",
       "earRightTasselInside", "earRightTassel"]
 
-      if $.root.horiz <= 0 or $.AbsoluteDegress >= 45
-        if key in ["earRightTassel", "earRightTasselInside"] and not $.root.tassels
-          self.postMessage { type: "refs", key: key + "Front", path: "" }
-          self.postMessage { type: "refs", key,                path: "" }
+      if $.$root.horiz <= 0 or $.AbsoluteDegress >= 45
+        if key in ["earRightTassel", "earRightTasselInside"] and not $.$root.tassels
+          refs[key + "Front"].setAttribute "d", ""
+          refs[key].setAttribute "d", ""
 
         else
-          animHoriz = morph [paths[frame + 1], paths[frame]]
+          animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-          self.postMessage { type: "refs", key: key + "Front", path: animHoriz range }
-          self.postMessage { type: "refs", key: key,           path: "" }
+          refs[key + "Front"].setAttribute "d", animHoriz range
+          refs[key].setAttribute "d", ""
       else
-        if key in ["earRightTassel", "earRightTasselInside"] and not $.root.tassels
-          self.postMessage { type: "refs", key: key + "Front", path: "" }
-          self.postMessage { type: "refs", key,                path: "" }
+        if key in ["earRightTassel", "earRightTasselInside"] and not $.$root.tassels
+          refs[key + "Front"].setAttribute "d", ""
+          refs[key].setAttribute "d", ""
 
         else
-          animHoriz = morph [paths[frame + 1], paths[frame]]
+          animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-          self.postMessage { type: "refs", key: key + "Front", path: "" }
-          self.postMessage { type: "refs", key,                path: animHoriz range }
+          refs[key + "Front"].setAttribute "d", ""
+          refs[key].setAttribute "d", animHoriz range
 
     else if key in isEyelid
-      eyelids  = $.root.eyes.eyelids
+      eyelids  = $.$root.eyes.eyelids
       emotions = $.emotions.eyelid
 
       ids = isEyelid.indexOf key
@@ -103,11 +103,11 @@ self.addEventListener "message", ($) ->
         { val: eyelids.left.up,    target: emotions.left.down }
         { val: eyelids.left.up,    target: emotions.left.up.fill }
         { val: eyelids.left.down,  target: emotions.left.up.basic }
-        { val: eyelids.left.down,  target: $.d.eyeLeft }
+        { val: eyelids.left.down,  target: $.$root.$refs["eyeLeft"].getAttribute "d" }
         { val: eyelids.right.up,   target: emotions.right.down }
         { val: eyelids.right.up,   target: emotions.right.up.fill }
         { val: eyelids.right.down, target: emotions.right.up.basic }
-        { val: eyelids.right.down, target: $.d.eyeRight }
+        { val: eyelids.right.down, target: $.$root.$refs["eyeRight"].getAttribute "d" }
       ]
 
       if $.degress >= 0
@@ -119,15 +119,15 @@ self.addEventListener "message", ($) ->
 
         if val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
           if typeof target isnt "string"
-            animSecond = morph [target[frame + 1], target[frame]]
+            animSecond = $.morph [target[frame + 1], target[frame]]
             target     = animSecond range
 
-          animSecond = morph [$.furs[elem][frame + 1], $.furs[elem][frame]]
-          animSumm   = morph [animSecond(range), target]
+          animSecond = $.morph [$.furs[elem][frame + 1], $.furs[elem][frame]]
+          animSumm   = $.morph [animSecond(range), target]
 
-          self.postMessage { type: "refs", key: elem, path: animSumm val / 100 }
+          refs[elem].setAttribute "d", animSumm val / 100
 
-        else self.postMessage { type: "refs", key: elem, path: "" }
+        else refs[elem].setAttribute "d", ""
 
       else
         target = eyelid[ids].target
@@ -135,128 +135,128 @@ self.addEventListener "message", ($) ->
 
         if eyelid[ids].val > 0 or key in ["eyeLeftLidUp", "eyeRightLidUp"]
           if typeof target isnt "string"
-            animSecond = morph [target[frame + 1], target[frame]]
+            animSecond = $.morph [target[frame + 1], target[frame]]
             target     = animSecond range
 
-          animHoriz = morph [paths[frame + 1], paths[frame]]
-          animSumm  = morph [animHoriz(range), target]
+          animHoriz = $.morph [paths[frame + 1], paths[frame]]
+          animSumm  = $.morph [animHoriz(range), target]
 
-          self.postMessage { type: "refs", key, path: animSumm val / 100 }
+          refs[key].setAttribute "d", animSumm val / 100
 
-        else self.postMessage { type: "refs", key, path: "" }
+        else refs[key].setAttribute "d", ""
 
     else if key in ["earLeftTasselInside", "earLeftTassel"]
-      if $.root.tassels
-        animHoriz = morph [paths[frame + 1], paths[frame]]
+      if $.$root.tassels
+        animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-        self.postMessage { type: "refs", key, path: animHoriz range }
+        refs[key].setAttribute "d", animHoriz range
 
-      else self.postMessage { type: "refs", key, path: "" }
+      else refs[key].setAttribute "d", ""
 
     else if key in ["fangsLeft", "fangsRight"]
-      if $.root.fangs
-        animHoriz = morph [paths[frame + 1], paths[frame]]
+      if $.$root.fangs
+        animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-        self.postMessage { type: "refs", key, path: animHoriz range }
+        refs[key].setAttribute "d", animHoriz range
 
-      else self.postMessage { type: "refs", key, path: "" }
+      else refs[key].setAttribute "d", ""
 
     else if key is "mouth"
-      if $.root.catlike
+      if $.$root.catlike
         animHoriz =
-          morph [
+          $.morph [
             $.emotions.catlike.jaw[frame + 1],
             $.emotions.catlike.jaw[frame]
           ]
 
-      else animHoriz = morph [paths[frame + 1], paths[frame]]
+      else animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-      jaw  = $.root.jaw
-      type = if $.root.catlike then "catlike" else "basic"
+      jaw  = $.$root.jaw
+      type = if $.$root.catlike then "catlike" else "basic"
 
       animSad =
-        morph [
+        $.morph [
           $.emotions.sad.jaw[type].closed[frame + 1],
           $.emotions.sad.jaw[type].closed[frame]
         ]
 
       animOpen =
-        morph [
+        $.morph [
           $.emotions.open.jaw[type][frame + 1],
           $.emotions.open.jaw[type][frame]
         ]
 
       animOpenSad =
-        morph [
+        $.morph [
           $.emotions.sad.jaw[type].open[frame + 1],
           $.emotions.sad.jaw[type].open[frame]
         ]
 
-      animSumm     = morph [animHoriz(range), animSad range    ]
-      animSummOpen = morph [animOpen(range),  animOpenSad range]
+      animSumm     = $.morph [animHoriz(range), animSad range    ]
+      animSummOpen = $.morph [animOpen(range),  animOpenSad range]
       animMouth    =
-        morph [
+        $.morph [
           animSumm(jaw.sad / 100),
           animSummOpen jaw.sad / 100
         ]
 
-      self.postMessage { type: "refs", key,               path: animMouth jaw.open / 100 }
-      self.postMessage { type: "refs", key: "mouthOuter", path: animSumm jaw.sad  / 100 }
+      refs[key].setAttribute "d", animMouth jaw.open / 100
+      refs["mouthOuter"].setAttribute "d", animSumm jaw.sad  / 100
 
-      self.postMessage { type: "clips", key: key + "Clip", path: animMouth jaw.open / 100 }
+      clips[key + "Clip"] = animMouth jaw.open / 100
 
     else if key in lashes.left
-      if fullRange >= 1.9 or $.male
-        self.postMessage { type: "refs", key, path: "" }
+      if fullRange >= 1.9 or male
+        refs[key].setAttribute "d", ""
 
         continue
 
-      val    = $.root.eyes.eyelids.left.up
+      val    = $.$root.eyes.eyelids.left.up
       closed = $.body.eye.left.lashes
 
       index = lashes.left.indexOf key
       parts = ["upper", "middle", "lower"]
       path  = closed[parts[index]].closed
 
-      animHoriz = morph [paths[frame + 1], paths[frame]]
+      animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-      animLashesDown = morph [path[frame + 1], path[frame]]
+      animLashesDown = $.morph [path[frame + 1], path[frame]]
       animLashesSumm =
-        morph [animHoriz(range), animLashesDown range]
+        $.morph [animHoriz(range), animLashesDown range]
 
-      if $.degress >= 0 then val = $.root.eyes.eyelids.right.up
+      if $.degress >= 0 then val = $.$root.eyes.eyelids.right.up
 
-      self.postMessage { type: "refs", key, path: animLashesSumm val / 100 }
+      refs[key].setAttribute "d", animLashesSumm val / 100
 
     else if key in lashes.right
-      if $.male
-        self.postMessage { type: "refs", key, path: "" }
+      if male
+        refs[key].setAttribute "d", ""
 
         continue
 
-      val    = $.root.eyes.eyelids.right.up
+      val    = $.$root.eyes.eyelids.right.up
       closed = $.body.eye.right.lashes
 
       index = lashes.right.indexOf key
       parts = ["upper", "middle", "lower"]
       path  = closed[parts[index]].closed
 
-      animHoriz = morph [paths[frame + 1], paths[frame]]
+      animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-      animLashesDown = morph [path[frame + 1], path[frame]]
+      animLashesDown = $.morph [path[frame + 1], path[frame]]
       animLashesSumm =
-        morph [animHoriz(range), animLashesDown range]
+        $.morph [animHoriz(range), animLashesDown range]
 
-      if $.degress >= 0 then val = $.root.eyes.eyelids.left.up
+      if $.degress >= 0 then val = $.$root.eyes.eyelids.left.up
 
-      self.postMessage { type: "refs", key, path: animLashesSumm val / 100 }
+      refs[key].setAttribute "d", animLashesSumm val / 100
 
 
     else if key in ["eyeLeftBrow", "eyeRightBrow"]
       side    = if key  is "eyeLeftBrow" then "left" else "right"
       sideAlt = if side is "left"        then "right" else "left"
 
-      brow = $.root.eyes.brows
+      brow = $.$root.eyes.brows
       eye  = $.body.eye
 
       evil = eye[side].brow.evil
@@ -266,38 +266,57 @@ self.addEventListener "message", ($) ->
         evil: if $.degress >= 0 then brow[sideAlt].evil else brow[side].evil
         wide: if $.degress >= 0 then brow[sideAlt].wide else brow[side].wide
 
-      animHoriz = morph [paths[frame + 1], paths[frame]]
+      animHoriz = $.morph [paths[frame + 1], paths[frame]]
 
-      animBrowEvil = morph [evil[frame + 1], evil[frame]]
+      animBrowEvil = $.morph [evil[frame + 1], evil[frame]]
       animBrowSumm =
-        morph [animHoriz(range), animBrowEvil range]
+        $.morph [animHoriz(range), animBrowEvil range]
 
-      animBrowWide  = morph [wide[frame + 1], wide[frame]]
+      animBrowWide  = $.morph [wide[frame + 1], wide[frame]]
       animBrowSumm2 =
-        morph [animBrowSumm(val.evil / 100), animBrowWide range]
+        $.morph [animBrowSumm(val.evil / 100), animBrowWide range]
 
-      self.postMessage {
-        type: "refs", key,
-        path: if brow.show then animBrowSumm2 val.wide / 100 else ""
-      }
+      refs[key].setAttribute "d",
+        if brow.show then animBrowSumm2 val.wide / 100 else ""
 
     else if key is "horn"
       animHoriz =
-        if $.root.horn.changeling
+        if $.$root.horn.changeling
           paths = $.body.horn.changeling
 
-          morph [paths[frame + 1], paths[frame]]
+          $.morph [paths[frame + 1], paths[frame]]
 
-        else morph [paths[frame + 1], paths[frame]]
+        else $.morph [paths[frame + 1], paths[frame]]
 
-      self.postMessage { type: "refs", key, path: animHoriz range }
+      refs[key].setAttribute "d", animHoriz range
 
     else if key is "hornSecond"
-      animHoriz = morph [paths[frame + 1], paths[frame]], { origin: { x: 0.75, y: 0.75 } }
+      animHoriz = $.morph [paths[frame + 1], paths[frame]], { origin: { x: 0.75, y: 0.75 } }
 
-      self.postMessage { type: "refs", key, path: animHoriz range }
+      refs[key].setAttribute "d", animHoriz range
 
     else
-      self.postMessage { type: "refs", key, path: morph([paths[frame + 1], paths[frame]]) range }
+      refs[key].setAttribute "d", $.morph([paths[frame + 1], paths[frame]]) range
 
-, false
+
+    # Teeth position
+
+    if key is "tongue"
+      refs[key].setAttribute "style",
+        "transform: translate(0%, #{ -(2 - $.$root.jaw.open / 50) }%)"
+
+    else if key is "teethUpper"
+      refs[key].setAttribute "style",
+        "transform: translate(0%, #{ -(4 - $.$root.teeth.upper / 25) }%)"
+
+    else if key is "teethLower"
+      refs[key].setAttribute "style",
+        "transform: translate(0%, #{ 4 - $.$root.teeth.lower / 25 }%)"
+
+    # Set clip paths
+
+    else if key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
+      clips[key + "Clip"] = $.morph([paths[frame + 1], paths[frame]]) range
+
+    else if key in ["earLeft", "earRight", "earRightFront"] and $.$root.earClipEnabled
+      clips[key + "Clip"] = $.morph([paths[frame + 1], paths[frame]]) range
