@@ -299,8 +299,16 @@
   import Hair from "../assets/js/morphs/hair.coffee"
   import Eyes from "../assets/js/morphs/eyes.coffee"
 
+  ###
+  import parse from "parse-svg-path"
+  import abs from "abs-svg-path"
+  import curvify from "curvify-svg-path"
+  import * as PIXI from "pixi.js"
+  ###
+
   export default
     data: ->
+      #app: new PIXI.Application { width: 1024, height: 1024, antialias: true }
       morph: require("polymorph-js").interpolate
 
       body: {}
@@ -508,6 +516,28 @@
 
         Animate this, refs, clips
 
+        ###color =
+          { basic: @$root.fur.color.basic }
+
+        line =
+          { color: @$root.fur.color.shade, size: 10.5 }
+
+        elems = [
+          [@body.ear.left.inside[0], color, line],
+          [@body.ear.right.inside[0], color, line],
+          [@body.ear.left.pinna[0], null, line],
+          [@body.ear.right.pinna[0], null, line],
+          [@body.ear.left.basic[0], null, line],
+          [@body.ear.right.basic[0], null, line],
+          [@body.head[0], color, line],
+          [@body.neck.basic[0], color, line],
+          [@body.nose.basic[0], color, null]
+        ]
+
+        for elem in elems
+          @path elem
+        ###
+
       eyes: ->
         refs = @$root.$refs
 
@@ -524,10 +554,40 @@
 
         Hair this, refs, clips
 
+      ###path: (curve) ->
+        lineSetts = curve[2]
+        color = curve[1]
+        curve = curve[0]
+
+        line = new PIXI.Graphics()
+
+        if color && color.basic
+          line.beginFill parseInt color.basic.substr(1), 16
+
+        if lineSetts && lineSetts.color
+          line.lineStyle lineSetts.size, parseInt lineSetts.color.substr(1), 16, 1
+
+        @app.stage.addChild line
+
+        curve = curvify abs parse curve
+
+        line.moveTo curve[0][1], curve[0][2]
+
+        i = 0
+
+        for part in curve
+          i++
+
+          if i > 1
+            line.bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
+      ###
+
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs... }
 
       self = this
+
+     # document.body.appendChild @app.view
 
       # Get JSON data to client and execute
 
