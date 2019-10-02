@@ -181,6 +181,9 @@
           :style="enableByVal($root.horn.notLines)")
 
     BarModule(title="mouth")
+      SetColor(name="set color" title="mouth color"  color="jaw.color.basic")
+      SetColor(name="tongue"    title="tongue color" color="tongue.color.basic")
+
       #checker
         p.h(style="width: 16vmax") catlike
 

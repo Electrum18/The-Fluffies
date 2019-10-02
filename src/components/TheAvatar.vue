@@ -139,10 +139,12 @@
           Fur.move(name="bridge" not-fill='yes' :style="$root.faceMove")
 
           g(mask="url(#mask_In_Head)" :style="$root.faceMove")
-            path#mouth.move(d fill="#c47" stroke-width=7 ref="mouth")
+            path#mouth.move(d :fill="$root.jaw.color.basic" stroke-width=7 ref="mouth")
 
             g(mask="url(#mask_In_Mouth)")
-              path#tongue.mode(    d fill="#e83" stroke-width=5 stroke="#d72" ref="tongue")
+              path#tongue.mode(d :fill="$root.tongue.color.basic" stroke-width=5
+                :stroke="$root.tongue.color.shade" ref="tongue")
+
               path#teethUpper.mode(d fill="#ffe" stroke-width=3 stroke="#ccb" ref="teethUpper")
               path#teethLower.mode(d fill="#ffe" stroke-width=3 stroke="#ccb" ref="teethLower")
 
@@ -157,7 +159,7 @@
           Fur.move(name="nostrilRight" stroke-width=7 :style="$root.faceMove")
 
           g(mask="url(#mask_In_Head)" :style="$root.faceMove")
-            path#mouthZone.Zone.move(d fill="#c47" ref="mouthZone")
+            path#mouthZone.Zone.move(d :fill="$root.jaw.color" ref="mouthZone")
 
           path#eyeRight.eyes.move(d :fill="EyesStyle" mask="url(#mask_Head)" :style="$root.faceMove" ref="eyeRight")
 

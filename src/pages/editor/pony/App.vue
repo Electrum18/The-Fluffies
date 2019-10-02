@@ -387,8 +387,9 @@
 
         mul = 0.75
 
-        if t[0] is "piercings" then mul = 0.8 else
-        if t[0] is "eyes"      then mul = 0.66
+        if      t[0] is "piercings" then mul = 0.8
+        else if t[0] is "tongue"    then mul = 0.9
+        else if t[0] is "eyes"      then mul = 0.66
 
         if t[2] isnt "second"
           if @$root[t[0]][t[1]].shade

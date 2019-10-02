@@ -89,7 +89,17 @@ new Vue
       notLines: off
       changeling: no
 
-    jaw: { open: 0, sad: 0 }
+    jaw:
+      open: 0
+      sad: 0
+      color:
+        basic: "#cc4477"
+
+    tongue:
+      color:
+        basic: "#ee8833"
+        shade: "#dd7722"
+
     teeth: { upper: 100, lower: 100 }
 
     eyes:
