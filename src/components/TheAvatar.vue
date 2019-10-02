@@ -290,6 +290,8 @@
 </template>
 
 <script lang="coffee">
+  #import Two from "two.js"
+
   import Clip from "./avatar/Clips.vue"
   import Fur  from "./avatar/Furs.vue"
   import Mane from "./avatar/Manes.vue"
@@ -299,16 +301,74 @@
   import Hair from "../assets/js/morphs/hair.coffee"
   import Eyes from "../assets/js/morphs/eyes.coffee"
 
-  ###
-  import parse from "parse-svg-path"
-  import abs from "abs-svg-path"
-  import curvify from "curvify-svg-path"
-  import * as PIXI from "pixi.js"
-  ###
-
   export default
     data: ->
-      #app: new PIXI.Application { width: 1024, height: 1024, antialias: true }
+      ###two: new Two
+        type: Two.Types.svg
+        width: 1024
+        height: 1024
+
+      frames:
+        furs:
+          names: []
+
+      elems:
+        furs:
+          names: []
+
+      groups: []
+
+      propers:
+        type: ["body", "head", "body", "head"]
+
+        groups: [
+          #[
+          #  { name: "headMask", fill: "#ccc", stroke: "#aaa", size: 10, bodySize: [245, 260] }
+          #],
+
+          # body
+          [
+            { name: "chest", fill: "#ccc", stroke: "#aaa", size: 10 }
+          ],
+
+          # head
+          [
+            { name: "earLeft", fill: "#ccc", stroke: "#aaa", size: 10 }
+            { name: "earLeftPinna",          stroke: "#aaa", size: 7  }
+
+            { name: "head", fill: "#ccc", stroke: "#aaa", size: 10, bodySize: [245, 260] }
+
+            { name: "eyeLeft", fill: "#fff", mask: "head" }
+            { name: "eyeLeftBrow", stroke: "#222", size: 10 }
+          ],
+
+          # body
+          [
+            { name: "neck", fill: "#ccc" }
+            { name: "neckBack_right", stroke: "#aaa", size: 10 }
+            { name: "neckFront_left", stroke: "#aaa", size: 10 }
+          ],
+
+          # head
+          [
+            { name: "nose",   fill: "#ccc" }
+            { name: "bridge", fill: "#ccc", stroke: "#aaa", size: 10 }
+            { name: "nostrilLeft",  stroke: "#aaa", size: 7 }
+            { name: "nostrilRight", stroke: "#aaa", size: 7 }
+            { name: "mouth",        stroke: "#aaa", size: 7 }
+            { name: "chinAngle", fill: "#ccc", stroke: "#aaa", size: 10 }
+
+            { name: "earRight", fill: "#ccc", stroke: "#aaa", size: 10 }
+            { name: "earRightPinna", stroke: "#aaa", size: 7 }
+
+            { name: "eyeRight", fill: "#fff" }
+            { name: "eyeRightBrow", stroke: "#222", size: 10 }
+
+            { name: "horn", fill: "#ccc", stroke: "#aaa", size: 10 }
+          ]
+        ]
+      ###
+
       morph: require("polymorph-js").interpolate
 
       body: {}
@@ -510,33 +570,141 @@
 
         give @body, 0
 
+      ###formatt: ->
+        keys = Object.keys @furs
+        keys.shift()  # remove male
+
+        @frames.furs.names = keys
+
+        for key in keys
+          @frames.furs = {
+            @frames.furs...,
+            [key]:
+              anchors: []
+              pos: []
+          }
+
+          for elem, i in @furs[key]
+            if key in ["head", "head2"] then continue
+
+            e = document.createElement "path"
+            e.setAttribute "d", elem
+
+            path = @two.interpret e
+            BCR  = path.getBoundingClientRect()
+
+            # Formatting
+
+            X = BCR.left + (BCR.width / 2)
+            Y = BCR.top + (BCR.height / 2)
+
+            @frames.furs[key].anchors.push []
+            @frames.furs[key].pos.push [X, Y]
+
+            for v in path.vertices
+              @frames.furs[key].anchors[i].push
+                x: v.x
+                y: v.y
+
+                controls:
+                  left:
+                    x: v.controls.left.x
+                    y: v.controls.left.y
+
+                  right:
+                    x: v.controls.right.x
+                    y: v.controls.right.y
+
+            @two.remove path
+
+        # Create
+
+        for groupArr, i in @propers.groups
+          group    = @two.makeGroup()
+          group.id = @propers.type[i] + "-" + i
+
+          for data in groupArr
+            @elems.furs.names.push data.name
+
+            if data.name isnt "head"
+              e = document.createElement "path"
+              e.setAttribute "d", @furs[data.name][0]
+
+              path = @two.interpret e
+            else
+              path = @two.makeEllipse 512, 512, data.bodySize[0], data.bodySize[1]
+
+            path.join = path.cap = "round"
+            path.linewidth = data.size
+
+            if data.fill
+                path.fill = data.fill
+            else path.noFill()
+
+            if data.stroke
+              path.stroke = data.stroke
+
+            if data.mask
+              group.mask = @elems.furs[data.mask]
+
+            @elems.furs[data.name] = path
+
+            group.add path
+        ###
+
       animate: ->
         refs  = @$root.$refs
         clips = @$root.path
 
         Animate this, refs, clips
 
-        ###color =
-          { basic: @$root.fur.color.basic }
+      ###animate2: ->
+        furs = @elems.furs
 
-        line =
-          { color: @$root.fur.color.shade, size: 10.5 }
+        morph = (first, second, range) ->
+          return first + (second - first) * range
 
-        elems = [
-          [@body.ear.left.inside[0], color, line],
-          [@body.ear.right.inside[0], color, line],
-          [@body.ear.left.pinna[0], null, line],
-          [@body.ear.right.pinna[0], null, line],
-          [@body.ear.left.basic[0], null, line],
-          [@body.ear.right.basic[0], null, line],
-          [@body.head[0], color, line],
-          [@body.neck.basic[0], color, line],
-          [@body.nose.basic[0], color, null]
-        ]
+        # Set
 
-        for elem in elems
-          @path elem
-        ###
+        for name in furs.names
+          absPercent = 1 - @AbsoluteDegress / 90
+
+          if name isnt "head"
+            frames = @frames.furs[name].anchors
+            pos    = @frames.furs[name].pos
+            fullRange = absPercent * (frames.length - 1)
+            frame = Math.floor fullRange
+            range = fullRange - frame
+
+            anchors1 = frames[frame]
+            anchors2 = frames[frame + 1]
+
+            pos1 = pos[frame]
+            pos2 = pos[frame + 1]
+
+            furs[name].translation.set(
+              morph(pos1[0], pos2[0], range),
+              morph pos1[1], pos2[1], range
+            )
+
+            for v, i in furs[name].vertices
+              v.x += morph(anchors1[i].x, anchors2[i].x, range) - v.x
+              v.y += morph(anchors1[i].y, anchors2[i].y, range) - v.y
+
+              c1 = anchors1[i].controls
+              c2 = anchors2[i].controls
+
+              v.controls.left.x += morph(c1.left.x, c2.left.x, range) - v.controls.left.x
+              v.controls.left.y += morph(c1.left.y, c2.left.y, range) - v.controls.left.y
+
+              v.controls.right.x += morph(c1.right.x, c2.right.x, range) - v.controls.right.x
+              v.controls.right.y += morph(c1.right.y, c2.right.y, range) - v.controls.right.y
+
+          else
+            size = @propers.groups[1][2].bodySize
+
+            furs[name].width = morph(size[1], size[0], absPercent) * 2
+      ###
 
       eyes: ->
         refs = @$root.$refs
@@ -554,40 +722,13 @@
 
         Hair this, refs, clips
 
-      ###path: (curve) ->
-        lineSetts = curve[2]
-        color = curve[1]
-        curve = curve[0]
-
-        line = new PIXI.Graphics()
-
-        if color && color.basic
-          line.beginFill parseInt color.basic.substr(1), 16
-
-        if lineSetts && lineSetts.color
-          line.lineStyle lineSetts.size, parseInt lineSetts.color.substr(1), 16, 1
-
-        @app.stage.addChild line
-
-        curve = curvify abs parse curve
-
-        line.moveTo curve[0][1], curve[0][2]
-
-        i = 0
-
-        for part in curve
-          i++
-
-          if i > 1
-            line.bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
-      ###
-
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs... }
 
       self = this
 
-     # document.body.appendChild @app.view
+      #@two.appendTo document.getElementById "testCanvas"
+      #@two.bind('update', @animate2).play()
 
       # Get JSON data to client and execute
 
@@ -601,6 +742,7 @@
               /^(.(?!Front|Second|SecondFront|Shadow|FrontShadow))*$/m.test key
                 self.ApplySvg key
 
+        #self.formatt()
         self.animate()
         self.eyes()
 
