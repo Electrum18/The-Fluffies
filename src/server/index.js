@@ -17,18 +17,35 @@ var io = require("socket.io").listen(3000),
     return day + "." + month + " at " + hour + ":" + minutes
   },
 
-  sendMessage = (mes) => {
-    messages.push(mes);
+  sendMessage = (mes, type = false, socket = false) => {
+    if (type === "ann") {
+      mes.notMessage = true;
 
-    if (mes.length > maxMessages) { messages.shift() };
+      if (socket) {
+        socket.emit("get announce", mes);
+      } else {
+        io.emit("get announce", mes);
+      }
 
-    io.emit("get message", messages);
+    } else if (type === "first") {
+      mes.notMessage = true;
+
+      messages.push(mes);
+
+      if (mes.length > maxMessages) { messages.shift() };
+
+      io.emit("get first", messages);
+
+    } else {
+      messages.push(mes);
+
+      if (mes.length > maxMessages) { messages.shift() };
+
+      io.emit("get message", mes);
+    }
   },
 
-  messages = [
-    { text: "Welcome to The Fluffies carrot, enjoy! :3" }
-  ],
-
+  messages    = [],
   maxMessages = 100,
 
   users = [],
@@ -40,7 +57,12 @@ io.on("connection", (socket) => {
 
   io.emit("get users", length);
 
-  socket.emit("get message", messages);
+  socket.emit("get first", messages, "first");
+
+  sendMessage({
+    text: "Welcome to The Fluffies carrot, enjoy! :3"
+  }, "ann", socket);
+
   socket.emit("isnt nickname");   // Reset on reconect server
 
   socket.on("send message", (msg) => {
@@ -60,7 +82,7 @@ io.on("connection", (socket) => {
 
     if (messages.length > maxMessages) { messages.shift() };
 
-    io.emit("get message", messages);
+    io.emit("get message", msg);
   });
 
   socket.on("check name", (name) => {
@@ -87,20 +109,16 @@ io.on("connection", (socket) => {
       id: Math.round(Math.random() * 999999)
     };
 
-    var msg = {
+    sendMessage({
       text: "#" + users[socket.id].id + " joined as " + users[socket.id].name
-    };
-
-    sendMessage(msg);
+    }, "ann");
   });
 
   socket.on('disconnect', () => {
     if (users[socket.id]) {
-      var msg = {
+      sendMessage({
         text: users[socket.id].name + " disconnected"
-      };
-
-      sendMessage(msg);
+      }, "ann");
     };
 
     delete users[socket.id];

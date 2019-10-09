@@ -2,8 +2,6 @@
   #app(:style="{ background: $root.background.color.basic }")
     Avatar
 
-    //#testCanvas(style="position: absolute; transform: translateY(-25%)")
-
     #vignette
 
     p#version version #[span carrot]

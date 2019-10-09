@@ -2,7 +2,7 @@
   #chat
     #content(:style="open")
       ul#messages(ref="messages")
-        li.message(v-for="mes in content")
+        li.message(v-for="mes in content" :style="{ background: mes.notMessage ? false : '#444' }")
           span.nickname(v-if="mes.name") {{ mes.name }} #[span.id # {{ mes.id }}]
           span.time(v-if="mes.time") {{ mes.time }}
           br(v-if="mes.name || mes.time")
@@ -97,20 +97,22 @@
       self = this
       el   = @$refs.messages
 
-      setTimeout (-> el.scrollTop = el.scrollHeight - el.clientHeight), 100
+      setTimeout (-> el.scrollTop = el.scrollHeight - el.clientHeight), 1e3
 
-      @socket.on "get message", (msg) ->
+      sticky = ->
         setTimeout (->
-          isScrolledToBottom = el.scrollHeight - el.clientHeight <= el.scrollTop + 1
+          isScrolledToBottom = el.scrollHeight - el.clientHeight <= el.scrollTop + 100
 
           if isScrolledToBottom
             el.scrollTop = el.scrollHeight - el.clientHeight
         )
 
-        self.content = msg
+      @socket.on "get first",    (msg) -> sticky(); self.content = msg
+      @socket.on "get message",  (msg) -> sticky(); self.content.push msg
+      @socket.on "get announce", (msg) -> sticky(); self.content.push msg
+      @socket.on "get users",  (users) -> self.users = users
 
-      @socket.on "get users", (users) -> self.users = users
-      @socket.on "isnt nickname",  () ->
+      @socket.on "isnt nickname" , () ->
         self.text = ""
         self.name = ""
 </script>
@@ -166,7 +168,6 @@
         .message
           height: auto
           margin: 1vmin
-          background: #444
           position: relative
           border-radius: 1vmin
 
