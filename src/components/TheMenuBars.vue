@@ -152,6 +152,19 @@
     BarModule(title="fur" icon="yes")
       SetColor(name="set color" title="fur" color="fur.color.basic")
 
+      .line
+
+      p.h stripes
+
+      #checker
+        p.h(style="width: 16vmax") enable
+
+        #checkbox
+          input(v-model="$root.stripes.enable" type="checkbox")
+          #checkmark
+
+      SetColor(name="set color" title="stripes" color="stripes.color.basic")
+
     BarModule(title="horn")
       #checker
         p.h(style="width: 16vmax") enable

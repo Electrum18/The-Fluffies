@@ -100,6 +100,11 @@ new Vue
         basic: "#ee8833"
         shade: "#dd7722"
 
+    stripes:
+      enable: off
+      color:
+        basic: "#777777"
+
     teeth: { upper: 100, lower: 100 }
 
     eyes:
@@ -173,6 +178,8 @@ new Vue
         basic: "#ffffff"
 
     path:
+      neckClip: ""
+
       headClip: ""
       noseClip: ""
 
@@ -268,6 +275,8 @@ new Vue
 
     Shading: ->
       if @shading.enable and @shading.active then "url(#filter_shadow)" else no
+
+    stipesShow: -> if @stripes.enable then false else opacity: 0
 
   methods:
     get: (target, url, callback) ->

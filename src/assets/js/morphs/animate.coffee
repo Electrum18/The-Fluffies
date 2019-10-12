@@ -295,6 +295,16 @@ export default (self, refs, clips) ->
 
       refs[key].setAttribute "d", animHoriz range
 
+    else if key is "stripesCrust"
+      animHoriz = $.morph [paths[frame + 1], paths[frame]], { origin: { x: 0.75, y: 0.5 } }
+
+      refs[key].setAttribute "d", animHoriz range
+
+    else if key is "stripesFore"
+      animHoriz = $.morph [paths[frame + 1], paths[frame]], { origin: { x: 0.5, y: 0.5 } }
+
+      refs[key].setAttribute "d", animHoriz range
+
     else
       refs[key].setAttribute "d", $.morph([paths[frame + 1], paths[frame]]) range
 
@@ -315,8 +325,11 @@ export default (self, refs, clips) ->
 
     # Set clip paths
 
-    else if key in ["head", "nose", "eyeLeft", "eyeRight", "horn"]
+    else if key in ["head", "nose", "eyeLeft", "eyeRight", "horn", "neck"]
       clips[key + "Clip"] = $.morph([paths[frame + 1], paths[frame]]) range
 
     else if key in ["earLeft", "earRight", "earRightFront"] and $.$root.earClipEnabled
       clips[key + "Clip"] = $.morph([paths[frame + 1], paths[frame]]) range
+
+    if refs[key  + "Shadow"]
+      refs[key + "Shadow"].setAttribute "d", $.morph([paths[frame + 1], paths[frame]]) range

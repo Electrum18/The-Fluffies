@@ -19,14 +19,14 @@
             Shadow(name="earLeftInside")
             Shadow(name="earRightInside")
 
-            Shadow(name="earLeftTassel")
-            Shadow(name="earRightTassel")
+            Shadow(name="earLeftTassel"  :hide="!$root.tassels")
+            Shadow(name="earRightTassel" :hide="!$root.tassels")
 
-            Shadow(name="earLeftInsideFront")
-            Shadow(name="earRightInsideFront")
+            Shadow(name="earLeftInsideFront"  :hide="!$root.tassels")
+            Shadow(name="earRightInsideFront" :hide="!$root.tassels")
 
-            Shadow(name="earLeftTasselFront")
-            Shadow(name="earRightTasselFront")
+            Shadow(name="earLeftTasselFront"  :hide="!$root.tassels")
+            Shadow(name="earRightTasselFront" :hide="!$root.tassels")
 
             Fur.inner2(name="earLeftInside"  :style="$root.furStroke")
             Fur.inner2(name="earRightInside" :style="$root.furStroke")
@@ -62,6 +62,11 @@
           Fur(name="chest")
 
           Fur.inner(name="neck" :style="$root.furStroke")
+
+          path#stripesNeckLeft.eyes.move( d :fill="$root.stripes.color.basic"
+            :style="$root.stipesShow" mask="url(#mask_In_Neck)" ref="stripesNeckLeft")
+          path#stripesNeckRight.eyes.move(d :fill="$root.stripes.color.basic"
+            :style="$root.stipesShow" mask="url(#mask_In_Neck)" ref="stripesNeckRight")
 
           Fur(name="neckBack_right" not-fill='yes')
           Fur(name="neckFront_left" not-fill='yes')
@@ -106,6 +111,15 @@
                 :stroke="obj.shade"
                 stroke-width="6"
               )
+
+          path#stripesLeft.eyes.move( d :fill="$root.stripes.color.basic" mask="url(#mask_Head)"
+            :style="[$root.faceMove, $root.stipesShow]" ref="stripesLeft")
+          path#stripesRight.eyes.move(d :fill="$root.stripes.color.basic" mask="url(#mask_Head)"
+            :style="[$root.faceMove, $root.stipesShow]" ref="stripesRight")
+          path#stripesFore.eyes.move( d :fill="$root.stripes.color.basic" mask="url(#mask_Head)"
+            :style="[$root.faceMove, $root.stipesShow]" ref="stripesFore")
+          path#stripesCrust.eyes.move(d :fill="$root.stripes.color.basic" mask="url(#mask_Head)"
+            :style="[$root.faceMove, $root.stipesShow]" ref="stripesCrust")
 
           path#eyeLeftLashesUpper.outer.move(d fill-opacity="0" ref="eyeLeftLashesUpper"
             :style="[$root.faceMove, { stroke: '#222' }]")
@@ -234,6 +248,9 @@
 
         mask#mask_In_Nose(x="-512" y="-512" width="1024" height="1024")
           Clip(name="noseClip" fill="#fff" stroke="#fff" width="14")
+
+        mask#mask_In_Neck(x="-512" y="-512" width="1024" height="1024")
+          Clip(name="neckClip" fill="#fff" stroke="#fff" width="6")
 
         mask#mask_no_RightEar(x="-512" y="-512" width="1024" height="1024")
           rect(width="100%" height="100%" fill="#fff")
