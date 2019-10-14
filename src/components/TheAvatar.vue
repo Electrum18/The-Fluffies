@@ -93,6 +93,10 @@
             style="transform: scale(-1, 1) translate(-100%)")
 
         g.Head(:style="[$root.headRotate, $root.furTint]")
+          //g#tattoos(:style="$root.faceMove" mask="url(#mask_Head)")
+            circle(cx="512" cy="512" r="50" stroke="black" stroke-width="3" fill="red"
+              :style="tattooPos(30)")
+
           g.moveEar(:style="$root.earsMove")
             Fur.inner2(name="earRightInsideFront" alt='yes' :style="$root.furStroke")
             Fur(       name="earRightPinnaFront"        not-fill='yes' stroke-width=7)
@@ -411,6 +415,17 @@
         if @$root.eyes.changeling then @$root.eyes.color.right.basic else "#fff"
 
     methods:
+      tattooPos: (ang) ->
+        x = if @x < 0 then -@x else @x
+        ang = if @x < 0 then 1 - ang else ang
+
+        val = x + (ang / 90)
+
+        scale = if val < 0 then val + 1 else 1 - val
+        place = if val < 0 then val else val * 75
+
+        transform: "translateX(#{place}%) scale(#{scale}, 1)"
+
       get: (target, url, callback) ->
         self   = this
         loader = @$root.loadings
