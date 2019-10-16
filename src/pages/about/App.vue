@@ -38,25 +38,25 @@
       p(:style="text") Adding #[span(:style="span") animation] and avatar manipulation tools
 
     #text(style="margin: 1.5vmin 0 10vmin")
-      h2 developers
+      h2 contributors
 
-      #author
-        #avatar
-          img(src="../../assets/img/avatars/ElectrumAvatar.png" alt="Electrum18 avatar")
-        h2 Electrum18
-        p(:style="text") Creator
+      .author(v-for="contributor in contributors")
+        .avatar
+          img(:src="contributor.avatar_url" :alt="contributor.login + ' avatar'")
 
-      #author
-        #avatar
+        div#content
+          h2 {{ contributor.login }}
+          p(:style="[text, { margin: '1vmin 1vw 2vmin', width: 'auto' }]") Contributions: {{ contributor.contributions }}
+
+        p(:style="creator") Creator
+
+      .author
+        .avatar
           img(src="../../assets/img/avatars/UnknownAvatar.png" alt="Your avatar")
-        h2 You
-        p(:style="text") can be here
 
-      #author
-        #avatar
-          img(src="../../assets/img/avatars/UnknownAvatar.png" alt="Your avatar")
-        h2 You
-        p(:style="text") can be here
+        div#content
+          h2 Join development
+          p(:style="[text, { margin: '1vmin 1vw 2vmin', width: 'auto' }]") Become a part of the project
 
     NightMode
 
@@ -72,6 +72,8 @@
 
   export default
     data: ->
+      contributors: []
+
       background: '#fff'
       text: '#666'
       span: '#444'
@@ -93,6 +95,15 @@
         color: '#222'
         border: '.5vmin solid #fff'
         background: '#fff'
+
+      creator:
+        width: "100%"
+        background: "yellow"
+        color: "black"
+        margin: "1vmin 0 0 0"
+        "text-align": "center"
+        "border-radius": "2vmin"
+        padding: ".5vmin 0"
 
     watch:
       '$root.dark': (val) ->
@@ -141,6 +152,12 @@
       next: ->
         if @hovered.next then @hover else @button
 
+    mounted: ->
+      url = "https://api.github.com/repos/electrum18/the-fluffies/contributors?page=1&?access_token=fff"
+
+      @$http.get(url).then (res) ->
+        @contributors = res.body
+
     components:
       NightMode: NightMode
 </script>
@@ -149,24 +166,28 @@
   @import ../../assets/styles/basic.sass
   @import ../../assets/styles/pages.sass
 
-  #author
+  .author
     width: 30%
     background: #222
     margin: 2vmin 1.66%
     border-radius: 2vmin
 
-  #author, #author #avatar
+  .author #content
+    padding: 0 0 0 7vmax
+    position: relative
+
+  .author, .author .avatar
     position: relative
     float: left
 
-  #author #avatar
+  .author .avatar
     height: 7vmax
 
-  #author #avatar img
+  .author .avatar img
     width: 7vmax
     border-radius: 2vmin
 
-  #author h2
+  .author h2
     width: auto
     font-size: 1.5vmax
     font-family: Arial Black, Gadget, sans-serif
@@ -174,12 +195,12 @@
     box-shadow: none
     background: transparent
 
-  #author h2, #author p
+  .author h2, .author p
     border: none
     text-align: left
     margin: 2% 0 0 5%
 
-  #author p
-    width: 55%
+  .author p
+    width: auto
 </style>
 
