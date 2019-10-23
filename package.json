@@ -15,8 +15,11 @@
     "rewrite": "coffee ./dumper.coffee"
   },
   "dependencies": {
+    "abs-svg-path": "^0.1.1",
     "core-js": "^x",
+    "curvify-svg-path": "^1.0.0",
     "express": "^x",
+    "parse-svg-path": "^0.1.2",
     "polymorph-js": "^x",
     "socket.io": "^x",
     "vue": "^x",

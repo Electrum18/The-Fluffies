@@ -322,6 +322,10 @@
   import Hair from "../assets/js/morphs/hair.coffee"
   import Eyes from "../assets/js/morphs/eyes.coffee"
 
+  import abs from "abs-svg-path"
+  import parse from "parse-svg-path"
+  import curvify from "curvify-svg-path"
+
   export default
     data: ->
       morph: require("polymorph-js").interpolate
@@ -330,20 +334,98 @@
       furs:
         male: {}
 
+      furs2:
+        male: {}
+
+      color:
+        fur:
+          basic: @$root.fur.color.basic
+          shade: @$root.fur.color.shade
+
+      math:
+        nose:   pow: 1.3
+        bridge: pow: 1.3
+        mouth:  pow: 1.3
+        fangsLeft:  pow: 1.3
+        fangsRight: pow: 1.3
+        nostrilLeft:  pow: 1.3
+        nostrilRight: pow: 1.3
+
+      elems: {
+        headC: [
+          { type: "earLeft",             fill: "fur", stroke: [9, "fur tint"] }
+          { type: "earLeftPinna",        fill: false, stroke: [7, "fur tint"] }
+          { type: "earLeftTasselInside", fill: false, stroke: [6, "fur"     ] }
+          { type: "earLeftTassel",       fill: "fur", stroke: [7, "fur tint"] }
+
+          { type: "earRight",             fill: "fur", stroke: [9, "fur tint"] }
+          { type: "earRightPinna",        fill: false, stroke: [7, "fur tint"] }
+          { type: "earRightTasselInside", fill: false, stroke: [6, "fur"     ] }
+          { type: "earRightTassel",       fill: "fur", stroke: [7, "fur tint"] }
+        ],
+
+        neckC: [
+          { type: "head",           fill: "fur", stroke: [9, "fur tint"] }
+          { type: "chest",          fill: "fur", stroke: [9, "fur tint"] }
+          { type: "neck",           fill: "fur", stroke: [7, "fur"     ] }
+          { type: "neckBack_right", fill: false, stroke: [9, "fur tint"] }
+          { type: "neckFront_left", fill: false, stroke: [9, "fur tint"] }
+        ],
+
+        head2C: [
+          { type: "eyeLeft",             fill: "#fff", stroke: false,       clip: ["head2"] }
+          { type: "eyeLeftLidUp",        fill: false,  stroke: [9, "#222"], clip: ["head2"] }
+          { type: "eyeLeftLashesUpper",  fill: false,  stroke: [7, "#222"] }
+          { type: "eyeLeftLashesMiddle", fill: false,  stroke: [7, "#222"] }
+          { type: "eyeLeftLashesLower",  fill: false,  stroke: [7, "#222"] }
+          { type: "eyeLeftBrow",         fill: false,  stroke: [9, "#222"], clip: ["head2"] }
+
+          { type: "nose", fill: "fur", stroke: [7, "fur"     ] }
+        ],
+
+        chinC: [
+          { type: "chinAngle", fill: false, stroke: [9, "fur tint"] }
+          { type: "chin",      fill: false, stroke: [9, "fur tint"] }
+        ]
+
+        head3C: [
+          { type: "bridge",     fill: false,  stroke: [9, "fur tint"] }
+          { type: "mouth",      fill: false,  stroke: [7, "fur tint"], clip: ["head2", "nose"] }
+          { type: "fangsLeft",  fill: "#ffe", stroke: [3, "#ccb"    ], clip: ["head2", "nose"] }
+          { type: "fangsRight", fill: "#ffe", stroke: [3, "#ccb"    ] }
+
+          { type: "nostrilLeft",  fill: false, stroke: [7, "fur tint"], clip: ["head2", "nose"] }
+          { type: "nostrilRight", fill: false, stroke: [7, "fur tint"] }
+
+          { type: "eyeRight",             fill: "#fff", stroke: false }
+          { type: "eyeRightLidUp",        fill: false,  stroke: [9, "#222"] }
+          { type: "eyeRightLashesUpper",  fill: false,  stroke: [7, "#222"] }
+          { type: "eyeRightLashesMiddle", fill: false,  stroke: [7, "#222"] }
+          { type: "eyeRightLashesLower",  fill: false,  stroke: [7, "#222"] }
+          { type: "eyeRightBrow",         fill: false,  stroke: [9, "#222"] }
+        ]
+      }
+
+      ctx: []
+
       hairs: {}
       emotions: {}
 
-      degress: 10
+      degress: 12.5
       horiz: 0
 
       keys: []
 
-      x: 0.1111  # 10 degress (100% / 90deg)
+      x: 12.5 / 90
       y: 0
+
+      angle: 0
 
       last:
         x: 0
         y: 0
+        angle: 0
+        horiz: 0
 
       mirror:
         basic: no  # Avatar isnt mirrored in this time
@@ -353,6 +435,10 @@
 
     watch:
       "mirror.basic": (e) ->
+        for key, i in @elems.keys
+          @ctx[i].translate @ctx[i].canvas.width, 0
+          @ctx[i].scale -1, 1
+
         @mirror.style.transform =
           "translate(-50%) scale(#{ if e then -1 else 1 }, 1)"
 
@@ -401,6 +487,15 @@
             @$root.eyes.color.right.basic  = val.basic
             @$root.eyes.color.right.shade  = val.shade
             @$root.eyes.color.right.stroke = val.stroke
+
+        deep: yes
+
+      "$root.fur.color":
+        handler: (val) ->
+          @color.fur.basic = val.basic
+          @color.fur.shade = val.shade
+
+          @animate()
 
         deep: yes
 
@@ -488,6 +583,9 @@
 
         @$root.horiz   = @horiz
         @$root.ang     = (@y * 90 * Math.abs(@x)) / 4
+
+        @angle = @$root.ang
+
         @$root.degress = @degress
 
         @animate()
@@ -508,6 +606,7 @@
 
         keys  = @keys
         furs  = @furs
+        furs2 = @furs2
 
         give = (inPath, i, isMale) ->
           if i < pathTo.length
@@ -519,6 +618,13 @@
             if Array.isArray inPath
               furs[text] = inPath
               keys[keys.length] = text
+
+              newPaths = []
+
+              for path, i in inPath
+                newPaths[i] = curvify abs parse path
+
+              furs2[text] = newPaths
 
               if isMale
                 furs.male[text] = inPath
@@ -537,8 +643,128 @@
       animate: ->
         refs  = @$root.$refs
         clips = @$root.path
+        ctx   = @ctx
+        elems = @elems
 
-        Animate this, refs, clips
+        self = this
+
+        absPercent = @AbsoluteDegress / 90
+        toRad = Math.PI / 180
+
+        #Animate this, refs, clips
+
+        for key, i in elems.keys
+          ctx[i].clearRect 0, 0, ctx[i].canvas.width, ctx[i].canvas.height
+
+          if key in ["headC", "head2C", "chinC" , "head3C"]
+            ctx[i].translate  ctx[i].canvas.width / 2,  ctx[i].canvas.height / 2
+            ctx[i].rotate -@last.angle * toRad
+            ctx[i].rotate @angle       * toRad
+            ctx[i].translate -ctx[i].canvas.width / 2, -ctx[i].canvas.height / 2
+
+            if key in ["head2C", "head3C"]
+              ctx[i].translate 0, @last.horiz * 30
+              ctx[i].translate 0, -@horiz     * 30
+
+            if key is "head3C"
+              @last.angle = @angle
+              @last.horiz = @horiz
+
+        newFurs  = []
+
+        calc = (a, b, range) ->
+          Math.floor(a + (b - a) * range)
+
+        draw = ->
+          for key, i in elems.keys
+            array = elems[key]
+
+            ctx[i].lineCap  = "round"
+            ctx[i].lineJoin = "round"
+
+            for elem in array
+              if elem.clip
+                ctx[i].save()
+                ctx[i].beginPath()
+
+                for clip in elem.clip
+                  for part in newFurs[clip]
+                    if part[0] is "C"
+                      ctx[i].bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
+                    else
+                      ctx[i].moveTo part[1], part[2]
+
+                ctx[i].closePath()
+                ctx[i].clip()
+
+              if elem.fill
+                if elem.fill is "fur"
+                  color = self.color.fur.basic
+
+                else color = elem.fill
+
+                ctx[i].fillStyle = color
+
+              else ctx[i].fillStyle = "transparent"
+
+
+              if elem.stroke
+                if elem.stroke[1] is "fur"
+                  color = self.color.fur.basic
+
+                else if elem.stroke[1] is "fur tint"
+                  color = self.color.fur.shade
+
+                else color = elem.stroke[1]
+
+                ctx[i].strokeStyle = color
+                ctx[i].lineWidth   = elem.stroke[0]
+
+              else ctx[i].strokeStyle = "transparent"
+
+
+              ctx[i].beginPath()
+
+              for part in newFurs[elem.type]
+                if part[0] is "C"
+                  ctx[i].bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
+                else
+                  ctx[i].moveTo part[1], part[2]
+
+              ctx[i].fill()
+              ctx[i].stroke()
+              ctx[i].restore()
+
+        morph = (a, b, range) ->
+          newPath = []
+
+          for part, i in a
+            newPart = []
+
+            for point, j in part
+              if j > 0
+                   newPart[j] = calc point, b[i][j], range
+              else newPart[j] = point
+
+            newPath[i] = newPart
+
+          return newPath
+
+        for key in @keys
+          paths = @furs2[key]
+          pow = if @math[key] then @math[key].pow else 1
+
+          length    = paths.length - 1
+          fullRange = (1 - (absPercent ** (1 / pow) * (1 + (1 / pow)))) * length
+
+          if fullRange < 0 then fullRange = 0
+
+          frame = Math.floor fullRange
+          range = fullRange - frame
+
+          newFurs[key] = morph paths[frame], paths[frame + 1], range
+
+        window.requestAnimationFrame draw
 
       eyes: ->
         refs = @$root.$refs
@@ -554,10 +780,18 @@
         refs  = @$root.$refs
         clips = @$root.path
 
-        Hair this, refs, clips
+        #Hair this, refs, clips
 
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs... }
+
+      @elems.keys = []
+      @elems.keys = Object.keys @elems
+      @elems.keys.pop()
+
+      for key, i in @elems.keys
+        @ctx[i] = document.getElementById(key).getContext "2d"
+        @ctx[i].translate 0, 112
 
       self = this
 

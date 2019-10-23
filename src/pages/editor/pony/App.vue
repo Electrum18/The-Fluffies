@@ -201,6 +201,12 @@
             )
 
           p {{ text }}
+
+    canvas#headC( width="1024" height="1024")
+    canvas#neckC( width="1024" height="1024")
+    canvas#head2C(width="1024" height="1024")
+    canvas#chinC( width="1024" height="1024")
+    canvas#head3C(width="1024" height="1024")
 </template>
 
 <script lang="coffee">

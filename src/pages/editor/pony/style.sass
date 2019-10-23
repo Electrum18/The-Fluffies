@@ -5,11 +5,6 @@ body
   color: transparent
   user-select: none
 
-//canvas
-//  user-select: all
-//  position: relative
-//  width: 100vmin
-
 svg
   overflow: visible
   position: absolute
@@ -68,6 +63,17 @@ div
     pointer-events: none
     z-index: 0
     transition: left .25s ease-out
+
+canvas
+  display: inline-block
+  position: fixed
+  width: 100vmin
+  height: 100vmin
+  pointer-events: none
+  z-index: 0
+  left: 50%
+  bottom: 0%
+  transform: translate(-50%)
 
 #sliderBox svg > path, .Hair, .Hair2,.HairBack, .HairBack2, .HairBack3, .Head, .Neck
   stroke: #888
