@@ -1,0 +1,79 @@
+{
+  "hairC": [
+    { "type": "tail", "fill": "hair", "stroke": [9, "hair tint"] }
+  ],
+
+  "headC": [
+    { "type": "earLeft",             "fill": "fur", "stroke": [9, "fur tint"] },
+    { "type": "earLeftPinna",        "fill": false, "stroke": [7, "fur tint"] },
+    { "type": "earLeftTasselInside", "fill": false, "stroke": [6, "fur"     ], "if": "tassels" },
+    { "type": "earLeftTassel",       "fill": "fur", "stroke": [7, "fur tint"], "if": "tassels" },
+
+    { "type": "earRight",             "fill": "fur", "stroke": [9, "fur tint"] },
+    { "type": "earRightPinna",        "fill": false, "stroke": [7, "fur tint"] },
+    { "type": "earRightTasselInside", "fill": false, "stroke": [6, "fur"     ], "if": "tassels" },
+    { "type": "earRightTassel",       "fill": "fur", "stroke": [7, "fur tint"], "if": "tassels" }
+  ],
+
+  "hair2C": [
+    { "type": "back", "fill": "hair", "stroke": [9, "hair tint"] }
+  ],
+
+  "neckC": [
+    { "type": "head",           "fill": "fur", "stroke": [9, "fur tint"] },
+    { "type": "chest",          "fill": "fur", "stroke": [9, "fur tint"] },
+    { "type": "neck",           "fill": "fur", "stroke": [7, "fur"     ] },
+
+    { "type": "stripesNeckLeft",  "fill": "stripes", "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
+    { "type": "stripesNeckRight", "fill": "stripes", "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
+
+    { "type": "neckBack_right", "fill": false, "stroke": [9, "fur tint"] },
+    { "type": "neckFront_left", "fill": false, "stroke": [9, "fur tint"] }
+  ],
+
+  "head2C": [
+    { "type": "stripesLeft",  "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesRight", "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesFore",  "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesCrust", "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+
+    { "type": "eyeLeft",             "fill": "#fff", "stroke": false,       "clip": ["head2"] },
+    { "type": "eyeLeftLidUp",        "fill": false,  "stroke": [9, "#222"], "clip": ["head2"] },
+    { "type": "eyeLeftLashesUpper",  "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeLeftLashesMiddle", "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeLeftLashesLower",  "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeLeftBrow",         "fill": false,  "stroke": [9, "#222"], "clip": ["head2"] },
+
+    { "type": "nose", "fill": "fur", "stroke": [7, "fur"] }
+  ],
+
+  "chinC": [
+    { "type": "chinAngle", "fill": false, "stroke": [9, "fur tint"] },
+    { "type": "chin",      "fill": false, "stroke": [9, "fur tint"] }
+  ],
+
+  "head3C": [
+    { "type": "bridge",     "fill": false,  "stroke": [9, "fur tint"] },
+    { "type": "mouth",      "fill": false,  "stroke": [7, "fur tint"], "clip": ["head2", "nose"] },
+    { "type": "fangsLeft",  "fill": "#ffe", "stroke": [3, "#ccb"    ], "clip": ["head2", "nose"], "if": "fangs" },
+    { "type": "fangsRight", "fill": "#ffe", "stroke": [3, "#ccb"    ],                            "if": "fangs" },
+
+    { "type": "nostrilLeft",  "fill": false, "stroke": [7, "fur tint"], "clip": ["head2", "nose"] },
+    { "type": "nostrilRight", "fill": false, "stroke": [7, "fur tint"] },
+
+    { "type": "eyeRight",             "fill": "#fff", "stroke": false },
+    { "type": "eyeRightLidUp",        "fill": false,  "stroke": [9, "#222"] },
+    { "type": "eyeRightLashesUpper",  "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeRightLashesMiddle", "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeRightLashesLower",  "fill": false,  "stroke": [7, "#222"] },
+    { "type": "eyeRightBrow",         "fill": false,  "stroke": [9, "#222"] }
+  ],
+
+  "hair3C": [
+    { "type": "front", "fill": "hair", "stroke": [9, "hair tint"], "clip": ["!earRight"] }
+  ],
+
+  "head4C": [
+    { "type": "horn", "fill": "fur", "stroke": [9, "fur tint"], "if": ["horn", "enable"] }
+  ]
+}

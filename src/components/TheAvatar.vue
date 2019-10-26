@@ -318,18 +318,14 @@
   import Mane from "./avatar/Manes.vue"
   import Shadow from "./avatar/Shadows.vue"
 
-  import Animate from "../assets/js/morphs/animate.coffee"
-  import Hair from "../assets/js/morphs/hair.coffee"
-  import Eyes from "../assets/js/morphs/eyes.coffee"
-
   import abs from "abs-svg-path"
   import parse from "parse-svg-path"
   import curvify from "curvify-svg-path"
 
+  import Elems from "../pages/editor/pony/elems.json"
+
   export default
     data: ->
-      morph: require("polymorph-js").interpolate
-
       body: {}
       furs:
         male: {}
@@ -342,90 +338,49 @@
           basic: @$root.fur.color.basic
           shade: @$root.fur.color.shade
 
+        stripes: @$root.stripes.color.basic
+
+        hair:
+          basic:  @$root.mane.color.basic
+          shade:  @$root.mane.color.shade
+          second: @$root.mane.color.second
+
       math:
-        nose:   pow: 1.3
-        bridge: pow: 1.3
-        mouth:  pow: 1.3
-        fangsLeft:  pow: 1.3
-        fangsRight: pow: 1.3
-        nostrilLeft:  pow: 1.3
-        nostrilRight: pow: 1.3
+        nose:   pow: 1.5
+        bridge: pow: 1.5
+        mouth:  pow: 1.5
+        fangsLeft:  pow: 1.5
+        fangsRight: pow: 1.5
+        nostrilLeft:  pow: 1.5
+        nostrilRight: pow: 1.5
+        eyeLeftLashesUpper:  pow: 2
+        eyeLeftLashesMiddle: pow: 2
+        eyeLeftLashesLower:  pow: 2
 
-      elems: {
-        headC: [
-          { type: "earLeft",             fill: "fur", stroke: [9, "fur tint"] }
-          { type: "earLeftPinna",        fill: false, stroke: [7, "fur tint"] }
-          { type: "earLeftTasselInside", fill: false, stroke: [6, "fur"     ] }
-          { type: "earLeftTassel",       fill: "fur", stroke: [7, "fur tint"] }
+      elems: Elems
 
-          { type: "earRight",             fill: "fur", stroke: [9, "fur tint"] }
-          { type: "earRightPinna",        fill: false, stroke: [7, "fur tint"] }
-          { type: "earRightTasselInside", fill: false, stroke: [6, "fur"     ] }
-          { type: "earRightTassel",       fill: "fur", stroke: [7, "fur tint"] }
-        ],
+      ctx: []  # Context of canvases
 
-        neckC: [
-          { type: "head",           fill: "fur", stroke: [9, "fur tint"] }
-          { type: "chest",          fill: "fur", stroke: [9, "fur tint"] }
-          { type: "neck",           fill: "fur", stroke: [7, "fur"     ] }
-          { type: "neckBack_right", fill: false, stroke: [9, "fur tint"] }
-          { type: "neckFront_left", fill: false, stroke: [9, "fur tint"] }
-        ],
-
-        head2C: [
-          { type: "eyeLeft",             fill: "#fff", stroke: false,       clip: ["head2"] }
-          { type: "eyeLeftLidUp",        fill: false,  stroke: [9, "#222"], clip: ["head2"] }
-          { type: "eyeLeftLashesUpper",  fill: false,  stroke: [7, "#222"] }
-          { type: "eyeLeftLashesMiddle", fill: false,  stroke: [7, "#222"] }
-          { type: "eyeLeftLashesLower",  fill: false,  stroke: [7, "#222"] }
-          { type: "eyeLeftBrow",         fill: false,  stroke: [9, "#222"], clip: ["head2"] }
-
-          { type: "nose", fill: "fur", stroke: [7, "fur"     ] }
-        ],
-
-        chinC: [
-          { type: "chinAngle", fill: false, stroke: [9, "fur tint"] }
-          { type: "chin",      fill: false, stroke: [9, "fur tint"] }
-        ]
-
-        head3C: [
-          { type: "bridge",     fill: false,  stroke: [9, "fur tint"] }
-          { type: "mouth",      fill: false,  stroke: [7, "fur tint"], clip: ["head2", "nose"] }
-          { type: "fangsLeft",  fill: "#ffe", stroke: [3, "#ccb"    ], clip: ["head2", "nose"] }
-          { type: "fangsRight", fill: "#ffe", stroke: [3, "#ccb"    ] }
-
-          { type: "nostrilLeft",  fill: false, stroke: [7, "fur tint"], clip: ["head2", "nose"] }
-          { type: "nostrilRight", fill: false, stroke: [7, "fur tint"] }
-
-          { type: "eyeRight",             fill: "#fff", stroke: false }
-          { type: "eyeRightLidUp",        fill: false,  stroke: [9, "#222"] }
-          { type: "eyeRightLashesUpper",  fill: false,  stroke: [7, "#222"] }
-          { type: "eyeRightLashesMiddle", fill: false,  stroke: [7, "#222"] }
-          { type: "eyeRightLashesLower",  fill: false,  stroke: [7, "#222"] }
-          { type: "eyeRightBrow",         fill: false,  stroke: [9, "#222"] }
-        ]
-      }
-
-      ctx: []
-
-      hairs: {}
       emotions: {}
 
       degress: 12.5
       horiz: 0
 
-      keys: []
+      keys: []  # The names for the paths of an array
 
-      x: 12.5 / 90
-      y: 0
+      x: 12.5 / 90  # Horizontal of angle in 0 to 1 range
+      y: 0          # Vertical of angle in 0 to 1 range
 
-      angle: 0
+      angle: 0  # Calculated angle for transformation
 
-      last:
+      last:  # Last calculated variables for deltas
         x: 0
         y: 0
         angle: 0
         horiz: 0
+
+      paths: {}  # Imported and parsed svg's
+      state: {}  # Using for "if" attribute in "elems" config
 
       mirror:
         basic: no  # Avatar isnt mirrored in this time
@@ -462,7 +417,11 @@
       "$root.hair.info": -> @hair()
 
       "$root.eyes":
-        handler: -> @eyes()
+        handler: (val) ->
+          @state.eyes = val
+
+          @eyes()
+
         deep: yes
 
       "$root.eyes.brows":
@@ -502,6 +461,42 @@
       "$parent.male": -> @animate()
 
       "$root.mane.second.isEnds": -> @hair()
+
+      "$root.horn":
+        handler: (val) ->
+          @state.horn = val
+
+          @animate()
+
+        deep: yes
+
+      "$root.tassels": (val) ->
+        @state.tassels = val
+
+        @animate()
+
+      "$root.fangs": (val) ->
+        @state.fangs = val
+
+        @animate()
+
+      "$root.stripes":
+        handler: (val) ->
+          @state.stripes.enable = val.enable
+          @color.stripes        = val.color.basic
+
+          @animate()
+
+        deep: yes
+
+      "$root.mane":
+        handler: (val) ->
+          @state.hair.second = val.second
+          @color.hair        = val.color
+
+          @animate()
+
+        deep: yes
 
     computed:
       AbsoluteDegress: -> if @degress < 0 then -@degress else @degress
@@ -581,8 +576,8 @@
         horiz  = -(@y * (1 - Math.abs(@x))) ** 7
         @horiz = if horiz < 0 then horiz / 3 else horiz
 
-        @$root.horiz   = @horiz
-        @$root.ang     = (@y * 90 * Math.abs(@x)) / 4
+        @$root.horiz = @horiz
+        @$root.ang   = (@y * 90 * Math.abs(@x)) / 4
 
         @angle = @$root.ang
 
@@ -595,7 +590,49 @@
         @last.x = e.pageX
         @last.y = e.pageY
 
-      ApplySvg: (text) ->
+      parseSVGbasic: (get, set) ->
+        self = this
+
+        capitalize = (text) ->
+          text.charAt(0).toUpperCase() + text.slice(1)
+
+        unCapitalize = (text) ->
+          text.charAt(0).toLowerCase() + text.slice(1)
+
+        give = (obj, keyIn = no) ->
+          if obj[0]
+            newPaths = []
+
+            for path, i in obj
+              newPaths[i] = curvify abs parse path
+
+            if not self.paths[set]
+              self.paths[set] = { keys: [] }
+
+              if set is "hairs"
+                self.paths[set].keys.push self.$root.hair.name
+
+                self.paths[set][self.$root.hair.name] = { keys: [] }
+
+            if set is "hairs"
+                keyIn = keyIn.replace "Main", ""
+
+                self.paths[set][self.$root.hair.name][keyIn] = newPaths
+                self.paths[set][self.$root.hair.name].keys.push keyIn
+
+            else self.paths[set] = newPaths
+
+          else
+            keys = Object.keys obj
+
+            if not keyIn then keyIn  = ""
+
+            for key, i in keys
+              give obj[key], unCapitalize keyIn + capitalize key
+
+        give get
+
+      parseSVGforBody: (text) ->
         pathTo = text.split /(?=[A-Z])/
         elem   = @$root.$refs
 
@@ -617,6 +654,7 @@
           else
             if Array.isArray inPath
               furs[text] = inPath
+
               keys[keys.length] = text
 
               newPaths = []
@@ -634,15 +672,13 @@
 
             else
               if inPath.male
-                give inPath.male["basic"], i, yes
+                give inPath.male["main"], i, yes
 
-              give inPath["basic"], i
+              give inPath["main"], i
 
         give @body, 0
 
       animate: ->
-        refs  = @$root.$refs
-        clips = @$root.path
         ctx   = @ctx
         elems = @elems
 
@@ -651,22 +687,31 @@
         absPercent = @AbsoluteDegress / 90
         toRad = Math.PI / 180
 
-        #Animate this, refs, clips
-
         for key, i in elems.keys
           ctx[i].clearRect 0, 0, ctx[i].canvas.width, ctx[i].canvas.height
 
-          if key in ["headC", "head2C", "chinC" , "head3C"]
+          if key in ["headC", "head2C", "chinC" , "head3C", "hairC", "hair2C", "hair3C", "head4C"]
             ctx[i].translate  ctx[i].canvas.width / 2,  ctx[i].canvas.height / 2
-            ctx[i].rotate -@last.angle * toRad
-            ctx[i].rotate @angle       * toRad
+
+            if key in ["hairC", "hair2C", "hair3C"]
+              ctx[i].rotate @last.angle * toRad
+              ctx[i].rotate -@angle     * toRad
+
+            else
+              ctx[i].rotate -@last.angle * toRad
+              ctx[i].rotate @angle       * toRad
+
             ctx[i].translate -ctx[i].canvas.width / 2, -ctx[i].canvas.height / 2
 
-            if key in ["head2C", "head3C"]
+            if key is "headC"
+              ctx[i].translate 0, -@last.horiz * 30
+              ctx[i].translate 0, @horiz       * 30
+
+            if key in ["head2C", "head3C", "head4C"]
               ctx[i].translate 0, @last.horiz * 30
               ctx[i].translate 0, -@horiz     * 30
 
-            if key is "head3C"
+            if key is "head4C"
               @last.angle = @angle
               @last.horiz = @horiz
 
@@ -683,23 +728,43 @@
             ctx[i].lineJoin = "round"
 
             for elem in array
+              if elem.if
+                if typeof elem.if isnt "string"
+                  if not self.state[elem.if[0]][elem.if[1]] then continue
+
+                else if not self.state[elem.if] then continue
+
               if elem.clip
                 ctx[i].save()
                 ctx[i].beginPath()
 
                 for clip in elem.clip
+                  if clip[0] is "!"
+                    odd = "evenodd"
+                    clip = clip.replace "!", ""
+
+                  else odd = "nonzero"
+
                   for part in newFurs[clip]
                     if part[0] is "C"
                       ctx[i].bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
                     else
                       ctx[i].moveTo part[1], part[2]
 
+                console.log odd
+
                 ctx[i].closePath()
-                ctx[i].clip()
+                ctx[i].clip(odd)
 
               if elem.fill
                 if elem.fill is "fur"
                   color = self.color.fur.basic
+
+                else if elem.fill is "stripes"
+                  color = self.color.stripes
+
+                else if elem.fill is "hair"
+                  color = self.color.hair.basic
 
                 else color = elem.fill
 
@@ -715,13 +780,15 @@
                 else if elem.stroke[1] is "fur tint"
                   color = self.color.fur.shade
 
+                else if elem.stroke[1] is "hair tint"
+                  color = self.color.hair.shade
+
                 else color = elem.stroke[1]
 
                 ctx[i].strokeStyle = color
                 ctx[i].lineWidth   = elem.stroke[0]
 
               else ctx[i].strokeStyle = "transparent"
-
 
               ctx[i].beginPath()
 
@@ -754,12 +821,20 @@
           paths = @furs2[key]
           pow = if @math[key] then @math[key].pow else 1
 
-          length    = paths.length - 1
-          fullRange = (1 - (absPercent ** (1 / pow) * (1 + (1 / pow)))) * length
+          fullRange = (1 - (absPercent ** (1 / pow))) * (paths.length - 1)
 
-          if fullRange < 0 then fullRange = 0
+          frame = fullRange | 0
+          range = fullRange - frame
 
-          frame = Math.floor fullRange
+          newFurs[key] = morph paths[frame], paths[frame + 1], range
+
+        for key in @paths.hairs[self.$root.hair.name].keys
+          paths = @paths.hairs[self.$root.hair.name][key]
+          pow = if @math[key] then @math[key].pow else 1
+
+          fullRange = (1 - (absPercent ** (1 / pow))) * (paths.length - 1)
+
+          frame = fullRange | 0
           range = fullRange - frame
 
           newFurs[key] = morph paths[frame], paths[frame + 1], range
@@ -767,45 +842,53 @@
         window.requestAnimationFrame draw
 
       eyes: ->
-        refs = @$root.$refs
-
-        if !refs["eyeLeft"] or !refs["eyeRight"] then @eyes()
-
-        left  = refs["eyeLeft"].getBBox()
-        right = refs["eyeRight"].getBBox()
-
-        Eyes this, left, right, refs
 
       hair: ->
-        refs  = @$root.$refs
-        clips = @$root.path
-
-        #Hair this, refs, clips
 
     mounted: ->
       @$root.$refs = { @$root.$refs..., @$refs... }
 
       @elems.keys = []
       @elems.keys = Object.keys @elems
-      @elems.keys.pop()
+      @elems.keys.pop()  # Removes "keys" value in array of keys
+
+
+      # Creating an array of contexts
 
       for key, i in @elems.keys
         @ctx[i] = document.getElementById(key).getContext "2d"
         @ctx[i].translate 0, 112
 
+        if key in ["hairC", "hair2C", "hair3C"]
+          @ctx[i].scale -1, 1
+          @ctx[i].translate -1024, 0
+
+
+      # Init watching states
+
+      @state.eyes    = @$root.eyes
+      @state.fangs   = @$root.fangs
+      @state.tassels = @$root.tassels
+      @state.horn    = @$root.horn
+      @state.stripes = {}
+      @state.stripes.enable = @$root.stripes.enable
+      @state.hair        = {}
+      @state.hair.second = @$root.mane.second
+
+
       self = this
+
 
       # Get JSON data to client and execute
 
       @get "body", "/data/pony/body.json", ->
-
         # SVG parsing - import
 
         for key of self.$root.$refs
           if key not in ["mouthOuter", "hair", "hairNape", "hairTail"]
             if key is "neckFront_left" or key is "hornSecond" or
               /^(.(?!Front|Second|SecondFront|Shadow|FrontShadow))*$/m.test key
-                self.ApplySvg key
+                self.parseSVGforBody key
 
         self.animate()
         self.eyes()
@@ -815,7 +898,8 @@
 
       hairName = @$root.hair.name.toLowerCase().replace /\W/g, "_"
 
-      @get "hairs", "/data/pony/hairs/" + hairName + ".json", -> self.hair()
+      @get "hairs", "/data/pony/hairs/" + hairName + ".json", ->
+        self.parseSVGbasic self.hairs[self.$root.hair.name], "hairs"
 
       @get "emotions", "/data/pony/emotions.json", ->
         self.animate()
