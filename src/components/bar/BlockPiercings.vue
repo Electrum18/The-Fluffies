@@ -1,5 +1,5 @@
 <template lang="pug">
-  #block
+  //#block
     svg#close2(@click="remove" viewBox="-12 -12 64 64")
       path(fill="#f35"
         d="M28 21L40 9a5 5 0 1 0-7-8L21 14 9 1a5 5 0 0 0-8 8l13 12L1 33a5 5 0 1 0 8 7l12-12 12 12a5 5 0 0 0 7 0c2-2 2-5 0-7L28 21z")
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="coffee">
-  import SetColor from "./SetColors.vue"
+  ###import SetColor from "./SetColors.vue"
 
   export default
     props: ["type", "side", "id"]
@@ -104,5 +104,5 @@
 
     components: {
       SetColor
-    }
+    }###
 </script>

@@ -152,7 +152,6 @@ new Vue
     mane:
       second:
         enable: yes
-        notLines: yes
         isEnds: no
 
       color:
@@ -176,107 +175,6 @@ new Vue
     background:
       color:
         basic: "#ffffff"
-
-    path:
-      neckClip: ""
-
-      headClip: ""
-      noseClip: ""
-
-      hornClip: ""
-
-      eyeLeftClip: ""
-      eyeRightClip: ""
-
-      earLeftClip: ""
-      earRightClip: ""
-      earRightFrontClip: ""
-
-      mouthClip: ""
-
-      hairClip: ""
-      hairNapeClip: ""
-      hairTailClip: ""
-
-    earClipEnabled: yes
-
-  computed:
-    faceMoveReverse: ->
-      transform: "translateY(#{ @horiz * 6 }%)"
-
-    faceMove: -> transform: "translateY(#{ -@horiz * 6 }%)"
-    earsMove: -> transform: "translateY(#{ @horiz * 2 }%)"
-    earsClip: -> transform: "translateY(#{ @horiz * 2 }%) " + @hair.side.basic.transform
-
-    earsClipAlt: ->
-      transform: "translateX(100%) translateY(#{ @horiz * 2 }%) " + @hair.side.alt.transform
-
-    headRotate: -> transform: "rotate(#{ @ang }deg)"
-    headRotateHair: -> transform: "rotate(#{ @ang }deg) scale(-1, 1)"
-    furStroke: -> stroke: @fur.color.basic
-    furTint: -> stroke: @fur.color.shade
-
-    furCheckedEyelashes: ->
-      if @eyes.lashes.show then background: @eyes.color.left.basic else false
-
-    furCheckedEyebrows: ->
-      if @eyes.brows.show then background: @eyes.color.left.basic else false
-
-    furCheckedChangeling: ->
-      if @eyes.changeling then background: @eyes.color.left.basic else false
-
-    ifIsRelative: ->
-      if @eyes.position.mode is "relative" then background: @eyes.color.left.basic else false
-
-    ifIsAbsolute: ->
-      if @eyes.position.mode is "absolute" then background: @eyes.color.left.basic else false
-
-    leftBrowHeight: ->
-      val = if @degress < 0
-           @eyes.brows.left.height
-      else @eyes.brows.right.height
-
-      transform: "translateY(#{ -@horiz * 6 - val / 50 }%)"
-
-    rightBrowHeight: ->
-      val = if @degress < 0
-           @eyes.brows.right.height
-      else @eyes.brows.left.height
-
-      transform: "translateY(#{ -@horiz * 6 - val / 50 }%)"
-
-    leftBrowWidth: ->
-      val = if @degress < 0
-           @eyes.brows.left.width
-      else @eyes.brows.right.width
-
-      "stroke-width": 2.5 + val / 20
-
-    rightBrowWidth: ->
-      val = if @degress < 0
-           @eyes.brows.right.width
-      else @eyes.brows.left.width
-
-      "stroke-width": 2.5 + val / 20
-
-    eyesStroke: -> stroke: @eyes.color.left.basic
-    eyesSet: -> background: @eyes.color.left.basic
-
-    eyesCheckedRightDivide: ->
-      if @eyes.color.right.enable then background: @eyes.color.right.basic else false
-
-    eyeLeftGradient: ->
-      if @$root.eyes.changeling then "url(#grad_Eyes_Changeling)"
-      else if @degress < 0 then "url(#grad_Eyes_Left)" else "url(#grad_Eyes_Right)"
-
-    eyeRightGradient: ->
-      if @$root.eyes.changeling then "url(#grad_Eyes_Changeling)"
-      else if @degress < 0 then "url(#grad_Eyes_Right)" else "url(#grad_Eyes_Left)"
-
-    Shading: ->
-      if @shading.enable and @shading.active then "url(#filter_shadow)" else no
-
-    stipesShow: -> if @stripes.enable then false else opacity: 0
 
   methods:
     get: (target, url, callback) ->

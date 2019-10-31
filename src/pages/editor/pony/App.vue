@@ -201,16 +201,6 @@
             )
 
           p {{ text }}
-
-    canvas#hairC( width="1024" height="1024")
-    canvas#headC( width="1024" height="1024")
-    canvas#hair2C( width="1024" height="1024")
-    canvas#neckC( width="1024" height="1024")
-    canvas#head2C(width="1024" height="1024")
-    canvas#chinC( width="1024" height="1024")
-    canvas#head3C(width="1024" height="1024")
-    canvas#hair3C(width="1024" height="1024")
-    canvas#head4C(width="1024" height="1024")
 </template>
 
 <script lang="coffee">

@@ -1,79 +1,124 @@
 {
-  "hairC": [
-    { "type": "tail", "fill": "hair", "stroke": [9, "hair tint"] }
+  "head": [
+    { "type": "earLeft",             "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]] },
+    { "type": "earLeftPinna",        "fill": false,            "stroke": [7, ["fur", "shade"]] },
+    { "type": "earLeftTasselInside", "fill": false,            "stroke": [6, ["fur", "basic"]], "if": "tassels" },
+    { "type": "earLeftTassel",       "fill": ["fur", "basic"], "stroke": [7, ["fur", "shade"]], "if": "tassels" },
+
+    { "type": "earRight",             "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]] },
+    { "type": "earRightPinna",        "fill": false,            "stroke": [7, ["fur", "shade"]] },
+    { "type": "earRightTasselInside", "fill": false,            "stroke": [6, ["fur", "basic"]], "if": "tassels" },
+    { "type": "earRightTassel",       "fill": ["fur", "basic"], "stroke": [7, ["fur", "shade"]], "if": "tassels" }
   ],
 
-  "headC": [
-    { "type": "earLeft",             "fill": "fur", "stroke": [9, "fur tint"] },
-    { "type": "earLeftPinna",        "fill": false, "stroke": [7, "fur tint"] },
-    { "type": "earLeftTasselInside", "fill": false, "stroke": [6, "fur"     ], "if": "tassels" },
-    { "type": "earLeftTassel",       "fill": "fur", "stroke": [7, "fur tint"], "if": "tassels" },
+  "hair": [
+    { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
+    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+      "if": ["hair", "second", "enable"]
+    },
 
-    { "type": "earRight",             "fill": "fur", "stroke": [9, "fur tint"] },
-    { "type": "earRightPinna",        "fill": false, "stroke": [7, "fur tint"] },
-    { "type": "earRightTasselInside", "fill": false, "stroke": [6, "fur"     ], "if": "tassels" },
-    { "type": "earRightTassel",       "fill": "fur", "stroke": [7, "fur tint"], "if": "tassels" }
+    { "type": "back", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] },
+
+    { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
+    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+      "if": ["hair", "second", "enable"]
+    },
+
+    { "type": "tail", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }
   ],
 
-  "hair2C": [
-    { "type": "back", "fill": "hair", "stroke": [9, "hair tint"] }
+  "neck": [
+    { "type": "head",  "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]] },
+    { "type": "chest", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]] },
+    { "type": "neck",  "fill": ["fur", "basic"], "stroke": [7, ["fur", "basic"]] },
+
+    { "type": "stripesNeckLeft",  "fill": ["stripes", "basic"], "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
+    { "type": "stripesNeckRight", "fill": ["stripes", "basic"], "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
+
+    { "type": "neckBack_right", "fill": false, "stroke": [9, ["fur", "shade"]] },
+    { "type": "neckFront_left", "fill": false, "stroke": [9, ["fur", "shade"]] }
   ],
 
-  "neckC": [
-    { "type": "head",           "fill": "fur", "stroke": [9, "fur tint"] },
-    { "type": "chest",          "fill": "fur", "stroke": [9, "fur tint"] },
-    { "type": "neck",           "fill": "fur", "stroke": [7, "fur"     ] },
+  "head2": [
+    { "type": "stripesLeft",  "fill": ["stripes", "basic"], "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesRight", "fill": ["stripes", "basic"], "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesFore",  "fill": ["stripes", "basic"], "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
+    { "type": "stripesCrust", "fill": ["stripes", "basic"], "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
 
-    { "type": "stripesNeckLeft",  "fill": "stripes", "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
-    { "type": "stripesNeckRight", "fill": "stripes", "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
-
-    { "type": "neckBack_right", "fill": false, "stroke": [9, "fur tint"] },
-    { "type": "neckFront_left", "fill": false, "stroke": [9, "fur tint"] }
+    { "type": "eyeLeft", "fill": "#fff", "stroke": false, "clip": ["head2"] }
   ],
 
-  "head2C": [
-    { "type": "stripesLeft",  "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
-    { "type": "stripesRight", "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
-    { "type": "stripesFore",  "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
-    { "type": "stripesCrust", "fill": "stripes", "stroke": false, "clip": ["head2"], "if": ["stripes", "enable"] },
-
-    { "type": "eyeLeft",             "fill": "#fff", "stroke": false,       "clip": ["head2"] },
-    { "type": "eyeLeftLidUp",        "fill": false,  "stroke": [9, "#222"], "clip": ["head2"] },
-    { "type": "eyeLeftLashesUpper",  "fill": false,  "stroke": [7, "#222"] },
-    { "type": "eyeLeftLashesMiddle", "fill": false,  "stroke": [7, "#222"] },
-    { "type": "eyeLeftLashesLower",  "fill": false,  "stroke": [7, "#222"] },
-    { "type": "eyeLeftBrow",         "fill": false,  "stroke": [9, "#222"], "clip": ["head2"] },
-
-    { "type": "nose", "fill": "fur", "stroke": [7, "fur"] }
+  "eyeLeft": [
+    { "type": "eyeLeftIris",  "fill": "#ff0", "stroke": false, "clip": ["eyeLeft"] },
+    { "type": "eyeLeftPupil", "fill": "#000", "stroke": false, "clip": ["eyeLeft"] }
   ],
 
-  "chinC": [
-    { "type": "chinAngle", "fill": false, "stroke": [9, "fur tint"] },
-    { "type": "chin",      "fill": false, "stroke": [9, "fur tint"] }
+  "head3": [
+    { "type": "eyeLeftLidUpFill", "fill": ["fur", "basic"], "stroke": false, "clip": ["head2"] },
+    { "type": "eyeLeftLidUp",        "fill": false, "stroke": [9, "#222"],   "clip": ["head2"] },
+    { "type": "eyeLeftLashesUpper",  "fill": false, "stroke": [7, "#222"] },
+    { "type": "eyeLeftLashesMiddle", "fill": false, "stroke": [7, "#222"] },
+    { "type": "eyeLeftLashesLower",  "fill": false, "stroke": [7, "#222"] }
   ],
 
-  "head3C": [
-    { "type": "bridge",     "fill": false,  "stroke": [9, "fur tint"] },
-    { "type": "mouth",      "fill": false,  "stroke": [7, "fur tint"], "clip": ["head2", "nose"] },
-    { "type": "fangsLeft",  "fill": "#ffe", "stroke": [3, "#ccb"    ], "clip": ["head2", "nose"], "if": "fangs" },
-    { "type": "fangsRight", "fill": "#ffe", "stroke": [3, "#ccb"    ],                            "if": "fangs" },
+  "eyeLeftBrow": [
+    { "type": "eyeLeftBrow", "fill": false, "stroke": [9, "#222"], "clip": ["head2"], "if": ["eyes", "brows", "show"] }
+  ],
 
-    { "type": "nostrilLeft",  "fill": false, "stroke": [7, "fur tint"], "clip": ["head2", "nose"] },
-    { "type": "nostrilRight", "fill": false, "stroke": [7, "fur tint"] },
+  "head4": [
+    { "type": "nose", "fill": ["fur", "basic"], "stroke": [7, ["fur", "basic"]] }
+  ],
 
-    { "type": "eyeRight",             "fill": "#fff", "stroke": false },
+  "chin": [
+    { "type": "chinAngle", "fill": false, "stroke": [9, ["fur", "shade"]] },
+    { "type": "chin",      "fill": false, "stroke": [9, ["fur", "shade"]] }
+  ],
+
+  "head5": [
+    { "type": "bridge",     "fill": false,            "stroke": [9, ["fur", "shade"]] },
+    { "type": "mouth",      "fill": ["jaw", "basic"], "stroke": false, "clip": ["head2", "nose"] },
+
+    { "type": "tongue",     "fill": ["tongue", "basic"], "stroke": [7, ["tongue", "shade"]], "clip": ["mouth"] },
+    { "type": "fangsLeft",  "fill": "#ffe", "stroke": [3, "#ccb"], "clip": ["head2", "nose"], "if": "fangs" },
+    { "type": "fangsRight", "fill": "#ffe", "stroke": [3, "#ccb"],                            "if": "fangs" },
+
+    { "type": "mouth", "fill": false,  "stroke": [7, ["fur", "shade"]], "clip": ["head2", "nose"] },
+
+    { "type": "nostrilLeft",  "fill": false, "stroke": [7, ["fur", "shade"]], "clip": ["head2", "nose"] },
+    { "type": "nostrilRight", "fill": false, "stroke": [7, ["fur", "shade"]] },
+
+    { "type": "eyeRight", "fill": "#fff", "stroke": false }
+  ],
+
+  "eyeRight": [
+    { "type": "eyeRightIris",  "fill": "#ff0", "stroke": false, "clip": ["eyeRight"] },
+    { "type": "eyeRightPupil", "fill": "#000", "stroke": false, "clip": ["eyeRight"] }
+  ],
+
+  "head6": [
+    { "type": "eyeRightLidUpFill", "fill": ["fur", "basic"], "stroke": false, "clip": ["head2"] },
     { "type": "eyeRightLidUp",        "fill": false,  "stroke": [9, "#222"] },
     { "type": "eyeRightLashesUpper",  "fill": false,  "stroke": [7, "#222"] },
     { "type": "eyeRightLashesMiddle", "fill": false,  "stroke": [7, "#222"] },
-    { "type": "eyeRightLashesLower",  "fill": false,  "stroke": [7, "#222"] },
-    { "type": "eyeRightBrow",         "fill": false,  "stroke": [9, "#222"] }
+    { "type": "eyeRightLashesLower",  "fill": false,  "stroke": [7, "#222"] }
   ],
 
-  "hair3C": [
-    { "type": "front", "fill": "hair", "stroke": [9, "hair tint"], "clip": ["!earRight"] }
+  "eyeRightBrow": [
+    { "type": "eyeRightBrow", "fill": false,  "stroke": [9, "#222"], "if": ["eyes", "brows", "show"] }
   ],
 
-  "head4C": [
-    { "type": "horn", "fill": "fur", "stroke": [9, "fur tint"], "if": ["horn", "enable"] }
+  "hair2": [
+    { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
+    { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+      "if": ["hair", "second", "enable"]
+    },
+
+    { "type": "front", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }
+  ],
+
+  "head7": [
+    { "type": "horn",       "fill": ["fur", "basic"],  "stroke": false,                 "if": ["horn", "enable"] },
+    { "type": "hornSecond", "fill": ["fur", "second"], "stroke": [7, ["fur", "shade"]], "if": ["horn", "enable"] },
+    { "type": "horn",       "fill": false,             "stroke": [9, ["fur", "shade"]], "if": ["horn", "enable"] }
   ]
 }

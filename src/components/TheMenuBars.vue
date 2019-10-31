@@ -122,7 +122,7 @@
 
       .line
 
-      p.h second & lines
+      p.h second & ends
 
       #checker
         p.h(style="width: 16vmax") enable
@@ -133,21 +133,13 @@
 
       div(style="position: relative" :style="enableByVal($root.mane.second.enable)")
         #checker
-          p.h(style="width: 16vmax") second color
-
-          #checkbox
-            input(v-model="$root.mane.second.notLines" type="checkbox")
-            #checkmark
-
-        #checker(:style="enableByVal($root.mane.second.notLines)")
           p.h(style="width: 16vmax") ends
 
           #checkbox
             input(v-model="$root.mane.second.isEnds" type="checkbox")
             #checkmark
 
-        SetColor(name="set color" title="second color" color="mane.color.second"
-          :style="enableByVal($root.mane.second.notLines)")
+        SetColor(name="set color" title="second color" color="mane.color.second")
 
     BarModule(title="fur" icon="yes")
       SetColor(name="set color" title="fur" color="fur.color.basic")
