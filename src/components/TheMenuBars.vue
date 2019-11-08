@@ -8,21 +8,11 @@
 
         #checkbox
           input(v-model="$root.eyes.color.right.enable" type="checkbox"
-            :style="[$root.eyesCheckedRightDivide, { 'border-color': $root.eyes.color.right.basic }]")
+            :style="enableChecker($root.eyes.color.right.enable, $root.eyes.color.left.basic)")
           #checkmark
 
       SetColor(name="right iris" title="right eye" color="eyes.color.right.basic"
          :style="enableByVal($root.eyes.color.right.enable)")
-
-      .line
-
-      #checker
-        p.h(style="width: 16vmax") changeling
-
-        #checkbox
-          input(v-model="$root.eyes.changeling" type="checkbox"
-            :style="[$root.furCheckedChangeling, { 'border-color': $root.eyes.color.left.basic }]")
-          #checkmark
 
       .line
 
@@ -32,43 +22,18 @@
 
       p.h pupils
 
-      BarInputPad(name="scale" :color="$root.eyesSet" :color-stroke="$root.eyesStroke" :type="2"
-        x="eyes.pupils.width" y="eyes.pupils.height"
-        xname="width" yname="height"
-        :style="enableByVal(!$root.eyes.changeling)")
-
-        #X2.line
-        #X.line
-        #Y2.line
-        #Y.line
-        #Parall.line
+      BarInput(name="width" :color="color.eyes.left" :type="$root.eyes.pupils" min="10" max="100")
 
       .line
 
       p.h position
 
-      BarInputPad(name="" :color="$root.eyesSet" :color-stroke="$root.eyesStroke"
+      BarInputPad(name="" :color="color.eyes.left"
         x="eyes.position.horiz" y="eyes.position.verti"
         xname="horiz" yname="vertic")
 
-        #X.line(style="transform: translate(-45%,-100%)")
-        #Y.line(style="transform: translate(-45%,-200%) rotate(90deg)")
-
-      #outerRadio
-        #radio(style="border-radius: 1vmin 0 0 1vmin" :style="{ 'border-color': $root.eyes.color.left.basic }")
-          input#isRelative(type="radio" name="radio"
-            value="relative" v-model="$root.eyes.position.mode")
-          #checkmark(style="border-radius: 1vmin 0 0 1vmin" :style="$root.ifIsRelative") relative
-
-        #radio(style="border-radius: 0 1vmin 1vmin 0" :style="{ 'border-color': $root.eyes.color.left.basic }")
-          input#isAbsolute(type="radio" name="radio"
-            value="absolute" checked v-model="$root.eyes.position.mode")
-          #checkmark(style="border-radius: 0 1vmin 1vmin 0" :style="$root.ifIsAbsolute") absolute
-
-      .line
-
-      BarInput(name="focus" :color="color.eyes.left" :type="$root.eyes.position")
-      BarInput(name="derp"  :color="color.eyes.left" :type="$root.eyes.position" min="-100")
+        #X.line(style="transform: translate(-50%,-100%)")
+        #Y.line(style="transform: translate(-50%,-200%) rotate(90deg)")
 
       .line
 
@@ -91,7 +56,8 @@
 
         #checkbox
           input(v-model="$root.eyes.brows.show" type="checkbox" checked
-            :style="[$root.furCheckedEyebrows, { 'border-color': $root.eyes.color.left.basic }]")
+            :style="enableChecker($root.eyes.brows.show, $root.eyes.color.left.basic)"
+            )
           #checkmark
 
       .line
@@ -175,26 +141,18 @@
 
         .line
 
-        #checker
+        #checker(:style="enableByVal(!$root.horn.changeling)")
           p.h(style="width: 16vmax") second color
 
           #checkbox
             input(v-model="$root.horn.notLines" type="checkbox")
             #checkmark
 
-        SetColor(name="set color" title="second color" color="fur.color.second"
-          :style="enableByVal($root.horn.notLines)")
+        SetColor(name="set color" title="second color" color="fur.color.second")
 
     BarModule(title="mouth")
       SetColor(name="set color" title="mouth color"  color="jaw.color.basic")
       SetColor(name="tongue"    title="tongue color" color="tongue.color.basic")
-
-      #checker
-        p.h(style="width: 16vmax") catlike
-
-        #checkbox
-          input(v-model="$root.catlike" type="checkbox")
-          #checkmark
 
     BarModule(title="emotion")
       #checker
@@ -276,6 +234,13 @@
           filter: ""
           opacity: ""
           "pointer-events": ""
+
+      enableChecker: (val, color) ->
+        if val
+          'background-color': color
+          'border-color': color
+        else
+          'border-color': color
 
     watch:
       "$root.eyes.color.left.basic": (val) -> @color.eyes.left = val

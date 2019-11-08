@@ -83,10 +83,8 @@ new Vue
 
     tassels: on
     fangs: on
-    catlike: off
     horn:
       enable: off
-      notLines: off
       changeling: no
 
     jaw:
@@ -121,12 +119,10 @@ new Vue
           stroke: { stroke: "#ffcc00" }
 
       iris: { scale: 100 }
-      pupils: { width: 10, height: 100 }
+      pupils: { width: 10 }
 
       position:
         horiz: 50, verti: 50
-        focus: 100, derp: 0
-        mode: "absolute"
 
       eyelids:
         left: { up: 0, down: 0 }
@@ -146,8 +142,6 @@ new Vue
           height: 0
           evil: 0
           wide: 0
-
-      changeling: no
 
     mane:
       second:

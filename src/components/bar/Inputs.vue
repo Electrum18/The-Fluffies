@@ -23,7 +23,6 @@
           @type[@compare] = 100 - @percent
 
     mounted: ->
-      @$watch (-> @type[@name]),
-        (val) ->
+      @$watch (() -> @type[@name]), (val) ->
           @percent = val
 </script>
