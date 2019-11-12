@@ -4,7 +4,7 @@
 
     #vignette
 
-    p#version version #[span carrot]
+    p#version version #[span carrot after]
 
     Social
     Chat
@@ -144,9 +144,9 @@
         MoMBar(v-for="(hair, i) in $root.hair.info" :key="hair + i" :id="i" :elem="hair")
 
       #menu-circle(:style="circle.style")
-        #shading(@click="$root.shading.enable = !$root.shading.enable")
+        #shading
           svg(viewBox="-15 -12 100 100" style="transform: translate(50%, -50%) rotate(102.5deg)")
-            path(fill="#eee" d="M0 36a36 36 0 1 0 73 0 36 36 0 0 0-73 0zM23 6c13-8 31-3 41 12 9 15 6 34-6 42-13 9-32 3-41-12-10-15-7-34 6-42z")
+            path(fill="#f66" d="M0 36a36 36 0 1 0 73 0 36 36 0 0 0-73 0zM23 6c13-8 31-3 41 12 9 15 6 34-6 42-13 9-32 3-41-12-10-15-7-34 6-42z")
 
         #capture(@click="openCaptureMenu")
           svg(viewBox="-108 -58 716 716" style="transform: translate(50%, -50%) rotate(63.33deg)")

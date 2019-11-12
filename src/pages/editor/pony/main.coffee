@@ -65,10 +65,6 @@ new Vue
     horiz: 0
     degress: 0
 
-    shading:
-      enable: on
-      active: on
-
     loadings: []
 
     hair:
@@ -160,11 +156,19 @@ new Vue
         second: "#dddddd"
 
     piercings:
-      ring: "M8.7 3.3h-21.3c-3 0-5.4-2.4-5.4-5.3s2.4-5.3 5.3-5.3H8.7C11.6-7.3 14-4.9 14-2s-2.4 5.3-5.3 5.3z",
-      point: "M-14,-2a12,12 0 1,0 24,0a12,12 0 1,0 -24,0",
+      color:
+        basic: "#ffcc00"
+        shade: "#cca300"
 
-      left: [],
-      right: [{ type: "ring", color: "#ffcc00", shade: "#cca300" }]
+      left:
+        upper: off
+        middle: off
+        lower: off
+
+      right:
+        upper: off
+        middle: off
+        lower: on
 
     background:
       color:
@@ -190,11 +194,6 @@ new Vue
         setTimeout ->
           self.get(target, url, callback)
         , 5e3
-
-    createLeftRing: -> @piercings.left.push    { type: "ring",  color: "#ffcc00", shade: "#ccaa22" }
-    createLeftPoint: -> @piercings.left.push   { type: "point", color: "#ffcc00", shade: "#ccaa22" }
-    createRightRing: -> @piercings.right.push  { type: "ring",  color: "#ffcc00", shade: "#ccaa22" }
-    createRightPoint: -> @piercings.right.push { type: "point", color: "#ffcc00", shade: "#ccaa22" }
 
   mounted: ->
     self = this

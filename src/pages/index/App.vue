@@ -70,7 +70,7 @@
               @mouseleave="hovered.start = false"
             )#female.gender female
 
-      p carrot version
+      p carrot after version
       p(style="transform: translateY(-60%); font-size: 2.5vmin; color: #f4a") pony available
 
     Social
