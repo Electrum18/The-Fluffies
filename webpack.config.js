@@ -179,7 +179,6 @@ module.exports = {
   ],
 
   externals: {
-    polymorph: 'polymorph',
     'vue-resource': 'VueResource',
     vue: 'Vue',
     "socket.io-client": "socketIOClient"
