@@ -1,5 +1,5 @@
 <template lang="pug">
-  #avatar.transition(v-press-hold="[MouseMove, Click]")
+  #avatar.transition(v-press-hold="[MouseMove, Click, Hold]")
     canvas(:id="$parent.name" :style="editorOpened" ref="avatar")
 </template>
 
@@ -114,7 +114,7 @@
 
       horiz: 0
 
-      x: 12.5 / 90  # Horizontal of angle in 0 to 1 range
+      x: 12.5 / 90  # Horizontal of angle in -1 to 1 range
       y: 0          # Vertical of angle in 0 to 1 range
 
       angle: 0  # Calculated angle for transformation
@@ -122,6 +122,8 @@
       last:  # Last calculated variables for deltas
         x: 0
         y: 0
+        time: Date.now()
+        FPS: 60
 
       paths: {}  # Imported and parsed svg's
       state: {}  # Using for "if" attribute in "elems" config
@@ -130,6 +132,9 @@
 
       mirror: no  # Avatar isnt mirrored in this time
       changed: no # check for optimization
+
+      mouse:
+        hold: no
 
     watch:
       x: (num) -> @mirror = num < 0
@@ -309,6 +314,9 @@
         @last.x = e.pageX
         @last.y = e.pageY
 
+      Hold: (e) ->
+        @mouse.hold = e
+
       MouseMove: (e) ->
         if not e.pageX
           if e.touches then e = e.touches[0] else return
@@ -364,7 +372,7 @@
               for points, j in newPath
                 for point, k in points
                   if k > 0
-                       newPath[j][k] = point * self.quality
+                       newPath[j][k] = point
                   else newPath[j][k] = point
 
               newPaths[i] = newPath
@@ -427,8 +435,36 @@
 
 
       draw: ->
+
+        # Caching
+
+        last = @last; quality = @quality; ctx = @ctx
+
+
+        ###FPS   = 1000 / (Date.now() - last.time)
+        delta = (FPS + last.FPS) / 2
+
+
+        if delta < 45 and @mouse.hold
+          @quality = (quality + (delta / 60)) / 2
+
+          ctx.canvas.width  = Math.round(1024 * quality * 1.5)
+          ctx.canvas.height = Math.round(1024 * quality * 1.25)
+
+          last.time = Date.now()
+          last.FPS  = FPS
+
+          window.requestAnimationFrame @draw
+          return
+
+
+        last.FPS = FPS###
+
+
         if not @changed
           # Does not redraw with the same elements
+
+          last.time = Date.now()
 
           window.requestAnimationFrame @draw
           return
@@ -436,10 +472,11 @@
 
         # Caching
 
-        calculated = @calculated; x = @x
-        ctx     = @ctx;     male   = @male
-        quality = @quality; state  = @state;  getColor = @color
-        horiz   = @horiz;   mirror = @mirror; angle    = @angle
+        x = @x
+
+        calculated = @calculated
+        male  = @male;  state  = @state; getColor = @color
+        horiz = @horiz; angle  = @angle; mirror   = @mirror
 
 
         absAngle = if x < 0 then -x else x
@@ -462,7 +499,6 @@
         else
           posX   = 1 / 6
           scaleX = 1
-
 
         ctx.clearRect 0, 0, ctx.canvas.width, ctx.canvas.height
 
@@ -599,8 +635,10 @@
 
                 for part in calculated[clip]
                   if part[0] is "C"
-                       ctx.bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
-                  else ctx.moveTo part[1], part[2]
+                    ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
+                      part[4] * quality, part[5] * quality, part[6] * quality
+
+                  else ctx.moveTo part[1] * quality, part[2] * quality
 
 
                 # Clipping resetting transformation
@@ -718,10 +756,11 @@
 
             for part in calculated[type]
               if part[0] is "C"
-                ctx.bezierCurveTo part[1], part[2], part[3], part[4], part[5], part[6]
+                ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
+                part[4] * quality, part[5] * quality, part[6] * quality
               else
                 ctx.beginPath()
-                ctx.moveTo part[1], part[2]
+                ctx.moveTo part[1] * quality, part[2] * quality
 
 
             # Apply context settings
@@ -730,7 +769,8 @@
             ctx.stroke()
             ctx.restore()
 
-        @changed = no
+        @changed  = no
+        @last.time = Date.now()
 
         window.requestAnimationFrame @draw
 
@@ -844,6 +884,17 @@
 
 
     mounted: ->
+
+      # Quality calculatoin relative screen size
+
+      X = window.screen.width
+      Y = window.screen.height
+
+      vmin = if X < Y then X else Y
+
+      @quality = (vmin / 1024) - 0.2
+
+
       # Setting context
 
       ctx = @$refs.avatar.getContext "2d"
@@ -890,12 +941,32 @@
 
       self = this
 
+      @last.time = Date.now()
+
       window.requestAnimationFrame @draw # Start drawings
 
 
       # Define ref to root for screener component
 
       @$root.$refs = { @$root.$refs..., @$refs... }
+
+      ###toLeft = no
+
+      setInterval ->
+        if not toLeft
+          if self.x < 0.99
+            self.x += 0.02
+          else
+            toLeft = yes
+
+        else
+          if self.x > -0.99
+            self.x -= 0.02
+          else
+            toLeft = no
+
+        self.animate()
+      , 1000 / 60###
 
 
       # Get JSON data to client and execute

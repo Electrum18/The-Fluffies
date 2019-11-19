@@ -8,22 +8,24 @@ module.exports = {
   pages: {
     index: {
       entry: 'src/pages/index/main.coffee',
-      template: 'src/template/pages/vue-cli.pug'
+      template: 'src/template/pages/vue-cli-adv.pug'
     },
 
     about: {
       entry: 'src/pages/about/main.coffee',
-      template: 'src/template/pages/vue-cli.pug'
+      template: 'src/template/pages/vue-cli-adv.pug'
     },
 
     support: {
       entry: 'src/pages/support/main.coffee',
-      template: 'src/template/pages/vue-cli.pug'
+      template: 'src/template/pages/vue-cli-adv.pug'
     },
 
     'editor/pony': {
       entry: 'src/pages/editor/pony/main.coffee',
       template: 'src/template/pages/vue-cli.pug'
     }
-  }
+  },
+
+  productionSourceMap: false
 }

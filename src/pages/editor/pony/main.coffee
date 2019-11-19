@@ -174,6 +174,11 @@ new Vue
       color:
         basic: "#ffffff"
 
+    frames: [
+      { degress: 90 },
+      { degress: 0 }
+    ]
+
   methods:
     get: (target, url, callback) ->
       self = this

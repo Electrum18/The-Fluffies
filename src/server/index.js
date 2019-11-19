@@ -1,4 +1,16 @@
-var io = require("socket.io").listen(3000),
+var
+  //MongoClient = require('mongodb').MongoClient,
+  io          = require("socket.io").listen(3000),
+  //chokidar    = require("chokidar"),
+  //fs          = require('fs'),
+
+
+  // Initialize watcher
+
+  //watcher = chokidar.watch(__dirname+ "/getHairs", { persistent: true }),
+
+
+  // Functions
 
   time = () => {
     var
@@ -45,6 +57,9 @@ var io = require("socket.io").listen(3000),
     }
   },
 
+
+  // Variables
+
   messages    = [],
   maxMessages = 100,
 
@@ -52,7 +67,12 @@ var io = require("socket.io").listen(3000),
   length = 0;
 
 
+// Socket event listeners
+
 io.on("connection", (socket) => {
+
+  // Emit data to entered client
+
   length++;
 
   io.emit("get users", length);
@@ -65,8 +85,11 @@ io.on("connection", (socket) => {
 
   socket.emit("isnt nickname");   // Reset on reconect server
 
+
+  // Receiving messages to the server
+
   socket.on("send message", (msg) => {
-    if (msg.text.length > 99) return;;
+    if (msg.text.length > 99) return;  // Text limit
 
     if (!msg.name.trim() || msg.name.length > 15) {
       socket.emit("isnt nickname");
@@ -74,25 +97,38 @@ io.on("connection", (socket) => {
       return
     };
 
-    msg.text = msg.text.charAt(0).toUpperCase() + msg.text.slice(1);
+
+    // Message assembly
+
+    msg.text = msg.text.charAt(0).toUpperCase() + msg.text.slice(1);  // Capitalize
     msg.time = time();
     msg.id   = users[socket.id].id;
+
 
     messages.push(msg);
 
     if (messages.length > maxMessages) { messages.shift() };
 
+
+    // Send messages to client
+
     io.emit("get message", msg);
   });
 
+
+  // Checking name
+
   socket.on("check name", (name) => {
-    name = name.trim()
+    name = name.trim();
 
     if (!name || name.length > 15) {
       socket.emit("isnt nickname");
 
       return
     };
+
+
+    // Duplicate check
 
     var sockets = Object.keys(users);
 
@@ -104,17 +140,26 @@ io.on("connection", (socket) => {
       };
     };
 
+
+    // Add to users list
+
     users[socket.id] = {
       name: name,
       id: Math.round(Math.random() * 999999)
     };
+
+
+    // Broadcast to users about connected client
 
     sendMessage({
       text: "#" + users[socket.id].id + " joined as " + users[socket.id].name
     }, "ann");
   });
 
-  socket.on('disconnect', () => {
+
+  // Removing connected client from list
+
+  socket.on("disconnect", () => {
     if (users[socket.id]) {
       sendMessage({
         text: users[socket.id].name + " disconnected"
@@ -128,3 +173,33 @@ io.on("connection", (socket) => {
     io.emit("get users", length);
   });
 });
+
+
+// File watcher event listeners
+
+/*watcher.on('add', path => {
+  console.log(`File ${path} has been added`);
+
+  fs.readFile(path, (err, data) => {
+    if (err) throw err;
+
+    console.log(data.toString('utf8'));
+
+    fs.unlink(path, err => {
+      if (err) throw err;
+
+      console.log(path + ' was deleted');
+    });
+  });
+});
+
+
+var url = "mongodb://localhost:27017/mydb";
+
+MongoClient.connect(url, (err, db) => {
+  if (err) throw err;
+
+  console.log("Database created!");
+
+  db.close();
+});*/

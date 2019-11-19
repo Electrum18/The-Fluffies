@@ -1,156 +1,104 @@
 <template lang="pug">
   #app
-    #background(:style="background")
+    v-app#inspire(:class="dark ? 'theme--dark' : ''")
+      v-app-bar(fixed :dark="dark" app)
+        v-btn(large depressed href="/")
+          v-icon(left) mdi-chevron-left
+          | back
 
-    h1#title(:style="title") support us
-    #back
-      a(href="/")
-        button(:style="button" @hover="title") back
+        v-spacer
+        v-toolbar-title(style="text-transform: uppercase") support us
+        v-spacer
 
-    #next
-      a(href="/about")
-        button(:style="button" @hover="title") about
+        v-btn(large depressed href="/about") about
+          v-icon(right) mdi-chevron-right
 
-    #text
-      h2 how to draw
-      p(:style="text") Frames use vector format (SVG), you need to take the coordinates of the shape from the file they are located at (digital sequence of text)
-      p(:style="text") All parts of the "avatar" are divided into frames, on average they are 3, 5, 7 horizontal frames (there are no vertical ones)
-      p(:style="text") In order for animation to work properly, it is necessary for points to be in right order, with the same quantity in frames, it is easy to observe if copied from the previous frame, afterwards providing changes for new one
+      v-content
+        v-item-group(:dark="dark")
+          v-container(fluid)
+            v-row(justify="center")
+              v-col(v-for="(card, i) in content" :key="card + i" cols="12" md="5")
+                v-card(class="align-center")
+                  v-card-title(style="background-image: linear-gradient(to right, #fa2, #f64)")
+                    | {{ card.title }}
 
-      a(href="https://css-tricks.com/svg-shape-morphing-works/") How SVG Shape Morphing Works
-        svg(viewBox="0 0 448 448")
-          path(fill="#46f" d="M414 24a79 79 0 0 0-58-24H82C60 0 40 8 24 24A79 79 0 0 0 0 82v274c0 23 8 42 24 58s36 25 58 25h274c23 0 42-9 58-25s25-35 25-58V82c0-22-9-42-25-58zm-49 204c0 8-3 14-11 17l-7 2c-5 0-9-2-13-6l-41-41-152 153c-4 3-8 5-13 5s-9-2-13-5l-29-30c-4-3-5-7-5-12s1-10 5-13l152-153-41-41c-6-5-7-12-4-20 4-7 9-11 17-11h137c5 0 9 2 13 6 4 3 5 7 5 12v137z")
+                  v-spacer
+                  v-card-text
+                    p.font-weight-medium(v-for="(text, j) in card.text" :key="text + j" v-html="format(text)")
 
-      a(href="https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f") SVG Morphing (the easy way and the hard way)
-        svg(viewBox="0 0 448 448")
-          path(fill="#46f" d="M414 24a79 79 0 0 0-58-24H82C60 0 40 8 24 24A79 79 0 0 0 0 82v274c0 23 8 42 24 58s36 25 58 25h274c23 0 42-9 58-25s25-35 25-58V82c0-22-9-42-25-58zm-49 204c0 8-3 14-11 17l-7 2c-5 0-9-2-13-6l-41-41-152 153c-4 3-8 5-13 5s-9-2-13-5l-29-30c-4-3-5-7-5-12s1-10 5-13l152-153-41-41c-6-5-7-12-4-20 4-7 9-11 17-11h137c5 0 9 2 13 6 4 3 5 7 5 12v137z")
+                    v-divider(v-if="card.href")
+                    .py-2(v-if="card.href")
 
-    #text
-      h2 how to help improve the code
-      p(:style="text") The project code is publicly available on the #[span(:style="span") GitHub] site with a #[span(:style="span") CC BY-NC-ND v4.0], it can be improved by anyone
+                    v-item-group
+                      v-row.py-1(v-for="(href, j) in card.href" :key="href + j" )
+                        v-badge(overlap color="transparent")
+                          template(v-slot:badge): v-icon(small color="#46f") mdi-open-in-new
 
-      a(href="https://github.com/Electrum18/The-Fluffies") The Fluffies on GitHub
-        svg(viewBox="0 0 448 448")
-          path(fill="#46f" d="M414 24a79 79 0 0 0-58-24H82C60 0 40 8 24 24A79 79 0 0 0 0 82v274c0 23 8 42 24 58s36 25 58 25h274c23 0 42-9 58-25s25-35 25-58V82c0-22-9-42-25-58zm-49 204c0 8-3 14-11 17l-7 2c-5 0-9-2-13-6l-41-41-152 153c-4 3-8 5-13 5s-9-2-13-5l-29-30c-4-3-5-7-5-12s1-10 5-13l152-153-41-41c-6-5-7-12-4-20 4-7 9-11 17-11h137c5 0 9 2 13 6 4 3 5 7 5 12v137z")
+                          v-btn.body-2.font-weight-medium(
+                            color="#46f"
+                            text
+                            target="_blank"
+                            :title="href.text"
+                            :href="href.url"
+                          ) {{ href.text }}
 
-    #text
-      h2 issues
-      p(:style="text") Not all head positions look good
-      p(:style="text") The eye view in Firefox is incorrect
-      p(:style="text") In Edge and Internet Explorer browsers may not display properly
-      p(:style="text") We advise you to upgrade your browser to the latest version
+            v-row(justify="center")
+              v-card(:dark="dark")
+                v-btn(
+                  icon
+                  large
+                  target="_blank"
+                  title="Github"
+                  href="https://github.com/Electrum18/The-Fluffies"
+                )
+                  v-icon mdi-github-circle
 
-    #text(style="margin: 1.5vmin 0 10vmin")
-      h2 adding to the project
-      p(:style="text" style="width: 90%") If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered
-      p(:style="text" style="width: 90%") Use that email to send: #[span(:style="span" style="width: 90%") thefluffiessite@gmail.com]
+                v-btn(
+                  icon
+                  large
+                  target="_blank"
+                  title="Twitter"
+                  href="https://twitter.com/TFluffies"
+                )
+                  v-icon mdi-twitter
 
-    NightMode
+                v-btn(
+                  icon
+                  large
+                  target="_blank"
+                  title="Patreon"
+                  href="https://www.patreon.com/the_fluffies"
+                )
+                  v-icon mdi-patreon
 
-    #copyright
-      h1 The Fluffies
-      p © 2019
+      v-footer(fixed :dark="dark" app)
+        v-btn(
+          @click="dark = !dark"
+          :dark="!dark"
+          absolute
+          fab
+          top
+          right
+        )
+          v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
 
-    #vignette
+        div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
 
 <script lang="coffee">
-  import NightMode from '../../components/TheNightMode.vue'
+  import Content from './content.json'
 
   export default
     data: ->
-      background: '#fff'
-      text: '#666'
-      span: '#444'
+      dark: no
+      hour: new Date().getHours()
 
-      hovered:
-        back: no
-        next: no
+      content: Content
 
-      title:
-        color: '#eee'
-        background: '#222'
+    methods:
+      format: (text) ->
+        return text.replace(/\[/g, "<span class='font-weight-black'>").replace(/\]/g, "</span>")
 
-      button:
-        color: '#eee'
-        border: '.5vmin solid #eee'
-        background: 'transparent'
-
-      hover:
-        color: '#222'
-        border: '.5vmin solid #fff'
-        background: '#fff'
-
-    watch:
-      '$root.dark': (val) ->
-        if val
-          @background = { background: '#333' }
-          @text = { color: '#bbb' }
-          @span = { color: '#eee' }
-
-          @title =
-            color: '#222'
-            background: '#eee'
-
-          @button =
-            color: '#222'
-            border: '.5vmin solid #222'
-            background: 'transparent'
-
-          @hover =
-            color: '#eee'
-            border: '.5vmin solid #111'
-            background: '#111'
-
-        else
-          @background = { background: '#fff' }
-          @text = { color: '#666' }
-          @span = { color: '#444' }
-
-          @title =
-            color: '#eee'
-            background: '#222'
-
-          @button =
-            color: '#eee'
-            border: '.5vmin solid #eee'
-            background: 'transparent'
-
-          @hover =
-            color: '#222'
-            border: '.5vmin solid #fff'
-            background: '#fff'
-
-    computed:
-      back: ->
-        if @hovered.back then @hover else @button
-
-      next: ->
-        if @hovered.next then @hover else @button
-
-    components:
-      NightMode: NightMode
+    mounted: ->
+      if @hour > 17 or @hour < 9 then @dark = on else @dark = off
 </script>
-
-<style lang="sass">
-  @import ../../assets/styles/basic.sass
-  @import ../../assets/styles/pages.sass
-
-  #text a
-    width: 42%!important
-    padding: 0.5vmin 1.5vmin
-    border-top: 0.2vmin solid hsla(0, 0%, 46.7%, .4)
-    text-decoration: underline
-    color: #46f!important
-    pointer-events: all
-
-  #text a svg
-    margin: 0.5vmin
-    height: 1.75vmin
-
-  #text a:visited
-    color: #a6f!important
-
-  #text a:visited path
-    fill: #a6f
-</style>

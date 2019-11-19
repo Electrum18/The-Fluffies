@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Vuetify from 'vuetify'
 
 Vue.config.productionTip = false
 
-new Vue
+Vue.use Vuetify
+
+new Vue({
+  vuetify: new Vuetify(),
+
   render: (h) -> h App
 
-  data:
-    dark: false
-
-.$mount '#app'
+}).$mount '#app'

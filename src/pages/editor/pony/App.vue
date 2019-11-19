@@ -317,7 +317,7 @@
             transform: "translate(50%, 50%) scale(0)"
             opacity: 0
 
-          window.history.replaceState {}, "", url + "?gender=male"
+          window.history.replaceState {}, "", url + "?g=m"
 
         else
           @editor.style.female =
@@ -328,7 +328,7 @@
             transform: "translate(50%, 50%) scale(0)"
             opacity: 0
 
-          window.history.replaceState {}, "", url + "?gender=female"
+          window.history.replaceState {}, "", url + "?g=f"
 
       "pallete.opened": ->
         t     = @pallete.target
@@ -679,8 +679,8 @@
 
         return decodeURIComponent results[2].replace /\+/g, ' '
 
-      if getParameterByName("gender") is "male"
-          @male = yes
+      if getParameterByName("g") is "m"
+           @male = yes
       else @male = no
 
     components: {
