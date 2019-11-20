@@ -10,7 +10,7 @@
     {
       "src": "/img/fluffies.png",
       "type": "image/png",
-      "sizes": "310x310"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",

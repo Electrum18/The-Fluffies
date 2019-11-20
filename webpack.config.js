@@ -124,41 +124,7 @@ module.exports = {
       routes: ['/'],
       postProcess(renderedRoute) {
         renderedRoute.html = renderedRoute.html
-          .replace('id="app"', 'id="app" data-server-rendered="true"');
-
-        return renderedRoute;
-      }
-    }),
-
-    new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'about'),
-      routes: ['/'],
-      postProcess(renderedRoute) {
-        renderedRoute.html = renderedRoute.html
-          .replace(/<script (.*?)>/g, '<script $1 defer>')
-          .replace('id="app"', 'id="app" data-server-rendered="true"');
-
-        return renderedRoute;
-      }
-    }),
-
-    new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'editor', 'pony'),
-      routes: ['/'],
-      postProcess(renderedRoute) {
-        renderedRoute.html = renderedRoute.html
-          .replace(/<script (.*?)>/g, '<script $1 defer>')
-          .replace('id="app"', 'id="app" data-server-rendered="true"');
-
-        return renderedRoute;
-      }
-    }),
-
-    new PrerenderSPAPlugin({
-      staticDir: path.join(__dirname, 'dist', 'support'),
-      routes: ['/'],
-      postProcess(renderedRoute) {
-        renderedRoute.html = renderedRoute.html
+          .replace(/<style type="text\/css" [^>]+>[^<]+<\/style>/g, '')
           .replace(/<script (.*?)>/g, '<script $1 defer>')
           .replace('id="app"', 'id="app" data-server-rendered="true"');
 
