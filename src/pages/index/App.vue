@@ -52,6 +52,7 @@
                   large
                   title="About"
                   href="/about"
+                  aria-label="About"
                 ) about
 
             v-col(cols="12" md="4")
@@ -70,6 +71,7 @@
                       large
                       title="Create stallion"
                       href="/editor/pony/?g=m"
+                      aria-label="Male"
                     ) male
 
                     v-btn.title(
@@ -77,6 +79,7 @@
                       large
                       title="Create filly"
                       href="/editor/pony/?g=f"
+                      aria-label="Female"
                     ) female
 
             v-col(cols="12" md="4").d-none.d-md-flex.my-auto
@@ -86,6 +89,7 @@
                   large
                   title="Support"
                   href="/support"
+                  aria-label="Support"
                 ) support us
 
             v-col(cols="12" md="4").d-flex.d-md-none
@@ -96,6 +100,7 @@
                   large
                   title="About"
                   href="/about"
+                  aria-label="About"
                 ) about
 
               v-row(justify="center")
@@ -105,6 +110,7 @@
                   large
                   title="Support"
                   href="/support"
+                  aria-label="Support"
                 ) support us
 
           v-row(justify="center")
@@ -117,6 +123,8 @@
                 target="_blank"
                 title="Github"
                 href="https://github.com/Electrum18/The-Fluffies"
+                rel="noopener"
+                aria-label="Github"
               )
                 v-icon mdi-github-circle
 
@@ -126,6 +134,8 @@
                 target="_blank"
                 title="Twitter"
                 href="https://twitter.com/TFluffies"
+                rel="noopener"
+                aria-label="Twitter"
               )
                 v-icon mdi-twitter
 
@@ -135,6 +145,8 @@
                 target="_blank"
                 title="Patreon"
                 href="https://www.patreon.com/the_fluffies"
+                rel="noopener"
+                aria-label="Patreon"
               )
                 v-icon mdi-patreon
 
@@ -143,12 +155,12 @@
       v-footer(fixed :dark="dark" app)
         v-btn(
           @click="dark = !dark"
-
           :dark="!dark"
           absolute
           fab
           top
           right
+          aria-label="Dark mode"
         )
           v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
 

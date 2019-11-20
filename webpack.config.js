@@ -47,7 +47,11 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true
+              implementation: require('sass'),
+              sassOptions: {
+                indentedSyntax: true,
+                fiber: require('fibers')
+              }
             }
           }
         ]
@@ -179,6 +183,7 @@ module.exports = {
   ],
 
   externals: {
+    'vuetify': 'Vuetify',
     'vue-resource': 'VueResource',
     vue: 'Vue',
     "socket.io-client": "socketIOClient"

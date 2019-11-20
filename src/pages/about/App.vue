@@ -2,7 +2,12 @@
   #app
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
       v-app-bar(fixed :dark="dark" app)
-        v-btn(large depressed href="/")
+        v-btn(
+          large
+          depressed
+          href="/"
+          aria-label="Back"
+        )
           v-icon(left) mdi-chevron-left
           | back
 
@@ -10,7 +15,12 @@
         v-toolbar-title(style="text-transform: uppercase") about
         v-spacer
 
-        v-btn(large depressed href="/support") support
+        v-btn(
+          large
+          depressed
+          href="/support"
+          aria-label="Support"
+        ) support
           v-icon(right) mdi-chevron-right
 
       v-content
@@ -66,13 +76,15 @@
                     p.font-weight-medium(v-for="(text, j) in specialThanks" :key="text + j" v-html="format(text)")
 
             v-row(justify="center")
-              v-card(:dark="dark")
+              v-card.mx-auto(:dark="dark")
                 v-btn(
                   icon
                   large
                   target="_blank"
                   title="Github"
                   href="https://github.com/Electrum18/The-Fluffies"
+                  rel="noopener"
+                  aria-label="Github"
                 )
                   v-icon mdi-github-circle
 
@@ -82,6 +94,8 @@
                   target="_blank"
                   title="Twitter"
                   href="https://twitter.com/TFluffies"
+                  rel="noopener"
+                  aria-label="Twitter"
                 )
                   v-icon mdi-twitter
 
@@ -91,6 +105,8 @@
                   target="_blank"
                   title="Patreon"
                   href="https://www.patreon.com/the_fluffies"
+                  rel="noopener"
+                  aria-label="Patreon"
                 )
                   v-icon mdi-patreon
 
@@ -103,6 +119,7 @@
           fab
           top
           right
+          aria-label="Dark mode"
         )
           v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
 
