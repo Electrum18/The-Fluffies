@@ -1,5 +1,4 @@
 var
-  //MongoClient = require('mongodb').MongoClient,
   io          = require("socket.io").listen(3000),
   //chokidar    = require("chokidar"),
   //fs          = require('fs'),
@@ -11,23 +10,6 @@ var
 
 
   // Functions
-
-  time = () => {
-    var
-      date = new Date(),
-
-      minutes = date.getMinutes(),
-      hour  = date.getHours(),
-      day   = date.getDate(),
-      month = date.getMonth() + 1
-
-      if (minutes < 10) { minutes = "0" + minutes }
-      if (   hour < 10) {    hour = "0" + hour    }
-      if (    day < 10) {     day = "0" + day     }
-      if (  month < 10) {   month = "0" + month   }
-
-    return day + "." + month + " at " + hour + ":" + minutes
-  },
 
   sendMessage = (mes, type = false, socket = false) => {
     if (type === "ann") {
@@ -101,7 +83,6 @@ io.on("connection", (socket) => {
     // Message assembly
 
     msg.text = msg.text.charAt(0).toUpperCase() + msg.text.slice(1);  // Capitalize
-    msg.time = time();
     msg.id   = users[socket.id].id;
 
 
@@ -191,15 +172,4 @@ io.on("connection", (socket) => {
       console.log(path + ' was deleted');
     });
   });
-});
-
-
-var url = "mongodb://localhost:27017/mydb";
-
-MongoClient.connect(url, (err, db) => {
-  if (err) throw err;
-
-  console.log("Database created!");
-
-  db.close();
 });*/

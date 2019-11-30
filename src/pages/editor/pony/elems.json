@@ -28,7 +28,7 @@
     },
 
     { "type": "backEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["back"],
-      "if": ["hair", "second", "isEnds"]
+      "if": ["hair", "isEnds"]
     },
 
     { "type": "back", "fill": false, "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] },
@@ -39,7 +39,7 @@
     },
 
     { "type": "tailEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["tail"],
-      "if": ["hair", "second", "isEnds"]
+      "if": ["hair", "isEnds"]
     },
 
     { "type": "tail", "fill": false, "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }
@@ -147,7 +147,7 @@
     },
 
     { "type": "frontEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["front"],
-      "if": ["hair", "second", "isEnds"]
+      "if": ["hair", "isEnds"]
     },
 
     { "type": "front", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }

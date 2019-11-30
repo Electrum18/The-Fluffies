@@ -1,9 +1,13 @@
 import Vue from "vue"
-import App from "./App.vue"
+import Vuetify from 'vuetify'
 import VueResource from "vue-resource"
+
+import App from "./App.vue"
+import IconPony from '../../../components/IconPony.vue'
 
 Vue.config.productionTip = false
 
+Vue.use Vuetify
 Vue.use VueResource
 
 Vue.directive "press-hold",
@@ -42,22 +46,14 @@ Vue.directive "press-hold",
     elem.addEventListener "touchmove", event, { passive: yes }
 
 
-Vue.directive "scroll",
-  bind: (elem, binding) ->
-    event = (e) ->
-      if e.type isnt "wheel" then return
-
-      delta = -Math.abs(e.deltaY) * (120 / e.deltaY)
-
-      if binding.value[0]
-           binding.value[0] delta
-      else binding.value delta
-
-    elem.addEventListener "wheel", event
-    elem.addEventListener "mousewheel", event
-    elem.addEventListener "DOMMouseScroll", event
-
 new Vue
+  vuetify: new Vuetify(
+    icons:
+      values:
+        pony:
+          component: IconPony
+  )
+
   render: (h) -> h App
 
   data:
@@ -65,23 +61,21 @@ new Vue
     horiz: 0
     degress: 0
 
+    name: "Defaulty"
+    male: no
+
     loadings: []
 
     hair:
       name: "Spiky to side"
-      id: 3
-
       info: {}
-      side:
-        basic: { transform: "" }
-        front: { transform: "scale(-1, 1) translate(-100%)" }
-        alt: { transform: "scale(-1, 1)" }
 
     tassels: on
     fangs: on
     horn:
       enable: off
       changeling: no
+      notlines: off
 
     jaw:
       open: 0
@@ -118,7 +112,8 @@ new Vue
       pupils: { width: 10 }
 
       position:
-        horiz: 50, verti: 50
+        horiz: 0
+        verti: 0
 
       eyelids:
         left: { up: 0, down: 0 }
@@ -142,7 +137,7 @@ new Vue
     mane:
       second:
         enable: yes
-        isEnds: no
+        isends: no
 
       color:
         basic: "#666666"
@@ -161,11 +156,13 @@ new Vue
         shade: "#cca300"
 
       left:
+        enable: off
         upper: off
         middle: off
-        lower: off
+        lower: on
 
       right:
+        enable: on
         upper: off
         middle: off
         lower: on
@@ -200,9 +197,19 @@ new Vue
           self.get(target, url, callback)
         , 5e3
 
+  watch:
+    male: (val) ->
+      url = window.location.pathname
+
+      if val
+        window.history.replaceState {}, "", url + "?g=m"
+      else
+        window.history.replaceState {}, "", url + "?g=f"
+
   mounted: ->
     self = this
 
+    @male = window.location.search is "?g=m"
 
     # Get JSON data to client and execute
 

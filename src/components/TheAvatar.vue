@@ -1,6 +1,6 @@
 <template lang="pug">
-  #avatar.transition(v-press-hold="[MouseMove, Click, Hold]")
-    canvas(:id="$parent.name" :style="editorOpened" ref="avatar")
+  #avatar(v-press-hold="[MouseMove, Click, Hold]")
+    canvas(:id="$root.name" :style="editorOpened" ref="avatar")
 </template>
 
 <script lang="coffee">
@@ -122,8 +122,6 @@
       last:  # Last calculated variables for deltas
         x: 0
         y: 0
-        time: Date.now()
-        FPS: 60
 
       paths: {}  # Imported and parsed svg's
       state: {}  # Using for "if" attribute in "elems" config
@@ -172,7 +170,7 @@
 
         deep: yes
 
-      "$parent.male":
+      "$root.male":
         handler: (val) ->
           @male = val
 
@@ -215,7 +213,8 @@
           @state.hair.second = val.second
           @color.hair        = val.color
 
-          @state.hair.isSecond = !val.second.isEnds and val.second.enable
+          @state.hair.isSecond = !val.second.isends and val.second.enable
+          @state.hair.isEnds   =  val.second.isends and val.second.enable
 
           @animate()
 
@@ -441,30 +440,8 @@
         last = @last; quality = @quality; ctx = @ctx
 
 
-        ###FPS   = 1000 / (Date.now() - last.time)
-        delta = (FPS + last.FPS) / 2
-
-
-        if delta < 45 and @mouse.hold
-          @quality = (quality + (delta / 60)) / 2
-
-          ctx.canvas.width  = Math.round(1024 * quality * 1.5)
-          ctx.canvas.height = Math.round(1024 * quality * 1.25)
-
-          last.time = Date.now()
-          last.FPS  = FPS
-
-          window.requestAnimationFrame @draw
-          return
-
-
-        last.FPS = FPS###
-
-
         if not @changed
           # Does not redraw with the same elements
-
-          last.time = Date.now()
 
           window.requestAnimationFrame @draw
           return
@@ -581,6 +558,10 @@
                 if elem.if[2] and elem.if[2][1]
                   if not state[elem.if[0]][elem.if[1]][elem.if[2]] then continue
 
+                  if elem.if[0] is "piercings"
+                    if elem.if[1] in ["left", "right"]
+                      if not state[elem.if[0]][elem.if[1]].enable then continue
+
                 else if not state[elem.if[0]][elem.if[1]] then continue
 
               else if not state[elem.if] then continue
@@ -614,8 +595,8 @@
                   mirrored = if mirror then -1 else 1
 
                   ctx.translate(
-                    -(((state.eyes.position.horiz - 50) / 1.5) * mirrored),
-                    ((state.eyes.position.verti - 50) / 1.5)
+                    -((((state.eyes.position.horiz - 100) + 50) / 1.5) * mirrored),
+                    (((state.eyes.position.verti - 100) + 50) / 1.5)
                   )
 
                 else if layer is "teethUpper"
@@ -653,8 +634,8 @@
                   mirrored = if mirror then -1 else 1
 
                   ctx.translate(
-                    (((state.eyes.position.horiz - 50) / 1.5) * mirrored),
-                    -((state.eyes.position.verti - 50) / 1.5)
+                    (((state.eyes.position.horiz) / 3) * mirrored),
+                    -((state.eyes.position.verti) / 3)
                   )
 
                 else if layer is "teethUpper"
@@ -700,7 +681,7 @@
               else color = elem.fill
 
 
-              if elem.type is "hornSecond" and !state.horn.notLines
+              if elem.type is "hornSecond" and !state.horn.notlines
                 color = "transparent"
 
               ctx.fillStyle = color
@@ -719,7 +700,7 @@
 
               else color = elem.stroke[1]
 
-              if elem.type is "hornSecond" and state.horn.notLines
+              if elem.type is "hornSecond" and state.horn.notlines
                 color = "transparent"
 
 
@@ -770,7 +751,6 @@
             ctx.restore()
 
         @changed  = no
-        @last.time = Date.now()
 
         window.requestAnimationFrame @draw
 
@@ -892,7 +872,7 @@
 
       vmin = if X < Y then X else Y
 
-      @quality = (vmin / 1024) - 0.2
+      @quality = vmin / 1024 / 1.25
 
 
       # Setting context
@@ -929,6 +909,7 @@
       state.hair        = {}
       state.hair.second = @$root.mane.second
       state.hair.isSecond = on
+      state.hair.isEnds = off
 
       state.jaw      = {}
       state.jaw.open = @$root.jaw.open
@@ -940,8 +921,6 @@
 
 
       self = this
-
-      @last.time = Date.now()
 
       window.requestAnimationFrame @draw # Start drawings
 
@@ -989,3 +968,15 @@
         self.parseSVGbasic val, "emotions"
         self.animate()
 </script>
+
+<style lang="sass">
+  #avatar canvas
+    position: fixed
+    cursor: move
+    width: 100vmin
+    height: 100vmin
+    z-index: 0
+    left: 50%
+    bottom: 0%
+    transform: translate(-50%) scale(1.5, 1.25)
+</style>
