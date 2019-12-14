@@ -8,7 +8,7 @@
   import parse from "parse-svg-path"
   import curvify from "curvify-svg-path"
 
-  import Elems from "../pages/editor/pony/elems.json"
+  import Elems from "../pages/editor/elems.json"
 
   export default
     data: ->
@@ -60,19 +60,20 @@
           shade: @$root.piercings.color.shade
 
       math:
-        nose:   pow: "nose"
-        bridge: pow: "nose"
-        mouth:  pow: "nose"
-        fangsLeft:  pow: "nose"
-        fangsRight: pow: "nose"
+        nose:         pow: "nose"
+        noseOverlay:  pow: "nose"
+        bridge:       pow: "nose"
+        mouth:        pow: "nose"
+        fangsLeft:    pow: "nose"
+        fangsRight:   pow: "nose"
         nostrilLeft:  pow: "nose"
         nostrilRight: pow: "nose"
-        maleNose:   pow: "nose"
-        maleBridge: pow: "nose"
-        tongue:     pow: 1.25
-        teethUpper: pow: 1.25
-        teethLower: pow: 1.25
-        eyeLeftBrow: pow: 0.75
+        maleNose:     pow: "nose"
+        maleBridge:   pow: "nose"
+        tongue:       pow: 1.25
+        teethUpper:   pow: 1.25
+        teethLower:   pow: 1.25
+        eyeLeftBrow:  pow: 0.75
 
       scheme:
         mouth: [[[["basic", "openJaw"], ["jaw", "open"]], [["sadJawClosed", "sadJawOpen"], ["jaw", "open"]]], ["jaw", "sad"]]
@@ -151,13 +152,13 @@
         @editorOpened.left = if val then "40%" else "50%"
 
       "$root.hair.name": (name) ->
-        if @paths.hairs[name] then @animate()
+        if @paths.hairs[name['en']] then @animate()
         else
           self = this
-          hairName = name.toLowerCase().replace /\W/g, "_"
+          hairName = name['en'].toLowerCase().replace /\W/g, "_"
 
           @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
-            self.parseSVGbasic val[name], "hairs"
+            self.parseSVGbasic val[name['en']], "hairs"
             self.animate()
 
       "$root.fur.color":
@@ -286,7 +287,7 @@
         capital = target[0].toUpperCase() + target.slice 1
 
         if target is "hairs"
-             loader.push "#{capital} | #{@$root.hair.name}"
+             loader.push "#{capital} | #{@$root.hair.name['en']}"
         else loader.push capital
 
         @$http.get(window.location.origin + url).then (res) ->
@@ -382,9 +383,9 @@
             if not self.paths[set]
               self.paths[set] = { keys: [] }
 
-            if set is "hairs" and not self.paths[set][self.$root.hair.name]
-              self.paths[set].keys.push self.$root.hair.name
-              self.paths[set][self.$root.hair.name] = { keys: [] }
+            if set is "hairs" and not self.paths[set][self.$root.hair.name['en']]
+              self.paths[set].keys.push self.$root.hair.name['en']
+              self.paths[set][self.$root.hair.name['en']] = { keys: [] }
 
 
             # Adding elements to a variable
@@ -392,8 +393,8 @@
             keyIn = keyIn.replace "Main", ""
 
             if set is "hairs"
-                self.paths[set][self.$root.hair.name][keyIn] = newPaths
-                self.paths[set][self.$root.hair.name].keys.push keyIn
+                self.paths[set][self.$root.hair.name['en']][keyIn] = newPaths
+                self.paths[set][self.$root.hair.name['en']].keys.push keyIn
 
             else
               self.paths[set][keyIn] = newPaths
@@ -489,7 +490,7 @@
 
           # Layer set & reset position
 
-          ctx.setTransform scaleX, 0, 0, 1, ctx.canvas.width * posX, 112 * quality * 2
+          ctx.setTransform scaleX, 0, 0, 1, ctx.canvas.width * posX, 112 * quality * 2  # 80 px soon
 
           # Layer transformation
 
@@ -847,8 +848,8 @@
           else calculated[key] = morph paths[frame], paths[frame + 1], range
 
 
-        for key in @paths.hairs[self.$root.hair.name].keys  # Hair part
-          paths = @paths.hairs[self.$root.hair.name][key]
+        for key in @paths.hairs[self.$root.hair.name['en']].keys  # Hair part
+          paths = @paths.hairs[self.$root.hair.name['en']][key]
           pow = if math[key] then math[key].pow else 1
 
           fullRange = (1 - (absAngle ** (1 / pow))) * (paths.length - 1)
@@ -957,10 +958,10 @@
 
       # Load first hair
 
-      hairName = @$root.hair.name.toLowerCase().replace /\W/g, "_"
+      hairName = @$root.hair.name['en'].toLowerCase().replace /\W/g, "_"
 
       @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
-        self.parseSVGbasic val[self.$root.hair.name], "hairs"
+        self.parseSVGbasic val[self.$root.hair.name['en']], "hairs"
         self.animate()
 
 

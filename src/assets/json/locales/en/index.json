@@ -1,0 +1,18 @@
+{
+  "version": "version",
+  "about": "About",
+  "support": "Support us",
+  "start": "Choose gender",
+
+  "male": {
+    "label": "male",
+    "title": "Create stallion"
+  },
+
+  "female": {
+    "label": "female",
+    "title": "Create filly"
+  },
+
+  "title": "This is an interactive web project - an editor about creating pony characters in the style of Lauren Faust, based on vector graphics and the power of modern web technologies."
+}

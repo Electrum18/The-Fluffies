@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container
     v-card(outlined)
-      v-card-title Mane list
+      v-card-title {{ locale.list[$root.locale] }}
         v-spacer
         v-btn.mx-n2(
           fab
@@ -20,11 +20,11 @@
             template(v-for="(hair, i) in hairs")
               v-list-item(
                 @click="setHair(hair.name)"
-                :key="hair.name"
+                :key="nameing(hair)"
               )
                 v-list-item-content
-                  v-list-item-title {{ hair.name }}
-                  v-list-item-subtitle by {{ hair.author }}
+                  v-list-item-title {{ nameing(hair) }}
+                  v-list-item-subtitle {{ locale.by[$root.locale] }} {{ hair.author }}
 
               v-divider.light(
                 v-if="i + 1 < hairs.length"
@@ -39,6 +39,15 @@
       hairs: []
       name: ""
 
+      locale:
+        list:
+          en: "Mane list"
+          ru: "Список грив"
+
+        by:
+          en: "author: "
+          ru: "автор: "
+
     watch:
       "$root.hair.info": (val) ->
         @hairs = val
@@ -48,6 +57,9 @@
             @selected = if i < 1 then [i] else i
 
     methods:
+      nameing: (hair) ->
+        if @hairs.length then return hair.name[@$root.locale]
+
       setHair: (name) -> @$root.hair.name = name
       close: ->
         @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs

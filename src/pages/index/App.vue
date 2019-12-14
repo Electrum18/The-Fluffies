@@ -1,19 +1,19 @@
 <template lang="pug">
   #app
+    h1.hide {{ $root.Headers.titles[$root.locale] }}
+
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
       div.pa-3
-        v-chip(:dark="dark") version
-          v-chip.v-avatar--right(
-            style="background-image: linear-gradient(to right, #fa2, #f64); margin-right: -12px"
+        v-chip(:dark="dark") {{ lang.version }}
+          v-chip.version.v-avatar--right(
             :dark="!dark"
           ) carrot after
 
       v-item-group(:dark="dark")
-        v-container(style="max-width: 800px" fluid)
+        v-container.max(fluid)
           div.px-8
-            svg.theme.v-btn.mx-sm-4.mx-md-12.mx-lg-12(
+            svg.logo.theme.v-btn.mx-sm-4.mx-md-12.mx-lg-12(
               viewBox="0 0 1026 418"
-              style="background: transparent; border: 1.5px solid; border-radius: 30px; max-width: 600px"
             )
               path(fill="#fff" filter="url(#shadow)" d="M220 247c5-3 8-8 13-10-5-3-9-6-15-7l4-12-26 9 1-11-16 10c-4 3-9 9-14 11l6-13-17 5 10-7c-9-5-18-9-29-11 8-2 15-2 22 0-1-5-4-9-7-12 14 5 27 12 40 19l-8-25 23 7c-2-6-5-11-8-15 8-2 17-2 25-2-3-5-10-11-11-16 3-2 7 0 10 1-1-5-4-8-8-10l11-8c-10-5-22-5-33-3l7-8c-13 0-27 3-39 8l10-16c-16 6-33 12-47 21 2-6 6-11 10-17-8 1-16 5-23 10-5 3-12 15-18 17-4 1-17-5-22-6-9-1-19 0-27 5 12 5 23 8 32 18-16 5-19 40-20 52 9-6 19-15 30-17-7 1-11 15-12 21-3 11-2 23-1 34 7-9 15-19 26-22 1 2-9 15-10 19-3 12-5 24-5 36l21-17c-4 6-5 20-6 27l-3 34 22-24c-1 17-2 34-1 51l16-21c5 11 10 22 17 32 1-11 4-21 6-32l26 20c-2-16-5-32-10-48l11 2c-8-13-16-25-27-35 9 2 16 8 25 10-5-10-4-20-8-30l38 15-7-19 29 5-13-25zM88 213")
               path(fill="#fff" filter="url(#shadow)" d="M318 288l6-13-21 1c2-5 5-8 10-9-5-6-19-5-20-9-2-8 12-6 16-5-2-7-6-12-11-16-4-4-10-5-11-10l17 4c-5-14-12-27-20-39h19l-7-10c-3-2-10-8-11-11-2-6 13-16 19-20-7-2-14-2-21-2 3-8 7-17 13-24-9 2-18 5-27 10l5-17-15 9c-2 2-7 9-10 9a200 200 0 0 0-35-9l18 27-12 6c5 3 13 11 11 16-2 7-11 12-14 20 6-2 12-2 18-1 8 1 9 0 6 5-4 7-12 10-15 18 7-3 15-1 22 1-8 8-14 17-19 27l24-3c-5 10-7 21-5 32l10-8c2 5-4 15-4 22 0 9 2 18 6 26 2-5 5-10 9-13 1 10 4 20 7 30 4-7 7-13 12-19 2 7 5 13 9 19 2-5 7-16 11-17 5-2 16 5 20 7-1-5-8-18-6-21 0-2 6-6 8-7l-12-6z")
@@ -36,31 +36,28 @@
                     feMergeNode(in="SourceGraphic")
 
                 linearGradient#grad1(x1="0%" y1="0%" x2="100%" y2="0%")
-                  stop(offset="0%" style="stop-color: #fa2;stop-opacity:1")
-                  stop(offset="100%" style="stop-color: #f64;stop-opacity:1")
+                  stop.grad(offset="0%")
+                  stop.grad-end(offset="100%")
 
-          h2.body-1.text-center.py-8.px-12 This is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
+          h2.body-1.text-center.py-8.px-12 {{ lang.title }}
 
-          .pa-sm-4.pa-md-10.pa-lg-10
+          .pa-sm-1.pa-md-7.pa-lg-7
 
           v-row
-            v-col(cols="12" md="4").d-none.d-md-flex.my-auto
-              v-row(justify="end")
-                v-btn.title(
-                  style="width: 164px"
+            v-col(cols="12" md="12")
+              v-row(justify="center")
+                v-btn.title.md-size.d-none.d-md-flex.ma-8(
                   outlined
                   large
-                  title="About"
-                  href="/about"
-                  aria-label="About"
-                ) about
+                  :title="lang.about"
+                  :href="'/about?' + search"
+                  :aria-label="lang.about"
+                ) {{ lang.about }}
 
-            v-col(cols="12" md="4")
-              v-row(justify="center")
                 v-card(:dark="dark")
                   v-card-title.py-2
                     v-spacer
-                    | Start using
+                    | {{ lang.start }}
                     v-spacer
 
                   v-divider
@@ -69,86 +66,47 @@
                     v-btn.title(
                       text
                       large
-                      title="Create stallion"
-                      href="/editor/pony/?g=m"
-                      aria-label="Male"
-                    ) male
+                      :title="lang.male.title"
+                      :href="'/editor/?g=m&' + search"
+                      :aria-label="lang.male.label"
+                    ) {{ lang.male.label }}
 
                     v-btn.title(
                       text
                       large
-                      title="Create filly"
-                      href="/editor/pony/?g=f"
-                      aria-label="Female"
-                    ) female
+                      :title="lang.female.title"
+                      :href="'/editor/?g=f&' + search"
+                      :aria-label="lang.female.label"
+                    ) {{ lang.female.label }}
 
-            v-col(cols="12" md="4").d-none.d-md-flex.my-auto
-              v-row(justify="start")
-                v-btn.title(
+                v-btn.title.md-size.d-none.d-md-flex.ma-8(
                   outlined
                   large
-                  title="Support"
-                  href="/support"
-                  aria-label="Support"
-                ) support us
+                  :title="lang.support"
+                  :href="'/support?' + search"
+                  :aria-label="lang.support"
+                ) {{ lang.support }}
 
             v-col(cols="12" md="4").d-flex.d-md-none
               v-row(justify="center")
-                v-btn.title(
-                  style="width: 140px"
+                v-btn.title.sm-size(
                   outlined
                   large
-                  title="About"
-                  href="/about"
-                  aria-label="About"
-                ) about
+                  :title="lang.about"
+                  :href="'/about?' + search"
+                  :aria-label="lang.about"
+                ) {{ lang.about }}
 
               v-row(justify="center")
-                v-btn.title(
-                  style="width: 140px"
+                v-btn.title.sm-size(
                   outlined
                   large
-                  title="Support"
-                  href="/support"
-                  aria-label="Support"
-                ) support us
+                  :title="lang.support"
+                  :href="'/support?' + search"
+                  :aria-label="lang.support"
+                ) {{ lang.support }}
 
-          v-row(justify="center")
-            .py-2
-
-            v-card.mx-auto(:dark="dark")
-              v-btn(
-                icon
-                large
-                target="_blank"
-                title="Github"
-                href="https://github.com/Electrum18/The-Fluffies"
-                rel="noopener"
-                aria-label="Github"
-              )
-                v-icon mdi-github-circle
-
-              v-btn(
-                icon
-                large
-                target="_blank"
-                title="Twitter"
-                href="https://twitter.com/TFluffies"
-                rel="noopener"
-                aria-label="Twitter"
-              )
-                v-icon mdi-twitter
-
-              v-btn(
-                icon
-                large
-                target="_blank"
-                title="Patreon"
-                href="https://www.patreon.com/the_fluffies"
-                rel="noopener"
-                aria-label="Patreon"
-              )
-                v-icon mdi-patreon
+          Socials(:dark="dark")
 
       .pa-5
 
@@ -168,11 +126,62 @@
 </template>
 
 <script lang="coffee">
+  import en from "../../assets/json/locales/en/index.json"
+  import ru from "../../assets/json/locales/ru/index.json"
+
+  import Socials from "../../components/Socials.vue"
+
   export default
     data: ->
       dark: no
       hour: new Date().getHours()
 
+      locales: {
+        en
+        ru
+      }
+
+    computed:
+      lang:   -> return @locales[@$root.locale]
+      search:  -> return "l=" + @$root.locale
+
     mounted: ->
       if @hour > 17 or @hour < 9 then @dark = on else @dark = off
+
+    components: {
+      Socials
+    }
 </script>
+
+<style lang="sass">
+  a.md-size
+    width: 164px
+
+  a.sm-size
+    width: 156px
+
+  span.version
+    background-image: linear-gradient(to right, #fa2, #f64)!important
+    margin-right: -12px!important
+
+  div.max
+    max-width: 800px
+
+  svg.logo
+    background: transparent
+    border: 1.5px solid
+    border-radius: 30px
+    max-width: 600px
+
+  stop.grad
+    stop-color: #fa2
+    stop-opacity: 1
+
+  stop.grad-end
+    stop-color: #f64
+    stop-opacity: 1
+
+  .hide
+    opacity: 0!important
+    height: 0!important
+</style>

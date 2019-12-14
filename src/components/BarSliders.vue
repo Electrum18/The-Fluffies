@@ -49,8 +49,6 @@
           else
             if 100 - getProp(@$root, @compare) <= val
               setProp @$root, @compare, 100 - val
-
-
 </script>
 
 <style lang="sass">

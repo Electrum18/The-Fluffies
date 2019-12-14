@@ -11,7 +11,7 @@
         fab
         style="pointer-events: auto"
         v-on="on"
-        aria-label="Open chat"
+        :aria-label="lang.chat.open"
       )
         v-badge.py-2.grad
           template(v-slot:badge) {{ chat.users }}
@@ -25,7 +25,7 @@
         right
         small
         style="pointer-events: none; z-index: 1"
-        aria-label="Users count"
+        :aria-label="lang.chat.users"
       ) {{ chat.users }}
 
         v-icon(small right) mdi-account
@@ -47,7 +47,7 @@
       v-card-actions
         v-text-field(
           v-model="chat.message"
-          label="Type a message"
+          :label="lang.chat.type"
           :hint="chat.name"
           persistent-hint
           outlined
@@ -65,7 +65,7 @@
         v-model="chat.prename"
 
         label="Outlined"
-        placeholder="Enter your name"
+        :placeholder="lang.chat['enter name']"
         solo
         outlined
         counter="20"
@@ -77,7 +77,10 @@
 </template>
 
 <script lang="coffee">
-  import io from "socket.io-client"  # Comment on webpack command
+  import io from "socket.io-client"
+
+  import en from "../assets/json/locales/en/editor.json"
+  import ru from "../assets/json/locales/ru/editor.json"
 
   export default
     data: ->
@@ -92,26 +95,16 @@
         users: 0
         content: []
 
+      locales: {
+        en
+        ru
+      }
+
       socket: io(
         if window.location.hostname is "localhost"
              window.location.hostname + ":3000"
         else window.location.host
       )
-
-    methods:
-      submit: ->
-        length = @chat.message.length
-
-        if length > 0 and length <= 100
-          @socket.emit "send message", { name: @chat.name, text: @chat.message }
-          @chat.message = ""
-
-      checkName: ->
-        if @chat.prename
-          @socket.emit("check name", @chat.prename)
-
-          @chat.name = @chat.prename
-          @chat.prename = ""
 
     watch:
       "chat.opened": (val) ->
@@ -132,6 +125,24 @@
             space = refs.chatSpace.$el
 
             space.scrollTop = space.scrollHeight
+
+    computed:
+      lang: -> return @locales[@$root.locale]
+
+    methods:
+      submit: ->
+        length = @chat.message.length
+
+        if length > 0 and length <= 100
+          @socket.emit "send message", { name: @chat.name, text: @chat.message }
+          @chat.message = ""
+
+      checkName: ->
+        if @chat.prename
+          @socket.emit("check name", @chat.prename)
+
+          @chat.name = @chat.prename
+          @chat.prename = ""
 
     mounted: ->
       chat = @chat

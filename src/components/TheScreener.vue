@@ -5,7 +5,7 @@
         v-col(cols="12" sm="6" md="2")
           v-text-field(
             v-model="width"
-            label="width"
+            :label="lang.screener.width"
             hide-details
             outlined
             suffix="px"
@@ -15,7 +15,7 @@
         v-col(cols="12" sm="6" md="2")
           v-text-field(
             v-model="height"
-            label="height"
+            :label="lang.screener.height"
             hide-details
             outlined
             suffix="px"
@@ -23,7 +23,10 @@
           )
 
         v-col(cols="12" md="4")
-          BarColor(text="background" val="BackgroundColorBasic")
+          BarColor(
+            :text="lang.screener.background"
+            val="BackgroundColorBasic"
+          )
 
         v-col(cols="12" sm="2" md="2")
           v-btn-toggle.my-1(
@@ -54,12 +57,23 @@
 <script lang="coffee">
   import BarColor from "./BarColors.vue"
 
+  import en from "../assets/json/locales/en/editor.json"
+  import ru from "../assets/json/locales/ru/editor.json"
+
   export default
     data: ->
       mode: 0
 
       width: 1920
       height: 1080
+
+      locales: {
+        en
+        ru
+      }
+
+    computed:
+      lang: -> return @locales[@$root.locale]
 
     methods:
       takeImage: ->

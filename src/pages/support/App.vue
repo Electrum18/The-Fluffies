@@ -1,35 +1,44 @@
 <template lang="pug">
   #app
+    h1.hide {{ $root.Headers.titles[$root.locale] }}
+
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
       v-app-bar(fixed :dark="dark" app)
         v-btn(
           large
           depressed
-          href="/"
-          aria-label="Back"
+          :href="'/' + search"
+          :title="lang.back"
+          :aria-label="lang.back"
         )
           v-icon(left) mdi-chevron-left
-          | back
+          | {{ lang.back }}
 
         v-spacer
-        v-toolbar-title(style="text-transform: uppercase") support us
+
+        v-toolbar-title.uppercase {{ lang.support }}
+
         v-spacer
 
         v-btn(
           large
           depressed
-          href="/about"
-          aria-label="About"
-        ) about
+          :href="'/about' + search"
+          :title="lang.about"
+          :aria-label="lang.about"
+        ) {{ lang.about }}
           v-icon(right) mdi-chevron-right
 
       v-content
         v-item-group(:dark="dark")
           v-container(fluid)
+
+            Socials(:dark="dark")
+
             v-row(justify="center")
-              v-col(v-for="(card, i) in content" :key="card + i" cols="12" md="5")
+              v-col(v-for="(card, i) in lang.content" :key="card + i" cols="12" md="5")
                 v-card(class="align-center")
-                  v-card-title(style="background-image: linear-gradient(to right, #fa2, #f64)")
+                  v-card-title.gradient
                     | {{ card.title }}
 
                   v-spacer
@@ -55,40 +64,8 @@
                             :aria-label="href.text"
                           ) {{ href.text }}
 
-            v-row(justify="center")
-              v-card.mx-auto(:dark="dark")
-                v-btn(
-                  icon
-                  large
-                  target="_blank"
-                  title="Github"
-                  href="https://github.com/Electrum18/The-Fluffies"
-                  rel="noopener"
-                  aria-label="Github"
-                )
-                  v-icon mdi-github-circle
+            Socials(:dark="dark")
 
-                v-btn(
-                  icon
-                  large
-                  target="_blank"
-                  title="Twitter"
-                  href="https://twitter.com/TFluffies"
-                  rel="noopener"
-                  aria-label="Twitter"
-                )
-                  v-icon mdi-twitter
-
-                v-btn(
-                  icon
-                  large
-                  target="_blank"
-                  title="Patreon"
-                  href="https://www.patreon.com/the_fluffies"
-                  rel="noopener"
-                  aria-label="Patreon"
-                )
-                  v-icon mdi-patreon
 
       v-footer(fixed :dark="dark" app)
         v-btn(
@@ -106,14 +83,20 @@
 </template>
 
 <script lang="coffee">
-  import Content from './content.json'
+  import en from "../../assets/json/locales/en/support.json"
+  import ru from "../../assets/json/locales/ru/support.json"
+
+  import Socials from "../../components/Socials.vue"
 
   export default
     data: ->
       dark: no
       hour: new Date().getHours()
 
-      content: Content
+      locales: {
+        en
+        ru
+      }
 
     methods:
       format: (text) ->
@@ -122,6 +105,26 @@
       url: ->
         return if @dark then "#8bf" else "#359"
 
+    computed:
+      lang: -> return @locales[@$root.locale]
+      search: -> return "?l=" + @$root.locale
+
     mounted: ->
       if @hour > 17 or @hour < 9 then @dark = on else @dark = off
+
+    components: {
+      Socials
+    }
 </script>
+
+<style lang="sass">
+  .uppercase
+    text-transform: uppercase
+
+  .gradient
+    background-image: linear-gradient(to right, #fa2, #f64)
+
+  .hide
+    opacity: 0!important
+    height: 0!important
+</style>

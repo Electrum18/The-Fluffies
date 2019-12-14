@@ -47,10 +47,15 @@
 
         v-col(cols="auto")
           v-spacer
+
+          v-card.urls-upper.ma-2(dark)
+            Language(:preURL="gender" dark=true)
+
           v-card.urls.ma-2(dark)
             v-btn(
               icon
               large
+              tile
               target="_blank"
               title="Github"
               href="https://github.com/Electrum18/The-Fluffies"
@@ -62,6 +67,7 @@
             v-btn(
               icon
               large
+              tile
               target="_blank"
               title="Twitter"
               href="https://twitter.com/TFluffies"
@@ -73,6 +79,7 @@
             v-btn(
               icon
               large
+              tile
               target="_blank"
               title="Patreon"
               href="https://www.patreon.com/the_fluffies"
@@ -95,7 +102,7 @@
         Chat
 
         div.px-6(style="user-select: none")
-          v-chip version
+          v-chip {{ lang.version }}
             v-chip.v-avatar--right(
               style="background-image: linear-gradient(to right, #fa2, #f64); margin-right: -12px"
             ) carrot after
@@ -118,21 +125,25 @@
             v-list-item(
               v-for="(item, i) in list"
               :key="i"
-              @click.stop="opened[item.text] = !opened[item.text]; opened.List = false"
+              @click.stop="opened[item.text['en']] = !opened[item.text['en']]; opened.List = false"
               :disabled="item.disabled"
             )
               v-list-item-icon(right): v-icon(v-text="item.icon")
               v-list-item-content
-                v-list-item-title(v-text="item.text")
+                v-list-item-title(v-text="item.text[$root.locale]")
 
 </template>
 
 <script lang="coffee">
-  import Screener from "../../../components/TheScreener.vue"
-  import Avatar from "../../../components/TheAvatar.vue"
-  import Chat  from "../../../components/TheChat.vue"
-  import Menu  from "../../../components/TheMenu.vue"
-  import Hairs from "../../../components/TheMenuHairs.vue"
+  import Screener from "../../components/TheScreener.vue"
+  import Avatar from "../../components/TheAvatar.vue"
+  import Chat  from "../../components/TheChat.vue"
+  import Menu  from "../../components/TheMenu.vue"
+  import Hairs from "../../components/TheMenuHairs.vue"
+  import Language from "../../components/Languages.vue"
+
+  import en from "../../assets/json/locales/en/editor.json"
+  import ru from "../../assets/json/locales/ru/editor.json"
 
   export default
     data: ->
@@ -146,10 +157,36 @@
       background: ""
 
       list: [
-        { text: "Avatar",   icon: "$vuetify.icons.values.pony" },
-        { text: "Animate",  icon: "mdi-movie-open", disabled: yes },
-        { text: "Capture",  icon: "mdi-camera" }
+        {
+          text:
+            en: "Avatar",
+            ru: "Аватар"
+
+          icon: "$vuetify.icons.values.pony"
+        }, {
+          text:
+            en: "Animate"
+            ru: "Анимация"
+
+          icon: "mdi-movie-open"
+          disabled: yes
+        }, {
+          text:
+            en: "Capture"
+            ru: "Запечатлеть"
+
+          icon: "mdi-camera"
+        }
       ]
+
+      locales: {
+        en
+        ru
+      }
+
+    computed:
+      lang: -> return @locales[@$root.locale]
+      gender: -> return if @$root.male then "g=m" else "g=f"
 
     watch:
       "$root.loadings": (val) -> @loadings = val
@@ -165,12 +202,13 @@
       Chat
       Menu
       Hairs
+      Language
     }
 </script>
 
 <style lang="sass">
   html
-    overflow-y: auto
+    overflow-y: auto!important
 
   .grad .v-badge__badge, button.grad
     background-image: linear-gradient(to right, #fa2, #f64)
@@ -178,6 +216,11 @@
   .urls
     max-width: 44px!important
     bottom: 0
+    position: absolute!important
+
+  .urls-upper
+    max-width: 44px!important
+    bottom: 140px
     position: absolute!important
 
   .inputs .v-input__control

@@ -1,0 +1,122 @@
+{
+  "version": "version",
+
+  "enable": "enable",
+
+  "one": "One",
+  "two": "Two",
+  "three": "Three",
+
+  "menu": {
+    "eyes": {
+      "title": "Eyes",
+      "color": "iris",
+      "heterochromia": "heterochromia",
+      "color right": "right iris",
+      "scale": "scale",
+
+      "pupils": "Pupils",
+      "width": "width",
+
+      "position": "Position",
+      "horizontal": "horizontal",
+      "vertical": "vertical",
+
+      "left eyelids": "Left eyelids",
+      "right eyelids": "Right eyelids",
+
+      "upper": "upper",
+      "lower": "lower",
+
+      "eyebrows": {
+        "title": "eyebrows",
+
+        "left": "Left eyebrow",
+        "right": "Right eyebrow",
+
+        "width": "width",
+        "height": "height",
+        "evil": "evil",
+        "wide": "wide"
+      }
+    },
+
+    "mane": {
+      "title": "Mane",
+      "color": "hair",
+      "change": "Change hairstyle",
+
+      "second": {
+        "title": "Second color & ends",
+        "ends": "ends",
+        "color": "second"
+      }
+    },
+
+    "fur": {
+      "title": "Fur",
+      "color": "fur",
+
+      "stripes": {
+        "title": "Stripes",
+        "color": "stripes"
+      }
+    },
+
+    "horn": {
+      "title": "Horn",
+      "changeling": "changeling",
+      "second": "second color",
+      "set": "set"
+    },
+
+    "mouth": {
+      "title": "Mouth",
+      "mouth": "mouth",
+      "tongue": "tongue",
+      "fangs": "fangs"
+    },
+
+    "emotion": {
+      "title": "Emotion",
+
+      "mouth": "Mouth",
+      "open": "open",
+      "sad": "sad",
+
+      "teeth": "Teeth"
+    },
+
+    "ears": {
+      "title": "Ears",
+      "tassels": "tassels"
+    },
+
+    "piercing": {
+      "title": "Piercing",
+      "color": "piercings",
+
+      "ears": {
+        "left": "Left ear",
+        "right": "Right ear"
+      }
+    }
+  },
+
+  "name": {
+    "label": "Avatar name"
+  },
+
+  "chat": {
+    "open": "Open chat",
+    "users": "Users count",
+    "type": "Type a message",
+    "enter name": "Enter your nickname"
+  },
+
+  "screener": {
+    "width": "width",
+    "height": "height",
+    "background": "background"
+  }
+}

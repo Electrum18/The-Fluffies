@@ -1,7 +1,7 @@
 <template lang="pug">
   v-card(outlined :disabled="enable").my-2
     v-row
-      div.body-2.mx-6.py-2 {{ text }} color
+      div.body-2.mx-6.py-2 {{ title }}
       v-spacer
       v-menu(:close-on-content-click="false")
         template(v-slot:activator="{ on }")
@@ -34,6 +34,12 @@
           return @off
         else
           return not getProp @$root, @off
+
+      title: ->
+        if @$root.locale is "ru"
+          return "цвет " + @text
+        else
+          return @text + " color"
 
       value:
         get: -> getProp @$root, @val

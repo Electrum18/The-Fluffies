@@ -1,10 +1,52 @@
 {
   "hairs": [
-    { "name": "Spiky to side", "author": "Electrum18" },
-    { "name": "Spiky to back", "author": "Electrum18" },
-    { "name": "Big Bang", "author": "Electrum18" },
-    { "name": "Smooth short", "author": "Electrum18" },
-    { "name": "Smooth", "author": "Electrum18" },
-    { "name": "Smooth long", "author": "Electrum18" }
+    {
+      "name": {
+        "en": "Spiky to side",
+        "ru": "Шипастая на бок"
+      },
+
+      "author": "Electrum18"
+    },
+    {
+      "name": {
+        "en": "Spiky to back",
+        "ru": "Шипастая назад"
+      },
+
+      "author": "Electrum18"
+    },
+    {
+      "name": {
+        "en": "Big Bang",
+        "ru": "Большая чёлка"
+      },
+
+      "author": "Electrum18"
+    },
+    {
+      "name": {
+        "en": "Smooth short",
+        "ru": "Гладкая короткая"
+      },
+
+      "author": "Electrum18"
+    },
+    {
+      "name": {
+        "en": "Smooth",
+        "ru": "Гладкая"
+      },
+
+      "author": "Electrum18"
+    },
+    {
+      "name": {
+        "en": "Smooth long",
+        "ru": "Гладкая длинная"
+      },
+
+      "author": "Electrum18"
+    }
   ]
 }

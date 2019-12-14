@@ -21,8 +21,8 @@ module.exports = {
       template: 'src/template/pages/vue-cli.pug'
     },
 
-    'editor/pony': {
-      entry: 'src/pages/editor/pony/main.coffee',
+    editor: {
+      entry: 'src/pages/editor/main.coffee',
       template: 'src/template/pages/vue-cli.pug'
     }
   },

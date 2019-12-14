@@ -3,7 +3,13 @@ import Vuetify from 'vuetify'
 import VueResource from "vue-resource"
 
 import App from "./App.vue"
-import IconPony from '../../../components/IconPony.vue'
+
+import IconEnglish from "../../components/IconEnglish.vue"
+import IconRussian from "../../components/IconRussian.vue"
+import IconPony from '../../components/IconPony.vue'
+
+import AvatarConfig from "./config.json"
+import Headers from "../../assets/json/locales/headers.json"
 
 Vue.config.productionTip = false
 
@@ -47,134 +53,36 @@ Vue.directive "press-hold",
 
 
 new Vue
-  vuetify: new Vuetify(
+  vuetify: new Vuetify
     icons:
       values:
         pony:
           component: IconPony
-  )
 
-  render: (h) -> h App
+        english:
+          component: IconEnglish
 
-  data:
+        russian:
+          component: IconRussian
+
+  data: {
     ang: 0
     horiz: 0
     degress: 0
 
-    name: "Defaulty"
-    male: no
+    locale: "en"
 
     loadings: []
-
-    hair:
-      name: "Spiky to side"
-      info: {}
-
-    tassels: on
-    fangs: on
-    horn:
-      enable: off
-      changeling: no
-      notlines: off
-
-    jaw:
-      open: 0
-      sad: 0
-      color:
-        basic: "#cc4477"
-
-    tongue:
-      color:
-        basic: "#ee8833"
-        shade: "#dd7722"
-
-    stripes:
-      enable: off
-      color:
-        basic: "#777777"
-
-    teeth: { upper: 100, lower: 100 }
-
-    eyes:
-      color:
-        left:
-          basic: "#ffcc00"
-          shade: "#a88700"
-          stroke: { stroke: "#ffcc00" }
-
-        right:
-          enable: off
-          basic: "#ffcc00"
-          shade: "#a88700"
-          stroke: { stroke: "#ffcc00" }
-
-      iris: { scale: 100 }
-      pupils: { width: 10 }
-
-      position:
-        horiz: 0
-        verti: 0
-
-      eyelids:
-        left: { up: 0, down: 0 }
-        right: { up: 0, down: 0 }
-
-      brows:
-        show: yes
-
-        left:
-          width: 100
-          height: 0
-          evil: 0
-          wide: 0
-
-        right:
-          width: 100
-          height: 0
-          evil: 0
-          wide: 0
-
-    mane:
-      second:
-        enable: yes
-        isends: no
-
-      color:
-        basic: "#666666"
-        shade: "#4d4d4d"
-        second: "#555555"
-
-    fur:
-      color:
-        basic: "#cccccc"
-        shade: "#999999"
-        second: "#dddddd"
-
-    piercings:
-      color:
-        basic: "#ffcc00"
-        shade: "#cca300"
-
-      left:
-        enable: off
-        upper: off
-        middle: off
-        lower: on
-
-      right:
-        enable: on
-        upper: off
-        middle: off
-        lower: on
-
-    background:
-      color:
-        basic: "#ffffff"
 
     frames: [
       { degress: 90 },
       { degress: 0 }
     ]
+
+    ...AvatarConfig
+
+    Headers
+  }
 
   methods:
     get: (target, url, callback) ->
@@ -198,22 +106,38 @@ new Vue
         , 5e3
 
   watch:
-    male: (val) ->
-      url = window.location.pathname
+    locale: (lang) ->
+      document.documentElement.lang = lang
+      document.title = @Headers.titles[@locale]
 
-      if val
-        window.history.replaceState {}, "", url + "?g=m"
-      else
-        window.history.replaceState {}, "", url + "?g=f"
+      document
+        .querySelector "meta[name='description']"
+        .setAttribute "content", @Headers.descriptions[@locale]
+
+      document
+        .querySelector "meta[property='og:description']"
+        .setAttribute "content", @Headers.descriptions[@locale]
+
+      document
+        .querySelector "meta[name='keywords']"
+        .setAttribute "content", @Headers.keywords[@locale]
+
+      document
+        .querySelector "meta[property='og:keywords']"
+        .setAttribute "content", @Headers.keywords[@locale]
+
 
   mounted: ->
     self = this
 
-    @male = window.location.search is "?g=m"
+    @male = window.location.search[3] is "m"
 
     # Get JSON data to client and execute
 
     @get ["hair", "info"], "/data/pony/hairNames.json", ->
       self.hair.info = self.hair.info.hairs
+
+
+  render: (h) -> h App
 
 .$mount "#app"
