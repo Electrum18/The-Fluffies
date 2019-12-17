@@ -6,7 +6,7 @@
       v-menu(:close-on-content-click="false")
         template(v-slot:activator="{ on }")
           v-btn.mx-3.px-0(
-            :color="value"
+            :color="value.slice(0, 7)"
             v-on="on"
             style="min-width: 42px"
             aria-label="Open color picker"

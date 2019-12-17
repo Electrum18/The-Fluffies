@@ -137,6 +137,9 @@ new Vue
     @get ["hair", "info"], "/data/pony/hairNames.json", ->
       self.hair.info = self.hair.info.hairs
 
+    @get ["glasses", "info"], "/data/pony/glassesNames.json", ->
+      self.glasses.info = self.glasses.info.glasses
+
 
   render: (h) -> h App
 

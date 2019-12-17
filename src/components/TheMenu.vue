@@ -223,6 +223,52 @@
             )
 
 
+      // Glasses
+
+      v-expansion-panel
+        v-expansion-panel-header.title {{ lang.menu.glasses.title }}
+        v-expansion-panel-content
+
+          BarSwitch(
+            :text="lang.enable"
+            val="GlassesEnable"
+            color="GlassesColorLenses"
+          )
+
+          v-divider.my-4
+
+          BarColor(:text="lang.menu.glasses.color.lenses" val="GlassesColorLenses")
+          BarColor(:text="lang.menu.glasses.color.frame"  val="GlassesColorFrame")
+
+          v-divider.my-4
+
+          BarSlider(
+            :text="lang.menu.glasses.width"
+            val="GlassesWidth"
+            max=150
+            min=50
+            color="GlassesColorLenses"
+          )
+
+          v-divider.my-4
+
+          v-card(outlined)
+            v-card(light)
+              v-card-title.body-1.font-weight-bold {{ $root.glasses.name[$root.locale] }}
+
+            v-divider
+
+            v-card-actions
+              v-spacer
+              v-btn(
+                @click="openGlasses()"
+                :aria-label="lang.menu.glasses.change"
+              ) {{ lang.menu.glasses.change }}
+              v-spacer
+
+          v-divider.my-4
+
+
       // Mane
 
       v-expansion-panel
@@ -239,10 +285,12 @@
             v-divider
 
             v-card-actions
+              v-spacer
               v-btn(
-                @click="open()"
+                @click="openManes()"
                 :aria-label="lang.menu.mane.change"
               ) {{ lang.menu.mane.change }}
+              v-spacer
 
           v-divider.my-4
 
@@ -545,9 +593,13 @@
             lower: on
           }
 
-      open: ->
+      openManes: ->
         @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs
         @$parent.$parent.$parent.opened.Avatar = !@$parent.$parent.$parent.opened.Avatar
+
+      openGlasses: ->
+        @$parent.$parent.$parent.opened.Glasses = !@$parent.$parent.$parent.opened.Glasses
+        @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
 
 
     mounted: ->

@@ -41,6 +41,18 @@
       }
     },
 
+    "glasses": {
+      "title": "Glasses",
+      "width": "frame width",
+
+      "color": {
+        "lenses": "lenses",
+        "frame": "frame"
+      },
+
+      "change": "Change glasses"
+    },
+
     "mane": {
       "title": "Mane",
       "color": "hair",

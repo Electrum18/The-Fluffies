@@ -80,7 +80,9 @@
 
     { "type": "eyeLeftLashesUpper",  "fill": false, "stroke": [7, "#222"] },
     { "type": "eyeLeftLashesMiddle", "fill": false, "stroke": [7, "#222"] },
-    { "type": "eyeLeftLashesLower",  "fill": false, "stroke": [7, "#222"] }
+    { "type": "eyeLeftLashesLower",  "fill": false, "stroke": [7, "#222"] },
+
+    { "type": "glassesLeft", "fill": ["glasses", "lenses"], "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] }
   ]],
 
   ["eyeLeftBrow", [
@@ -133,7 +135,7 @@
   ["head", [
     { "type": "eyeRightLidUpFill",   "fill": ["fur", "basic"], "stroke": [2, ["fur", "basic"]], "clip": ["head2"] },
     { "type": "eyeRightLidDownFill", "fill": ["fur", "basic"], "stroke": [2, ["fur", "basic"]], "clip": ["head2"] },
-    { "type": "eyeRightLidUp",        "fill": false,  "stroke": [9, "#222"] }
+    { "type": "eyeRightLidUp",       "fill": false,            "stroke": [9, "#222"] }
   ]],
 
   ["eyeRightBrow", [
@@ -186,6 +188,9 @@
     { "type": "hornSecond", "fill": ["fur", "second"], "stroke": [7, ["fur", "shade"]], "if": ["horn", "enableBasic"] },
     { "type": "horn",       "fill": false,             "stroke": [9, ["fur", "shade"]], "if": ["horn", "enableBasic"] },
 
-    { "type": "hornChangeling", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["horn", "enableChnlg"] }
+    { "type": "hornChangeling", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["horn", "enableChnlg"] },
+
+    { "type": "glassesNose",  "fill": false,                 "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] },
+    { "type": "glassesRight", "fill": ["glasses", "lenses"], "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] }
   ]]
 ]

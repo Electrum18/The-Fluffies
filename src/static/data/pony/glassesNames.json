@@ -1,0 +1,30 @@
+{
+  "glasses": [
+    {
+      "name": {
+        "en": "Classic",
+        "ru": "Классические"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Teashades",
+        "ru": "Тишейды"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Monolens",
+        "ru": "Монолинзовый"
+      },
+
+      "author": "Electrum18"
+    }
+  ]
+}

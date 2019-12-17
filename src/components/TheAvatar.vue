@@ -59,6 +59,10 @@
           basic: @$root.piercings.color.basic
           shade: @$root.piercings.color.shade
 
+        glasses:
+          lenses: @$root.glasses.color.lenses
+          frame:  @$root.glasses.color.frame
+
       math:
         nose:         pow: "nose"
         noseOverlay:  pow: "nose"
@@ -125,7 +129,40 @@
         y: 0
 
       paths: {}  # Imported and parsed svg's
-      state: {}  # Using for "if" attribute in "elems" config
+      state:  # Using for "if" attribute in "elems" config
+        earFront: on
+        earBack:  off
+
+        eyes:    @$root.eyes
+        fangs:   @$root.fangs
+        tassels: @$root.tassels
+
+        horn: {
+          @$root.horn...
+
+          enableBasic: @$root.horn.enable and !@$root.horn.changeling
+          enableChnlg: @$root.horn.enable and @$root.horn.changeling
+        }
+
+        stripes:
+          enable: @$root.stripes.enable
+
+        hair:
+          second:   @$root.mane.second
+          isSecond: on
+          isEnds:   off
+
+        jaw:
+          open: @$root.jaw.open
+          sad:  @$root.jaw.sad
+
+        teeth: @$root.teeth
+
+        piercings: @$root.piercings
+
+        glasses:
+          enable: @$root.glasses.enable
+          width:  @$root.glasses.width
 
       calculated: {}  # Calculated paths
 
@@ -134,6 +171,7 @@
 
       mouse:
         hold: no
+
 
     watch:
       x: (num) -> @mirror = num < 0
@@ -159,6 +197,16 @@
 
           @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
             self.parseSVGbasic val[name['en']], "hairs"
+            self.animate()
+
+      "$root.glasses.name": (name) ->
+        if @paths.glasses[name['en']] then @animate()
+        else
+          self = this
+          glassesName = name['en'].toLowerCase().replace /\W/g, "_"
+
+          @get "glasses", "/data/pony/glasses/" + glassesName + ".json", (val) ->
+            self.parseSVGbasic val[name['en']], "glasses"
             self.animate()
 
       "$root.fur.color":
@@ -272,6 +320,17 @@
 
         deep: yes
 
+      "$root.glasses":
+        handler: (val) ->
+          @state.glasses.enable = val.enable
+          @state.glasses.width  = val.width
+
+          @color.glasses = val.color
+
+          @animate()
+
+        deep: yes
+
       "$root.teeth":
         handler: (val) ->
           @state.teeth = val
@@ -286,9 +345,12 @@
         loader  = @$root.loadings
         capital = target[0].toUpperCase() + target.slice 1
 
-        if target is "hairs"
-             loader.push "#{capital} | #{@$root.hair.name['en']}"
-        else loader.push capital
+        if target is "glasses"
+          loader.push "#{capital} | #{@$root.glasses.name['en']}"
+        else if target is "hairs"
+          loader.push "#{capital} | #{@$root.hair.name['en']}"
+        else
+          loader.push capital
 
         @$http.get(window.location.origin + url).then (res) ->
           loader.splice loader.indexOf capital, 1
@@ -387,14 +449,23 @@
               self.paths[set].keys.push self.$root.hair.name['en']
               self.paths[set][self.$root.hair.name['en']] = { keys: [] }
 
+            if set is "glasses" and not self.paths[set][self.$root.glasses.name['en']]
+              self.paths[set].keys.push self.$root.glasses.name['en']
+              self.paths[set][self.$root.glasses.name['en']] = { keys: [] }
+
+
 
             # Adding elements to a variable
 
             keyIn = keyIn.replace "Main", ""
 
             if set is "hairs"
-                self.paths[set][self.$root.hair.name['en']][keyIn] = newPaths
-                self.paths[set][self.$root.hair.name['en']].keys.push keyIn
+              self.paths[set][self.$root.hair.name['en']][keyIn] = newPaths
+              self.paths[set][self.$root.hair.name['en']].keys.push keyIn
+
+            else if set is "glasses"
+              self.paths[set][self.$root.glasses.name['en']][set + capitalize keyIn] = newPaths
+              self.paths[set][self.$root.glasses.name['en']].keys.push set + capitalize keyIn
 
             else
               self.paths[set][keyIn] = newPaths
@@ -481,8 +552,11 @@
         ctx.clearRect 0, 0, ctx.canvas.width, ctx.canvas.height
 
 
-        rotatable = ["head", "head2", "chin", "hair", "eyeLeft", "eyeLeftBrow", "eyeRight", "eyeRightBrow",
-          "teethUpper", "teethLower"]
+        rotatable = [
+          "head", "head2", "chin", "hair", "glasses",
+          "eyeLeft", "eyeLeftBrow", "eyeRight", "eyeRightBrow",
+          "teethUpper", "teethLower"
+        ]
 
         for elems in @layers  # Getting an array of elements from an array of layers
           layer = elems[0]
@@ -724,6 +798,15 @@
 
                 ctx.lineWidth += (state.eyes.brows[side].width - 100) / 10
 
+              else if elem.type is "glassesLeft"
+                ctx.lineWidth += (state.glasses.width - 100) / 10
+
+              else if elem.type is "glassesRight"
+                ctx.lineWidth += (state.glasses.width - 100) / 10
+
+              else if elem.type is "glassesNose"
+                ctx.lineWidth += (state.glasses.width - 100) / 10
+
             else ctx.strokeStyle = "transparent"
 
 
@@ -758,6 +841,7 @@
 
       animate: ->
         if not @paths.body then return
+        if not @paths.glasses then return
         if not @paths.hairs then return
         if not @paths.emotions then return
 
@@ -860,6 +944,18 @@
           calculated[key] = morph paths[frame], paths[frame + 1], range
 
 
+        for key in @paths.glasses[self.$root.glasses.name['en']].keys  # Hair part
+          paths = @paths.glasses[self.$root.glasses.name['en']][key]
+          pow = if math[key] then math[key].pow else 1
+
+          fullRange = (1 - (absAngle ** (1 / pow))) * (paths.length - 1)
+
+          frame = fullRange | 0
+          range = fullRange - frame
+
+          calculated[key] = morph paths[frame], paths[frame + 1], range
+
+
         @calculated = calculated  # Paths apply
         @changed    = yes
 
@@ -887,39 +983,6 @@
       ctx.lineJoin = "round"
 
       @ctx = ctx
-
-
-      # Init watching states
-
-      state = @state
-
-      state.earFront = on
-      state.earBack  = off
-
-      state.eyes    = @$root.eyes
-      state.fangs   = @$root.fangs
-      state.tassels = @$root.tassels
-      state.horn    = @$root.horn
-
-      state.horn.enableBasic = @$root.horn.enable and !@$root.horn.changeling
-      state.horn.enableChnlg = @$root.horn.enable and @$root.horn.changeling
-
-      state.stripes        = {}
-      state.stripes.enable = @$root.stripes.enable
-
-      state.hair        = {}
-      state.hair.second = @$root.mane.second
-      state.hair.isSecond = on
-      state.hair.isEnds = off
-
-      state.jaw      = {}
-      state.jaw.open = @$root.jaw.open
-      state.jaw.sad  = @$root.jaw.sad
-
-      state.teeth = @$root.teeth
-
-      state.piercings  = @$root.piercings
-
 
       self = this
 
@@ -962,6 +1025,15 @@
 
       @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
         self.parseSVGbasic val[self.$root.hair.name['en']], "hairs"
+        self.animate()
+
+
+      # Load first glasses
+
+      glassesName = @$root.glasses.name['en'].toLowerCase().replace /\W/g, "_"
+
+      @get "glasses", "/data/pony/glasses/" + glassesName + ".json", (val) ->
+        self.parseSVGbasic val[self.$root.glasses.name['en']], "glasses"
         self.animate()
 
 

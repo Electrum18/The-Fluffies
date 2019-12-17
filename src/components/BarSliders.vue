@@ -5,14 +5,14 @@
       v-spacer
       div.body-2.mx-2.px-1.value(
         style="user-select: none"
-        :style="{ background: getColor }"
+        :style="{ background: getColor.slice(0, 7) }"
       ) {{ value }}
 
     v-slider.inputs2(
       v-model="value"
       style="margin: 0"
       hide-details=true
-      :color="getColor"
+      :color="getColor.slice(0, 7)"
       :max="max"
       :min="min"
     )

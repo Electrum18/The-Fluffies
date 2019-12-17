@@ -3,7 +3,7 @@
     v-row
       div.body-1.py-2(style="margin-left: 24px!important") {{ text }}
       v-spacer
-      v-switch.mx-4.my-1(:color="getColor" v-model="check" hide-details)
+      v-switch.mx-4.my-1(:color="getColor.slice(0, 7)" v-model="check" hide-details)
 </template>
 
 <script lang="coffee">

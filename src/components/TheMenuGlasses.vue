@@ -17,17 +17,17 @@
             v-model="selected"
             active-class="orange--text"
           )
-            template(v-for="(hair, i) in hairs")
+            template(v-for="(glass, i) in glasses")
               v-list-item(
-                @click="setHair(hair.name)"
-                :key="nameing(hair)"
+                @click="setGlasses(glass.name)"
+                :key="nameing(glass)"
               )
                 v-list-item-content
-                  v-list-item-title {{ nameing(hair) }}
-                  v-list-item-subtitle {{ locale.by[$root.locale] }} {{ hair.author }}
+                  v-list-item-title {{ nameing(glass) }}
+                  v-list-item-subtitle {{ locale.by[$root.locale] }} {{ glass.author }}
 
               v-divider.light(
-                v-if="i + 1 < hairs.length"
+                v-if="i + 1 < glass.length"
                 :key="i"
               )
 </template>
@@ -35,35 +35,35 @@
 <script lang="coffee">
   export default
     data: ->
-      selected: [0]
-      hairs: []
+      selected: [2]
+      glasses: []
       name: ""
 
       locale:
         list:
-          en: "Mane list"
-          ru: "Список грив"
+          en: "Glasses list"
+          ru: "Список очков"
 
         by:
           en: "author: "
           ru: "автор: "
 
     watch:
-      "$root.hair.info": (val) ->
-        @hairs = val
+      "$root.glasses.info": (val) ->
+        @glasses = val
 
         for elem, i in val
-          if elem.name is @$root.hair.name
+          if elem.name is @$root.glasses.name
             @selected = if i < 1 then i else i
 
     methods:
-      nameing: (hair) ->
-        if @hairs.length then return hair.name[@$root.locale]
+      nameing: (glasses) ->
+        if @glasses.length then return glasses.name[@$root.locale]
 
-      setHair: (name) -> @$root.hair.name = name
+      setGlasses: (name) -> @$root.glasses.name = name
       close: ->
-        @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs
-        @$parent.$parent.$parent.opened.Avatar = !@$parent.$parent.$parent.opened.Avatar
+        @$parent.$parent.$parent.opened.Glasses = !@$parent.$parent.$parent.opened.Glasses
+        @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
 </script>
 
 <style lang="sass">

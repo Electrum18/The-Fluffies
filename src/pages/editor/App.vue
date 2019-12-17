@@ -21,8 +21,20 @@
       )
         Hairs
 
+      v-navigation-drawer(
+        v-model="opened.Glasses"
+        dark
+        fixed
+        right
+        temporary
+        hide-overlay
+      )
+        Glasses
+
+
       v-bottom-sheet(v-model="opened.Capture" inset=true)
         Screener
+
 
       v-content#content
         v-container(fluid)
@@ -140,6 +152,7 @@
   import Chat  from "../../components/TheChat.vue"
   import Menu  from "../../components/TheMenu.vue"
   import Hairs from "../../components/TheMenuHairs.vue"
+  import Glasses from "../../components/TheMenuGlasses.vue"
   import Language from "../../components/Languages.vue"
 
   import en from "../../assets/json/locales/en/editor.json"
@@ -150,6 +163,7 @@
       opened:
         Avatar: off
         Hairs: off
+        Glasses: off
         Capture: off
         List: off
 
@@ -202,6 +216,7 @@
       Chat
       Menu
       Hairs
+      Glasses
       Language
     }
 </script>

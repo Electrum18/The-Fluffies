@@ -7,8 +7,8 @@
       "en": "Spiky to side",
       "ru": "Шипастая на бок"
     },
-    "info": {
-    }
+
+    "info": {}
   },
 
   "tassels": true,
@@ -102,6 +102,24 @@
         "wide": 0
       }
     }
+  },
+
+  "glasses": {
+    "enable": true,
+
+    "width": 100,
+
+    "color": {
+      "lenses": "#8800ffaa",
+      "frame": "#222222"
+    },
+
+    "name": {
+      "en": "Monolens",
+      "ru": "Монолинзовый"
+    },
+
+    "info": {}
   },
 
   "mane": {
