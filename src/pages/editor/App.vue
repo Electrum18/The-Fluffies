@@ -55,50 +55,7 @@
                 | {{ load }}
 
 
-        // Urls row
-
-        v-col(cols="auto")
-          v-spacer
-
-          v-card.urls-upper.ma-2(dark)
-            Language(:preURL="gender" dark=true)
-
-          v-card.urls.ma-2(dark)
-            v-btn(
-              icon
-              large
-              tile
-              target="_blank"
-              title="Github"
-              href="https://github.com/Electrum18/The-Fluffies"
-              rel="noopener"
-              aria-label="Github"
-            )
-              v-icon mdi-github-circle
-
-            v-btn(
-              icon
-              large
-              tile
-              target="_blank"
-              title="Twitter"
-              href="https://twitter.com/TFluffies"
-              rel="noopener"
-              aria-label="Twitter"
-            )
-              v-icon mdi-twitter
-
-            v-btn(
-              icon
-              large
-              tile
-              target="_blank"
-              title="Patreon"
-              href="https://www.patreon.com/the_fluffies"
-              rel="noopener"
-              aria-label="Patreon"
-            )
-              v-icon mdi-patreon
+        SocialVertical
 
 
       // Bottom interface
@@ -147,6 +104,7 @@
 </template>
 
 <script lang="coffee">
+  import SocialVertical  from "../../components/SocialsVertical.vue"
   import Screener from "../../components/TheScreener.vue"
   import Avatar from "../../components/TheAvatar.vue"
   import Chat  from "../../components/TheChat.vue"
@@ -200,7 +158,6 @@
 
     computed:
       lang: -> return @locales[@$root.locale]
-      gender: -> return if @$root.male then "g=m" else "g=f"
 
     watch:
       "$root.loadings": (val) -> @loadings = val
@@ -213,6 +170,7 @@
     components: {
       Screener
       Avatar
+      SocialVertical
       Chat
       Menu
       Hairs
@@ -227,16 +185,6 @@
 
   .grad .v-badge__badge, button.grad
     background-image: linear-gradient(to right, #fa2, #f64)
-
-  .urls
-    max-width: 44px!important
-    bottom: 0
-    position: absolute!important
-
-  .urls-upper
-    max-width: 44px!important
-    bottom: 140px
-    position: absolute!important
 
   .inputs .v-input__control
     height: 0

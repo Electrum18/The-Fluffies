@@ -242,13 +242,14 @@
 
           v-divider.my-4
 
-          BarSlider(
-            :text="lang.menu.glasses.width"
-            val="GlassesWidth"
-            max=150
-            min=50
-            color="GlassesColorLenses"
-          )
+          v-card(outlined).my-2
+            BarSlider(
+              :text="lang.menu.glasses.width"
+              val="GlassesWidth"
+              max=150
+              min=50
+              color="GlassesColorLenses"
+            )
 
           v-divider.my-4
 
@@ -494,6 +495,63 @@
               :disabled="off('PiercingsRightEnable')"
               :aria-label="lang.three"
             ) {{ lang.three }}
+
+
+      // Hooves
+
+      v-expansion-panel
+        v-expansion-panel-header.title {{ lang.menu.hooves.title }}
+        v-expansion-panel-content
+          BarSwitch(
+            :text="lang.enable"
+            val="HoovesEnable"
+          )
+
+          v-divider.my-4
+
+          p.subtitle-2 {{ lang.menu.hooves.left }}
+
+          v-card(outlined).my-2
+            BarSlider(
+              :text="lang.menu.hooves.elbow"
+              val="HoovesLeftElbow"
+              max=100
+              min=0
+              off="HoovesEnable"
+            )
+
+            BarSlider(
+              :text="lang.menu.hooves.shoulder"
+              val="HoovesLeftShoulder"
+              max=100
+              min=0
+              off="HoovesEnable"
+            )
+
+            //BarSlider(text="angle", val="HoovesLeftAngle", max=180, min=-180)
+
+          v-divider.my-4
+
+          p.subtitle-2 {{ lang.menu.hooves.right }}
+
+          v-card(outlined).my-2
+            BarSlider(
+              :text="lang.menu.hooves.elbow"
+              val="HoovesRightElbow"
+              max=100
+              min=0
+              off="HoovesEnable"
+            )
+
+            BarSlider(
+              :text="lang.menu.hooves.shoulder"
+              val="HoovesRightShoulder"
+              max=100
+              min=0
+              off="HoovesEnable"
+            )
+
+            //BarSlider(text="angle", val="HoovesRightAngle", max=180, min=-180)
 
     v-card(light tile)
       v-container

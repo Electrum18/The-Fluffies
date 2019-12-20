@@ -23,7 +23,7 @@
 
   ["hair", [
     { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
-    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["back"],
       "if": ["hair", "isSecond"]
     },
 
@@ -192,5 +192,23 @@
 
     { "type": "glassesNose",  "fill": false,                 "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] },
     { "type": "glassesRight", "fill": ["glasses", "lenses"], "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] }
+  ]],
+
+  ["neck", [
+    { "type": "hoovesLeftForearm", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["hoovesLeftTibia", [
+    { "type": "hoovesLeftTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
+    { "type": "hoovesLeftHoof",  "fill": false,            "stroke": [6, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["neck", [
+    { "type": "hoovesRightForearm", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["hoovesRightTibia", [
+    { "type": "hoovesRightTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
+    { "type": "hoovesRightHoof",  "fill": false,            "stroke": [6, ["fur", "shade"]], "if": ["hooves", "enable"] }
   ]]
 ]

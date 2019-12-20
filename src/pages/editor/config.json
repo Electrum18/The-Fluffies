@@ -168,5 +168,21 @@
     "color": {
       "basic": "#ffffff"
     }
+  },
+
+  "hooves": {
+    "enable": true,
+
+    "left": {
+      "elbow": 0,
+      "shoulder": 0,
+      "angle": 0
+    },
+
+    "right": {
+      "elbow": 0,
+      "shoulder": 0,
+      "angle": 0
+    }
   }
 }

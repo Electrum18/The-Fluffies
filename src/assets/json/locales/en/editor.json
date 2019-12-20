@@ -112,6 +112,16 @@
         "left": "Left ear",
         "right": "Right ear"
       }
+    },
+
+    "hooves": {
+      "title": "Hooves",
+
+      "elbow": "elbow",
+      "shoulder": "shoulder",
+
+      "left": "Left hoof",
+      "right": "Right hoof"
     }
   },
 

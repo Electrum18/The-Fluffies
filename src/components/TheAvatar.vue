@@ -115,6 +115,14 @@
           [["basic", "eyebrowRightWide"], ["eyes", "brows", "right", "wide"]]
         ], ["eyes", "brows", "right", "wide"]]
 
+        hoovesLeftForearm: [["hoovesLeftForearmDown",  "basic"], ["hooves", "left", "elbow"]]
+        hoovesLeftTibia:   [["hoovesLeftTibiaDown",  "basic"],   ["hooves", "left", "shoulder"]]
+        hoovesLeftHoof:    [["hoovesLeftHoofDown",  "basic"],    ["hooves", "left", "shoulder"]]
+
+        hoovesRightForearm: [["hoovesRightForearmDown",  "basic"], ["hooves", "right", "elbow"]]
+        hoovesRightTibia:   [["hoovesRightTibiaDown",  "basic"],   ["hooves", "right", "shoulder"]]
+        hoovesRightHoof:    [["hoovesRightHoofDown",  "basic"],    ["hooves", "right", "shoulder"]]
+
       ctx: {}  # Context of canvas
 
       horiz: 0
@@ -163,6 +171,19 @@
         glasses:
           enable: @$root.glasses.enable
           width:  @$root.glasses.width
+
+        hooves:
+          enable: yes
+
+          left:
+            elbow: 0
+            shoulder: 0
+            angle: 0
+
+          right:
+            elbow: 0
+            shoulder: 0
+            angle: 0
 
       calculated: {}  # Calculated paths
 
@@ -334,6 +355,14 @@
       "$root.teeth":
         handler: (val) ->
           @state.teeth = val
+
+          @animate()
+
+        deep: yes
+
+      "$root.hooves":
+        handler: (val) ->
+          @state.hooves = val
 
           @animate()
 
@@ -526,6 +555,7 @@
         calculated = @calculated
         male  = @male;  state  = @state; getColor = @color
         horiz = @horiz; angle  = @angle; mirror   = @mirror
+        hooves = @state.hooves
 
 
         absAngle = if x < 0 then -x else x
@@ -561,10 +591,16 @@
         for elems in @layers  # Getting an array of elements from an array of layers
           layer = elems[0]
 
+          if hooves.enable
+            height = 80
+          else
+            height = 112
+
 
           # Layer set & reset position
 
-          ctx.setTransform scaleX, 0, 0, 1, ctx.canvas.width * posX, 112 * quality * 2  # 80 px soon
+          ctx.setTransform scaleX, 0, 0, 1, ctx.canvas.width * posX, height * quality * 2
+
 
           # Layer transformation
 
@@ -572,6 +608,12 @@
             ctx.translate  (ctx.canvas.width / 2) * (2 / 3),  ctx.canvas.height / 2 * (4 / 5)
             ctx.rotate angle * toRad
             ctx.translate -(ctx.canvas.width / 2) * (2 / 3), -ctx.canvas.height / 2 * (4 / 5)
+
+          ###if layer is "hoovesRightTibia"
+            ctx.translate  (ctx.canvas.width / 2) * (2 / 3) - 75,  ctx.canvas.height / 2 * (4 / 5) + 125
+            ctx.rotate hooves.right.angle * toRad
+            ctx.translate -(ctx.canvas.width / 2) * (2 / 3) + 75, -ctx.canvas.height / 2 * (4 / 5) - 125###
+
 
           if layer is "head"
             ctx.translate 0, -horiz * 20 * quality
@@ -592,6 +634,13 @@
 
           else if layer is "head2"
             ctx.translate 0, horiz * 10 * quality
+
+          else if layer is "hoovesLeftTibia"
+            ctx.translate 0, -(hooves.left.elbow - hooves.left.shoulder) * 3 * quality
+
+          else if layer is "hoovesRightTibia"
+            ctx.translate 0, -(hooves.right.elbow - hooves.right.shoulder) * 3 * quality
+
 
           if layer in ["eyeLeft", "eyeRight"]
             mirrored = if mirror then -1 else 1
@@ -661,7 +710,7 @@
                 # Clipping transformation
 
                 if clip is "head0"
-                  ctx.translate 0, -horiz * 20 * quality
+                  ctx.translate 0, -horiz * 12 * quality
 
                 else if clip is "earRight"
                   ctx.translate 0, horiz * 10 * quality
@@ -700,7 +749,7 @@
                 # Clipping resetting transformation
 
                 if clip is "head0"
-                  ctx.translate 0, horiz * 20 * quality
+                  ctx.translate 0, horiz * 12 * quality
 
                 else if clip is "earRight"
                   ctx.translate 0, -horiz * 10 * quality
