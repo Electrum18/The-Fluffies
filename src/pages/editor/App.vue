@@ -73,8 +73,8 @@
         div.px-6(style="user-select: none")
           v-chip {{ lang.version }}
             v-chip.v-avatar--right(
-              style="background-image: linear-gradient(to right, #fa2, #f64); margin-right: -12px"
-            ) carrot after
+              style="background-image: linear-gradient(to right, #f46, #f2a); margin-right: -12px"
+            ) dragon fruit
 
         v-spacer
 

@@ -1,13 +1,13 @@
+try {
+  var io = require("socket.io").listen(3000);
+
+  console.log("connection:  \x1b[40m\x1b[32m SUCCESS \x1b[0m");
+}
+catch (err) {
+  console.log("connection:  \x1b[40m\x1b[31m ERROR \x1b[0m")
+}
+
 var
-  io          = require("socket.io").listen(3000),
-  //chokidar    = require("chokidar"),
-  //fs          = require('fs'),
-
-
-  // Initialize watcher
-
-  //watcher = chokidar.watch(__dirname+ "/getHairs", { persistent: true }),
-
 
   // Functions
 
@@ -47,6 +47,9 @@ var
 
   users = [],
   length = 0;
+
+
+console.log("variables:   \x1b[40m\x1b[32m ONLINE \x1b[0m");
 
 
 // Socket event listeners
@@ -156,20 +159,5 @@ io.on("connection", (socket) => {
 });
 
 
-// File watcher event listeners
-
-/*watcher.on('add', path => {
-  console.log(`File ${path} has been added`);
-
-  fs.readFile(path, (err, data) => {
-    if (err) throw err;
-
-    console.log(data.toString('utf8'));
-
-    fs.unlink(path, err => {
-      if (err) throw err;
-
-      console.log(path + ' was deleted');
-    });
-  });
-});*/
+console.log("socket:      \x1b[40m\x1b[32m ONLINE \x1b[0m");
+console.log("all systems: \x1b[40m\x1b[32m NOMINAL \x1b[0m");

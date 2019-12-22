@@ -115,13 +115,15 @@
           [["basic", "eyebrowRightWide"], ["eyes", "brows", "right", "wide"]]
         ], ["eyes", "brows", "right", "wide"]]
 
-        hoovesLeftForearm: [["hoovesLeftForearmDown",  "basic"], ["hooves", "left", "elbow"]]
-        hoovesLeftTibia:   [["hoovesLeftTibiaDown",  "basic"],   ["hooves", "left", "shoulder"]]
-        hoovesLeftHoof:    [["hoovesLeftHoofDown",  "basic"],    ["hooves", "left", "shoulder"]]
+        hoovesLeftForearm: [["hoovesLeftForearmDown",  "basic"], ["hooves", "left", "shoulder", "rise"]]
+        hoovesLeftTibia:   [["hoovesLeftTibiaDown",  "basic"],   ["hooves", "left", "elbow", "rise"]]
+        hoovesLeftWrist:   [["hoovesLeftWristDown",  "basic"],   ["hooves", "left", "wrist", "rise"]]
+        hoovesLeftHoof:    [["hoovesLeftHoofDown",  "basic"],    ["hooves", "left", "wrist", "rise"]]
 
-        hoovesRightForearm: [["hoovesRightForearmDown",  "basic"], ["hooves", "right", "elbow"]]
-        hoovesRightTibia:   [["hoovesRightTibiaDown",  "basic"],   ["hooves", "right", "shoulder"]]
-        hoovesRightHoof:    [["hoovesRightHoofDown",  "basic"],    ["hooves", "right", "shoulder"]]
+        hoovesRightForearm: [["hoovesRightForearmDown",  "basic"], ["hooves", "right", "shoulder", "rise"]]
+        hoovesRightTibia:   [["hoovesRightTibiaDown",  "basic"],   ["hooves", "right", "elbow", "rise"]]
+        hoovesRightWrist:   [["hoovesRightWristDown",  "basic"],   ["hooves", "right", "wrist", "rise"]]
+        hoovesRightHoof:    [["hoovesRightHoofDown",  "basic"],    ["hooves", "right", "wrist", "rise"]]
 
       ctx: {}  # Context of canvas
 
@@ -176,14 +178,30 @@
           enable: yes
 
           left:
-            elbow: 0
-            shoulder: 0
-            angle: 0
+            shoulder:
+              rise: 0
+              angle: 0
+
+            elbow:
+              rise: 0
+              angle: 0
+
+            wrist:
+              rise: 0,
+              angle: 0
 
           right:
-            elbow: 0
-            shoulder: 0
-            angle: 0
+            shoulder:
+              rise: 0
+              angle: 0
+
+            elbow:
+              rise: 0
+              angle: 0
+
+            wrist:
+              rise: 0,
+              angle: 0
 
       calculated: {}  # Calculated paths
 
@@ -573,10 +591,10 @@
 
 
         if mirror
-          posX   = 5 / 6
+          posX   = 3 / 4
           scaleX = -1
         else
-          posX   = 1 / 6
+          posX   = 1 / 4
           scaleX = 1
 
         ctx.clearRect 0, 0, ctx.canvas.width, ctx.canvas.height
@@ -602,17 +620,70 @@
           ctx.setTransform scaleX, 0, 0, 1, ctx.canvas.width * posX, height * quality * 2
 
 
+          elbowL    = hooves.left.elbow.rise
+          shoulderL = hooves.left.shoulder.rise
+          wristL    = hooves.left.wrist.rise
+
+          elbowR    = hooves.right.elbow.rise
+          shoulderR = hooves.right.shoulder.rise
+          wristR    = hooves.right.wrist.rise
+
+
           # Layer transformation
 
           if layer in rotatable
-            ctx.translate  (ctx.canvas.width / 2) * (2 / 3),  ctx.canvas.height / 2 * (4 / 5)
+            ctx.translate  (ctx.canvas.width / 2) * (1 / 2),  ctx.canvas.height / 2 * (4 / 5)
             ctx.rotate angle * toRad
-            ctx.translate -(ctx.canvas.width / 2) * (2 / 3), -ctx.canvas.height / 2 * (4 / 5)
+            ctx.translate -(ctx.canvas.width / 2) * (1 / 2), -ctx.canvas.height / 2 * (4 / 5)
 
-          ###if layer is "hoovesRightTibia"
-            ctx.translate  (ctx.canvas.width / 2) * (2 / 3) - 75,  ctx.canvas.height / 2 * (4 / 5) + 125
-            ctx.rotate hooves.right.angle * toRad
-            ctx.translate -(ctx.canvas.width / 2) * (2 / 3) + 75, -ctx.canvas.height / 2 * (4 / 5) - 125###
+
+          else if layer in ["leftForearm", "leftTibia", "leftWrist"]
+            ctx.translate -(absAngle ** 0.25) * 100, 0
+
+            ctx.translate ((ctx.canvas.width / 2) * (1 / 2)) + 65, ctx.canvas.height / 2 * (4 / 5) + 325
+            ctx.rotate hooves.left.shoulder.angle * toRad
+            ctx.translate -((ctx.canvas.width / 2) * (1 / 2)) - 65, -ctx.canvas.height / 2 * (4 / 5) - 325
+
+          else if layer in ["rightForearm", "rightTibia", "rightWrist"]
+            ctx.translate -(absAngle ** 0.25) * 33, 0
+
+            ctx.translate  (ctx.canvas.width / 2) * (1 / 2) - 65,  ctx.canvas.height / 2 * (4 / 5) + 325
+            ctx.rotate hooves.right.shoulder.angle * toRad
+            ctx.translate -(ctx.canvas.width / 2) * (1 / 2) + 65, -ctx.canvas.height / 2 * (4 / 5) - 325
+
+
+          if layer in ["leftTibia", "leftWrist"]
+            ctx.translate ((ctx.canvas.width / 2) * (1 / 2)) + 71,
+              ctx.canvas.height / 2 * (4 / 5) + (350 - (shoulderL * 2.22))
+
+            ctx.rotate hooves.left.elbow.angle * toRad
+
+            ctx.translate -((ctx.canvas.width / 2) * (1 / 2)) - 71,
+              -ctx.canvas.height / 2 * (4 / 5) - (350 - (shoulderL * 2.22))
+
+          else if layer in ["rightTibia", "rightWrist"]
+            ctx.translate  (ctx.canvas.width / 2) * (1 / 2) - 71,  ctx.canvas.height / 2 * (4 / 5) + (350 - (shoulderR * 2.22))
+            ctx.rotate hooves.right.elbow.angle * toRad
+            ctx.translate -(ctx.canvas.width / 2) * (1 / 2) + 71, -ctx.canvas.height / 2 * (4 / 5) - (350 - (shoulderR * 2.22))
+
+
+          if layer is "leftWrist"
+            ctx.translate  (ctx.canvas.width / 2) * (1 / 2) + 86,
+              ctx.canvas.height / 2 * (4 / 5) + (350 - ((elbowL * 2.5) + (shoulderL * 1.65)))
+
+            ctx.rotate hooves.left.wrist.angle * toRad
+
+            ctx.translate -(ctx.canvas.width / 2) * (1 / 2) - 86,
+              -ctx.canvas.height / 2 * (4 / 5) - (350 - ((elbowL * 2.5) + (shoulderL * 1.65)))
+
+          else if layer is "rightWrist"
+            ctx.translate  (ctx.canvas.width / 2) * (1 / 2) - 86,
+              ctx.canvas.height / 2 * (4 / 5) + (350 - ((elbowR * 2.5) + (shoulderR * 1.65)))
+
+            ctx.rotate hooves.right.wrist.angle * toRad
+
+            ctx.translate -(ctx.canvas.width / 2) * (1 / 2) + 86,
+              -ctx.canvas.height / 2 * (4 / 5) - (350 - ((elbowR * 2.5) + (shoulderR * 1.65)))
 
 
           if layer is "head"
@@ -630,16 +701,26 @@
                  side = "left"
             else side = "right"
 
-            ctx.translate 0, -horiz * 20 * quality - parseInt(state.eyes.brows[side].height / 7)
+            ctx.translate 0,
+              -horiz * 20 * quality - parseInt(state.eyes.brows[side].height / 7)
 
           else if layer is "head2"
-            ctx.translate 0, horiz * 10 * quality
+            ctx.translate 0,
+              horiz * 10 * quality
 
-          else if layer is "hoovesLeftTibia"
-            ctx.translate 0, -(hooves.left.elbow - hooves.left.shoulder) * 3 * quality
+          else if layer is "leftTibia"
+            ctx.translate 0, -(shoulderL - elbowL) * 3 * quality
 
-          else if layer is "hoovesRightTibia"
-            ctx.translate 0, -(hooves.right.elbow - hooves.right.shoulder) * 3 * quality
+          else if layer is "rightTibia"
+            ctx.translate 0, -(shoulderR - elbowR) * 3 * quality
+
+          else if layer is "leftWrist"
+            ctx.translate ((15 * (1 - (wristL / 100))) * (((shoulderL / 500) + (elbowL / 120)) * (1 - (wristL / 200)))),
+              -(shoulderL + elbowL - (wristL * 2)) * 3 * quality
+
+          else if layer is "rightWrist"
+            ctx.translate -((15 * (1 - (wristR / 100))) * (((shoulderR / 500) + (elbowR / 120)) * (1 - (wristR / 200)))),
+              -(shoulderR + elbowR - (wristR * 2)) * 3 * quality
 
 
           if layer in ["eyeLeft", "eyeRight"]
@@ -868,10 +949,10 @@
 
             # Drawing the elements themselves
 
-            for part in calculated[type]
+            for part, i in calculated[type]
               if part[0] is "C"
                 ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
-                part[4] * quality, part[5] * quality, part[6] * quality
+                  part[4] * quality, part[5] * quality, part[6] * quality
               else
                 ctx.beginPath()
                 ctx.moveTo part[1] * quality, part[2] * quality
@@ -883,7 +964,7 @@
             ctx.stroke()
             ctx.restore()
 
-        @changed  = no
+        @changed = off
 
         window.requestAnimationFrame @draw
 
@@ -1025,7 +1106,7 @@
 
       ctx = @$refs.avatar.getContext "2d"
 
-      ctx.canvas.width  = Math.round(1024 * @quality * 1.5)
+      ctx.canvas.width  = Math.round(1024 * @quality * 2)
       ctx.canvas.height = Math.round(1024 * @quality * 1.25)
 
       ctx.lineCap  = "round"
@@ -1100,5 +1181,5 @@
     z-index: 0
     left: 50%
     bottom: 0%
-    transform: translate(-50%) scale(1.5, 1.25)
+    transform: translate(-50%) scale(2, 1.25)
 </style>

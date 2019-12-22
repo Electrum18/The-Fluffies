@@ -117,8 +117,12 @@
     "hooves": {
       "title": "Hooves",
 
-      "elbow": "elbow",
-      "shoulder": "shoulder",
+      "shoulder": "Shoulder",
+      "elbow": "Elbow",
+      "wrist": "Wrist",
+
+      "rise": "rise",
+      "angle": "angle",
 
       "left": "Left hoof",
       "right": "Right hoof"

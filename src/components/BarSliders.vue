@@ -4,13 +4,11 @@
       div.body-2.px-3 {{ text }}
       v-spacer
       div.body-2.mx-2.px-1.value(
-        style="user-select: none"
         :style="{ background: getColor.slice(0, 7) }"
       ) {{ value }}
 
-    v-slider.inputs2(
+    v-slider.inputs2.ma-0(
       v-model="value"
-      style="margin: 0"
       hide-details=true
       :color="getColor.slice(0, 7)"
       :max="max"
@@ -31,6 +29,10 @@
       compare:
         type: [String, Boolean]
         default: off
+
+      limit:
+        type: Number
+        default: 0
 
     computed:
       getColor: ->
@@ -53,6 +55,7 @@
 
 <style lang="sass">
   .value
+    user-select: none
     background: #fa0
     border-radius: 4px
 </style>

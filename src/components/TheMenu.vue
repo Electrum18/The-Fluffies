@@ -507,51 +507,163 @@
             val="HoovesEnable"
           )
 
+
+          .py-2
+
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.hooves.left }}
 
-          v-card(outlined).my-2
+          v-divider.my-4
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.shoulder }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
             BarSlider(
-              :text="lang.menu.hooves.elbow"
-              val="HoovesLeftElbow"
+              :text="lang.menu.hooves.rise"
+              val="HoovesLeftShoulderRise"
+              max=100
+              min=0
+            )
+
+            v-divider
+
+            BarSlider(
+              :text="lang.menu.hooves.angle"
+              val="HoovesLeftShoulderAngle"
+              max=180
+              min=-180
+            )
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.elbow }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
+            BarSlider(
+              :text="lang.menu.hooves.rise"
+              val="HoovesLeftElbowRise"
               max=100
               min=0
               off="HoovesEnable"
             )
 
+            v-divider
+
             BarSlider(
-              :text="lang.menu.hooves.shoulder"
-              val="HoovesLeftShoulder"
+              :text="lang.menu.hooves.angle"
+              val="HoovesLeftElbowAngle"
+              max=180
+              min=-180
+            )
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.wrist }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
+            BarSlider(
+              :text="lang.menu.hooves.rise"
+              val="HoovesLeftWristRise"
               max=100
               min=0
               off="HoovesEnable"
             )
 
-            //BarSlider(text="angle", val="HoovesLeftAngle", max=180, min=-180)
+            v-divider
+
+            BarSlider(
+              :text="lang.menu.hooves.angle"
+              val="HoovesLeftWristAngle"
+              max=180
+              min=-180
+            )
+
+
+          .py-2
 
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.hooves.right }}
 
-          v-card(outlined).my-2
+          v-divider.my-4
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.shoulder }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
             BarSlider(
-              :text="lang.menu.hooves.elbow"
-              val="HoovesRightElbow"
+              :text="lang.menu.hooves.rise"
+              val="HoovesRightShoulderRise"
               max=100
               min=0
               off="HoovesEnable"
             )
 
+            v-divider
+
             BarSlider(
-              :text="lang.menu.hooves.shoulder"
-              val="HoovesRightShoulder"
+              :text="lang.menu.hooves.angle"
+              val="HoovesRightShoulderAngle"
+              max=180
+              min=-180
+            )
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.elbow }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
+            BarSlider(
+              :text="lang.menu.hooves.rise"
+              val="HoovesRightElbowRise"
               max=100
               min=0
               off="HoovesEnable"
             )
 
-            //BarSlider(text="angle", val="HoovesRightAngle", max=180, min=-180)
+            v-divider
+
+            BarSlider(
+              :text="lang.menu.hooves.angle"
+              val="HoovesRightElbowAngle"
+              max=180
+              min=-180
+            )
+
+
+          .py-2
+
+          p.subtitle-2 {{ lang.menu.hooves.wrist }}
+
+          v-card(outlined :disabled="off('HoovesEnable')").my-2
+            BarSlider(
+              :text="lang.menu.hooves.rise"
+              val="HoovesRightWristRise"
+              max=100
+              min=0
+              off="HoovesEnable"
+            )
+
+            v-divider
+
+            BarSlider(
+              :text="lang.menu.hooves.angle"
+              val="HoovesRightWristAngle"
+              max=180
+              min=-180
+            )
+
+
+    // Bottom menu
 
     v-card(light tile)
       v-container

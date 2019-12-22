@@ -174,15 +174,37 @@
     "enable": true,
 
     "left": {
-      "elbow": 0,
-      "shoulder": 0,
-      "angle": 0
+      "shoulder": {
+        "rise": 0,
+        "angle": 0
+      },
+
+      "elbow": {
+        "rise": 0,
+        "angle": 0
+      },
+
+      "wrist": {
+        "rise": 0,
+        "angle": 0
+      }
     },
 
     "right": {
-      "elbow": 0,
-      "shoulder": 0,
-      "angle": 0
+      "shoulder": {
+        "rise": 0,
+        "angle": 0
+      },
+
+      "elbow": {
+        "rise": 0,
+        "angle": 0
+      },
+
+      "wrist": {
+        "rise": 0,
+        "angle": 0
+      }
     }
   }
 }

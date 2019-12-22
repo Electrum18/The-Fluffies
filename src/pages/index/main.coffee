@@ -22,10 +22,12 @@ new Vue
         russian:
           component: IconRussian
 
+
   data: -> {
     locale: "en"
     Headers
   }
+
 
   watch:
     locale: (lang) ->
@@ -47,6 +49,15 @@ new Vue
       document
         .querySelector "meta[property='og:keywords']"
         .setAttribute "content", @Headers.keywords[@locale]
+
+
+  ###mounted: ->
+    if "serviceWorker" of navigator
+      navigator.serviceWorker
+        .register "/sw.js"
+        .then  -> console.log "Service worker: %c ONLINE ",  "background: #444; color: #8f4"
+        .catch -> console.log "Service worker: %c OFFLINE ", "background: #444; color: #f44"###
+
 
   render: (h) -> h App
 

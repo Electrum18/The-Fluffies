@@ -194,21 +194,33 @@
     { "type": "glassesRight", "fill": ["glasses", "lenses"], "stroke": [10, ["glasses", "frame"]], "if": ["glasses", "enable"] }
   ]],
 
-  ["neck", [
+  ["leftForearm", [
     { "type": "hoovesLeftForearm", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
   ]],
 
-  ["hoovesLeftTibia", [
-    { "type": "hoovesLeftTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
+  ["leftTibia", [
+    { "type": "hoovesLeftTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["leftWrist", [
+    { "type": "hoovesLeftWrist", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
     { "type": "hoovesLeftHoof",  "fill": false,            "stroke": [6, ["fur", "shade"]], "if": ["hooves", "enable"] }
   ]],
 
-  ["neck", [
+  ["rightForearm", [
     { "type": "hoovesRightForearm", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
   ]],
 
-  ["hoovesRightTibia", [
-    { "type": "hoovesRightTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
+  ["rightTibia", [
+    { "type": "hoovesRightTibia", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["rightWrist", [
+    { "type": "hoovesRightWrist", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]], "if": ["hooves", "enable"] },
     { "type": "hoovesRightHoof",  "fill": false,            "stroke": [6, ["fur", "shade"]], "if": ["hooves", "enable"] }
+  ]],
+
+  ["neck", [
+
   ]]
 ]

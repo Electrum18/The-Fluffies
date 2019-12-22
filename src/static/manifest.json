@@ -5,12 +5,12 @@
   "author": "Electrum18",
   "icons": [
     {
-      "src": "/icons/fluffies.ico",
-      "type": "image/x-icon",
-      "sizes": "128x128"
+      "src": "/img/fluffies-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
-      "src": "/img/fluffies.png",
+      "src": "/img/fluffies-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
