@@ -1,6 +1,6 @@
 <template lang="pug">
-  v-row.urls
-    v-col.py-0
+  v-row
+    v-col.py-0.urls
       v-card.mx-4.my-2(dark)
         Language(:preURL="gender" dark=true)
 
@@ -134,7 +134,7 @@
 
 <style lang="sass">
   .urls
-    max-width: 100px
+    max-width: 100px!important
     bottom: 0
     position: absolute
 

@@ -159,6 +159,8 @@
 
         hair:
           second:   @$root.mane.second
+          dreadlocks: no
+          notDreadlocks: yes
           isSecond: on
           isEnds:   off
 
@@ -229,6 +231,14 @@
         @editorOpened.left = if val then "40%" else "50%"
 
       "$root.hair.name": (name) ->
+        if /Dreads/.test name['en']
+          @state.hair.dreadlocks    = yes
+          @state.hair.notDreadlocks = no
+        else
+          @state.hair.dreadlocks    = no
+          @state.hair.notDreadlocks = yes
+
+
         if @paths.hairs[name['en']] then @animate()
         else
           self = this
@@ -237,6 +247,7 @@
           @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
             self.parseSVGbasic val[name['en']], "hairs"
             self.animate()
+
 
       "$root.glasses.name": (name) ->
         if @paths.glasses[name['en']] then @animate()
@@ -954,6 +965,10 @@
                 ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
                   part[4] * quality, part[5] * quality, part[6] * quality
               else
+                if i > 0
+                  ctx.fill()
+                  ctx.stroke()
+
                 ctx.beginPath()
                 ctx.moveTo part[1] * quality, part[2] * quality
 

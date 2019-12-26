@@ -96,7 +96,9 @@
       "open": "open",
       "sad": "sad",
 
-      "teeth": "Teeth"
+      "teeth": "Teeth",
+      "upper": "upper",
+      "lower": "lower"
     },
 
     "ears": {

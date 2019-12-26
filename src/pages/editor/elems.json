@@ -22,7 +22,7 @@
   ]],
 
   ["hair", [
-    { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
+    { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
     { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["back"],
       "if": ["hair", "isSecond"]
     },
@@ -31,10 +31,13 @@
       "if": ["hair", "isEnds"]
     },
 
-    { "type": "back", "fill": false, "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] },
+    { "type": "back", "fill": false, "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
 
-    { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
-    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+    { "type": "back", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] },
+    { "type": "back", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] },
+
+    { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
+    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["tail"],
       "if": ["hair", "isSecond"]
     },
 
@@ -42,7 +45,10 @@
       "if": ["hair", "isEnds"]
     },
 
-    { "type": "tail", "fill": false, "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }
+    { "type": "tail", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
+
+    { "type": "tail", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] },
+    { "type": "tail", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] }
   ]],
 
   ["neck", [
@@ -54,7 +60,9 @@
     { "type": "stripesNeckRight", "fill": ["stripes", "basic"], "stroke": false, "clip": ["neck"], "if": ["stripes", "enable"] },
 
     { "type": "neckBack_right", "fill": false, "stroke": [9, ["fur", "shade"]] },
-    { "type": "neckFront_left", "fill": false, "stroke": [9, ["fur", "shade"]] }
+    { "type": "neckFront_left", "fill": false, "stroke": [9, ["fur", "shade"]] },
+
+    { "type": "chestBottom", "fill": ["fur", "basic"], "stroke": [9, ["fur", "shade"]] }
   ]],
 
   ["head", [
@@ -143,8 +151,8 @@
   ]],
 
   ["hair", [
-    { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"] },
-    { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
+    { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
+    { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["front"],
       "if": ["hair", "isSecond"]
     },
 
@@ -152,7 +160,10 @@
       "if": ["hair", "isEnds"]
     },
 
-    { "type": "front", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"] }
+    { "type": "front", "fill": false,  "stroke": [9, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "notDreadlocks"] },
+
+    { "type": "front", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] },
+    { "type": "front", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "dreadlocks"] }
   ]],
 
   ["head2", [
