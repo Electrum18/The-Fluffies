@@ -7,6 +7,7 @@
         fixed
         right
         temporary
+        :permanent="opened.Avatar"
         hide-overlay
       )
         Menu
@@ -17,6 +18,7 @@
         fixed
         right
         temporary
+        :permanent="opened.Hairs"
         hide-overlay
       )
         Hairs
@@ -27,6 +29,7 @@
         fixed
         right
         temporary
+        :permanent="opened.Glasses"
         hide-overlay
       )
         Glasses

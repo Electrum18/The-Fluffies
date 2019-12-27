@@ -3,9 +3,10 @@
     v-card(outlined)
       v-card-title {{ locale.list[$root.locale] }}
         v-spacer
-        v-btn.mx-n2(
+        v-btn.mx-n2.transition(
           fab
           small
+          :color="warnColor"
           @click="close()"
           aria-label="Close list"
         )
@@ -56,6 +57,11 @@
           if elem.name is @$root.glasses.name
             @selected = if i < 1 then i else i
 
+    computed:
+      warnColor: ->
+        if @$root.warning.close
+          return "red"
+
     methods:
       nameing: (glasses) ->
         if @glasses.length then return glasses.name[@$root.locale]
@@ -67,6 +73,9 @@
 </script>
 
 <style lang="sass">
+  button.transition
+    transition: background 200ms linear
+
   .light
     border-color: rgba(0,0,0,.12)!important
 </style>

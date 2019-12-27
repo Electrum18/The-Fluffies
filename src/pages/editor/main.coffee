@@ -71,6 +71,8 @@ new Vue
     degress: 0
 
     locale: "en"
+    warning:
+      close: no
 
     loadings: []
 
@@ -126,6 +128,10 @@ new Vue
         .querySelector "meta[property='og:keywords']"
         .setAttribute "content", @Headers.keywords[@locale]
 
+    "warning.close": (val) ->
+      self = this
+
+      if val then setTimeout (-> self.warning.close = off), 600
 
   mounted: ->
     self = this

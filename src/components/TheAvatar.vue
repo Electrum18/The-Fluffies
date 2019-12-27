@@ -137,6 +137,7 @@
       last:  # Last calculated variables for deltas
         x: 0
         y: 0
+        time: 0
 
       paths: {}  # Imported and parsed svg's
       state:  # Using for "if" attribute in "elems" config
@@ -209,9 +210,6 @@
 
       mirror: no  # Avatar isnt mirrored in this time
       changed: no # check for optimization
-
-      mouse:
-        hold: no
 
 
     watch:
@@ -434,8 +432,11 @@
         @last.x = e.pageX
         @last.y = e.pageY
 
-      Hold: (e) ->
-        @mouse.hold = e
+      Hold: (val) ->
+        if val
+          @last.time = Date.now()
+        else if Date.now() - @last.time < 150
+          @$root.warning.close = yes
 
       MouseMove: (e) ->
         if not e.pageX

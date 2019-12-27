@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-expansion-panels
+    v-expansion-panels(focusable)
       v-expansion-panel
 
         // Eyes
@@ -387,6 +387,7 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.emotion.title }}
         v-expansion-panel-content
+          .py-2
 
           p.subtitle-2 {{ lang.menu.emotion.mouth }}
 
@@ -662,27 +663,40 @@
               min=-180
             )
 
+    .py-12
+    .py-2
 
     // Bottom menu
 
-    v-card(light tile)
-      v-container
-        v-row
-          v-btn.my-2(
-            icon
-            large
-            :color="gender.color"
-            @click="changeGender"
-            aria-label="Change gender"
-          )
-            v-icon(large) mdi-{{ gender.icon }}
+    .abs
+      v-card(light tile)
+        v-container
+          v-row
+            v-btn.my-2(
+              icon
+              large
+              :color="gender.color"
+              @click="changeGender"
+              aria-label="Change gender"
+            )
+              v-icon(large) mdi-{{ gender.icon }}
 
-          v-text-field(
-            v-model="name"
-            :label="lang.name.label"
-            hide-details
-            style="padding-left: 0!important; padding-right: 6px !important"
-          )
+            v-text-field(
+              v-model="name"
+              :label="lang.name.label"
+              hide-details
+              style="padding-left: 0!important; padding-right: 6px !important"
+            )
+
+          v-row
+            v-spacer
+            v-btn.mx-2.transition(
+              dark
+              rounded
+              :color="warnColor"
+              @click="close()"
+              aria-label="Close editor"
+            ) {{ lang.menu.close }}
 
 </template>
 
@@ -732,6 +746,9 @@
         get:       -> @$root.name
         set: (val) -> @$root.name = val
 
+      warnColor: ->
+        if @$root.warning.close
+          return "red"
 
     methods:
       off: (val) -> not getProp @$root, val
@@ -771,6 +788,8 @@
         @$parent.$parent.$parent.opened.Glasses = !@$parent.$parent.$parent.opened.Glasses
         @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
 
+      close: ->
+        @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
 
     mounted: ->
       if @$root.male
@@ -786,3 +805,14 @@
       BarSlider
     }
 </script>
+
+<style lang="sass">
+  button.transition
+    transition: background 200ms linear
+
+  .abs
+    position: absolute
+    bottom: 0
+    z-index: 1
+    width: 100%
+</style>

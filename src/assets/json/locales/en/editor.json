@@ -8,6 +8,8 @@
   "three": "Three",
 
   "menu": {
+    "close": "close",
+
     "eyes": {
       "title": "Eyes",
       "color": "iris",
