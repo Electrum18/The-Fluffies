@@ -1,0 +1,16 @@
+{
+  "nose":         { "pow": "nose" },
+  "noseOverlay":  { "pow": "nose" },
+  "bridge":       { "pow": "nose" },
+  "mouth":        { "pow": "nose" },
+  "fangsLeft":    { "pow": "nose" },
+  "fangsRight":   { "pow": "nose" },
+  "nostrilLeft":  { "pow": "nose" },
+  "nostrilRight": { "pow": "nose" },
+  "maleNose":     { "pow": "nose" },
+  "maleBridge":   { "pow": "nose" },
+  "tongue":       { "pow": 1.25 },
+  "teethUpper":   { "pow": 1.25 },
+  "teethLower":   { "pow": 1.25 },
+  "eyeLeftBrow":  { "pow": 0.75 }
+}

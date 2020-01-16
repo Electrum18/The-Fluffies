@@ -33,62 +33,82 @@
           v-icon {{ icons.ru }}
 </template>
 
-<script lang="coffee">
-  export default
-    props:
-      dark:
-        type: Boolean
-        default: no
+<script>
+import Vue from "vue"
 
-      preURL:
-        type: String
-        default: ""
+export default Vue.extend({
+  props: {
+    dark: {
+      type: Boolean,
+      default: false
+    },
 
-    data: ->
-      icons:
-        en: "$vuetify.icons.values.english"
+    preURL: {
+      type: String,
+      default: ""
+    }
+  },
+
+  data() {
+    return {
+      icons: {
+        en: "$vuetify.icons.values.english",
         ru: "$vuetify.icons.values.russian"
+      },
 
-      language:
-        en:
-          label: "language"
+      language: {
+        en: {
+          label: "language",
           title: "Choose language"
+        },
 
-        ru:
-          label: "язык"
+        ru: {
+          label: "язык",
           title: "Выбрать язык"
+        }
+      }
+    }
+  },
 
-    watch:
-      preURL: -> @setLocaleURL @$root.locale
+  watch: {
+    preURL() {
+      this.setLocaleURL(this.$root.locale);
+    },
 
-      "$root.locale": (locale) ->
-        @setLocaleURL locale
+    "$root.locale"(locale) {
+      this.setLocaleURL(locale);
+    }
+  },
 
-    methods:
-      setLocaleURL: (locale) ->
-        url = window.location.pathname
+  methods: {
+    setLocaleURL(locale) {
+      var
+        url    = window.location.pathname,
+        preURL = this.preURL ? this.preURL + "&" : this.preURL;
 
-        preURL = if @preURL then @preURL + "&" else @preURL
+      window.history.replaceState({}, "", url + "?" + preURL + "l=" + locale);
+    },
 
-        window.history.replaceState {}, "", url + "?" + preURL + "l=" + locale
+    setLocaleRoot(url = no) {
+      var locale = this.$root.locale;
 
-      setLocaleRoot: (url = no) ->
-        if url
-          locale = url[0] + url[1]
-        else
-          locale = @$root.locale
+      if (url) locale = url[0] + url[1];
+      if (locale != "ru") locale = "en";
 
-        if locale isnt "ru"
-          locale = "en"
+      this.$root.locale = locale;
+    }
+  },
 
-        @$root.locale = locale
+  mounted() {
+    var
+      locale = window.location.search,
+      length = locale.length;
 
-    mounted: ->
-      locale = window.location.search
-      length = locale.length
-
-      if locale and locale[length - 4] is "l"
-        @setLocaleRoot locale[length - 2] + locale[length - 1]
-      else
-        @setLocaleRoot navigator.language or navigator.userLanguage
+    if (locale && locale[length - 4] == "l") {
+      this.setLocaleRoot(locale[length - 2] + locale[length - 1])
+    } else {
+      this.setLocaleRoot(navigator.language || navigator.userLanguage)
+    }
+  }
+})
 </script>

@@ -7,7 +7,7 @@ module.exports = {
 
   pages: {
     index: {
-      entry: 'src/pages/index/main.coffee',
+      entry: 'src/pages/index/main.ts',
       template: 'src/template/pages/vue-cli.pug'
     },
 

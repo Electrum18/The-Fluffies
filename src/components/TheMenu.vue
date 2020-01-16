@@ -7,17 +7,17 @@
 
         v-expansion-panel-header.title {{ lang.menu.eyes.title }}
         v-expansion-panel-content
-          BarColor(:text="lang.menu.eyes.color" val="EyesColorLeftBasic")
+          BarColor(:text="lang.menu.eyes.color" :val="['color', 'eyes', 'left', 'basic']")
+
           BarSwitch(
             :text="lang.menu.eyes.heterochromia"
-            val="EyesColorRightEnable"
-            color="EyesColorRightBasic"
+            :val="['eyes', 'right', 'enable']"
             )
 
           BarColor(
             :text="lang.menu.eyes['color right']"
-            val="EyesColorRightBasic"
-            off="EyesColorRightEnable"
+            :val="['color', 'eyes', 'right', 'basic']"
+            :off="['eyes', 'right', 'enable']"
           )
 
           v-divider.my-4
@@ -25,10 +25,9 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.scale"
-              val="EyesIrisScale"
+              :val="['eyes', 'iris', 'scale']"
               max=125
               min=50
-              color="EyesColorRightBasic"
             )
 
           v-divider.my-4
@@ -39,10 +38,9 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.width"
-              val="EyesPupilsWidth"
+              :val="['eyes', 'pupils', 'width']"
               max=100
               min=10
-              color="EyesColorRightBasic"
             )
 
           v-divider.my-4
@@ -53,20 +51,18 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.horizontal"
-              val="EyesPositionHoriz"
+              :val="['eyes', 'position', 'horiz']"
               max=100
               min=-100
-              color="EyesColorRightBasic"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.vertical"
-              val="EyesPositionVerti"
+              :val="['eyes', 'position', 'verti']"
               max=100
               min=-100
-              color="EyesColorRightBasic"
             )
 
           v-divider.my-4
@@ -77,22 +73,20 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.upper"
-              val="EyesEyelidsLeftUp"
+              :val="['eyes', 'eyelids', 'left', 'up']"
               max=100
               min=0
-              compare="EyesEyelidsLeftDown"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'eyelids', 'left', 'down']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.lower"
-              val="EyesEyelidsLeftDown"
+              :val="['eyes', 'eyelids', 'left', 'down']"
               max=100
               min=0
-              compare="EyesEyelidsLeftUp"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'eyelids', 'left', 'up']"
             )
 
           v-divider.my-4
@@ -103,22 +97,20 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.upper"
-              val="EyesEyelidsRightUp"
+              :val="['eyes', 'eyelids', 'right', 'up']"
               max=100
               min=0
-              compare="EyesEyelidsRightDown"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'eyelids', 'right', 'down']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.lower"
-              val="EyesEyelidsRightDown"
+              :val="['eyes', 'eyelids', 'right', 'down']"
               max=100
               min=0
-              compare="EyesEyelidsRightUp"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'eyelids', 'right', 'up']"
             )
 
 
@@ -126,53 +118,48 @@
 
           BarSwitch(
             :text="lang.menu.eyes.eyebrows.title"
-            val="EyesBrowsShow"
-            color="EyesColorRightBasic"
+            :val="['eyes', 'brows', 'show']"
           )
 
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.eyes.eyebrows.left }}
 
-          v-card(outlined :disabled="off('EyesBrowsShow')").my-2
+          v-card(outlined :disabled="off(['eyes', 'brows', 'show'])").my-2
             BarSlider(
               :text="lang.menu.eyes.eyebrows.width"
-              val="EyesBrowsLeftWidth"
+              :val="['eyes', 'brows', 'left', 'width']"
               max=150
               min=50
-              color="EyesColorRightBasic"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.height"
-              val="EyesBrowsLeftHeight"
+              :val="['eyes', 'brows', 'left', 'height']"
               max=100
               min=-100
-              color="EyesColorRightBasic"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.evil"
-              val="EyesBrowsLeftEvil"
+              :val="['eyes', 'brows', 'left', 'evil']"
               max=100
               min=0
-              compare="EyesBrowsLeftWide"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'brows', 'left', 'wide']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.wide"
-              val="EyesBrowsLeftWide"
+              :val="['eyes', 'brows', 'left', 'wide']"
               max=100
               min=0
-              compare="EyesBrowsLeftEvil"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'brows', 'left', 'evil']"
             )
 
 
@@ -181,45 +168,41 @@
 
           p.subtitle-2 {{ lang.menu.eyes.eyebrows.right }}
 
-          v-card(outlined :disabled="off('EyesBrowsShow')").my-2
+          v-card(outlined :disabled="off(['eyes', 'brows', 'show'])").my-2
             BarSlider(
               :text="lang.menu.eyes.eyebrows.width"
-              val="EyesBrowsRightWidth"
+              :val="['eyes', 'brows', 'right', 'width']"
               max=150
               min=50
-              color="EyesColorRightBasic"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.height"
-              val="EyesBrowsRightHeight"
+              :val="['eyes', 'brows', 'right', 'height']"
               max=100
               min=-100
-              color="EyesColorRightBasic"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.evil"
-              val="EyesBrowsRightEvil"
+              :val="['eyes', 'brows', 'right', 'evil']"
               max=100
               min=0
-              compare="EyesBrowsRightWide"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'brows', 'right', 'wide']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.wide"
-              val="EyesBrowsRightWide"
+              :val="['eyes', 'brows', 'right', 'wide']"
               max=100
               min=0
-              compare="EyesBrowsRightEvil"
-              color="EyesColorRightBasic"
+              :compare="['eyes', 'brows', 'right', 'evil']"
             )
 
 
@@ -228,54 +211,53 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.glasses.title }}
         v-expansion-panel-content
-
           BarSwitch(
             :text="lang.enable"
-            val="GlassesEnable"
-            color="GlassesColorLenses"
+            :val="['glasses', 'enable']"
           )
 
           v-divider.my-4
 
-          BarColor(:text="lang.menu.glasses.color.lenses" val="GlassesColorLenses")
-          BarColor(:text="lang.menu.glasses.color.frame"  val="GlassesColorFrame")
+          BarColor(
+            :text="lang.menu.glasses.color.lenses"
+            :val="['color', 'glasses', 'lenses']"
+            :off="['glasses', 'enable']"
+          )
+
+          BarColor(
+            :text="lang.menu.glasses.color.frame"
+            :val="['color', 'glasses', 'frame']"
+            :off="['glasses', 'enable']"
+          )
 
           v-divider.my-4
 
-          v-card(outlined).my-2
+          v-card(outlined :disabled="off(['glasses', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.glasses.width"
-              val="GlassesWidth"
+              :val="['glasses', 'width']"
               max=150
               min=50
-              color="GlassesColorLenses"
             )
 
           v-divider.my-4
 
-          v-card(outlined)
-            v-card(light)
-              v-card-title.body-1.font-weight-bold {{ $root.glasses.name[$root.locale] }}
-
-            v-divider
-
-            v-card-actions
-              v-spacer
-              v-btn(
-                @click="openGlasses()"
-                :aria-label="lang.menu.glasses.change"
-              ) {{ lang.menu.glasses.change }}
-              v-spacer
-
-          v-divider.my-4
-
+          BarList(
+            target="glasses"
+            :list="$root.glasses.info"
+            :off="['glasses', 'enable']"
+          )
 
       // Mane
 
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.mane.title }}
         v-expansion-panel-content
-          BarColor(:text="lang.menu.mane.color" val="ManeColorBasic" :shade="6 / 8")
+          BarColor(
+            :text="lang.menu.mane.color"
+            :val="['color', 'hair', 'basic']"
+            :shade="3 / 4"
+          )
 
           v-divider.my-4
 
@@ -299,21 +281,19 @@
 
           BarSwitch(
             :text="lang.enable"
-            val="ManeSecondEnable"
-            color="ManeColorSecond"
+            :val="['mane', 'second', 'enable']"
           )
 
           BarSwitch(
             :text="lang.menu.mane.second.ends"
-            val="ManeSecondIsends"
-            off="ManeSecondEnable"
-            color="ManeColorSecond"
+            :val="['mane', 'second', 'isends']"
+            :off="['mane', 'second', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.mane.second.color"
-            val="ManeColorSecond"
-            off="ManeSecondEnable"
+            :val="['color', 'hair', 'second']"
+            :off="['mane', 'second', 'enable']"
           )
 
 
@@ -322,7 +302,11 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.fur.title }}
         v-expansion-panel-content
-          BarColor(:text="lang.menu.fur.color" val="FurColorBasic" :shade="6 / 8")
+          BarColor(
+            :text="lang.menu.fur.color"
+            :val="['color', 'fur', 'basic']"
+            :shade="3 / 4"
+          )
 
           v-divider.my-4
 
@@ -330,42 +314,61 @@
 
           BarSwitch(
             :text="lang.enable"
-            val="StripesEnable"
-            color="StripesColorBasic"
+            :val="['stripes', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.fur.stripes.color"
-            val="StripesColorBasic"
-            off="StripesEnable"
+            :val="['color', 'stripes', 'basic']"
+            :off="['stripes', 'enable']"
           )
 
 
-      // Horn
+      // Horns
 
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.horn.title }}
         v-expansion-panel-content
-          BarSwitch(:text="lang.enable" val="HornEnable")
+          BarSwitch(:text="lang.enable" :val="['horn', 'enable']")
           BarSwitch(
             :text="lang.menu.horn.changeling"
-            val="HornChangeling"
-            off="HornEnable"
+            :val="['horn', 'changeling']"
+            :off="['horn', 'enable']"
           )
 
           v-divider.my-4
 
           BarSwitch(
             :text="lang.menu.horn.second"
-            val="HornNotlines"
-            off="HornEnable"
-            color="FurColorSecond"
+            :val="['horn', 'notlines']"
+            :off="['horn', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.horn.set"
-            val="FurColorSecond"
-            off="HornEnable"
+            :val="['color', 'fur', 'second']"
+            :off="['horn', 'enable']"
+          )
+
+          v-divider.my-4
+
+          p.subtitle-2 Rear horns
+
+          BarSwitch(:text="lang.enable" :val="['horn', 'rear']")
+
+          BarColor(
+            :text="lang.menu.horn.set"
+            :val="['color', 'hornRear', 'basic']"
+            :shade="4 / 5"
+            :off="['horn', 'rear']"
+          )
+
+          v-divider.my-4
+
+          BarList(
+            target="horn"
+            :list="$root.horn.info"
+            :off="['horn', 'rear']"
           )
 
 
@@ -374,12 +377,20 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.mouth.title }}
         v-expansion-panel-content
-          BarSwitch(:text="lang.menu.mouth.fangs" val="Fangs")
+          BarSwitch(:text="lang.menu.mouth.fangs" :val="['fangs']")
 
           v-divider.my-4
 
-          BarColor(:text="lang.menu.mouth.mouth"  val="JawColorBasic")
-          BarColor(:text="lang.menu.mouth.tongue" val="TongueColorBasic" :shade="9 / 10")
+          BarColor(
+            :text="lang.menu.mouth.mouth"
+            :val="['color', 'jaw', 'basic']"
+          )
+
+          BarColor(
+            :text="lang.menu.mouth.tongue"
+            :val="['color', 'tongue', 'basic']"
+            :shade="9 / 10"
+          )
 
 
       // Emotion
@@ -392,22 +403,22 @@
           p.subtitle-2 {{ lang.menu.emotion.mouth }}
 
           v-card(outlined).my-2
-            BarSlider(:text="lang.menu.emotion.open", val="JawOpen", max=100, min=0)
+            BarSlider(:text="lang.menu.emotion.open", :val="['jaw', 'open']", max=100, min=0)
 
             v-divider
 
-            BarSlider(:text="lang.menu.emotion.sad", val="JawSad", max=100, min=0)
+            BarSlider(:text="lang.menu.emotion.sad", :val="['jaw', 'sad']", max=100, min=0)
 
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.emotion.teeth }}
 
           v-card(outlined).my-2
-            BarSlider(:text="lang.menu.emotion.upper", val="TeethUpper", max=100, min=0)
+            BarSlider(:text="lang.menu.emotion.upper", :val="['teeth', 'upper']", max=100, min=0)
 
             v-divider
 
-            BarSlider(:text="lang.menu.emotion.lower", val="TeethLower", max=100, min=0)
+            BarSlider(:text="lang.menu.emotion.lower", :val="['teeth', 'lower']", max=100, min=0)
 
 
       // Ears
@@ -415,7 +426,7 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.ears.title }}
         v-expansion-panel-content
-          BarSwitch.my-2(:text="lang.menu.ears.tassels" val="Tassels")
+          BarSwitch.my-2(:text="lang.menu.ears.tassels" :val="['tassels']")
 
 
       // Piercing
@@ -423,7 +434,11 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.piercing.title }}
         v-expansion-panel-content
-          BarColor(:text="lang.menu.piercing.color" val="PiercingsColorBasic" :shade="4 / 5")
+          BarColor(
+            :text="lang.menu.piercing.color"
+            :val="['color', 'piercings', 'basic']"
+            :shade="4 / 5"
+          )
 
           v-divider.my-4
 
@@ -431,33 +446,30 @@
 
           BarSwitch(
             :text="lang.enable"
-            val="PiercingsLeftEnable"
-            color="PiercingsColorBasic"
+            :val="['piercings', 'left', 'enable']"
           )
 
           v-btn-toggle(
             v-model="leftPiercings"
             dense
             mandatory
+            color="#fa0"
           )
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsLeftEnable')"
+              :disabled="off(['piercings', 'left', 'enable'])"
               :aria-label="lang.one"
             ) {{ lang.one }}
 
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsLeftEnable')"
+              :disabled="off(['piercings', 'left', 'enable'])"
               :aria-label="lang.two"
             ) {{ lang.two }}
 
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsLeftEnable')"
+              :disabled="off(['piercings', 'left', 'enable'])"
               :aria-label="lang.three"
             ) {{ lang.three }}
 
@@ -467,33 +479,30 @@
 
           BarSwitch(
             :text="lang.enable"
-            val="PiercingsRightEnable"
-            color="PiercingsColorBasic"
+            :val="['piercings', 'right', 'enable']"
           )
 
           v-btn-toggle(
             v-model="rightPiercings"
             dense
             mandatory
+            color="#fa0"
           )
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsRightEnable')"
+              :disabled="off(['piercings', 'right', 'enable'])"
               :aria-label="lang.one"
             ) {{ lang.one }}
 
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsRightEnable')"
+              :disabled="off(['piercings', 'right', 'enable'])"
               :aria-label="lang.two"
             ) {{ lang.two }}
 
             v-btn(
               outlined
-              :color="$root.piercings.color.basic"
-              :disabled="off('PiercingsRightEnable')"
+              :disabled="off(['piercings', 'right', 'enable'])"
               :aria-label="lang.three"
             ) {{ lang.three }}
 
@@ -505,7 +514,7 @@
         v-expansion-panel-content
           BarSwitch(
             :text="lang.enable"
-            val="HoovesEnable"
+            :val="['hooves', 'enable']"
           )
 
 
@@ -522,10 +531,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.shoulder }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesLeftShoulderRise"
+              :val="['hooves', 'left', 'shoulder', 'rise']"
               max=100
               min=0
             )
@@ -534,7 +543,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesLeftShoulderAngle"
+              :val="['hooves', 'left', 'shoulder', 'angle']"
               max=180
               min=-180
             )
@@ -544,20 +553,19 @@
 
           p.subtitle-2 {{ lang.menu.hooves.elbow }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesLeftElbowRise"
+              :val="['hooves', 'left', 'elbow', 'rise']"
               max=100
               min=0
-              off="HoovesEnable"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesLeftElbowAngle"
+              :val="['hooves', 'left', 'elbow', 'angle']"
               max=180
               min=-180
             )
@@ -567,20 +575,19 @@
 
           p.subtitle-2 {{ lang.menu.hooves.wrist }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesLeftWristRise"
+              :val="['hooves', 'left', 'wrist', 'rise']"
               max=100
               min=0
-              off="HoovesEnable"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesLeftWristAngle"
+              :val="['hooves', 'left', 'wrist', 'angle']"
               max=180
               min=-180
             )
@@ -599,20 +606,19 @@
 
           p.subtitle-2 {{ lang.menu.hooves.shoulder }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesRightShoulderRise"
+              :val="['hooves', 'right', 'shoulder', 'rise']"
               max=100
               min=0
-              off="HoovesEnable"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesRightShoulderAngle"
+              :val="['hooves', 'right', 'shoulder', 'angle']"
               max=180
               min=-180
             )
@@ -622,20 +628,19 @@
 
           p.subtitle-2 {{ lang.menu.hooves.elbow }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesRightElbowRise"
+              :val="['hooves', 'right', 'elbow', 'rise']"
               max=100
               min=0
-              off="HoovesEnable"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesRightElbowAngle"
+              :val="['hooves', 'right', 'elbow', 'angle']"
               max=180
               min=-180
             )
@@ -645,23 +650,41 @@
 
           p.subtitle-2 {{ lang.menu.hooves.wrist }}
 
-          v-card(outlined :disabled="off('HoovesEnable')").my-2
+          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              val="HoovesRightWristRise"
+              :val="['hooves', 'right', 'wrist', 'rise']"
               max=100
               min=0
-              off="HoovesEnable"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              val="HoovesRightWristAngle"
+              :val="['hooves', 'right', 'wrist', 'angle']"
               max=180
               min=-180
             )
+
+
+      // Hooves
+
+      v-expansion-panel
+        v-expansion-panel-header.title {{ lang.menu.neck.title }}
+        v-expansion-panel-content
+          BarSwitch(
+            :text="lang.menu.neck.collar.enable"
+            :val="['collar', 'enable']"
+          )
+
+          BarColor(
+            :text="lang.menu.neck.collar.color"
+            :shade="3 / 5"
+            :val="['color','collar', 'basic']"
+            :off="['collar', 'enable']"
+          )
+
 
     .py-12
     .py-2
@@ -701,8 +724,9 @@
 </template>
 
 <script lang="coffee">
-  import { getProp, setProp } from "../assets/js/nested.coffee"
+  import { getProp, setProp } from "../assets/js/nestedAdv.coffee"
 
+  import BarList   from "./BarLists.vue"
   import BarColor  from "./BarColors.vue"
   import BarSwitch from "./BarSwitches.vue"
   import BarSlider from "./BarSliders.vue"
@@ -728,8 +752,8 @@
 
 
     watch:
-      leftPiercings:  (val) -> @setPiercing val, "PiercingsLeft"
-      rightPiercings: (val) -> @setPiercing val, "PiercingsRight"
+      leftPiercings:  (val) -> @setPiercing val, ["piercings", 'left']
+      rightPiercings: (val) -> @setPiercing val, ["piercings", 'right']
 
       "$root.male": (male) ->
         if male
@@ -738,7 +762,6 @@
         else
           @gender.color = "pink"
           @gender.icon  = "gender-female"
-
 
     computed:
       lang: -> return @locales[@$root.locale]
@@ -784,10 +807,6 @@
         @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs
         @$parent.$parent.$parent.opened.Avatar = !@$parent.$parent.$parent.opened.Avatar
 
-      openGlasses: ->
-        @$parent.$parent.$parent.opened.Glasses = !@$parent.$parent.$parent.opened.Glasses
-        @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
-
       close: ->
         @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
 
@@ -800,6 +819,7 @@
         @gender.icon  = "gender-female"
 
     components: {
+      BarList
       BarColor
       BarSwitch
       BarSlider

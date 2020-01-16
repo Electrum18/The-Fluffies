@@ -25,7 +25,7 @@
         v-col(cols="12" md="4")
           BarColor(
             :text="lang.screener.background"
-            val="BackgroundColorBasic"
+            :val="['color', 'background', 'basic']"
           )
 
         v-col(cols="12" sm="2" md="2")
@@ -89,7 +89,7 @@
         canvas.width  = width
         canvas.height = height
 
-        ctx.fillStyle = @$root.background.color.basic
+        ctx.fillStyle = @$root.color.background.basic
 
         ratio  = avatar.width / avatar.height
         width  = canvas.width

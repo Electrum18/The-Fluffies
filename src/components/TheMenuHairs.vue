@@ -12,34 +12,14 @@
         )
           v-icon mdi-keyboard-backspace
 
-      v-card(light)
-        v-list(two-line)
-          v-list-item-group(
-            v-model="selected"
-            active-class="orange--text"
-          )
-            template(v-for="(hair, i) in hairs")
-              v-list-item(
-                @click="setHair(hair.name)"
-                :key="nameing(hair)"
-              )
-                v-list-item-content
-                  v-list-item-title {{ nameing(hair) }}
-                  v-list-item-subtitle {{ locale.by[$root.locale] }} {{ hair.author }}
-
-              v-divider.light(
-                v-if="i + 1 < hairs.length"
-                :key="i"
-              )
+      BarList(target="hair" :list="$root.hair.info")
 </template>
 
 <script lang="coffee">
+  import BarList from "./BarLists.vue"
+
   export default
     data: ->
-      selected: [0]
-      hairs: []
-      name: ""
-
       locale:
         list:
           en: "Mane list"
@@ -49,27 +29,19 @@
           en: "author: "
           ru: "автор: "
 
-    watch:
-      "$root.hair.info": (val) ->
-        @hairs = val
-
-        for elem, i in val
-          if elem.name is @$root.hair.name
-            @selected = if i < 1 then i else i
-
     computed:
       warnColor: ->
         if @$root.warning.close
           return "red"
 
     methods:
-      nameing: (hair) ->
-        if @hairs.length then return hair.name[@$root.locale]
-
-      setHair: (name) -> @$root.hair.name = name
       close: ->
         @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs
         @$parent.$parent.$parent.opened.Avatar = !@$parent.$parent.$parent.opened.Avatar
+
+    components: {
+      BarList
+    }
 </script>
 
 <style lang="sass">

@@ -3,54 +3,58 @@
     v-row
       div.body-2.px-3 {{ text }}
       v-spacer
-      div.body-2.mx-2.px-1.value(
-        :style="{ background: getColor.slice(0, 7) }"
-      ) {{ value }}
+      div.body-2.mx-2.px-1.value {{ value }}
 
     v-slider.inputs2.ma-0(
       v-model="value"
+      color="#fa0"
       hide-details=true
-      :color="getColor.slice(0, 7)"
       :max="max"
       :min="min"
     )
 </template>
 
-<script lang="coffee">
-  import { getProp, setProp } from "../assets/js/nested.coffee"
+<script lang="ts">
+import Vue from 'vue'
+import { getProp, setProp } from "../assets/js/nested"
 
-  export default
-    props:
-      text: String
-      max: String
-      min: String
-      val: String
-      color: String
-      compare:
-        type: [String, Boolean]
-        default: off
+export default Vue.extend({
+  props: {
+    text: String,
+    max: String,
+    min: String,
+    val: Array,
+    compare: Array
+  },
 
-      limit:
-        type: Number
-        default: 0
+  computed: {
+    value: {
+      get(): number {
+        const root: any = this.$root;
 
-    computed:
-      getColor: ->
-        if @color
-          getProp @$root, @color
+        return getProp(root, this.val as string[]) as number;
+      },
 
-        else "#fa0"
+      set(setVal: number) {
+        const root: any = this.$root;
 
-      value:
-        get:       -> getProp @$root, @val
-        set: (val) ->
-          setProp @$root, @val, val
+        setProp(root, this.val as string[], setVal);
 
-          if typeof @compare is "boolean"
-            return @compare
-          else
-            if 100 - getProp(@$root, @compare) <= val
-              setProp @$root, @compare, 100 - val
+
+        // Compare part
+
+        if (this.compare) {
+          let getted: number =
+            getProp(root, this.compare as string[]) as number;
+
+          if (100 - getted <= setVal) {
+            setProp(root, this.compare as string[], 100 - setVal);
+          }
+        }
+      }
+    }
+  }
+});
 </script>
 
 <style lang="sass">

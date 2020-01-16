@@ -3,35 +3,48 @@
     v-row
       div.body-1.py-2(style="margin-left: 24px!important") {{ text }}
       v-spacer
-      v-switch.mx-4.my-1(:color="getColor.slice(0, 7)" v-model="check" hide-details)
+      v-switch.mx-4.my-1(
+        v-model="check"
+        color="#fa0"
+        hide-details
+      )
 </template>
 
-<script lang="coffee">
-  import { getProp, setProp } from "../assets/js/nested.coffee"
+<script lang="ts">
+import Vue from 'vue'
+import { getProp, setProp } from "../assets/js/nested"
 
-  export default
-    props:
-      text: String
-      val: String
-      color: String
-      off:
-        type: [String, Boolean]
-        default: off
+export default Vue.extend({
+  props: {
+    text: String,
+    val: Array,
+    off: Array
+  },
 
-    computed:
-      getColor: ->
-        if @color
-          getProp @$root, @color
+  computed: {
+    enable(): boolean {
+      if (this.off) {
+        const root: any = this.$root;
 
-        else "#fa0"
+        return !getProp(root, this.off as string[]) as boolean;
+      } else {
+        return false;
+      }
+    },
 
-      check:
-        get:       -> getProp @$root, @val
-        set: (val) -> setProp @$root, @val, val
+    check: {
+      get(): boolean {
+        const root: any = this.$root;
 
-      enable: ->
-        if typeof @off is "boolean"
-          return @off
-        else
-          return not getProp @$root, @off
+        return getProp(root, this.val as string[]) as boolean;
+      },
+
+      set(setVal: boolean) {
+        const root: any = this.$root;
+
+        setProp(root, this.val as string[], setVal);
+      }
+    }
+  }
+});
 </script>

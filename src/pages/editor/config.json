@@ -8,7 +8,7 @@
       "ru": "Шипастая на бок"
     },
 
-    "info": {}
+    "info": []
   },
 
   "tassels": true,
@@ -17,29 +17,24 @@
   "horn": {
     "enable": false,
     "changeling": false,
-    "notlines": false
+    "notlines": false,
+    "rear": true,
+
+    "name": {
+      "en": "Long",
+      "ru": "Длинные"
+    },
+
+    "info": []
   },
 
   "jaw": {
     "open": 0,
-    "sad": 0,
-    "color": {
-      "basic": "#cc4477"
-    }
-  },
-
-  "tongue": {
-    "color": {
-      "basic": "#ee8833",
-      "shade": "#dd7722"
-    }
+    "sad": 0
   },
 
   "stripes": {
-    "enable": false,
-    "color": {
-      "basic": "#777777"
-    }
+    "enable": false
   },
 
   "teeth": {
@@ -48,17 +43,8 @@
   },
 
   "eyes": {
-    "color": {
-      "left": {
-        "basic": "#ffcc00",
-        "shade": "#a88700"
-      },
-
-      "right": {
-        "enable": false,
-        "basic": "#ffcc00",
-        "shade": "#a88700"
-      }
+    "right": {
+      "enable": false
     },
 
     "iris": {
@@ -106,49 +92,24 @@
 
   "glasses": {
     "enable": true,
-
     "width": 100,
-
-    "color": {
-      "lenses": "#8800ffaa",
-      "frame": "#222222"
-    },
 
     "name": {
       "en": "Monolens",
       "ru": "Монолинзовый"
     },
 
-    "info": {}
+    "info": []
   },
 
   "mane": {
     "second": {
       "enable": true,
       "isends": false
-    },
-
-    "color": {
-      "basic": "#666666",
-      "shade": "#4d4d4d",
-      "second": "#555555"
-    }
-  },
-
-  "fur": {
-    "color": {
-      "basic": "#cccccc",
-      "shade": "#999999",
-      "second": "#dddddd"
     }
   },
 
   "piercings": {
-    "color": {
-      "basic": "#ffcc00",
-      "shade": "#cca300"
-    },
-
     "left": {
       "enable": false,
       "upper": false,
@@ -161,12 +122,6 @@
       "upper": false,
       "middle": false,
       "lower": true
-    }
-  },
-
-  "background": {
-    "color": {
-      "basic": "#ffffff"
     }
   },
 
@@ -205,6 +160,71 @@
         "rise": 0,
         "angle": 0
       }
+    }
+  },
+
+  "collar": {
+    "enable": true
+  },
+
+  "color": {
+    "jaw": {
+      "basic": "#cc4477"
+    },
+
+    "tongue": {
+      "basic": "#ee8833",
+      "shade": "#dd7722"
+    },
+
+    "stripes": {
+      "basic": "#777777"
+    },
+
+    "eyes": {
+      "left": {
+        "basic": "#ffcc00"
+      },
+
+      "right": {
+        "basic": "#ffcc00"
+      }
+    },
+
+    "glasses": {
+      "lenses": "#8800ffaa",
+      "frame": "#222222"
+    },
+
+    "hair": {
+      "basic": "#666666",
+      "shade": "#4d4d4d",
+      "second": "#555555"
+    },
+
+    "fur": {
+      "basic": "#cccccc",
+      "shade": "#999999",
+      "second": "#dddddd"
+    },
+
+    "piercings": {
+      "basic": "#ffcc00",
+      "shade": "#cca300"
+    },
+
+    "background": {
+      "basic": "#ffffff"
+    },
+
+    "collar": {
+      "basic": "#444444",
+      "shade": "#222222"
+    },
+
+    "hornRear": {
+      "basic": "#ffffff",
+      "shade": "#cccccc"
     }
   }
 }

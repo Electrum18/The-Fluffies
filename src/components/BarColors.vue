@@ -11,67 +11,104 @@
             style="min-width: 42px"
             aria-label="Open color picker"
           )
-            v-icon(:color="darker") mdi-palette
+            v-icon(:color="darker ? 'black' : 'white'") mdi-palette
 
         v-color-picker(v-model="value")
 </template>
 
-<script lang="coffee">
-  import { getProp, setProp } from "../assets/js/nested.coffee"
+<script lang="ts">
+import Vue from 'vue'
+import { getProp, setProp } from "../assets/js/nested"
 
-  export default
-    props:
-      text: String
-      val: String
-      shade: Number
-      off:
-        type: [String, Boolean]
-        default: off
+export default Vue.extend({
+  props: {
+    text: String,
+    val: Array,
+    shade: Number,
+    off: Array
+  },
 
-    computed:
-      enable: ->
-        if typeof @off is "boolean"
-          return @off
-        else
-          return not getProp @$root, @off
+  data() {
+    return { darker: false }
+  },
 
-      title: ->
-        if @$root.locale is "ru"
-          return "цвет " + @text
-        else
-          return @text + " color"
+  computed: {
+    enable(): boolean {
+      if (this.off) {
+        return !getProp(this.$root, this.off as string[]) as boolean;
+      } else {
+        return false;
+      }
+    },
 
-      value:
-        get: -> getProp @$root, @val
-        set: (setVal) ->
-          setProp @$root, @val, setVal
+    title(): string {
+      const root: any = this.$root;
 
-          if @shade
-            val = @value
+      if (root.locale === "ru") {
+        return "цвет " + this.text
+      } else {
+        return this.text + " color"
+      }
+    },
 
-            R = Math.round(parseInt(val[1] + val[2], 16) * @shade).toString 16
-            G = Math.round(parseInt(val[3] + val[4], 16) * @shade).toString 16
-            B = Math.round(parseInt(val[5] + val[6], 16) * @shade).toString 16
+    value: {
+      get(): string {
+        const root: any = this.$root;
 
-            if R.length < 2 then R = "0" + R
-            if G.length < 2 then G = "0" + G
-            if B.length < 2 then B = "0" + B
+        return getProp(root, this.val as string[]) as string;
+      },
 
-            setProp @$root, @val.replace("Basic", "Shade"), "#" + R + G + B
+      set(setVal: string) {
+        const root: any = this.$root;
 
-      darker: ->
-        val = @value
+        setProp(root, this.val as string[], setVal);
 
-        R = parseInt(val[1] + val[2], 16)
-        G = parseInt(val[3] + val[4], 16)
-        B = parseInt(val[5] + val[6], 16)
 
-        max = Math.max R, G, B
-        min = Math.min R, G, B
-        l = (max + min) / 2
+        // Calculate pallete icon color
 
-        if l / 255 > 2 / 3
-          return "black"
-        else
-          return "white"
+        enum Color { R = 1, G = 2, B = 3 }
+
+        const
+          parseHexColorChannel = (pos: number): number => {
+            return parseInt(setVal[pos * 2 - 1] + setVal[pos * 2], 16)
+          },
+
+          R = parseHexColorChannel(Color.R),
+          G = parseHexColorChannel(Color.G),
+          B = parseHexColorChannel(Color.B),
+
+          lightness = (Math.max(R, G, B) + Math.min(R, G, B)) / 2;
+
+        this.darker = lightness / 255 > 2 / 3;
+
+
+        // Calculate shading if enabled
+
+        if (this.shade) {
+          const
+            shade: number = this.shade,
+            val: string[] = this.val as string[],
+
+            lower = (color: number): string => {
+              let shadeOut = Math.round(color * shade).toString(16);
+
+              if (shadeOut.length < 2) shadeOut = "0" + shadeOut;
+
+              return shadeOut;
+            };
+
+          if (val[2]) {
+            root[val[0]][val[1]].shade = "#" + lower(R) + lower(G) + lower(B);
+          } else if (val[1]) {
+            root[val[0]].shade = "#" + lower(R) + lower(G) + lower(B);
+          }
+        }
+      }
+    }
+  },
+
+  mounted() {
+    this.value = this.value;  // Execute icon darking
+  }
+});
 </script>

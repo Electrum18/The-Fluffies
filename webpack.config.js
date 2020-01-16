@@ -24,7 +24,7 @@ License: CC BY-NC-ND 4.0 https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 module.exports = {
   entry: {
-    index: './src/pages/index/main.coffee',
+    index: './src/pages/index/main.ts',
     about: './src/pages/about/main.coffee',
     support: './src/pages/support/main.coffee',
     editor: './src/pages/editor/main.coffee'
@@ -36,6 +36,13 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         exclude: /node_modules/
+      }, {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          appendTsSuffixTo: [/\.vue$/],
+        }
       }, {
         test: /\.coffee$/,
         loader: 'coffee-loader',

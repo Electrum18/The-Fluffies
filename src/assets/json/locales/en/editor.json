@@ -2,6 +2,7 @@
   "version": "version",
 
   "enable": "enable",
+  "back": "Back",
 
   "one": "One",
   "two": "Two",
@@ -50,9 +51,7 @@
       "color": {
         "lenses": "lenses",
         "frame": "frame"
-      },
-
-      "change": "Change glasses"
+      }
     },
 
     "mane": {
@@ -78,7 +77,7 @@
     },
 
     "horn": {
-      "title": "Horn",
+      "title": "Horns",
       "changeling": "changeling",
       "second": "second color",
       "set": "set"
@@ -130,6 +129,15 @@
 
       "left": "Left hoof",
       "right": "Right hoof"
+    },
+
+    "neck": {
+      "title": "Neck",
+
+      "collar": {
+        "enable": "collar",
+        "color": "collar"
+      }
     }
   },
 
