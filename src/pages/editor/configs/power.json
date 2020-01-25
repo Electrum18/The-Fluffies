@@ -1,6 +1,6 @@
 {
   "nose":         { "pow": "nose" },
-  "noseOverlay":  { "pow": "nose" },
+  "nosePoint":    { "pow": "nose" },
   "bridge":       { "pow": "nose" },
   "mouth":        { "pow": "nose" },
   "fangsLeft":    { "pow": "nose" },

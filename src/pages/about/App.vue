@@ -1,33 +1,27 @@
 <template lang="pug">
   #app
-    h1.hide {{ $root.Headers.titles[$root.locale] }}
-
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
       v-app-bar(fixed :dark="dark" app)
-        v-btn(
+        v-toolbar-title.title.uppercase {{ lang.about }}
+        v-btn.d-none.d-sm-flex(
           large
           depressed
-          :href="'/' + search"
+          href="/"
           :title="lang.back"
           :aria-label="lang.back"
         )
           v-icon(left) mdi-chevron-left
           | {{ lang.back }}
 
-        v-spacer
-
-        v-toolbar-title.uppercase {{ lang.about }}
-
-        v-spacer
-
-        v-btn(
-          large
+        v-btn.d-flex.d-sm-none(
+          small
           depressed
-          :href="'/support' + search"
-          :title="lang.support"
-          :aria-label="lang.support"
-        ) {{ lang.support }}
-          v-icon(right) mdi-chevron-right
+          href="/"
+          fab
+          :title="lang.back"
+          :aria-label="lang.back"
+        )
+          v-icon mdi-chevron-left
 
       v-content
         v-item-group(:dark="dark")
@@ -102,48 +96,77 @@
         div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
 
-<script lang="coffee">
-  import en from "../../assets/json/locales/en/about.json"
-  import ru from "../../assets/json/locales/ru/about.json"
+<script lang="ts">
+import en from "../../assets/json/locales/en/about.json"
+import ru from "../../assets/json/locales/ru/about.json"
 
-  import Socials from "../../components/Socials.vue"
+import Vue from "vue"
 
-  export default
-    data: ->
-      dark: no
-      hour: new Date().getHours()
+import Socials from "../../components/Socials.vue"
+import { HttpResponse } from 'vue-resource/types/vue_resource';
 
-      contributors: []
+export default Vue.extend({
+  data() {
+    return {
+      dark: false,
+      hour: new Date().getHours(),
 
-      locales: {
-        en
-        ru
-      }
+      contributors: [],
 
-    computed:
-      lang: -> return @locales[@$root.locale]
-      search: -> return "?l=" + @$root.locale
-
-    methods:
-      format: (text) ->
-        return text.replace(/\[/g, "<span class='font-weight-black'>").replace(/\]/g, "</span>")
-
-    mounted: ->
-      if @hour > 17 or @hour < 9 then @dark = on else @dark = off
-
-      url = "https://api.github.com/repos/electrum18/the-fluffies/contributors?page=1&?access_token=fff"
-
-      @$http
-        .get url
-        .then (res) ->
-          @contributors = res.body
-
-    components: {
-      Socials
+      locales: { en, ru }
     }
+  },
+
+  computed: {
+    lang(): object {
+      return (this.locales as any)[(this.$root as any).locale];
+    }
+  },
+
+  methods: {
+    format(text: string) {
+      return text
+        .replace(/\[/g, "<span class='font-weight-black'>")
+        .replace(/\]/g, "</span>");
+    }
+  },
+
+  mounted(): void {
+    this.dark = this.hour > 17 || this.hour < 9;
+
+
+    // Closing loader
+
+    let overlay = document.getElementById("overlay") as HTMLElement;
+
+    overlay.style.opacity = '0';
+    overlay.style['pointer-events' as any] = 'none';
+
+
+    // Getting contributors
+
+    const url = "https://api.github.com/repos/electrum18/the-fluffies/contributors?page=1&?access_token=fff";
+
+    this.$http
+      .get(url)
+      .then(res => this.contributors = (res as any).body);
+  },
+
+  components: {
+    Socials
+  }
+});
 </script>
 
 <style lang="sass">
+  html
+    overflow: auto!important
+
+  .title
+    width: 100%
+    position: absolute
+    text-align: center
+
   .uppercase
     text-transform: uppercase
 
@@ -153,4 +176,44 @@
   .hide
     opacity: 0!important
     height: 0!important
+
+
+  // Loader
+
+  @keyframes sparkle
+    0%
+      background-position: 0% -50%
+
+    33%
+      background-position: 0% 50%
+
+    100%
+      background-position: 0% 50%
+
+  #overlay
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: #1f1f1f
+    transition: opacity 0.5s
+
+    #logo
+      position: absolute
+      left: 50%
+      top: 50%
+      width: 150px
+      height: 150px
+      transform: translate(-50%, -50%)
+
+      background-image: linear-gradient(to right, #fa2, #f64)
+      border-radius: 3vmin
+
+      svg
+        animation: sparkle 4s ease-in-out infinite
+        background-image: linear-gradient(to right top, #0000 48%, #fffa 49%, #fffa 51%, #0000 52%)
+        background-size: 400% 400%
+        width: 150px
+        border-radius: 3vmin
 </style>

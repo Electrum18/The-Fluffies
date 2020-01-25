@@ -1,6 +1,10 @@
 <template lang="pug">
   v-sheet(class="text-center" dark)
     v-container
+      v-row(v-if="mode == 1")
+        v-col
+          v-alert(type="error") JPEG does not support transparency!
+
       v-row
         v-col(cols="12" sm="6" md="2")
           v-text-field(
@@ -54,69 +58,99 @@
             v-icon mdi-camera-image
 </template>
 
-<script lang="coffee">
-  import BarColor from "./BarColors.vue"
+<script lang="ts">
+import BarColor from "./BarColors.vue"
 
-  import en from "../assets/json/locales/en/editor.json"
-  import ru from "../assets/json/locales/ru/editor.json"
+import en from "../assets/json/locales/en/editor.json"
+import ru from "../assets/json/locales/ru/editor.json"
 
-  export default
-    data: ->
-      mode: 0
+import Vue from "vue"
 
-      width: 1920
-      height: 1080
+export default Vue.extend({
+  data() {
+    return {
+      mode: 0,
 
-      locales: {
-        en
-        ru
+      width: 1920,
+      height: 1080,
+
+      locales: { en, ru }
+    }
+  },
+
+  computed: {
+    lang(): object {
+      return (this.locales as any)[(this.$root as any).locale];
+    }
+  },
+
+  methods: {
+    takeImage() {
+      const
+        avatar: any = this.$root.$refs.avatar,
+        ratio       = avatar.width / avatar.height;
+
+      let
+        width  = this.width,
+        height = this.height,
+
+        canvas = document.createElement("canvas");
+
+
+      // Canvas setting
+
+      canvas.width  = width;
+      canvas.height = height;
+
+
+      // Setting at center
+
+      width  = canvas.width,
+      height = width / ratio;
+
+      if (height > canvas.height) {
+        height = canvas.height;
+        width  = canvas.height * ratio;
       }
 
-    computed:
-      lang: -> return @locales[@$root.locale]
-
-    methods:
-      takeImage: ->
-        width  = @width
-        height = @height
-
-        avatar = @$root.$refs.avatar
-
-        canvas = document.createElement "canvas"
-        ctx    = canvas.getContext "2d"
-        e      = document.createElement "a"
-
-        canvas.width  = width
-        canvas.height = height
-
-        ctx.fillStyle = @$root.color.background.basic
-
-        ratio  = avatar.width / avatar.height
-        width  = canvas.width
-        height = width / ratio
-
-        if height > canvas.height
-          height = canvas.height
-          width  = canvas.height * ratio
-
-        xOffset = if width < canvas.width then (canvas.width - (width * 1.25)) / 2 else 0
-        yOffset = canvas.height - (height * 1.125)
-
-        ctx.fillRect 0, 0, canvas.width, canvas.height
-        ctx.drawImage avatar, xOffset, yOffset, width * 1.25, height * 1.25
-
-        e.style.display = "none"
-        e.download      = "TFs-" + @$root.name + "." + ["png", "jpeg"][@mode]
-        e.href          = canvas.toDataURL "image/png"
-
-        document.body.appendChild e
-
-        e.click()
-
-        document.body.removeChild e
+      const
+        xOffset = width < canvas.width ? (canvas.width - (width * 1.25)) / 2 : 0,
+        yOffset = canvas.height - (height * 1.125);
 
 
-    components: {
-      BarColor
+      // Drawing image over background at bottom-center
+
+      let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+      ctx.fillStyle = (this.$root as any).color.background.basic;
+
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(avatar, xOffset, yOffset, width * 1.25, height * 1.25);
+
+
+      // Creating file
+
+      let e = document.createElement("a");
+
+      const format = ["png", "jpeg"][this.mode]
+
+      e.style.display = "none";
+      e.download      = "TFs-" + (this.$root as any).propers.name + "." + format;
+      e.href          = canvas.toDataURL("image/" + format);
+
+
+      // Download file
+
+      document.body.appendChild(e);
+
+      e.click();
+
+      document.body.removeChild(e);
     }
+  },
+
+  components: {
+    BarColor
+  }
+});
 </script>

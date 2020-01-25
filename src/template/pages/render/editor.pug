@@ -1,12 +1,8 @@
 doctype html
 html(lang="en")
   head
-    include ../../meta.pug
-
-    link(rel="icon" href="../favicon.ico")
-    link(rel="stylesheet" href="../css/editor.css")
-
-    include ../../cdn.pug
+    include ../../meta
+    include ../../cdn
 
     script(src="https://cdn.jsdelivr.net/npm/vue-resource" defer)
     script(src="/socket.io/socket.io.js" defer)
@@ -14,6 +10,6 @@ html(lang="en")
   body
     noscript Your browser does not support JavaScript!
 
-    #app
+    h1.hide The Fluffies: create your pony character with this web editor
 
-    script(type="text/javascript" src="../js/editor.js" defer)
+    #app

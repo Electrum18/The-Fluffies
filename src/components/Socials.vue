@@ -2,9 +2,6 @@
   v-row(justify="center")
     .py-2
 
-    v-card.ma-2
-      Language(:dark="dark")
-
     v-card.ma-2(:dark="dark")
       v-btn(
         icon
@@ -81,52 +78,64 @@
         v-icon(large color="light-blue") mdi-twitter-box
 </template>
 
-<script lang="coffee">
-  import Language from "./Languages.vue"
+<script lang="ts">
+import Share from "../assets/json/locales/share.json"
 
-  import Share from "../assets/json/locales/share.json"
+import Vue from 'vue'
 
-  export default
-    props: ["dark"]
+export default Vue.extend({
+  props: ["dark"],
 
-    data: -> {
-      url: "https://the-fluffies.net/"
-      img: "https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png"
+  data() {
+    return {
+      url: "https://the-fluffies.net/",
+      img: "https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png",
 
-      Share...
+      ...Share
     }
+  },
 
-    computed:
-      shareVKontakte: ->
-        url  = "http://vkontakte.ru/share.php?"
-        url += "url="          + encodeURIComponent @url
-        url += "&title="       + encodeURIComponent @title[@$root.locale]
-        url += "&description=" + encodeURIComponent @text[@$root.locale]
-        url += "&image="       + encodeURIComponent @img
-        url += "&noparse=true"
+  computed: {
+    shareVKontakte() {
+      let url = "http://vkontakte.ru/share.php?";
 
-        return url
+      const root: any = this.$root;
 
-      shareFacebook: ->
-        url  = 'http://www.facebook.com/sharer.php?s=100'
-        url += '&p[title]='     + encodeURIComponent @title[@$root.locale]
-        url += '&p[summary]='   + encodeURIComponent @text[@$root.locale]
-        url += '&p[url]='       + encodeURIComponent @url
-        url += '&p[images][0]=' + encodeURIComponent @img
+      url += "url="          + encodeURIComponent(this.url);
+      url += "&title="       + encodeURIComponent((this.title as any)[root.locale]);
+      url += "&description=" + encodeURIComponent((this.text as any)[root.locale]);
+      url += "&image="       + encodeURIComponent(this.img);
+      url += "&noparse=true";
 
-        return url
+      return url;
+    },
 
-      shareTwitter: ->
-        url  = "http://twitter.com/share?"
-        url += "text=" + encodeURIComponent @text[@$root.locale]
-        url += "&url=" + encodeURIComponent @url
-        url += "&counturl=" + encodeURIComponent @url
+    shareFacebook() {
+      let url = 'http://www.facebook.com/sharer.php?s=100';
 
-        return url
+      const root: any = this.$root;
 
-    components: {
-      Language
+      url += '&p[title]='     + encodeURIComponent((this.title as any)[root.locale]);
+      url += '&p[summary]='   + encodeURIComponent((this.text as any)[root.locale]);
+      url += '&p[url]='       + encodeURIComponent(this.url);
+      url += '&p[images][0]=' + encodeURIComponent(this.img);
+
+      return url;
+    },
+
+    shareTwitter() {
+      let url = "http://twitter.com/share?";
+
+      const root: any = this.$root;
+
+      url += "text=" + encodeURIComponent((this.text as any)[root.locale]);
+      url += "&url=" + encodeURIComponent(this.url);
+      url += "&counturl=" + encodeURIComponent(this.url);
+
+      return url;
     }
+  }
+});
 </script>
 
 <style lang="sass">

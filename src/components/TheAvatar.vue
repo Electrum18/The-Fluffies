@@ -33,19 +33,21 @@
 
       # Configs
 
-      layers: Elems
       color: @$root.color
+      state: @$root.propers # Using for "if" attribute in "elems" config
+
+      layers: Elems
       math: Powers
       interpolationScheme: IS
+
 
       ctx: {}  # Context of canvas
 
       horiz: 0
+      angle: 0  # Calculated angle for transformation
 
       x: 12.5 / 90  # Horizontal of angle in -1 to 1 range
       y: 0          # Vertical of angle in 0 to 1 range
-
-      angle: 0  # Calculated angle for transformation
 
       last:  # Last calculated variables for deltas
         x: 0
@@ -53,83 +55,7 @@
         time: 0
 
       paths: {}  # Imported and parsed svg references
-      state:  # Using for "if" attribute in "elems" config
-        earFront: on
-        earBack:  off
-        hornsBehind: off
-        hornsAterEars: on
-
-        eyes:    @$root.eyes
-        fangs:   @$root.fangs
-        tassels: @$root.tassels
-
-        horn: {
-          @$root.horn...
-
-          enableBasic: @$root.horn.enable and !@$root.horn.changeling
-          enableChnlg: @$root.horn.enable and @$root.horn.changeling
-        }
-
-        stripes:
-          enable: @$root.stripes.enable
-
-        hair:
-          second: @$root.mane.second
-          dreadlocks: no
-          notDreadlocks: yes
-          isSecond: on
-          isEnds:   off
-
-        jaw:
-          open: @$root.jaw.open
-          sad:  @$root.jaw.sad
-
-        teeth: @$root.teeth
-
-        piercings: @$root.piercings
-
-        glasses:
-          enable: @$root.glasses.enable
-          width:  @$root.glasses.width
-
-        hooves:
-          enable: yes
-
-          left:
-            shoulder:
-              rise: 0
-              angle: 0
-
-            elbow:
-              rise: 0
-              angle: 0
-
-            wrist:
-              rise: 0,
-              angle: 0
-
-          right:
-            shoulder:
-              rise: 0
-              angle: 0
-
-            elbow:
-              rise: 0
-              angle: 0
-
-            wrist:
-              rise: 0,
-              angle: 0
-
-        collar:
-          enable: yes
-
       calculated: {}  # Calculated paths
-
-      frames: [
-        0,
-        1
-      ]
 
       mirror: no  # Avatar isnt mirrored in this time
       executeAnimation: no # check for optimization
@@ -140,23 +66,13 @@
     watch:
       x: (num) -> @mirror = num < 0
 
-      mirror: (val) ->
-        state = @state
-
-        sideLeft  = state.piercings.right
-        sideRight = state.piercings.left
-
-        state.piercings =
-          left: sideLeft
-          right: sideRight
-
-      "$root.hair.name": (name) ->
+      "$root.propers.hair.name": (name) ->
         if /Dreads/.test name['en']
-          @state.hair.dreadlocks    = yes
-          @state.hair.notDreadlocks = no
+          @state.hair.isDreads = yes
+          @state.hair.isBasic  = no
         else
-          @state.hair.dreadlocks    = no
-          @state.hair.notDreadlocks = yes
+          @state.hair.isDreads = no
+          @state.hair.isBasic  = yes
 
 
         if @paths.hairs[name['en']]
@@ -166,13 +82,9 @@
           self = this
           hairName = name['en'].toLowerCase().replace /\W/g, "_"
 
-          @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
-            self.parseSVGbasic val[name['en']], "hairs"
-            self.fullQuality = no
-            self.executeAnimation = yes
+          @getPartsJSON "hairs", "hairs/" + hairName + ".json"
 
-
-      "$root.glasses.name": (name) ->
+      "$root.propers.glasses.name": (name) ->
         if @paths.glasses[name['en']]
           @fullQuality = no
           @executeAnimation = yes
@@ -180,13 +92,10 @@
           self = this
           glassesName = name['en'].toLowerCase().replace /\W/g, "_"
 
-          @get "glasses", "/data/pony/glasses/" + glassesName + ".json", (val) ->
-            self.parseSVGbasic val[name['en']], "glasses"
-            self.fullQuality = no
-            self.executeAnimation = yes
+          @getPartsJSON "glasses", "glasses/" + glassesName + ".json"
 
 
-      "$root.horn.name": (name) ->
+      "$root.propers.horn.name": (name) ->
         if @paths.horn[name['en']]
           @fullQuality = no
           @executeAnimation = yes
@@ -194,144 +103,46 @@
           self = this
           hornsName = name['en'].toLowerCase().replace /\W/g, "_"
 
-          @get "horn", "/data/pony/horns/" + hornsName + ".json", (val) ->
-            self.parseSVGbasic val[name['en']], "horn"
-            self.fullQuality = no
-            self.executeAnimation = yes
+          @getPartsJSON "horn", "horns/" + hornsName + ".json"
 
-      "$root.male":
+      "$root.propers":
         handler: (val) ->
-          @male = val
+          @state = val
 
-          @fullQuality = no
-          @executeAnimation = yes
+          {
+            horn: refHorn,
+            hair: { second: refSecond },
+            eyes: { right: refEyesRight },
+            piercings: refPiercings
+          } = val
 
-        deep: yes
+          { horn, hair, piercings } = @state
 
-      "$root.horn":
-        handler: (val) ->
-          @state.horn = val
 
-          @state.horn.enableBasic = @$root.horn.enable and !@$root.horn.changeling
-          @state.horn.enableChnlg = @$root.horn.enable and @$root.horn.changeling
+          # Horns
 
-          @state.hornsBehind   = @x <= 0.5 and @state.horn.rear
-          @state.hornsAterEars = @x > 0.5  and @state.horn.rear
+          horn.isBasic = refHorn.enable and !refHorn.changeling
+          horn.isChnlg = refHorn.enable and refHorn.changeling
 
-          @fullQuality = no
-          @executeAnimation = yes
+          lessThan45 = @x <= 0.5
 
-        deep: yes
+          horn.behind          = lessThan45  and refHorn.rear
+          horn.behindAfterEars = !lessThan45 and refHorn.rear
 
-      "$root.tassels": (val) ->
-        @state.tassels = val
 
-        @fullQuality = no
-        @executeAnimation = yes
+          # Hair
 
-      "$root.fangs": (val) ->
-        @state.fangs = val
+          hair.isSecond = !refSecond.isends and refSecond.enable
+          hair.isEnds   =  refSecond.isends and refSecond.enable
 
-        @fullQuality = no
-        @executeAnimation = yes
 
-      "$root.stripes":
-        handler: (val) ->
-          @state.stripes = val
+          # Eyes
 
-          @fullQuality = no
-          @executeAnimation = yes
+          if not refEyesRight.enable
+            { right, left } = @color.eyes
 
-        deep: yes
+            right.basic = left.basic
 
-      "$root.mane":
-        handler: (val) ->
-          @state.hair.second = val.second
-
-          @state.hair.isSecond = !val.second.isends and val.second.enable
-          @state.hair.isEnds   =  val.second.isends and val.second.enable
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.jaw":
-        handler: (val) ->
-          @state.jaw.open  = val.open
-          @state.jaw.sad   = val.sad
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.tongue":
-        handler: (val) ->
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.eyes":
-        handler: (val) ->
-          @state.eyes = val
-
-          if not val.right.enable
-            @color.eyes.right.basic = @color.eyes.left.basic
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.piercings":
-        handler: (val) ->
-          state = @state
-
-          if @x < 0
-            [sideLeft, sideRight] = [val.right, val.left]
-          else
-            [sideLeft, sideRight] = [val.left, val.right]
-
-          state.piercings = { left: sideLeft, right: sideRight }
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.glasses":
-        handler: (val) ->
-          @state.glasses.enable = val.enable
-          @state.glasses.width  = val.width
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.teeth":
-        handler: (val) ->
-          @state.teeth = val
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.hooves":
-        handler: (val) ->
-          @state.hooves = val
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.collar":
-        handler: (val) ->
-          @state.collar = val
 
           @fullQuality = no
           @executeAnimation = yes
@@ -351,35 +162,36 @@
         deep: yes
 
     methods:
-      get: (target, url, callback = no) ->
+      getPartsJSON: (target, url) ->
         self    = this
         loader  = @$root.loadings
         capital = target[0].toUpperCase() + target.slice 1
 
-        if target is "glasses"
-          loader.push "#{capital} | #{@$root.glasses.name['en']}"
+        if target in ["glasses", "horn"]
+          loader.push "#{capital} - #{@state[target].name['en']}"
         else if target is "hairs"
-          loader.push "#{capital} | #{@$root.hair.name['en']}"
-        else if target is "horn"
-          loader.push "#{capital} | #{@$root.horn.name['en']}"
+          loader.push "#{capital} - #{@state.hair.name['en']}"
         else
           loader.push capital
 
-        @$http.get(window.location.origin + url).then (res) ->
-          loader.splice loader.indexOf capital, 1
-
-          if callback
-            setTimeout ->
-              callback(res.body)
-            , 100
-
-        , (err) ->
-          # Trying get again if not loaded
-
-          setTimeout ->
+        @$http
+          .get(window.location.origin + "/data/" + url)
+          .then (res) ->
             loader.splice loader.indexOf capital, 1
-            self.get(target, url, callback)
-          , 5e3
+
+            self.parseSVGbasic res.body, target
+
+            self.fullQuality = no
+            self.executeAnimation = yes
+
+          , (err) ->
+            # Trying get again if not loaded
+
+            setTimeout ->
+              loader.splice loader.indexOf capital, 1
+
+              self.getPartsJSON(target, url)
+            , 5e3
 
 
       Click: (e) ->
@@ -461,42 +273,30 @@
 
             # Creating an object to export to a variable
 
-            if not self.paths[set]
-              self.paths[set] = { keys: [] }
-
-            if set is "hairs" and not self.paths[set][self.$root.hair.name['en']]
-              self.paths[set].keys.push self.$root.hair.name['en']
-              self.paths[set][self.$root.hair.name['en']] = { keys: [] }
-
-            if set is "glasses" and not self.paths[set][self.$root.glasses.name['en']]
-              self.paths[set].keys.push self.$root.glasses.name['en']
-              self.paths[set][self.$root.glasses.name['en']] = { keys: [] }
-
-            if set is "horn" and not self.paths[set][self.$root.horn.name['en']]
-              self.paths[set].keys.push self.$root.horn.name['en']
-              self.paths[set][self.$root.horn.name['en']] = { keys: [] }
-
-
-
-            # Adding elements to a variable
-
+            paths = self.paths
             keyIn = keyIn.replace "Main", ""
 
-            if set is "hairs"
-              self.paths[set][self.$root.hair.name['en']][keyIn] = newPaths
-              self.paths[set][self.$root.hair.name['en']].keys.push keyIn
+            if not paths[set] then paths[set] = { keys: [] }
 
-            else if set is "glasses"
-              self.paths[set][self.$root.glasses.name['en']][set + capitalize keyIn] = newPaths
-              self.paths[set][self.$root.glasses.name['en']].keys.push set + capitalize keyIn
+            if set in ["hairs", "glasses", "horn"]
+              set2 = if set is "hairs" then "hair" else set
+              name = self.state[set2].name['en']
 
-            else if set is "horn"
-              self.paths[set][self.$root.horn.name['en']][set + capitalize keyIn] = newPaths
-              self.paths[set][self.$root.horn.name['en']].keys.push set + capitalize keyIn
+              if not paths[set][name]
+                paths[set].keys.push name
+                paths[set][name] = { keys: [] }
+
+
+              # Adding elements to a variable
+
+              key = if set is "hairs" then keyIn else set + capitalize keyIn
+
+              paths[set][name][key] = newPaths
+              paths[set][name].keys.push key
 
             else
-              self.paths[set][keyIn] = newPaths
-              self.paths[set].keys.push keyIn
+              paths[set][keyIn] = newPaths
+              paths[set].keys.push keyIn
 
           else # Going deeper to branch
             keys = Object.keys obj
@@ -525,7 +325,7 @@
 
               calc = @calc point, b[i][j], range
 
-              if calc then newPart[j] = calc else continue
+              if calc then newPart[j] = calc | 0 else continue
 
             else newPart[j] = point
 
@@ -543,8 +343,8 @@
         x = @x
 
         calculated = @calculated
-        male  = @male;  state  = @state; getColor = @color
-        horiz = @horiz; angle  = @angle; mirror   = @mirror
+        state = @state; getColor = @color
+        horiz = @horiz; angle = @angle; mirror = @mirror
         hooves = @state.hooves
 
 
@@ -558,8 +358,8 @@
 
         # Ear display calculation
 
-        state.earFront = if absAngle < 1 / 3 and horiz > 0.1 then off else on
-        state.earBack  = !state.earFront
+        state.ear.isFront = if absAngle < 1 / 3 and horiz > 0.1 then off else on
+        state.ear.isBack  = !state.earFront
 
 
         if mirror
@@ -736,11 +536,9 @@
 
             if not calculated[elem.type] then continue
 
-            if elem.type in ["eyeLeftLashesUpper", "eyeLeftLashesMiddle",
-              "eyeLeftLashesLower"] and (absAngle > 0.9 or male) then continue
+            if elem.type is "eyeLeftLashes"  and (absAngle > 0.9 or state.male) then continue
+            if elem.type is "eyeRightLashes" and state.male then continue
 
-            if elem.type in ["eyeRightLashesUpper", "eyeRightLashesMiddle",
-              "eyeRightLashesLower"] and male then continue
 
             if elem.if
               if typeof elem.if isnt "string"
@@ -748,8 +546,13 @@
                   if not state[elem.if[0]][elem.if[1]][elem.if[2]] then continue
 
                   if elem.if[0] is "piercings"
-                    if elem.if[1] in ["left", "right"]
-                      if not state[elem.if[0]][elem.if[1]].enable then continue
+                    if mirror
+                      sidePiercing = { left: "right", right: "left" }
+                    else
+                      sidePiercing = { left: "left", right: "right" }
+
+                    if not state[elem.if[0]][sidePiercing[elem.if[1]]][elem.if[2]] then continue
+                    else if not state[elem.if[0]][sidePiercing[elem.if[1]]].enable then continue
 
                 else if not state[elem.if[0]][elem.if[1]] then continue
 
@@ -803,12 +606,13 @@
 
                 # Creating clipping path
 
-                for part in calculated[clip]
-                  if part[0] is "C"
-                    ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
-                      part[4] * quality, part[5] * quality, part[6] * quality
+                if calculated[clip]
+                  for part in calculated[clip]
+                    if part[0] is "C"
+                      ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
+                        part[4] * quality, part[5] * quality, part[6] * quality
 
-                  else ctx.moveTo part[1] * quality, part[2] * quality
+                    else ctx.moveTo part[1] * quality, part[2] * quality
 
 
                 # Clipping resetting transformation
@@ -926,7 +730,7 @@
 
             # Checking for male elements
 
-            if calculated["male" + capitalize(elem.type)] and male
+            if calculated["male" + capitalize(elem.type)] and state.male
                  type = "male" + capitalize(elem.type)
             else type = elem.type
 
@@ -1068,16 +872,19 @@
         hair = @paths.hairs
 
         if hair
-          for key in hair[self.$root.hair.name['en']].keys
-            paths = hair[self.$root.hair.name['en']][key]
-            pow = if math[key] then math[key].pow else 1
+          hair = hair[state.hair.name['en']]
 
-            fullRange = (1 - (absAngle ** (1 / pow))) * (paths.length - 1)
+          if hair
+            for key in hair.keys
+              paths = hair[key]
+              pow = if math[key] then math[key].pow else 1
 
-            frame = fullRange | 0
-            range = fullRange - frame
+              fullRange = (1 - (absAngle ** (1 / pow))) * (paths.length - 1)
 
-            calculated[key] = morph paths[frame], paths[frame + 1], range
+              frame = fullRange | 0
+              range = fullRange - frame
+
+              calculated[key] = morph paths[frame], paths[frame + 1], range
 
 
         # Glases part
@@ -1085,7 +892,7 @@
         glasses = @paths.glasses
 
         if glasses
-          glasses = glasses[self.$root.glasses.name['en']]
+          glasses = glasses[state.glasses.name['en']]
 
           if glasses
             for key in glasses.keys
@@ -1106,7 +913,7 @@
         horns = @paths.horn
 
         if horns
-          horns = horns[self.$root.horn.name['en']]
+          horns = horns[state.horn.name['en']]
 
           if horns
             for key in horns.keys
@@ -1184,47 +991,20 @@
       , 1###
 
 
+      asFile = (name) ->
+        fileName = self.state[name].name['en']
+
+        return fileName.toLowerCase().replace /\W/g, "_"
+
 
       # Get JSON data to client and execute
 
-      @get "body", "/data/pony/body.json", (val) ->
-        self.parseSVGbasic val, "body"
-        self.fullQuality = no
-        self.executeAnimation = yes
+      @getPartsJSON "body",     "pony/body.json"
+      @getPartsJSON "emotions", "pony/emotions.json"
 
-
-      # Load first hair
-
-      hairName = @$root.hair.name['en'].toLowerCase().replace /\W/g, "_"
-
-      @get "hairs", "/data/pony/hairs/" + hairName + ".json", (val) ->
-        self.parseSVGbasic val[self.$root.hair.name['en']], "hairs"
-        self.fullQuality = no
-        self.executeAnimation = yes
-
-
-      # Load first glasses
-
-      glassesName = @$root.glasses.name['en'].toLowerCase().replace /\W/g, "_"
-
-      @get "glasses", "/data/pony/glasses/" + glassesName + ".json", (val) ->
-        self.parseSVGbasic val[self.$root.glasses.name['en']], "glasses"
-        self.fullQuality = no
-        self.executeAnimation = yes
-
-
-      @get "emotions", "/data/pony/emotions.json", (val) ->
-        self.parseSVGbasic val, "emotions"
-        self.fullQuality = no
-        self.executeAnimation = yes
-
-
-      hornsName = @$root.horn.name['en'].toLowerCase().replace /\W/g, "_"
-
-      @get "horn", "/data/pony/horns/" + hornsName + ".json", (val) ->
-        self.parseSVGbasic val[self.$root.horn.name['en']], "horn"
-        self.fullQuality = no
-        self.executeAnimation = yes
+      @getPartsJSON "hairs",    "hairs/"   + asFile("hair")    + ".json"
+      @getPartsJSON "glasses",  "glasses/" + asFile("glasses") + ".json"
+      @getPartsJSON "horn",     "horns/"   + asFile("horn")    + ".json"
 </script>
 
 <style lang="sass">

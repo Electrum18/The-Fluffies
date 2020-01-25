@@ -12,7 +12,7 @@
         )
           v-icon mdi-keyboard-backspace
 
-      BarList(target="hair" :list="$root.hair.info")
+      BarList(target="hair" :list="$root.propers.hair.info")
 </template>
 
 <script lang="coffee">

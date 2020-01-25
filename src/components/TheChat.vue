@@ -76,85 +76,112 @@
       )
 </template>
 
-<script lang="coffee">
-  import io from "socket.io-client"
+<script lang="ts">
+import io from "socket.io-client"
 
-  import en from "../assets/json/locales/en/editor.json"
-  import ru from "../assets/json/locales/ru/editor.json"
+import Vue from 'vue'
 
-  export default
-    data: ->
-      chat:
-        opened: no
+import en from "../assets/json/locales/en/editor.json"
+import ru from "../assets/json/locales/ru/editor.json"
 
-        name: ""
-        prename: ""
+export default Vue.extend({
+  data() {
+    return {
+      chat: {
+        opened: false,
 
-        message: ""
+        name: "",
+        prename: "",
 
-        users: 0
+        message: "",
+
+        users: 0,
         content: []
+      },
 
-      locales: {
-        en
-        ru
-      }
+      locales: { en, ru },
 
       socket: io(
-        if window.location.hostname is "localhost"
-             window.location.hostname + ":3000"
-        else window.location.host
+        window.location.hostname == "localhost" ?
+          window.location.hostname + ":3000"
+        : window.location.host
       )
+    }
+  },
 
-    watch:
-      "chat.opened": (val) ->
-        if val
-          refs = @$refs
+  watch: {
+    "chat.opened"(val) {
+      if (val) {
+        const refs = this.$refs;
 
-          setTimeout ->
-            space = refs.chatSpace.$el
+        setTimeout(() => {
+          let space = (refs.chatSpace as any).$el;
 
-            space.scrollTop = space.scrollHeight
-          , 100
+          space.scrollTop = space.scrollHeight
+        }, 100)
+      }
+    },
 
-      "chat.content": ->
-        if @chat.opened
-          refs = @$refs
+    "chat.content"() {
+      if (this.chat.opened) {
+        const refs = this.$refs;
 
-          setTimeout ->
-            space = refs.chatSpace.$el
+        setTimeout(() => {
+          let space = (refs.chatSpace as any).$el;
 
-            space.scrollTop = space.scrollHeight
+          space.scrollTop = space.scrollHeight
+        })
+      }
+    }
+  },
 
-    computed:
-      lang: -> return @locales[@$root.locale]
+  computed: {
+    lang(): object {
+      return (this.locales as any)[(this.$root as any).locale];
+    }
+  },
 
-    methods:
-      submit: ->
-        length = @chat.message.length
+  methods: {
+    submit() {
+      const length = this.chat.message.length;
 
-        if length > 0 and length <= 100
-          @socket.emit "send message", { name: @chat.name, text: @chat.message }
-          @chat.message = ""
+      if (length > 0 && length <= 100) {
+        this.socket.emit(
+          "send message", {
+            name: this.chat.name,
+            text: this.chat.message
+        });
 
-      checkName: ->
-        if @chat.prename
-          @socket.emit("check name", @chat.prename)
+        this.chat.message = "";
+      }
+    },
 
-          @chat.name = @chat.prename
-          @chat.prename = ""
+    checkName() {
+      if (this.chat.prename) {
+        this.socket.emit("check name", this.chat.prename);
 
-    mounted: ->
-      chat = @chat
+        this.chat.name = this.chat.prename;
+        this.chat.prename = "";
+      }
+    }
+  },
 
-      @socket.on "get first",    (msg) -> chat.content = msg
-      @socket.on "get message",  (msg) -> chat.content.push msg
-      @socket.on "get announce", (msg) -> chat.content.push msg
-      @socket.on "get users",  (users) -> chat.users = users
+  mounted() {
+    let chat = this.chat;
 
-      self = this
+    const socket = this.socket;
 
-      @socket.on "isnt nickname", () ->
-        self.text = ""
-        self.name = ""
+    socket.on("get first",    (msg: string) => chat.content = msg as any);
+    socket.on("get message",  (msg: string) => (chat.content as any).push(msg));
+    socket.on("get announce", (msg: string) => (chat.content as any).push(msg));
+    socket.on("get users",  (users: number) => chat.users = users);
+
+    const self: any = this;
+
+    socket.on("isnt nickname", () => {
+      self.text = "";
+      self.name = "";
+    });
+  }
+});
 </script>

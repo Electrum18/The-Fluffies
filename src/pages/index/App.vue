@@ -1,7 +1,5 @@
 <template lang="pug">
   #app
-    h1.hide {{ $root.Headers.titles[$root.locale] }}
-
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
       div.pa-3
         v-chip(:dark="dark") {{ lang.version }}
@@ -34,7 +32,7 @@
                   outlined
                   large
                   :title="lang.about"
-                  :href="'/about?' + search"
+                  href="/about"
                   :aria-label="lang.about"
                 ) {{ lang.about }}
 
@@ -51,7 +49,7 @@
                       text
                       large
                       :title="lang.male.title"
-                      :href="'/editor/?g=m&' + search"
+                      href="/editor?g=m"
                       :aria-label="lang.male.label"
                     ) {{ lang.male.label }}
 
@@ -59,7 +57,7 @@
                       text
                       large
                       :title="lang.female.title"
-                      :href="'/editor/?g=f&' + search"
+                      href="/editor/?g=f"
                       :aria-label="lang.female.label"
                     ) {{ lang.female.label }}
 
@@ -67,7 +65,7 @@
                   outlined
                   large
                   :title="lang.support"
-                  :href="'/support?' + search"
+                  href="/support"
                   :aria-label="lang.support"
                 ) {{ lang.support }}
 
@@ -77,7 +75,7 @@
                   outlined
                   large
                   :title="lang.about"
-                  :href="'/about?' + search"
+                  href="/about"
                   :aria-label="lang.about"
                 ) {{ lang.about }}
 
@@ -86,7 +84,7 @@
                   outlined
                   large
                   :title="lang.support"
-                  :href="'/support?' + search"
+                  href="/support"
                   :aria-label="lang.support"
                 ) {{ lang.support }}
 
@@ -109,35 +107,52 @@
         div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
 
-<script lang="coffee">
-  import en from "../../assets/json/locales/en/index.json"
-  import ru from "../../assets/json/locales/ru/index.json"
+<script lang="ts">
+import en from "../../assets/json/locales/en/index.json"
+import ru from "../../assets/json/locales/ru/index.json"
 
-  import Socials from "../../components/Socials.vue"
+import Vue from "vue"
 
-  export default
-    data: ->
-      dark: no
-      hour: new Date().getHours()
+import Socials from "../../components/Socials.vue"
 
-      locales: {
-        en
-        ru
-      }
+export default Vue.extend({
+  data() {
+    return {
+      dark: false,
+      hour: new Date().getHours(),
 
-    computed:
-      lang:   -> return @locales[@$root.locale]
-      search:  -> return "l=" + @$root.locale
-
-    mounted: ->
-      if @hour > 17 or @hour < 9 then @dark = on else @dark = off
-
-    components: {
-      Socials
+      locales: { en, ru }
     }
+  },
+
+  computed: {
+    lang(): object {
+      return (this.locales as any)[(this.$root as any).locale];
+    }
+  },
+
+  mounted(): void {
+    this.dark = this.hour > 17 || this.hour < 9;
+
+
+    // Closing loader
+
+    let overlay = document.getElementById("overlay") as HTMLElement;
+
+    overlay.style.opacity = '0';
+    overlay.style['pointer-events' as any] = 'none';
+  },
+
+  components: {
+    Socials
+  }
+});
 </script>
 
 <style lang="sass">
+  html
+    overflow: auto!important
+
   a.md-size
     width: 164px
 
@@ -153,7 +168,7 @@
 
   svg.logo
     background-image: linear-gradient(to right, #fa2, #f64)
-    border-radius: 30px
+    border-radius: 4vmin
     max-width: 600px
 
   stop.grad
@@ -167,4 +182,44 @@
   .hide
     opacity: 0!important
     height: 0!important
+
+
+  // Loader
+
+  @keyframes sparkle
+    0%
+      background-position: 0% -50%
+
+    33%
+      background-position: 0% 50%
+
+    100%
+      background-position: 0% 50%
+
+  #overlay
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: #1f1f1f
+    transition: opacity 0.5s
+
+    #logo
+      position: absolute
+      left: 50%
+      top: 50%
+      width: 150px
+      height: 150px
+      transform: translate(-50%, -50%)
+
+      background-image: linear-gradient(to right, #fa2, #f64)
+      border-radius: 3vmin
+
+      svg
+        animation: sparkle 4s ease-in-out infinite
+        background-image: linear-gradient(to right top, #0000 48%, #fffa 49%, #fffa 51%, #0000 52%)
+        background-size: 400% 400%
+        width: 150px
+        border-radius: 3vmin
 </style>

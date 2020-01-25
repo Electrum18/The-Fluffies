@@ -12,18 +12,18 @@ module.exports = {
     },
 
     about: {
-      entry: 'src/pages/about/main.coffee',
+      entry: 'src/pages/about/main.ts',
       template: 'src/template/pages/vue-cli.pug'
     },
 
     support: {
-      entry: 'src/pages/support/main.coffee',
+      entry: 'src/pages/support/main.ts',
       template: 'src/template/pages/vue-cli.pug'
     },
 
     editor: {
-      entry: 'src/pages/editor/main.coffee',
-      template: 'src/template/pages/vue-cli.pug'
+      entry: 'src/pages/editor/main.ts',
+      template: 'src/template/pages/vue-cli-pony.pug'
     }
   },
 

@@ -11,13 +11,13 @@
 
           BarSwitch(
             :text="lang.menu.eyes.heterochromia"
-            :val="['eyes', 'right', 'enable']"
+            :val="['propers', 'eyes', 'right', 'enable']"
             )
 
           BarColor(
             :text="lang.menu.eyes['color right']"
             :val="['color', 'eyes', 'right', 'basic']"
-            :off="['eyes', 'right', 'enable']"
+            :off="['propers', 'eyes', 'right', 'enable']"
           )
 
           v-divider.my-4
@@ -25,7 +25,7 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.scale"
-              :val="['eyes', 'iris', 'scale']"
+              :val="['propers', 'eyes', 'iris', 'scale']"
               max=125
               min=50
             )
@@ -38,7 +38,7 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.width"
-              :val="['eyes', 'pupils', 'width']"
+              :val="['propers', 'eyes', 'pupils', 'width']"
               max=100
               min=10
             )
@@ -51,7 +51,7 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.horizontal"
-              :val="['eyes', 'position', 'horiz']"
+              :val="['propers', 'eyes', 'position', 'horiz']"
               max=100
               min=-100
             )
@@ -60,7 +60,7 @@
 
             BarSlider(
               :text="lang.menu.eyes.vertical"
-              :val="['eyes', 'position', 'verti']"
+              :val="['propers', 'eyes', 'position', 'verti']"
               max=100
               min=-100
             )
@@ -73,20 +73,20 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.upper"
-              :val="['eyes', 'eyelids', 'left', 'up']"
+              :val="['propers', 'eyes', 'eyelids', 'left', 'up']"
               max=100
               min=0
-              :compare="['eyes', 'eyelids', 'left', 'down']"
+              :compare="['propers', 'eyes', 'eyelids', 'left', 'down']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.lower"
-              :val="['eyes', 'eyelids', 'left', 'down']"
+              :val="['propers', 'eyes', 'eyelids', 'left', 'down']"
               max=100
               min=0
-              :compare="['eyes', 'eyelids', 'left', 'up']"
+              :compare="['propers', 'eyes', 'eyelids', 'left', 'up']"
             )
 
           v-divider.my-4
@@ -97,20 +97,20 @@
           v-card(outlined).my-2
             BarSlider(
               :text="lang.menu.eyes.upper"
-              :val="['eyes', 'eyelids', 'right', 'up']"
+              :val="['propers', 'eyes', 'eyelids', 'right', 'up']"
               max=100
               min=0
-              :compare="['eyes', 'eyelids', 'right', 'down']"
+              :compare="['propers', 'eyes', 'eyelids', 'right', 'down']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.lower"
-              :val="['eyes', 'eyelids', 'right', 'down']"
+              :val="['propers', 'eyes', 'eyelids', 'right', 'down']"
               max=100
               min=0
-              :compare="['eyes', 'eyelids', 'right', 'up']"
+              :compare="['propers', 'eyes', 'eyelids', 'right', 'up']"
             )
 
 
@@ -118,17 +118,17 @@
 
           BarSwitch(
             :text="lang.menu.eyes.eyebrows.title"
-            :val="['eyes', 'brows', 'show']"
+            :val="['propers', 'eyes', 'brows', 'show']"
           )
 
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.eyes.eyebrows.left }}
 
-          v-card(outlined :disabled="off(['eyes', 'brows', 'show'])").my-2
+          v-card(outlined :disabled="off(['propers', 'eyes', 'brows', 'show'])").my-2
             BarSlider(
               :text="lang.menu.eyes.eyebrows.width"
-              :val="['eyes', 'brows', 'left', 'width']"
+              :val="['propers', 'eyes', 'brows', 'left', 'width']"
               max=150
               min=50
             )
@@ -137,7 +137,7 @@
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.height"
-              :val="['eyes', 'brows', 'left', 'height']"
+              :val="['propers', 'eyes', 'brows', 'left', 'height']"
               max=100
               min=-100
             )
@@ -146,20 +146,20 @@
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.evil"
-              :val="['eyes', 'brows', 'left', 'evil']"
+              :val="['propers', 'eyes', 'brows', 'left', 'evil']"
               max=100
               min=0
-              :compare="['eyes', 'brows', 'left', 'wide']"
+              :compare="['propers', 'eyes', 'brows', 'left', 'wide']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.wide"
-              :val="['eyes', 'brows', 'left', 'wide']"
+              :val="['propers', 'eyes', 'brows', 'left', 'wide']"
               max=100
               min=0
-              :compare="['eyes', 'brows', 'left', 'evil']"
+              :compare="['propers', 'eyes', 'brows', 'left', 'evil']"
             )
 
 
@@ -168,10 +168,13 @@
 
           p.subtitle-2 {{ lang.menu.eyes.eyebrows.right }}
 
-          v-card(outlined :disabled="off(['eyes', 'brows', 'show'])").my-2
+          v-card(
+            outlined
+            :disabled="off(['propers', 'eyes', 'brows', 'show'])"
+          ).my-2
             BarSlider(
               :text="lang.menu.eyes.eyebrows.width"
-              :val="['eyes', 'brows', 'right', 'width']"
+              :val="['propers', 'eyes', 'brows', 'right', 'width']"
               max=150
               min=50
             )
@@ -180,7 +183,7 @@
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.height"
-              :val="['eyes', 'brows', 'right', 'height']"
+              :val="['propers', 'eyes', 'brows', 'right', 'height']"
               max=100
               min=-100
             )
@@ -189,20 +192,20 @@
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.evil"
-              :val="['eyes', 'brows', 'right', 'evil']"
+              :val="['propers', 'eyes', 'brows', 'right', 'evil']"
               max=100
               min=0
-              :compare="['eyes', 'brows', 'right', 'wide']"
+              :compare="['propers', 'eyes', 'brows', 'right', 'wide']"
             )
 
             v-divider
 
             BarSlider(
               :text="lang.menu.eyes.eyebrows.wide"
-              :val="['eyes', 'brows', 'right', 'wide']"
+              :val="['propers', 'eyes', 'brows', 'right', 'wide']"
               max=100
               min=0
-              :compare="['eyes', 'brows', 'right', 'evil']"
+              :compare="['propers', 'eyes', 'brows', 'right', 'evil']"
             )
 
 
@@ -213,7 +216,7 @@
         v-expansion-panel-content
           BarSwitch(
             :text="lang.enable"
-            :val="['glasses', 'enable']"
+            :val="['propers', 'glasses', 'enable']"
           )
 
           v-divider.my-4
@@ -221,21 +224,24 @@
           BarColor(
             :text="lang.menu.glasses.color.lenses"
             :val="['color', 'glasses', 'lenses']"
-            :off="['glasses', 'enable']"
+            :off="['propers', 'glasses', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.glasses.color.frame"
             :val="['color', 'glasses', 'frame']"
-            :off="['glasses', 'enable']"
+            :off="['propers', 'glasses', 'enable']"
           )
 
           v-divider.my-4
 
-          v-card(outlined :disabled="off(['glasses', 'enable'])").my-2
+          v-card(
+            outlined
+            :disabled="off(['propers', 'glasses', 'enable'])"
+          ).my-2
             BarSlider(
               :text="lang.menu.glasses.width"
-              :val="['glasses', 'width']"
+              :val="['propers', 'glasses', 'width']"
               max=150
               min=50
             )
@@ -244,8 +250,8 @@
 
           BarList(
             target="glasses"
-            :list="$root.glasses.info"
-            :off="['glasses', 'enable']"
+            :list="$root.propers.glasses.info"
+            :off="['propers', 'glasses', 'enable']"
           )
 
       // Mane
@@ -263,7 +269,7 @@
 
           v-card(outlined)
             v-card(light)
-              v-card-title.body-1.font-weight-bold {{ $root.hair.name[$root.locale] }}
+              v-card-title.body-1.font-weight-bold {{ $root.propers.hair.name[$root.locale] }}
 
             v-divider
 
@@ -281,19 +287,19 @@
 
           BarSwitch(
             :text="lang.enable"
-            :val="['mane', 'second', 'enable']"
+            :val="['propers', 'hair', 'second', 'enable']"
           )
 
           BarSwitch(
             :text="lang.menu.mane.second.ends"
-            :val="['mane', 'second', 'isends']"
-            :off="['mane', 'second', 'enable']"
+            :val="['propers', 'hair', 'second', 'isends']"
+            :off="['propers', 'hair', 'second', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.mane.second.color"
             :val="['color', 'hair', 'second']"
-            :off="['mane', 'second', 'enable']"
+            :off="['propers', 'hair', 'second', 'enable']"
           )
 
 
@@ -314,13 +320,13 @@
 
           BarSwitch(
             :text="lang.enable"
-            :val="['stripes', 'enable']"
+            :val="['propers', 'stripes', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.fur.stripes.color"
             :val="['color', 'stripes', 'basic']"
-            :off="['stripes', 'enable']"
+            :off="['propers', 'stripes', 'enable']"
           )
 
 
@@ -329,46 +335,53 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.horn.title }}
         v-expansion-panel-content
-          BarSwitch(:text="lang.enable" :val="['horn', 'enable']")
+          BarSwitch(
+            :text="lang.enable"
+            :val="['propers', 'horn', 'enable']"
+          )
+
           BarSwitch(
             :text="lang.menu.horn.changeling"
-            :val="['horn', 'changeling']"
-            :off="['horn', 'enable']"
+            :val="['propers', 'horn', 'changeling']"
+            :off="['propers', 'horn', 'enable']"
           )
 
           v-divider.my-4
 
           BarSwitch(
             :text="lang.menu.horn.second"
-            :val="['horn', 'notlines']"
-            :off="['horn', 'enable']"
+            :val="['propers', 'horn', 'notlines']"
+            :off="['propers', 'horn', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.horn.set"
             :val="['color', 'fur', 'second']"
-            :off="['horn', 'enable']"
+            :off="['propers', 'horn', 'enable']"
           )
 
           v-divider.my-4
 
           p.subtitle-2 Rear horns
 
-          BarSwitch(:text="lang.enable" :val="['horn', 'rear']")
+          BarSwitch(
+            :text="lang.enable"
+            :val="['propers', 'horn', 'rear']"
+          )
 
           BarColor(
             :text="lang.menu.horn.set"
             :val="['color', 'hornRear', 'basic']"
             :shade="4 / 5"
-            :off="['horn', 'rear']"
+            :off="['propers', 'horn', 'rear']"
           )
 
           v-divider.my-4
 
           BarList(
             target="horn"
-            :list="$root.horn.info"
-            :off="['horn', 'rear']"
+            :list="$root.propers.horn.info"
+            :off="['propers', 'horn', 'rear']"
           )
 
 
@@ -377,7 +390,10 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.mouth.title }}
         v-expansion-panel-content
-          BarSwitch(:text="lang.menu.mouth.fangs" :val="['fangs']")
+          BarSwitch(
+            :text="lang.menu.mouth.fangs"
+            :val="['propers', 'fangs']"
+          )
 
           v-divider.my-4
 
@@ -403,22 +419,42 @@
           p.subtitle-2 {{ lang.menu.emotion.mouth }}
 
           v-card(outlined).my-2
-            BarSlider(:text="lang.menu.emotion.open", :val="['jaw', 'open']", max=100, min=0)
+            BarSlider(
+              :text="lang.menu.emotion.open"
+              :val="['propers', 'jaw', 'open']"
+              max=100
+              min=0
+            )
 
             v-divider
 
-            BarSlider(:text="lang.menu.emotion.sad", :val="['jaw', 'sad']", max=100, min=0)
+            BarSlider(
+              :text="lang.menu.emotion.sad"
+              :val="['propers', 'jaw', 'sad']"
+              max=100
+              min=0
+            )
 
           v-divider.my-4
 
           p.subtitle-2 {{ lang.menu.emotion.teeth }}
 
           v-card(outlined).my-2
-            BarSlider(:text="lang.menu.emotion.upper", :val="['teeth', 'upper']", max=100, min=0)
+            BarSlider(
+              :text="lang.menu.emotion.upper"
+              :val="['propers', 'teeth', 'upper']"
+              max=100
+              min=0
+            )
 
             v-divider
 
-            BarSlider(:text="lang.menu.emotion.lower", :val="['teeth', 'lower']", max=100, min=0)
+            BarSlider(
+              :text="lang.menu.emotion.lower"
+              :val="['propers', 'teeth', 'lower']"
+              max=100
+              min=0
+            )
 
 
       // Ears
@@ -426,7 +462,10 @@
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.ears.title }}
         v-expansion-panel-content
-          BarSwitch.my-2(:text="lang.menu.ears.tassels" :val="['tassels']")
+          BarSwitch.my-2(
+            :text="lang.menu.ears.tassels"
+            :val="['propers', 'tassels']"
+          )
 
 
       // Piercing
@@ -446,7 +485,7 @@
 
           BarSwitch(
             :text="lang.enable"
-            :val="['piercings', 'left', 'enable']"
+            :val="['propers', 'piercings', 'left', 'enable']"
           )
 
           v-btn-toggle(
@@ -457,19 +496,19 @@
           )
             v-btn(
               outlined
-              :disabled="off(['piercings', 'left', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'left', 'enable'])"
               :aria-label="lang.one"
             ) {{ lang.one }}
 
             v-btn(
               outlined
-              :disabled="off(['piercings', 'left', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'left', 'enable'])"
               :aria-label="lang.two"
             ) {{ lang.two }}
 
             v-btn(
               outlined
-              :disabled="off(['piercings', 'left', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'left', 'enable'])"
               :aria-label="lang.three"
             ) {{ lang.three }}
 
@@ -479,7 +518,7 @@
 
           BarSwitch(
             :text="lang.enable"
-            :val="['piercings', 'right', 'enable']"
+            :val="['propers', 'piercings', 'right', 'enable']"
           )
 
           v-btn-toggle(
@@ -490,19 +529,19 @@
           )
             v-btn(
               outlined
-              :disabled="off(['piercings', 'right', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'right', 'enable'])"
               :aria-label="lang.one"
             ) {{ lang.one }}
 
             v-btn(
               outlined
-              :disabled="off(['piercings', 'right', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'right', 'enable'])"
               :aria-label="lang.two"
             ) {{ lang.two }}
 
             v-btn(
               outlined
-              :disabled="off(['piercings', 'right', 'enable'])"
+              :disabled="off(['propers', 'piercings', 'right', 'enable'])"
               :aria-label="lang.three"
             ) {{ lang.three }}
 
@@ -514,7 +553,7 @@
         v-expansion-panel-content
           BarSwitch(
             :text="lang.enable"
-            :val="['hooves', 'enable']"
+            :val="['propers', 'hooves', 'enable']"
           )
 
 
@@ -531,10 +570,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.shoulder }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'left', 'shoulder', 'rise']"
+              :val="['propers', 'hooves', 'left', 'shoulder', 'rise']"
               max=100
               min=0
             )
@@ -543,7 +582,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'left', 'shoulder', 'angle']"
+              :val="['propers', 'hooves', 'left', 'shoulder', 'angle']"
               max=180
               min=-180
             )
@@ -553,10 +592,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.elbow }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'left', 'elbow', 'rise']"
+              :val="['propers', 'hooves', 'left', 'elbow', 'rise']"
               max=100
               min=0
             )
@@ -565,7 +604,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'left', 'elbow', 'angle']"
+              :val="['propers', 'hooves', 'left', 'elbow', 'angle']"
               max=180
               min=-180
             )
@@ -575,10 +614,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.wrist }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'left', 'wrist', 'rise']"
+              :val="['propers', 'hooves', 'left', 'wrist', 'rise']"
               max=100
               min=0
             )
@@ -587,7 +626,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'left', 'wrist', 'angle']"
+              :val="['propers', 'hooves', 'left', 'wrist', 'angle']"
               max=180
               min=-180
             )
@@ -606,10 +645,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.shoulder }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'right', 'shoulder', 'rise']"
+              :val="['propers', 'hooves', 'right', 'shoulder', 'rise']"
               max=100
               min=0
             )
@@ -618,7 +657,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'right', 'shoulder', 'angle']"
+              :val="['propers', 'hooves', 'right', 'shoulder', 'angle']"
               max=180
               min=-180
             )
@@ -628,10 +667,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.elbow }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'right', 'elbow', 'rise']"
+              :val="['propers', 'hooves', 'right', 'elbow', 'rise']"
               max=100
               min=0
             )
@@ -640,7 +679,7 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'right', 'elbow', 'angle']"
+              :val="['propers', 'hooves', 'right', 'elbow', 'angle']"
               max=180
               min=-180
             )
@@ -650,10 +689,10 @@
 
           p.subtitle-2 {{ lang.menu.hooves.wrist }}
 
-          v-card(outlined :disabled="off(['hooves', 'enable'])").my-2
+          v-card(outlined :disabled="off(['propers', 'hooves', 'enable'])").my-2
             BarSlider(
               :text="lang.menu.hooves.rise"
-              :val="['hooves', 'right', 'wrist', 'rise']"
+              :val="['propers', 'hooves', 'right', 'wrist', 'rise']"
               max=100
               min=0
             )
@@ -662,27 +701,41 @@
 
             BarSlider(
               :text="lang.menu.hooves.angle"
-              :val="['hooves', 'right', 'wrist', 'angle']"
+              :val="['propers', 'hooves', 'right', 'wrist', 'angle']"
               max=180
               min=-180
             )
 
 
-      // Hooves
+      // Neck
 
       v-expansion-panel
         v-expansion-panel-header.title {{ lang.menu.neck.title }}
         v-expansion-panel-content
           BarSwitch(
             :text="lang.menu.neck.collar.enable"
-            :val="['collar', 'enable']"
+            :val="['propers', 'collar', 'enable']"
           )
 
           BarColor(
             :text="lang.menu.neck.collar.color"
             :shade="3 / 5"
             :val="['color','collar', 'basic']"
-            :off="['collar', 'enable']"
+            :off="['propers', 'collar', 'enable']"
+          )
+
+          v-divider.my-4
+
+          BarSwitch(
+            text="bowtie"
+            :val="['propers', 'bowtie', 'enable']"
+          )
+
+          BarColor(
+            text="bowtie"
+            :shade="5 / 6"
+            :val="['color','bowtie', 'basic']"
+            :off="['propers', 'bowtie', 'enable']"
           )
 
 
@@ -755,7 +808,7 @@
       leftPiercings:  (val) -> @setPiercing val, ["piercings", 'left']
       rightPiercings: (val) -> @setPiercing val, ["piercings", 'right']
 
-      "$root.male": (male) ->
+      "$root.propers.male": (male) ->
         if male
           @gender.color = "blue"
           @gender.icon  = "gender-male"
@@ -766,8 +819,8 @@
     computed:
       lang: -> return @locales[@$root.locale]
       name:
-        get:       -> @$root.name
-        set: (val) -> @$root.name = val
+        get:       -> @$root.propers.name
+        set: (val) -> @$root.propers.name = val
 
       warnColor: ->
         if @$root.warning.close
@@ -776,11 +829,11 @@
     methods:
       off: (val) -> not getProp @$root, val
 
-      changeGender: -> @$root.male = !@$root.male
+      changeGender: -> @$root.propers.male = !@$root.propers.male
 
       setPiercing: (val, target) ->
         if val is 0
-          setProp @$root, target, {
+          setProp @$root.propers, target, {
             enable: on
             upper: off
             middle: off
@@ -788,7 +841,7 @@
           }
 
         else if val is 1
-          setProp @$root, target, {
+          setProp @$root.propers, target, {
             enable: on
             upper: off
             middle: on
@@ -796,7 +849,7 @@
           }
 
         else if val is 2
-          setProp @$root, target, {
+          setProp @$root.propers, target, {
             enable: on
             upper: on
             middle: on

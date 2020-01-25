@@ -25,9 +25,9 @@ License: CC BY-NC-ND 4.0 https://creativecommons.org/licenses/by-nc-nd/4.0/
 module.exports = {
   entry: {
     index: './src/pages/index/main.ts',
-    about: './src/pages/about/main.coffee',
-    support: './src/pages/support/main.coffee',
-    editor: './src/pages/editor/main.coffee'
+    about: './src/pages/about/main.ts',
+    support: './src/pages/support/main.ts',
+    editor: './src/pages/editor/main.ts'
   },
 
   module: {
@@ -91,43 +91,83 @@ module.exports = {
     ]
   },
 
+  resolve: {
+    extensions: ['.ts', '.js', '.json']
+  },
+
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js',
+    filename: 'js/[name].[hash].js',
     publicPath: '/'
+  },
+
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+
+      cacheGroups: {
+        vue: {
+          name: "vue",
+          test: /[\\/]node_modules[\\/](vue)[\\/]/
+        },
+
+        vuetify: {
+          name: "vuetify",
+          test: /[\\/]node_modules[\\/](vuetify)[\\/]/,
+          enforce: true
+        },
+
+        ajax: {
+          name: "ajax",
+          test: /[\\/]node_modules[\\/](vue-resource)[\\/]/,
+          enforce: true
+        },
+
+        commons: {
+          name: "vendors",
+          test: /[\\/]node_modules[\\/](?!vue)[a-z-]+[\\/]/,
+          minChunks: 2
+        }
+      }
+    }
   },
 
   plugins: [
     new FriendlyErrorsWebpackPlugin(),
     new VueLoaderPlugin(),
-    //new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
+
+
+    // HTML plugin
 
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./src/template/pages/render/index.pug",
-      inject: false
+      chunks: ["index", "vue", "vuetify", "vendors"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "about/index.html",
       template: "./src/template/pages/render/about.pug",
-      inject: false
+      chunks: ["about", "vue", "vuetify", "ajax", "vendors"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "editor/index.html",
       template: "./src/template/pages/render/editor.pug",
-      inject: false
+      chunks: ["editor", "vue", "vuetify", "ajax", "vendors"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "support/index.html",
       template: "./src/template/pages/render/support.pug",
-      inject: false
+      chunks: ["support", "vue", "vuetify", "vendors"]
     }),
 
 
-    /*new PrerenderSPAPlugin({
+    // Prerender
+
+    new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, 'dist'),
       routes: ['/'],
       postProcess(renderedRoute) {
@@ -183,13 +223,17 @@ module.exports = {
 
         return renderedRoute;
       }
-    }),*/
+    }),
 
 
-    new OptimizeCssAssetsPlugin({ cssProcessorOptions: { discardComments: { removeAll: true } } }),
+    new OptimizeCssAssetsPlugin({
+      cssProcessorOptions: {
+        discardComments: { removeAll: true }
+      }
+    }),
 
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
+      filename: 'css/[name].[hash].css'
     }),
 
     new webpack.BannerPlugin({
@@ -212,9 +256,6 @@ module.exports = {
   ],
 
   externals: {
-    'vuetify': 'Vuetify',
-    'vue-resource': 'VueResource',
-    vue: 'Vue',
     "socket.io-client": "io"
   }
 }

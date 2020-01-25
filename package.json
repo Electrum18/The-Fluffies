@@ -12,8 +12,9 @@
     "webpack:dev": "webpack --mode=development"
   },
   "dependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "abs-svg-path": "x",
-    "core-js": "^3.6.2",
+    "core-js": "^3.6.4",
     "curvify-svg-path": "x",
     "express": "x",
     "parse-svg-path": "x",
@@ -21,7 +22,7 @@
     "socket.io": "^2.3.0",
     "vue": "^2.6.11",
     "vue-resource": "x",
-    "vuetify": "^2.2.3"
+    "vuetify": "^2.2.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.2",
@@ -32,7 +33,7 @@
     "coffee-loader": "x",
     "coffeescript": "^2.5.0",
     "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.4.1",
+    "css-loader": "^3.4.2",
     "extract-loader": "^3.1.0",
     "fibers": "^4.0.2",
     "file-loader": "^4.3.0",
@@ -45,12 +46,12 @@
     "prerender-spa-plugin": "x",
     "pug-plain-loader": "x",
     "raw-loader": "^3.1.0",
-    "sass": "^1.24.3",
-    "sass-loader": "^8.0.0",
+    "sass": "^1.25.0",
+    "sass-loader": "^8.0.2",
     "sitemap-webpack-plugin": "^0.6.0",
-    "style-loader": "^1.1.2",
+    "style-loader": "^1.1.3",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.4",
+    "typescript": "^3.7.5",
     "vue-cli-plugin-coffeescript": "x",
     "vue-cli-plugin-pug": "x",
     "vue-cli-plugin-vuetify": "^2.0.3",

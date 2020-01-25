@@ -7,6 +7,7 @@
         fixed
         right
         temporary
+        touchless
         :permanent="opened.Avatar"
         hide-overlay
       )
@@ -18,6 +19,7 @@
         fixed
         right
         temporary
+        touchless
         :permanent="opened.Hairs"
         hide-overlay
       )
@@ -34,7 +36,7 @@
           v-btn.d-none.d-sm-inline-flex(
             dark
             rounded
-            :href="'/' + search"
+            href="/"
             :title="lang.back"
             :aria-label="lang.back"
           )
@@ -46,7 +48,7 @@
             rounded
             fab
             small
-            :href="'/' + search"
+            href="/"
             :title="lang.back"
             :aria-label="lang.back"
           )
@@ -109,88 +111,104 @@
               v-list-item-icon(right): v-icon(v-text="item.icon")
               v-list-item-content
                 v-list-item-title(v-text="item.text[$root.locale]")
-
 </template>
 
-<script lang="coffee">
-  import Screener from "../../components/TheScreener.vue"
-  import Avatar from "../../components/TheAvatar.vue"
-  import Chat  from "../../components/TheChat.vue"
-  import Menu  from "../../components/TheMenu.vue"
-  import Hairs from "../../components/TheMenuHairs.vue"
-  import Language from "../../components/Languages.vue"
+<script lang="ts">
+import Screener from "../../components/TheScreener.vue"
+import Avatar from "../../components/TheAvatar.vue"
+import Chat  from "../../components/TheChat.vue"
+import Menu  from "../../components/TheMenu.vue"
+import Hairs from "../../components/TheMenuHairs.vue"
 
-  import en from "../../assets/json/locales/en/editor.json"
-  import ru from "../../assets/json/locales/ru/editor.json"
+import en from "../../assets/json/locales/en/editor.json"
+import ru from "../../assets/json/locales/ru/editor.json"
 
-  export default
-    data: ->
-      opened:
-        Avatar: off
-        Hairs: off
-        Capture: off
-        List: off
+import Vue from "vue"
 
-      loadings: []
-      background: ""
+export default Vue.extend({
+  data() {
+    return {
+      opened: {
+        Avatar: false,
+        Hairs: false,
+        Capture: false,
+        List: false
+      },
+
+      loadings: [],
+      background: "",
 
       list: [
         {
-          text:
+          text: {
             en: "Avatar",
             ru: "Аватар"
+          },
 
           icon: "$vuetify.icons.values.pony"
         }, {
-          text:
-            en: "Animate"
+          text: {
+            en: "Animate",
             ru: "Анимация"
+          },
 
-          icon: "mdi-movie-open"
-          disabled: yes
+          icon: "mdi-movie-open",
+          disabled: true
         }, {
-          text:
-            en: "Capture"
+          text: {
+            en: "Capture",
             ru: "Запечатлеть"
+          },
 
           icon: "mdi-camera"
         }
-      ]
+      ],
 
-      locales: {
-        en
-        ru
-      }
-
-    computed:
-      lang: -> return @locales[@$root.locale]
-      search: -> return "?l=" + @$root.locale
-
-    watch:
-      "$root.loadings": (val) -> @loadings = val
-      "$root.color.background.basic": (val) -> @background = val
-
-    mounted: ->
-      @loadings   = @$root.loadings
-      @background = @$root.color.background.basic
-
-    components: {
-      Screener
-      Avatar
-      Chat
-      Menu
-      Hairs
-      Language
+      locales: { en, ru }
     }
+  },
+
+  computed: {
+    lang(): object {
+      return (this.locales as any)[(this.$root as any).locale];
+    }
+  },
+
+  watch: {
+    "$root.loadings"(val) { this.loadings = val },
+    "$root.color.background.basic"(val) { this.background = val }
+  },
+
+  mounted() {
+    this.loadings   = (this.$root as any).loadings;
+    this.background = (this.$root as any).color.background.basic;
+  },
+
+  components: {
+    Screener,
+    Avatar,
+    Chat,
+    Menu,
+    Hairs
+  }
+});
 </script>
 
 <style lang="sass">
   html
-    overflow-y: auto!important
+    overflow: auto!important
+
+  body
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat
+    background-size: 16px
 
   .grad .v-badge__badge, button.grad
     background-image: linear-gradient(to right, #fa2, #f64)
 
   .inputs .v-input__control
     height: 0
+
+  .hide
+    opacity: 0!important
+    height: 0!important
 </style>

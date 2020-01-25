@@ -48,7 +48,7 @@ export default Vue.extend({
     list(val) {
       const
         root: any   = this.$root,
-        rootElement = root[this.target];
+        rootElement = root.propers[this.target];
 
       for (let i = 0, len = val.length; i < len; i++) {
         const element = val[i];
@@ -77,7 +77,7 @@ export default Vue.extend({
     setElementName(name: string) {
       const root: any = this.$root;
 
-      root[this.target].name = name
+      root.propers[this.target].name = name
     }
   },
 
@@ -85,7 +85,7 @@ export default Vue.extend({
     const
       list        = this.list,
       root: any   = this.$root,
-      rootElement = root[this.target];
+      rootElement = root.propers[this.target];
 
     for (let i = 0, len = list.length; i < len; i++) {
       const element = list[i];
