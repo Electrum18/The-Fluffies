@@ -18,17 +18,14 @@ Created in the summer of 2018 with the idea of &#8203;&#8203;using vector animat
 
 If you are interested in drawing, programming and other activities, tell me, Electrum18, I don’t have enough time to develop alone.
 
-The site uses `Coffeescript` for writing interactive on the editor page
+The site uses `Typescript` as language
 
-`Vue.js` framework is used to manipulate elements, `Polymorph` will be used for animation calculations
+`Vue.js` framework is used to manipulate elements and `Vuetify` for UI
 
 For compilation used `Webpack` bandler
 
 ### In future plans
 - Add more `hairstyles`
-- Using the `webcamera` to capture movements to control the "avatar"
-- The ability to `create widgets` for embedding in websites and forums (iframe)
-- Adding more `accessories`
 - Adding `premium` features via donation
 - Adding `animation` and avatar manipulation tools
 
@@ -45,7 +42,7 @@ For compilation used `Webpack` bandler
 
 
 ### Issues
-- Animation calculation is too overloaded.
+- Character is drawn for a long time.
 
 ### Adding to the project
 If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered.
