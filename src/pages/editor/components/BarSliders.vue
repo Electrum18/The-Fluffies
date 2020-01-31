@@ -16,7 +16,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp, setProp } from "../assets/js/nested"
+import { getProp, setProp } from "../../../assets/ts/nested"
+import {
+  VCol,
+  VRow,
+  VSpacer,
+  VSlider
+} from 'vuetify/lib'
 
 export default Vue.extend({
   props: {
@@ -53,6 +59,13 @@ export default Vue.extend({
         }
       }
     }
+  },
+
+  components: {
+    VCol,
+    VRow,
+    VSpacer,
+    VSlider
   }
 });
 </script>

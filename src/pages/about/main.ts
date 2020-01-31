@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
 import VueResource from "vue-resource"
 
 import App from './App.vue'

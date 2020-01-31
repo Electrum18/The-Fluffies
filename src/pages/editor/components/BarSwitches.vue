@@ -12,7 +12,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp, setProp } from "../assets/js/nested"
+import { getProp, setProp } from "../../../assets/ts/nested"
+import {
+  VCard,
+  VRow,
+  VSpacer,
+  VSwitch
+} from 'vuetify/lib'
 
 export default Vue.extend({
   props: {
@@ -45,6 +51,13 @@ export default Vue.extend({
         setProp(root, this.val as string[], setVal);
       }
     }
+  },
+
+  components: {
+    VCard,
+    VRow,
+    VSpacer,
+    VSwitch
   }
 });
 </script>

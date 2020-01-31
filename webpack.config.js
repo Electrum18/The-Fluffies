@@ -123,11 +123,11 @@ module.exports = {
           enforce: true
         },
 
-        commons: {
+        /*commons: {
           name: "vendors",
           test: /[\\/]node_modules[\\/](?!vue)[a-z-]+[\\/]/,
           minChunks: 2
-        }
+        }*/
       }
     }
   },
@@ -143,25 +143,25 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./src/template/pages/render/index.pug",
-      chunks: ["index", "vue", "vuetify", "vendors"]
+      chunks: ["index", "vue", "vuetify"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "about/index.html",
       template: "./src/template/pages/render/about.pug",
-      chunks: ["about", "vue", "vuetify", "ajax", "vendors"]
+      chunks: ["about", "vue", "vuetify", "ajax"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "editor/index.html",
       template: "./src/template/pages/render/editor.pug",
-      chunks: ["editor", "vue", "vuetify", "ajax", "vendors"]
+      chunks: ["editor", "vue", "vuetify", "ajax"]
     }),
 
     new HtmlWebpackPlugin({
       filename: "support/index.html",
       template: "./src/template/pages/render/support.pug",
-      chunks: ["support", "vue", "vuetify", "vendors"]
+      chunks: ["support", "vue", "vuetify"]
     }),
 
 

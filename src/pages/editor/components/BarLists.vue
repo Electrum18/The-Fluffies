@@ -22,7 +22,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp } from "../assets/js/nested"
+import { getProp } from "../../../assets/ts/nested"
+import {
+  VCard,
+  VList,
+  VListItem,
+  VListItemTitle,
+  VListItemSubtitle,
+  VListItemContent,
+  VListItemGroup,
+  VBottomSheet
+} from 'vuetify/lib'
+
 
 export default Vue.extend({
   props: {
@@ -94,6 +105,17 @@ export default Vue.extend({
         this.selected = i;
       }
     }
+  },
+
+  components: {
+    VCard,
+    VList,
+    VListItem,
+    VListItemTitle,
+    VListItemSubtitle,
+    VListItemContent,
+    VListItemGroup,
+    VBottomSheet
   }
 });
 </script>

@@ -206,9 +206,8 @@
   ["head", [
     { "type": "eyeRightLashes",  "fill": false,  "stroke": [9, "#222"] },
 
-    { "type": "horn",       "fill": ["fur", "basic"],  "stroke": false,                 "if": ["horn", "isBasic"] },
-    { "type": "hornSecond", "fill": ["fur", "second"], "stroke": [9, ["fur", "shade"]], "if": ["horn", "isBasic"] },
-    { "type": "horn",       "fill": false,             "stroke": [12, ["fur", "shade"]], "if": ["horn", "isBasic"] },
+    { "type": "horn",       "fill": ["fur", "basic"],  "stroke": [12, ["fur", "shade"]], "if": ["horn", "isBasic"] },
+    { "type": "hornSecond", "fill": false,             "stroke": [9,  ["fur", "shade"]], "if": ["horn", "isBasic"] },
 
     { "type": "hornChangeling", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "if": ["horn", "isChnlg"] },
 

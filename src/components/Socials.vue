@@ -82,6 +82,13 @@
 import Share from "../assets/json/locales/share.json"
 
 import Vue from 'vue'
+import {
+  VRow,
+  VCard,
+  VBtn,
+  VIcon,
+  VDivider
+} from 'vuetify/lib'
 
 export default Vue.extend({
   props: ["dark"],
@@ -134,6 +141,14 @@ export default Vue.extend({
 
       return url;
     }
+  },
+
+  components: {
+    VRow,
+    VCard,
+    VBtn,
+    VIcon,
+    VDivider
   }
 });
 </script>

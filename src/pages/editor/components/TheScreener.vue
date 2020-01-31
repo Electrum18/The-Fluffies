@@ -61,10 +61,20 @@
 <script lang="ts">
 import BarColor from "./BarColors.vue"
 
-import en from "../assets/json/locales/en/editor.json"
-import ru from "../assets/json/locales/ru/editor.json"
+import en from "../../../assets/json/locales/en/editor.json"
+import ru from "../../../assets/json/locales/ru/editor.json"
 
 import Vue from "vue"
+import {
+  VSheet,
+  VContainer,
+  VRow,
+  VCol,
+  VTextField,
+  VBtnToggle,
+  VBtn,
+  VIcon
+} from 'vuetify/lib'
 
 export default Vue.extend({
   data() {
@@ -150,7 +160,16 @@ export default Vue.extend({
   },
 
   components: {
-    BarColor
+    BarColor,
+
+    VSheet,
+    VContainer,
+    VRow,
+    VCol,
+    VTextField,
+    VBtnToggle,
+    VBtn,
+    VIcon
   }
 });
 </script>

@@ -101,6 +101,28 @@ import en from "../../assets/json/locales/en/about.json"
 import ru from "../../assets/json/locales/ru/about.json"
 
 import Vue from "vue"
+import {
+  VApp,
+  VAppBar,
+  VToolbarTitle,
+  VBtn,
+  VIcon,
+  VContent,
+  VItemGroup,
+  VContainer,
+  VCol,
+  VRow,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VSpacer,
+  VListItem,
+  VListItemContent,
+  VListItemTitle,
+  VListItemSubtitle,
+  VListItemAvatar,
+  VFooter
+} from 'vuetify/lib'
 
 import Socials from "../../components/Socials.vue"
 import { HttpResponse } from 'vue-resource/types/vue_resource';
@@ -153,7 +175,28 @@ export default Vue.extend({
   },
 
   components: {
-    Socials
+    Socials,
+
+    VApp,
+    VAppBar,
+    VToolbarTitle,
+    VBtn,
+    VIcon,
+    VContent,
+    VItemGroup,
+    VContainer,
+    VCol,
+    VRow,
+    VCard,
+    VCardTitle,
+    VCardText,
+    VSpacer,
+    VListItem,
+    VListItemContent,
+    VListItemTitle,
+    VListItemSubtitle,
+    VListItemAvatar,
+    VFooter
   }
 });
 </script>

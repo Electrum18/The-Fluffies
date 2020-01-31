@@ -33,7 +33,6 @@
   "horn": {
     "enable": false,
     "changeling": false,
-    "notlines": false,
     "rear": false,
 
     "behind": false,

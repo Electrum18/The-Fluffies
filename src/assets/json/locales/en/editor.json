@@ -80,7 +80,10 @@
       "title": "Horns",
       "changeling": "changeling",
       "second": "second color",
-      "set": "set"
+      "rear": {
+        "title": "Rear horns",
+        "set": "set"
+      }
     },
 
     "mouth": {

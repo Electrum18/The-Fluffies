@@ -49,16 +49,18 @@
                       text
                       large
                       :title="lang.male.title"
-                      href="/editor?g=m"
+                      href="/editor"
                       :aria-label="lang.male.label"
+                      @click="enterAsMale()"
                     ) {{ lang.male.label }}
 
                     v-btn.title(
                       text
                       large
                       :title="lang.female.title"
-                      href="/editor/?g=f"
+                      href="/editor"
                       :aria-label="lang.female.label"
+                      @click="enterAsFemale()"
                     ) {{ lang.female.label }}
 
                 v-btn.title.md-size.d-none.d-md-flex.ma-8(
@@ -112,6 +114,22 @@ import en from "../../assets/json/locales/en/index.json"
 import ru from "../../assets/json/locales/ru/index.json"
 
 import Vue from "vue"
+import {
+  VApp,
+  VChip,
+  VItemGroup,
+  VContainer,
+  VCol,
+  VRow,
+  VBtn,
+  VCard,
+  VCardTitle,
+  VCardActions,
+  VSpacer,
+  VDivider,
+  VFooter,
+  VIcon
+} from 'vuetify/lib'
 
 import Socials from "../../components/Socials.vue"
 
@@ -131,9 +149,13 @@ export default Vue.extend({
     }
   },
 
+  methods: {
+    enterAsMale() { sessionStorage.setItem("gender", "male"); },
+    enterAsFemale() { sessionStorage.setItem("gender", "female"); }
+  },
+
   mounted(): void {
     this.dark = this.hour > 17 || this.hour < 9;
-
 
     // Closing loader
 
@@ -144,7 +166,22 @@ export default Vue.extend({
   },
 
   components: {
-    Socials
+    Socials,
+
+    VApp,
+    VChip,
+    VItemGroup,
+    VContainer,
+    VCol,
+    VRow,
+    VBtn,
+    VCard,
+    VCardTitle,
+    VCardActions,
+    VSpacer,
+    VDivider,
+    VFooter,
+    VIcon
   }
 });
 </script>

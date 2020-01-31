@@ -12,7 +12,6 @@
     "webpack:dev": "webpack --mode=development"
   },
   "dependencies": {
-    "@types/socket.io-client": "^1.4.32",
     "abs-svg-path": "x",
     "core-js": "^3.6.4",
     "curvify-svg-path": "x",
@@ -22,18 +21,20 @@
     "socket.io": "^2.3.0",
     "vue": "^2.6.11",
     "vue-resource": "x",
-    "vuetify": "^2.2.6"
+    "vuetify": "^2.2.8"
   },
   "devDependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^4.1.2",
     "@vue/cli-plugin-typescript": "^4.1.2",
     "@vue/cli-service": "^4.1.2",
     "acorn": "^7.1.0",
     "babel-loader": "x",
     "coffee-loader": "x",
-    "coffeescript": "^2.5.0",
+    "coffeescript": "^2.5.1",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
+    "deepmerge": "^4.2.2",
     "extract-loader": "^3.1.0",
     "fibers": "^4.0.2",
     "file-loader": "^4.3.0",

@@ -1,10 +1,11 @@
 
-type NestedObject = { [key: string]: any }
+type Object       = { [index: string]: any }
+type NestedObject = { [index: string]: Object }
 
 
 // Getting value from a array of value path
 
-interface IGetProp {
+type IGetProp = {
   (
     store: NestedObject,
     props: string[]
@@ -16,7 +17,7 @@ const getProp: IGetProp = (store, props) => {
   let result;
 
   if (props[0]) result = store[props[0]];
-  if (props[1]) result = result[props[1]];
+  if (props[1]) result = (result as Object)[props[1]];
   if (props[2]) result = result[props[2]];
   if (props[3]) result = result[props[3]];
   if (props[4]) result = result[props[4]];
@@ -27,11 +28,11 @@ const getProp: IGetProp = (store, props) => {
 
 // Setting the value by array of value path
 
-interface ISetProp {
+type ISetProp = {
   (
     store: NestedObject,
     props: string[],
-    value: string | boolean | number
+    value: string | boolean | number | Object
   )
   : void
 }
@@ -46,7 +47,7 @@ const setProp: ISetProp = (store, props, value) => {
   } else if (props[1]) {
     store[props[0]][props[1]] = value
   } else {
-    store[props[0]] = value
+    (store as Object)[props[0]] = value
   }
 }
 

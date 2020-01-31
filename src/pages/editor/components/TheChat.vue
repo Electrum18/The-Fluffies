@@ -79,10 +79,26 @@
 <script lang="ts">
 import io from "socket.io-client"
 
-import Vue from 'vue'
+import en from "../../../assets/json/locales/en/editor.json"
+import ru from "../../../assets/json/locales/ru/editor.json"
 
-import en from "../assets/json/locales/en/editor.json"
-import ru from "../assets/json/locales/ru/editor.json"
+import Vue from 'vue'
+import {
+  VMenu,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VCardActions,
+  VBtn,
+  VIcon,
+  VList,
+  VListItem,
+  VListItemContent,
+  VBadge,
+  VTextField,
+  VOverlay
+} from 'vuetify/lib'
+
 
 export default Vue.extend({
   data() {
@@ -182,6 +198,22 @@ export default Vue.extend({
       self.text = "";
       self.name = "";
     });
+  },
+
+  components: {
+    VMenu,
+    VCard,
+    VCardTitle,
+    VCardText,
+    VCardActions,
+    VBtn,
+    VIcon,
+    VList,
+    VListItem,
+    VListItemContent,
+    VBadge,
+    VTextField,
+    VOverlay
   }
 });
 </script>

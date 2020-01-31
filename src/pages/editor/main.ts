@@ -1,11 +1,11 @@
 import Vue from "vue"
 import { DirectiveBinding } from 'vue/types/options'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
 import VueResource from "vue-resource"
 
 import App from "./App.vue"
 
-import IconPony from '../../components/IconPony.vue'
+import IconPony from './components/IconPony.vue'
 
 import PropertiesConfig from "./configs/properties.json"
 import ColorConfig from "./configs/color.json"
@@ -106,15 +106,13 @@ new Vue({
       if (val) setTimeout(() => { self.warning.close = false }, 600);
     },
 
-    "propers.male"(val: string) {
-      window.history.replaceState(
-        {}, "", window.location.pathname + "?g=" + (val ? "m" : "f")
-      )
+    "propers.male"(val: boolean) {
+      sessionStorage.setItem("gender", val ? "male" : "female");
     }
   },
 
   mounted() {
-    this.propers.male = window.location.search[3] === "m";
+    this.propers.male = sessionStorage.getItem("gender") === "male";
 
 
     // Find & set locale

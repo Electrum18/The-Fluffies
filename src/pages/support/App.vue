@@ -81,6 +81,25 @@ import en from "../../assets/json/locales/en/support.json"
 import ru from "../../assets/json/locales/ru/support.json"
 
 import Vue from "vue"
+import {
+  VApp,
+  VAppBar,
+  VToolbarTitle,
+  VBtn,
+  VIcon,
+  VContent,
+  VItemGroup,
+  VContainer,
+  VRow,
+  VCol,
+  VCard,
+  VCardText,
+  VCardTitle,
+  VSpacer,
+  VDivider,
+  VBadge,
+  VFooter
+} from 'vuetify/lib'
 
 import Socials from "../../components/Socials.vue"
 
@@ -123,7 +142,25 @@ export default Vue.extend({
   },
 
   components: {
-    Socials
+    Socials,
+
+    VApp,
+    VAppBar,
+    VToolbarTitle,
+    VBtn,
+    VIcon,
+    VContent,
+    VItemGroup,
+    VContainer,
+    VRow,
+    VCol,
+    VCard,
+    VCardText,
+    VCardTitle,
+    VSpacer,
+    VDivider,
+    VBadge,
+    VFooter
   }
 });
 </script>

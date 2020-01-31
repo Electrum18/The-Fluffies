@@ -114,16 +114,38 @@
 </template>
 
 <script lang="ts">
-import Screener from "../../components/TheScreener.vue"
-import Avatar from "../../components/TheAvatar.vue"
-import Chat  from "../../components/TheChat.vue"
-import Menu  from "../../components/TheMenu.vue"
-import Hairs from "../../components/TheMenuHairs.vue"
+import Screener from "./components/TheScreener.vue"
+import Avatar from "./components/TheAvatar.vue"
+import Chat  from "./components/TheChat.vue"
+import Menu  from "./components/TheMenu.vue"
+import Hairs from "./components/TheMenuHairs.vue"
 
 import en from "../../assets/json/locales/en/editor.json"
 import ru from "../../assets/json/locales/ru/editor.json"
 
 import Vue from "vue"
+import {
+  VApp,
+  VNavigationDrawer,
+  VBottomSheet,
+  VContent,
+  VContainer,
+  VBtn,
+  VIcon,
+  VCol,
+  VScrollXTransition,
+  VAppBar,
+  VChip,
+  VSpacer,
+  VMenu,
+  VList,
+  VListItem,
+  VListItemIcon,
+  VListItemContent,
+  VListItemTitle,
+  VAlert,
+  VProgressCircular
+} from 'vuetify/lib'
 
 export default Vue.extend({
   data() {
@@ -189,7 +211,28 @@ export default Vue.extend({
     Avatar,
     Chat,
     Menu,
-    Hairs
+    Hairs,
+
+    VApp,
+    VNavigationDrawer,
+    VBottomSheet,
+    VContent,
+    VContainer,
+    VBtn,
+    VIcon,
+    VCol,
+    VScrollXTransition,
+    VAppBar,
+    VChip,
+    VSpacer,
+    VMenu,
+    VList,
+    VListItem,
+    VListItemIcon,
+    VListItemContent,
+    VListItemTitle,
+    VAlert,
+    VProgressCircular
   }
 });
 </script>

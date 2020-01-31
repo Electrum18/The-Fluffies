@@ -18,7 +18,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp, setProp } from "../assets/js/nested"
+import { getProp, setProp } from "../../../assets/ts/nested"
+import {
+  VCard,
+  VRow,
+  VSpacer,
+  VMenu,
+  VColorPicker,
+  VBtn,
+  VIcon
+} from 'vuetify/lib'
+
 
 export default Vue.extend({
   props: {
@@ -35,7 +45,7 @@ export default Vue.extend({
   computed: {
     enable(): boolean {
       if (this.off) {
-        return !getProp(this.$root, this.off as string[]) as boolean;
+        return !getProp(this.$root as any, this.off as string[]) as boolean;
       } else {
         return false;
       }
@@ -109,6 +119,16 @@ export default Vue.extend({
 
   mounted() {
     this.value = this.value;  // Execute icon darking
+  },
+
+  components: {
+    VCard,
+    VRow,
+    VSpacer,
+    VMenu,
+    VColorPicker,
+    VBtn,
+    VIcon
   }
 });
 </script>

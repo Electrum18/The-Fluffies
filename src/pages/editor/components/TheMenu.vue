@@ -348,21 +348,7 @@
 
           v-divider.my-4
 
-          BarSwitch(
-            :text="lang.menu.horn.second"
-            :val="['propers', 'horn', 'notlines']"
-            :off="['propers', 'horn', 'enable']"
-          )
-
-          BarColor(
-            :text="lang.menu.horn.set"
-            :val="['color', 'fur', 'second']"
-            :off="['propers', 'horn', 'enable']"
-          )
-
-          v-divider.my-4
-
-          p.subtitle-2 Rear horns
+          p.subtitle-2 {{ lang.menu.horn.rear.title }}
 
           BarSwitch(
             :text="lang.enable"
@@ -370,7 +356,7 @@
           )
 
           BarColor(
-            :text="lang.menu.horn.set"
+            :text="lang.menu.horn.rear.set"
             :val="['color', 'hornRear', 'basic']"
             :shade="4 / 5"
             :off="['propers', 'horn', 'rear']"
@@ -776,107 +762,169 @@
 
 </template>
 
-<script lang="coffee">
-  import { getProp, setProp } from "../assets/js/nestedAdv.coffee"
+<script lang="ts">
+import { getProp, setProp } from "../../../assets/ts/nested"
 
-  import BarList   from "./BarLists.vue"
-  import BarColor  from "./BarColors.vue"
-  import BarSwitch from "./BarSwitches.vue"
-  import BarSlider from "./BarSliders.vue"
+import BarList   from "./BarLists.vue"
+import BarColor  from "./BarColors.vue"
+import BarSwitch from "./BarSwitches.vue"
+import BarSlider from "./BarSliders.vue"
 
-  import en from "../assets/json/locales/en/editor.json"
-  import ru from "../assets/json/locales/ru/editor.json"
+import en from "../../../assets/json/locales/en/editor.json"
+import ru from "../../../assets/json/locales/ru/editor.json"
 
-  export default
-    data: ->
-      leftPiercings:  0
-      rightPiercings: 0
+import Vue from "vue"
+import {
+  VExpansionPanels,
+  VExpansionPanel,
+  VExpansionPanelHeader,
+  VExpansionPanelContent,
+  VCard,
+  VCardTitle,
+  VCardActions,
+  VContainer,
+  VRow,
+  VBtn,
+  VBtnToggle,
+  VIcon,
+  VTextField,
+  VSpacer,
+  VDivider
+} from 'vuetify/lib'
 
-      gender:
-        color: ""
+export default Vue.extend({
+  data() {
+    return {
+      leftPiercings:  0,
+      rightPiercings: 0,
+
+      gender: {
+        color: "",
         icon: ""
+      },
 
-      parent: null
+      parent: null,
 
-      locales: {
-        en
-        ru
-      }
-
-
-    watch:
-      leftPiercings:  (val) -> @setPiercing val, ["piercings", 'left']
-      rightPiercings: (val) -> @setPiercing val, ["piercings", 'right']
-
-      "$root.propers.male": (male) ->
-        if male
-          @gender.color = "blue"
-          @gender.icon  = "gender-male"
-        else
-          @gender.color = "pink"
-          @gender.icon  = "gender-female"
-
-    computed:
-      lang: -> return @locales[@$root.locale]
-      name:
-        get:       -> @$root.propers.name
-        set: (val) -> @$root.propers.name = val
-
-      warnColor: ->
-        if @$root.warning.close
-          return "red"
-
-    methods:
-      off: (val) -> not getProp @$root, val
-
-      changeGender: -> @$root.propers.male = !@$root.propers.male
-
-      setPiercing: (val, target) ->
-        if val is 0
-          setProp @$root.propers, target, {
-            enable: on
-            upper: off
-            middle: off
-            lower: on
-          }
-
-        else if val is 1
-          setProp @$root.propers, target, {
-            enable: on
-            upper: off
-            middle: on
-            lower: on
-          }
-
-        else if val is 2
-          setProp @$root.propers, target, {
-            enable: on
-            upper: on
-            middle: on
-            lower: on
-          }
-
-      openManes: ->
-        @$parent.$parent.$parent.opened.Hairs  = !@$parent.$parent.$parent.opened.Hairs
-        @$parent.$parent.$parent.opened.Avatar = !@$parent.$parent.$parent.opened.Avatar
-
-      close: ->
-        @$parent.$parent.$parent.opened.Avatar  = !@$parent.$parent.$parent.opened.Avatar
-
-    mounted: ->
-      if @$root.male
-        @gender.color = "blue"
-        @gender.icon  = "gender-male"
-      else
-        @gender.color = "pink"
-        @gender.icon  = "gender-female"
-
-    components: {
-      BarList
-      BarColor
-      BarSwitch
-      BarSlider
+      locales: { en, ru }
     }
+  },
+
+  watch: {
+    leftPiercings(val: any)  { this.setPiercing(val, ["piercings", 'left' ]); },
+    rightPiercings(val: any) { this.setPiercing(val, ["piercings", 'right']); },
+
+    "$root.propers.male"(male: boolean) {
+      if (male) {
+        this.gender.color = "blue";
+        this.gender.icon  = "gender-male";
+      } else {
+        this.gender.color = "pink";
+        this.gender.icon  = "gender-female";
+      }
+    }
+  },
+
+  computed: {
+    lang(): any {
+      return (this.locales as any)[(this.$root as any).locale];
+    },
+
+    name: {
+      get(): any {
+        return (this.$root as any).propers.name;
+      },
+
+      set(val: string) {
+        (this.$root as any).propers.name = val;
+      }
+    },
+
+    warnColor() {
+      if ((this.$root as any).warning.close) return "red";
+    }
+  },
+
+  methods: {
+    off(val: string[]): boolean { return !getProp(this.$root as any, val) },
+
+    changeGender() {
+      (this.$root as any).propers.male = !(this.$root as any).propers.male
+    },
+
+    setPiercing(val: number, target: string[]) {
+      if (val === 0) {
+        setProp((this.$root as any).propers, target, {
+          enable: true,
+          upper: false,
+          middle: false,
+          lower: true
+        });
+
+      } else if (val === 1) {
+        setProp((this.$root as any).propers, target, {
+          enable: true,
+          upper: false,
+          middle: true,
+          lower: true
+        });
+
+      } else if (val === 2) {
+        setProp((this.$root as any).propers, target, {
+          enable: true,
+          upper: true,
+          middle: true,
+          lower: true
+        });
+      }
+    },
+
+    openManes() {
+      const parent: any = this.$parent.$parent.$parent;
+
+      parent.opened.Hairs  = !parent.opened.Hairs;
+      parent.opened.Avatar = !parent.opened.Avatar;
+    },
+
+    close() {
+      const parent: any = this.$parent.$parent.$parent;
+
+      parent.opened.Avatar  = !parent.opened.Avatar;
+    }
+  },
+
+  mounted() {
+    if ((this.$root as any).male) {
+      this.gender.color = "blue"
+      this.gender.icon  = "gender-male"
+    } else {
+      this.gender.color = "pink"
+      this.gender.icon  = "gender-female"
+    }
+  },
+
+  components: {
+    BarList,
+    BarColor,
+    BarSwitch,
+    BarSlider,
+
+    VExpansionPanels,
+    VExpansionPanel,
+    VExpansionPanelHeader,
+    VExpansionPanelContent,
+    VCard,
+    VCardTitle,
+    VCardActions,
+    VContainer,
+    VRow,
+    VBtn,
+    VBtnToggle,
+    VIcon,
+    VTextField,
+    VSpacer,
+    VDivider
+  }
+});
 </script>
 
 <style lang="sass">
