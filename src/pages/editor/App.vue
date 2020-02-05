@@ -89,17 +89,23 @@
 
         v-spacer
 
+
         // List popup menu
 
         v-menu(auto v-model="opened.List")
           template(v-slot:activator="{ on }")
-            v-btn(
-              fab
-              style="pointer-events: auto"
-              v-on="on"
-              aria-label="Open list"
-            )
-              v-icon(large) mdi-menu
+            v-tooltip(v-model="hint.edit" left allow-overflow)
+              template(v-slot:activator="{ none }")
+                v-btn(
+                  fab
+                  style="pointer-events: auto"
+                  v-on="on"
+                  aria-label="Open list"
+                )
+                  v-icon(large) mdi-menu
+              span.ml-zero
+                v-icon(left) mdi-alert-circle-outline
+                | {{ lang.hints.edit }}
 
           v-list(dense)
             v-list-item(
@@ -114,16 +120,16 @@
 </template>
 
 <script lang="ts">
-import Screener from "./components/TheScreener.vue"
-import Avatar from "./components/TheAvatar.vue"
-import Chat  from "./components/TheChat.vue"
-import Menu  from "./components/TheMenu.vue"
-import Hairs from "./components/TheMenuHairs.vue"
+import Screener from './components/TheScreener.vue'
+import Avatar from './components/TheAvatar.vue'
+import Chat  from './components/TheChat.vue'
+import Menu  from './components/TheMenu.vue'
+import Hairs from './components/TheMenuHairs.vue'
 
-import en from "../../assets/json/locales/en/editor.json"
-import ru from "../../assets/json/locales/ru/editor.json"
+import en from '../../assets/json/locales/en/editor.json'
+import ru from '../../assets/json/locales/ru/editor.json'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VApp,
   VNavigationDrawer,
@@ -144,7 +150,8 @@ import {
   VListItemContent,
   VListItemTitle,
   VAlert,
-  VProgressCircular
+  VProgressCircular,
+  VTooltip
 } from 'vuetify/lib'
 
 export default Vue.extend({
@@ -157,32 +164,36 @@ export default Vue.extend({
         List: false
       },
 
+      hint: {
+        edit: true
+      },
+
       loadings: [],
-      background: "",
+      background: '',
 
       list: [
         {
           text: {
-            en: "Avatar",
-            ru: "Аватар"
+            en: 'Avatar',
+            ru: 'Аватар'
           },
 
-          icon: "$vuetify.icons.values.pony"
+          icon: '$vuetify.icons.values.pony'
         }, {
           text: {
-            en: "Animate",
-            ru: "Анимация"
+            en: 'Animate',
+            ru: 'Анимация'
           },
 
-          icon: "mdi-movie-open",
+          icon: 'mdi-movie-open',
           disabled: true
         }, {
           text: {
-            en: "Capture",
-            ru: "Запечатлеть"
+            en: 'Capture',
+            ru: 'Запечатлеть'
           },
 
-          icon: "mdi-camera"
+          icon: 'mdi-camera'
         }
       ],
 
@@ -197,13 +208,15 @@ export default Vue.extend({
   },
 
   watch: {
-    "$root.loadings"(val) { this.loadings = val },
-    "$root.color.background.basic"(val) { this.background = val }
+    '$root.loadings'(val) { this.loadings = val },
+    '$root.color.background.basic'(val) { this.background = val }
   },
 
   mounted() {
     this.loadings   = (this.$root as any).loadings;
     this.background = (this.$root as any).color.background.basic;
+
+    setTimeout(() => { this.hint.edit = false; }, 3000);
   },
 
   components: {
@@ -232,7 +245,8 @@ export default Vue.extend({
     VListItemContent,
     VListItemTitle,
     VAlert,
-    VProgressCircular
+    VProgressCircular,
+    VTooltip
   }
 });
 </script>
@@ -250,6 +264,9 @@ export default Vue.extend({
 
   .inputs .v-input__control
     height: 0
+
+  .ml-zero
+    margin-left: -8px!important
 
   .hide
     opacity: 0!important

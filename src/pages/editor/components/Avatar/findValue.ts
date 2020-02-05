@@ -15,8 +15,8 @@ function reverse(
   let path2: string | undefined;
 
   if (X < 0) {
-    if (path == "left")  path2 = "right";
-    if (path == "right") path2 = "left";
+    if (path == 'left')  path2 = 'right';
+    if (path == 'right') path2 = 'left';
   }
 
   return target[path2 || path];
@@ -36,7 +36,7 @@ export default function findValue(
   if (path[2]) range = reverse(range, path[2], X);
   if (path[3]) range = range[path[3]];
 
-  return range[0] === "#"
+  return range[0] === '#'
     ? range as string
     : range as number / 100;
 }

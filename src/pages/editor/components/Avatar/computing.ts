@@ -1,25 +1,22 @@
-import findValue from "./findValue"
+type Object = { [index: string]: any };
+type NestedObject = { [index: string]: Object };
 
-// Types
+type Args = {
+  calculated: NestedObject,
+  morph: Function,
+  math: Object,
+  absAngle: number,
+  interpolationScheme: Object,
+  emotions: NestedObject,
+  X: number
+}
 
-type Object       = { [index: string]: any }
-type NestedObject = { [index: string]: Object }
-
-
-// Functions
+import findValue from './findValue';
 
 function beginCalc(
   ref: NestedObject,
 
-  {
-    calculated,
-    morph,
-    math,
-    absAngle,
-    interpolationScheme,
-    emotions,
-    X
-  }: any,
+  { calculated, morph, math, absAngle, interpolationScheme, emotions, X }: Args,
 
   state?: NestedObject,
   isBody?: boolean | undefined
@@ -28,9 +25,8 @@ function beginCalc(
     const keys = ref.keys;
 
     for (let i = 0; i < keys.length; i++) {
-      const
-        key: string = keys[i],
-        paths       = ref[key];
+      const key: string = keys[i],
+        paths = ref[key];
 
       let [pow, mul] = [1, 1];
 
@@ -44,21 +40,17 @@ function beginCalc(
         pow = math[key];
       }
 
-      const
-        fullRange = (1 - (absAngle ** (1 / pow)) * mul) * (paths.length - 1),
-
+      const fullRange = (1 - absAngle ** (1 / pow) * mul) * (paths.length - 1),
         frame = fullRange | 0,
         range = fullRange - frame,
-
         interpolation = isBody ? interpolationScheme[key] : false;
-
 
       // For nested arrays with tags
 
       function nestedMorph(innerInterpolation: string[] | string[][]) {
-        const
-          pathsSheme = innerInterpolation[0],
+        if (!emotions) return;
 
+        const pathsSheme = innerInterpolation[0],
           path1 = emotions[pathsSheme[0]] || paths,
           path2 = emotions[pathsSheme[1]] || paths;
 
@@ -69,7 +61,6 @@ function beginCalc(
           findValue(state as NestedObject, X, innerInterpolation[1] as string[])
         );
       }
-
 
       if (interpolation) {
         const nested = !interpolation[0][0][3];
@@ -93,22 +84,19 @@ function beginCalc(
   }
 }
 
-
-// Exports
-
 export function changeCanvas(self: any) {
   const ctx = self.ctx;
 
-  ctx.canvas.width  = Math.round(1024 * self.quality * 2);
+  ctx.canvas.width = Math.round(1024 * self.quality * 2);
   ctx.canvas.height = Math.round(1024 * self.quality * 1.25);
 
-  ctx.lineCap = ctx.lineJoin = "round";
+  ctx.lineCap = ctx.lineJoin = 'round';
 }
 
 export function calculation(
   paths: NestedObject,
   state: NestedObject,
-  args: Object
+  args: Args
 ) {
   if (paths) {
     const ref = paths[state.name['en']];
@@ -120,7 +108,7 @@ export function calculation(
 export function calculationBody(
   paths: NestedObject,
   state: NestedObject,
-  args: Object
+  args: Args
 ) {
   if (paths) beginCalc(paths, args, state, true);
 }

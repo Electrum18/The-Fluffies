@@ -16,9 +16,9 @@
 </template>
 
 <script lang="ts">
-import BarList from "./BarLists.vue"
+import BarList from './BarLists.vue'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VContainer,
   VCard,
@@ -33,13 +33,13 @@ export default Vue.extend({
     return {
       locale: {
         list: {
-          en: "Mane list",
-          ru: "Список грив"
+          en: 'Mane list',
+          ru: 'Список грив'
         },
 
         by: {
-          en: "author: ",
-          ru: "автор: "
+          en: 'author: ',
+          ru: 'автор: '
         }
       }
     }
@@ -47,7 +47,7 @@ export default Vue.extend({
 
   computed: {
     warnColor(): string | undefined {
-      if ((this.$root as any).warning.close) return "red";
+      if ((this.$root as any).warning.close) return 'red';
     }
   },
 

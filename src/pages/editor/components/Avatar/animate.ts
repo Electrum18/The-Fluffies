@@ -1,4 +1,6 @@
-import { changeCanvas, calculation, calculationBody } from "./computing"
+type Args = any
+
+import { changeCanvas, calculation, calculationBody } from './computing'
 
 export default function(this: any) {
   if (!this.executeAnimation) {
@@ -17,7 +19,7 @@ export default function(this: any) {
     return
   }
 
-  this.quality = !this.fullQuality ? this.vmin / 1024 / 2 : 1;
+  this.quality = !this.fullQuality ? this.vmin / 1024 / 2.25 : 1;
 
 
   changeCanvas(this);
@@ -43,8 +45,8 @@ export default function(this: any) {
   let calculated: any = [];  // Create value for redraw
 
   const
-    args     = { calculated, morph, math, absAngle },
-    argsBody = {...args, interpolationScheme, X, emotions };
+    args: Args = { calculated, morph, math, absAngle },
+    argsBody: Args = {...args, interpolationScheme, X, emotions };
 
   calculationBody(paths.body, state, argsBody)
 

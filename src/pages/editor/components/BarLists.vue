@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp } from "../../../assets/ts/nested"
+import { getProp } from '../../../assets/ts/nested'
 import {
   VCard,
   VList,
@@ -48,8 +48,8 @@ export default Vue.extend({
 
       locale: {
         by: {
-          en: "author: ",
-          ru: "автор: "
+          en: 'author: ',
+          ru: 'автор: '
         }
       }
     }
@@ -64,7 +64,7 @@ export default Vue.extend({
       for (let i = 0, len = val.length; i < len; i++) {
         const element = val[i];
 
-        if (element.name["en"] == rootElement.name["en"]) {
+        if (element.name['en'] == rootElement.name['en']) {
           this.selected = i;
         }
       }
@@ -101,7 +101,7 @@ export default Vue.extend({
     for (let i = 0, len = list.length; i < len; i++) {
       const element = list[i];
 
-      if (element.name["en"] == rootElement.name["en"]) {
+      if (element.name['en'] == rootElement.name['en']) {
         this.selected = i;
       }
     }

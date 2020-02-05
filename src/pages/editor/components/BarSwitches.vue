@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp, setProp } from "../../../assets/ts/nested"
+import { getProp, setProp } from '../../../assets/ts/nested'
 import {
   VCard,
   VRow,

@@ -59,12 +59,12 @@
 </template>
 
 <script lang="ts">
-import BarColor from "./BarColors.vue"
+import BarColor from './BarColors.vue'
 
-import en from "../../../assets/json/locales/en/editor.json"
-import ru from "../../../assets/json/locales/ru/editor.json"
+import en from '../../../assets/json/locales/en/editor.json'
+import ru from '../../../assets/json/locales/ru/editor.json'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VSheet,
   VContainer,
@@ -104,7 +104,7 @@ export default Vue.extend({
         width  = this.width,
         height = this.height,
 
-        canvas = document.createElement("canvas");
+        canvas = document.createElement('canvas');
 
 
       // Canvas setting
@@ -130,7 +130,7 @@ export default Vue.extend({
 
       // Drawing image over background at bottom-center
 
-      let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+      let ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
       ctx.fillStyle = (this.$root as any).color.background.basic;
 
@@ -140,13 +140,13 @@ export default Vue.extend({
 
       // Creating file
 
-      let e = document.createElement("a");
+      let e = document.createElement('a');
 
-      const format = ["png", "jpeg"][this.mode]
+      const format = ['png', 'jpeg'][this.mode]
 
-      e.style.display = "none";
-      e.download      = "TFs-" + (this.$root as any).propers.name + "." + format;
-      e.href          = canvas.toDataURL("image/" + format);
+      e.style.display = 'none';
+      e.download      = 'TFs-' + (this.$root as any).propers.name + '.' + format;
+      e.href          = canvas.toDataURL('image/' + format);
 
 
       // Download file

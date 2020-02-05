@@ -77,10 +77,10 @@
 </template>
 
 <script lang="ts">
-import en from "../../assets/json/locales/en/support.json"
-import ru from "../../assets/json/locales/ru/support.json"
+import en from '../../assets/json/locales/en/support.json'
+import ru from '../../assets/json/locales/ru/support.json'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VApp,
   VAppBar,
@@ -101,7 +101,7 @@ import {
   VFooter
 } from 'vuetify/lib'
 
-import Socials from "../../components/Socials.vue"
+import Socials from '../../components/Socials.vue'
 
 export default Vue.extend({
   data() {
@@ -116,11 +116,11 @@ export default Vue.extend({
   methods: {
     format(text: string) {
       return text
-        .replace(/\[/g, "<span class='font-weight-black'>")
-        .replace(/\]/g, "</span>");
+        .replace(/\[/g, '<span class="font-weight-black">')
+        .replace(/\]/g, '</span>');
     },
 
-    url(): string { return this.dark ? "#8bf" : "#359" }
+    url(): string { return this.dark ? '#8bf' : '#359' }
   },
 
   computed: {
@@ -135,7 +135,7 @@ export default Vue.extend({
 
     // Closing loader
 
-    let overlay = document.getElementById("overlay") as HTMLElement;
+    let overlay = document.getElementById('overlay') as HTMLElement;
 
     overlay.style.opacity = '0';
     overlay.style['pointer-events' as any] = 'none';

@@ -1,22 +1,26 @@
-import findValue from "../findValue"
+type Object = { [index: string]: any };
+type NestedObject = { [index: string]: Object };
+
+type Args = {
+  getColor: NestedObject,
+  mirror: boolean
+};
+
+import findValue from "../findValue";
 
 export default function(
   fill: string[] | string,
-  ctx: CanvasRenderingContext2D ,
+  ctx: CanvasRenderingContext2D,
 
-  {
-    getColor,
-    mirror
-  }: any
+  { getColor, mirror }: Args
 ) {
   if (fill) {
-    const nested: string | undefined = (fill as string[])[1][1];
+    const nested = fill[1][1];
 
-    ctx.fillStyle =
-      nested
-        ? findValue(getColor, mirror ? -1 : 1, fill as string[]) as string
-        : fill as string
+    ctx.fillStyle = nested
+      ? findValue(getColor, mirror ? -1 : 1, fill as string[]) as string
+      : fill as string;
   } else {
-    ctx.fillStyle = "transparent"
+    ctx.fillStyle = "transparent";
   }
 }

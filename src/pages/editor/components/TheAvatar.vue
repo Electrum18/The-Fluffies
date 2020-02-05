@@ -256,7 +256,7 @@
             newPaths = []
 
             for path, i in obj
-              newPath = curvify abs parse path
+              newPath = curvify(abs(parse(path)))
 
               # Paths scale decreaser
 

@@ -2,11 +2,6 @@
   "name": "Defaulty",
   "male": false,
 
-  "ear": {
-    "isFront": true,
-    "isBack": false
-  },
-
   "hair": {
     "name": {
       "en": "Spiky to side",

@@ -8,6 +8,10 @@
   "two": "Two",
   "three": "Three",
 
+  "hints": {
+    "edit": "Edit as you like"
+  },
+
   "menu": {
     "close": "close",
 

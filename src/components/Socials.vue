@@ -39,12 +39,10 @@
       )
         v-icon mdi-patreon
 
-    v-card.mx-2(:dark="dark")
+    v-card.mx-2
       p.my-1.overline.text-center {{ header[$root.locale] }}
 
-      v-divider
-
-      v-btn.white(
+      v-btn.white-in.ma-0(
         icon
         tile
         target="_blank"
@@ -53,9 +51,9 @@
         rel="noopener"
         aria-label="VKontakte"
       )
-        v-icon(large color="indigo lighten-1") mdi-vk-box
+        v-icon(x-large color="indigo lighten-1") mdi-vk-box
 
-      v-btn.white(
+      v-btn.white-in.ma-0(
         icon
         tile
         target="_blank"
@@ -64,9 +62,9 @@
         rel="noopener"
         aria-label="Facebook"
       )
-        v-icon(large color="indigo") mdi-facebook-box
+        v-icon(x-large color="indigo") mdi-facebook-box
 
-      v-btn.white(
+      v-btn.white-in.ma-0(
         icon
         tile
         target="_blank"
@@ -75,11 +73,11 @@
         rel="noopener"
         aria-label="Twitter"
       )
-        v-icon(large color="light-blue") mdi-twitter-box
+        v-icon(x-large color="light-blue") mdi-twitter-box
 </template>
 
 <script lang="ts">
-import Share from "../assets/json/locales/share.json"
+import Share from '../assets/json/locales/share.json'
 
 import Vue from 'vue'
 import {
@@ -91,12 +89,12 @@ import {
 } from 'vuetify/lib'
 
 export default Vue.extend({
-  props: ["dark"],
+  props: ['dark'],
 
   data() {
     return {
-      url: "https://the-fluffies.net/",
-      img: "https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png",
+      url: 'https://the-fluffies.net/',
+      img: 'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png',
 
       ...Share
     }
@@ -104,15 +102,15 @@ export default Vue.extend({
 
   computed: {
     shareVKontakte() {
-      let url = "http://vkontakte.ru/share.php?";
+      let url = 'http://vkontakte.ru/share.php?';
 
       const root: any = this.$root;
 
-      url += "url="          + encodeURIComponent(this.url);
-      url += "&title="       + encodeURIComponent((this.title as any)[root.locale]);
-      url += "&description=" + encodeURIComponent((this.text as any)[root.locale]);
-      url += "&image="       + encodeURIComponent(this.img);
-      url += "&noparse=true";
+      url += 'url='          + encodeURIComponent(this.url);
+      url += '&title='       + encodeURIComponent((this.title as any)[root.locale]);
+      url += '&description=' + encodeURIComponent((this.text as any)[root.locale]);
+      url += '&image='       + encodeURIComponent(this.img);
+      url += '&noparse=true';
 
       return url;
     },
@@ -131,13 +129,13 @@ export default Vue.extend({
     },
 
     shareTwitter() {
-      let url = "http://twitter.com/share?";
+      let url = 'http://twitter.com/share?';
 
       const root: any = this.$root;
 
-      url += "text=" + encodeURIComponent((this.text as any)[root.locale]);
-      url += "&url=" + encodeURIComponent(this.url);
-      url += "&counturl=" + encodeURIComponent(this.url);
+      url += 'text=' + encodeURIComponent((this.text as any)[root.locale]);
+      url += '&url=' + encodeURIComponent(this.url);
+      url += '&counturl=' + encodeURIComponent(this.url);
 
       return url;
     }
@@ -154,11 +152,8 @@ export default Vue.extend({
 </script>
 
 <style lang="sass">
-  a.white
+  a.white-in span
     background: white
     margin: 6px
-    width: 24px!important
-    min-width: 24px!important
-    height: 24px!important
-    min-height: 24px!important
+    min-height: 30px!important
 </style>

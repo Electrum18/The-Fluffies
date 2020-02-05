@@ -1,4 +1,6 @@
-import Stroke from "./drawing/stroke.coffee"
+import If from "./drawing/if.ts"
+import Clip from "./drawing/clip.coffee"
+import Stroke from "./drawing/stroke.ts"
 import Fill from "./drawing/fill.ts"
 
 export default ->
@@ -26,12 +28,6 @@ export default ->
 
   capitalize = (text) ->
     text.charAt(0).toUpperCase() + text.slice(1)
-
-
-  # Ear display calculation
-
-  state.ear.isFront = if absAngle < 1 / 3 and horiz > 0.1 then off else on
-  state.ear.isBack  = !state.earFront
 
 
   if mirror
@@ -201,131 +197,35 @@ export default ->
     # Work with array of elements
 
     for elem in elems[1]
-
-      # Permission check for drawing an element
-
       if not calculated[elem.type] then continue
 
-      if elem.type is "eyeLeftLashes"  and (absAngle > 0.9 or state.male) then continue
-      if elem.type is "eyeRightLashes" and state.male then continue
+      if If(elem.if, elem.type, state, { mirror, absAngle }) then continue
 
+      Clip(elem, ctx, state, {
+          horiz,
+          quality,
+          calculated,
+          layer,
+          mirror,
+          absAngle
+      })
 
-      if elem.if
-        if typeof elem.if isnt "string"
-          if elem.if[2] and elem.if[2][1]
-            if not state[elem.if[0]][elem.if[1]][elem.if[2]] then continue
+      Fill(elem.fill, ctx, { getColor, mirror })
 
-            if elem.if[0] is "piercings"
-              if mirror
-                sidePiercing = { left: "right", right: "left" }
-              else
-                sidePiercing = { left: "left", right: "right" }
-
-              if not state[elem.if[0]][sidePiercing[elem.if[1]]][elem.if[2]] then continue
-              else if not state[elem.if[0]][sidePiercing[elem.if[1]]].enable then continue
-
-          else if not state[elem.if[0]][elem.if[1]] then continue
-
-        else if not state[elem.if] then continue
-
-      # Clip calulations
-
-      if elem.clip
-        ctx.save()
-        ctx.beginPath()
-
-        for clip in elem.clip  # Getting a clip array
-          if clip[0] is "!"
-            clear = yes
-            clip  = clip.replace "!", ""
-
-          else clear = no
-
-          if clear
-            ctx.rect 0, 0, ctx.canvas.width, ctx.canvas.height
-
-
-          # Clipping transformation
-
-          if clip is "head0"
-            ctx.translate 0, -horiz * 12 * quality
-
-          else if clip is "earRight"
-            ctx.translate 0, horiz * 10 * quality
-
-          else if clip in ["eyeLeft", "eyeRight"]
-            mirrored = if mirror then -1 else 1
-
-            ctx.translate(
-              -((((state.eyes.position.horiz - 100) + 50) / 1.5) * mirrored),
-              (((state.eyes.position.verti - 100) + 50) / 1.5)
-            )
-
-          else if layer is "teethUpper"
-            ctx.translate(
-              -((100 - state.teeth.upper) / 3) * absAngle,
-              ((100 - state.teeth.upper) / 3)
-            )
-
-          else if layer is "teethLower"
-            ctx.translate(
-              ((100 - state.teeth.lower) / 3) * absAngle,
-              -((100 - state.teeth.lower) / 3)
-            )
-
-
-          # Creating clipping path
-
-          if calculated[clip]
-            for part in calculated[clip]
-              if part[0] is "C"
-                ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
-                  part[4] * quality, part[5] * quality, part[6] * quality
-
-              else ctx.moveTo part[1] * quality, part[2] * quality
-
-
-          # Clipping resetting transformation
-
-          if clip is "head0"
-            ctx.translate 0, horiz * 12 * quality
-
-          else if clip is "earRight"
-            ctx.translate 0, -horiz * 10 * quality
-
-          else if clip in ["eyeLeft", "eyeRight"]
-            mirrored = if mirror then -1 else 1
-
-            ctx.translate(
-              (((state.eyes.position.horiz) / 3) * mirrored),
-              -((state.eyes.position.verti) / 3)
-            )
-
-          else if layer is "teethUpper"
-            ctx.translate(
-              ((100 - state.teeth.upper) / 3) * absAngle,
-              -((100 - state.teeth.upper) / 3)
-            )
-
-          else if layer is "teethLower"
-            ctx.translate(
-              -((100 - state.teeth.lower) / 3) * absAngle,
-              ((100 - state.teeth.lower) / 3)
-            )
-
-
-        ctx.closePath()
-        ctx.clip(if clear then "evenodd")
-
-
-      Fill(elem.fill, ctx,        { getColor, mirror })
-      Stroke(elem,    ctx, state, { getColor, quality, x })
+      Stroke(elem.stroke, elem.type, ctx, state, {
+        getColor,
+        quality,
+        x
+      })
 
 
       # Checking for male elements
 
-      if calculated["male" + capitalize(elem.type)] and state.male
-            type = "male" + capitalize(elem.type)
+      if state.male
+        name = "male" + capitalize(elem.type)
+
+        if calculated[name] then type = name
+        else type = elem.type
       else type = elem.type
 
 
@@ -333,10 +233,13 @@ export default ->
 
       for part, i in calculated[type]
         if part[0] is "C"
-          ctx.bezierCurveTo part[1] * quality, part[2] * quality, part[3] * quality,
-            part[4] * quality, part[5] * quality, part[6] * quality
+          ctx.bezierCurveTo(
+            part[1] * quality, part[2] * quality,
+            part[3] * quality, part[4] * quality,
+            part[5] * quality, part[6] * quality
+          )
         else
-          if i > 0
+          if i > 0  # If the item is not the first
             ctx.fill()
             ctx.stroke()
 
@@ -349,14 +252,3 @@ export default ->
       ctx.fill()
       ctx.stroke()
       ctx.restore()
-
-  ###
-  ctx.globalCompositeOperation = "source-atop"
-
-  grd = ctx.createLinearGradient(0, 0, ctx.canvas.width / 3, 0)
-  grd.addColorStop(0, "#000000aa")
-  grd.addColorStop(1, "transparent")
-
-  ctx.fillStyle = grd
-  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-  ###

@@ -34,12 +34,12 @@
       "if": ["horn", "behindAfterEars"]
     },
 
-    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "if": ["ear", "isBack"] }
+    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]]}
   ]],
 
   ["hair", [
     { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["back"],
+    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
       "if": ["hair", "isSecond"]
     },
 
@@ -53,7 +53,7 @@
     { "type": "back", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
 
     { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["tail"],
+    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false,
       "if": ["hair", "isSecond"]
     },
 
@@ -165,7 +165,7 @@
 
   ["hair", [
     { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["front"],
+    { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
       "if": ["hair", "isSecond"]
     },
 
@@ -180,11 +180,6 @@
   ]],
 
   ["head2", [
-    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "clip": ["!head0"] },
-    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "clip": ["!head3"],
-      "if": ["ear", "isFront"]
-    },
-
     { "type": "earRightPinna", "fill": false, "stroke": [9, ["fur", "shade"]] },
 
     { "type": "piercingsEarRightUpper",  "fill": ["piercings", "basic"], "stroke": [7, ["piercings", "shade"]],

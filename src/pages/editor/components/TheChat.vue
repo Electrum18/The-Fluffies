@@ -16,7 +16,9 @@
         v-badge.py-2.grad
           template(v-slot:badge) {{ chat.users }}
 
-          v-icon mdi-message-text
+          v-icon(
+            :color="onlineStatus.color"
+          ) {{ onlineStatus.icon }}
 
     v-card
       v-btn.grad(
@@ -74,13 +76,22 @@
         @click:append="checkName"
         @keyup.enter="checkName"
       )
+
+    v-overlay(
+      absolute
+      :value="!chat.online"
+    )
+      v-icon(
+        large
+        color="red lighten-1"
+      ) mdi-wifi-off
 </template>
 
 <script lang="ts">
-import io from "socket.io-client"
+import io from 'socket.io-client'
 
-import en from "../../../assets/json/locales/en/editor.json"
-import ru from "../../../assets/json/locales/ru/editor.json"
+import en from '../../../assets/json/locales/en/editor.json'
+import ru from '../../../assets/json/locales/ru/editor.json'
 
 import Vue from 'vue'
 import {
@@ -105,11 +116,12 @@ export default Vue.extend({
     return {
       chat: {
         opened: false,
+        online: false,
 
-        name: "",
-        prename: "",
+        name: '',
+        prename: '',
 
-        message: "",
+        message: '',
 
         users: 0,
         content: []
@@ -118,34 +130,36 @@ export default Vue.extend({
       locales: { en, ru },
 
       socket: io(
-        window.location.hostname == "localhost" ?
-          window.location.hostname + ":3000"
-        : window.location.host
+        window.location.hostname == 'localhost'
+          ? window.location.hostname + ':3000'
+          : window.location.host
       )
     }
   },
 
   watch: {
-    "chat.opened"(val) {
+    'chat.opened'(val) {
       if (val) {
-        const refs = this.$refs;
+        const refs: any = this.$refs;
 
         setTimeout(() => {
-          let space = (refs.chatSpace as any).$el;
+          let space = refs.chatSpace.$el;
 
-          space.scrollTop = space.scrollHeight
+          space.scrollTop = space.scrollHeight;
         }, 100)
       }
     },
 
-    "chat.content"() {
-      if (this.chat.opened) {
-        const refs = this.$refs;
+    'chat.content'() {
+      const self: any = this;
+
+      if (self.chat.opened) {
+        const refs: any = this.$refs;
 
         setTimeout(() => {
-          let space = (refs.chatSpace as any).$el;
+          let space = refs.chatSpace.$el;
 
-          space.scrollTop = space.scrollHeight
+          space.scrollTop = space.scrollHeight;
         })
       }
     }
@@ -153,7 +167,19 @@ export default Vue.extend({
 
   computed: {
     lang(): object {
-      return (this.locales as any)[(this.$root as any).locale];
+      const self: any = this;
+
+      return self.locales[self.$root.locale];
+    },
+
+    onlineStatus() {
+      const self: any = this,
+        online = self.chat.online;
+
+      return {
+        color: online ? "white" : "red lighten-1",
+        icon: online ? 'mdi-message-text' : 'mdi-wifi-off'
+      };
     }
   },
 
@@ -163,40 +189,48 @@ export default Vue.extend({
 
       if (length > 0 && length <= 100) {
         this.socket.emit(
-          "send message", {
+          'send message', {
             name: this.chat.name,
             text: this.chat.message
         });
 
-        this.chat.message = "";
+        this.chat.message = '';
       }
     },
 
     checkName() {
       if (this.chat.prename) {
-        this.socket.emit("check name", this.chat.prename);
+        this.socket.emit('check name', this.chat.prename);
 
         this.chat.name = this.chat.prename;
-        this.chat.prename = "";
+        this.chat.prename = '';
       }
     }
   },
 
   mounted() {
-    let chat = this.chat;
+    const self: any = this,
+      socket = self.socket;
 
-    const socket = this.socket;
+    let chat = self.chat;
 
-    socket.on("get first",    (msg: string) => chat.content = msg as any);
-    socket.on("get message",  (msg: string) => (chat.content as any).push(msg));
-    socket.on("get announce", (msg: string) => (chat.content as any).push(msg));
-    socket.on("get users",  (users: number) => chat.users = users);
+    socket.on('connect', () => {
+      chat.online = socket.connected;
+    });
 
-    const self: any = this;
+    socket.on('disconnect', () => {
+      chat.online = socket.connected;
+    });
 
-    socket.on("isnt nickname", () => {
-      self.text = "";
-      self.name = "";
+    socket.on('get first',    (msg: string) => chat.content = msg as any);
+    socket.on('get message',  (msg: string) => chat.content.push(msg));
+    socket.on('get announce', (msg: string) => chat.content.push(msg));
+    socket.on('get users',  (users: number) => chat.users = users);
+
+
+    socket.on('isnt nickname', () => {
+      self.text = '';
+      self.name = '';
     });
   },
 

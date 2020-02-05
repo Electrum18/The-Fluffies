@@ -110,10 +110,10 @@
 </template>
 
 <script lang="ts">
-import en from "../../assets/json/locales/en/index.json"
-import ru from "../../assets/json/locales/ru/index.json"
+import en from '../../assets/json/locales/en/index.json'
+import ru from '../../assets/json/locales/ru/index.json'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VApp,
   VChip,
@@ -131,7 +131,7 @@ import {
   VIcon
 } from 'vuetify/lib'
 
-import Socials from "../../components/Socials.vue"
+import Socials from '../../components/Socials.vue'
 
 export default Vue.extend({
   data() {
@@ -150,8 +150,8 @@ export default Vue.extend({
   },
 
   methods: {
-    enterAsMale() { sessionStorage.setItem("gender", "male"); },
-    enterAsFemale() { sessionStorage.setItem("gender", "female"); }
+    enterAsMale() { sessionStorage.setItem('gender', 'male'); },
+    enterAsFemale() { sessionStorage.setItem('gender', 'female'); }
   },
 
   mounted(): void {
@@ -159,7 +159,7 @@ export default Vue.extend({
 
     // Closing loader
 
-    let overlay = document.getElementById("overlay") as HTMLElement;
+    let overlay = document.getElementById('overlay') as HTMLElement;
 
     overlay.style.opacity = '0';
     overlay.style['pointer-events' as any] = 'none';

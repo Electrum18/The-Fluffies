@@ -1,14 +1,14 @@
-import Vue from "vue"
+import Vue from 'vue'
 import { DirectiveBinding } from 'vue/types/options'
 import Vuetify from 'vuetify/lib'
-import VueResource from "vue-resource"
+import VueResource from 'vue-resource'
 
-import App from "./App.vue"
+import App from './App.vue'
 
 import IconPony from './components/IconPony.vue'
 
-import PropertiesConfig from "./configs/properties.json"
-import ColorConfig from "./configs/color.json"
+import PropertiesConfig from './configs/properties.json'
+import ColorConfig from './configs/color.json'
 
 
 Vue.config.productionTip = false;
@@ -17,7 +17,7 @@ Vue.use(Vuetify);
 Vue.use(VueResource);
 
 
-Vue.directive("press-hold", {
+Vue.directive('press-hold', {
   bind(elem: HTMLElement, binding: DirectiveBinding) {
     let hold: boolean = false;
 
@@ -45,15 +45,15 @@ Vue.directive("press-hold", {
       }
     }
 
-    elem.addEventListener("mousedown", holding, { passive: true });
-    elem.addEventListener("mouseup", unholding, { passive: true });
-    elem.addEventListener("mouseleave", unholding, { passive: true });
-    elem.addEventListener("mousemove", event, { passive: true });
+    elem.addEventListener('mousedown', holding, { passive: true });
+    elem.addEventListener('mouseup', unholding, { passive: true });
+    elem.addEventListener('mouseleave', unholding, { passive: true });
+    elem.addEventListener('mousemove', event, { passive: true });
 
-    elem.addEventListener("touchstart", holding, { passive: true });
-    elem.addEventListener("touchend", unholding, { passive: true });
-    elem.addEventListener("touchcancel", unholding, { passive: true });
-    elem.addEventListener("touchmove", event, { passive: true });
+    elem.addEventListener('touchstart', holding, { passive: true });
+    elem.addEventListener('touchend', unholding, { passive: true });
+    elem.addEventListener('touchcancel', unholding, { passive: true });
+    elem.addEventListener('touchmove', event, { passive: true });
   }
 })
 
@@ -71,7 +71,7 @@ new Vue({
     horiz: 0,
     degress: 0,
 
-    locale: "en",
+    locale: 'en',
     warning: { close: false },
 
     loadings: [],
@@ -83,7 +83,7 @@ new Vue({
   methods: {
     getNamesList(target: string) {
       this.$http
-        .get(window.location.origin + "/data/" + target + "Names.json")
+        .get(window.location.origin + '/data/' + target + 'Names.json')
         .then(
           (res: any) => {
             let propers: any = this.propers;
@@ -100,35 +100,35 @@ new Vue({
   },
 
   watch: {
-    "warning.close"(val: boolean) {
+    'warning.close'(val: boolean) {
       const self: any = this;
 
       if (val) setTimeout(() => { self.warning.close = false }, 600);
     },
 
-    "propers.male"(val: boolean) {
-      sessionStorage.setItem("gender", val ? "male" : "female");
+    'propers.male'(val: boolean) {
+      sessionStorage.setItem('gender', val ? 'male' : 'female');
     }
   },
 
   mounted() {
-    this.propers.male = sessionStorage.getItem("gender") === "male";
+    this.propers.male = sessionStorage.getItem('gender') === 'male';
 
 
     // Find & set locale
 
-    const rus: string[] = ["ru", "be", "uk", "lt", "hy", "kk"];
+    const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
 
-    this.locale = rus.includes(navigator.language) ? "ru" : "en";
+    this.locale = rus.includes(navigator.language) ? 'ru' : 'en';
 
 
     // Get JSON data to client and execute
 
-    this.getNamesList("hair");
-    this.getNamesList("glasses");
-    this.getNamesList("horn");
+    this.getNamesList('hair');
+    this.getNamesList('glasses');
+    this.getNamesList('horn');
   },
 
   render: h => h(App)
 })
-.$mount("#app");
+.$mount('#app');

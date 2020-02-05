@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getProp, setProp } from "../../../assets/ts/nested"
+import { getProp, setProp } from '../../../assets/ts/nested'
 import {
   VCard,
   VRow,
@@ -54,10 +54,10 @@ export default Vue.extend({
     title(): string {
       const root: any = this.$root;
 
-      if (root.locale === "ru") {
-        return "цвет " + this.text
+      if (root.locale === 'ru') {
+        return 'цвет ' + this.text
       } else {
-        return this.text + " color"
+        return this.text + ' color'
       }
     },
 
@@ -102,15 +102,15 @@ export default Vue.extend({
             lower = (color: number): string => {
               let shadeOut = Math.round(color * shade).toString(16);
 
-              if (shadeOut.length < 2) shadeOut = "0" + shadeOut;
+              if (shadeOut.length < 2) shadeOut = '0' + shadeOut;
 
               return shadeOut;
             };
 
           if (val[2]) {
-            root[val[0]][val[1]].shade = "#" + lower(R) + lower(G) + lower(B);
+            root[val[0]][val[1]].shade = '#' + lower(R) + lower(G) + lower(B);
           } else if (val[1]) {
-            root[val[0]].shade = "#" + lower(R) + lower(G) + lower(B);
+            root[val[0]].shade = '#' + lower(R) + lower(G) + lower(B);
           }
         }
       }

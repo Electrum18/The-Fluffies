@@ -12,16 +12,16 @@ new Vue({
 
   data() {
     return {
-      locale: "en"
+      locale: 'en'
     }
   },
 
   mounted() {
-    const rus: string[] = ["ru", "be", "uk", "lt", "hy", "kk"];
+    const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
 
-    this.locale = rus.includes(navigator.language) ? "ru" : "en";
+    this.locale = rus.includes(navigator.language) ? 'ru' : 'en';
   },
 
   render: h => h(App)
 })
-.$mount("#app");
+.$mount('#app');

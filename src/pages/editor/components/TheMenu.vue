@@ -763,17 +763,17 @@
 </template>
 
 <script lang="ts">
-import { getProp, setProp } from "../../../assets/ts/nested"
+import { getProp, setProp } from '../../../assets/ts/nested'
 
-import BarList   from "./BarLists.vue"
-import BarColor  from "./BarColors.vue"
-import BarSwitch from "./BarSwitches.vue"
-import BarSlider from "./BarSliders.vue"
+import BarList   from './BarLists.vue'
+import BarColor  from './BarColors.vue'
+import BarSwitch from './BarSwitches.vue'
+import BarSlider from './BarSliders.vue'
 
-import en from "../../../assets/json/locales/en/editor.json"
-import ru from "../../../assets/json/locales/ru/editor.json"
+import en from '../../../assets/json/locales/en/editor.json'
+import ru from '../../../assets/json/locales/ru/editor.json'
 
-import Vue from "vue"
+import Vue from 'vue'
 import {
   VExpansionPanels,
   VExpansionPanel,
@@ -799,8 +799,8 @@ export default Vue.extend({
       rightPiercings: 0,
 
       gender: {
-        color: "",
-        icon: ""
+        color: '',
+        icon: ''
       },
 
       parent: null,
@@ -810,16 +810,16 @@ export default Vue.extend({
   },
 
   watch: {
-    leftPiercings(val: any)  { this.setPiercing(val, ["piercings", 'left' ]); },
-    rightPiercings(val: any) { this.setPiercing(val, ["piercings", 'right']); },
+    leftPiercings(val: any)  { this.setPiercing(val, ['piercings', 'left' ]); },
+    rightPiercings(val: any) { this.setPiercing(val, ['piercings', 'right']); },
 
-    "$root.propers.male"(male: boolean) {
+    '$root.propers.male'(male: boolean) {
       if (male) {
-        this.gender.color = "blue";
-        this.gender.icon  = "gender-male";
+        this.gender.color = 'blue';
+        this.gender.icon  = 'gender-male';
       } else {
-        this.gender.color = "pink";
-        this.gender.icon  = "gender-female";
+        this.gender.color = 'pink';
+        this.gender.icon  = 'gender-female';
       }
     }
   },
@@ -840,7 +840,7 @@ export default Vue.extend({
     },
 
     warnColor() {
-      if ((this.$root as any).warning.close) return "red";
+      if ((this.$root as any).warning.close) return 'red';
     }
   },
 
@@ -894,11 +894,11 @@ export default Vue.extend({
 
   mounted() {
     if ((this.$root as any).male) {
-      this.gender.color = "blue"
-      this.gender.icon  = "gender-male"
+      this.gender.color = 'blue';
+      this.gender.icon  = 'gender-male';
     } else {
-      this.gender.color = "pink"
-      this.gender.icon  = "gender-female"
+      this.gender.color = 'pink';
+      this.gender.icon  = 'gender-female';
     }
   },
 
