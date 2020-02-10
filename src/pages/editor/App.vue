@@ -25,6 +25,18 @@
       )
         Hairs
 
+      v-navigation-drawer(
+        v-model="opened.Saves"
+        dark
+        fixed
+        right
+        temporary
+        touchless
+        :permanent="opened.Saves"
+        hide-overlay
+      )
+        Saves
+
       v-bottom-sheet(v-model="opened.Capture" inset=true)
         Screener
 
@@ -125,6 +137,7 @@ import Avatar from './components/TheAvatar.vue'
 import Chat  from './components/TheChat.vue'
 import Menu  from './components/TheMenu.vue'
 import Hairs from './components/TheMenuHairs.vue'
+import Saves from './components/TheSaves.vue'
 
 import en from '../../assets/json/locales/en/editor.json'
 import ru from '../../assets/json/locales/ru/editor.json'
@@ -161,7 +174,8 @@ export default Vue.extend({
         Avatar: false,
         Hairs: false,
         Capture: false,
-        List: false
+        List: false,
+        Saves: false
       },
 
       hint: {
@@ -179,6 +193,13 @@ export default Vue.extend({
           },
 
           icon: '$vuetify.icons.values.pony'
+        }, {
+          text: {
+            en: 'Saves',
+            ru: 'Сохранения'
+          },
+
+          icon: 'mdi-content-save'
         }, {
           text: {
             en: 'Animate',
@@ -225,6 +246,7 @@ export default Vue.extend({
     Chat,
     Menu,
     Hairs,
+    Saves,
 
     VApp,
     VNavigationDrawer,

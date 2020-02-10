@@ -36,32 +36,21 @@
                   :aria-label="lang.about"
                 ) {{ lang.about }}
 
-                v-card(:dark="dark")
-                  v-card-title.py-2
-                    v-spacer
-                    | {{ lang.start }}
-                    v-spacer
+                v-card.size-by-content
+                  v-btn.title(
+                    text
+                    large
+                    :title="checkContinue().title"
+                    href="/editor"
+                    :aria-label="checkContinue().label"
+                  ) {{ checkContinue().title }}
 
-                  v-divider
+                  v-divider(v-if="saves")
 
-                  v-card-actions.py-2
-                    v-btn.title(
-                      text
-                      large
-                      :title="lang.male.title"
-                      href="/editor"
-                      :aria-label="lang.male.label"
-                      @click="enterAsMale()"
-                    ) {{ lang.male.label }}
-
-                    v-btn.title(
-                      text
-                      large
-                      :title="lang.female.title"
-                      href="/editor"
-                      :aria-label="lang.female.label"
-                      @click="enterAsFemale()"
-                    ) {{ lang.female.label }}
+                  v-card-subtitle(v-if="saves") {{ slot }} • {{ save.name }}
+                    v-icon.float-right(
+                      :color="gender.color"
+                    ) mdi-{{ gender.icon }}
 
                 v-btn.title.md-size.d-none.d-md-flex.ma-8(
                   outlined
@@ -123,7 +112,7 @@ import {
   VRow,
   VBtn,
   VCard,
-  VCardTitle,
+  VCardSubtitle,
   VCardActions,
   VSpacer,
   VDivider,
@@ -139,19 +128,52 @@ export default Vue.extend({
       dark: false,
       hour: new Date().getHours(),
 
+      saves: localStorage.getItem('avatars'),
+      slot: localStorage.getItem('slot'),
+
+      gender: {
+        color: '',
+        icon: ''
+      },
+
       locales: { en, ru }
     }
   },
 
   computed: {
-    lang(): object {
+    lang(): any {
       return (this.locales as any)[(this.$root as any).locale];
-    }
+    },
+
+    save(): any {
+      if (this.saves) {
+        const propers = JSON.parse(this.saves as string)[+(this.slot as string)].propers;
+
+        this.checkGender(propers);
+
+        return propers;
+      }
+    },
   },
 
   methods: {
-    enterAsMale() { sessionStorage.setItem('gender', 'male'); },
-    enterAsFemale() { sessionStorage.setItem('gender', 'female'); }
+    checkContinue() {
+      return this.saves
+        ? (this.lang as any).continue
+        : (this.lang as any).start;
+    },
+
+    checkGender(propers: any) {
+      const gender = this.gender;
+
+      if (propers.male) {
+        gender.color = 'blue';
+        gender.icon  = 'gender-male';
+      } else {
+        gender.color = 'pink';
+        gender.icon  = 'gender-female';
+      }
+    }
   },
 
   mounted(): void {
@@ -176,7 +198,7 @@ export default Vue.extend({
     VRow,
     VBtn,
     VCard,
-    VCardTitle,
+    VCardSubtitle,
     VCardActions,
     VSpacer,
     VDivider,
@@ -219,6 +241,9 @@ export default Vue.extend({
   .hide
     opacity: 0!important
     height: 0!important
+
+  .size-by-content
+    height: max-content
 
 
   // Loader

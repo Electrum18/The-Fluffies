@@ -22,7 +22,7 @@ function beginCalc(
   isBody?: boolean | undefined
 ) {
   if (ref) {
-    const keys = ref.keys;
+    const { keys } = ref;
 
     for (let i = 0; i < keys.length; i++) {
       const key: string = keys[i],

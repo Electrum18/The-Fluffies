@@ -1,5 +1,5 @@
 import If from "./drawing/if.ts"
-import Clip from "./drawing/clip.coffee"
+import Clip from "./drawing/clip.ts"
 import Stroke from "./drawing/stroke.ts"
 import Fill from "./drawing/fill.ts"
 
@@ -201,7 +201,7 @@ export default ->
 
       if If(elem.if, elem.type, state, { mirror, absAngle }) then continue
 
-      Clip(elem, ctx, state, {
+      Clip(elem.clip, ctx, state, {
           horiz,
           quality,
           calculated,
@@ -252,3 +252,14 @@ export default ->
       ctx.fill()
       ctx.stroke()
       ctx.restore()
+
+  ###
+  ctx.globalCompositeOperation = "source-atop"
+
+  grd = ctx.createLinearGradient(0, 0, ctx.canvas.width / 3, 0)
+  grd.addColorStop(0, "#000000aa")
+  grd.addColorStop(1, "transparent")
+
+  ctx.fillStyle = grd
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  ###

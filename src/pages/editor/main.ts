@@ -69,15 +69,24 @@ new Vue({
   data: {
     ang: 0,
     horiz: 0,
-    degress: 0,
+    degress: 12.5,
 
     locale: 'en',
     warning: { close: false },
 
     loadings: [],
 
+    slot: localStorage.getItem('slot') || '0',
+
     propers: PropertiesConfig,
-    color: ColorConfig
+    color: ColorConfig,
+
+    saveChanged: false,
+
+    default: {
+      propers: PropertiesConfig,
+      color: ColorConfig
+    }
   },
 
   methods: {
@@ -112,9 +121,6 @@ new Vue({
   },
 
   mounted() {
-    this.propers.male = sessionStorage.getItem('gender') === 'male';
-
-
     // Find & set locale
 
     const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
@@ -127,6 +133,37 @@ new Vue({
     this.getNamesList('hair');
     this.getNamesList('glasses');
     this.getNamesList('horn');
+
+    // Local storage for saving
+
+    if (!localStorage.getItem('slot')) {
+      localStorage.setItem('slot', this.slot);
+    }
+
+    if (!localStorage.getItem('avatars')) {
+      const { propers, color } = this.default,
+        avatars = [{
+          propers,
+          color,
+          angle: this.ang,
+          horiz: this.horiz,
+          degress: this.degress
+        }];
+
+      localStorage.setItem('avatars', JSON.stringify(avatars));
+    }
+
+    const parsedSave: object[] = JSON.parse(localStorage.getItem('avatars') as string),
+
+    { propers, color, angle, horiz, degress }: any = parsedSave[+this.slot];
+
+    this.propers = propers;
+    this.color = color;
+    this.ang = angle,
+    this.horiz = horiz;
+    this.degress = degress;
+
+    this.saveChanged = true;
   },
 
   render: h => h(App)

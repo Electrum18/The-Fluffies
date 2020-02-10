@@ -11,6 +11,8 @@
   import parse from "parse-svg-path"
   import curvify from "curvify-svg-path"
 
+  import { keyframes, easing } from 'popmotion'
+
 
   # Configs
 
@@ -45,8 +47,8 @@
       horiz: 0
       angle: 0  # Calculated angle for transformation
 
-      x: 12.5 / 90  # Horizontal of angle in -1 to 1 range
-      y: 0          # Vertical of angle in 0 to 1 range
+      x: 0  # Horizontal of angle in -1 to 1 range
+      y: 0  # Vertical of angle in 0 to 1 range
 
       last:  # Last calculated variables for deltas
         x: 0
@@ -80,8 +82,9 @@
           @state.hair.isDreads = no
           @state.hair.isBasic  = yes
 
+        hairs =  @paths.hairs
 
-        if @paths.hairs[name['en']]
+        if hairs and hairs[name['en']]
           @fullQuality = no
           @executeAnimation = yes
         else
@@ -91,7 +94,9 @@
           @getPartsJSON "hairs", "hairs/" + hairName + ".json"
 
       "$root.propers.glasses.name": (name) ->
-        if @paths.glasses[name['en']]
+        glasses = @paths.glasses
+
+        if glasses and glasses[name['en']]
           @fullQuality = no
           @executeAnimation = yes
         else
@@ -102,7 +107,9 @@
 
 
       "$root.propers.horn.name": (name) ->
-        if @paths.horn[name['en']]
+        horn = @paths.horn
+
+        if horn and horn[name['en']]
           @fullQuality = no
           @executeAnimation = yes
         else
@@ -158,6 +165,15 @@
           @executeAnimation = yes
 
         deep: yes
+
+      "$root.saveChanged": (val) ->
+        if val
+          @horiz = @$root.horiz
+          @angle = @$root.ang
+
+          @x = @$root.degress / 90
+
+          @$root.saveChanged = false;
 
     methods:
       getPartsJSON: (target, url) ->
@@ -355,7 +371,6 @@
 
       @vmin = if X < Y then X else Y
 
-
       window.requestAnimationFrame @animate # Start drawing and calculation
 
 
@@ -365,23 +380,33 @@
 
       self = this
 
-      ###calc   = @calc
+      ###
+      { easeOutIn } = easing
+      { jaw, eyes } = self.state
 
-      frame = 0
-      tick  = 0
-      maxFPS = 60
-      duration = 1  # in seconds
+      keyframes(
+        values: [
+          { x: 0.3, horiz: -30, open: 100, lids: 25 },
+          { x: 0.1, horiz: 0, open: 0, lids: 0 },
+          { x: 0.3, horiz: -30, open: 100, lids: 25 }
+        ]
+        duration: 2000
+        easings: easeOutIn,
+        loop: Infinity
+      )
+      .start (val) ->
+        self.x = val.x
 
-      setInterval ->
-        if tick >= 1000 then tick = 0 else tick++
+        { position, eyelids, brows } = eyes
 
-        frameDuration = tick / 1000
+        position.horiz   = val.horiz
+        eyelids.left.up  = val.lids
+        eyelids.right.up = val.lids
 
-        self.x = frameDuration
+        jaw.open = val.open
 
-        self.fullQuality = no
         self.executeAnimation = yes
-      , 1###
+      ###
 
 
       asFile = (name) ->

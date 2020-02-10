@@ -76,7 +76,4 @@ export default Vue.extend({
 <style lang="sass">
   button.transition
     transition: background 200ms linear
-
-  .light
-    border-color: rgba(0,0,0,.12)!important
 </style>

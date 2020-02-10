@@ -3,7 +3,7 @@
     v-container
       v-row(v-if="mode == 1")
         v-col
-          v-alert(type="error") JPEG does not support transparency!
+          v-alert(type="error" outlined) JPEG does not support transparency!
 
       v-row
         v-col(cols="12" sm="6" md="2")
@@ -73,7 +73,8 @@ import {
   VTextField,
   VBtnToggle,
   VBtn,
-  VIcon
+  VIcon,
+  VAlert
 } from 'vuetify/lib'
 
 export default Vue.extend({
@@ -169,7 +170,8 @@ export default Vue.extend({
     VTextField,
     VBtnToggle,
     VBtn,
-    VIcon
+    VIcon,
+    VAlert
   }
 });
 </script>

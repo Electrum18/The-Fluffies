@@ -116,7 +116,7 @@ export default Vue.extend({
     return {
       chat: {
         opened: false,
-        online: false,
+        online: true,
 
         name: '',
         prename: '',

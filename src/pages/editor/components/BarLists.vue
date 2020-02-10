@@ -3,6 +3,7 @@
     v-list(two-line)
       v-list-item-group(
         v-model="selected"
+        mandatory
         active-class="orange--text"
       )
         template(v-if="list.length" v-for="(element, i) in list")
@@ -21,8 +22,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { getProp } from '../../../assets/ts/nested'
+
+import Vue from 'vue'
 import {
   VCard,
   VList,

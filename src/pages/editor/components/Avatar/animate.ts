@@ -14,6 +14,20 @@ export default function(this: any) {
     this.fullQuality      = this.afterChange >= delay;
     this.executeAnimation = this.fullQuality && this.quality < 1;
 
+    if (this.executeAnimation) {
+      const { propers, color, slot } = this.$root,
+
+        parsedSave: any[] = JSON.parse(localStorage.getItem('avatars') as string);
+
+      parsedSave[slot].propers = propers;
+      parsedSave[slot].color = color;
+      parsedSave[slot].horiz = this.horiz;
+      parsedSave[slot].angle = this.angle;
+      parsedSave[slot].degress = this.x * 90;
+
+      localStorage.setItem('avatars', JSON.stringify(parsedSave));
+    }
+
     window.requestAnimationFrame(this.animate);
 
     return

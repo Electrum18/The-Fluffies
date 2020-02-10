@@ -163,5 +163,11 @@
     "width": "width",
     "height": "height",
     "background": "background"
+  },
+
+  "saves": {
+    "save": "Saves",
+    "create": "Create new",
+    "delete": "Remove"
   }
 }
