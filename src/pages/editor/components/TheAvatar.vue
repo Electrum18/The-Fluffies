@@ -3,426 +3,500 @@
     canvas(:id="$root.name" ref="avatar")
 </template>
 
-<script lang="coffee">
+<script lang="ts">
+type Object = { [index: string]: any };
+type NestedObject = { [index: string]: Object };
 
-  # Libraries
+// Libraries
 
-  import abs from "abs-svg-path"
-  import parse from "parse-svg-path"
-  import curvify from "curvify-svg-path"
+const
+  abs = require("abs-svg-path"),
+  parse = require("parse-svg-path"),
+  curvify = require("curvify-svg-path");
 
-  import { keyframes, easing } from 'popmotion'
+import { keyframes, easing } from 'popmotion'
+
+// Configs
+
+import Elems from "../configs/elems.json"
+import IS from "../configs/interpolationScheme.json"
+import Powers from "../configs/power.json"
+
+// Scripts
+
+import Animate from "./Avatar/animate"
+import Draw from "./Avatar/draw"
+
+import Vue from 'vue'
+
+export default Vue.extend({
+  data() {
+    return {
+      quality: 0.5,  // range from 0 to 1
+      vmin: 0,
+
+      // Configs
+
+      color: (this.$root as Object).color,
+      state: (this.$root as Object).propers, // Using for "if" attribute in "elems" config
+
+      layers: Elems,
+      math: Powers,
+      interpolationScheme: IS,
 
 
-  # Configs
+      ctx: {},  // Context of canvas
 
-  import Elems from "../configs/elems.json"
-  import IS from "../configs/interpolationScheme.json"
-  import Powers from "../configs/power.json"
+      horiz: 0,
+      angle: 0,  // Calculated angle for transformation
 
+      x: 0,  // Horizontal of angle in -1 to 1 range
+      y: 0,  // Vertical of angle in 0 to 1 range
 
-  # Scripts
-
-  import Animate from "./Avatar/animate.ts"
-  import Draw from "./Avatar/draw.coffee"
-
-  export default
-    data: ->
-      quality: 0.5  # range from 0 to 1
-      vmin: undefined
-
-
-      # Configs
-
-      color: @$root.color
-      state: @$root.propers # Using for "if" attribute in "elems" config
-
-      layers: Elems
-      math: Powers
-      interpolationScheme: IS
-
-
-      ctx: {}  # Context of canvas
-
-      horiz: 0
-      angle: 0  # Calculated angle for transformation
-
-      x: 0  # Horizontal of angle in -1 to 1 range
-      y: 0  # Vertical of angle in 0 to 1 range
-
-      last:  # Last calculated variables for deltas
-        x: 0
-        y: 0
+      last: {  // Last calculated variables for deltas
+        x: 0,
+        y: 0,
         time: 0
+      },
 
-      paths: {}       # Imported and parsed svg references
-      calculated: {}  # Calculated paths
+      paths: {},       // Imported and parsed svg references
+      calculated: {},  // Calculated paths
 
-      mirror: no            # Avatar isnt mirrored in this time
-      executeAnimation: no  # Check for optimization
-      afterChange: 0        # Counter after changing angle
-      fullQuality: yes      # Rendering at quality equal to 1
+      mirror: false,            // Avatar isnt mirrored in this time
+      executeAnimation: false,  // Check for optimization
+      afterChange: 0,           // Counter after changing angle
+      fullQuality: true         // Rendering at quality equal to 1
+    }
+  },
 
-    watch:
-      x: (num) ->
-        { horn } = @state
+  watch: {
+    x(num: number) {
+      const { horn } = this.state,
+        lessThan45 = this.x <= 0.5;
 
-        lessThan45 = @x <= 0.5
+      horn.behind = lessThan45 && horn.rear;
+      horn.behindAfterEars = !lessThan45 && horn.rear;
 
-        horn.behind          = lessThan45  and horn.rear
-        horn.behindAfterEars = !lessThan45 and horn.rear
+      this.mirror = num < 0;
+    },
 
-        @mirror = num < 0
+    "$root.propers.hair.name"(name: Object) {
+      const hair = this.state.hair;
 
-      "$root.propers.hair.name": (name) ->
-        if /Dreads/.test name['en']
-          @state.hair.isDreads = yes
-          @state.hair.isBasic  = no
-        else
-          @state.hair.isDreads = no
-          @state.hair.isBasic  = yes
+      if (/Dreads/.test(name['en'])) {
+        hair.isDreads = true;
+        hair.isBasic  = false;
+      } else {
+        hair.isDreads = false;
+        hair.isBasic  = true;
+      }
 
-        hairs =  @paths.hairs
+      const hairs: Object = (this.paths as Object).hairs;
 
-        if hairs and hairs[name['en']]
-          @fullQuality = no
-          @executeAnimation = yes
-        else
-          self = this
-          hairName = name['en'].toLowerCase().replace /\W/g, "_"
+      if (hairs && hairs[name['en']]) {
+        this.fullQuality = false;
+        this.executeAnimation = true;
+      } else {
+        const hairName = name['en'].toLowerCase().replace(/\W/g, "_");
 
-          @getPartsJSON "hairs", "hairs/" + hairName + ".json"
+        this.getPartsJSON("hairs", "hairs/" + hairName + ".json");
+      }
+    },
 
-      "$root.propers.glasses.name": (name) ->
-        glasses = @paths.glasses
+    "$root.propers.glasses.name"(name) {
+      const glasses = (this.paths as Object).glasses;
 
-        if glasses and glasses[name['en']]
-          @fullQuality = no
-          @executeAnimation = yes
-        else
-          self = this
-          glassesName = name['en'].toLowerCase().replace /\W/g, "_"
+      if (glasses && glasses[name['en']]) {
+        this.fullQuality = false;
+        this.executeAnimation = true;
+      } else {
+        const glassesName = name['en'].toLowerCase().replace(/\W/g, "_");
 
-          @getPartsJSON "glasses", "glasses/" + glassesName + ".json"
+        this.getPartsJSON("glasses", "glasses/" + glassesName + ".json");
+      }
+    },
 
+    "$root.propers.horn.name"(name) {
+      const horn = (this.paths as Object).horn;
 
-      "$root.propers.horn.name": (name) ->
-        horn = @paths.horn
+      if (horn && horn[name['en']]) {
+        this.fullQuality = false;
+        this.executeAnimation = true;
+      } else {
+        const hornsName = name['en'].toLowerCase().replace(/\W/g, "_");
 
-        if horn and horn[name['en']]
-          @fullQuality = no
-          @executeAnimation = yes
-        else
-          self = this
-          hornsName = name['en'].toLowerCase().replace /\W/g, "_"
+        this.getPartsJSON("horn", "horns/" + hornsName + ".json");
+      }
+    },
 
-          @getPartsJSON "horn", "horns/" + hornsName + ".json"
+    "$root.propers": {
+      handler(val) {
+        this.state = val;
 
-      "$root.propers":
-        handler: (val) ->
-          @state = val
+        const { horn, hair, eyes, piercings } = val;
 
-          { horn, hair, eyes, piercings } = val
+        // Horns
 
+        horn.isBasic = horn.enable && !horn.changeling;
+        horn.isChnlg = horn.enable && horn.changeling;
 
-          # Horns
+        const lessThan45 = this.x <= 0.5;
 
-          horn.isBasic = horn.enable and !horn.changeling
-          horn.isChnlg = horn.enable and horn.changeling
+        horn.behind = lessThan45  && horn.rear;
+        horn.behindAfterEars = !lessThan45 && horn.rear;
 
-          lessThan45 = @x <= 0.5
+        // Hair
 
-          horn.behind          = lessThan45  and horn.rear
-          horn.behindAfterEars = !lessThan45 and horn.rear
-
-          # Hair
-
-          hair.isSecond = !hair.second.isends and hair.second.enable
-          hair.isEnds   =  hair.second.isends and hair.second.enable
-
-
-          # Eyes
-
-          if not eyes.right.enable
-            { right, left } = @color.eyes
-
-            right.basic = left.basic
-
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.color":
-        handler: (val) ->
-          @color = val
-
-          if not @state.eyes.right.enable
-            @color.eyes.right.basic = val.eyes.left.basic
-
-          @fullQuality = no
-          @executeAnimation = yes
-
-        deep: yes
-
-      "$root.saveChanged": (val) ->
-        if val
-          @horiz = @$root.horiz
-          @angle = @$root.ang
-
-          @x = @$root.degress / 90
-
-          @$root.saveChanged = false;
-
-    methods:
-      getPartsJSON: (target, url) ->
-        self    = this
-        loader  = @$root.loadings
-        capital = target[0].toUpperCase() + target.slice 1
-
-        if target in ["glasses", "horn"]
-          loader.push "#{capital} - #{@state[target].name['en']}"
-        else if target is "hairs"
-          loader.push "#{capital} - #{@state.hair.name['en']}"
-        else
-          loader.push capital
-
-        @$http
-          .get(window.location.origin + "/data/" + url)
-          .then (res) ->
-            loader.splice loader.indexOf capital, 1
-
-            self.parseSVGbasic res.body, target
-
-            self.fullQuality = no
-            self.executeAnimation = yes
-
-          , (err) ->
-            # Trying get again if not loaded
-
-            setTimeout ->
-              loader.splice loader.indexOf capital, 1
-
-              self.getPartsJSON(target, url)
-            , 5e3
+        hair.isSecond = !hair.second.isends && hair.second.enable;
+        hair.isEnds =  hair.second.isends && hair.second.enable;
 
 
-      Click: (e) ->
-        if not e.pageX
-          if e.touches then e = e.touches[0] else return
+        // Eyes
 
-        @last.x = e.pageX
-        @last.y = e.pageY
+        if (!eyes.right.enable) {
+          const { right, left } = this.color.eyes;
 
-      Hold: (val) ->
-        if val
-          @last.time = Date.now()
-        else if Date.now() - @last.time < 150
-          @$root.warning.close = yes
+          right.basic = left.basic;
+        }
 
-      MouseMove: (e) ->
-        if not e.pageX
-          if e.touches then e = e.touches[0] else return
+        this.fullQuality = false;
+        this.executeAnimation = true;
+      },
 
-        BCR = @$el.getBoundingClientRect()
+      deep: true
+    },
+
+    "$root.color": {
+      handler(val) {
+        this.color = val;
+
+        if (!this.state.eyes.right.enable) {
+          this.color.eyes.right.basic = val.eyes.left.basic;
+        }
+
+        this.fullQuality = false;
+        this.executeAnimation = true;
+      },
+
+      deep: true
+    },
+
+    "$root.saveChanged"(val) {
+      if (val) {
+        this.horiz = this.$root.horiz;
+        this.angle = this.$root.ang;
+
+        this.x = this.$root.degress / 90;
+
+        this.$root.saveChanged = false;
+      }
+    }
+  },
+
+  methods: {
+    getPartsJSON(target: string, url: string) {
+      const self: any = this,
+        loader  = this.$root.loadings,
+        capital = target[0].toUpperCase() + target.slice(1);
+
+      if (target == "glasses" || target == "horn") {
+        loader.push(`${capital} - ${this.state[target].name['en']}`);
+      } else if (target == "hairs") {
+        loader.push(`${capital} - ${this.state.hair.name['en']}`);
+      } else {
+        loader.push(capital);
+      }
+
+      (this.$http)
+        .get(window.location.origin + "/data/" + url)
+        .then((res: NestedObject) => {
+          loader.splice(loader.indexOf(capital, 1));
+
+          self.parseSVGbasic(res.body, target);
+
+          self.fullQuality = false;
+          self.executeAnimation = true;
+
+        }, (err: any) => {
+          // Trying get again if not loaded
+
+          setTimeout(() => {
+            loader.splice(loader.indexOf(capital, 1));
+
+            self.getPartsJSON(target, url);
+          }, 5e3);
+        });
+    },
+
+    Click(e: Object) {
+      if (!e.pageX) {
+        if (e.touches) {
+          e = e.touches[0];
+        } else {
+          return;
+        }
+      }
+
+      const { last } = this as any;
+
+      last.x = e.pageX;
+      last.y = e.pageY;
+    },
+
+    Hold(val: boolean) {
+      const { last, $root } = this as any;
+
+      if (val) {
+        last.time = Date.now();
+      } else if (Date.now() - last.time < 150) {
+        $root.warning.close = true;
+      }
+    },
+
+    MouseMove(e: Object) {
+      if (!e.pageX) {
+        if (e.touches) {
+          e = e.touches[0];
+        } else {
+          return;
+        }
+      }
+
+      const self: any = this,
+        root: any = self.$root,
+
+        BCR = self.$el.getBoundingClientRect(),
+
+        { state, x, y, last } = this as Object,
 
         ang = Math.atan2(
-          ((@x + 1 / 2) * BCR.width)  - (BCR.left + BCR.width  / 2),
-          ((@y + 1 / 2) * BCR.height) - (BCR.top  + BCR.height / 2)
-        ) * 180 / Math.PI
+          ((x + 1 / 2) * BCR.width)  - (BCR.left + BCR.width  / 2),
+          ((y + 1 / 2) * BCR.height) - (BCR.top + BCR.height / 2)
+        ) * 180 / Math.PI;
 
-        @x += (e.pageX - @last.x) / 500
-        @y += (e.pageY - @last.y) / 100
+      self.x += (e.pageX - last.x) / 500;
+      self.y += (e.pageY - last.y) / 100;
 
-        if @x > 1 then @x = 1 else if @x < -1 then @x = -1
-        if @y > 1 then @y = 1 else if @y < -1 then @y = -1
+      if (x > 1) self.x = 1;
+      if (x < -1) self.x = -1;
 
-        @$root.horiz = @horiz = -(@y * (1 - Math.abs(@x))) ** 7
-        @$root.ang   = @angle = (@y * 90 * Math.abs(@x)) / 4
+      if (y > 1) self.y = 1;
+      if (y < -1) self.y = -1;
 
-        @$root.degress = @x * 90
+      root.horiz = self.horiz = -((y * (1 - Math.abs(x))) ** 7);
+      root.ang = self.angle = (y * 90 * Math.abs(x)) / 4;
 
-        @state.hornsBehind   = @x <= 0.5 and @state.horn.rear
-        @state.hornsAterEars = @x > 0.5  and @state.horn.rear
+      root.degress = x * 90;
 
-        if @x is 0 then @x = 0.01  # Bug prevention
+      state.hornsBehind = x <= 0.5 && state.horn.rear;
+      state.hornsAterEars = x > 0.5 && state.horn.rear;
 
+      if (x == 0) self.x = 0.01;  // Bug prevention
 
-        @fullQuality = no
-        @executeAnimation = yes
+      self.fullQuality = false;
+      self.executeAnimation = true;
 
-        @last.x = e.pageX
-        @last.y = e.pageY
+      last.x = e.pageX;
+      last.y = e.pageY;
+    },
 
+    parseSVGbasic(get: any, set: string) {
+      const self: any = this;
 
-      parseSVGbasic: (get, set) ->
-        self = this
+      function capitalize(text: string): string {
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
 
-        capitalize = (text) ->
-          text.charAt(0).toUpperCase() + text.slice(1)
+      function unCapitalize(text: string): string {
+        return text.charAt(0).toLowerCase() + text.slice(1);
+      }
 
-        unCapitalize = (text) ->
-          text.charAt(0).toLowerCase() + text.slice(1)
+      function give(obj: any[][], keyIn: string = '') {
+        if (obj[0]) {
+          // If there are items in the branch
 
-        give = (obj, keyIn = no) ->
-          if obj[0]
-            # If there are items in the branch
+          const newPaths = [];
 
-            newPaths = []
+          for (let i = 0; i < obj.length; i++) {
+            const path = obj[i],
+              newPath = curvify(abs(parse(path)));
 
-            for path, i in obj
-              newPath = curvify(abs(parse(path)))
+            // Paths scale decreaser
 
-              # Paths scale decreaser
+            for (let j = 0; j < newPath.length; j++) {
+              const points = newPath[j];
 
-              for points, j in newPath
-                for point, k in points
-                  if k > 0
-                       newPath[j][k] = point
-                  else newPath[j][k] = point
+              for (let k = 0; k < points.length; k++) {
+                const point = points[k];
 
-              newPaths[i] = newPath
+                if (k > 0) {
+                  newPath[j][k] = point;
+                } else {
+                  newPath[j][k] = point;
+                }
+              }
 
+              newPaths[i] = newPath;
+            }
+          }
 
-            # Creating an object to export to a variable
+          // Creating an object to export to a variable
 
-            paths = self.paths
-            keyIn = keyIn.replace "Main", ""
+          const paths = self.paths;
 
-            if not paths[set] then paths[set] = { keys: [] }
+          keyIn = keyIn.replace("Main", "");
 
-            if set in ["hairs", "glasses", "horn"]
-              set2 = if set is "hairs" then "hair" else set
-              name = self.state[set2].name['en']
+          if (!paths[set]) paths[set] = { keys: [] };
 
-              if not paths[set][name]
-                paths[set].keys.push name
-                paths[set][name] = { keys: [] }
+          if (["hairs", "glasses", "horn"].includes(set)) {
+            const
+              set2: string = set == "hairs" ? "hair" : set,
+              name = self.state[set2].name['en'];
 
+            if (!paths[set][name]) {
+              paths[set].keys.push(name);
+              paths[set][name] = { keys: [] };
+            }
 
-              # Adding elements to a variable
+            // Adding elements to a variable
 
-              key = if set is "hairs" then keyIn else set + capitalize keyIn
+            const key = set == "hairs" ? keyIn : set + capitalize(keyIn);
 
-              paths[set][name][key] = newPaths
-              paths[set][name].keys.push key
+            paths[set][name][key] = newPaths;
+            paths[set][name].keys.push(key);
 
-            else
-              paths[set][keyIn] = newPaths
-              paths[set].keys.push keyIn
+          } else {
+            paths[set][keyIn] = newPaths;
+            paths[set].keys.push(keyIn);
+          }
 
-          else # Going deeper to branch
-            keys = Object.keys obj
+        } else { // Going deeper to branch
+          const keys = Object.keys(obj);
 
-            if not keyIn then keyIn  = ""
+          if (!keyIn) keyIn = "";
 
-            for key, i in keys
-              give obj[key], unCapitalize keyIn + capitalize key
+          for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
 
-        give get
+            give((obj as any)[key], unCapitalize(keyIn + capitalize(key)));
+          }
+        }
+      }
 
+      give(get);
+    },
 
-      calc: (a, b, range) ->
-        Math.floor(a + (b - a) * range)
+    calc(a: number, b: number, range: number) { return Math.floor(a + (b - a) * range); },
 
+    morph(a: number[][], b: number[][], range: number) {
+      const newPath = [];
 
-      morph: (a, b, range) ->
-        newPath = []
+      for (let i = 0; i < a.length; i++) {
+        const
+          part = a[i],
+          newPart = [];
 
-        for part, i in a
-          newPart = []
+        for (let j = 0; j < part.length; j++) {
+          const point = part[j];
 
-          for point, j in part
-            if j > 0
-              if not b then continue
+          if (j > 0) {
+            if (!b) continue;
 
-              calc = @calc point, b[i][j], range
+            const calc = this.calc(point, b[i][j], range);
 
-              if calc then newPart[j] = calc | 0 else continue
+            if (calc) {
+              newPart[j] = calc | 0;
+            } else {
+              continue;
+            }
 
-            else newPart[j] = point
+          } else {
+            newPart[j] = point;
+          }
+        }
 
-          newPath[i] = newPart
+        newPath[i] = newPart;
+      }
 
-        return newPath
+      return newPath;
+    },
 
+    draw: Draw,
+    animate: Animate
+  },
 
-      draw: Draw
-      animate: Animate
+  mounted() {
+    // Setting context
 
-    mounted: ->
-      # Setting context
+    const ctx = this.$refs.avatar.getContext("2d");
 
-      ctx = @$refs.avatar.getContext "2d"
+    ctx.canvas.width  = Math.round(1024 * this.quality * 2);
+    ctx.canvas.height = Math.round(1024 * this.quality * 1.25);
 
-      ctx.canvas.width  = Math.round(1024 * @quality * 2)
-      ctx.canvas.height = Math.round(1024 * @quality * 1.25)
+    ctx.lineCap = ctx.lineJoin = "round";
 
-      ctx.lineCap = ctx.lineJoin = "round"
+    this.ctx = ctx;
 
-      @ctx = ctx
+    // Quality calculatoin relative screen size
 
+    const
+      X = window.screen.width,
+      Y = window.screen.height;
 
-      # Quality calculatoin relative screen size
+    this.vmin = X < Y ? X : Y;
 
-      X = window.screen.width
-      Y = window.screen.height
+    window.requestAnimationFrame(this.animate); // Start drawing and calculation
 
-      @vmin = if X < Y then X else Y
+    // Define ref to root for screener component
 
-      window.requestAnimationFrame @animate # Start drawing and calculation
+    this.$root.$refs.avatar = this.$refs.avatar;
 
+    const self = this;
 
-      # Define ref to root for screener component
+    /*
+    { easeOutIn } = easing
+    { jaw, eyes } = self.state
 
-      @$root.$refs.avatar = @$refs.avatar
+    keyframes(
+      values: [
+        { x: 0.3, horiz: -30, open: 100, lids: 25 },
+        { x: 0.1, horiz: 0, open: 0, lids: 0 },
+        { x: 0.3, horiz: -30, open: 100, lids: 25 }
+      ]
+      duration: 2000
+      easings: easeOutIn,
+      loop: Infinity
+    )
+    .start (val) ->
+      self.x = val.x
 
-      self = this
+      { position, eyelids, brows } = eyes
 
-      ###
-      { easeOutIn } = easing
-      { jaw, eyes } = self.state
+      position.horiz   = val.horiz
+      eyelids.left.up  = val.lids
+      eyelids.right.up = val.lids
 
-      keyframes(
-        values: [
-          { x: 0.3, horiz: -30, open: 100, lids: 25 },
-          { x: 0.1, horiz: 0, open: 0, lids: 0 },
-          { x: 0.3, horiz: -30, open: 100, lids: 25 }
-        ]
-        duration: 2000
-        easings: easeOutIn,
-        loop: Infinity
-      )
-      .start (val) ->
-        self.x = val.x
+      jaw.open = val.open
 
-        { position, eyelids, brows } = eyes
+      self.executeAnimation = yes
+    */
 
-        position.horiz   = val.horiz
-        eyelids.left.up  = val.lids
-        eyelids.right.up = val.lids
+    function asFile(name: string) {
+      const fileName = self.state[name].name['en'];
 
-        jaw.open = val.open
+      return fileName.toLowerCase().replace(/\W/g, "_");
+    }
 
-        self.executeAnimation = yes
-      ###
+    // Get JSON data to client and execute
 
+    this.getPartsJSON("body",     "pony/body.json");
+    this.getPartsJSON("emotions", "pony/emotions.json");
 
-      asFile = (name) ->
-        fileName = self.state[name].name['en']
-
-        return fileName.toLowerCase().replace /\W/g, "_"
-
-
-      # Get JSON data to client and execute
-
-      @getPartsJSON "body",     "pony/body.json"
-      @getPartsJSON "emotions", "pony/emotions.json"
-
-      @getPartsJSON "hairs",    "hairs/"   + asFile("hair")    + ".json"
-      @getPartsJSON "glasses",  "glasses/" + asFile("glasses") + ".json"
-      @getPartsJSON "horn",     "horns/"   + asFile("horn")    + ".json"
+    this.getPartsJSON("hairs",    "hairs/"   + asFile("hair")    + ".json");
+    this.getPartsJSON("glasses",  "glasses/" + asFile("glasses") + ".json");
+    this.getPartsJSON("horn",     "horns/"   + asFile("horn")    + ".json");
+  }
+});
 </script>
 
 <style lang="sass">

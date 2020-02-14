@@ -140,7 +140,9 @@ new Vue({
       localStorage.setItem('slot', this.slot);
     }
 
-    if (!localStorage.getItem('avatars')) {
+    const avatars: any[] = JSON.parse(localStorage.getItem('avatars') as string)
+
+    if (!avatars || !avatars[0]) {
       const { propers, color } = this.default,
         avatars = [{
           propers,
