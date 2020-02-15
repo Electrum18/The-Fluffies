@@ -128,8 +128,8 @@ export default Vue.extend({
       dark: false,
       hour: new Date().getHours(),
 
-      saves: localStorage.getItem('avatars'),
-      slot: +(localStorage.getItem('slot') as string),
+      saves: '',
+      slot: 0,
 
       gender: {
         color: '',
@@ -148,21 +148,23 @@ export default Vue.extend({
     save(): any {
       if (this.saves) {
         const
-          parsed = JSON.parse(this.saves as string),
+          parsed = JSON.parse(this.saves || ''),
           propers = parsed[this.slot].propers;
 
         this.checkGender(propers);
 
         return propers;
       }
-    },
+    }
   },
 
   methods: {
     checkContinue() {
-      return this.saves
-        ? (this.lang as any).continue
-        : (this.lang as any).start;
+      if (this.saves) {
+        return this.lang.continue;
+      } else {
+        return this.lang.start;
+      }
     },
 
     checkGender(propers: any) {
@@ -187,6 +189,9 @@ export default Vue.extend({
 
     overlay.style.opacity = '0';
     overlay.style['pointer-events' as any] = 'none';
+
+    this.saves = localStorage.getItem('avatars') || '';
+    this.slot = +(localStorage.getItem('slot') || '');
   },
 
   components: {
