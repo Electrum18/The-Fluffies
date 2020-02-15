@@ -122,7 +122,7 @@
 
   ["head", [
     { "type": "bridge", "fill": false,            "stroke": [12, ["fur", "shade"]] },
-    { "type": "mouth",  "fill": ["jaw", "basic"], "stroke": false, "clip": ["head2", "nose"] },
+    { "type": "mouth",  "fill": ["jaw", "basic"], "stroke": false, "clip": ["nose"] },
 
     { "type": "tongue", "fill": ["tongue", "basic"], "stroke": [5, ["tongue", "shade"]], "clip": ["mouth"] }
   ]],

@@ -1,7 +1,7 @@
-import If from "./drawing/if"
-import Clip from "./drawing/clip"
-import Stroke from "./drawing/stroke"
-import Fill from "./drawing/fill"
+import If from './drawing/if'
+import Clip from './drawing/clip'
+import Stroke from './drawing/stroke'
+import Fill from './drawing/fill'
 
 type Object = { [index: string]: any };
 type NestedObject = { [index: string]: Object };
@@ -47,26 +47,39 @@ export default function(this: any) {
 
   // Shifts ratio
 
-  let posX: number, scaleX: number;
+  const hooves: NestedObject = state.hooves;
+
+  let posX: number, scaleX: number,
+
+    hoove: { left: Object, right: Object };
 
   if (mirror) {
     posX = 3 / 4;
     scaleX = -1;
+
+    hoove = {
+      left: hooves.right,
+      right: hooves.left
+    }
+
   } else {
     posX = 1 / 4;
     scaleX = 1;
+
+    hoove = {
+      left: hooves.left,
+      right: hooves.right
+    }
   }
 
   const rotatable = [
-    "head", "head2", "chin", "hair", "glasses",
-    "eyeLeft", "eyeLeftBrow", "eyeRight", "eyeRightBrow",
-    "teethUpper", "teethLower"
+    'head', 'head2', 'chin', 'hair', 'glasses',
+    'eyeLeft', 'eyeLeftBrow', 'eyeRight', 'eyeRightBrow',
+    'teethUpper', 'teethLower'
   ],
 
-    hooves: NestedObject = state.hooves,
-
-    { elbow: elbowL, shoulder: shoulderL, wrist: wristL } = hooves.left,
-    { elbow: elbowR, shoulder: shoulderR, wrist: wristR } = hooves.right,
+    { elbow: elbowL, shoulder: shoulderL, wrist: wristL } = hoove.left,
+    { elbow: elbowR, shoulder: shoulderR, wrist: wristR } = hoove.right,
 
   // Getting an array of elements from an array of layers
 
@@ -86,105 +99,109 @@ export default function(this: any) {
 
     // Arms
 
-    } else if (["leftForearm", "leftTibia", "leftWrist"].includes(layer)) {
+    } else if (['leftForearm', 'leftTibia', 'leftWrist'].includes(layer)) {
       ctx.translate(-(absAngle ** 0.25) * 150 * quality, 0);
 
-      setAng(shoulderL.angle, [65, 325], 1.5);
+      setAng(shoulderL.angle * (mirror ? -1 : 1), [65, 325], 1.5);
 
-    } else if (["rightForearm", "rightTibia", "rightWrist"].includes(layer)) {
+    } else if (['rightForearm', 'rightTibia', 'rightWrist'].includes(layer)) {
       ctx.translate(-(absAngle ** 0.25) * 33 * quality, 0);
 
-      setAng(shoulderR.angle, [-65, 325], 1.5);
+      setAng(shoulderR.angle * (mirror ? -1 : 1), [-65, 325], 1.5);
     }
 
     // Tibia's
 
-    if (layer == "leftTibia" || layer == "leftWrist") {
-      setAng(elbowL.angle, [71, 350 - (shoulderL.rise * 2.22)], 1.4);
+    if (layer == 'leftTibia' || layer == 'leftWrist') {
+      setAng(elbowL.angle * (mirror ? -1 : 1), [71, 350 - (shoulderL.rise * 2.22)], 1.4);
 
-    } else if (layer == "rightTibia" || layer == "rightWrist") {
-      setAng(elbowR.angle, [-71, 350 - (shoulderR.rise * 2.22)], 1.4);
+    } else if (layer == 'rightTibia' || layer == 'rightWrist') {
+      setAng(elbowR.angle * (mirror ? -1 : 1), [-71, 350 - (shoulderR.rise * 2.22)], 1.4);
     }
 
     // Wrists
 
-    if (layer == "leftWrist") {
-      setAng(wristL.angle, [86, 350 - ((elbowL.rise * 2.5) + (shoulderL.rise * 1.65))], 1.4);
+    if (layer == 'leftWrist') {
+      setAng(wristL.angle * (mirror ? -1 : 1), [86, 350 - ((elbowL.rise * 2.5) + (shoulderL.rise * 1.65))], 1.4);
 
-    } else if (layer == "rightWrist") {
-      setAng(wristR.angle, [-86, 350 - ((elbowR.rise * 2.5) + (shoulderR.rise * 1.65))], 1.4);
+    } else if (layer == 'rightWrist') {
+      setAng(wristR.angle * (mirror ? -1 : 1), [-86, 350 - ((elbowR.rise * 2.5) + (shoulderR.rise * 1.65))], 1.4);
     }
 
     // Layers
 
-    if (layer == "head") {
-      ctx.translate(0, -horiz * 20 * quality);
-
-    } else if (layer == "eyeLeftBrow") {
-      const side = x < 0 ? "right" : "left";
-
-      ctx.translate(
-        0,
-        -horiz * 20 * quality - (state.eyes.brows[side].height / 7)
-      );
-
-    } else if (layer == "eyeRightBrow") {
-      const side = x < 0 ? "left" : "right";
-
-      ctx.translate(
-        0,
-        -horiz * 20 * quality - (state.eyes.brows[side].height / 7)
-      );
-
-    } else if (layer == "head2") {
-      ctx.translate(0, horiz * 10 * quality);
-
-    } else if (layer == "leftTibia") {
+    if (layer == 'leftTibia') {
       ctx.translate(0, -(shoulderL.rise - elbowL.rise) * 3 * quality);
 
-    } else if (layer == "rightTibia") {
+    } else if (layer == 'rightTibia') {
       ctx.translate(0, -(shoulderR.rise - elbowR.rise) * 3 * quality);
 
-    } else if (layer == "leftWrist") {
+    } else if (layer == 'leftWrist') {
       ctx.translate(
         (
           (15 * (1 - (wristL.rise / 100))) *
           (
             ((shoulderL.rise / 500) + (elbowL.rise / 120)) * (1 - (wristL.rise / 200))
           )
+          * quality
         ),
         -(shoulderL.rise + elbowL.rise - (wristL.rise * 2)) * 3 * quality
       );
 
-    } else if (layer == "rightWrist") {
+    } else if (layer == 'rightWrist') {
       ctx.translate(
         -(
           (15 * (1 - (wristR.rise / 100))) * (
             ((shoulderR.rise / 500) + (elbowR.rise / 120)) * (1 - (wristR.rise / 200))
           )
+          * quality
         ),
         -(shoulderR.rise + elbowR.rise - (wristR.rise * 2)) * 3 * quality
       );
-    };
+    }
 
-    if (layer == "eyeLeft" || layer == "eyeRight") {
+    if (layer == 'head') {
+      ctx.translate(0, -horiz * 20 * quality);
+
+    } else if (layer == 'eyeLeftBrow') {
+      const side = x < 0 ? 'right' : 'left';
+
+      ctx.translate(
+        0,
+        -horiz * 20 - (state.eyes.brows[side].height / 7) * quality
+      );
+
+    } else if (layer == 'eyeRightBrow') {
+      const side = x < 0 ? 'left' : 'right';
+
+      ctx.translate(
+        0,
+        -horiz * 20 - (state.eyes.brows[side].height / 7) * quality
+      );
+
+    } else if (layer == 'head2') {
+      ctx.translate(0, horiz * 10 * quality);
+
+    }
+
+    if (layer == 'eyeLeft' || layer == 'eyeRight') {
       const mirrored = mirror ? -1 : 1,
         position = state.eyes.position,
 
         inHoriz = (position.horiz - 50) / 1.5,
         inVerti = (position.verti - 50) / 1.5;
 
-      ctx.translate(inHoriz * mirrored, (-horiz * 20 * quality) - inVerti);
+      ctx.translate(inHoriz * quality * mirrored, (-horiz * 20) - inVerti * quality);
 
-    } else if (layer == "teethUpper") {
+    } else if (layer == 'teethUpper') {
       const upper = (100 - state.teeth.upper) / 3;
 
-      ctx.translate(upper * absAngle, (-horiz * 20 * quality) - upper);
+      ctx.translate(upper * absAngle, (-horiz * 20) - upper * quality);
 
-    } else if (layer == "teethLower") {
+    } else if (layer == 'teethLower') {
       const lower = (100 - state.teeth.lower) / 3;
 
-      ctx.translate(-lower * absAngle, (-horiz * 20 * quality) + lower);
+      ctx.translate(-lower * absAngle, (-horiz * 20) + lower * quality);
     }
 
     // Work with array of elements
@@ -220,7 +237,7 @@ export default function(this: any) {
       let type: string;
 
       if (state.male) {
-        const name = "male" + capitalize(elem.type);
+        const name = 'male' + capitalize(elem.type);
 
         type = calculated[name] ? name : elem.type
 
@@ -235,7 +252,7 @@ export default function(this: any) {
       for (let i = 0; i < calcType.length; i++) {
         const part = calcType[i];
 
-        if (part[0] == "C") {
+        if (part[0] == 'C') {
           ctx.bezierCurveTo(
             part[1] * quality, part[2] * quality,
             part[3] * quality, part[4] * quality,

@@ -44,10 +44,6 @@ module.exports = {
           appendTsSuffixTo: [/\.vue$/],
         }
       }, {
-        test: /\.coffee$/,
-        loader: 'coffee-loader',
-        exclude: /node_modules/
-      }, {
         test: /\.sass$/,
         use: [
           MiniCssExtractPlugin.loader,

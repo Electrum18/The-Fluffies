@@ -17,9 +17,13 @@ new Vue({
   },
 
   mounted() {
-    const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
+    // Find & set locale
 
-    this.locale = rus.includes(navigator.language) ? 'ru' : 'en';
+    const
+      rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'],
+      lang: string = navigator.language;
+
+    this.locale = rus.indexOf(lang[0] + lang[1]) >= 0 ? 'ru' : 'en';
   },
 
   render: h => h(App)

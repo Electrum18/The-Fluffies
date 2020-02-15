@@ -129,7 +129,7 @@ export default Vue.extend({
       hour: new Date().getHours(),
 
       saves: localStorage.getItem('avatars'),
-      slot: localStorage.getItem('slot'),
+      slot: +(localStorage.getItem('slot') as string),
 
       gender: {
         color: '',
@@ -147,7 +147,9 @@ export default Vue.extend({
 
     save(): any {
       if (this.saves) {
-        const propers = JSON.parse(this.saves as string)[+(this.slot as string)].propers;
+        const
+          parsed = JSON.parse(this.saves as string),
+          propers = parsed[this.slot].propers;
 
         this.checkGender(propers);
 

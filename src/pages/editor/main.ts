@@ -10,12 +10,10 @@ import IconPony from './components/IconPony.vue'
 import PropertiesConfig from './configs/properties.json'
 import ColorConfig from './configs/color.json'
 
-
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(VueResource);
-
 
 Vue.directive('press-hold', {
   bind(elem: HTMLElement, binding: DirectiveBinding) {
@@ -84,6 +82,10 @@ new Vue({
     saveChanged: false,
 
     default: {
+      ang: 0,
+      horiz: 0,
+      degress: 12.5,
+
       propers: PropertiesConfig,
       color: ColorConfig
     }
@@ -123,9 +125,11 @@ new Vue({
   mounted() {
     // Find & set locale
 
-    const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
+    const
+      rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'],
+      lang: string = navigator.language;
 
-    this.locale = rus.includes(navigator.language) ? 'ru' : 'en';
+    this.locale = rus.indexOf(lang[0] + lang[1]) >= 0 ? 'ru' : 'en';
 
 
     // Get JSON data to client and execute
@@ -143,13 +147,13 @@ new Vue({
     const avatars: any[] = JSON.parse(localStorage.getItem('avatars') as string)
 
     if (!avatars || !avatars[0]) {
-      const { propers, color } = this.default,
+      const { propers, color, ang, horiz, degress } = this.default,
         avatars = [{
           propers,
           color,
-          angle: this.ang,
-          horiz: this.horiz,
-          degress: this.degress
+          angle: ang,
+          horiz,
+          degress
         }];
 
       localStorage.setItem('avatars', JSON.stringify(avatars));

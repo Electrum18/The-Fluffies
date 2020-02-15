@@ -125,14 +125,14 @@ export default Vue.extend({
       const parsedData: any[] = JSON.parse(localStorage.getItem('avatars') as string),
         root: any = this.$root,
 
-        { propers, color } = root.default;
+        { propers, color, ang, horiz, degress } = root.default;
 
       parsedData.push({
         propers,
         color,
-        angle: root.ang,
-        horiz: root.horiz,
-        degress: root.degress
+        angle: ang,
+        horiz,
+        degress
       });
 
       localStorage.setItem('avatars', JSON.stringify(parsedData));

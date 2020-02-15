@@ -25,11 +25,11 @@ export default function(
       } else if (clipItem == "earRight") {
         ctx.translate(0, horiz * back * 10 * quality);
       } else if (layer == "teethUpper") {
-        const upper = ((100 - state.teeth.upper) / 3) * back;
+        const upper = ((100 - state.teeth.upper) / 3) * back * quality;
 
         ctx.translate(-upper * absAngle, upper);
       } else if (layer == "teethLower") {
-        const lower = ((100 - state.teeth.lower) / 3) * back;
+        const lower = ((100 - state.teeth.lower) / 3) * back * quality;
 
         ctx.translate(lower * absAngle, -lower);
       } else {
@@ -66,9 +66,12 @@ export default function(
       translate(clipItem, false, () => {
         if (clipItem == "eyeLeft" || clipItem == "eyeRight") {
           const mirrored = mirror ? -1 : 1,
-            { horiz, verti } = state.eyes.position;
+            { horiz, verti } = state.eyes.position,
 
-          ctx.translate(-((horiz - 50) / 1.5) * mirrored, (verti - 50) / 1.5);
+            inHoriz = (horiz - 50) / 1.5,
+            inVerti = (verti - 50) / 1.5;
+
+          ctx.translate(-inHoriz * quality * mirrored, inVerti * quality);
         }
       });
 
@@ -103,9 +106,12 @@ export default function(
       translate(clipItem, true, () => {
         if (clipItem == "eyeLeft" || clipItem == "eyeRight") {
           const mirrored = mirror ? -1 : 1,
-            { horiz, verti } = state.eyes.position;
+            { horiz, verti } = state.eyes.position,
 
-          ctx.translate((horiz / 3) * mirrored, -(verti / 3));
+            inHoriz = horiz / 3,
+            inVerti = verti / 3;
+
+          ctx.translate(inHoriz * quality * mirrored, -inVerti * quality);
         }
       });
     }

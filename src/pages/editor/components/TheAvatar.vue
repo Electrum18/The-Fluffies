@@ -10,22 +10,22 @@ type NestedObject = { [index: string]: Object };
 // Libraries
 
 const
-  abs = require("abs-svg-path"),
-  parse = require("parse-svg-path"),
-  curvify = require("curvify-svg-path");
+  abs = require('abs-svg-path'),
+  parse = require('parse-svg-path'),
+  curvify = require('curvify-svg-path');
 
 import { keyframes, easing } from 'popmotion'
 
 // Configs
 
-import Elems from "../configs/elems.json"
-import IS from "../configs/interpolationScheme.json"
-import Powers from "../configs/power.json"
+import Elems from '../configs/elems.json'
+import IS from '../configs/interpolationScheme.json'
+import Powers from '../configs/power.json'
 
 // Scripts
 
-import Animate from "./Avatar/animate"
-import Draw from "./Avatar/draw"
+import Animate from './Avatar/animate'
+import Draw from './Avatar/draw'
 
 import Vue from 'vue'
 
@@ -80,7 +80,7 @@ export default Vue.extend({
       this.mirror = num < 0;
     },
 
-    "$root.propers.hair.name"(name: Object) {
+    '$root.propers.hair.name'(name: Object) {
       const hair = this.state.hair;
 
       if (/Dreads/.test(name['en'])) {
@@ -97,39 +97,39 @@ export default Vue.extend({
         this.fullQuality = false;
         this.executeAnimation = true;
       } else {
-        const hairName = name['en'].toLowerCase().replace(/\W/g, "_");
+        const hairName = name['en'].toLowerCase().replace(/\W/g, '_');
 
-        this.getPartsJSON("hairs", "hairs/" + hairName + ".json");
+        this.getPartsJSON('hairs', 'hairs/' + hairName + '.json');
       }
     },
 
-    "$root.propers.glasses.name"(name) {
+    '$root.propers.glasses.name'(name) {
       const glasses = (this.paths as Object).glasses;
 
       if (glasses && glasses[name['en']]) {
         this.fullQuality = false;
         this.executeAnimation = true;
       } else {
-        const glassesName = name['en'].toLowerCase().replace(/\W/g, "_");
+        const glassesName = name['en'].toLowerCase().replace(/\W/g, '_');
 
-        this.getPartsJSON("glasses", "glasses/" + glassesName + ".json");
+        this.getPartsJSON('glasses', 'glasses/' + glassesName + '.json');
       }
     },
 
-    "$root.propers.horn.name"(name) {
+    '$root.propers.horn.name'(name) {
       const horn = (this.paths as Object).horn;
 
       if (horn && horn[name['en']]) {
         this.fullQuality = false;
         this.executeAnimation = true;
       } else {
-        const hornsName = name['en'].toLowerCase().replace(/\W/g, "_");
+        const hornsName = name['en'].toLowerCase().replace(/\W/g, '_');
 
-        this.getPartsJSON("horn", "horns/" + hornsName + ".json");
+        this.getPartsJSON('horn', 'horns/' + hornsName + '.json');
       }
     },
 
-    "$root.propers": {
+    '$root.propers': {
       handler(val) {
         this.state = val;
 
@@ -166,7 +166,7 @@ export default Vue.extend({
       deep: true
     },
 
-    "$root.color": {
+    '$root.color': {
       handler(val) {
         this.color = val;
 
@@ -181,7 +181,7 @@ export default Vue.extend({
       deep: true
     },
 
-    "$root.saveChanged"(val) {
+    '$root.saveChanged'(val) {
       if (val) {
         this.horiz = this.$root.horiz;
         this.angle = this.$root.ang;
@@ -199,16 +199,18 @@ export default Vue.extend({
         loader  = this.$root.loadings,
         capital = target[0].toUpperCase() + target.slice(1);
 
-      if (target == "glasses" || target == "horn") {
+      if (target == 'glasses' || target == 'horn') {
         loader.push(`${capital} - ${this.state[target].name['en']}`);
-      } else if (target == "hairs") {
+
+      } else if (target == 'hairs') {
         loader.push(`${capital} - ${this.state.hair.name['en']}`);
+
       } else {
         loader.push(capital);
       }
 
       (this.$http)
-        .get(window.location.origin + "/data/" + url)
+        .get(window.location.origin + '/data/' + url)
         .then((res: NestedObject) => {
           loader.splice(loader.indexOf(capital, 1));
 
@@ -344,13 +346,13 @@ export default Vue.extend({
 
           const paths = self.paths;
 
-          keyIn = keyIn.replace("Main", "");
+          keyIn = keyIn.replace('Main', '');
 
           if (!paths[set]) paths[set] = { keys: [] };
 
-          if (["hairs", "glasses", "horn"].includes(set)) {
+          if (['hairs', 'glasses', 'horn'].includes(set)) {
             const
-              set2: string = set == "hairs" ? "hair" : set,
+              set2: string = set == 'hairs' ? 'hair' : set,
               name = self.state[set2].name['en'];
 
             if (!paths[set][name]) {
@@ -360,7 +362,7 @@ export default Vue.extend({
 
             // Adding elements to a variable
 
-            const key = set == "hairs" ? keyIn : set + capitalize(keyIn);
+            const key = set == 'hairs' ? keyIn : set + capitalize(keyIn);
 
             paths[set][name][key] = newPaths;
             paths[set][name].keys.push(key);
@@ -373,7 +375,7 @@ export default Vue.extend({
         } else { // Going deeper to branch
           const keys = Object.keys(obj);
 
-          if (!keyIn) keyIn = "";
+          if (!keyIn) keyIn = '';
 
           for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
@@ -428,12 +430,12 @@ export default Vue.extend({
   mounted() {
     // Setting context
 
-    const ctx = this.$refs.avatar.getContext("2d");
+    const ctx = this.$refs.avatar.getContext('2d');
 
     ctx.canvas.width  = Math.round(1024 * this.quality * 2);
     ctx.canvas.height = Math.round(1024 * this.quality * 1.25);
 
-    ctx.lineCap = ctx.lineJoin = "round";
+    ctx.lineCap = ctx.lineJoin = 'round';
 
     this.ctx = ctx;
 
@@ -484,17 +486,17 @@ export default Vue.extend({
     function asFile(name: string) {
       const fileName = self.state[name].name['en'];
 
-      return fileName.toLowerCase().replace(/\W/g, "_");
+      return fileName.toLowerCase().replace(/\W/g, '_');
     }
 
     // Get JSON data to client and execute
 
-    this.getPartsJSON("body",     "pony/body.json");
-    this.getPartsJSON("emotions", "pony/emotions.json");
+    this.getPartsJSON('body',     'pony/body.json');
+    this.getPartsJSON('emotions', 'pony/emotions.json');
 
-    this.getPartsJSON("hairs",    "hairs/"   + asFile("hair")    + ".json");
-    this.getPartsJSON("glasses",  "glasses/" + asFile("glasses") + ".json");
-    this.getPartsJSON("horn",     "horns/"   + asFile("horn")    + ".json");
+    this.getPartsJSON('hairs',    'hairs/'   + asFile('hair')    + '.json');
+    this.getPartsJSON('glasses',  'glasses/' + asFile('glasses') + '.json');
+    this.getPartsJSON('horn',     'horns/'   + asFile('horn')    + '.json');
   }
 });
 </script>

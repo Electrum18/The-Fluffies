@@ -33,7 +33,7 @@
         v-icon(small right) mdi-account
 
 
-      v-card(dark flat style="height: 500px; overflow: overlay" ref="chatSpace")
+      v-card(dark flat style="height: 75vh; overflow: overlay" ref="chatSpace")
         v-list(dense)
           .py-3
 
@@ -59,32 +59,32 @@
           @keyup.enter="submit"
         )
 
-    v-overlay(
-      absolute
-      :value="!chat.name"
-    )
-      v-text-field(
-        v-model="chat.prename"
-
-        label="Outlined"
-        :placeholder="lang.chat['enter name']"
-        solo
-        outlined
-        counter="20"
-        append-icon="mdi-send"
-
-        @click:append="checkName"
-        @keyup.enter="checkName"
+      v-overlay(
+        absolute
+        :value="!chat.name"
       )
+        v-text-field(
+          v-model="chat.prename"
 
-    v-overlay(
-      absolute
-      :value="!chat.online"
-    )
-      v-icon(
-        large
-        color="red lighten-1"
-      ) mdi-wifi-off
+          label="Outlined"
+          :placeholder="lang.chat['enter name']"
+          solo
+          outlined
+          counter="20"
+          append-icon="mdi-send"
+
+          @click:append="checkName"
+          @keyup.enter="checkName"
+        )
+
+      v-overlay(
+        absolute
+        :value="!chat.online"
+      )
+        v-icon(
+          large
+          color="red lighten-1"
+        ) mdi-wifi-off
 </template>
 
 <script lang="ts">
@@ -116,7 +116,7 @@ export default Vue.extend({
     return {
       chat: {
         opened: false,
-        online: true,
+        online: false,
 
         name: '',
         prename: '',
