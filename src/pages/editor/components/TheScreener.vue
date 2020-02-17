@@ -124,9 +124,14 @@ export default Vue.extend({
         width  = canvas.height * ratio;
       }
 
+
+      width  *= 1.25;
+
       const
-        xOffset = width < canvas.width ? (canvas.width - (width * 1.25)) / 2 : 0,
+        xOffset = (canvas.width - width) / 2,
         yOffset = canvas.height - (height * 1.125);
+
+      height *= 1.25;
 
 
       // Drawing image over background at bottom-center
@@ -136,7 +141,7 @@ export default Vue.extend({
       ctx.fillStyle = (this.$root as any).color.background.basic;
 
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(avatar, xOffset, yOffset, width * 1.25, height * 1.25);
+      ctx.drawImage(avatar, xOffset, yOffset, width, height);
 
 
       // Creating file

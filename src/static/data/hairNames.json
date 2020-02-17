@@ -2,6 +2,15 @@
   "hair": [
     {
       "name": {
+        "en": "Simply",
+        "ru": "Простецкий"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Spiky to side",
         "ru": "Шипастая на бок"
       },
@@ -22,6 +31,24 @@
       "name": {
         "en": "Big Bang",
         "ru": "Большая чёлка"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Stallion bang",
+        "ru": "Челка жеребца"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Shorty",
+        "ru": "Короткая"
       },
 
       "author": "Electrum18"

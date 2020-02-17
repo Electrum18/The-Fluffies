@@ -156,8 +156,8 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.slot = +(localStorage.getItem('slot') as string);
-    this.saves = JSON.parse(localStorage.getItem('avatars') as string);
+    this.slot = +(localStorage.getItem('slot') || '');
+    this.saves = JSON.parse(localStorage.getItem('avatars') || '');
   },
 
   components: {
