@@ -11,6 +11,15 @@
 
     {
       "name": {
+        "en": "Simple long",
+        "ru": "Простая длинная"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Spiky to side",
         "ru": "Шипастая на бок"
       },
@@ -31,6 +40,15 @@
       "name": {
         "en": "Big Bang",
         "ru": "Большая чёлка"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "High bang",
+        "ru": "Высокая чёлка"
       },
 
       "author": "Electrum18"
@@ -103,6 +121,15 @@
       "name": {
         "en": "Soft to side",
         "ru": "Мягкая на бок"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Lush long",
+        "ru": "Пышная длинная"
       },
 
       "author": "Electrum18"
