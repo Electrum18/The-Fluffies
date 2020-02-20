@@ -25,9 +25,9 @@ The site uses `Typescript` as language
 For compilation used `Webpack` bandler
 
 ### In future plans
-- Add more `hairstyles`
 - Adding `premium` features via donation
 - Adding `animation` and avatar manipulation tools
+- Adding `gryphons` and `kirin` races
 
 ## Support us
 

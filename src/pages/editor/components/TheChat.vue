@@ -222,11 +222,10 @@ export default Vue.extend({
       chat.online = socket.connected;
     });
 
-    socket.on('get first',    (msg: string) => chat.content = msg as any);
+    socket.on('get first',    (msg: string[]) => chat.content = msg);
     socket.on('get message',  (msg: string) => chat.content.push(msg));
     socket.on('get announce', (msg: string) => chat.content.push(msg));
     socket.on('get users',  (users: number) => chat.users = users);
-
 
     socket.on('isnt nickname', () => {
       self.text = '';

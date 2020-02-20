@@ -100,7 +100,7 @@ export default Vue.extend({
       root: any   = this.$root,
       rootElement = root.propers[this.target];
 
-    for (let i = 0, len = list.length; i < len; i++) {
+    for (let i = 0; i < list.length; i++) {
       const element = list[i];
 
       if (element.name['en'] == rootElement.name['en']) {

@@ -38,6 +38,15 @@
 
     {
       "name": {
+        "en": "Spiky short",
+        "ru": "Шипастая короткая"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Big Bang",
         "ru": "Большая чёлка"
       },
@@ -112,6 +121,15 @@
       "name": {
         "en": "Dreads to side",
         "ru": "Дреды на бок"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Dreads long",
+        "ru": "Дреды длинные"
       },
 
       "author": "Electrum18"
