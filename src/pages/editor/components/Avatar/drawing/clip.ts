@@ -1,5 +1,3 @@
-import { calculation } from '../computing';
-
 type Object = { [index: string]: any };
 type NestedObject = { [index: string]: Object };
 

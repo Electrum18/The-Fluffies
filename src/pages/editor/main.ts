@@ -99,7 +99,7 @@ new Vue({
           (res: any) => {
             let propers: any = this.propers;
 
-            propers[target].info = res.body[target]
+            propers[target].info = res.body[target];
           },
           (err) => {
             // Trying get again if not loaded

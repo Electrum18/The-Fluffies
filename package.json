@@ -1,6 +1,6 @@
 {
   "name": "the_fluffies",
-  "version": "0.4.5",
+  "version": "0.4.7",
   "private": true,
   "description": "Make your own furry-cartoon creation with that service like vector image. Created by Electrum18",
   "author": "Electrum18 <thefluffiessite@gmail.com>",
@@ -12,6 +12,7 @@
     "webpack:dev": "webpack --mode=development"
   },
   "dependencies": {
+    "@vue/composition-api": "^0.4.0",
     "abs-svg-path": "x",
     "core-js": "^3.6.4",
     "curvify-svg-path": "x",
@@ -21,7 +22,7 @@
     "socket.io": "^2.3.0",
     "vue": "^2.6.11",
     "vue-resource": "x",
-    "vuetify": "^2.2.12"
+    "vuetify": "^2.2.14"
   },
   "devDependencies": {
     "@types/socket.io-client": "^1.4.32",
@@ -50,7 +51,7 @@
     "sitemap-webpack-plugin": "^0.6.0",
     "style-loader": "^1.1.3",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5",
+    "typescript": "^3.8.2",
     "vue-cli-plugin-pug": "x",
     "vue-cli-plugin-vuetify": "^2.0.5",
     "vue-loader": "^15.9.0",

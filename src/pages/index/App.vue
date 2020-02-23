@@ -47,7 +47,7 @@
 
                   v-divider(v-if="saves")
 
-                  v-card-subtitle(v-if="saves") {{ slot }} • {{ save.name }}
+                  v-card-subtitle(v-if="saves") {{ slot }} • {{ save().name }}
                     v-icon.float-right(
                       :color="gender.color"
                     ) mdi-{{ gender.icon }}
@@ -99,10 +99,7 @@
 </template>
 
 <script lang="ts">
-import en from '../../assets/json/locales/en/index.json'
-import ru from '../../assets/json/locales/ru/index.json'
-
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VApp,
   VChip,
@@ -118,80 +115,99 @@ import {
   VDivider,
   VFooter,
   VIcon
-} from 'vuetify/lib'
+} from 'vuetify/lib';
 
-import Socials from '../../components/Socials.vue'
+import { ref, computed, reactive } from '@vue/composition-api';
+
+import Socials from '../../components/Socials.vue';
+
+import { getLanguage } from '../../assets/ts/language';
+import loaderClose from '../../assets/ts/loaderClose';
+import darkMode from '../../assets/ts/darkMode';
+
+// Functions
+
+function checkGender() {
+  const gender = reactive({
+    color: '',
+    icon: ''
+  });
+
+  function checkIsMale(propers: any) {
+    if (propers.male) {
+      gender.color = 'blue';
+      gender.icon  = 'gender-male';
+    } else {
+      gender.color = 'pink';
+      gender.icon  = 'gender-female';
+    }
+  }
+
+  return {
+    gender,
+    checkIsMale
+  }
+}
+
+function getSave() {
+  const { lang } = getLanguage();
+  const { gender, checkIsMale } = checkGender();
+
+  const saves = ref(localStorage.getItem('avatars'));
+  const slot = ref(+(localStorage.getItem('slot') || 0));
+
+  function checkContinue() {
+    if (saves.value != null) {
+      return lang.value.continue;
+    } else {
+      return lang.value.start;
+    }
+  }
+
+  function save() {
+    if (saves.value != null) {
+      const parsed = JSON.parse(saves.value);
+      const propers = parsed[slot.value].propers;
+
+      checkIsMale(propers);
+
+      return propers;
+    }
+  }
+
+  return {
+    saves,
+    slot,
+    checkContinue,
+    gender,
+    save
+  }
+}
 
 export default Vue.extend({
-  data() {
+  setup() {
+    const { dark } = darkMode();
+    const { lang } = getLanguage();
+
+    const {
+      saves,
+      slot,
+      checkContinue,
+      gender,
+      save
+    } = getSave();
+
+    loaderClose();
+
     return {
-      dark: false,
-      hour: new Date().getHours(),
-
-      saves: '',
-      slot: 0,
-
-      gender: {
-        color: '',
-        icon: ''
-      },
-
-      locales: { en, ru }
+      dark,
+      lang,
+      saves,
+      slot,
+      checkContinue,
+      gender,
+      save
     }
-  },
-
-  computed: {
-    lang(): any {
-      return (this.locales as any)[(this.$root as any).locale];
-    },
-
-    save(): any {
-      if (this.saves) {
-        const
-          parsed = JSON.parse(this.saves || ''),
-          propers = parsed[this.slot].propers;
-
-        this.checkGender(propers);
-
-        return propers;
-      }
-    }
-  },
-
-  methods: {
-    checkContinue() {
-      if (this.saves) {
-        return this.lang.continue;
-      } else {
-        return this.lang.start;
-      }
-    },
-
-    checkGender(propers: any) {
-      const gender = this.gender;
-
-      if (propers.male) {
-        gender.color = 'blue';
-        gender.icon  = 'gender-male';
-      } else {
-        gender.color = 'pink';
-        gender.icon  = 'gender-female';
-      }
-    }
-  },
-
-  mounted(): void {
-    this.dark = this.hour > 17 || this.hour < 9;
-
-    // Closing loader
-
-    let overlay = document.getElementById('overlay') as HTMLElement;
-
-    overlay.style.opacity = '0';
-    overlay.style['pointer-events' as any] = 'none';
-
-    this.saves = localStorage.getItem('avatars') || '';
-    this.slot = +(localStorage.getItem('slot') || '');
   },
 
   components: {
