@@ -77,10 +77,10 @@
 </template>
 
 <script lang="ts">
-import en from '../../assets/json/locales/en/support.json'
-import ru from '../../assets/json/locales/ru/support.json'
+import en from '../../assets/json/locales/en/support.json';
+import ru from '../../assets/json/locales/ru/support.json';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VApp,
   VAppBar,
@@ -99,46 +99,32 @@ import {
   VDivider,
   VBadge,
   VFooter
-} from 'vuetify/lib'
+} from 'vuetify/lib';
 
-import Socials from '../../components/Socials.vue'
+import Socials from '../../components/Socials.vue';
+
+import { getLanguage } from '../../assets/ts/language';
+import loaderClose from '../../assets/ts/loaderClose';
+import darkMode from '../../assets/ts/darkMode';
+import format from '../../assets/ts/format';
 
 export default Vue.extend({
-  data() {
+  setup() {
+    const { dark } = darkMode();
+    const { lang } = getLanguage(en, ru);
+
+    function url() {
+      return dark.value ? '#8bf' : '#359';
+    }
+
+    loaderClose();
+
     return {
-      dark: false,
-      hour: new Date().getHours(),
-
-      locales: { en, ru }
+      dark,
+      lang,
+      format,
+      url
     }
-  },
-
-  methods: {
-    format(text: string) {
-      return text
-        .replace(/\[/g, '<span class="font-weight-black">')
-        .replace(/\]/g, '</span>');
-    },
-
-    url(): string { return this.dark ? '#8bf' : '#359' }
-  },
-
-  computed: {
-    lang(): object {
-      return (this.locales as any)[(this.$root as any).locale];
-    }
-  },
-
-  mounted(): void {
-    this.dark = this.hour > 17 || this.hour < 9;
-
-
-    // Closing loader
-
-    let overlay = document.getElementById('overlay') as HTMLElement;
-
-    overlay.style.opacity = '0';
-    overlay.style['pointer-events' as any] = 'none';
   },
 
   components: {

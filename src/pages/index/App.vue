@@ -99,6 +99,9 @@
 </template>
 
 <script lang="ts">
+import en from '../../assets/json/locales/en/index.json';
+import ru from '../../assets/json/locales/ru/index.json';
+
 import Vue from 'vue';
 import {
   VApp,
@@ -150,7 +153,7 @@ function checkGender() {
 }
 
 function getSave() {
-  const { lang } = getLanguage();
+  const { lang } = getLanguage(en, ru);
   const { gender, checkIsMale } = checkGender();
 
   const saves = ref(localStorage.getItem('avatars'));
@@ -187,7 +190,7 @@ function getSave() {
 export default Vue.extend({
   setup() {
     const { dark } = darkMode();
-    const { lang } = getLanguage();
+    const { lang } = getLanguage(en, ru);
 
     const {
       saves,

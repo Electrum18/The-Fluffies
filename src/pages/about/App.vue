@@ -100,7 +100,7 @@
 import en from "../../assets/json/locales/en/about.json"
 import ru from "../../assets/json/locales/ru/about.json"
 
-import Vue from "vue"
+import Vue from "vue";
 import {
   VApp,
   VAppBar,
@@ -122,56 +122,47 @@ import {
   VListItemSubtitle,
   VListItemAvatar,
   VFooter
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import { ref } from '@vue/composition-api';
 
 import Socials from "../../components/Socials.vue"
-import { HttpResponse } from 'vue-resource/types/vue_resource';
+
+import { getLanguage } from '../../assets/ts/language';
+import loaderClose from '../../assets/ts/loaderClose';
+import darkMode from '../../assets/ts/darkMode';
+import format from '../../assets/ts/format';
+
+// Functions
+
+function parseContributors($http: any) {
+  const url = "https://api.github.com/repos/electrum18/the-fluffies/contributors?page=1&?access_token=fff";
+
+  const contributors = ref([]);
+
+  $http
+    .get(url)
+    .then((res: any) => contributors.value = res.body);
+
+  return {
+    contributors
+  }
+}
 
 export default Vue.extend({
-  data() {
+  setup(props, { parent }: any) {
+    const { dark } = darkMode();
+    const { lang } = getLanguage(en, ru);
+    const { contributors } = parseContributors(parent.$http);
+
+    loaderClose();
+
     return {
-      dark: false,
-      hour: new Date().getHours(),
-
-      contributors: [],
-
-      locales: { en, ru }
+      dark,
+      lang,
+      format,
+      contributors
     }
-  },
-
-  computed: {
-    lang(): object {
-      return (this.locales as any)[(this.$root as any).locale];
-    }
-  },
-
-  methods: {
-    format(text: string) {
-      return text
-        .replace(/\[/g, "<span class='font-weight-black'>")
-        .replace(/\]/g, "</span>");
-    }
-  },
-
-  mounted(): void {
-    this.dark = this.hour > 17 || this.hour < 9;
-
-
-    // Closing loader
-
-    let overlay = document.getElementById("overlay") as HTMLElement;
-
-    overlay.style.opacity = '0';
-    overlay.style['pointer-events' as any] = 'none';
-
-
-    // Getting contributors
-
-    const url = "https://api.github.com/repos/electrum18/the-fluffies/contributors?page=1&?access_token=fff";
-
-    this.$http
-      .get(url)
-      .then(res => this.contributors = (res as any).body);
   },
 
   components: {

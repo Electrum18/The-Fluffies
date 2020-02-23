@@ -1,7 +1,6 @@
-import { ref, computed } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api';
 
-import en from '../../assets/json/locales/en/index.json'
-import ru from '../../assets/json/locales/ru/index.json'
+type Object = { [index: string]: any }
 
 function getLocale() {
   const
@@ -17,7 +16,7 @@ function getLocale() {
   }
 }
 
-function getLanguage() {
+function getLanguage(en: Object, ru: Object) {
   const locales = ref({ en, ru });
 
   const { locale } = getLocale();

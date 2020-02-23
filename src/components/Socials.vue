@@ -40,7 +40,7 @@
         v-icon mdi-patreon
 
     v-card.mx-2
-      p.my-1.overline.text-center {{ header[$root.locale] }}
+      p.my-1.overline.text-center {{ header[locale] }}
 
       v-btn.white-in.ma-0(
         icon
@@ -77,67 +77,101 @@
 </template>
 
 <script lang="ts">
-import Share from '../assets/json/locales/share.json'
+import Share from '../assets/json/locales/share.json';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VRow,
   VCard,
   VBtn,
   VIcon,
   VDivider
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import { computed } from '@vue/composition-api';
+
+import { getLocale } from '../assets/ts/language';
+
+// Functions
+
+function sharings() {
+  const { locale } = getLocale();
+
+  const { title, text } = Share;
+
+  const url = 'https://the-fluffies.net/';
+  const img = 'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png';
+
+  const encode = encodeURIComponent;
+
+  // VKontakte
+
+  const shareVKontakte = computed(() => {
+    let request = 'http://vkontakte.ru/share.php?';
+
+    request += 'url='          + encode(url);
+    request += '&title='       + encode(title[locale.value]);
+    request += '&description=' + encode(text[locale.value]);
+    request += '&image='       + encode(img);
+    request += '&noparse=true';
+
+    return request;
+  });
+
+  // Facebook
+
+  const shareFacebook = computed(() => {
+    let request = 'http://www.facebook.com/sharer.php?s=100';
+
+    request += '&p[title]='     + encode(title[locale.value]);
+    request += '&p[summary]='   + encode(text[locale.value]);
+    request += '&p[url]='       + encode(url);
+    request += '&p[images][0]=' + encode(img);
+
+    return request;
+  });
+
+  // Twitter
+
+  const shareTwitter = computed(() => {
+    let request = 'http://twitter.com/share?';
+
+    request += 'text='      + encode(text[locale.value]);
+    request += '&url='      + encode(url);
+    request += '&counturl=' + encode(url);
+
+    return request;
+  });
+
+  return {
+    shareVKontakte,
+    shareFacebook,
+    shareTwitter
+  }
+}
 
 export default Vue.extend({
-  props: ['dark'],
-
-  data() {
-    return {
-      url: 'https://the-fluffies.net/',
-      img: 'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png',
-
-      ...Share
-    }
+  props: {
+    dark: Boolean
   },
 
-  computed: {
-    shareVKontakte() {
-      let url = 'http://vkontakte.ru/share.php?';
+  setup() {
+    const { locale } = getLocale();
 
-      const root: any = this.$root;
+    const { header } = Share;
 
-      url += 'url='          + encodeURIComponent(this.url);
-      url += '&title='       + encodeURIComponent((this.title as any)[root.locale]);
-      url += '&description=' + encodeURIComponent((this.text as any)[root.locale]);
-      url += '&image='       + encodeURIComponent(this.img);
-      url += '&noparse=true';
+    const {
+      shareVKontakte,
+      shareFacebook,
+      shareTwitter
+    } = sharings();
 
-      return url;
-    },
-
-    shareFacebook() {
-      let url = 'http://www.facebook.com/sharer.php?s=100';
-
-      const root: any = this.$root;
-
-      url += '&p[title]='     + encodeURIComponent((this.title as any)[root.locale]);
-      url += '&p[summary]='   + encodeURIComponent((this.text as any)[root.locale]);
-      url += '&p[url]='       + encodeURIComponent(this.url);
-      url += '&p[images][0]=' + encodeURIComponent(this.img);
-
-      return url;
-    },
-
-    shareTwitter() {
-      let url = 'http://twitter.com/share?';
-
-      const root: any = this.$root;
-
-      url += 'text=' + encodeURIComponent((this.text as any)[root.locale]);
-      url += '&url=' + encodeURIComponent(this.url);
-      url += '&counturl=' + encodeURIComponent(this.url);
-
-      return url;
+    return {
+      locale,
+      header,
+      shareVKontakte,
+      shareFacebook,
+      shareTwitter
     }
   },
 
