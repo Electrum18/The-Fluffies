@@ -53,7 +53,7 @@
     { "type": "back", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
 
     { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false,
+    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
       "if": ["hair", "isSecond"]
     },
 

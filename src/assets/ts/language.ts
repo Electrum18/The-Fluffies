@@ -3,9 +3,8 @@ import { ref, computed } from '@vue/composition-api';
 type Object = { [index: string]: any }
 
 function getLocale() {
-  const
-      rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'],
-      lang: string = navigator.language;
+  const rus: string[] = ['ru', 'be', 'uk', 'lt', 'hy', 'kk'];
+  const lang: string = navigator.language;
 
   const locale = computed(() => {
     return rus.indexOf(lang[0] + lang[1]) >= 0 ? 'ru' : 'en';

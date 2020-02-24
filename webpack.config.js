@@ -99,28 +99,28 @@ module.exports = {
 
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
 
       cacheGroups: {
         vue: {
-          name: "vue",
-          test: /[\\/]node_modules[\\/](vue)[\\/]/
+          name: 'vue',
+          test: /[\\/]node_modules[\\/](vue|@vue[\\/]composition-api)[\\/]/
         },
 
         vuetify: {
-          name: "vuetify",
+          name: 'vuetify',
           test: /[\\/]node_modules[\\/](vuetify)[\\/]/,
           enforce: true
         },
 
         ajax: {
-          name: "ajax",
+          name: 'ajax',
           test: /[\\/]node_modules[\\/](vue-resource)[\\/]/,
           enforce: true
         },
 
         /*commons: {
-          name: "vendors",
+          name: 'vendors',
           test: /[\\/]node_modules[\\/](?!vue)[a-z-]+[\\/]/,
           minChunks: 2
         }*/
@@ -137,27 +137,27 @@ module.exports = {
     // HTML plugin
 
     new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "./src/template/pages/render/index.pug",
-      chunks: ["index", "vue", "vuetify"]
+      filename: 'index.html',
+      template: './src/template/pages/render/index.pug',
+      chunks: ['index', 'vue', 'vuetify']
     }),
 
     new HtmlWebpackPlugin({
-      filename: "about/index.html",
-      template: "./src/template/pages/render/about.pug",
-      chunks: ["about", "vue", "vuetify", "ajax"]
+      filename: 'about/index.html',
+      template: './src/template/pages/render/about.pug',
+      chunks: ['about', 'vue', 'vuetify', 'ajax']
     }),
 
     new HtmlWebpackPlugin({
-      filename: "editor/index.html",
-      template: "./src/template/pages/render/editor.pug",
-      chunks: ["editor", "vue", "vuetify", "ajax"]
+      filename: 'editor/index.html',
+      template: './src/template/pages/render/editor.pug',
+      chunks: ['editor', 'vue', 'vuetify', 'ajax']
     }),
 
     new HtmlWebpackPlugin({
-      filename: "support/index.html",
-      template: "./src/template/pages/render/support.pug",
-      chunks: ["support", "vue", "vuetify"]
+      filename: 'support/index.html',
+      template: './src/template/pages/render/support.pug',
+      chunks: ['support', 'vue', 'vuetify']
     }),
 
 
@@ -252,6 +252,6 @@ module.exports = {
   ],
 
   externals: {
-    "socket.io-client": "io"
+    'socket.io-client': 'io'
   }
 }

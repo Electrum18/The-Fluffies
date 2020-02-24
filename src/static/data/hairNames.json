@@ -11,6 +11,15 @@
 
     {
       "name": {
+        "en": "Simply 2",
+        "ru": "Простецкий 2"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Simple long",
         "ru": "Простая длинная"
       },
@@ -56,6 +65,15 @@
 
     {
       "name": {
+        "en": "Long Bang",
+        "ru": "Длинная чёлка"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "High bang",
         "ru": "Высокая чёлка"
       },
@@ -85,6 +103,15 @@
       "name": {
         "en": "Smooth short",
         "ru": "Гладкая короткая"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Smooth short 2",
+        "ru": "Гладкая короткая 2"
       },
 
       "author": "Electrum18"
@@ -137,6 +164,24 @@
 
     {
       "name": {
+        "en": "Dreads tails",
+        "ru": "Дреды косы"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Dreads tails 2",
+        "ru": "Дреды косы 2"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Soft to side",
         "ru": "Мягкая на бок"
       },
@@ -146,8 +191,26 @@
 
     {
       "name": {
+        "en": "Soft to side 2",
+        "ru": "Мягкая на бок 2"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Lush long",
         "ru": "Пышная длинная"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Long tails",
+        "ru": "Длинные косы"
       },
 
       "author": "Electrum18"
