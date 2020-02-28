@@ -38,8 +38,26 @@
 
     {
       "name": {
+        "en": "Spiky to side 2",
+        "ru": "Шипастая на бок 2"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Spiky to back",
         "ru": "Шипастая назад"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Spiky to forward",
+        "ru": "Шипастая вперед"
       },
 
       "author": "Electrum18"
@@ -94,6 +112,15 @@
       "name": {
         "en": "Shorty",
         "ru": "Короткая"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Shorty 2",
+        "ru": "Короткая 2"
       },
 
       "author": "Electrum18"
@@ -200,6 +227,24 @@
 
     {
       "name": {
+        "en": "Soft long",
+        "ru": "Мягкая длинная"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Lush",
+        "ru": "Пышная"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
         "en": "Lush long",
         "ru": "Пышная длинная"
       },
@@ -211,6 +256,15 @@
       "name": {
         "en": "Long tails",
         "ru": "Длинные косы"
+      },
+
+      "author": "Electrum18"
+    },
+
+    {
+      "name": {
+        "en": "Short tails",
+        "ru": "Короткие косы"
       },
 
       "author": "Electrum18"
