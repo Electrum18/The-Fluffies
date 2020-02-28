@@ -713,17 +713,16 @@
           v-divider.my-4
 
           BarSwitch(
-            text="bowtie"
+            :text="lang.menu.neck.bowtie.enable"
             :val="['propers', 'bowtie', 'enable']"
           )
 
           BarColor(
-            text="bowtie"
+            :text="lang.menu.neck.bowtie.color"
             :shade="5 / 6"
             :val="['color','bowtie', 'basic']"
             :off="['propers', 'bowtie', 'enable']"
           )
-
 
     .py-12
     .py-2

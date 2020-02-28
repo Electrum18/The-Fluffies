@@ -144,6 +144,11 @@
       "collar": {
         "enable": "collar",
         "color": "collar"
+      },
+
+      "bowtie": {
+        "enable": "bowtie",
+        "color": "bowtie"
       }
     }
   },
@@ -162,7 +167,8 @@
   "screener": {
     "width": "width",
     "height": "height",
-    "background": "background"
+    "background": "background",
+    "warning": "JPEG does not support transparency!"
   },
 
   "saves": {

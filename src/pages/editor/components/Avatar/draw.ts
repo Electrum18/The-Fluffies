@@ -168,7 +168,7 @@ export default function(this: any) {
 
       ctx.translate(
         0,
-        -horiz * 20 - (state.eyes.brows[side].height / 7) * quality
+        (-horiz * 20 - (state.eyes.brows[side].height / 7)) * quality
       );
 
     } else if (layer == 'eyeRightBrow') {
@@ -176,7 +176,7 @@ export default function(this: any) {
 
       ctx.translate(
         0,
-        -horiz * 20 - (state.eyes.brows[side].height / 7) * quality
+        (-horiz * 20 - (state.eyes.brows[side].height / 7)) * quality
       );
 
     } else if (layer == 'head2') {
@@ -191,17 +191,17 @@ export default function(this: any) {
         inHoriz = (position.horiz - 50) / 1.5,
         inVerti = (position.verti - 50) / 1.5;
 
-      ctx.translate(inHoriz * quality * mirrored, (-horiz * 20) - inVerti * quality);
+      ctx.translate(inHoriz * quality * mirrored, ((-horiz * 20) - inVerti) * quality);
 
     } else if (layer == 'teethUpper') {
       const upper = (100 - state.teeth.upper) / 3;
 
-      ctx.translate(upper * absAngle, (-horiz * 20) - upper * quality);
+      ctx.translate((upper * absAngle) * quality, ((-horiz * 20) - upper) * quality);
 
     } else if (layer == 'teethLower') {
       const lower = (100 - state.teeth.lower) / 3;
 
-      ctx.translate(-lower * absAngle, (-horiz * 20) + lower * quality);
+      ctx.translate((-lower * absAngle) * quality, ((-horiz * 20) + lower) * quality);
     }
 
     // Work with array of elements

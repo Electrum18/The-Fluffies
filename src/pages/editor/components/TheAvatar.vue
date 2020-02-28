@@ -150,7 +150,6 @@ export default Vue.extend({
         hair.isSecond = !hair.second.isends && hair.second.enable;
         hair.isEnds =  hair.second.isends && hair.second.enable;
 
-
         // Eyes
 
         if (!eyes.right.enable) {
@@ -292,8 +291,6 @@ export default Vue.extend({
 
       state.hornsBehind = x <= 0.5 && state.horn.rear;
       state.hornsAterEars = x > 0.5 && state.horn.rear;
-
-      if (x == 0) self.x = 0.01;  // Bug prevention
 
       self.fullQuality = false;
       self.executeAnimation = true;

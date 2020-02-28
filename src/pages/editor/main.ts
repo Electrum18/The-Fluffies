@@ -144,7 +144,7 @@ new Vue({
       localStorage.setItem('slot', this.slot);
     }
 
-    const avatars: any[] = JSON.parse(localStorage.getItem('avatars') as string)
+    const avatars: any = JSON.parse(localStorage.getItem('avatars') as string)
 
     if (!avatars || !avatars[0]) {
       const { propers, color, ang, horiz, degress } = this.default,
@@ -159,7 +159,7 @@ new Vue({
       localStorage.setItem('avatars', JSON.stringify(avatars));
     }
 
-    const parsedSave: object[] = JSON.parse(localStorage.getItem('avatars') as string),
+    const parsedSave: any = JSON.parse(localStorage.getItem('avatars') as string),
 
     { propers, color, angle, horiz, degress }: any = parsedSave[+this.slot];
 

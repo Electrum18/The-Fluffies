@@ -40,6 +40,8 @@ function beginCalc(
         pow = math[key];
       }
 
+      if (absAngle === 0) absAngle += 0.001;
+
       const fullRange = (1 - absAngle ** (1 / pow) * mul) * (paths.length - 1),
         frame = fullRange | 0,
         range = fullRange - frame,

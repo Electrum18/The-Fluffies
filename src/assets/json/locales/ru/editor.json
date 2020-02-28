@@ -82,7 +82,7 @@
 
     "horn": {
       "title": "Рога",
-      "changeling": "чейджлинг",
+      "changeling": "чейнджлинг",
       "second": "второй цвет",
       "rear": {
         "title": "Задние рога",
@@ -144,6 +144,11 @@
       "collar": {
         "enable": "ошейник",
         "color": "ошей-ка"
+      },
+
+      "bowtie": {
+        "enable": "бабочка",
+        "color": "бабочки"
       }
     }
   },
@@ -162,7 +167,8 @@
   "screener": {
     "width": "ширина",
     "height": "высота",
-    "background": "заднего фона"
+    "background": "заднего фона",
+    "warning": "JPEG не поддерживает прозрачность!"
   },
 
   "saves": {

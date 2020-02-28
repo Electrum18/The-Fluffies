@@ -45,13 +45,6 @@
                     :aria-label="checkContinue().label"
                   ) {{ checkContinue().title }}
 
-                  v-divider(v-if="saves")
-
-                  v-card-subtitle(v-if="saves") {{ slot }} • {{ save().name }}
-                    v-icon.float-right(
-                      :color="gender.color"
-                    ) mdi-{{ gender.icon }}
-
                 v-btn.title.md-size.d-none.d-md-flex.ma-8(
                   outlined
                   large
@@ -112,7 +105,6 @@ import {
   VRow,
   VBtn,
   VCard,
-  VCardSubtitle,
   VCardActions,
   VSpacer,
   VDivider,
@@ -130,33 +122,10 @@ import darkMode from '../../assets/ts/darkMode';
 
 // Functions
 
-function checkGender() {
-  const gender = reactive({
-    color: '',
-    icon: ''
-  });
-
-  function checkIsMale(propers: any) {
-    if (propers.male) {
-      gender.color = 'blue';
-      gender.icon  = 'gender-male';
-    } else {
-      gender.color = 'pink';
-      gender.icon  = 'gender-female';
-    }
-  }
-
-  return {
-    gender,
-    checkIsMale
-  }
-}
-
 function getSave() {
   const { lang } = getLanguage(en, ru);
-  const { gender, checkIsMale } = checkGender();
 
-  const saves = ref(localStorage.getItem('avatars'));
+  const saves = ref(localStorage.getItem('avatars') || undefined);
   const slot = ref(+(localStorage.getItem('slot') || 0));
 
   function checkContinue() {
@@ -167,23 +136,10 @@ function getSave() {
     }
   }
 
-  function save() {
-    if (saves.value != null) {
-      const parsed = JSON.parse(saves.value);
-      const propers = parsed[slot.value].propers;
-
-      checkIsMale(propers);
-
-      return propers;
-    }
-  }
-
   return {
     saves,
     slot,
-    checkContinue,
-    gender,
-    save
+    checkContinue
   }
 }
 
@@ -195,9 +151,7 @@ export default Vue.extend({
     const {
       saves,
       slot,
-      checkContinue,
-      gender,
-      save
+      checkContinue
     } = getSave();
 
     loaderClose();
@@ -207,9 +161,7 @@ export default Vue.extend({
       lang,
       saves,
       slot,
-      checkContinue,
-      gender,
-      save
+      checkContinue
     }
   },
 
@@ -224,7 +176,6 @@ export default Vue.extend({
     VRow,
     VBtn,
     VCard,
-    VCardSubtitle,
     VCardActions,
     VSpacer,
     VDivider,
