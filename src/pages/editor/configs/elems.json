@@ -32,39 +32,23 @@
 
     { "type": "hornRight", "fill": ["hornRear", "basic"], "stroke": [12, ["hornRear", "shade"]],
       "if": ["horn", "behindAfterEars"]
-    },
-
-    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]]}
+    }
   ]],
 
   ["hair", [
-    { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
-      "if": ["hair", "isSecond"]
-    },
+    { "type": "back",       "fill": ["hair", "basic"],  "stroke": false, "if": ["hair", "isBasic"] },
+    { "type": "backSecond", "fill": ["hair", "second"], "stroke": false, "if": ["hair", "second"] },
+    { "type": "back", "fill": false, "stroke": [12, ["hair", "shade"]], "if": ["hair", "isBasic"] },
 
-    { "type": "backEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["back"],
-      "if": ["hair", "isEnds"]
-    },
+    { "type": "back", "fill": false,  "stroke": [45, ["hair", "shade"]], "if": ["hair", "isDreads"] },
+    { "type": "back", "fill": false,  "stroke": [20, ["hair", "basic"]], "if": ["hair", "isDreads"] },
 
-    { "type": "back", "fill": false, "stroke": [12, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isBasic"] },
+    { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "if": ["hair", "isBasic"] },
+    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "if": ["hair", "second"]},
+    { "type": "tail", "fill": false,  "stroke": [12, ["hair", "shade"]], "if": ["hair", "isBasic"] },
 
-    { "type": "back", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
-    { "type": "back", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
-
-    { "type": "tail",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-    { "type": "tailSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
-      "if": ["hair", "isSecond"]
-    },
-
-    { "type": "tailEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["tail"],
-      "if": ["hair", "isEnds"]
-    },
-
-    { "type": "tail", "fill": false,  "stroke": [12, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-
-    { "type": "tail", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
-    { "type": "tail", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] }
+    { "type": "tail", "fill": false,  "stroke": [45, ["hair", "shade"]], "if": ["hair", "isDreads"] },
+    { "type": "tail", "fill": false,  "stroke": [20, ["hair", "basic"]], "if": ["hair", "isDreads"] }
   ]],
 
   ["neck", [
@@ -141,6 +125,8 @@
     { "type": "fangsLeft",  "fill": "#ffe", "stroke": [3, "#ccb"], "clip": ["head2", "nose"], "if": "fangs" },
     { "type": "fangsRight", "fill": "#ffe", "stroke": [3, "#ccb"],                            "if": "fangs" },
 
+    { "type": "mouth2", "fill": false,  "stroke": [7, ["fur", "shade"]] },
+
     { "type": "nostrilLeft",  "fill": false, "stroke": [8, ["fur", "shade"]], "clip": ["head2", "nose"] },
     { "type": "nostrilRight", "fill": false, "stroke": [8, ["fur", "shade"]] },
 
@@ -156,7 +142,12 @@
   ["head", [
     { "type": "eyeRightLidUpFill",   "fill": ["fur", "basic"], "stroke": [2, ["fur", "basic"]], "clip": ["head2"] },
     { "type": "eyeRightLidDownFill", "fill": ["fur", "basic"], "stroke": [2, ["fur", "basic"]], "clip": ["head2"] },
-    { "type": "eyeRightLidUp",       "fill": false,            "stroke": [9, "#222"] }
+    { "type": "eyeRightLidUp",       "fill": false,            "stroke": [9, "#222"] },
+
+    { "type": "eyeRightLashes",  "fill": false,  "stroke": [9, "#222"] },
+
+    { "type": "glassesNose",  "fill": false,                 "stroke": [12, ["glasses", "frame"]], "if": ["glasses", "enable"] },
+    { "type": "glassesRight", "fill": ["glasses", "lenses"], "stroke": [12, ["glasses", "frame"]], "if": ["glasses", "enable"] }
   ]],
 
   ["eyeRightBrow", [
@@ -164,22 +155,19 @@
   ]],
 
   ["hair", [
-    { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "clip": ["!earRight"], "if": ["hair", "isBasic"] },
+    { "type": "front",       "fill": ["hair", "basic"],  "stroke": false, "if": ["hair", "isBasic"] },
     { "type": "frontSecond", "fill": ["hair", "second"], "stroke": false, "clip": ["!earRight"],
-      "if": ["hair", "isSecond"]
+      "if": ["hair", "second"]
     },
 
-    { "type": "frontEnds", "fill": ["hair", "second"], "stroke": false, "clip": ["front"],
-      "if": ["hair", "isEnds"]
-    },
+    { "type": "front", "fill": false,  "stroke": [12, ["hair", "shade"]], "if": ["hair", "isBasic"] },
 
-    { "type": "front", "fill": false,  "stroke": [12, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isBasic"] },
-
-    { "type": "front", "fill": false,  "stroke": [45, ["hair", "shade"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] },
-    { "type": "front", "fill": false,  "stroke": [20, ["hair", "basic"]], "clip": ["!earRight"], "if": ["hair", "isDreads"] }
+    { "type": "front", "fill": false,  "stroke": [45, ["hair", "shade"]], "if": ["hair", "isDreads"] },
+    { "type": "front", "fill": false,  "stroke": [20, ["hair", "basic"]], "if": ["hair", "isDreads"] }
   ]],
 
   ["head2", [
+    { "type": "earRight", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "clip": ["!head0"]},
     { "type": "earRightPinna", "fill": false, "stroke": [9, ["fur", "shade"]] },
 
     { "type": "piercingsEarRightUpper",  "fill": ["piercings", "basic"], "stroke": [7, ["piercings", "shade"]],
@@ -199,15 +187,11 @@
   ]],
 
   ["head", [
-    { "type": "eyeRightLashes",  "fill": false,  "stroke": [9, "#222"] },
 
     { "type": "horn",       "fill": ["fur", "basic"],  "stroke": [12, ["fur", "shade"]], "if": ["horn", "isBasic"] },
     { "type": "hornSecond", "fill": false,             "stroke": [9,  ["fur", "shade"]], "if": ["horn", "isBasic"] },
 
-    { "type": "hornChangeling", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "if": ["horn", "isChnlg"] },
-
-    { "type": "glassesNose",  "fill": false,                 "stroke": [12, ["glasses", "frame"]], "if": ["glasses", "enable"] },
-    { "type": "glassesRight", "fill": ["glasses", "lenses"], "stroke": [12, ["glasses", "frame"]], "if": ["glasses", "enable"] }
+    { "type": "hornChangeling", "fill": ["fur", "basic"], "stroke": [12, ["fur", "shade"]], "if": ["horn", "isChnlg"] }
   ]],
 
   ["leftForearm", [

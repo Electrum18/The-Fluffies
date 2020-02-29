@@ -10,7 +10,7 @@
           :title="lang.back"
           :aria-label="lang.back"
         )
-          v-icon(left) mdi-chevron-left
+          v-icon(left) {{ icons.left }}
           | {{ lang.back }}
 
         v-btn.d-flex.d-sm-none(
@@ -21,7 +21,7 @@
           :title="lang.back"
           :aria-label="lang.back"
         )
-          v-icon mdi-chevron-left
+          v-icon {{ icons.left }}
 
       v-content
         v-item-group(:dark="dark")
@@ -91,7 +91,7 @@
           right
           aria-label="Dark mode"
         )
-          v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
+          v-icon(large) {{ dark ? icons.sun : icons.moon }}
 
         div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
@@ -125,6 +125,11 @@ import {
 } from 'vuetify/lib';
 
 import { ref } from '@vue/composition-api';
+import {
+  mdiBrightness7,
+  mdiMoonWaningCrescent,
+  mdiChevronLeft
+} from '@mdi/js';
 
 import Socials from "../../components/Socials.vue"
 
@@ -157,8 +162,15 @@ export default Vue.extend({
 
     loaderClose();
 
+    const icons = {
+      left: mdiChevronLeft,
+      sun: mdiBrightness7,
+      moon: mdiMoonWaningCrescent
+    };
+
     return {
       dark,
+      icons,
       lang,
       format,
       contributors

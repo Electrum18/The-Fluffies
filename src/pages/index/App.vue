@@ -86,7 +86,7 @@
           right
           aria-label="Dark mode"
         )
-          v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
+          v-icon(large) {{ dark ? icons.sun : icons.moon }}
 
         div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
@@ -113,6 +113,10 @@ import {
 } from 'vuetify/lib';
 
 import { ref, computed, reactive } from '@vue/composition-api';
+import {
+  mdiBrightness7,
+  mdiMoonWaningCrescent
+} from '@mdi/js';
 
 import Socials from '../../components/Socials.vue';
 
@@ -154,6 +158,11 @@ export default Vue.extend({
       checkContinue
     } = getSave();
 
+    const icons = {
+      sun: mdiBrightness7,
+      moon: mdiMoonWaningCrescent
+    };
+
     loaderClose();
 
     return {
@@ -161,7 +170,8 @@ export default Vue.extend({
       lang,
       saves,
       slot,
-      checkContinue
+      checkContinue,
+      icons
     }
   },
 

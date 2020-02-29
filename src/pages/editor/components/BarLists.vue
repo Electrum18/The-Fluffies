@@ -11,20 +11,28 @@
             @click="setElementName(element.name)"
             :key="element.name[$root.locale]"
           )
-            v-list-item-content
+            v-list-item-content(:style="style(element)")
               v-list-item-title {{ element.name[$root.locale] }}
               v-list-item-subtitle {{ locale.by[$root.locale] }} {{ element.author }}
 
-          v-divider.light(
-            v-if="i + 1 < element.length"
+              v-list-item-action(v-if="element.warning").mx-0.my-1
+                v-chip(
+                  small
+                  outlined
+                  label
+                  color="red lighten-1"
+                ) {{ element.warning[$root.locale] }}
+
+          v-divider.border--light(
+            v-if="i < list.length - 1"
             :key="i"
           )
 </template>
 
 <script lang="ts">
-import { getProp } from '../../../assets/ts/nested'
+import { getProp } from '../../../assets/ts/nested';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VCard,
   VList,
@@ -33,9 +41,11 @@ import {
   VListItemSubtitle,
   VListItemContent,
   VListItemGroup,
-  VBottomSheet
-} from 'vuetify/lib'
-
+  VListItemAction,
+  VBottomSheet,
+  VChip,
+  VDivider
+} from 'vuetify/lib';
 
 export default Vue.extend({
   props: {
@@ -91,6 +101,10 @@ export default Vue.extend({
       const root: any = this.$root;
 
       root.propers[this.target].name = name
+    },
+
+    style(elem: any): object {
+      return elem.warning ? { 'padding-bottom': '4px' } : { 'padding-bottom': '12px' }
     }
   },
 
@@ -117,7 +131,15 @@ export default Vue.extend({
     VListItemSubtitle,
     VListItemContent,
     VListItemGroup,
-    VBottomSheet
+    VListItemAction,
+    VBottomSheet,
+    VChip,
+    VDivider
   }
 });
 </script>
+
+<style lang="sass">
+hr.border--light
+  border-color: rgba(0, 0, 0, 0.12)!important
+</style>

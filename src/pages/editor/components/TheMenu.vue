@@ -155,7 +155,7 @@
             v-divider
 
             BarSlider(
-              :text="lang.menu.eyes.eyebrows.wide"
+              :text="lang.menu.eyes.eyebrows.surprised"
               :val="['propers', 'eyes', 'brows', 'left', 'wide']"
               max=100
               min=0
@@ -201,7 +201,7 @@
             v-divider
 
             BarSlider(
-              :text="lang.menu.eyes.eyebrows.wide"
+              :text="lang.menu.eyes.eyebrows.surprised"
               :val="['propers', 'eyes', 'brows', 'right', 'wide']"
               max=100
               min=0
@@ -275,7 +275,7 @@
 
             v-card-actions
               v-spacer
-              v-btn(
+              v-btn.btn-max.text-truncate(
                 @click="openManes()"
                 :aria-label="lang.menu.mane.change"
               ) {{ lang.menu.mane.change }}
@@ -287,19 +287,13 @@
 
           BarSwitch(
             :text="lang.enable"
-            :val="['propers', 'hair', 'second', 'enable']"
-          )
-
-          BarSwitch(
-            :text="lang.menu.mane.second.ends"
-            :val="['propers', 'hair', 'second', 'isends']"
-            :off="['propers', 'hair', 'second', 'enable']"
+            :val="['propers', 'hair', 'second']"
           )
 
           BarColor(
             :text="lang.menu.mane.second.color"
             :val="['color', 'hair', 'second']"
-            :off="['propers', 'hair', 'second', 'enable']"
+            :off="['propers', 'hair', 'second']"
           )
 
 
@@ -740,7 +734,7 @@
               @click="changeGender"
               aria-label="Change gender"
             )
-              v-icon(large) mdi-{{ gender.icon }}
+              v-icon(large) {{ gender.icon }}
 
             v-text-field(
               v-model="name"
@@ -762,17 +756,12 @@
 </template>
 
 <script lang="ts">
-import { getProp, setProp } from '../../../assets/ts/nested'
+import { getProp, setProp } from '../../../assets/ts/nested';
 
-import BarList   from './BarLists.vue'
-import BarColor  from './BarColors.vue'
-import BarSwitch from './BarSwitches.vue'
-import BarSlider from './BarSliders.vue'
+import en from '../../../assets/json/locales/en/editor.json';
+import ru from '../../../assets/json/locales/ru/editor.json';
 
-import en from '../../../assets/json/locales/en/editor.json'
-import ru from '../../../assets/json/locales/ru/editor.json'
-
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VExpansionPanels,
   VExpansionPanel,
@@ -789,11 +778,26 @@ import {
   VTextField,
   VSpacer,
   VDivider
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import {
+  mdiGenderMale,
+  mdiGenderFemale
+} from '@mdi/js';
+
+import BarList   from './BarLists.vue';
+import BarColor  from './BarColors.vue';
+import BarSwitch from './BarSwitches.vue';
+import BarSlider from './BarSliders.vue';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        male: mdiGenderMale,
+        female: mdiGenderFemale
+      },
+
       leftPiercings:  0,
       rightPiercings: 0,
 
@@ -815,10 +819,10 @@ export default Vue.extend({
     '$root.propers.male'(male: boolean) {
       if (male) {
         this.gender.color = 'blue';
-        this.gender.icon  = 'gender-male';
+        this.gender.icon  = this.icons.male;
       } else {
         this.gender.color = 'pink';
-        this.gender.icon  = 'gender-female';
+        this.gender.icon  = this.icons.female;
       }
     }
   },
@@ -894,10 +898,10 @@ export default Vue.extend({
   mounted() {
     if ((this.$root as any).male) {
       this.gender.color = 'blue';
-      this.gender.icon  = 'gender-male';
+      this.gender.icon  = this.icons.male;
     } else {
       this.gender.color = 'pink';
-      this.gender.icon  = 'gender-female';
+      this.gender.icon  = this.icons.female;
     }
   },
 
@@ -935,4 +939,7 @@ export default Vue.extend({
     bottom: 0
     z-index: 1
     width: 100%
+
+  .btn-max
+    width: 100%!important
 </style>

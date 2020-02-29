@@ -10,7 +10,7 @@
           :title="lang.back"
           :aria-label="lang.back"
         )
-          v-icon(left) mdi-chevron-left
+          v-icon(left) {{ icons.left }}
           | {{ lang.back }}
 
         v-btn.d-flex.d-sm-none(
@@ -21,7 +21,7 @@
           :title="lang.back"
           :aria-label="lang.back"
         )
-          v-icon mdi-chevron-left
+          v-icon {{ icons.left }}
 
       v-content
         v-item-group(:dark="dark")
@@ -46,7 +46,7 @@
                       v-row.py-1(v-for="(href, j) in card.href" :key="href + j" )
                         v-badge(overlap color="transparent")
                           template(v-slot:badge)
-                            v-icon(small :color="url()") mdi-open-in-new
+                            v-icon(small :color="url()") {{ icons.openIn }}
 
                           v-btn.body-2.font-weight-medium(
                             :color="url()"
@@ -71,7 +71,7 @@
           right
           aria-label="Dark mode"
         )
-          v-icon(large) {{ dark ? "mdi-brightness-7" : "mdi-moon-waning-crescent" }}
+          v-icon(large) {{ dark ? icons.sun : icons.moon }}
 
         div &copy {{ new Date().getFullYear() }} - The Fluffies
 </template>
@@ -101,6 +101,13 @@ import {
   VFooter
 } from 'vuetify/lib';
 
+import {
+  mdiBrightness7,
+  mdiMoonWaningCrescent,
+  mdiOpenInNew,
+  mdiChevronLeft
+} from '@mdi/js';
+
 import Socials from '../../components/Socials.vue';
 
 import { getLanguage } from '../../assets/ts/language';
@@ -117,10 +124,18 @@ export default Vue.extend({
       return dark.value ? '#8bf' : '#359';
     }
 
+    const icons = {
+      openIn: mdiOpenInNew,
+      left: mdiChevronLeft,
+      sun: mdiBrightness7,
+      moon: mdiMoonWaningCrescent
+    };
+
     loaderClose();
 
     return {
       dark,
+      icons,
       lang,
       format,
       url

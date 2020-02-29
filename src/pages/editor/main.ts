@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import { DirectiveBinding } from 'vue/types/options'
-import Vuetify from 'vuetify/lib'
-import VueResource from 'vue-resource'
+import Vue from 'vue';
+import { DirectiveBinding } from 'vue/types/options';
+import Vuetify from 'vuetify/lib';
+import VueResource from 'vue-resource';
 
-import App from './App.vue'
+import App from './App.vue';
 
-import IconPony from './components/IconPony.vue'
+import IconPony from './components/IconPony.vue';
 
-import PropertiesConfig from './configs/properties.json'
-import ColorConfig from './configs/color.json'
+import PropertiesConfig from './configs/properties.json';
+import ColorConfig from './configs/color.json';
 
 Vue.config.productionTip = false;
 

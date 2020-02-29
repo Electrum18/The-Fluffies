@@ -121,9 +121,7 @@
       "name": {
         "en": "Shorty 2",
         "ru": "Короткая 2"
-      },
-
-      "author": "Electrum18"
+      }
     },
 
     {
@@ -168,7 +166,12 @@
         "ru": "Дреды назад"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -177,7 +180,12 @@
         "ru": "Дреды на бок"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -186,7 +194,12 @@
         "ru": "Дреды длинные"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -195,7 +208,12 @@
         "ru": "Дреды косы"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -204,7 +222,12 @@
         "ru": "Дреды косы 2"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -240,7 +263,12 @@
         "ru": "Пышная"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {
@@ -249,7 +277,12 @@
         "ru": "Пышная длинная"
       },
 
-      "author": "Electrum18"
+      "author": "Electrum18",
+
+      "warning": {
+        "en": "No second color",
+        "ru": "Без второго цвета"
+      }
     },
 
     {

@@ -55,16 +55,14 @@
             @click="takeImage"
             aria-label="Take image"
           )
-            v-icon mdi-camera-image
+            v-icon {{ icons.capture }}
 </template>
 
 <script lang="ts">
-import BarColor from './BarColors.vue'
+import en from '../../../assets/json/locales/en/editor.json';
+import ru from '../../../assets/json/locales/ru/editor.json';
 
-import en from '../../../assets/json/locales/en/editor.json'
-import ru from '../../../assets/json/locales/ru/editor.json'
-
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VSheet,
   VContainer,
@@ -75,11 +73,19 @@ import {
   VBtn,
   VIcon,
   VAlert
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import { mdiCameraImage } from '@mdi/js';
+
+import BarColor from './BarColors.vue';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        capture: mdiCameraImage
+      },
+
       mode: 0,
 
       width: 1920,

@@ -11,13 +11,7 @@
     "isDreads": false,
     "isBasic": true,
 
-    "isSecond": true,
-    "isEnds": false,
-
-    "second": {
-      "enable": true,
-      "isends": false
-    },
+    "second": true,
 
     "info": []
   },

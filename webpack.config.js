@@ -1,19 +1,18 @@
-var webpack = require('webpack'),
+const webpack = require('webpack');
 
-  VueLoaderPlugin = require('vue-loader/lib/plugin'),
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const SitemapWebpackPlugin = require('sitemap-webpack-plugin').default;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
-  BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-  OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
-  FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin'),
-  SitemapWebpackPlugin = require('sitemap-webpack-plugin').default,
-  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-  PrerenderSPAPlugin = require('prerender-spa-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  CopyPlugin = require('copy-webpack-plugin'),
+const path = require('path');
 
-  path = require('path'),
-
-codeComment =
+const codeComment =
 `Content of the-fluffies.net
 
 Author: Electrum18
@@ -21,6 +20,9 @@ License: CC BY-NC-ND 4.0 https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 2018 - ${new Date().getFullYear()}`;
 
+const PATHS = {
+  src: path.join(__dirname, 'src')
+};
 
 module.exports = {
   entry: {
@@ -104,7 +106,7 @@ module.exports = {
       cacheGroups: {
         vue: {
           name: 'vue',
-          test: /[\\/]node_modules[\\/](vue|@vue[\\/]composition-api)[\\/]/
+          test: /[\\/]node_modules[\\/](vue|@vue[\\/]composition-api|@mdi[\\/]js)[\\/]/
         },
 
         vuetify: {

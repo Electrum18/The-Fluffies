@@ -10,15 +10,13 @@
           @click="close()"
           aria-label="Close list"
         )
-          v-icon mdi-keyboard-backspace
+          v-icon {{ icons.back }}
 
       BarList(target="hair" :list="$root.propers.hair.info")
 </template>
 
 <script lang="ts">
-import BarList from './BarLists.vue'
-
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VContainer,
   VCard,
@@ -26,11 +24,19 @@ import {
   VSpacer,
   VBtn,
   VIcon
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import { mdiKeyboardBackspace } from '@mdi/js';
+
+import BarList from './BarLists.vue';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        back: mdiKeyboardBackspace
+      },
+
       locale: {
         list: {
           en: 'Mane list',

@@ -52,7 +52,7 @@
             :title="lang.back"
             :aria-label="lang.back"
           )
-            v-icon(left) mdi-chevron-left
+            v-icon(left) {{ icons.left }}
             | {{ lang.back }}
 
           v-btn.d-inline-flex.d-sm-none(
@@ -64,7 +64,7 @@
             :title="lang.back"
             :aria-label="lang.back"
           )
-            v-icon mdi-chevron-left
+            v-icon {{ icons.left }}
 
           v-col(cols="12" sm="6" md="4")
             v-scroll-x-transition(group)
@@ -114,9 +114,9 @@
                   v-on="on"
                   aria-label="Open list"
                 )
-                  v-icon(large) mdi-menu
+                  v-icon(large) {{ icons.menu }}
               span.ml-zero
-                v-icon(left) mdi-alert-circle-outline
+                v-icon(left) {{ icons.alert }}
                 | {{ lang.hints.edit }}
 
           v-list(dense)
@@ -132,17 +132,17 @@
 </template>
 
 <script lang="ts">
-import Screener from './components/TheScreener.vue'
-import Avatar from './components/TheAvatar.vue'
-import Chat  from './components/TheChat.vue'
-import Menu  from './components/TheMenu.vue'
-import Hairs from './components/TheMenuHairs.vue'
-import Saves from './components/TheSaves.vue'
+import Screener from './components/TheScreener.vue';
+import Avatar from './components/TheAvatar.vue';
+import Chat  from './components/TheChat.vue';
+import Menu  from './components/TheMenu.vue';
+import Hairs from './components/TheMenuHairs.vue';
+import Saves from './components/TheSaves.vue';
 
-import en from '../../assets/json/locales/en/editor.json'
-import ru from '../../assets/json/locales/ru/editor.json'
+import en from '../../assets/json/locales/en/editor.json';
+import ru from '../../assets/json/locales/ru/editor.json';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VApp,
   VNavigationDrawer,
@@ -165,11 +165,26 @@ import {
   VAlert,
   VProgressCircular,
   VTooltip
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import {
+  mdiContentSave,
+  mdiMovieOpen,
+  mdiCamera,
+  mdiMenu,
+  mdiAlertCircleOutline,
+  mdiChevronLeft
+} from '@mdi/js';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        left: mdiChevronLeft,
+        menu: mdiMenu,
+        alert: mdiAlertCircleOutline
+      },
+
       opened: {
         Avatar: false,
         Hairs: false,
@@ -199,14 +214,14 @@ export default Vue.extend({
             ru: 'Сохранения'
           },
 
-          icon: 'mdi-content-save'
+          icon: mdiContentSave
         }, {
           text: {
             en: 'Animate',
             ru: 'Анимация'
           },
 
-          icon: 'mdi-movie-open',
+          icon: mdiMovieOpen,
           disabled: true
         }, {
           text: {
@@ -214,7 +229,7 @@ export default Vue.extend({
             ru: 'Запечатлеть'
           },
 
-          icon: 'mdi-camera'
+          icon: mdiCamera
         }
       ],
 
@@ -236,6 +251,12 @@ export default Vue.extend({
   mounted() {
     this.loadings   = (this.$root as any).loadings;
     this.background = (this.$root as any).color.background.basic;
+
+    const overlay = document.getElementById('overlay') as HTMLElement;
+    const style = overlay.style;
+
+    style.opacity = '0';
+    style['pointer-events' as any] = 'none';
 
     setTimeout(() => { this.hint.edit = false; }, 3000);
   },
@@ -293,4 +314,36 @@ export default Vue.extend({
   .hide
     opacity: 0!important
     height: 0!important
+
+
+  // Loader
+
+  @keyframes transparent
+    0%
+      opacity: 100%
+
+    50%
+      opacity: 33%
+
+    100%
+      opacity: 100%
+
+  #overlay
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: #fff
+    transition: opacity 0.5s
+
+    #avatar
+      position: absolute
+      left: 50%
+      bottom: 0%
+      transform: translate(-50%, 0%)
+
+      svg
+        animation: transparent 2s ease-in-out infinite
+        width: 99vmin
 </style>

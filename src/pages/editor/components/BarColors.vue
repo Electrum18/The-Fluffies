@@ -11,14 +11,14 @@
             style="min-width: 42px"
             aria-label="Open color picker"
           )
-            v-icon(:color="darker ? 'black' : 'white'") mdi-palette
+            v-icon(:color="darker ? 'black' : 'white'") {{ icons.pallete }}
 
         v-color-picker(v-model="value")
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getProp, setProp } from '../../../assets/ts/nested'
+import Vue from 'vue';
+import { getProp, setProp } from '../../../assets/ts/nested';
 import {
   VCard,
   VRow,
@@ -27,8 +27,9 @@ import {
   VColorPicker,
   VBtn,
   VIcon
-} from 'vuetify/lib'
+} from 'vuetify/lib';
 
+import { mdiPalette } from '@mdi/js';
 
 export default Vue.extend({
   props: {
@@ -39,7 +40,13 @@ export default Vue.extend({
   },
 
   data() {
-    return { darker: false }
+    return {
+      icons: {
+        pallete: mdiPalette
+      },
+
+      darker: false
+    }
   },
 
   computed: {

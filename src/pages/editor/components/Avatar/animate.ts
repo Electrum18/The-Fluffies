@@ -62,11 +62,11 @@ export default function(this: any) {
     args: Args = { calculated, morph, math, absAngle },
     argsBody: Args = {...args, interpolationScheme, X, emotions };
 
-  calculationBody(paths.body, state, argsBody)
+  calculationBody(body, state, argsBody)
 
-  calculation(paths.hairs,   state.hair,    args);
-  calculation(paths.glasses, state.glasses, args);
-  calculation(paths.horn,    state.horn,    args);
+  calculation(hairs,   state.hair,    args);
+  calculation(glasses, state.glasses, args);
+  calculation(horn,    state.horn,    args);
 
 
   // Set values

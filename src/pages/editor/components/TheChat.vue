@@ -30,7 +30,7 @@
         :aria-label="lang.chat.users"
       ) {{ chat.users }}
 
-        v-icon(small right) mdi-account
+        v-icon(small right) {{ icons.account }}
 
 
       v-card(dark flat style="height: 75vh; overflow: overlay" ref="chatSpace")
@@ -54,7 +54,7 @@
           persistent-hint
           outlined
           counter="100"
-          append-icon="mdi-send"
+          :append-icon="icons.send"
           @click:append="submit"
           @keyup.enter="submit"
         )
@@ -71,7 +71,7 @@
           solo
           outlined
           counter="20"
-          append-icon="mdi-send"
+          :append-icon="icons.send"
 
           @click:append="checkName"
           @keyup.enter="checkName"
@@ -84,16 +84,16 @@
         v-icon(
           large
           color="red lighten-1"
-        ) mdi-wifi-off
+        ) {{ icons.off }}
 </template>
 
 <script lang="ts">
-import io from 'socket.io-client'
+import io from 'socket.io-client';
 
-import en from '../../../assets/json/locales/en/editor.json'
-import ru from '../../../assets/json/locales/ru/editor.json'
+import en from '../../../assets/json/locales/en/editor.json';
+import ru from '../../../assets/json/locales/ru/editor.json';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VMenu,
   VCard,
@@ -108,12 +108,25 @@ import {
   VBadge,
   VTextField,
   VOverlay
-} from 'vuetify/lib'
+} from 'vuetify/lib';
 
+import {
+  mdiWifiOff,
+  mdiAccount,
+  mdiMessageText,
+  mdiSend
+} from '@mdi/js';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        off: mdiWifiOff,
+        account: mdiAccount,
+        message: mdiMessageText,
+        send: mdiSend
+      },
+
       chat: {
         opened: false,
         online: false,
@@ -178,7 +191,7 @@ export default Vue.extend({
 
       return {
         color: online ? "white" : "red lighten-1",
-        icon: online ? 'mdi-message-text' : 'mdi-wifi-off'
+        icon: online ? self.icons.message : self.icons.off
       };
     }
   },

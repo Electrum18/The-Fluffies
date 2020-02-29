@@ -145,11 +145,6 @@ export default Vue.extend({
         horn.behind = lessThan45  && horn.rear;
         horn.behindAfterEars = !lessThan45 && horn.rear;
 
-        // Hair
-
-        hair.isSecond = !hair.second.isends && hair.second.enable;
-        hair.isEnds =  hair.second.isends && hair.second.enable;
-
         // Eyes
 
         if (!eyes.right.enable) {
@@ -390,31 +385,35 @@ export default Vue.extend({
     morph(a: number[][], b: number[][], range: number) {
       const newPath = [];
 
-      for (let i = 0; i < a.length; i++) {
-        const
-          part = a[i],
-          newPart = [];
+      if (a && a.length) {
+        for (let i = 0; i < a.length; i++) {
+          const
+            part = a[i],
+            newPart = [];
 
-        for (let j = 0; j < part.length; j++) {
-          const point = part[j];
+          for (let j = 0; j < part.length; j++) {
+            const point = part[j];
 
-          if (j > 0) {
-            if (!b) continue;
+            if (j > 0) {
+              if (!b) continue;
 
-            const calc = this.calc(point, b[i][j], range);
+              const calc = this.calc(point, b[i][j], range);
 
-            if (calc) {
-              newPart[j] = calc | 0;
+              if (calc) {
+                newPart[j] = calc | 0;
+              } else {
+                continue;
+              }
+
             } else {
-              continue;
+              newPart[j] = point;
             }
-
-          } else {
-            newPart[j] = point;
           }
-        }
 
-        newPath[i] = newPart;
+          newPath[i] = newPart;
+        }
+      } else {
+        return
       }
 
       return newPath;

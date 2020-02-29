@@ -15,14 +15,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getProp, setProp } from '../../../assets/ts/nested'
+import Vue from 'vue';
+import { getProp, setProp } from '../../../assets/ts/nested';
 import {
   VCol,
   VRow,
   VSpacer,
   VSlider
-} from 'vuetify/lib'
+} from 'vuetify/lib';
 
 export default Vue.extend({
   props: {

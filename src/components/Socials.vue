@@ -13,7 +13,7 @@
         rel="noopener"
         aria-label="Github"
       )
-        v-icon mdi-github-circle
+        v-icon(large) {{ icons.github }}
 
       v-btn(
         icon
@@ -25,7 +25,7 @@
         rel="noopener"
         aria-label="Twitter"
       )
-        v-icon mdi-twitter
+        v-icon(large) {{ icons.twitter }}
 
       v-btn(
         icon
@@ -37,12 +37,12 @@
         rel="noopener"
         aria-label="Patreon"
       )
-        v-icon mdi-patreon
+        v-icon(large) {{ icons.patreon }}
 
     v-card.mx-2
       p.my-1.overline.text-center {{ header[locale] }}
 
-      v-btn.white-in.ma-0(
+      v-btn.ma-0(
         icon
         tile
         target="_blank"
@@ -51,9 +51,9 @@
         rel="noopener"
         aria-label="VKontakte"
       )
-        v-icon(x-large color="indigo lighten-1") mdi-vk-box
+        v-icon(large color="indigo lighten-1") {{ icons.vk }}
 
-      v-btn.white-in.ma-0(
+      v-btn.ma-0(
         icon
         tile
         target="_blank"
@@ -62,9 +62,9 @@
         rel="noopener"
         aria-label="Facebook"
       )
-        v-icon(x-large color="indigo") mdi-facebook-box
+        v-icon(large color="indigo") {{ icons.fb }}
 
-      v-btn.white-in.ma-0(
+      v-btn.ma-0(
         icon
         tile
         target="_blank"
@@ -73,7 +73,7 @@
         rel="noopener"
         aria-label="Twitter"
       )
-        v-icon(x-large color="light-blue") mdi-twitter-box
+        v-icon(large color="light-blue") {{ icons.twitter }}
 </template>
 
 <script lang="ts">
@@ -89,6 +89,13 @@ import {
 } from 'vuetify/lib';
 
 import { computed } from '@vue/composition-api';
+import {
+  mdiVk,
+  mdiFacebookBox,
+  mdiTwitter,
+  mdiGithubCircle,
+  mdiPatreon
+} from '@mdi/js';
 
 import { getLocale } from '../assets/ts/language';
 
@@ -166,7 +173,16 @@ export default Vue.extend({
       shareTwitter
     } = sharings();
 
+    const icons = {
+      vk: mdiVk,
+      fb: mdiFacebookBox,
+      twitter: mdiTwitter,
+      github: mdiGithubCircle,
+      patreon: mdiPatreon
+    }
+
     return {
+      icons,
       locale,
       header,
       shareVKontakte,
@@ -184,10 +200,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style lang="sass">
-  a.white-in span
-    background: white
-    margin: 6px
-    min-height: 30px!important
-</style>

@@ -1,12 +1,15 @@
 {
   "mouth": [
     [
-      [["basic",           "openJaw"],["jaw", "open"]],
+      [["basic",           "openJaw"], ["jaw", "open"]],
       [["sadJawClosed", "sadJawOpen"], ["jaw", "open"]]
     ],
     ["jaw", "sad"]
   ],
 
+  "mouth2": [
+    ["basic", "sadJawClosed"], ["jaw", "sad"]
+  ],
 
   "eyeLeftPupil": [
     [
@@ -60,29 +63,12 @@
   ],
 
 
-  "eyeLeftLashesUpper": [
-    ["basic", "eyelashesLeftUpper"], ["eyes", "eyelids", "left", "up"]
+  "eyeLeftLashes": [
+    ["basic", "eyelashesLeft"], ["eyes", "eyelids", "left", "up"]
   ],
 
-  "eyeLeftLashesMiddle": [
-    ["basic", "eyelashesLeftMiddle"], ["eyes", "eyelids", "left", "up"]
-  ],
-
-  "eyeLeftLashesLower": [
-    ["basic", "eyelashesLeftLower"], ["eyes", "eyelids", "left", "up"]
-  ],
-
-
-  "eyeRightLashesUpper": [
-    ["basic", "eyelashesRightUpper"], ["eyes", "eyelids", "right", "up"]
-  ],
-
-  "eyeRightLashesMiddle": [
-    ["basic", "eyelashesRightMiddle"], ["eyes", "eyelids", "right", "up"]
-  ],
-
-  "eyeRightLashesLower": [
-    ["basic", "eyelashesRightLower"], ["eyes", "eyelids", "right", "up"]
+  "eyeRightLashes": [
+    ["basic", "eyelashesRight"], ["eyes", "eyelids", "right", "up"]
   ],
 
 

@@ -10,7 +10,7 @@
           @click="close()"
           aria-label="Close list"
         )
-          v-icon mdi-keyboard-backspace
+          v-icon {{ icons.back }}
 
       v-divider
 
@@ -45,7 +45,7 @@
                   v-if="saves.length > 1"
                   @click="removeSave(i)"
                 )
-                  v-icon mdi-delete
+                  v-icon {{ icons.delete }}
 
             v-divider.light(
               v-if="i + 1 < saves.length"
@@ -54,10 +54,10 @@
 </template>
 
 <script lang="ts">
-import en from '../../../assets/json/locales/en/editor.json'
-import ru from '../../../assets/json/locales/ru/editor.json'
+import en from '../../../assets/json/locales/en/editor.json';
+import ru from '../../../assets/json/locales/ru/editor.json';
 
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   VContainer,
   VCard,
@@ -73,11 +73,21 @@ import {
   VListItemGroup,
   VListItemContent,
   VListItemAction
-} from 'vuetify/lib'
+} from 'vuetify/lib';
+
+import {
+  mdiDelete,
+  mdiKeyboardBackspace
+} from '@mdi/js';
 
 export default Vue.extend({
   data() {
     return {
+      icons: {
+        delete: mdiDelete,
+        back: mdiKeyboardBackspace
+      },
+
       saves: null,
       slot: 0,
 
