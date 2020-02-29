@@ -239,6 +239,8 @@ export default Vue.extend({
 
   computed: {
     lang(): object {
+      document.documentElement.setAttribute('lang', (this.$root as any).locale);
+
       return (this.locales as any)[(this.$root as any).locale];
     }
   },
@@ -257,6 +259,8 @@ export default Vue.extend({
 
     style.opacity = '0';
     style['pointer-events' as any] = 'none';
+
+    document.documentElement.setAttribute('lang', (this.$root as any).locale);
 
     setTimeout(() => { this.hint.edit = false; }, 3000);
   },
@@ -331,7 +335,7 @@ export default Vue.extend({
   #overlay
     position: absolute
     left: 0
-    top: 0
+    bottom: 0
     width: 100%
     height: 100%
     background: #fff
@@ -341,6 +345,7 @@ export default Vue.extend({
       position: absolute
       left: 50%
       bottom: 0%
+      height: 100vmin
       transform: translate(-50%, 0%)
 
       svg

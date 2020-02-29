@@ -22,6 +22,8 @@ function getLanguage(en: Object, ru: Object) {
 
   const lang = computed(() => locales.value[locale.value]);
 
+  document.documentElement.setAttribute('lang', locale.value)
+
   return {
     lang
   }

@@ -258,12 +258,12 @@ export default Vue.extend({
         }
       }
 
-      const self: any = this,
-        root: any = self.$root,
+      const self: Object = this,
+        root: Object = self.$root,
 
         BCR = self.$el.getBoundingClientRect(),
 
-        { state, x, y, last } = this as Object,
+        { state, x, y, last } = self,
 
         ang = Math.atan2(
           ((x + 1 / 2) * BCR.width)  - (BCR.left + BCR.width  / 2),
@@ -273,11 +273,11 @@ export default Vue.extend({
       self.x += (e.pageX - last.x) / 500;
       self.y += (e.pageY - last.y) / 100;
 
-      if (x > 1) self.x = 1;
-      if (x < -1) self.x = -1;
+      if (self.x > 1) self.x = 1;
+      if (self.x < -1) self.x = -1;
 
-      if (y > 1) self.y = 1;
-      if (y < -1) self.y = -1;
+      if (self.y > 1) self.y = 1;
+      if (self.y < -1) self.y = -1;
 
       root.horiz = self.horiz = -((y * (1 - Math.abs(x))) ** 7);
       root.ang = self.angle = (y * 90 * Math.abs(x)) / 4;
