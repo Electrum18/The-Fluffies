@@ -18,3 +18,39 @@ html(lang="en")
       #avatar
         svg(viewbox="48 -64 928 928")
           path(fill="#ddd" d="M316 713l-15-16c-2 101-52 165-62 186 115-5 254 133 254 133s17-104 4-219c-69-4-133-33-181-84zM575 234c-6-33-19-59-41-59-29 3-47 27-58 54a276 276 0 0199 5zM316 311c17-18 37-34 57-46-4-20-15-43-45-52-68 14-100 151-86 231 12-50 37-96 74-133zM781 649l-4-3-20-4c-18-3-39-6-50-22-4-5-3-13 2-17 6-4 14-3 18 2 3 5 10 7 17 9 13-31 20-65 20-102 0-143-113-260-252-260S259 369 259 512s113 260 253 260c170 8 203-30 234-59h1c35-30 34-64 34-64z")
+
+    style.
+      @keyframes transparent {
+        0% {
+          opacity: 100%;
+        }
+        50% {
+          opacity: 0%;
+        }
+        100% {
+          opacity: 100%;
+        }
+      }
+
+      #overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        transition: opacity 0.5s;
+      }
+
+      #overlay #avatar {
+        position: absolute;
+        left: 50%;
+        bottom: 0%;
+        height: 100vmin;
+        transform: translate(-50%, 0%);
+      }
+
+      #overlay #avatar svg {
+        animation: transparent 2s ease-in-out infinite;
+        width: 99vmin;
+      }

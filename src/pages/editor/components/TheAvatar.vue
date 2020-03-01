@@ -1,5 +1,5 @@
 <template lang="pug">
-  #avatar(v-press-hold="[MouseMove, Click, Hold]")
+  .avatar(v-press-hold="[MouseMove, Click, Hold]")
     canvas(:id="$root.name" ref="avatar")
 </template>
 
@@ -498,7 +498,7 @@ export default Vue.extend({
 </script>
 
 <style lang="sass">
-  #avatar canvas
+  .avatar canvas
     position: fixed
     cursor: move
     width: 100vmin

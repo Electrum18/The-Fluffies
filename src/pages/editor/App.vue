@@ -318,37 +318,4 @@ export default Vue.extend({
   .hide
     opacity: 0!important
     height: 0!important
-
-
-  // Loader
-
-  @keyframes transparent
-    0%
-      opacity: 100%
-
-    50%
-      opacity: 33%
-
-    100%
-      opacity: 100%
-
-  #overlay
-    position: absolute
-    left: 0
-    bottom: 0
-    width: 100%
-    height: 100%
-    background: #fff
-    transition: opacity 0.5s
-
-    #avatar
-      position: absolute
-      left: 50%
-      bottom: 0%
-      height: 100vmin
-      transform: translate(-50%, 0%)
-
-      svg
-        animation: transparent 2s ease-in-out infinite
-        width: 99vmin
 </style>

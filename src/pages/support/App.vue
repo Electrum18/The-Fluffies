@@ -184,44 +184,4 @@ export default Vue.extend({
   .hide
     opacity: 0!important
     height: 0!important
-
-
-  // Loader
-
-  @keyframes sparkle
-    0%
-      background-position: 0% -50%
-
-    33%
-      background-position: 0% 50%
-
-    100%
-      background-position: 0% 50%
-
-  #overlay
-    position: absolute
-    left: 0
-    top: 0
-    width: 100%
-    height: 100%
-    background: #1f1f1f
-    transition: opacity 0.5s
-
-    #logo
-      position: absolute
-      left: 50%
-      top: 50%
-      width: 150px
-      height: 150px
-      transform: translate(-50%, -50%)
-
-      background-image: linear-gradient(to right, #fa2, #f64)
-      border-radius: 3vmin
-
-      svg
-        animation: sparkle 4s ease-in-out infinite
-        background-image: linear-gradient(to right top, #0000 48%, #fffa 49%, #fffa 51%, #0000 52%)
-        background-size: 400% 400%
-        width: 150px
-        border-radius: 3vmin
 </style>

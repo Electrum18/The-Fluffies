@@ -1,6 +1,16 @@
 <template lang="pug">
   #app
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
+      v-img#easter(
+        src="/img/easterEgg.png"
+        ref="easter"
+      )
+
+      v-img#apple(
+        src="/img/apple.png"
+        ref="apple"
+      )
+
       div.pa-3
         v-chip(:dark="dark") {{ lang.version }}
           v-chip.version.v-avatar--right(
@@ -9,9 +19,12 @@
 
       v-item-group(:dark="dark")
         v-container.max(fluid)
-          div.px-8
+          div.px-8(
+            @click="easter($refs)"
+          )
             svg.logo.mx-sm-4.mx-md-12.mx-lg-12(
               viewBox="0 0 1026 418"
+              ref="logo"
             )
               path(fill="#fff" d="M220 247c5-3 8-8 13-10-5-3-9-6-15-7l4-12-26 9 1-11-16 10c-4 3-9 9-14 11l6-13-17 5 10-7c-9-5-18-9-29-11 8-2 15-2 22 0-1-5-4-9-7-12 14 5 27 12 40 19l-8-25 23 7c-2-6-5-11-8-15 8-2 17-2 25-2-3-5-10-11-11-16 3-2 7 0 10 1-1-5-4-8-8-10l11-8c-10-5-22-5-33-3l7-8c-13 0-27 3-39 8l10-16c-16 6-33 12-47 21 2-6 6-11 10-17-8 1-16 5-23 10-5 3-12 15-18 17-4 1-17-5-22-6-9-1-19 0-27 5 12 5 23 8 32 18-16 5-19 40-20 52 9-6 19-15 30-17-7 1-11 15-12 21-3 11-2 23-1 34 7-9 15-19 26-22 1 2-9 15-10 19-3 12-5 24-5 36l21-17c-4 6-5 20-6 27l-3 34 22-24c-1 17-2 34-1 51l16-21c5 11 10 22 17 32 1-11 4-21 6-32l26 20c-2-16-5-32-10-48l11 2c-8-13-16-25-27-35 9 2 16 8 25 10-5-10-4-20-8-30l38 15-7-19 29 5-13-25zM88 213")
               path(fill="#fff" d="M318 288l6-13-21 1c2-5 5-8 10-9-5-6-19-5-20-9-2-8 12-6 16-5-2-7-6-12-11-16-4-4-10-5-11-10l17 4c-5-14-12-27-20-39h19l-7-10c-3-2-10-8-11-11-2-6 13-16 19-20-7-2-14-2-21-2 3-8 7-17 13-24-9 2-18 5-27 10l5-17-15 9c-2 2-7 9-10 9a200 200 0 0 0-35-9l18 27-12 6c5 3 13 11 11 16-2 7-11 12-14 20 6-2 12-2 18-1 8 1 9 0 6 5-4 7-12 10-15 18 7-3 15-1 22 1-8 8-14 17-19 27l24-3c-5 10-7 21-5 32l10-8c2 5-4 15-4 22 0 9 2 18 6 26 2-5 5-10 9-13 1 10 4 20 7 30 4-7 7-13 12-19 2 7 5 13 9 19 2-5 7-16 11-17 5-2 16 5 20 7-1-5-8-18-6-21 0-2 6-6 8-7l-12-6z")
@@ -109,7 +122,8 @@ import {
   VSpacer,
   VDivider,
   VFooter,
-  VIcon
+  VIcon,
+  VImg
 } from 'vuetify/lib';
 
 import { ref, computed, reactive } from '@vue/composition-api';
@@ -147,6 +161,22 @@ function getSave() {
   }
 }
 
+function easter(refs: any) {
+  const logo = refs.logo.style;
+  const easter = refs.easter.$vnode.elm.style;
+  const apple = refs.apple.$vnode.elm.style;
+
+  logo.animation = 'logo 1s ease-in-out';
+  easter.animation = 'easter 4s ease-in-out';
+  apple.animation = 'apple 4s ease-in-out';
+
+  setTimeout(() => {
+    logo.animation = '';
+    easter.animation = '';
+    apple.animation = '';
+  }, 4000);
+}
+
 export default Vue.extend({
   setup() {
     const { dark } = darkMode();
@@ -171,7 +201,8 @@ export default Vue.extend({
       saves,
       slot,
       checkContinue,
-      icons
+      icons,
+      easter
     }
   },
 
@@ -190,7 +221,8 @@ export default Vue.extend({
     VSpacer,
     VDivider,
     VFooter,
-    VIcon
+    VIcon,
+    VImg
   }
 });
 </script>
@@ -216,6 +248,7 @@ export default Vue.extend({
     background-image: linear-gradient(to right, #fa2, #f64)
     border-radius: 4vmin
     max-width: 600px
+    cursor: pointer
 
   stop.grad
     stop-color: #fa2
@@ -232,43 +265,60 @@ export default Vue.extend({
   .size-by-content
     height: max-content
 
+  #easter
+    position: fixed
+    left: -200px
+    bottom: 35px
 
-  // Loader
+  #apple
+    position: fixed
+    left: 140px
+    bottom: -20px
 
-  @keyframes sparkle
+  @keyframes logo
     0%
-      background-position: 0% -50%
+      transform: rotate(0deg)
 
     33%
-      background-position: 0% 50%
+      transform: rotate(-3deg)
+
+    66%
+      transform: rotate(3deg)
 
     100%
-      background-position: 0% 50%
+      transform: rotate(0deg)
 
-  #overlay
-    position: absolute
-    left: 0
-    top: 0
-    width: 100%
-    height: 100%
-    background: #1f1f1f
-    transition: opacity 0.5s
+  @keyframes easter
+    0%
+      left: -200px
+      bottom: 35px
 
-    #logo
-      position: absolute
-      left: 50%
-      top: 50%
-      width: 150px
-      height: 150px
-      transform: translate(-50%, -50%)
+    50%
+      left: -200px
+      bottom: 35px
 
-      background-image: linear-gradient(to right, #fa2, #f64)
-      border-radius: 3vmin
+    66%
+      left: 55px
+      bottom: 35px
 
-      svg
-        animation: sparkle 4s ease-in-out infinite
-        background-image: linear-gradient(to right top, #0000 48%, #fffa 49%, #fffa 51%, #0000 52%)
-        background-size: 400% 400%
-        width: 150px
-        border-radius: 3vmin
+    75%
+      left: 55px
+      bottom: 35px
+
+    100%
+      left: 55px
+      bottom: -200px
+
+  @keyframes apple
+    0%
+      bottom: -150px
+
+    33%
+      bottom: 75px
+
+    75%
+      bottom: 75px
+
+    100%
+      bottom: -150px
 </style>
