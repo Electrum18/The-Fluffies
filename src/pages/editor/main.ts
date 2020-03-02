@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { DirectiveBinding } from 'vue/types/options';
 import Vuetify from 'vuetify/lib';
+import CompositionApi from '@vue/composition-api';
 import VueResource from 'vue-resource';
 
 import App from './App.vue';
@@ -12,6 +13,7 @@ import ColorConfig from './configs/color.json';
 
 Vue.config.productionTip = false;
 
+Vue.use(CompositionApi);
 Vue.use(Vuetify);
 Vue.use(VueResource);
 

@@ -1,16 +1,6 @@
 <template lang="pug">
   #app
     v-app#inspire(:class="dark ? 'theme--dark' : ''")
-      v-img#easter(
-        src="/img/easterEgg.png"
-        ref="easter"
-      )
-
-      v-img#apple(
-        src="/img/apple.png"
-        ref="apple"
-      )
-
       div.pa-3
         v-chip(:dark="dark") {{ lang.version }}
           v-chip.version.v-avatar--right(
@@ -87,6 +77,25 @@
 
           Socials(:dark="dark")
 
+      v-img#easter(
+        src="/img/easterEgg.png"
+        ref="easter"
+        eager
+      )
+
+      v-img#fruit(
+        src="/img/apple.png"
+        ref="apple"
+        eager
+      )
+
+      v-img#fruit(
+        src="/img/mango.png"
+        ref="mango"
+        max-width=50
+        eager
+      )
+
       .pa-5
 
       v-footer(fixed :dark="dark" app)
@@ -161,26 +170,47 @@ function getSave() {
   }
 }
 
-function easter(refs: any) {
-  const logo = refs.logo.style;
-  const easter = refs.easter.$vnode.elm.style;
-  const apple = refs.apple.$vnode.elm.style;
+function easterEgg() {
+  const active = ref(false);
 
-  logo.animation = 'logo 1s ease-in-out';
-  easter.animation = 'easter 4s ease-in-out';
-  apple.animation = 'apple 4s ease-in-out';
+  function easter(refs: any) {
+    if (!active.value) {
+      const logo = refs.logo.style;
 
-  setTimeout(() => {
-    logo.animation = '';
-    easter.animation = '';
-    apple.animation = '';
-  }, 4000);
+      const easter = refs.easter.$vnode.elm.style;
+
+      const fruitType = ['apple', 'mango'][Math.random() * 2 | 0]
+
+      const fruit = refs[fruitType].$vnode.elm.style;
+
+      logo.animation = 'logo 1s ease-in-out';
+      easter.animation = 'easter 4s ease-in-out';
+      fruit.animation = 'fruit 4s ease-in-out';
+
+      active.value = true;
+
+      setTimeout(() => {
+        logo.animation = '';
+        easter.animation = '';
+        fruit.animation = '';
+
+        active.value = false;
+      }, 4000);
+    }
+  }
+
+  return {
+    easter
+  }
 }
+
+
 
 export default Vue.extend({
   setup() {
     const { dark } = darkMode();
     const { lang } = getLanguage(en, ru);
+    const { easter } = easterEgg();
 
     const {
       saves,
@@ -270,7 +300,7 @@ export default Vue.extend({
     left: -200px
     bottom: 35px
 
-  #apple
+  #fruit
     position: fixed
     left: 140px
     bottom: -20px
@@ -309,7 +339,7 @@ export default Vue.extend({
       left: 55px
       bottom: -200px
 
-  @keyframes apple
+  @keyframes fruit
     0%
       bottom: -150px
 

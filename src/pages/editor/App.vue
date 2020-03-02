@@ -132,13 +132,6 @@
 </template>
 
 <script lang="ts">
-import Screener from './components/TheScreener.vue';
-import Avatar from './components/TheAvatar.vue';
-import Chat  from './components/TheChat.vue';
-import Menu  from './components/TheMenu.vue';
-import Hairs from './components/TheMenuHairs.vue';
-import Saves from './components/TheSaves.vue';
-
 import en from '../../assets/json/locales/en/editor.json';
 import ru from '../../assets/json/locales/ru/editor.json';
 
@@ -167,6 +160,7 @@ import {
   VTooltip
 } from 'vuetify/lib';
 
+import { ref, reactive } from '@vue/composition-api';
 import {
   mdiContentSave,
   mdiMovieOpen,
@@ -176,72 +170,36 @@ import {
   mdiChevronLeft
 } from '@mdi/js';
 
+import { getLocale, getLanguage } from '../../assets/ts/language';
+import loaderClose from '../../assets/ts/loaderClose';
+
+import Screener from './components/TheScreener.vue';
+import Avatar from './components/TheAvatar.vue';
+import Chat  from './components/TheChat.vue';
+import Menu  from './components/TheMenu.vue';
+import Hairs from './components/TheMenuHairs.vue';
+import Saves from './components/TheSaves.vue';
+
+function hints() {
+  const hint = reactive({ edit: true });
+
+  function closeHint() {
+    setTimeout(() => {
+      hint.edit = false;
+    }, 3000);
+  }
+
+  return {
+    hint,
+    closeHint
+  }
+}
+
 export default Vue.extend({
   data() {
     return {
-      icons: {
-        left: mdiChevronLeft,
-        menu: mdiMenu,
-        alert: mdiAlertCircleOutline
-      },
-
-      opened: {
-        Avatar: false,
-        Hairs: false,
-        Capture: false,
-        List: false,
-        Saves: false
-      },
-
-      hint: {
-        edit: true
-      },
-
       loadings: [],
-      background: '',
-
-      list: [
-        {
-          text: {
-            en: 'Avatar',
-            ru: 'Аватар'
-          },
-
-          icon: '$vuetify.icons.values.pony'
-        }, {
-          text: {
-            en: 'Saves',
-            ru: 'Сохранения'
-          },
-
-          icon: mdiContentSave
-        }, {
-          text: {
-            en: 'Animate',
-            ru: 'Анимация'
-          },
-
-          icon: mdiMovieOpen,
-          disabled: true
-        }, {
-          text: {
-            en: 'Capture',
-            ru: 'Запечатлеть'
-          },
-
-          icon: mdiCamera
-        }
-      ],
-
-      locales: { en, ru }
-    }
-  },
-
-  computed: {
-    lang(): object {
-      document.documentElement.setAttribute('lang', (this.$root as any).locale);
-
-      return (this.locales as any)[(this.$root as any).locale];
+      background: ''
     }
   },
 
@@ -253,16 +211,55 @@ export default Vue.extend({
   mounted() {
     this.loadings   = (this.$root as any).loadings;
     this.background = (this.$root as any).color.background.basic;
+  },
 
-    const overlay = document.getElementById('overlay') as HTMLElement;
-    const style = overlay.style;
+  setup() {
+    const { locale } = getLocale();
+    const { lang } = getLanguage(en, ru);
+    const { hint, closeHint } = hints();
 
-    style.opacity = '0';
-    style['pointer-events' as any] = 'none';
+    const opened = reactive({
+      Avatar: false,
+      Hairs: false,
+      Capture: false,
+      List: false,
+      Saves: false
+    });
 
-    document.documentElement.setAttribute('lang', (this.$root as any).locale);
+    const icons = {
+      left: mdiChevronLeft,
+      menu: mdiMenu,
+      alert: mdiAlertCircleOutline
+    };
 
-    setTimeout(() => { this.hint.edit = false; }, 3000);
+    const list = [
+      {
+        text: { en: 'Avatar', ru: 'Аватар' },
+        icon: '$vuetify.icons.values.pony'
+      }, {
+        text: { en: 'Saves', ru: 'Сохранения' },
+        icon: mdiContentSave
+      }, {
+        text: { en: 'Animate', ru: 'Анимация' },
+        icon: mdiMovieOpen,
+        disabled: true
+      }, {
+        text: { en: 'Capture', ru: 'Запечатлеть' },
+        icon: mdiCamera
+      }
+    ];
+
+    loaderClose();
+    closeHint();
+
+    return {
+      locale,
+      lang,
+      icons,
+      opened,
+      list,
+      hint
+    }
   },
 
   components: {
