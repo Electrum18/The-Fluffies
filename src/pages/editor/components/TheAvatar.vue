@@ -32,7 +32,7 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      quality: 0.5,  // range from 0 to 1
+      quality: 2 / 3,  // range from 0 to 1
       vmin: 0,
 
       // Configs

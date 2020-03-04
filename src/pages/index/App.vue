@@ -92,7 +92,6 @@
       v-img#fruit(
         src="/img/mango.png"
         ref="mango"
-        max-width=50
         eager
       )
 
@@ -203,8 +202,6 @@ function easterEgg() {
     easter
   }
 }
-
-
 
 export default Vue.extend({
   setup() {
