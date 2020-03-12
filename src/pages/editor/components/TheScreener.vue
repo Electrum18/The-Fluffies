@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-sheet(class="text-center" dark)
+  v-sheet.text-center(dark)
     v-container
       v-row(v-if="mode == 1")
         v-col
@@ -42,10 +42,16 @@
               outlined
               aria-label="PNG format"
             ) png
+
             v-btn(
               outlined
               aria-label="JPEG format"
             ) jpeg
+
+            v-btn(
+              outlined
+              aria-label="BMP format"
+            ) bmp
 
         v-col(cols="12" sm="8" md="1")
 
@@ -154,7 +160,7 @@ export default Vue.extend({
 
       let e = document.createElement('a');
 
-      const format = ['png', 'jpeg'][this.mode]
+      const format = ['png', 'jpeg', 'bmp'][this.mode]
 
       e.style.display = 'none';
       e.download      = 'TFs-' + (this.$root as any).propers.name + '.' + format;

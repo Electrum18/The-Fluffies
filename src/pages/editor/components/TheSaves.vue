@@ -173,9 +173,9 @@ export default Vue.extend({
     if (avatars && avatars.length) {
       this.saves = JSON.parse(avatars);
     } else {
-      this.saves = [
-        (this.$root as any).default
-      ] as any
+      const root: any = this.$root;
+
+      this.saves = [root.default] as any
     }
   },
 

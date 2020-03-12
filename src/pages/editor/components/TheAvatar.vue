@@ -1,6 +1,6 @@
 <template lang="pug">
   .avatar(v-press-hold="[MouseMove, Click, Hold]")
-    canvas(:id="$root.name" ref="avatar")
+    canvas(:id="$root.name" :style="position" ref="avatar")
 </template>
 
 <script lang="ts">
@@ -30,10 +30,14 @@ import Draw from './Avatar/draw'
 import Vue from 'vue'
 
 export default Vue.extend({
+  props: ['animating', 'smaller'],
+
   data() {
     return {
       quality: 2 / 3,  // range from 0 to 1
       vmin: 0,
+
+      position: {},
 
       // Configs
 
@@ -78,6 +82,50 @@ export default Vue.extend({
       horn.behindAfterEars = !lessThan45 && horn.rear;
 
       this.mirror = num < 0;
+    },
+
+    animating(val: boolean) {
+      if (val) {
+        if (this.smaller) {
+          this.position = {
+            width: 'calc(100vmin - 74px)',
+            height: 'calc(100vmin - 74px)',
+            bottom: '74px'
+          };
+
+        } else {
+          this.position = {
+            width: 'calc(100vmin - 260px)',
+            height: 'calc(100vmin - 260px)',
+            bottom: '260px'
+          };
+        }
+
+      } else {
+        this.position = {};
+      }
+    },
+
+    smaller(val: boolean) {
+      if (this.animating) {
+        if (val) {
+          this.position = {
+            width: 'calc(100vmin - 74px)',
+            height: 'calc(100vmin - 74px)',
+            bottom: '74px'
+          };
+
+        } else {
+          this.position = {
+            width: 'calc(100vmin - 260px)',
+            height: 'calc(100vmin - 260px)',
+            bottom: '260px'
+          };
+        }
+
+      } else {
+        this.position = {};
+      }
     },
 
     '$root.propers.hair.name'(name: Object) {
@@ -177,12 +225,14 @@ export default Vue.extend({
 
     '$root.saveChanged'(val) {
       if (val) {
-        this.horiz = this.$root.horiz;
-        this.angle = this.$root.ang;
+        const root: Object = this.$root;
 
-        this.x = this.$root.degress / 90;
+        this.horiz = root.horiz;
+        this.angle = root.ang;
 
-        this.$root.saveChanged = false;
+        this.x = root.degress / 90;
+
+        (this.$root as any).saveChanged = false;
       }
     }
   },
@@ -190,7 +240,7 @@ export default Vue.extend({
   methods: {
     getPartsJSON(target: string, url: string) {
       const self: any = this,
-        loader  = this.$root.loadings,
+        loader  = (this.$root as any).loadings,
         capital = target[0].toUpperCase() + target.slice(1);
 
       if (target == 'glasses' || target == 'horn') {
@@ -205,7 +255,7 @@ export default Vue.extend({
 
       (this.$http)
         .get(window.location.origin + '/data/' + url)
-        .then((res: NestedObject) => {
+        .then((res: Object) => {
           loader.splice(loader.indexOf(capital, 1));
 
           self.parseSVGbasic(res.body, target);
@@ -426,7 +476,7 @@ export default Vue.extend({
   mounted() {
     // Setting context
 
-    const ctx = this.$refs.avatar.getContext('2d');
+    const ctx = (this.$refs.avatar as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D;
 
     ctx.canvas.width  = Math.round(1024 * this.quality * 2);
     ctx.canvas.height = Math.round(1024 * this.quality * 1.25);
@@ -451,33 +501,32 @@ export default Vue.extend({
 
     const self = this;
 
-    /*
-    { easeOutIn } = easing
-    { jaw, eyes } = self.state
+    const { easeOutIn } = easing;
+    const { jaw, eyes } = self.state;
 
-    keyframes(
+    /*keyframes({
       values: [
         { x: 0.3, horiz: -30, open: 100, lids: 25 },
         { x: 0.1, horiz: 0, open: 0, lids: 0 },
         { x: 0.3, horiz: -30, open: 100, lids: 25 }
-      ]
-      duration: 2000
+      ],
+      duration: 2000,
       easings: easeOutIn,
       loop: Infinity
-    )
-    .start (val) ->
-      self.x = val.x
+    })
+    .start((val) => {
+      self.x = val.x;
 
-      { position, eyelids, brows } = eyes
+      const { position, eyelids, brows } = eyes;
 
-      position.horiz   = val.horiz
-      eyelids.left.up  = val.lids
-      eyelids.right.up = val.lids
+      position.horiz = val.horiz;
+      eyelids.left.up = val.lids;
+      eyelids.right.up = val.lids;
 
-      jaw.open = val.open
+      jaw.open = val.open;
 
-      self.executeAnimation = yes
-    */
+      self.executeAnimation = true;
+    });*/
 
     function asFile(name: string) {
       const fileName = self.state[name].name['en'];
@@ -505,6 +554,7 @@ export default Vue.extend({
     height: 100vmin
     z-index: 0
     left: 50%
-    bottom: 0%
+    bottom: 0
     transform: translate(-50%) scale(2, 1.25)
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
 </style>

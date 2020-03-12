@@ -40,10 +40,17 @@
       v-bottom-sheet(v-model="opened.Capture" inset=true)
         Screener
 
+      v-bottom-sheet(
+        v-model="opened.Animate"
+        hide-overlay
+        persistent
+        no-click-animation
+      )
+        Animator(:opened="opened.Animate")
 
       v-content#content
         v-container(fluid)
-          Avatar
+          Avatar(:animating="opened.Animate" :smaller="animate")
 
           v-btn.d-none.d-sm-inline-flex(
             dark
@@ -179,6 +186,7 @@ import Chat  from './components/TheChat.vue';
 import Menu  from './components/TheMenu.vue';
 import Hairs from './components/TheMenuHairs.vue';
 import Saves from './components/TheSaves.vue';
+import Animator from './components/TheAnimator.vue';
 
 function hints() {
   const hint = reactive({ edit: true });
@@ -223,8 +231,11 @@ export default Vue.extend({
       Hairs: false,
       Capture: false,
       List: false,
-      Saves: false
+      Saves: false,
+      Animate: false
     });
+
+    const animate = ref(false);
 
     const icons = {
       left: mdiChevronLeft,
@@ -257,6 +268,7 @@ export default Vue.extend({
       lang,
       icons,
       opened,
+      animate,
       list,
       hint
     }
@@ -269,6 +281,7 @@ export default Vue.extend({
     Menu,
     Hairs,
     Saves,
+    Animator,
 
     VApp,
     VNavigationDrawer,

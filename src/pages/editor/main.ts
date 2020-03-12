@@ -121,7 +121,33 @@ new Vue({
 
     'propers.male'(val: boolean) {
       sessionStorage.setItem('gender', val ? 'male' : 'female');
-    }
+    },
+
+    /*propers(val: any) {
+      const defaultObj: any = this.default.propers;
+
+      const keys: string[] = Object.keys(val);
+
+      for (let i = 0; i < keys.length; i++) {
+        const elem = val[keys[i]];
+        const defaultElem = defaultObj[keys[i]];
+
+        console.log(keys[i], elem, defaultElem, elem == defaultElem)
+
+
+        /*if (typeof elem === 'object') {
+          const keysIn: string[] = Object.keys(elem);
+
+          for (let j = 0; j < keysIn.length; j++) {
+            const elemIn = elem[keysIn[j]];
+
+            console.log(elemIn)
+          }
+        } else {
+          //console.log(elem)
+        }
+      }
+    }*/
   },
 
   mounted() {
