@@ -1,0 +1,113 @@
+{
+  "name": "Defaulty",
+  "male": false,
+
+
+  "hair_second": true,
+  "hair_info": [],
+
+  "hair_name_en": "Spiky to side",
+  "hair_name_ru": "Шипастая на бок",
+
+  "hair_IS_DREADS": false,
+  "hair_IS_BASIC": true,
+
+
+  "tassels": true,
+  "fangs": true,
+
+
+  "horn_enable": false,
+  "horn_changeling": false,
+  "horn_rear": false,
+
+  "horn_name_en": "Long",
+  "horn_name_ru": "Длинные",
+
+  "horn_info": [],
+
+  "horn_IS_DEFAULT": false,
+  "horn_IS_CHANGELING": false,
+
+  "jaw_open": 0,
+  "jaw_sad": 0,
+
+
+  "stripes_enable": false,
+
+
+  "teeth_upper": 100,
+  "teeth_lower": 100,
+
+
+  "eyes_right_enable": false,
+  "eyes_iris_scale": 100,
+  "eyes_pupils_width": 10,
+
+  "eyes_position_horiz": 0,
+  "eyes_position_verti": 0,
+
+  "eyes_eyelids_left_up": 0,
+  "eyes_eyelids_left_down": 0,
+  "eyes_eyelids_right_up": 0,
+  "eyes_eyelids_right_down": 0,
+
+  "eyes_brows_show": true,
+
+  "eyes_brows_left_width": 100,
+  "eyes_brows_left_height": 0,
+  "eyes_brows_left_evil": 0,
+  "eyes_brows_left_wide": 0,
+
+  "eyes_brows_right_width": 100,
+  "eyes_brows_right_height": 0,
+  "eyes_brows_right_evil": 0,
+  "eyes_brows_right_wide": 0,
+
+
+  "glasses_enable": true,
+  "glasses_width": 100,
+
+  "glasses_name_en": "Monolens",
+  "glasses_name_ru": "Монолинзовый",
+
+  "glasses_info": [],
+
+
+  "piercings_left_enable": false,
+  "piercings_left_upper": false,
+  "piercings_left_middle": false,
+  "piercings_left_lower": true,
+
+  "piercings_right_enable": true,
+  "piercings_right_upper": false,
+  "piercings_right_middle": false,
+  "piercings_right_lower": true,
+
+
+  "hooves_enable": true,
+
+  "hooves_left_shoulder_rise": 0,
+  "hooves_left_shoulder_angle": 0,
+
+  "hooves_left_elbow_rise": 0,
+  "hooves_left_elbow_angle": 0,
+
+  "hooves_left_wrist_rise": 0,
+  "hooves_left_wrist_angle": 0,
+
+  "hooves_right_shoulder_rise": 0,
+  "hooves_right_shoulder_angle": 0,
+
+  "hooves_right_elbow_rise": 0,
+  "hooves_right_elbow_angle": 0,
+
+  "hooves_right_wrist_rise": 0,
+  "hooves_right_wrist_angle": 0,
+
+
+  "collar_enable":  true,
+
+
+  "bowtie_enable": false
+}

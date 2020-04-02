@@ -1,0 +1,25 @@
+{
+  "nose": 1.5,
+  "nose_point": 1.5,
+
+  "bridge": 1.5,
+
+  "mouth": 1.5,
+  "mouth2": 1.5,
+
+  "fangs_left": 1.5,
+  "fangs_right": 1.5,
+
+  "nostril_left": 1.5,
+  "nostril_right": 1.5,
+
+  "male_nose": 1.5,
+  "male_bridge": 1.5,
+
+  "tongue": 1.25,
+
+  "teeth_upper": 1.25,
+  "teeth_lower": 1.25,
+
+  "eye_left_brow": 0.75
+}

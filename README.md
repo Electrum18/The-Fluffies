@@ -14,19 +14,24 @@
 Make your own furry-cartoon creation with that service like vector image (`MLP:FIM - Ponies, in this time`).
 
 ### Open source web project in the development of which everyone can take part
-Created in the summer of 2018 with the idea of &#8203;&#8203;using vector animation right on the site and making it accessible to all by the editor.
 
-If you are interested in drawing, programming and other activities, tell me, Electrum18, I don’t have enough time to develop alone.
+Created in the summer of 2018 with the idea of ​​using vector animation right on the site and making it accessible to all by the editor.
 
-The site uses `Typescript` as language
+If you are interested in drawing, programming and other activities, tell me, Electrum18, `I don’t have enough time to develop alone`.
 
-`Vue.js` framework is used to manipulate elements and `Vuetify` for UI
+The project is based on the `Nuxt.js framework` (made from `Vue.js` and `Webpack`) in `Statically Generated mode`.
 
-For compilation used `Webpack` bandler
+A website is a `Single Page Application` (`SPA`), and also a `Progressive Web Application` (`PWA`).
+
+`Vuetify` was used to write the interface.
+
+The project supports `web sockets` (`socket.io`) for real-time elements.
+
+Optimized for `use on phones` and in `non-network mode`.
 
 ### In future plans
 - Adding `premium` features via donation
-- Adding `animation` and avatar manipulation tools
+- Adding `animation` tool
 - Adding `gryphons` and `kirin` races
 
 ## Support us
@@ -40,7 +45,6 @@ For compilation used `Webpack` bandler
 [How SVG Shape Morphing Works](https://css-tricks.com/svg-shape-morphing-works/)
 [SVG Morphing (the easy way and the hard way)](https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f).
 
-
 ### Issues
 - Character is drawn for a long time.
 
@@ -51,8 +55,18 @@ Use that email to send: `thefluffiessite@gmail.com`
 
 ## Developers
 
-- Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18) &middot; [Deviantart](https://www.deviantart.com/electedpony)
+- Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18)
 - These are all developers, you can be one of them
+
+### Special thanks to
+
+- `LightningZap` for hosting and motivation
+- `Jankie` for creating colored mane ends
+- `FreddyDan12` for donations to Patreon
+- `Redy` for graphic type ideas
+- `Train Drive` for many ideas of a graphic type
+- `EAlex` for graphic type ideas
+- `SweetMouse` for testing and lots of ideas
 
 ## License
 **[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
