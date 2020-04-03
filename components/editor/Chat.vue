@@ -217,4 +217,8 @@ export default {
 .chat-space
   height: 75vh!important
   overflow: overlay!important
+
+  .v-list
+    height: 100%
+    overflow: auto
 </style>

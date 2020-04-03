@@ -3,8 +3,13 @@
     canvas(
       @mousedown="startDrag"
       @mousemove="onDrag"
+
+      @touchstart="startDrag"
+      @touchmove="onDrag"
+
       :id="$root.name"
       :style="position"
+
       ref="avatar"
     )
 </template>
@@ -305,6 +310,9 @@ export default {
     }
 
     window.addEventListener('mouseup', this.stopDrag)
+    window.addEventListener('touchend', this.stopDrag)
+    window.addEventListener('touchcancel', this.stopDrag)
+
     window.requestAnimationFrame(this.animate) // Start drawing and calculation
 
     this.$root.$refs.avatar = this.$refs.avatar
