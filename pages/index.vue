@@ -1,5 +1,7 @@
 <template lang="pug">
   div.pa-3
+    h1.header {{ $t('meta.title.index') }}
+
     Version
     NetworkStatus
 
@@ -151,6 +153,11 @@ export default {
 <style lang="sass">
 html
   overflow: auto!important
+
+.header
+  position: fixed
+  opacity: 0
+  pointer-events: none
 
 a.md-size
   width: 164px

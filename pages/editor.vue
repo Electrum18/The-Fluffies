@@ -1,5 +1,7 @@
 <template lang="pug">
   div
+    h1.header {{ $t('meta.title.editor') }}
+
     Menu(:open="getPage === 'Avatar'")
     MenuHairs(:open="getPage === 'Hairs'")
     Saves(:open="getPage === 'Saves'")
@@ -163,6 +165,11 @@ export default {
 <style lang="sass">
 html
   overflow: auto!important
+
+.header
+  position: fixed
+  opacity: 0
+  pointer-events: none
 
 .locale
   position: absolute

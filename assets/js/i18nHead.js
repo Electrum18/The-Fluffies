@@ -4,7 +4,7 @@ export default function(self, page) {
   const t = messages[locale].meta
 
   const image =
-    'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png'
+    'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/assets/img/announcement.png'
 
   const twitter = '@TFluffies'
 

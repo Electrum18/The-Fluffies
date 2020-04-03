@@ -1,5 +1,7 @@
 <template lang="pug">
   div
+    h1.header {{ $t('meta.title.support') }}
+
     NetworkStatus
 
     v-app-bar(fixed app)
@@ -111,6 +113,11 @@ export default {
   left: 0
   position: absolute
   text-align: center
+
+.header
+  position: fixed
+  opacity: 0
+  pointer-events: none
 
 .gradient
   background-image: linear-gradient(to right, #fa2, #f64)
