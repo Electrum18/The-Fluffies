@@ -14,6 +14,13 @@
         ButtonBack
         NetworkStatus
 
+        v-snackbar(
+          v-model="incompatibility"
+          color="error"
+          bottom
+          :timeout="8000"
+        ) {{ $t('editor.incompatibility') }} :(
+
     // Bottom interface
 
     v-app-bar(
@@ -129,6 +136,14 @@ export default {
       }
     ]
 
+    const incompatibility = computed(() => {
+      setTimeout(() => {
+        $store.commit('interface/setIncompatibility', false)
+      }, 8000)
+
+      return $store.getters['interface/getIncompatibility']
+    })
+
     const animate = ref(false)
 
     return {
@@ -137,7 +152,8 @@ export default {
       openedList,
       getPage,
       openPage,
-      animate
+      animate,
+      incompatibility
     }
   },
 

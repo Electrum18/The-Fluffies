@@ -8,9 +8,8 @@ export default {
   two: 'Two',
   three: 'Three',
 
-  hints: {
-    edit: 'Edit as you like'
-  },
+  incompatibility:
+    'Incompatibility was detected in the save, some values were overwritten',
 
   list: 'Open list',
 

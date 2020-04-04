@@ -96,6 +96,22 @@ export default {
       const avatars = JSON.parse(localStorage.getItem('avatars'))
 
       if (avatars[val]) {
+        let incompatibility = false
+
+        if (
+          this.checkCompatibility(avatars[val].propers, this.getDefault.propers)
+        ) {
+          incompatibility = true
+        }
+
+        if (
+          this.checkCompatibility(avatars[val].color, this.getDefault.color)
+        ) {
+          incompatibility = true
+        }
+
+        if (incompatibility) this.setIncompatibility(incompatibility)
+
         this.setAvatar(avatars[val])
 
         localStorage.setItem('slot', val + '')
@@ -115,11 +131,92 @@ export default {
   },
 
   methods: {
-    ...mapMutations('interface', ['setPage']),
+    ...mapMutations('interface', ['setPage', 'setIncompatibility']),
     ...mapActions('avatar', ['setAvatar']),
 
     close() {
       this.setPage(false)
+    },
+
+    isEmpty(val) {
+      return val === undefined || val === null
+    },
+
+    checkCompatibility(obj, ref) {
+      const { isEmpty } = this
+
+      const objKeys = Object.keys(obj)
+      const refKeys = Object.keys(ref)
+
+      let founded = false
+
+      // Check and overwrite found values
+
+      for (let i = 0; i < refKeys.length; i++) {
+        const refKey = refKeys[i]
+        const refVal = ref[refKey]
+
+        const objVal = obj[refKey]
+
+        const updatingArrays = Array.isArray(refVal) && Array.isArray(objVal)
+
+        if (
+          refKey === 'horn_behind_NO_EARS' ||
+          refKey === 'horn_behind_AFTER_EARS'
+        ) {
+          continue
+        }
+
+        // Color value comparison
+        if (
+          typeof objVal === 'object' &&
+          !isEmpty(objVal.h && objVal.s && objVal.l) &&
+          isEmpty(refVal.a) === isEmpty(objVal.a)
+        ) {
+          continue
+
+          // Normal value comparison
+        } else if (updatingArrays || isEmpty(refVal) !== isEmpty(objVal)) {
+          obj[refKey] = refVal
+
+          founded = true
+        }
+
+        if (updatingArrays) founded = false
+      }
+
+      // Deleting not found values
+
+      for (let i = 0; i < objKeys.length; i++) {
+        const objKey = objKeys[i]
+        const objVal = obj[objKey]
+
+        const refVal = ref[objKey]
+
+        if (
+          objKey === 'horn_behind_NO_EARS' ||
+          objKey === 'horn_behind_AFTER_EARS'
+        ) {
+          continue
+        }
+
+        // Color value comparison
+        if (
+          typeof objVal === 'object' &&
+          !isEmpty(objVal.h && objVal.s && objVal.l) &&
+          isEmpty(refVal.a) === isEmpty(objVal.a)
+        ) {
+          continue
+
+          // Normal value comparison
+        } else if (isEmpty(refVal) || isEmpty(objVal)) {
+          delete obj[objKey]
+
+          founded = true
+        }
+      }
+
+      return founded
     },
 
     getSlot() {
@@ -139,6 +236,27 @@ export default {
 
       if (avatars && avatars.length) {
         avatars = JSON.parse(avatars)
+
+        const { slot } = this
+
+        let incompatibility = false
+
+        if (
+          this.checkCompatibility(
+            avatars[slot].propers,
+            this.getDefault.propers
+          )
+        ) {
+          incompatibility = true
+        }
+
+        if (
+          this.checkCompatibility(avatars[slot].color, this.getDefault.color)
+        ) {
+          incompatibility = true
+        }
+
+        if (incompatibility) this.setIncompatibility = incompatibility
 
         this.setAvatar(avatars[this.slot])
 
