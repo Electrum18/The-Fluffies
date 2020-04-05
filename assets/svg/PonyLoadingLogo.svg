@@ -1,0 +1,29 @@
+<svg viewBox="64 32 832 832">
+  <linearGradient id="a" x1='1' x2='0' y1='0.2' y2='0'>
+    <stop offset="0" stop-color="#fa2"/>
+    <stop offset="1" stop-color="#f64"/>
+  </linearGradient>
+  <path fill="url(#a)" d="M499 971a145 145 0 01-290 0c0-80 65-144 145-144s145 64 145 144z"/>
+  <linearGradient id="b" x1='1' x2='0' y1='0.8' y2='0'>
+    <stop offset="0" stop-color="#fa2"/>
+    <stop offset="1" stop-color="#f64"/>
+  </linearGradient>
+  <path fill="url(#b)" d="M494 773c18 125-1 243-1 243S354 878 239 883c11-24 75-105 60-232l195 122z"/>
+  <path fill="url(#f)" d="M575 341c11-62 3-166-40-166-72 9-77 140-77 140"/>
+  <linearGradient id="d" x1='1' x2='0' y1='0' y2='1'>
+    <stop offset="0" stop-color="#fa2"/>
+    <stop offset="1" stop-color="#f64"/>
+  </linearGradient>
+  <ellipse cx="512" cy="512.5" fill="url(#d)" rx="252.5" ry="260"/>
+  <linearGradient id="e" x1='1' x2='0' y1='0' y2='0.8'>
+    <stop offset="0" stop-color="#fa2"/>
+    <stop offset="1" stop-color="#f64"/>
+  </linearGradient>
+  <path fill="url(#e)" d="M507 773s189 16 253-63l1-1c14-14 23-33 28-55 5-32-65-14-80-43-144-44-202 162-202 162z"/>
+  <linearGradient id="f" x1='0' x2='0' y1='0' y2='1'>
+    <stop offset="0" stop-color="#fa2"/>
+    <stop offset="1" stop-color="#f64"/>
+  </linearGradient>
+  <path fill="url(#f)" d="M260 501c-81-46-16-279 62-291 56 8 50 147 50 147"/>
+</svg>
+

@@ -60,6 +60,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'nuxt-svg-loader',
     'nuxt-webfontloader',
     'nuxt-i18n',
     '@nuxtjs/sitemap'

@@ -7,7 +7,7 @@
 
     v-container.max.text-center
       div.pa-6(@click="easter($refs)")
-        Logo
+        TheFluffiesLogo.logo(ref="logo")
 
       h2.body-1.px-9 {{ $t('index.title') }}
 
@@ -90,7 +90,8 @@ import { ref } from '@vue/composition-api'
 
 import i18nHead from '~/assets/js/i18nHead'
 
-import Logo from '~/components/Logo'
+import TheFluffiesLogo from '~/assets/svg/TheFluffiesLogo.svg'
+
 import Version from '~/components/Version'
 import NetworkStatus from '~/components/NetworkStatus'
 
@@ -101,7 +102,7 @@ function easterEgg() {
     if (!active.value) {
       const fruitType = ['apple', 'mango'][(Math.random() * 2) | 0]
 
-      const logo = refs.logo.style
+      const logo = refs.logo.$vnode.elm.style
       const easter = refs.easter.$vnode.elm.style
       const fruit = refs[fruitType].$vnode.elm.style
 
@@ -139,7 +140,7 @@ export default {
   },
 
   components: {
-    Logo,
+    TheFluffiesLogo,
     Version,
     NetworkStatus
   },
@@ -170,6 +171,12 @@ div.max
 
 .size-by-content
   height: 100%
+
+svg.logo
+  background-image: linear-gradient(to right, #fa2, #f64)
+  border-radius: 4vmin
+  max-width: 600px
+  cursor: pointer
 
 #easter
   display: block
