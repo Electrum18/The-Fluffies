@@ -10,12 +10,34 @@
       dark
       tile
     )
+      v-btn.panel-buttons.transition(
+        @click="close"
+        fab
+        absolute
+        right
+        :style="buttonHeight"
+      )
+        v-icon(large) {{ icons.mdiClose }}
+
+      v-btn.panel-buttons.left-button.transition(
+        @click="smaller"
+        fab
+        absolute
+        right
+        :style="buttonHeight"
+      )
+        v-icon(x-large) {{ this.small ? icons.mdiChevronUp : icons.mdiChevronDown }}
+
       v-row.px-6
         v-col(cols="12").third-col
-          p 0:0{{ ~~(valTime / 100) }}
+          p 0:0{{ ~~(valTime / 100) }}:{{ valTime }}
 
         v-col(cols="12").third-col.text-center
-          v-btn.mx-2(icon color="primary")
+          v-btn.mx-2(
+            @click="valTime = 0"
+            icon
+            color="primary"
+          )
             v-icon {{ icons.mdiSkipPrevious }}
 
           v-btn.start-button(
@@ -23,33 +45,13 @@
             fab
             light
           )
-            v-icon(:size="playingSize") {{ icons.mdiPlay }}
-            v-icon(:size="pauseSize") {{ icons.mdiPause }}
+            v-icon(large) {{ this.playing ? icons.mdiPause : icons.mdiPlay }}
 
           v-btn.mx-2(icon color="primary")
             v-icon {{ icons.mdiRepeat }}
 
-        v-col(cols="12").third-col.text-end
+        v-col(cols="12").third-col.text-right
           p 0:02
-
-        v-btn.transition(
-          @click="close"
-          fab
-          absolute
-          right
-          :style="buttonHeight"
-        )
-          v-icon(large) {{ icons.mdiClose }}
-
-        v-btn.left-button.transition(
-          @click="smaller"
-          fab
-          absolute
-          right
-          :style="buttonHeight"
-        )
-          v-icon(:size="arrowDown") {{ icons.mdiChevronDown }}
-          v-icon(:size="arrowUp") {{ icons.mdiChevronUp }}
 
       .my-n5
 
@@ -66,39 +68,46 @@
         light
         flat
         height=152
+
+        @mousemove="onDrag"
+        @touchmove="onDrag"
       )
         v-row.mx-1
           .time-divider(v-for="elem, i in 36")
-            p.pa-1.time.text-end.caption {{ (i + 1) / 2 }}s
+            p.pa-1.time.text-end.caption {{ i / 2 }}s
 
         v-row.mx-1.my-n2
-          v-card.mx-3.px-4.arrows(
+          v-card.mx-2.px-4.arrows(
             v-for="elem, i in sequencce"
+
             :key="'frame' + i"
-            :width="(elem * 128 * 2) - 24"
+            :width="(elem.duration * 256) - 16"
+            :style="frame === i ? 'border: solid 4px #fa0' : 'border: solid 0px #fa0'"
+
+            @click="frame = i"
+
             height=96
             color="#222"
           )
-            v-row.px-4
+            v-row.px-4(
+              :style="frame === i ? 'margin-top: -4px' : false"
+            )
               v-card.mx-n2.my-4(width=96 height=64)
+                v-img.grey(width=96 height=64)
 
               v-col.px-6.py-4.overline
-                p.my-1(style="color: primary") frame №{{ i + 1 }}
-                p(style="color: #aaa") duration {{ elem }}s
-
-            v-btn.moving(
-              fab
-              absolute
-              right
-              x-small
-            )
-              v-icon {{ icons.mdiCursorMove }}
+                p.my-1.primary--text frame №{{ i + 1 }}
+                p.mb-1(style="color: #aaa") duration {{ elem.duration }}s
 
             v-btn.sizing(
-              fab
+              icon
+              color="primary"
               absolute
               right
-              x-small
+              small
+
+              @mousedown="startDrag($event, i)"
+              @touchstart="startDrag($event, i)"
             )
               v-icon {{ icons.mdiArrowLeftRightBold }}
 
@@ -110,6 +119,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 import { mapMutations, mapGetters } from 'vuex'
 
 import {
@@ -120,7 +131,6 @@ import {
   mdiClose,
   mdiChevronDown,
   mdiChevronUp,
-  mdiCursorMove,
   mdiArrowLeftRightBold
 } from '@mdi/js'
 
@@ -134,10 +144,30 @@ export default {
 
   data() {
     return {
-      sequencce: [1, 1, 2, 1, 1, 3, 3, 3, 3],
+      sequencce: [
+        { duration: 1 },
+        { duration: 1 },
+        { duration: 2 },
+        { duration: 3 },
+        { duration: 2 }
+      ],
 
       playing: false,
       small: false,
+
+      dragging: false,
+
+      frame: 0,
+
+      selected: {
+        index: 0,
+        value: { ref: 0, temp: 0 },
+        timer: undefined
+      },
+
+      last: {
+        x: 0
+      },
 
       valTime: 0,
 
@@ -151,7 +181,6 @@ export default {
         mdiClose,
         mdiChevronDown,
         mdiChevronUp,
-        mdiCursorMove,
         mdiArrowLeftRightBold
       }
     }
@@ -170,22 +199,6 @@ export default {
 
     height() {
       return this.small ? 74 : 260
-    },
-
-    arrowDown() {
-      return this.small ? 0 : 42
-    },
-
-    arrowUp() {
-      return this.small ? 42 : 0
-    },
-
-    playingSize() {
-      return this.playing ? 0 : 42
-    },
-
-    pauseSize() {
-      return this.playing ? 42 : 0
     }
   },
 
@@ -204,7 +217,27 @@ export default {
       } else {
         clearInterval(this.timer)
       }
+    },
+
+    'selected.value.temp'(value) {
+      const { selected } = this
+
+      if (selected.timer) clearTimeout(selected.timer)
+
+      const refValue = this.sequencce[selected.index]
+
+      refValue.duration = ((value * 10) | 0) / 10
+
+      selected.timer = setTimeout(() => {
+        Vue.set(this.sequencce, selected.index, refValue)
+      }, 10)
     }
+  },
+
+  mounted() {
+    window.addEventListener('mouseup', this.stopDrag)
+    window.addEventListener('touchend', this.stopDrag)
+    window.addEventListener('touchcancel', this.stopDrag)
   },
 
   methods: {
@@ -218,6 +251,31 @@ export default {
       this.setAnimate(!this.getAnimate)
 
       this.small = this.getAnimate
+    },
+
+    startDrag(e, index) {
+      if (!e.pageX && e.touches) e = e.touches[0]
+
+      this.last.x = e.pageX
+
+      this.selected.index = index
+      this.selected.value.ref = this.sequencce[index].duration
+
+      this.dragging = true
+    },
+
+    onDrag(e) {
+      if (this.dragging) {
+        if (!e.pageX && e.touches) e = e.touches[0]
+
+        const move = e.pageX - this.last.x
+
+        this.selected.value.temp = this.selected.value.ref + move / 256
+      }
+    },
+
+    stopDrag() {
+      this.dragging = false
     }
   }
 }
@@ -231,6 +289,9 @@ export default {
   .row
     width: max-content!important
 
+.panel-buttons
+  margin-top: -68px!important
+
 .left-button
   margin-right: 70px!important
 
@@ -238,14 +299,16 @@ export default {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -4 14.5 110'%3E%3Crect fill='%23FFFFFF' width='6' height='10'/%3E%3Crect fill='%23FFFFFF' y='92.5' width='6' height='10'/%3E%3C/svg%3E")
   background-repeat-x: repeat
   margin-top: 40px!important
+  transition: width 300ms ease, border 500ms ease
+  overflow: hidden
 
-  .moving
-    top: 12px
-    right: -8px
+  .row.px-4
+    transition: margin-top 500ms ease
 
   .sizing
-    top: 52px
-    right: -8px
+    top: 50%
+    right: 4px
+    transform: translateY(-50%)
 
 .time-divider
   width: 1px
@@ -256,7 +319,7 @@ export default {
   p.time
     width: 128px!important
     position: relative!important
-    left: -132px!important
+    left: -126px!important
 
 .start-button
   margin-top: -24px!important

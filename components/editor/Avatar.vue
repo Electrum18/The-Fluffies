@@ -318,8 +318,8 @@ export default {
     this.$root.$refs.avatar = this.$refs.avatar
 
     /*
+    // eslint-disable-next-line import/namespace
     const { easeOutIn } = easing
-    const { jaw, eyes } = self.state
 
     keyframes({
       values: [
@@ -330,20 +330,13 @@ export default {
       duration: 2000,
       easings: easeOutIn,
       loop: Infinity
+    }).start((val) => {
+      self.x = val.x
+
+      this.horiz = val.horiz
+
+      self.executeAnimation = true
     })
-    .start((val) => {
-      self.x = val.x;
-
-      const { position, eyelids, brows } = eyes;
-
-      position.horiz = val.horiz;
-      eyelids.left.up = val.lids;
-      eyelids.right.up = val.lids;
-
-      jaw.open = val.open;
-
-      self.executeAnimation = true;
-    });
     */
 
     const { fileName, name } = this.asFile('hair')

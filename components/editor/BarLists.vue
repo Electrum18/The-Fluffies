@@ -4,7 +4,7 @@
       v-list-item-group(
         v-model="selected"
         mandatory
-        active-class="orange--text"
+        active-class="primary--text"
       )
         template(v-if="list.length" v-for="(element, i) in list")
           v-list-item(

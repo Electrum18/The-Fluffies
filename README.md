@@ -1,4 +1,4 @@
-<a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="882" src="https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/src/assets/img/announcement.png" alt="The Fluffies logo"></a>
+<a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="882" src="https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/assets/img/announcement.png" alt="The Fluffies logo"></a>
 
 <p align="center">
   <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20By--NC--ND%20v4.0-yellow.svg" alt="License: CC By-NC-ND v4.0"></a>

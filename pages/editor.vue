@@ -144,7 +144,7 @@ export default {
       return $store.getters['interface/getIncompatibility']
     })
 
-    const animate = ref(false)
+    const animate = computed(() => $store.getters['interface/getAnimate'])
 
     return {
       icons,
