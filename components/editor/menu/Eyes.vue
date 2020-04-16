@@ -20,6 +20,13 @@
 
       v-divider.my-4
 
+      BarColor(
+        :text="$t('editor.menu.eyes.color_sclera')"
+        val="eyes_sclera"
+      )
+
+      v-divider.my-4
+
       v-card(outlined).my-2
         BarSlider(
           :text="$t('editor.menu.eyes.scale')"
@@ -123,7 +130,7 @@
 
       p.subtitle-2 {{ $t('editor.menu.eyes.eyebrows.left') }}
 
-      v-card(outlined :disabled="!getProper.eyes_brows_show").my-2
+      v-card(outlined :disabled="!getGlobal.eyes_brows_show").my-2
         BarSlider(
           :text="$t('editor.menu.eyes.eyebrows.width')"
           val="eyes_brows_left_width"
@@ -166,7 +173,7 @@
 
       p.subtitle-2 {{ $t('editor.menu.eyes.eyebrows.right') }}
 
-      v-card(outlined :disabled="!getProper.eyes_brows_show").my-2
+      v-card(outlined :disabled="!getGlobal.eyes_brows_show").my-2
         BarSlider(
           :text="$t('editor.menu.eyes.eyebrows.width')"
           val="eyes_brows_right_width"
@@ -219,7 +226,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper'])
+    ...mapGetters('avatar', ['getGlobal'])
   }
 }
 </script>

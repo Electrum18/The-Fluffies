@@ -55,10 +55,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper', 'getColor']),
+    ...mapGetters('avatar', ['getGlobal', 'getColor']),
 
     enable() {
-      return this.off ? !this.getProper[this.off] : false
+      return this.off ? !this.getGlobal[this.off] : false
     },
 
     darker() {

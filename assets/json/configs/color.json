@@ -9,6 +9,8 @@
   "eyes_left_basic": { "h": 48, "s": 1, "l": 0.5 },
   "eyes_right_basic": { "h": 48, "s": 1, "l": 0.5 },
 
+  "eyes_sclera": { "h": 0, "s": 0, "l": 1 },
+
   "glasses_lenses": { "h": 272, "s": 1, "l": 0.5, "a": 0.63 },
   "glasses_frame": { "h": 0, "s": 0, "l": 0.13 },
 

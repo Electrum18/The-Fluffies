@@ -1,6 +1,6 @@
 {
   "name": "the_fluffies",
-  "version": "0.4.94",
+  "version": "0.5.01",
   "description": "Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle. Created by Electrum18",
   "author": "Electrum18",
   "homepage": "https://github.com/Electrum18/The-Fluffies/",
@@ -12,7 +12,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate --analyze",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "socket": "node server/index.js"
+    "socket": "node server/index.js",
+    "fix-preload-css": "node fix-preload-css.js"
   },
   "dependencies": {
     "@mdi/js": "^5.0.45",
@@ -23,6 +24,7 @@
     "axios-cache-adapter": "^2.5.0",
     "curvify-svg-path": "^1.0.0",
     "express": "x",
+    "gif.js": "^0.2.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.7.2",
     "nuxt-webfontloader": "^1.1.0",
@@ -43,6 +45,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.1.2",
+    "fs": "0.0.1-security",
     "nuxt-svg-loader": "^1.2.0",
     "prettier": "^1.19.1",
     "pug": "^2.0.4",

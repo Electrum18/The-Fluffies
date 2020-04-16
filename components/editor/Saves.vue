@@ -41,10 +41,10 @@
           )
             template(v-for="(save, i) in saves")
               v-list-item(
-                :key="save.propers.name + i"
+                :key="save.globals.name + i"
               )
                 v-list-item-content
-                  v-list-item-title {{ i }} • {{ save.propers.name }}
+                  v-list-item-title {{ i }} • {{ save.globals.name }}
 
                 v-list-item-action.mx-n2.my-0
                   v-btn(
@@ -88,7 +88,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper', 'getDefault'])
+    ...mapGetters('avatar', ['getGlobal', 'getDefault'])
   },
 
   watch: {
@@ -96,22 +96,6 @@ export default {
       const avatars = JSON.parse(localStorage.getItem('avatars'))
 
       if (avatars[val]) {
-        let incompatibility = false
-
-        if (
-          this.checkCompatibility(avatars[val].propers, this.getDefault.propers)
-        ) {
-          incompatibility = true
-        }
-
-        if (
-          this.checkCompatibility(avatars[val].color, this.getDefault.color)
-        ) {
-          incompatibility = true
-        }
-
-        if (incompatibility) this.setIncompatibility(incompatibility)
-
         this.setAvatar(avatars[val])
 
         localStorage.setItem('slot', val + '')
@@ -120,7 +104,7 @@ export default {
       }
     },
 
-    'getProper.name'(name) {
+    'getGlobal.name'(name) {
       this.saves[this.slot].name = name
     }
   },
@@ -131,7 +115,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('interface', ['setPage', 'setIncompatibility']),
+    ...mapMutations('interface', ['setPage']),
     ...mapActions('avatar', ['setAvatar']),
 
     close() {
@@ -140,83 +124,6 @@ export default {
 
     isEmpty(val) {
       return val === undefined || val === null
-    },
-
-    checkCompatibility(obj, ref) {
-      const { isEmpty } = this
-
-      const objKeys = Object.keys(obj)
-      const refKeys = Object.keys(ref)
-
-      let founded = false
-
-      // Check and overwrite found values
-
-      for (let i = 0; i < refKeys.length; i++) {
-        const refKey = refKeys[i]
-        const refVal = ref[refKey]
-
-        const objVal = obj[refKey]
-
-        const updatingArrays = Array.isArray(refVal) && Array.isArray(objVal)
-
-        if (
-          refKey === 'horn_behind_NO_EARS' ||
-          refKey === 'horn_behind_AFTER_EARS'
-        ) {
-          continue
-        }
-
-        // Color value comparison
-        if (
-          typeof objVal === 'object' &&
-          !isEmpty(objVal.h && objVal.s && objVal.l) &&
-          isEmpty(refVal.a) === isEmpty(objVal.a)
-        ) {
-          continue
-
-          // Normal value comparison
-        } else if (updatingArrays || isEmpty(refVal) !== isEmpty(objVal)) {
-          obj[refKey] = refVal
-
-          founded = true
-        }
-
-        if (updatingArrays) founded = false
-      }
-
-      // Deleting not found values
-
-      for (let i = 0; i < objKeys.length; i++) {
-        const objKey = objKeys[i]
-        const objVal = obj[objKey]
-
-        const refVal = ref[objKey]
-
-        if (
-          objKey === 'horn_behind_NO_EARS' ||
-          objKey === 'horn_behind_AFTER_EARS'
-        ) {
-          continue
-        }
-
-        // Color value comparison
-        if (
-          typeof objVal === 'object' &&
-          !isEmpty(objVal.h && objVal.s && objVal.l) &&
-          isEmpty(refVal.a) === isEmpty(objVal.a)
-        ) {
-          continue
-
-          // Normal value comparison
-        } else if (isEmpty(refVal) || isEmpty(objVal)) {
-          delete obj[objKey]
-
-          founded = true
-        }
-      }
-
-      return founded
     },
 
     getSlot() {
@@ -231,33 +138,110 @@ export default {
       }
     },
 
+    compability(avatar) {
+      if (!avatar) return
+
+      const { getDefault, isEmpty } = this
+
+      const keys = Object.keys(avatar)
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i]
+
+        const value = avatar[key]
+        const valueRef = getDefault[key]
+
+        // If key does not exist
+        if (isEmpty(valueRef)) {
+          delete avatar[key]
+
+          // If value does not exist
+        } else if (isEmpty(value)) {
+          avatar[key] = valueRef
+
+          continue
+        }
+
+        if (key === 'globals') {
+          const keys2 = Object.keys(value)
+
+          for (let i = 0; i < keys2.length; i++) {
+            const key2 = keys2[i]
+
+            if (key2 === 'horn_behind_NO_EARS') continue
+            if (key2 === 'horn_behind_AFTER_EARS') continue
+
+            const global = getDefault.globals[key2]
+
+            // If key does not exist
+            if (isEmpty(global)) {
+              delete value[key2]
+
+              // If value does not exist
+            } else if (isEmpty(value[key2])) {
+              value[key2] = global
+            }
+          }
+
+          const refKeys = Object.keys(getDefault.globals)
+
+          for (let i = 0; i < refKeys.length; i++) {
+            const key2 = refKeys[i]
+
+            if (key2 === 'horn_behind_NO_EARS') continue
+            if (key2 === 'horn_behind_AFTER_EARS') continue
+
+            if (isEmpty(value[key2])) {
+              value[key2] = global
+            }
+          }
+        }
+
+        if (key === 'color') {
+          const keys2 = Object.keys(value)
+
+          for (let i = 0; i < keys2.length; i++) {
+            const key2 = keys2[i]
+
+            const color = getDefault.color[key2]
+            const val2 = value[key2]
+
+            // If key does not exist
+            if (isEmpty(color)) {
+              delete value[key2]
+
+              // If value does not exist
+            } else if (isEmpty(val2)) {
+              value[key2] = color
+            } else if (isEmpty(val2.h) || isEmpty(val2.s) || isEmpty(val2.l)) {
+              value[key2] = color
+            }
+          }
+
+          const refKeys = Object.keys(getDefault.color)
+
+          for (let i = 0; i < refKeys.length; i++) {
+            const key2 = refKeys[i]
+            const val2 = value[key2]
+            const val3 = getDefault.color[key2]
+
+            if (isEmpty(val2)) {
+              value[key2] = val3
+            } else if (isEmpty(val2.h) || isEmpty(val2.s) || isEmpty(val2.l)) {
+              value[key2] = val3
+            }
+          }
+        }
+      }
+    },
+
     getSave() {
       let avatars = localStorage.getItem('avatars')
 
       if (avatars && avatars.length) {
         avatars = JSON.parse(avatars)
 
-        const { slot } = this
-
-        let incompatibility = false
-
-        if (
-          this.checkCompatibility(
-            avatars[slot].propers,
-            this.getDefault.propers
-          )
-        ) {
-          incompatibility = true
-        }
-
-        if (
-          this.checkCompatibility(avatars[slot].color, this.getDefault.color)
-        ) {
-          incompatibility = true
-        }
-
-        if (incompatibility) this.setIncompatibility = incompatibility
-
+        this.compability(avatars[this.slot])
         this.setAvatar(avatars[this.slot])
 
         return avatars

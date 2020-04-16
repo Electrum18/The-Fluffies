@@ -25,19 +25,19 @@
       )
         v-btn(
           outlined
-          :disabled="!getProper.piercings_left_enable"
+          :disabled="!getGlobal.piercings_left_enable"
           :aria-label="$t('editor.one')"
         ) {{ $t('editor.one') }}
 
         v-btn(
           outlined
-          :disabled="!getProper.piercings_left_enable"
+          :disabled="!getGlobal.piercings_left_enable"
           :aria-label="$t('editor.two')"
         ) {{ $t('editor.two') }}
 
         v-btn(
           outlined
-          :disabled="!getProper.piercings_left_enable"
+          :disabled="!getGlobal.piercings_left_enable"
           :aria-label="$t('editor.three')"
         ) {{ $t('editor.three') }}
 
@@ -58,19 +58,19 @@
       )
         v-btn(
           outlined
-          :disabled="!getProper.piercings_right_enable"
+          :disabled="!getGlobal.piercings_right_enable"
           :aria-label="$t('editor.one')"
         ) {{ $t('editor.one') }}
 
         v-btn(
           outlined
-          :disabled="!getProper.piercings_right_enable"
+          :disabled="!getGlobal.piercings_right_enable"
           :aria-label="$t('editor.two')"
         ) {{ $t('editor.two') }}
 
         v-btn(
           outlined
-          :disabled="!getProper.piercings_right_enable"
+          :disabled="!getGlobal.piercings_right_enable"
           :aria-label="$t('editor.three')"
         ) {{ $t('editor.three') }}
 
@@ -96,7 +96,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper'])
+    ...mapGetters('avatar', ['getGlobal'])
   },
 
   watch: {
@@ -108,46 +108,46 @@ export default {
       this.setPiercing(val, 'right')
     },
 
-    'getProper.piercings_left_enable'(val) {
+    'getGlobal.piercings_left_enable'(val) {
       this.setPiercing(this.leftPiercings, 'left')
     },
 
-    'getProper.piercings_right_enable'(val) {
+    'getGlobal.piercings_right_enable'(val) {
       this.setPiercing(this.rightPiercings, 'right')
     }
   },
 
   methods: {
-    ...mapMutations('avatar', ['setProper']),
+    ...mapMutations('avatar', ['setGlobal']),
 
-    setPropers(side, upper, middle, lower) {
-      this.setProper({
+    setGlobals(side, upper, middle, lower) {
+      this.setGlobal({
         path: 'piercings_' + side + '_upper',
         value: upper
       })
 
-      this.setProper({
+      this.setGlobal({
         path: 'piercings_' + side + '_middle',
         value: middle
       })
 
-      this.setProper({
+      this.setGlobal({
         path: 'piercings_' + side + '_lower',
         value: lower
       })
     },
 
     setPiercing(val, side) {
-      if (this.getProper['piercings_' + side + '_enable']) {
+      if (this.getGlobal['piercings_' + side + '_enable']) {
         if (val === 0) {
-          this.setPropers(side, false, false, true)
+          this.setGlobals(side, false, false, true)
         } else if (val === 1) {
-          this.setPropers(side, false, true, true)
+          this.setGlobals(side, false, true, true)
         } else if (val === 2) {
-          this.setPropers(side, true, true, true)
+          this.setGlobals(side, true, true, true)
         }
       } else {
-        this.setPropers(side, false, false, false)
+        this.setGlobals(side, false, false, false)
       }
     }
   }

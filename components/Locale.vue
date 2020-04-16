@@ -4,12 +4,11 @@
     :items="items"
     width=100
     solo
-    :label="'Change language'"
   )
 </template>
 
 <script>
-import { ref, reactive, computed } from '@vue/composition-api'
+import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 
 export default {
   setup(props, { root: { $i18n } }) {
@@ -23,6 +22,17 @@ export default {
     const current = computed({
       get: () => items.value[enumItems[$i18n.locale]],
       set: (locale) => $i18n.setLocale(getLang[locale])
+    })
+
+    onMounted(() => {
+      const selections = document.getElementsByClassName('v-select__selections')
+
+      const label = document.createElement('label')
+
+      label.setAttribute('for', selections[0].children[1].id)
+      label.innerHTML = 'Change language'
+
+      selections[0].appendChild(label)
     })
 
     return {
@@ -43,4 +53,8 @@ export default {
   .v-input__icon
     min-width: 11px!important
     width: 11px!important
+
+.v-select__selections label
+  width: 0
+  opacity: 0
 </style>

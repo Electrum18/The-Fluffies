@@ -23,7 +23,7 @@
 
       v-divider.my-4
 
-      v-card(outlined :disabled="!getProper.glasses_enable").my-2
+      v-card(outlined :disabled="!getGlobal.glasses_enable").my-2
         BarSlider(
           :text="$t('editor.menu.glasses.width')"
           val="glasses_width"
@@ -53,7 +53,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper'])
+    ...mapGetters('avatar', ['getGlobal'])
   }
 }
 </script>

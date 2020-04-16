@@ -1,7 +1,9 @@
 <template lang="pug">
   div
     v-btn.d-none.d-sm-inline-flex(
-      dark
+      :disabled="disable"
+      :dark="!disable"
+
       rounded
       :href="localePath('/')"
       :title="$t('editor.back')"
@@ -11,7 +13,9 @@
       | {{ $t('editor.back') }}
 
     v-btn.d-inline-flex.d-sm-none(
-      dark
+      :disabled="disable"
+      :dark="!disable"
+
       rounded
       fab
       small
@@ -26,6 +30,13 @@
 import { mdiChevronLeft } from '@mdi/js'
 
 export default {
+  props: {
+    disable: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
       icons: {

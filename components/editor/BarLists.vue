@@ -26,7 +26,7 @@
                   small
                   outlined
                   label
-                  color="primary"
+                  color="yellow darken-2"
                 ) {{ element.warning[locLang] }}
 
           v-divider.border--light(
@@ -77,10 +77,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper', 'getHairsList']),
+    ...mapGetters('avatar', ['getGlobal', 'getHairsList']),
 
     enable() {
-      return this.off ? !this.getProper[this.off] : false
+      return this.off ? !this.getGlobal[this.off] : false
     },
 
     locLang() {
@@ -88,7 +88,7 @@ export default {
     },
 
     list() {
-      return this.getProper[this.target + '_info']
+      return this.getGlobal[this.target + '_info']
     },
 
     hairList() {
@@ -111,16 +111,16 @@ export default {
   },
 
   mounted() {
-    const list = this.getProper[this.target + '_info']
+    const list = this.getGlobal[this.target + '_info']
 
     this.setIndex(list)
   },
 
   methods: {
-    ...mapMutations('avatar', ['setProper']),
+    ...mapMutations('avatar', ['setGlobal']),
 
     setIndex(list) {
-      const rootElementName = this.getProper[this.target + '_name_en']
+      const rootElementName = this.getGlobal[this.target + '_name_en']
 
       for (let i = 0, len = list.length; i < len; i++) {
         const element = list[i]
@@ -132,12 +132,12 @@ export default {
     },
 
     setElementName(name) {
-      this.setProper({
+      this.setGlobal({
         path: this.target + '_name_en',
         value: name.en
       })
 
-      this.setProper({
+      this.setGlobal({
         path: this.target + '_name_ru',
         value: name.ru
       })
