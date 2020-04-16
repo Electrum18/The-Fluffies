@@ -7,19 +7,23 @@
     Saves(:open="getPage === 'Saves'")
     Screener(:open="getPage === 'Capture'")
     Animator(:open="getPage === 'Animate'")
+    AnimatorSaves(:open="getPage === 'AnimateSaves'")
+    Recorder(:open="getPage === 'Record'")
+    RecorderProcess(:open="getPage === 'recorderRender'")
 
     v-content
       v-container(fluid)
         Avatar(:animating="getPage === 'Animate'" :smaller="animate")
-        ButtonBack
-        NetworkStatus
 
-        v-snackbar(
-          v-model="incompatibility"
-          color="error"
-          bottom
-          :timeout="8000"
-        ) {{ $t('editor.incompatibility') }} :(
+        v-row.mx-0
+          ButtonBack(:disable="getPage === 'recorderRender'")
+          v-spacer
+          v-icon.ma-1.recording(v-if="rendering" color="red") {{ icons.mdiRecord }}
+          v-chip.mx-2(label) {{ quality }}p • {{ FPS }} FPS
+          v-chip.mr-10(label)
+            | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
+
+        NetworkStatus
 
     // Bottom interface
 
@@ -30,8 +34,6 @@
       flat
       style="pointer-events: none"
     )
-      Locale.locale
-
       Chat
 
       .px-2
@@ -42,7 +44,7 @@
 
       // List popup menu
 
-      v-menu(auto v-model="openedList")
+      v-menu(transition="slide-x-reverse-transition" v-model="openedList")
         template(v-slot:activator="{ on }")
           v-btn(
             fab
@@ -58,7 +60,6 @@
             v-for="(item, i) in list"
             :key="i"
             @click.stop="openPage(item.text['en'])"
-            :disabled="item.disabled"
           )
             v-list-item-icon(right): v-icon(v-text="item.icon")
             v-list-item-content
@@ -68,7 +69,14 @@
 <script>
 import { ref, computed, reactive } from '@vue/composition-api'
 
-import { mdiMenu, mdiContentSave, mdiMovieOpen, mdiCamera } from '@mdi/js'
+import {
+  mdiMenu,
+  mdiContentSave,
+  mdiMovieOpen,
+  mdiCamera,
+  mdiVideoVintage,
+  mdiRecord
+} from '@mdi/js'
 
 import i18nHead from '~/assets/js/i18nHead'
 
@@ -77,12 +85,14 @@ import MenuHairs from '~/components/editor/MenuHairs'
 import Saves from '~/components/editor/Saves'
 import Screener from '~/components/editor/Screener'
 import Animator from '~/components/editor/Animator'
+import AnimatorSaves from '~/components/editor/AnimatorSaves'
+import Recorder from '~/components/editor/Recorder'
+import RecorderProcess from '~/components/editor/RecorderProcess'
 import Chat from '~/components/editor/Chat'
 import Avatar from '~/components/editor/Avatar'
 import ButtonBack from '~/components/editor/ButtonBack'
 
 import Version from '~/components/Version'
-import Locale from '~/components/Locale'
 import NetworkStatus from '~/components/NetworkStatus'
 
 function pagesControl({ getters, commit }) {
@@ -113,7 +123,9 @@ export default {
       mdiMenu,
       mdiContentSave,
       mdiMovieOpen,
-      mdiCamera
+      mdiCamera,
+      mdiVideoVintage,
+      mdiRecord
     })
 
     const list = [
@@ -127,8 +139,11 @@ export default {
       },
       {
         text: { en: 'Animate', ru: 'Анимация' },
-        icon: icons.mdiMovieOpen,
-        disabled: true
+        icon: icons.mdiMovieOpen
+      },
+      {
+        text: { en: 'Record', ru: 'Записать' },
+        icon: icons.mdiVideoVintage
       },
       {
         text: { en: 'Capture', ru: 'Запечатлеть' },
@@ -136,15 +151,12 @@ export default {
       }
     ]
 
-    const incompatibility = computed(() => {
-      setTimeout(() => {
-        $store.commit('interface/setIncompatibility', false)
-      }, 8000)
-
-      return $store.getters['interface/getIncompatibility']
-    })
-
-    const animate = ref(false)
+    const animate = computed(() => $store.getters['interface/getAnimate'])
+    const frame = computed(() => $store.getters['avatar/getFrame'])
+    const frames = computed(() => $store.getters['avatar/getFrames'].length)
+    const rendering = computed(() => $store.getters['interface/getRendering'])
+    const FPS = computed(() => $store.getters['interface/getFPS'])
+    const quality = computed(() => $store.getters['interface/getQuality'])
 
     return {
       icons,
@@ -153,7 +165,11 @@ export default {
       getPage,
       openPage,
       animate,
-      incompatibility
+      frame,
+      frames,
+      rendering,
+      FPS,
+      quality
     }
   },
 
@@ -162,13 +178,18 @@ export default {
     MenuHairs,
     Saves,
     Screener,
+
     Animator,
+    AnimatorSaves,
+
+    Recorder,
+    RecorderProcess,
+
     Chat,
     Avatar,
     ButtonBack,
 
     Version,
-    Locale,
     NetworkStatus
   },
 
@@ -182,13 +203,30 @@ export default {
 html
   overflow: auto!important
 
+@keyframes recording
+  0%
+    opacity: 1
+
+  40%
+    opacity: 1
+
+  45%
+    opacity: 0
+
+  55%
+    opacity: 0
+
+  60%
+    opacity: 1
+
+  100%
+    opacity: 1
+
 .header
   position: fixed
   opacity: 0
   pointer-events: none
 
-.locale
-  position: absolute
-  bottom: 56px
-  pointer-events: auto
+.recording
+  animation: recording 3s linear infinite
 </style>

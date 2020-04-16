@@ -61,7 +61,7 @@
       { "type": "stripes_fore", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
       { "type": "stripes_crust", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
 
-      { "type": "eye_left", "fill": "#fff", "clip": ["head2"] }
+      { "type": "eye_left", "fill": "eyes_sclera", "clip": ["head2"] }
     ]
   },
   {
@@ -143,7 +143,7 @@
       { "type": "nostril_left", "stroke": [8, "fur_shade"], "clip": ["head2", "nose"] },
       { "type": "nostril_right", "stroke": [8, "fur_shade"] },
 
-      { "type": "eye_right", "fill": "#fff" }
+      { "type": "eye_right", "fill": "eyes_sclera" }
     ]
   },
   {

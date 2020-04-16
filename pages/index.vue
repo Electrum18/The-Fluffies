@@ -164,7 +164,7 @@ a.md-size
   width: 164px
 
 a.sm-size
-  width: 156px
+  width: 150px
 
 div.max
   max-width: 700px

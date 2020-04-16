@@ -30,23 +30,28 @@ export default {
     off: {
       type: String,
       default: undefined
+    },
+
+    global: {
+      type: [Boolean, undefined],
+      default: undefined
     }
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper']),
+    ...mapGetters('avatar', ['getGlobal']),
 
     enable() {
-      return this.off ? !this.getProper[this.off] : false
+      return this.off ? !this.getGlobal[this.off] : false
     },
 
     check: {
       get() {
-        return this.getProper[this.val]
+        return this.getGlobal[this.val]
       },
 
       set(setVal) {
-        this.setProper({
+        this.setGlobal({
           path: this.val,
           value: setVal
         })
@@ -55,7 +60,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('avatar', ['setProper'])
+    ...mapMutations('avatar', ['setGlobal'])
   }
 }
 </script>

@@ -12,7 +12,7 @@
 
       v-card(outlined)
         v-card(light)
-          v-card-title.body-1.font-weight-bold {{ getProper['hair_name_' + $i18n.locale] }}
+          v-card-title.body-1.font-weight-bold {{ getGlobal['hair_name_' + $i18n.locale] }}
 
         v-divider
 
@@ -53,7 +53,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper'])
+    ...mapGetters('avatar', ['getGlobal'])
   },
 
   methods: {

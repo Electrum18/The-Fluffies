@@ -8,10 +8,10 @@ export default {
   two: 'Two',
   three: 'Three',
 
-  incompatibility:
-    'Incompatibility was detected in the save, some values were overwritten',
-
   list: 'Open list',
+
+  frame: 'Frame',
+  of: 'of',
 
   menu: {
     close_editor: 'Close editor',
@@ -24,6 +24,7 @@ export default {
       color: 'iris',
       heterochromia: 'heterochromia',
       color_right: 'right iris',
+      color_sclera: 'sclera',
       scale: 'scale',
 
       pupils: 'Pupils',
@@ -184,7 +185,23 @@ export default {
 
   saves: {
     save: 'Saves',
+    animatons: 'Animatons',
     create: 'Create new',
     delete: 'Remove'
+  },
+
+  animator: {
+    frame: 'frame',
+    duration: 'duration',
+    final: 'final'
+  },
+
+  recorder: {
+    duration: 'render duration',
+    start: 'Start',
+    left: 'Left',
+    wait: 'Please wait and keep cookies',
+    preparing: 'Preparing',
+    ready: 'Yay, ready!'
   }
 }

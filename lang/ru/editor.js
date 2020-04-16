@@ -8,10 +8,10 @@ export default {
   two: 'Две',
   three: 'Три',
 
-  incompatibility:
-    'Была обнаружена несовместимость в сохранении, некоторые значения были перезаписаны',
-
   list: 'Открыть список',
+
+  frame: 'Кадр',
+  of: 'из',
 
   menu: {
     close_editor: 'Закрыть редактор',
@@ -24,6 +24,7 @@ export default {
       color: 'радужки',
       heterochromia: 'гетерохромия',
       color_right: 'правого',
+      color_sclera: 'склеры',
       scale: 'размер',
 
       pupils: 'Зрачки',
@@ -184,7 +185,23 @@ export default {
 
   saves: {
     save: 'Сохранения',
+    animatons: 'Анимации',
     create: 'Создать новый',
     delete: 'Удалить'
+  },
+
+  animator: {
+    frame: 'кадр',
+    duration: 'длительность',
+    final: 'последний'
+  },
+
+  recorder: {
+    duration: 'скорость обработки',
+    start: 'Начать',
+    left: 'Осталось',
+    wait: 'Сохраняйте спокойствие и печеньки',
+    preparing: 'Обработка',
+    ready: 'Yay, готово!'
   }
 }

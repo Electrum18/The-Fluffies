@@ -92,20 +92,20 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper']),
+    ...mapGetters('avatar', ['getGlobal']),
 
     name: {
       get() {
-        return this.getProper.name
+        return this.getGlobal.name
       },
 
       set(val) {
-        this.setProper({ path: 'name', value: val })
+        this.setGlobal({ path: 'name', value: val })
       }
     },
 
     gender() {
-      if (this.getProper.male) {
+      if (this.getGlobal.male) {
         return {
           color: 'blue',
           icon: mdiGenderMale
@@ -120,13 +120,13 @@ export default {
   },
 
   methods: {
-    ...mapMutations('avatar', ['setProper']),
+    ...mapMutations('avatar', ['setGlobal']),
     ...mapMutations('interface', ['setPage']),
 
     changeGender() {
-      this.setProper({
+      this.setGlobal({
         path: 'male',
-        value: !this.getProper.male
+        value: !this.getGlobal.male
       })
     },
 

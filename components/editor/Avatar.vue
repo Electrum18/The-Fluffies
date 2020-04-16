@@ -7,7 +7,6 @@
       @touchstart="startDrag"
       @touchmove="onDrag"
 
-      :id="$root.name"
       :style="position"
 
       ref="avatar"
@@ -24,7 +23,9 @@ import abs from 'abs-svg-path'
 import parse from 'parse-svg-path'
 import curvify from 'curvify-svg-path'
 
-// import { keyframes, easing } from 'popmotion'
+import { timeline } from 'popmotion'
+
+import GIF from 'gif.js'
 
 import Animate from '~/assets/js/avatar/animate'
 import Draw from '~/assets/js/avatar/draw'
@@ -86,8 +87,9 @@ export default {
 
   data() {
     return {
-      quality: 2 / 3, // range from 0 to 1
-      vmin: 0,
+      quality: 1, // range from 0 to 1
+      targetQuality: 0,
+      fullQuality: true, // Rendering at quality equal to 1
 
       position: {},
 
@@ -134,14 +136,32 @@ export default {
         hairs: {}
       },
 
+      globals: {},
+      properties: {},
+
       calculated: {}, // Calculated paths
 
       mirror: false,
       executeAnimation: false, // Check for optimization
       afterChange: 0, // Counter after changing angle
-      fullQuality: true, // Rendering at quality equal to 1
 
-      dragging: false // If mousedown
+      dragging: false, // If mousedown
+
+      player: {
+        model: undefined,
+        value: 0,
+        timer: undefined
+      },
+
+      fps: {
+        ticker: 0,
+        every: 1
+      },
+
+      rendering: false,
+
+      gif: undefined,
+      gifRef: GIF
     }
   },
 
@@ -150,9 +170,54 @@ export default {
       'getAngle',
       'getHoriz',
       'getDegress',
+      'getGlobal',
       'getProper',
-      'getColor'
-    ])
+      'getColor',
+      'getFrame',
+      'getFrames'
+    ]),
+
+    ...mapGetters('interface', [
+      'getPlaying',
+      'getPlayVal',
+      'getPlaySeek',
+      'getPlayRepeat',
+      'getPlayChangedFrame',
+      'getFPS',
+      'getQuality',
+      'getRendering',
+      'getRendered'
+    ]),
+
+    timeline() {
+      const { getFrames } = this
+
+      const frames = []
+      const animationName = 'x'
+
+      let maxDuration = 0
+
+      for (let i = 0; i < getFrames.length - 1; i++) {
+        const { frame, duration } = getFrames[i]
+        const { frame: frameNext } = getFrames[i + 1]
+
+        frames.push({
+          track: animationName,
+          from: frame,
+          to: frameNext,
+          duration: duration * 1000
+        })
+
+        maxDuration += duration
+      }
+
+      this.setPlayLen(maxDuration)
+
+      return timeline(frames, {
+        elapsed: maxDuration * 1000 * this.player.value,
+        loop: this.getPlayRepeat > 0 ? Infinity : 0
+      })
+    }
   },
 
   watch: {
@@ -166,8 +231,8 @@ export default {
           }
         } else {
           this.position = {
-            width: 'calc(100vmin - 260px)',
-            height: 'calc(100vmin - 260px)',
+            width: 'calc(70vmin)',
+            height: 'calc(70vmin)',
             bottom: '260px'
           }
         }
@@ -186,8 +251,8 @@ export default {
           }
         } else {
           this.position = {
-            width: 'calc(100vmin - 260px)',
-            height: 'calc(100vmin - 260px)',
+            width: 'calc(70vmin)',
+            height: 'calc(70vmin)',
             bottom: '260px'
           }
         }
@@ -211,17 +276,7 @@ export default {
 
     getProper: {
       handler(propers) {
-        const absDegress = this.degress > 0 ? this.degress : -this.degress
-
-        this.setProper({
-          path: 'horn_behind_NO_EARS',
-          value: absDegress <= 45 && propers.horn_rear
-        })
-
-        this.setProper({
-          path: 'horn_behind_AFTER_EARS',
-          value: absDegress > 45 && propers.horn_rear
-        })
+        this.properties = JSON.parse(JSON.stringify(propers))
 
         this.fullQuality = false
         this.executeAnimation = true
@@ -230,13 +285,24 @@ export default {
       deep: true
     },
 
-    'getProper.hair_name_en'(name) {
+    getGlobal: {
+      handler(globals) {
+        this.applyGlobals(globals)
+
+        this.fullQuality = false
+        this.executeAnimation = true
+      },
+
+      deep: true
+    },
+
+    'getGlobal.hair_name_en'(name) {
       if (/Dreads/.test(name)) {
-        this.setProper({ path: 'hair_IS_DREADS', value: true })
-        this.setProper({ path: 'hair_IS_BASIC', value: false })
+        this.setGlobal({ path: 'hair_IS_DREADS', value: true })
+        this.setGlobal({ path: 'hair_IS_BASIC', value: false })
       } else {
-        this.setProper({ path: 'hair_IS_DREADS', value: false })
-        this.setProper({ path: 'hair_IS_BASIC', value: true })
+        this.setGlobal({ path: 'hair_IS_DREADS', value: false })
+        this.setGlobal({ path: 'hair_IS_BASIC', value: true })
       }
 
       if (this.paths.hairs[name]) {
@@ -251,11 +317,11 @@ export default {
       }
     },
 
-    'getProper.horn_name_en'(name) {
+    'getGlobal.horn_name_en'(name) {
       this.paths.horn.name = name
     },
 
-    'getProper.glasses_name_en'(name) {
+    'getGlobal.glasses_name_en'(name) {
       this.paths.glasses.name = name
     },
 
@@ -283,12 +349,103 @@ export default {
         path: 'eyes_right_basic',
         value: eyesLeftBasic
       })
+    },
+
+    getPlaying: {
+      handler(playing) {
+        const { player } = this
+
+        this.resetPlayChangedFrame()
+
+        if (playing) {
+          player.model = this.timeline.start(({ x }) => {
+            this.horiz = x.horiz
+            this.angle = x.angle
+            this.x = x.angle / 90
+
+            this.degress = x.degress
+
+            this.properties = x
+
+            this.fullQuality = false
+            this.executeAnimation = true
+          })
+
+          const self = this
+
+          player.timer = setInterval(() => {
+            player.value = player.model.getProgress().x
+
+            self.setPlayVal(player.value)
+          }, 100)
+        } else if (player.model) {
+          player.model.pause()
+
+          clearInterval(player.timer)
+        } else {
+          return this.timeline
+        }
+      },
+
+      immediate: true
+    },
+
+    getPlaySeek(value) {
+      if (value) {
+        const { getPlayVal, player } = this
+
+        player.value = getPlayVal
+
+        if (player.model) player.model.seek(getPlayVal)
+
+        this.resetPlaySeek()
+      }
+    },
+
+    getFPS(fps) {
+      this.fps.every = 60 / fps
+      this.fps.ticker = 0
+    },
+
+    getQuality: {
+      handler(quality) {
+        this.targetQuality = quality / 1024
+      },
+
+      immediate: true
+    },
+
+    getRendering: {
+      handler(boolean, last) {
+        this.rendering = boolean
+
+        if (boolean === false && last === true) {
+          if (this.getPlayVal < 1 && this.getRendered < 1) {
+            this.gif.abort()
+          } else {
+            this.gif.render()
+          }
+        }
+      },
+
+      immediate: true
+    },
+
+    targetQuality(quality) {
+      const [width, height] = this.setQuality(quality)
+
+      this.gif.options.width = width
+      this.gif.options.height = height
     }
   },
 
   mounted() {
-    this.paths.horn.name = this.getProper.horn_name_en
-    this.paths.glasses.name = this.getProper.glasses_name_en
+    this.properties = JSON.parse(JSON.stringify(this.getProper))
+
+    this.applyGlobals(this.getGlobal)
+
+    this.paths.horn.name = this.getGlobal.horn_name_en
+    this.paths.glasses.name = this.getGlobal.glasses_name_en
 
     const ctx = this.$refs.avatar.getContext('2d')
 
@@ -301,14 +458,6 @@ export default {
 
     // Quality calculatoin relative screen size
 
-    const { innerWidth, innerHeight } = window
-
-    this.vmin = innerWidth < innerHeight ? innerWidth : innerHeight
-
-    window.onresize = ({ target: { innerWidth, innerHeight } }) => {
-      this.vmin = innerWidth < innerHeight ? innerWidth : innerHeight
-    }
-
     window.addEventListener('mouseup', this.stopDrag)
     window.addEventListener('touchend', this.stopDrag)
     window.addEventListener('touchcancel', this.stopDrag)
@@ -316,35 +465,6 @@ export default {
     window.requestAnimationFrame(this.animate) // Start drawing and calculation
 
     this.$root.$refs.avatar = this.$refs.avatar
-
-    /*
-    const { easeOutIn } = easing
-    const { jaw, eyes } = self.state
-
-    keyframes({
-      values: [
-        { x: 0.3, horiz: -30, open: 100, lids: 25 },
-        { x: 0.1, horiz: 0, open: 0, lids: 0 },
-        { x: 0.3, horiz: -30, open: 100, lids: 25 }
-      ],
-      duration: 2000,
-      easings: easeOutIn,
-      loop: Infinity
-    })
-    .start((val) => {
-      self.x = val.x;
-
-      const { position, eyelids, brows } = eyes;
-
-      position.horiz = val.horiz;
-      eyelids.left.up = val.lids;
-      eyelids.right.up = val.lids;
-
-      jaw.open = val.open;
-
-      self.executeAnimation = true;
-    });
-    */
 
     const { fileName, name } = this.asFile('hair')
 
@@ -356,21 +476,86 @@ export default {
 
     if (cache && cache.length > 0) {
       this.setAllHairsList(cache)
-
-      // console.log(getters('avatar/getHairsList'))
     }
+
+    this.setPlayChangedFrame()
+
+    const [width, height] = this.setQuality(this.targetQuality)
+
+    const NewGIF = this.gifRef
+
+    this.gif = new NewGIF({
+      workers: 2,
+      quality: 10,
+
+      width,
+      height
+    })
+
+    const self = this
+
+    this.gif.on('finished', (blob) => {
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+
+      const animations = JSON.parse(localStorage.getItem('animations'))
+      const slot = +localStorage.getItem('animationSlot')
+
+      document.body.appendChild(a)
+
+      a.style = 'display: none'
+      a.href = url
+      a.download =
+        'TFs - ' + self.getGlobal.name + ' - ' + animations[slot].name
+
+      a.click()
+
+      URL.revokeObjectURL(url)
+
+      self.setRendered()
+
+      document.body.removeChild(a)
+
+      self.gif.abort()
+
+      self.gif.frames = []
+      self.gif.nextFrame = 0
+      self.gif.imageParts = []
+    })
   },
 
   methods: {
     ...mapMutations('avatar', [
+      'setGlobal',
       'setProper',
       'setColor',
       'setHairsList',
       'setAllHairsList'
     ]),
 
+    ...mapMutations('interface', [
+      'setPlayVal',
+      'setPlayLen',
+      'resetPlaySeek',
+      'setPlayRedraw',
+      'setPlayChangedFrame',
+      'resetPlayChangedFrame',
+      'setRendered'
+    ]),
+
+    applyGlobals(globals) {
+      const { degress } = this
+
+      const absDegress = degress > 0 ? degress : -degress
+
+      this.globals = JSON.parse(JSON.stringify(globals))
+
+      this.globals.horn_behind_NO_EARS = absDegress <= 45 && globals.horn_rear
+      this.globals.horn_behind_AFTER_EARS = absDegress > 45 && globals.horn_rear
+    },
+
     asFile(key) {
-      const name = this.getProper[key + '_name_en']
+      const name = this.getGlobal[key + '_name_en']
 
       const fileName = name
         .toLowerCase()
@@ -443,7 +628,9 @@ export default {
 
         if (x < -1) this.x = -1
         if (y < -1) this.y = -1
-        ;[x, y] = [this.x, this.y]
+
+        x = this.x
+        y = this.y
 
         const absX = x > 0 ? x : -x
 
@@ -463,6 +650,39 @@ export default {
 
     stopDrag() {
       this.dragging = false
+
+      this.setProper({ path: 'horiz', value: this.horiz })
+      this.setProper({ path: 'angle', value: this.angle })
+
+      this.setProper({ path: 'degress', value: this.degress })
+
+      this.setPlayChangedFrame()
+    },
+
+    setQuality(quality) {
+      const enumerate = {
+        2160: 0,
+        1440: 1,
+        1080: 2,
+        720: 3,
+        480: 4,
+        360: 5,
+        240: 6,
+        144: 7
+      }
+
+      const resolutions = [
+        [3840, 2160],
+        [2560, 1440],
+        [1920, 1080],
+        [1280, 720],
+        [854, 480],
+        [640, 360],
+        [426, 240],
+        [256, 144]
+      ]
+
+      return resolutions[enumerate[quality * 1024]]
     },
 
     draw: Draw,

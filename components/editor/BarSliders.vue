@@ -44,22 +44,33 @@ export default {
     compare: {
       type: String,
       default: undefined
+    },
+
+    global: {
+      type: [Boolean, undefined],
+      default: undefined
     }
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper']),
+    ...mapGetters('avatar', ['getProper', 'getGlobal']),
+
+    getting() {
+      return this.global ? this.getGlobal : this.getProper
+    },
 
     value: {
       get() {
-        return this.getProper[this.val]
+        return this.getting[this.val]
       },
 
       set(setVal) {
-        this.setProper({
+        this.setting({
           path: this.val,
           value: setVal
         })
+
+        this.setPlayChangedFrame()
 
         // Compare part
 
@@ -67,7 +78,7 @@ export default {
           const getted = this.getProper[this.compare]
 
           if (100 - getted <= setVal) {
-            this.setProper({
+            this.setting({
               path: this.compare,
               value: 100 - setVal
             })
@@ -78,7 +89,12 @@ export default {
   },
 
   methods: {
-    ...mapMutations('avatar', ['setProper'])
+    ...mapMutations('avatar', ['setProper', 'setGlobal']),
+    ...mapMutations('interface', ['setPlayChangedFrame']),
+
+    setting(commit) {
+      this.global ? this.setGlobal(commit) : this.setProper(commit)
+    }
   }
 }
 </script>

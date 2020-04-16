@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-bottom-sheet(v-model="opened" inset=true)
+  v-bottom-sheet(v-model="opened" inset hide-overlay)
     v-sheet.text-center(dark)
       v-container
         v-row(v-if="mode == 1")
@@ -7,7 +7,7 @@
             v-alert(type="error" outlined) {{ $t('editor.screener.warning') }}
 
         v-row
-          v-col(cols="12" sm="6" md="2")
+          v-col(cols="6" sm="6" md="2" lg="2" xl="2")
             v-text-field(
               v-model="width"
               :label="$t('editor.screener.width')"
@@ -17,7 +17,7 @@
               :rules="[() => !!width || 'argh!']"
             )
 
-          v-col(cols="12" sm="6" md="2")
+          v-col(cols="6" sm="6" md="2" lg="2" xl="2")
             v-text-field(
               v-model="height"
               :label="$t('editor.screener.height')"
@@ -27,13 +27,13 @@
               :rules="[() => !!height || 'argh!']"
             )
 
-          v-col(cols="12" md="4")
+          v-col(cols="12" md="4" lg="4" xl="4")
             BarColor(
               :text="$t('editor.screener.background')"
               val="background_basic"
             )
 
-          v-col(cols="12" sm="2" md="2")
+          v-col(cols="6" sm="2" md="2" lg="2" xl="2")
             v-btn-toggle.my-1(
               v-model="mode"
               mandatory
@@ -54,9 +54,9 @@
                 :aria-label="$t('editor.screener.format.bmp')"
               ) bmp
 
-          v-col(cols="12" sm="8" md="1")
+          v-col(cols="3" sm="8" md="1" lg="1" xl="1")
 
-          v-col(cols="12" sm="2" md="1")
+          v-col(cols="3" sm="2" md="1" lg="1" xl="1")
             v-btn(
               fab
               @click="takeImage"
@@ -98,7 +98,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('avatar', ['getProper', 'getColor']),
+    ...mapGetters('avatar', ['getGlobal', 'getColor']),
 
     opened: {
       get() {
@@ -165,7 +165,7 @@ export default {
       const format = ['png', 'jpeg', 'bmp'][this.mode]
 
       e.style.display = 'none'
-      e.download = 'TFs-' + this.getProper.name + '.' + format
+      e.download = 'TFs - ' + this.getGlobal.name + '.' + format
       e.href = canvas.toDataURL('image/' + format)
 
       // Download file

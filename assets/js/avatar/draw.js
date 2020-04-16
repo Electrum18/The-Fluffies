@@ -3,20 +3,25 @@ import Clip from './drawing/clip'
 import Stroke from './drawing/stroke'
 import Fill from './drawing/fill'
 
-export default function(self, calculated, absAngle) {
+export default function(
+  {
+    ctx,
+    x,
+    quality,
+    properties,
+    globals,
+    getColor,
+    horiz,
+    mirror,
+    layers,
+    angle,
+    fps
+  },
+
+  calculated,
+  absAngle
+) {
   // Caching
-
-  const ctx = self.ctx
-
-  const x = self.x
-  const quality = self.quality
-
-  const state = self.getProper
-  const getColor = self.getColor
-
-  const horiz = self.horiz
-
-  const mirror = self.mirror
 
   const center = {
     x: ctx.canvas.width / 4,
@@ -50,32 +55,30 @@ export default function(self, calculated, absAngle) {
 
   // Left hooves
 
-  const shoulderLRise = state[hoovesSide.left + 'shoulder_rise']
-  const shoulderLAngle = state[hoovesSide.left + 'shoulder_angle']
+  const shoulderLRise = properties[hoovesSide.left + 'shoulder_rise']
+  const shoulderLAngle = properties[hoovesSide.left + 'shoulder_angle']
 
-  const elbowLRise = state[hoovesSide.left + 'elbow_rise']
-  const elbowLAngle = state[hoovesSide.left + 'elbow_angle']
+  const elbowLRise = properties[hoovesSide.left + 'elbow_rise']
+  const elbowLAngle = properties[hoovesSide.left + 'elbow_angle']
 
-  const wristLRise = state[hoovesSide.left + 'wrist_rise']
-  const wristLAngle = state[hoovesSide.left + 'wrist_angle']
+  const wristLRise = properties[hoovesSide.left + 'wrist_rise']
+  const wristLAngle = properties[hoovesSide.left + 'wrist_angle']
 
   // Right hooves
 
-  const shoulderRRise = state[hoovesSide.right + 'shoulder_rise']
-  const shoulderRAngle = state[hoovesSide.right + 'shoulder_angle']
+  const shoulderRRise = properties[hoovesSide.right + 'shoulder_rise']
+  const shoulderRAngle = properties[hoovesSide.right + 'shoulder_angle']
 
-  const elbowRRise = state[hoovesSide.right + 'elbow_rise']
-  const elbowRAngle = state[hoovesSide.right + 'elbow_angle']
+  const elbowRRise = properties[hoovesSide.right + 'elbow_rise']
+  const elbowRAngle = properties[hoovesSide.right + 'elbow_angle']
 
-  const wristRRise = state[hoovesSide.right + 'wrist_rise']
-  const wristRAngle = state[hoovesSide.right + 'wrist_angle']
+  const wristRRise = properties[hoovesSide.right + 'wrist_rise']
+  const wristRAngle = properties[hoovesSide.right + 'wrist_angle']
 
   // Getting an array of elements from an array of layers
 
-  const layers = self.layers
-
   for (let i = 0; i < layers.length; i++) {
-    const height = state.hooves_enable ? 80 : 112
+    const height = globals.hooves_enable ? 80 : 112
 
     const { layer, elems, rotate } = layers[i]
 
@@ -91,7 +94,7 @@ export default function(self, calculated, absAngle) {
     // Layer transformation
 
     if (rotate === 'head') {
-      setAng(self.angle, [0, 0], 0)
+      setAng(angle, [0, 0], 0)
 
       // Arms
     } else if (['left_forearm', 'left_tibia', 'left_wrist'].includes(layer)) {
@@ -167,18 +170,14 @@ export default function(self, calculated, absAngle) {
       ctx.translate(0, -horiz * 20 * quality)
     } else if (layer === 'eye_left_brow') {
       const side = x < 0 ? 'right' : 'left'
+      const height = properties['eyes_brows_' + side + '_height']
 
-      ctx.translate(
-        0,
-        (-horiz * 20 - state['eyes_brows_' + side + '_height'] / 5) * quality
-      )
+      ctx.translate(0, (-horiz * 20 - height / 5) * quality)
     } else if (layer === 'eye_right_brow') {
       const side = x < 0 ? 'left' : 'right'
+      const height = properties['eyes_brows_' + side + '_height']
 
-      ctx.translate(
-        0,
-        (-horiz * 20 - state['eyes_brows_' + side + '_height'] / 5) * quality
-      )
+      ctx.translate(0, (-horiz * 20 - height / 5) * quality)
     } else if (layer === 'head2') {
       ctx.translate(0, horiz * 10 * quality)
     }
@@ -186,19 +185,19 @@ export default function(self, calculated, absAngle) {
     if (layer === 'eye_left' || layer === 'eye_right') {
       const mirrored = mirror ? -1 : 1
 
-      const inHoriz = (state.eyes_position_horiz - 50) / 1.5
-      const inVerti = (state.eyes_position_verti - 50) / 1.5
+      const inHoriz = (properties.eyes_position_horiz - 50) / 1.5
+      const inVerti = (properties.eyes_position_verti - 50) / 1.5
 
       ctx.translate(
         inHoriz * quality * mirrored,
         (-horiz * 20 - inVerti) * quality
       )
     } else if (layer === 'teeth_upper') {
-      const upper = (100 - state.teeth_upper) / 3
+      const upper = (100 - properties.teeth_upper) / 3
 
       ctx.translate(upper * absAngle * quality, (-horiz * 20 - upper) * quality)
     } else if (layer === 'teeth_lower') {
-      const lower = (100 - state.teeth_lower) / 3
+      const lower = (100 - properties.teeth_lower) / 3
 
       ctx.translate(
         -lower * absAngle * quality,
@@ -213,9 +212,9 @@ export default function(self, calculated, absAngle) {
 
       if (!calculated[elem.type]) continue
 
-      if (If(elem.if, elem.type, state, { mirror, absAngle })) continue
+      if (If(elem.if, elem.type, globals, { mirror, absAngle })) continue
 
-      Clip(elem.clip, ctx, state, {
+      Clip(elem.clip, ctx, properties, {
         horiz,
         quality,
         calculated,
@@ -226,7 +225,7 @@ export default function(self, calculated, absAngle) {
 
       Fill(elem.fill, ctx, { getColor, mirror })
 
-      Stroke(elem.stroke, elem.type, ctx, state, {
+      Stroke(elem.stroke, elem.type, ctx, properties, {
         getColor,
         quality,
         x
@@ -236,7 +235,7 @@ export default function(self, calculated, absAngle) {
 
       let type
 
-      if (state.male) {
+      if (globals.male) {
         type = calculated['male_' + elem.type] ? 'male_' + elem.type : elem.type
       } else {
         type = elem.type
