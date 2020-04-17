@@ -485,8 +485,8 @@ export default {
     const NewGIF = this.gifRef
 
     this.gif = new NewGIF({
-      workers: 2,
-      quality: 10,
+      workers: 4,
+      quality: 20,
 
       width,
       height

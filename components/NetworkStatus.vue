@@ -29,8 +29,5 @@ export default {
 
 <style lang="sass">
 .network
-  position: fixed!important
-  right: 16px
-  top: 16px
   z-index: 6
 </style>
