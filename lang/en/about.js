@@ -41,7 +41,6 @@ export default {
       title: 'In future plans',
       text: [
         '• Adding [premium features] via donation',
-        '• Adding [animation] and [avatar manipulation] tools',
         '• Adding [gryphons] and [kirin] races'
       ]
     }

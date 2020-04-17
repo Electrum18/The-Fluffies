@@ -14,5 +14,5 @@ export default {
   },
 
   title:
-    'This is an interactive web project - an editor about creating pony characters in the style of Lauren Faust, based on vector graphics and the power of modern web technologies.'
+    'An editor about creating and animating ponies based on ease of use and the magic of special technologies.'
 }

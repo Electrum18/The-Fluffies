@@ -2,14 +2,16 @@
   div.pa-3
     h1.header {{ $t('meta.title.index') }}
 
-    Version
-    NetworkStatus
+    v-row
+      Version.mx-3
+      v-spacer
+      NetworkStatus.mx-3
 
     v-container.max.text-center
       div.pa-6(@click="easter($refs)")
         TheFluffiesLogo.logo(ref="logo")
 
-      h2.body-1.px-9 {{ $t('index.title') }}
+      h2.body-1.font-weight-bold.px-9 {{ $t('index.title') }}
 
       .py-4.py-md-12.py-lg-12
 
@@ -159,6 +161,8 @@ html
   position: fixed
   opacity: 0
   pointer-events: none
+  width: 0
+  height: 0
 
 a.md-size
   width: 164px

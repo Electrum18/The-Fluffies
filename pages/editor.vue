@@ -19,11 +19,11 @@
           ButtonBack(:disable="getPage === 'recorderRender'")
           v-spacer
           v-icon.ma-1.recording(v-if="rendering" color="red") {{ icons.mdiRecord }}
-          v-chip.mx-2(label) {{ quality }}p • {{ FPS }} FPS
-          v-chip.mr-10(label)
+          v-chip.mx-1(label) {{ quality }}p • {{ FPS }} FPS
+          v-chip.ml-1.mr-3(label)
             | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
 
-        NetworkStatus
+          NetworkStatus.my-1
 
     // Bottom interface
 
@@ -226,6 +226,8 @@ html
   position: fixed
   opacity: 0
   pointer-events: none
+  width: 0
+  height: 0
 
 .recording
   animation: recording 3s linear infinite

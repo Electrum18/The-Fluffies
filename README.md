@@ -31,7 +31,6 @@ Optimized for `use on phones` and in `non-network mode`.
 
 ### In future plans
 - Adding `premium` features via donation
-- Adding `animation` tool
 - Adding `gryphons` and `kirin` races
 
 ## Support us

@@ -2,8 +2,6 @@
   div
     h1.header {{ $t('meta.title.support') }}
 
-    NetworkStatus
-
     v-app-bar(fixed app)
       v-toolbar-title.title.text-uppercase {{ $t('support.support') }}
       v-btn.d-none.d-sm-flex(
@@ -27,6 +25,10 @@
         nuxt
       )
         v-icon {{ icons.mdiChevronLeft }}
+
+      v-spacer
+
+      NetworkStatus
 
     v-content
       .my-12
@@ -118,6 +120,8 @@ export default {
   position: fixed
   opacity: 0
   pointer-events: none
+  width: 0
+  height: 0
 
 .gradient
   background-image: linear-gradient(to right, #fa2, #f64)
