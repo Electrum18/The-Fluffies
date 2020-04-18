@@ -21,6 +21,7 @@
       Piercing
       Hooves
       Neck
+      Wings
 
     .abs
       v-card(light tile)
@@ -68,6 +69,7 @@ import Ears from './menu/Ears'
 import Piercing from './menu/Piercing'
 import Hooves from './menu/Hooves'
 import Neck from './menu/Neck'
+import Wings from './menu/Wings'
 
 export default {
   components: {
@@ -81,7 +83,8 @@ export default {
     Ears,
     Piercing,
     Hooves,
-    Neck
+    Neck,
+    Wings
   },
 
   props: {

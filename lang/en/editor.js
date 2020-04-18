@@ -155,6 +155,15 @@ export default {
         enable: 'bowtie',
         color: 'bowtie'
       }
+    },
+
+    wings: {
+      title: 'Wings',
+      raise: 'Raise',
+      left: 'left',
+      right: 'right',
+      color: 'wings',
+      bat: 'bat wings'
     }
   },
 

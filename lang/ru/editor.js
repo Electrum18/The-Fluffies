@@ -155,6 +155,15 @@ export default {
         enable: 'бабочка',
         color: 'бабочки'
       }
+    },
+
+    wings: {
+      title: 'Крылья',
+      raise: 'Поднять',
+      left: 'левый',
+      right: 'правый',
+      color: 'крыльев',
+      bat: 'мышиные'
     }
   },
 

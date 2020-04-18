@@ -62,5 +62,12 @@
   "collar_enable":  true,
 
 
-  "bowtie_enable": false
+  "bowtie_enable": false,
+
+
+  "wings_enable": true,
+  "wings_bat": true,
+
+  "wings_IS_BAT": true,
+  "wings_IS_BASIC": false
 }

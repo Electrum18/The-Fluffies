@@ -33,5 +33,8 @@
   "bowtie_shade": { "h": 300, "s": 1, "l": 0.42 },
 
   "horn_rear_basic": { "h": 0, "s": 0, "l": 1 },
-  "horn_rear_shade": { "h": 0, "s": 0, "l": 0.8 }
+  "horn_rear_shade": { "h": 0, "s": 0, "l": 0.8 },
+
+  "wings_basic": { "h": 48, "s": 1, "l": 0.5 },
+  "wings_shade": { "h": 48, "s": 1, "l": 0.4 }
 }
