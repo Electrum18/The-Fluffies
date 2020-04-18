@@ -232,6 +232,9 @@ export const mutations = {
 
     globals.horn_IS_DEFAULT = globals.horn_enable && !globals.horn_changeling
     globals.horn_IS_CHANGELING = globals.horn_enable && globals.horn_changeling
+
+    globals.wings_IS_BASIC = globals.wings_enable && !globals.wings_bat
+    globals.wings_IS_BAT = globals.wings_enable && globals.wings_bat
   },
 
   setColor({ color, globals }, { path, value }) {

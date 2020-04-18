@@ -49,5 +49,8 @@
   "hooves_right_elbow_angle": 0,
 
   "hooves_right_wrist_rise": 0,
-  "hooves_right_wrist_angle": 0
+  "hooves_right_wrist_angle": 0,
+
+  "wing_left_folded": 0,
+  "wing_right_folded": 0
 }

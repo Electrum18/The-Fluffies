@@ -1,5 +1,21 @@
 [
   {
+    "layer": "neck",
+    "elems": [
+      { "type": "wing_left", "fill": "wings_basic", "stroke": [12, "wings_shade"], "if": "wings_IS_BASIC" },
+      { "type": "wing_left_fluff", "fill": "fur_basic", "stroke": [12, "fur_shade"], "if": "wings_IS_BASIC" },
+
+      { "type": "wing_right", "fill": "wings_basic", "stroke": [12, "wings_shade"], "if": "wings_IS_BASIC" },
+      { "type": "wing_right_fluff", "fill": "fur_basic", "stroke": [12, "fur_shade"], "if": "wings_IS_BASIC" },
+
+      { "type": "wing_bat_left", "fill": "wings_basic", "stroke": [12, "wings_shade"], "if": "wings_IS_BAT" },
+      { "type": "wing_bat_left_fluff", "fill": "fur_basic", "stroke": [12, "fur_shade"], "if": "wings_IS_BAT" },
+
+      { "type": "wing_bat_right", "fill": "wings_basic", "stroke": [12, "wings_shade"], "if": "wings_IS_BAT" },
+      { "type": "wing_bat_right_fluff", "fill": "fur_basic", "stroke": [12, "fur_shade"], "if": "wings_IS_BAT" }
+    ]
+  },
+  {
     "layer": "head2",
     "rotate": "head",
     "elems": [

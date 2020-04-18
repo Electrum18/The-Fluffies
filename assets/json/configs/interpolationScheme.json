@@ -120,5 +120,39 @@
 
   "hooves_right_hoof": [
     ["hooves_right_hoof_down", "basic"], "hooves_right_wrist_rise"
+  ],
+
+
+  "wing_left": [
+    ["wing_left_folded", "basic"], "wing_left_folded"
+  ],
+
+  "wing_left_fluff": [
+    ["wing_left_fluff_folded", "basic"], "wing_left_folded"
+  ],
+
+  "wing_right": [
+    ["wing_right_folded", "basic"], "wing_right_folded"
+  ],
+
+  "wing_right_fluff": [
+    ["wing_right_fluff_folded", "basic"], "wing_right_folded"
+  ],
+
+
+  "wing_bat_left": [
+    ["wing_bat_left_folded", "basic"], "wing_left_folded"
+  ],
+
+  "wing_bat_left_fluff": [
+    ["wing_bat_left_fluff_folded", "basic"], "wing_left_folded"
+  ],
+
+  "wing_bat_right": [
+    ["wing_bat_right_folded", "basic"], "wing_right_folded"
+  ],
+
+  "wing_bat_right_fluff": [
+    ["wing_bat_right_fluff_folded", "basic"], "wing_right_folded"
   ]
 }
