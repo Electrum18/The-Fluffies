@@ -137,11 +137,7 @@ function sharings({ share }) {
 }
 
 export default {
-  setup(props, { root: { $i18n } }) {
-    const { shareVKontakte, shareFacebook, shareTwitter } = sharings(
-      $i18n.messages[$i18n.locale]
-    )
-
+  setup(props, { root }) {
     const icons = reactive({
       mdiGithub,
       mdiPatreon,
@@ -150,11 +146,12 @@ export default {
       mdiTwitter
     })
 
+    const { messages, locale } = root.$i18n
+
     return {
-      icons,
-      shareVKontakte,
-      shareFacebook,
-      shareTwitter
+      ...sharings(messages[locale]),
+
+      icons
     }
   },
 

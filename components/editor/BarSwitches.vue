@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed } from '@vue/composition-api'
 
 export default {
   props: {
@@ -38,29 +38,19 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal']),
+  setup({ val, off }, { root: { $store } }) {
+    const globals = computed(() => $store.getters['avatar/getGlobal'])
 
-    enable() {
-      return this.off ? !this.getGlobal[this.off] : false
-    },
+    const check = computed({
+      get: () => globals.value[val],
+      set: (value) => $store.commit('avatar/setGlobal', { path: val, value })
+    })
 
-    check: {
-      get() {
-        return this.getGlobal[this.val]
-      },
+    return {
+      enable: computed(() => (off ? !globals.value[off] : false)),
 
-      set(setVal) {
-        this.setGlobal({
-          path: this.val,
-          value: setVal
-        })
-      }
+      check
     }
-  },
-
-  methods: {
-    ...mapMutations('avatar', ['setGlobal'])
   }
 }
 </script>

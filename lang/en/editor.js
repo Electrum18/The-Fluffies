@@ -13,9 +13,14 @@ export default {
   frame: 'Frame',
   of: 'of',
 
+  cancel: 'cancel',
+  close: 'close',
+
   menu: {
     close_editor: 'Close editor',
     close: 'close',
+
+    animated: 'Animated',
 
     change_gender: 'Change gender',
 

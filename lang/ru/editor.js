@@ -13,9 +13,14 @@ export default {
   frame: 'Кадр',
   of: 'из',
 
+  cancel: 'отмена',
+  close: 'закрыть',
+
   menu: {
     close_editor: 'Закрыть редактор',
     close: 'закрыть',
+
+    animated: 'Анимируемый',
 
     change_gender: 'Изменить пол',
 

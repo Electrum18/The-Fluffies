@@ -88,22 +88,12 @@ export default function() {
       const slot = +localStorage.getItem('slot')
       const save = JSON.parse(localStorage.getItem('avatars'))
 
-      const {
-        globals,
-        properties,
-        getColor: color,
-        horiz,
-        angle,
-        degress
-      } = this
+      const { globals, properties, getColor: color } = this
 
       save[slot] = {
         globals,
         propers: properties,
-        color,
-        horiz,
-        angle,
-        degress
+        color
       }
 
       localStorage.setItem('avatars', JSON.stringify(save))

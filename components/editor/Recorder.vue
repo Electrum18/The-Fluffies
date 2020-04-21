@@ -50,9 +50,98 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { reactive, ref, watch, computed, toRefs } from '@vue/composition-api'
 
 import BarColor from './BarColors.vue'
+
+function Resolutions(commit) {
+  const resolutions = reactive({
+    types: ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p'],
+
+    sizes: [
+      [3840, 2160],
+      [2560, 1440],
+      [1920, 1080],
+      [1280, 720],
+      [854, 480],
+      [640, 360],
+      [426, 240],
+      [256, 144]
+    ]
+  })
+
+  const size = ref('480p')
+
+  watch(
+    () => size.value,
+    (quality) => {
+      const { types, sizes } = resolutions
+
+      commit('interface/setQuality', sizes[types.indexOf(quality)][1])
+    }
+  )
+
+  return { resolutions, size }
+}
+
+function Frames(commit) {
+  const FPS = reactive({
+    frames: [15, 20, 30, 60],
+    frame: 60
+  })
+
+  watch(
+    () => FPS.frame,
+    (fps) => commit('interface/setFPS', fps)
+  )
+
+  return { ...toRefs(FPS) }
+}
+
+function counters(getters, commit) {
+  const { resolutions, size } = Resolutions(commit)
+  const { frames, frame } = Frames(commit)
+
+  const getFrames = computed(() => getters['interface/getFrames'])
+
+  const renderSpeed = computed(() => {
+    const { types, sizes } = resolutions
+
+    const quality = sizes[types.indexOf(size.value)][1]
+    const fps = frame.value / 60
+
+    return (((quality / 1024) * fps * 10) | 0) / 10
+  })
+
+  const getFullTime = computed(() => {
+    let duration = 0
+
+    for (let i = 0; i < getFrames.length - 1; i++) {
+      duration += getFrames[i].duration
+    }
+
+    return duration
+  })
+
+  const multiplier = computed(() => {
+    const mul = ~~((renderSpeed.value - 1) * 100)
+
+    return mul > 0 ? '+' + mul + '%' : mul + '%'
+  })
+
+  return {
+    resolutions,
+    size,
+
+    frames,
+    frame,
+
+    getFrames,
+    getFullTime,
+    renderSpeed,
+    multiplier
+  }
+}
 
 export default {
   components: {
@@ -66,102 +155,15 @@ export default {
     }
   },
 
-  data() {
-    return {
-      size: '480p',
-      resolutions: {
-        types: [
-          '2160p',
-          '1440p',
-          '1080p',
-          '720p',
-          '480p',
-          '360p',
-          '240p',
-          '144p'
-        ],
+  setup(proper, { root: { $store } }) {
+    const { getters, commit } = $store
 
-        sizes: [
-          [3840, 2160],
-          [2560, 1440],
-          [1920, 1080],
-          [1280, 720],
-          [854, 480],
-          [640, 360],
-          [426, 240],
-          [256, 144]
-        ]
-      },
-
-      frame: 60,
-      frames: [15, 20, 30, 60]
+    function render() {
+      commit('interface/setRendering', true)
+      commit('interface/resetRendered')
     }
-  },
 
-  computed: {
-    ...mapGetters('avatar', ['getFrames']),
-
-    opened: {
-      get() {
-        return this.open
-      },
-
-      set() {
-        this.setPage(false)
-      }
-    },
-
-    getFullTime() {
-      const { getFrames } = this
-
-      let duration = 0
-
-      for (let i = 0; i < getFrames.length - 1; i++) {
-        duration += getFrames[i].duration
-      }
-
-      return duration
-    },
-
-    renderSpeed() {
-      const { resolutions, size, frame } = this
-      const { types, sizes } = resolutions
-
-      const quality = sizes[types.indexOf(size)][1]
-      const fps = frame / 60
-
-      return (((quality / 1024) * fps * 10) | 0) / 10
-    },
-
-    multiplier() {
-      const mul = ~~((this.renderSpeed - 1) * 100)
-
-      return mul > 0 ? '+' + mul + '%' : mul + '%'
-    }
-  },
-
-  watch: {
-    size(quality) {
-      const { types, sizes } = this.resolutions
-
-      this.setQuality(sizes[types.indexOf(quality)][1])
-    },
-
-    frame(fps) {
-      this.setFPS(fps)
-    }
-  },
-
-  methods: {
-    ...mapMutations('interface', [
-      'setPage',
-      'setRendering',
-      'resetRendered',
-      'setFPS',
-      'setQuality'
-    ]),
-
-    formatTime(value, compact) {
+    function formatTime(value, compact) {
       let minutes = (value / 60) | 0
       let seconds = (value - minutes * 60) | 0
 
@@ -174,11 +176,19 @@ export default {
       return haveMins
         ? minutes + ':' + seconds + '.' + milliseconds
         : seconds + '.' + milliseconds
-    },
+    }
 
-    render() {
-      this.setRendering(true)
-      this.resetRendered()
+    const opened = computed({
+      get: () => proper.open,
+      set: () => commit('interface/setPage', false)
+    })
+
+    return {
+      ...counters(getters, commit),
+
+      opened,
+      render,
+      formatTime
     }
   }
 }

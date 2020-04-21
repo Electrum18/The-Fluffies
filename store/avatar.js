@@ -15,10 +15,6 @@ globals.horn_info = Horns
 globals.glasses_info = Glasses
 
 const defaultValue = {
-  angle: 0,
-  horiz: 0,
-  degress: 12.5,
-
   frame: 0,
 
   globals,
@@ -138,6 +134,10 @@ function cloneObject(object) {
 
 export const state = () => ({
   ...defaultValue,
+
+  angle: 0,
+  horiz: 0,
+  degress: 12.5,
 
   hairsList: [],
 
@@ -260,11 +260,7 @@ export const mutations = {
 }
 
 export const actions = {
-  setAvatar({ commit }, { angle, horiz, degress, globals, color }) {
-    commit('setAngle', angle)
-    commit('setHoriz', horiz)
-    commit('setDegress', degress)
-
+  setAvatar({ commit }, { globals, color }) {
     commit('setAllGlobals', globals)
     commit('setAllColors', color)
   }

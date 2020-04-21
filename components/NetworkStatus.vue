@@ -3,25 +3,14 @@
 </template>
 
 <script>
-import { ref, watch } from '@vue/composition-api'
+import { computed } from '@vue/composition-api'
 
 import { mdiSignalOff, mdiSignal } from '@mdi/js'
 
 export default {
   setup(props, { root }) {
-    function checkOnline(boolean) {
-      return boolean ? mdiSignalOff : mdiSignal
-    }
-
-    const icon = ref(checkOnline(root.isOffline))
-
-    watch(
-      () => root.isOffline,
-      (boolean) => (icon.value = checkOnline(boolean))
-    )
-
     return {
-      icon
+      icon: computed(() => (root.isOffline ? mdiSignalOff : mdiSignal))
     }
   }
 }

@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
+import { ref, reactive, computed } from '@vue/composition-api'
 
 import { mdiChevronLeft } from '@mdi/js'
 
@@ -115,21 +115,19 @@ function parseContributors({ $axios }) {
 
 export default {
   setup(props, { root }) {
-    const { messages, locale } = root.$i18n
-
-    const t = messages[locale].about
-
-    const { contributors } = parseContributors(root)
-
     const icons = reactive({
       mdiChevronLeft
     })
 
+    const { messages, locale } = root.$i18n
+
     return {
+      ...parseContributors(root),
+
       icons,
-      t,
       format,
-      contributors
+
+      t: computed(() => messages[locale].about)
     }
   },
 

@@ -12,7 +12,7 @@
 
       v-card(outlined)
         v-card(light)
-          v-card-title.body-1.font-weight-bold {{ getGlobal['hair_name_' + $i18n.locale] }}
+          v-card-title.body-1.font-weight-bold {{ globals['hair_name_' + $i18n.locale] }}
 
         v-divider
 
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed } from '@vue/composition-api'
 
 import BarSwitch from '../BarSwitches'
 import BarColor from '../BarColors'
@@ -52,15 +52,15 @@ export default {
     BarColor
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal'])
-  },
+  setup(props, { root: { $store } }) {
+    function openManes() {
+      $store.commit('interface/setPage', 'Hairs')
+    }
 
-  methods: {
-    ...mapMutations('interface', ['setPage']),
+    return {
+      openManes,
 
-    openManes() {
-      this.setPage('Hairs')
+      globals: computed(() => $store.getters['avatar/getGlobal'])
     }
   }
 }

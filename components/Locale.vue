@@ -12,8 +12,6 @@ import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 
 export default {
   setup(props, { root: { $i18n } }) {
-    const opened = ref(false)
-
     const items = ref(['eng', 'rus'])
 
     const enumItems = reactive({ en: 0, ru: 1 })
@@ -36,11 +34,12 @@ export default {
     })
 
     return {
-      opened,
       items,
       enumItems,
       getLang,
-      current
+      current,
+
+      opened: ref(false)
     }
   }
 }

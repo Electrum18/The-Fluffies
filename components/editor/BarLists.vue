@@ -36,9 +36,47 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed, ref, watch, reactive } from '@vue/composition-api'
 
 import { mdiCloudCheck } from '@mdi/js'
+
+function checkCached(getters, isHairList) {
+  const hairList = computed(() => {
+    return isHairList ? getters['avatar/getHairsList'] : []
+  })
+
+  function getCached({ name }) {
+    return isHairList ? hairList.value.includes(name.en) : false
+  }
+
+  return { hairList, getCached }
+}
+
+function listState(globals, target) {
+  const selected = ref(0)
+
+  const list = computed(() => globals.value[target + '_info'])
+  const rootName = computed(() => globals.value[target + '_name_en'])
+
+  function setIndex(listInput) {
+    for (let i = 0; i < listInput.length; i++) {
+      if (listInput[i].name.en === rootName.value) selected.value = i
+    }
+  }
+
+  watch(
+    () => list.value,
+    (value) => setIndex(value),
+    { immediate: true }
+  )
+
+  return {
+    selected,
+    list,
+    rootName,
+    setIndex
+  }
+}
 
 export default {
   props: {
@@ -59,100 +97,51 @@ export default {
     }
   },
 
-  data() {
-    return {
-      selected: 0,
+  setup({ target, isHairList, off }, { root }) {
+    const { $store, $i18n } = root
+    const { getters, commit } = $store
 
-      locale: {
-        by: {
-          en: 'author: ',
-          ru: 'автор: '
-        }
-      },
+    const icons = reactive({
+      mdiCloudCheck
+    })
 
-      icons: {
-        mdiCloudCheck
+    const locale = reactive({
+      by: {
+        en: 'author: ',
+        ru: 'автор: '
       }
+    })
+
+    function style({ warning }) {
+      return { 'padding-bottom': warning ? '4px' : '12px' }
     }
-  },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal', 'getHairsList']),
-
-    enable() {
-      return this.off ? !this.getGlobal[this.off] : false
-    },
-
-    locLang() {
-      return this.$i18n.locale
-    },
-
-    list() {
-      return this.getGlobal[this.target + '_info']
-    },
-
-    hairList() {
-      if (this.isHairList) {
-        return this.getHairsList
-      } else {
-        return []
-      }
-    },
-
-    offline() {
-      return this.$root.isOffline
-    }
-  },
-
-  watch: {
-    list(val) {
-      this.setIndex(val)
-    }
-  },
-
-  mounted() {
-    const list = this.getGlobal[this.target + '_info']
-
-    this.setIndex(list)
-  },
-
-  methods: {
-    ...mapMutations('avatar', ['setGlobal']),
-
-    setIndex(list) {
-      const rootElementName = this.getGlobal[this.target + '_name_en']
-
-      for (let i = 0, len = list.length; i < len; i++) {
-        const element = list[i]
-
-        if (element.name.en === rootElementName) {
-          this.selected = i
-        }
-      }
-    },
-
-    setElementName(name) {
-      this.setGlobal({
-        path: this.target + '_name_en',
+    function setElementName(name) {
+      commit('avatar/setGlobal', {
+        path: target + '_name_en',
         value: name.en
       })
 
-      this.setGlobal({
-        path: this.target + '_name_ru',
+      commit('avatar/setGlobal', {
+        path: target + '_name_ru',
         value: name.ru
       })
-    },
+    }
 
-    getCached(elemName) {
-      return this.hairList.includes(elemName.name.en)
-    },
+    const globals = computed(() => getters['avatar/getGlobal'])
 
-    style(elem) {
-      if (elem.warning) {
-        return { 'padding-bottom': '4px' }
-      } else {
-        return { 'padding-bottom': '12px' }
-      }
+    return {
+      ...listState(globals, target),
+      ...checkCached(getters, isHairList),
+
+      locale,
+      icons,
+      style,
+      setElementName,
+
+      enable: computed(() => (off ? !globals.value[off] : false)),
+      offline: computed(() => root.isOffline),
+      locLang: computed(() => $i18n.locale)
     }
   }
 }
