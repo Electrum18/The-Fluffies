@@ -102,7 +102,7 @@ function counters(getters, commit) {
   const { resolutions, size } = Resolutions(commit)
   const { frames, frame } = Frames(commit)
 
-  const getFrames = computed(() => getters['interface/getFrames'])
+  const getFrames = computed(() => getters['avatar/getFrames'])
 
   const renderSpeed = computed(() => {
     const { types, sizes } = resolutions
@@ -116,8 +116,10 @@ function counters(getters, commit) {
   const getFullTime = computed(() => {
     let duration = 0
 
-    for (let i = 0; i < getFrames.length - 1; i++) {
-      duration += getFrames[i].duration
+    const frames = getFrames.value
+
+    for (let i = 0; i < frames.length - 1; i++) {
+      duration += frames[i].duration
     }
 
     return duration

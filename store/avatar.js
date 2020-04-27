@@ -235,6 +235,8 @@ export const mutations = {
 
     globals.wings_IS_BASIC = globals.wings_enable && !globals.wings_bat
     globals.wings_IS_BAT = globals.wings_enable && globals.wings_bat
+
+    globals.canine_nose_NOT_ENABLED = !globals.canine_nose_enable
   },
 
   setColor({ color, globals }, { path, value }) {

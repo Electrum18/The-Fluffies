@@ -36,5 +36,8 @@
   "horn_rear_shade": { "h": 0, "s": 0, "l": 0.8 },
 
   "wings_basic": { "h": 48, "s": 1, "l": 0.5 },
-  "wings_shade": { "h": 48, "s": 1, "l": 0.4 }
+  "wings_shade": { "h": 48, "s": 1, "l": 0.4 },
+
+  "canine_nose_basic": { "h": 0, "s": 0, "l": 0.2 },
+  "canine_nose_shade": { "h": 0, "s": 0, "l": 0.15 }
 }

@@ -11,6 +11,20 @@
 
       ref="avatar"
     )
+
+    v-overlay(:value="rendered.opened")
+      v-card.pa-4.max-photo-scale(light raised max-width="800")
+        v-img.grey.lighten-3(:src="rendered.data" max-height="450" contain)
+
+        v-card-title {{ rendered.title }}
+        v-card-actions
+          v-spacer
+          v-btn(text @click="rendered.opened = false") {{ $t('editor.close') }}
+          v-btn(
+            color="primary"
+            :href="rendered.data"
+            :download="rendered.fileName"
+          ) {{ $t('editor.save') }}
 </template>
 
 <script>
@@ -74,14 +88,9 @@ function FormatSVGinJSON(json) {
 
 export default {
   props: {
-    animating: {
-      type: Boolean,
-      default: false
-    },
-
-    smaller: {
-      type: Boolean,
-      default: false
+    raise: {
+      type: Object,
+      default: undefined
     }
   },
 
@@ -90,8 +99,6 @@ export default {
       quality: 1, // range from 0 to 1
       targetQuality: 0,
       fullQuality: true, // Rendering at quality equal to 1
-
-      position: {},
 
       // Configs
 
@@ -161,7 +168,14 @@ export default {
       rendering: false,
 
       gif: undefined,
-      gifRef: GIF
+      gifRef: GIF,
+
+      rendered: {
+        opened: false,
+        title: '',
+        data: '',
+        fileName: ''
+      }
     }
   },
 
@@ -217,50 +231,18 @@ export default {
         elapsed: maxDuration * 1000 * this.player.value,
         loop: this.getPlayRepeat > 0 ? Infinity : 0
       })
+    },
+
+    position() {
+      if (!this.raise) return
+
+      const { size, bottom } = this.raise
+
+      return { width: size, height: size, bottom }
     }
   },
 
   watch: {
-    animating(val) {
-      if (val) {
-        if (this.smaller) {
-          this.position = {
-            width: 'calc(100vmin - 74px)',
-            height: 'calc(100vmin - 74px)',
-            bottom: '74px'
-          }
-        } else {
-          this.position = {
-            width: 'calc(70vmin)',
-            height: 'calc(70vmin)',
-            bottom: '260px'
-          }
-        }
-      } else {
-        this.position = {}
-      }
-    },
-
-    smaller(val) {
-      if (this.animating) {
-        if (val) {
-          this.position = {
-            width: 'calc(100vmin - 74px)',
-            height: 'calc(100vmin - 74px)',
-            bottom: '74px'
-          }
-        } else {
-          this.position = {
-            width: 'calc(70vmin)',
-            height: 'calc(70vmin)',
-            bottom: '260px'
-          }
-        }
-      } else {
-        this.position = {}
-      }
-    },
-
     getAngle(angle) {
       this.angle = angle
       this.x = angle / 90
@@ -495,28 +477,22 @@ export default {
     const self = this
 
     this.gif.on('finished', (blob) => {
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-
       const animations = JSON.parse(localStorage.getItem('animations'))
       const slot = +localStorage.getItem('animationSlot')
 
-      document.body.appendChild(a)
+      const reader = new FileReader()
 
-      a.style = 'display: none'
-      a.href = url
-      a.download =
-        'TFs - ' + self.getGlobal.name + ' - ' + animations[slot].name
+      reader.readAsDataURL(blob)
+      reader.onload = () => {
+        self.rendered.opened = true
+        self.rendered.title = self.globals.name + ' • ' + animations[slot].name
+        self.rendered.fileName =
+          'TFs - ' + self.globals.name + ' - ' + animations[slot].name
+        self.rendered.data = reader.result
+        self.setRendered()
+      }
 
-      a.click()
-
-      URL.revokeObjectURL(url)
-
-      self.setRendered()
-
-      document.body.removeChild(a)
-
-      self.gif.abort()
+      self.gif.abort() // For clear and closing gif cycle
 
       self.gif.frames = []
       self.gif.nextFrame = 0
@@ -555,7 +531,7 @@ export default {
     },
 
     asFile(key) {
-      const name = this.getGlobal[key + '_name_en']
+      const name = this.globals[key + '_name_en']
 
       const fileName = name
         .toLowerCase()
@@ -702,4 +678,7 @@ export default {
   bottom: 0
   transform: translate(-50%) scale(2, 1.25)
   transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+.max-photo-scale
+  width: 75vmin
 </style>

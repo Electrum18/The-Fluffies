@@ -61,9 +61,139 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { reactive, ref, onMounted, watch, computed } from '@vue/composition-api'
 
 import { mdiKeyboardBackspace, mdiDelete } from '@mdi/js'
+
+function Saves(getters, commit) {
+  const saves = ref(null)
+  const slot = ref(0)
+
+  watch(
+    () => slot.value,
+    (value) => {
+      if (!process.client) return
+
+      const animations = JSON.parse(localStorage.getItem('animations'))
+
+      if (animations && animations[value]) {
+        commit('avatar/setFrames', animations[value])
+        commit('avatar/setAnimationSavesSlot', value)
+
+        localStorage.setItem('animationSlot', value + '')
+      } else if (value !== 0) {
+        slot.value = 0
+      }
+    }
+  )
+
+  const defaultFrames = computed(() => getters['avatar/getDefaultFrames'])
+
+  function getSave() {
+    if (!process.client) return
+
+    let animations = localStorage.getItem('animations')
+
+    if (animations && animations.length) {
+      animations = JSON.parse(animations)
+
+      commit('avatar/setFrames', animations[slot.value])
+
+      return animations
+    } else {
+      const save = {
+        name: 'Greetings!',
+        frames: defaultFrames.value
+      }
+
+      localStorage.setItem('animations', JSON.stringify([save]))
+
+      return [save]
+    }
+  }
+
+  function getSlot() {
+    if (!process.client) return
+
+    const slotIn = +localStorage.getItem('animationSlot')
+
+    if (slotIn) {
+      return slotIn
+    } else {
+      localStorage.setItem('animationSlot', '0')
+
+      return 0
+    }
+  }
+
+  function createSave() {
+    if (!process.client) return
+
+    const parsedData = JSON.parse(localStorage.getItem('animations'))
+
+    const save = {
+      name: 'Greetings!',
+      frames: defaultFrames.value
+    }
+
+    parsedData.push(save)
+
+    localStorage.setItem('animations', JSON.stringify(parsedData))
+
+    // Apply changes
+
+    slot.value = parsedData.length - 1
+    saves.value = getSave()
+  }
+
+  function removeSave(slotIn) {
+    if (!process.client) return
+
+    const parsedData = JSON.parse(localStorage.getItem('animations'))
+
+    parsedData.splice(slotIn, 1)
+
+    localStorage.setItem('animations', JSON.stringify(parsedData))
+
+    // Fix slot (index)
+
+    if (slotIn === slot.value || slotIn === 0) slot.value = 0
+
+    localStorage.setItem('animationSlot', slot.value + '')
+
+    // Apply changes
+
+    saves.value = getSave()
+  }
+
+  onMounted(() => {
+    slot.value = getSlot()
+    saves.value = getSave()
+  })
+
+  const globals = reactive(() => getters['avatar/getGlobal'])
+
+  if (process.client) {
+    watch(
+      () => (globals.value ? globals.value.name : ''),
+      () => {
+        if (saves.value) saves.value[slot.value].name = name
+      }
+    )
+  }
+
+  return {
+    saves,
+    slot,
+
+    defaultFrames,
+    globals,
+
+    getSave,
+    createSave,
+    removeSave
+  }
+}
 
 export default {
   props: {
@@ -73,121 +203,20 @@ export default {
     }
   },
 
-  data() {
+  setup(props, { root: { $store } }) {
+    const { getters, commit } = $store
+
+    const icons = reactive({
+      mdiKeyboardBackspace,
+      mdiDelete
+    })
+
     return {
-      saves: null,
-      slot: 0,
+      ...Saves(getters, commit),
 
-      icons: {
-        mdiKeyboardBackspace,
-        mdiDelete
-      }
-    }
-  },
+      icons,
 
-  computed: {
-    ...mapGetters('avatar', ['getDefaultFrames'])
-  },
-
-  watch: {
-    slot(val) {
-      const animations = JSON.parse(localStorage.getItem('animations'))
-
-      if (animations[val]) {
-        this.setFrames(animations[val])
-        this.setAnimationSavesSlot(val)
-
-        localStorage.setItem('animationSlot', val + '')
-      } else if (val !== 0) {
-        this.slot = 0
-      }
-    },
-
-    'getGlobal.name'(name) {
-      this.saves[this.slot].name = name
-    }
-  },
-
-  mounted() {
-    this.slot = this.getSlot()
-    this.saves = this.getSave()
-  },
-
-  methods: {
-    ...mapMutations('avatar', ['setFrames', 'setAnimationSavesSlot']),
-    ...mapMutations('interface', ['setPage']),
-
-    isEmpty(val) {
-      return val === undefined || val === null
-    },
-
-    getSlot() {
-      const slot = +localStorage.getItem('animationSlot')
-
-      if (slot) {
-        return slot
-      } else {
-        localStorage.setItem('animationSlot', '0')
-
-        return 0
-      }
-    },
-
-    getSave() {
-      let animations = localStorage.getItem('animations')
-
-      if (animations && animations.length) {
-        animations = JSON.parse(animations)
-
-        this.setFrames(animations[this.slot])
-
-        return animations
-      } else {
-        const save = {
-          name: 'Greetings!',
-          frames: this.getDefaultFrames
-        }
-
-        localStorage.setItem('animations', JSON.stringify([save]))
-
-        return [save]
-      }
-    },
-
-    createSave() {
-      const parsedData = JSON.parse(localStorage.getItem('animations'))
-
-      const save = {
-        name: 'Greetings!',
-        frames: this.getDefaultFrames
-      }
-
-      parsedData.push(save)
-
-      localStorage.setItem('animations', JSON.stringify(parsedData))
-
-      // Apply changes
-
-      this.slot = parsedData.length - 1
-      this.saves = this.getSave()
-    },
-
-    removeSave(slot) {
-      const parsedData = JSON.parse(localStorage.getItem('animations'))
-
-      parsedData.splice(slot, 1)
-
-      localStorage.setItem('animations', JSON.stringify(parsedData))
-
-      // Fix slot (index)
-
-      if (slot === this.slot || slot === 0) this.slot = 0
-
-      localStorage.setItem('animationSlot', this.slot + '')
-
-      // Apply changes
-
-      this.saves = this.getSave()
+      setPage: (page) => commit('interface/setPage', page)
     }
   }
 }

@@ -14,6 +14,7 @@
       Glasses
       Mane
       Fur
+      Nose
       Horns
       Mouth
       Emotion
@@ -62,6 +63,7 @@ import Eyes from './menu/Eyes'
 import Glasses from './menu/Glasses'
 import Mane from './menu/Mane'
 import Fur from './menu/Fur'
+import Nose from './menu/Nose'
 import Horns from './menu/Horns'
 import Mouth from './menu/Mouth'
 import Emotion from './menu/Emotion'
@@ -94,6 +96,7 @@ export default {
     Glasses,
     Mane,
     Fur,
+    Nose,
     Horns,
     Mouth,
     Emotion,

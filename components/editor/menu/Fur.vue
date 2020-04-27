@@ -22,6 +22,25 @@
         val="stripes_basic"
         off="stripes_enable"
       )
+
+      v-divider.my-4
+
+      p.subtitle-2 {{ $t('editor.menu.fur.fluff.title') }}
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.fluff.cheeks')"
+        val="fluff_cheeks"
+      )
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.fluff.ears')"
+        val="fluff_ears"
+      )
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.fluff.chest')"
+        val="fluff_chest"
+      )
 </template>
 
 <script>

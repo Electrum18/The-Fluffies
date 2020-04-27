@@ -15,6 +15,7 @@ export default {
 
   cancel: 'отмена',
   close: 'закрыть',
+  save: 'сохранить',
 
   menu: {
     close_editor: 'Закрыть редактор',
@@ -87,6 +88,22 @@ export default {
       stripes: {
         title: 'Полоски',
         color: 'полосок'
+      },
+
+      fluff: {
+        title: 'Пушистость',
+        cheeks: 'щеки',
+        ears: 'уши',
+        chest: 'грудь'
+      }
+    },
+
+    nose: {
+      title: 'Нос',
+
+      canine: {
+        title: 'Собачий',
+        color: 'собачной'
       }
     },
 

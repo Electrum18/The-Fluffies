@@ -15,6 +15,7 @@ export default {
 
   cancel: 'cancel',
   close: 'close',
+  save: 'save',
 
   menu: {
     close_editor: 'Close editor',
@@ -87,6 +88,22 @@ export default {
       stripes: {
         title: 'Stripes',
         color: 'stripes'
+      },
+
+      fluff: {
+        title: 'Fluff',
+        cheeks: 'cheeks',
+        ears: 'ears',
+        chest: 'chest'
+      }
+    },
+
+    nose: {
+      title: 'Nose',
+
+      canine: {
+        title: 'Canine',
+        color: 'canine'
       }
     },
 

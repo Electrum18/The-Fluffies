@@ -13,7 +13,7 @@
 
     v-content
       v-container(fluid)
-        Avatar(:animating="getPage === 'Animate'" :smaller="animate")
+        Avatar(:raise="avatarPos")
 
         v-row.mx-0
           ButtonBack(:disable="getPage === 'recorderRender'")
@@ -161,12 +161,26 @@ export default {
       rendering: computed(() => getters['interface/getRendering'])
     })
 
+    const { getPage, openPage, openedList } = pagesControl(getters, commit)
+
+    const avatarPos = computed(() => {
+      if (getPage.value === 'Animate') {
+        return store.animate
+          ? { size: 'calc(100vmin - 74px)', bottom: '74px' }
+          : { size: '70vmin', bottom: '260px' }
+      }
+    })
+
     return {
-      ...pagesControl(getters, commit),
+      getPage,
+      openPage,
+      openedList,
+
       ...toRefs(store),
 
       icons,
-      list
+      list,
+      avatarPos
     }
   },
 
