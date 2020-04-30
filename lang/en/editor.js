@@ -95,6 +95,11 @@ export default {
         cheeks: 'cheeks',
         ears: 'ears',
         chest: 'chest'
+      },
+
+      second: {
+        title: 'Second color',
+        color: 'second'
       }
     },
 

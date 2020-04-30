@@ -95,6 +95,8 @@ export default function(
 
     if (rotate === 'head') {
       setAng(angle, [0, 0], 0)
+    } else if (rotate === 'cheeks') {
+      setAng(angle / 2, [0, 0], 0)
 
       // Arms
     } else if (['left_forearm', 'left_tibia', 'left_wrist'].includes(layer)) {
@@ -168,6 +170,8 @@ export default function(
 
     if (layer === 'head') {
       ctx.translate(0, -horiz * 20 * quality)
+    } else if (layer === 'cheeks') {
+      ctx.translate(0, -horiz * 10 * quality)
     } else if (layer === 'eye_left_brow') {
       const side = x < 0 ? 'right' : 'left'
       const height = properties['eyes_brows_' + side + '_height']

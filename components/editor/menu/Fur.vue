@@ -41,6 +41,24 @@
         :text="$t('editor.menu.fur.fluff.chest')"
         val="fluff_chest"
       )
+
+      //! SET TRANSLATE
+
+      v-divider.my-4
+
+      p.subtitle-2 {{ $t('editor.menu.fur.second.title') }}
+
+      BarSwitch(
+        :text="$t('editor.enable')"
+        val="fur_second_color"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.fur.second.color')"
+        val="fur_second_basic"
+        :shade="3/4"
+        off="fur_second_color"
+      )
 </template>
 
 <script>
