@@ -183,6 +183,9 @@
 
 <script>
 import Vue from 'vue'
+
+import { reactive, computed } from '@vue/composition-api'
+
 import { mapMutations, mapGetters } from 'vuex'
 
 import {
@@ -235,31 +238,13 @@ export default {
       framesLenght: 0,
 
       canvas: undefined,
-      images: [],
-
-      icons: {
-        mdiSkipPrevious,
-        mdiPlay,
-        mdiPause,
-        mdiRepeat,
-        mdiRepeatOff,
-        mdiClose,
-        mdiChevronDown,
-        mdiChevronUp,
-        mdiArrowLeftRightBold,
-        mdiPlus,
-        mdiDelete,
-        mdiCursorPointer,
-        mdiContentSave,
-        mdiPencil
-      }
+      images: []
     }
   },
 
   computed: {
-    ...mapGetters('avatar', ['getFrame', 'getFrames', 'getAnimationSavesSlot']),
+    ...mapGetters('avatar', ['getAnimationSavesSlot']),
     ...mapGetters('interface', [
-      'getPage',
       'getAnimate',
       'getPlaying',
       'getPlayVal',
@@ -267,43 +252,8 @@ export default {
       'getPlayRedraw'
     ]),
 
-    frame() {
-      return this.getFrame
-    },
-
-    sequence() {
-      return this.getFrames
-    },
-
-    topButtons() {
-      return this.getPage === 'Animate'
-        ? { 'margin-top': '-68px' }
-        : { 'margin-top': '0px' }
-    },
-
-    topInput() {
-      return this.getPage === 'Animate'
-        ? { 'margin-top': '-58px' }
-        : { 'margin-top': '0px' }
-    },
-
     height() {
       return this.small ? 74 : 260
-    },
-
-    percentLen() {
-      return this.getPlayLen * 100
-    },
-
-    valTime: {
-      get() {
-        return (this.getPlayVal * this.percentLen) | 0
-      },
-
-      set(value) {
-        this.setPlayVal(value / this.percentLen)
-        this.setPlaySeek()
-      }
     },
 
     timeLines() {
@@ -519,6 +469,59 @@ export default {
       animations[slot].frames = this.sequence
 
       localStorage.setItem('animations', JSON.stringify(animations))
+    }
+  },
+
+  setup(props, { root: { $store } }) {
+    const { getters, commit } = $store
+
+    const icons = reactive({
+      mdiSkipPrevious,
+      mdiPlay,
+      mdiPause,
+      mdiRepeat,
+      mdiRepeatOff,
+      mdiClose,
+      mdiChevronDown,
+      mdiChevronUp,
+      mdiArrowLeftRightBold,
+      mdiPlus,
+      mdiDelete,
+      mdiCursorPointer,
+      mdiContentSave,
+      mdiPencil
+    })
+
+    const percentLen = computed(() => getters['interface/getPlayLen'] * 100)
+    const getPage = computed(() => getters['interface/getPage'])
+
+    const valTime = computed({
+      get: () => (getters['interface/getPlayVal'] * percentLen.value) | 0,
+      set(value) {
+        commit('interface/setPlayVal', value / percentLen.value)
+        commit('interface/setPlaySeek')
+      }
+    })
+
+    const topButtons = computed(() => {
+      return { 'margin-top': getPage.value === 'Animate' ? '-68px' : '0px' }
+    })
+
+    const topInput = computed(() => {
+      return { 'margin-top': getPage.value === 'Animate' ? '-58px' : '0px' }
+    })
+
+    return {
+      icons,
+
+      percentLen,
+      valTime,
+      getPage,
+
+      topButtons,
+      topInput,
+      frame: computed(() => getters['avatar/getFrame']),
+      sequence: computed(() => getters['avatar/getFrames'])
     }
   }
 }

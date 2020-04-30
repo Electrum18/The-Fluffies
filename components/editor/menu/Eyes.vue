@@ -130,7 +130,7 @@
 
       p.subtitle-2 {{ $t('editor.menu.eyes.eyebrows.left') }}
 
-      v-card(outlined :disabled="!getGlobal.eyes_brows_show").my-2
+      v-card(outlined :disabled="!globals.eyes_brows_show").my-2
         BarSlider(
           :text="$t('editor.menu.eyes.eyebrows.width')"
           val="eyes_brows_left_width"
@@ -173,7 +173,7 @@
 
       p.subtitle-2 {{ $t('editor.menu.eyes.eyebrows.right') }}
 
-      v-card(outlined :disabled="!getGlobal.eyes_brows_show").my-2
+      v-card(outlined :disabled="!globals.eyes_brows_show").my-2
         BarSlider(
           :text="$t('editor.menu.eyes.eyebrows.width')"
           val="eyes_brows_right_width"
@@ -212,7 +212,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed } from '@vue/composition-api'
 
 import BarSwitch from '../BarSwitches'
 import BarSlider from '../BarSliders'
@@ -225,8 +225,10 @@ export default {
     BarColor
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal'])
+  setup(props, { root: { $store } }) {
+    return {
+      globals: computed(() => $store.getters['avatar/getGlobal'])
+    }
   }
 }
 </script>

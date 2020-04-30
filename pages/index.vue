@@ -133,11 +133,9 @@ export default {
       haveSave.value = !!localStorage.getItem('avatars')
     }
 
-    const { easter } = easterEgg()
-
     return {
-      haveSave,
-      easter
+      ...easterEgg(),
+      haveSave
     }
   },
 

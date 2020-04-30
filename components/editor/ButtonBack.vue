@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { reactive } from '@vue/composition-api'
+
 import { mdiChevronLeft } from '@mdi/js'
 
 export default {
@@ -37,11 +39,13 @@ export default {
     }
   },
 
-  data() {
+  setup() {
+    const icons = reactive({
+      mdiChevronLeft
+    })
+
     return {
-      icons: {
-        mdiChevronLeft
-      }
+      icons
     }
   }
 }

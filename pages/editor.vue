@@ -13,7 +13,7 @@
 
     v-content
       v-container(fluid)
-        Avatar(:animating="getPage === 'Animate'" :smaller="animate")
+        Avatar(:raise="avatarPos")
 
         v-row.mx-0
           ButtonBack(:disable="getPage === 'recorderRender'")
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive } from '@vue/composition-api'
+import { ref, computed, reactive, toRefs } from '@vue/composition-api'
 
 import {
   mdiMenu,
@@ -95,7 +95,7 @@ import ButtonBack from '~/components/editor/ButtonBack'
 import Version from '~/components/Version'
 import NetworkStatus from '~/components/NetworkStatus'
 
-function pagesControl({ getters, commit }) {
+function pagesControl(getters, commit) {
   const getPage = computed(() => getters['interface/getPage'])
 
   const openedList = ref(false)
@@ -117,7 +117,7 @@ export default {
   layout: 'editor',
 
   setup(props, { root: { $store } }) {
-    const { getPage, openPage, openedList } = pagesControl($store)
+    const { getters, commit } = $store
 
     const icons = reactive({
       mdiMenu,
@@ -128,7 +128,7 @@ export default {
       mdiRecord
     })
 
-    const list = [
+    const list = ref([
       {
         text: { en: 'Avatar', ru: 'Аватар' },
         icon: '$vuetify.icons.values.pony'
@@ -149,27 +149,38 @@ export default {
         text: { en: 'Capture', ru: 'Запечатлеть' },
         icon: icons.mdiCamera
       }
-    ]
+    ])
 
-    const animate = computed(() => $store.getters['interface/getAnimate'])
-    const frame = computed(() => $store.getters['avatar/getFrame'])
-    const frames = computed(() => $store.getters['avatar/getFrames'].length)
-    const rendering = computed(() => $store.getters['interface/getRendering'])
-    const FPS = computed(() => $store.getters['interface/getFPS'])
-    const quality = computed(() => $store.getters['interface/getQuality'])
+    const store = reactive({
+      frame: computed(() => getters['avatar/getFrame']),
+      frames: computed(() => getters['avatar/getFrames'].length),
+
+      FPS: computed(() => getters['interface/getFPS']),
+      animate: computed(() => getters['interface/getAnimate']),
+      quality: computed(() => getters['interface/getQuality']),
+      rendering: computed(() => getters['interface/getRendering'])
+    })
+
+    const { getPage, openPage, openedList } = pagesControl(getters, commit)
+
+    const avatarPos = computed(() => {
+      if (getPage.value === 'Animate') {
+        return store.animate
+          ? { size: 'calc(100vmin - 74px)', bottom: '74px' }
+          : { size: '70vmin', bottom: '260px' }
+      }
+    })
 
     return {
-      icons,
-      list,
-      openedList,
       getPage,
       openPage,
-      animate,
-      frame,
-      frames,
-      rendering,
-      FPS,
-      quality
+      openedList,
+
+      ...toRefs(store),
+
+      icons,
+      list,
+      avatarPos
     }
   },
 

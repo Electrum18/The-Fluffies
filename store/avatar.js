@@ -15,10 +15,6 @@ globals.horn_info = Horns
 globals.glasses_info = Glasses
 
 const defaultValue = {
-  angle: 0,
-  horiz: 0,
-  degress: 12.5,
-
   frame: 0,
 
   globals,
@@ -139,6 +135,10 @@ function cloneObject(object) {
 export const state = () => ({
   ...defaultValue,
 
+  angle: 0,
+  horiz: 0,
+  degress: 12.5,
+
   hairsList: [],
 
   frames: defaultFrames,
@@ -230,11 +230,21 @@ export const mutations = {
       color.eyes_right_basic = color.eyes_left_basic
     }
 
+    if (globals.fur_second_color) {
+      color.fur_SECOND = color.fur_second_basic
+      color.fur_SECOND_SHADE = color.fur_second_shade
+    } else {
+      color.fur_SECOND = color.fur_basic
+      color.fur_SECOND_SHADE = color.fur_shade
+    }
+
     globals.horn_IS_DEFAULT = globals.horn_enable && !globals.horn_changeling
     globals.horn_IS_CHANGELING = globals.horn_enable && globals.horn_changeling
 
     globals.wings_IS_BASIC = globals.wings_enable && !globals.wings_bat
     globals.wings_IS_BAT = globals.wings_enable && globals.wings_bat
+
+    globals.canine_nose_NOT_ENABLED = !globals.canine_nose_enable
   },
 
   setColor({ color, globals }, { path, value }) {
@@ -243,10 +253,39 @@ export const mutations = {
     if (!globals.eyes_right_enable) {
       color.eyes_right_basic = color.eyes_left_basic
     }
+
+    if (globals.fur_second_color) {
+      color.fur_SECOND = color.fur_second_basic
+      color.fur_SECOND_SHADE = color.fur_second_shade
+    } else {
+      color.fur_SECOND = color.fur_basic
+      color.fur_SECOND_SHADE = color.fur_shade
+    }
   },
 
-  setAllGlobals: (state, globals) => (state.globals = globals),
-  setAllColors: (state, color) => (state.color = color),
+  setAllGlobals: (state, globals) => {
+    state.globals = globals
+
+    if (state.globals.fur_second_color) {
+      state.color.fur_SECOND = state.color.fur_second_basic
+      state.color.fur_SECOND_SHADE = state.color.fur_second_shade
+    } else {
+      state.color.fur_SECOND = state.color.fur_basic
+      state.color.fur_SECOND_SHADE = state.color.fur_shade
+    }
+  },
+
+  setAllColors: (state, color) => {
+    state.color = color
+
+    if (state.globals.fur_second_color) {
+      state.color.fur_SECOND = state.color.fur_second_basic
+      state.color.fur_SECOND_SHADE = state.color.fur_second_shade
+    } else {
+      state.color.fur_SECOND = state.color.fur_basic
+      state.color.fur_SECOND_SHADE = state.color.fur_shade
+    }
+  },
 
   setHairsList: ({ hairsList }, string) => {
     if (!hairsList.includes(string)) {
@@ -260,11 +299,7 @@ export const mutations = {
 }
 
 export const actions = {
-  setAvatar({ commit }, { angle, horiz, degress, globals, color }) {
-    commit('setAngle', angle)
-    commit('setHoriz', horiz)
-    commit('setDegress', degress)
-
+  setAvatar({ commit }, { globals, color }) {
     commit('setAllGlobals', globals)
     commit('setAllColors', color)
   }

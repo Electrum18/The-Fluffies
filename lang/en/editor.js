@@ -13,9 +13,15 @@ export default {
   frame: 'Frame',
   of: 'of',
 
+  cancel: 'cancel',
+  close: 'close',
+  save: 'save',
+
   menu: {
     close_editor: 'Close editor',
     close: 'close',
+
+    animated: 'Animated',
 
     change_gender: 'Change gender',
 
@@ -82,6 +88,27 @@ export default {
       stripes: {
         title: 'Stripes',
         color: 'stripes'
+      },
+
+      fluff: {
+        title: 'Fluff',
+        cheeks: 'cheeks',
+        ears: 'ears',
+        chest: 'chest'
+      },
+
+      second: {
+        title: 'Second color',
+        color: 'second'
+      }
+    },
+
+    nose: {
+      title: 'Nose',
+
+      canine: {
+        title: 'Canine',
+        color: 'canine'
       }
     },
 

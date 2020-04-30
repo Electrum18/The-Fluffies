@@ -23,7 +23,7 @@
 
       v-divider.my-4
 
-      v-card(outlined :disabled="!getGlobal.glasses_enable").my-2
+      v-card(outlined :disabled="!globals.glasses_enable").my-2
         BarSlider(
           :text="$t('editor.menu.glasses.width')"
           val="glasses_width"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed } from '@vue/composition-api'
 
 import BarSwitch from '../BarSwitches'
 import BarSlider from '../BarSliders'
@@ -52,8 +52,10 @@ export default {
     BarList
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal'])
+  setup(props, { root: { $store } }) {
+    return {
+      globals: computed(() => $store.getters['avatar/getGlobal'])
+    }
   }
 }
 </script>

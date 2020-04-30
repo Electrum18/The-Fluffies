@@ -21,6 +21,12 @@
   "fur_basic": { "h": 0, "s": 0, "l": 0.8 },
   "fur_shade": { "h": 0, "s": 0, "l": 0.6 },
 
+  "fur_second_basic": { "h": 0, "s": 0, "l": 0.9 },
+  "fur_second_shade": { "h": 0, "s": 0, "l": 0.675 },
+
+  "fur_SECOND": { "h": 0, "s": 0, "l": 0.8 },
+  "fur_SECOND_SHADE": { "h": 0, "s": 0, "l": 0.6 },
+
   "piercings_basic": { "h": 48, "s": 1, "l": 0.5 },
   "piercings_shade": { "h": 48, "s": 1, "l": 0.4 },
 
@@ -36,5 +42,8 @@
   "horn_rear_shade": { "h": 0, "s": 0, "l": 0.8 },
 
   "wings_basic": { "h": 48, "s": 1, "l": 0.5 },
-  "wings_shade": { "h": 48, "s": 1, "l": 0.4 }
+  "wings_shade": { "h": 48, "s": 1, "l": 0.4 },
+
+  "canine_nose_basic": { "h": 0, "s": 0, "l": 0.2 },
+  "canine_nose_shade": { "h": 0, "s": 0, "l": 0.15 }
 }

@@ -13,13 +13,51 @@
           )
             v-icon(:color="darker") {{ icons.mdiPalette }}
 
-        v-color-picker(v-model="value")
+        v-color-picker(v-model="modelValue")
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed, reactive } from '@vue/composition-api'
 
 import { mdiPalette } from '@mdi/js'
+
+function colorState(getters, commit, val, shade) {
+  const colors = computed(() => getters['avatar/getColor'])
+
+  const modelValue = computed({
+    get: () => colors.value[val],
+    set(value) {
+      if (value.a === 0) value.a += 0.01
+
+      commit('avatar/setColor', { path: val, value })
+
+      if (shade) {
+        const { h, s, l } = value
+
+        const path = val.replace('basic', 'shade')
+
+        commit('avatar/setColor', {
+          path,
+          value: { h, s, l: l * shade }
+        })
+      }
+    }
+  })
+
+  const cssColor = computed(() => {
+    const { h, s, l } = modelValue.value
+
+    return 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
+  })
+
+  return {
+    colors,
+    modelValue,
+    cssColor,
+
+    darker: computed(() => (modelValue.value.l > 2 / 3 ? 'black' : 'white'))
+  }
+}
 
 export default {
   props: {
@@ -46,68 +84,28 @@ export default {
     }
   },
 
-  data() {
+  setup({ text, val, shade, off }, { root: { $store, $i18n } }) {
+    const { getters, commit } = $store
+
+    const icons = reactive({
+      mdiPalette
+    })
+
+    const title = computed(() => {
+      return $i18n.locale === 'ru' ? 'цвет ' + text : text + ' color'
+    })
+
+    const globals = computed(() => getters['avatar/getGlobal'])
+
     return {
-      icons: {
-        mdiPalette
-      }
+      ...colorState(getters, commit, val, shade),
+
+      icons,
+      globals,
+      title,
+
+      enable: computed(() => (off ? !globals.value[off] : false))
     }
-  },
-
-  computed: {
-    ...mapGetters('avatar', ['getGlobal', 'getColor']),
-
-    enable() {
-      return this.off ? !this.getGlobal[this.off] : false
-    },
-
-    darker() {
-      return this.value.l > 2 / 3 ? 'black' : 'white'
-    },
-
-    cssColor() {
-      const { h, s, l } = this.value
-
-      return 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
-    },
-
-    title() {
-      const { locale } = this.$i18n
-
-      if (locale === 'ru') {
-        return 'цвет ' + this.text
-      } else {
-        return this.text + ' color'
-      }
-    },
-
-    value: {
-      get() {
-        return this.getColor[this.val]
-      },
-
-      set(setVal) {
-        if (setVal.a === 0) setVal.a += 0.01
-
-        this.setColor({
-          path: this.val,
-          value: setVal
-        })
-
-        if (this.shade) {
-          const { h, s, l } = setVal
-
-          this.setColor({
-            path: this.val.replace('basic', 'shade'),
-            value: { h, s, l: l * this.shade }
-          })
-        }
-      }
-    }
-  },
-
-  methods: {
-    ...mapMutations('avatar', ['setColor'])
   }
 }
 </script>

@@ -63,10 +63,20 @@
               :aria-label="$t('editor.screener.take_image')"
             )
               v-icon {{ icons.mdiCameraImage }}
+
+    v-overlay(:value="screened")
+      v-card.pa-4.max-photo-scale(light raised max-width="800")
+        v-img.grey.lighten-3(:src="photo" max-height="450" contain)
+
+        v-card-title {{ globals.name }}
+        v-card-actions
+          v-spacer
+          v-btn(text @click="screened = false") {{ $t('editor.close') }}
+          v-btn(color="primary" :href="photo" :download="download") {{ $t('editor.save') }}
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed, reactive, toRefs, ref } from '@vue/composition-api'
 
 import { mdiCameraImage } from '@mdi/js'
 
@@ -84,98 +94,104 @@ export default {
     }
   },
 
-  data() {
-    return {
+  setup(props, { root: { $store, $refs } }) {
+    const { getters, commit } = $store
+
+    const opened = computed({
+      get: () => props.open,
+      set: () => commit('interface/setPage', false)
+    })
+
+    const icons = reactive({
+      mdiCameraImage
+    })
+
+    const options = reactive({
       mode: 0,
 
       width: 1920,
-      height: 1080,
+      height: 1080
+    })
 
-      icons: {
-        mdiCameraImage
-      }
-    }
-  },
+    const store = reactive({
+      globals: computed(() => getters['avatar/getGlobal']),
+      colors: computed(() => getters['avatar/getColor'])
+    })
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal', 'getColor']),
+    const screened = ref(false)
+    const photo = ref('')
+    const download = ref('')
 
-    opened: {
-      get() {
-        return this.open
-      },
-
-      set() {
-        this.setPage(false)
-      }
-    }
-  },
-
-  methods: {
-    ...mapMutations('interface', ['setPage']),
-
-    takeImage() {
-      const avatar = this.$root.$refs.avatar
+    function takeImage() {
+      const avatar = $refs.avatar
       const ratio = avatar.width / avatar.height
 
       const canvas = document.createElement('canvas')
 
-      let width = this.width
-      let height = this.height
+      let widthVar = options.width
+      let heightVar = options.height
 
       // Canvas setting
 
-      canvas.width = width
-      canvas.height = height
+      canvas.width = widthVar
+      canvas.height = heightVar
 
       // Setting at center
 
-      width = canvas.width
-      height = width / ratio
+      widthVar = canvas.width
+      heightVar = widthVar / ratio
 
-      if (height > canvas.height) {
-        height = canvas.height
-        width = canvas.height * ratio
+      if (heightVar > canvas.height) {
+        heightVar = canvas.height
+        widthVar = canvas.height * ratio
       }
 
-      width *= 1.25
+      widthVar *= 1.25
 
-      const xOffset = (canvas.width - width) / 2
-      const yOffset = canvas.height - height * 1.125
+      const xOffset = (canvas.width - widthVar) / 2
+      const yOffset = canvas.height - heightVar * 1.125
 
-      height *= 1.25
+      heightVar *= 1.25
 
       // Drawing image over background at bottom-center
 
       const ctx = canvas.getContext('2d')
 
-      const { h, s, l, a } = this.getColor.background_basic
+      const { h, s, l, a } = store.colors.background_basic
 
       ctx.fillStyle = a
         ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
         : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
 
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(avatar, xOffset, yOffset, width, height)
+      ctx.drawImage(avatar, xOffset, yOffset, widthVar, heightVar)
 
       // Creating file
 
-      const e = document.createElement('a')
+      const format = ['png', 'jpeg', 'bmp'][options.mode]
 
-      const format = ['png', 'jpeg', 'bmp'][this.mode]
+      screened.value = true
 
-      e.style.display = 'none'
-      e.download = 'TFs - ' + this.getGlobal.name + '.' + format
-      e.href = canvas.toDataURL('image/' + format)
+      download.value = 'TFs - ' + store.globals.name + '.' + format
+      photo.value = canvas.toDataURL('image/' + format)
+    }
 
-      // Download file
+    return {
+      ...toRefs(options),
+      ...toRefs(store),
 
-      document.body.appendChild(e)
-
-      e.click()
-
-      document.body.removeChild(e)
+      opened,
+      icons,
+      takeImage,
+      screened,
+      photo,
+      download
     }
   }
 }
 </script>
+
+<style lang="sass">
+.max-photo-scale
+  width: 75vmin
+</style>

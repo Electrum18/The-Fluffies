@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { reactive } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 
 import { mdiChevronLeft, mdiOpenInNew } from '@mdi/js'
 
@@ -82,19 +82,18 @@ import NetworkStatus from '~/components/NetworkStatus'
 
 export default {
   setup(props, { root }) {
-    const { messages, locale } = root.$i18n
-
-    const t = messages[locale].support
-
     const icons = reactive({
       mdiChevronLeft,
       mdiOpenInNew
     })
 
+    const { messages, locale } = root.$i18n
+
     return {
       icons,
-      t,
-      format
+      format,
+
+      t: computed(() => messages[locale].support)
     }
   },
 

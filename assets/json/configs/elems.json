@@ -20,14 +20,14 @@
     "rotate": "head",
     "elems": [
       { "type": "ear_left", "fill": "fur_basic", "stroke": [12, "fur_shade"] },
+      { "type": "ear_left_tassel_inside", "stroke": [8, "fur_basic"], "if": "tassels" },
+      { "type": "ear_left_tassel", "fill": "fur_basic", "stroke": [9, "fur_shade"], "if": "tassels" },
+      { "type": "fluff_ear_left", "fill": "fur_basic", "stroke": [8, "fur_shade"], "clip": ["!head0"], "if": "fluff_ears" },
       { "type": "ear_left_pinna", "stroke": [7, "fur_shade"] },
 
       { "type": "piercings_ear_left_upper", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_left_upper" },
       { "type": "piercings_ear_left_middle", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_left_middle" },
       { "type": "piercings_ear_left_lower", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_left_lower" },
-
-      { "type": "ear_left_tassel_inside", "stroke": [8, "fur_basic"], "if": "tassels" },
-      { "type": "ear_left_tassel", "fill": "fur_basic", "stroke": [9, "fur_shade"], "if": "tassels" },
 
       { "type": "horn_left", "fill": "horn_rear_basic", "stroke": [12, "horn_rear_shade"], "if": "horn_rear" },
       { "type": "horn_right", "fill": "horn_rear_basic", "stroke": [12, "horn_rear_shade"], "if": "horn_rear" }
@@ -41,13 +41,13 @@
       { "type": "back_second", "fill": "hair_second", "if": "hair_second" },
       { "type": "back", "stroke": [12, "hair_shade"], "if": "hair_IS_BASIC" },
       { "type": "back", "stroke": [45, "hair_shade"], "if": "hair_IS_DREADS" },
-      { "type": "back", "stroke": [20, "hair_basic"], "if": "hair_IS_DREADS" },
+      { "type": "back", "stroke": [20, "hair_basic"], "if": "hair_IS_DREADS"},
 
       { "type": "tail", "fill": "hair_basic", "if": "hair_IS_BASIC" },
       { "type": "tail_second", "fill": "hair_second", "if": "hair_second" },
       { "type": "tail", "stroke": [12, "hair_shade"], "if": "hair_IS_BASIC" },
       { "type": "tail", "stroke": [45, "hair_shade"], "if": "hair_IS_DREADS" },
-      { "type": "tail", "stroke": [20, "hair_basic"], "if": "hair_IS_DREADS" }
+      { "type": "tail", "stroke": [20, "hair_basic"], "if": "hair_IS_DREADS"}
     ]
   },
   {
@@ -57,15 +57,26 @@
       { "type": "chest", "fill": "fur_basic", "stroke": [12, "fur_shade"] },
       { "type": "neck", "fill": "fur_basic", "stroke": [7, "fur_basic"] },
 
+      { "type": "fur_second_chest", "fill": "fur_second_basic", "if": "fur_second_color" },
+
       { "type": "stripes_neck_left", "fill": "stripes_basic", "clip": ["neck"], "if": "stripes_enable" },
       { "type": "stripes_neck_right", "fill": "stripes_basic", "clip": ["neck"], "if": "stripes_enable" },
 
       { "type": "neck_lines", "stroke": [12, "fur_shade"] },
 
+      { "type": "fluff_chest", "fill": "fur_SECOND", "stroke": [8, "fur_SECOND_SHADE"], "if": "fluff_chest" },
+
       { "type": "collar", "fill": "collar_basic", "stroke": [12, "collar_shade"], "if": "collar_enable" },
       { "type": "bowtie", "fill": "bowtie_basic", "stroke": [12, "bowtie_shade"], "if": "bowtie_enable" },
 
       { "type": "chest_bottom", "fill": "fur_basic", "stroke": [12, "fur_shade"] }
+    ]
+  },
+  {
+    "layer": "neck",
+    "rotate": "cheeks",
+    "elems": [
+      { "type": "fur_second_nose", "fill": "fur_second_basic", "clip": ["head3"], "if": "fur_second_color" }
     ]
   },
   {
@@ -75,8 +86,20 @@
       { "type": "stripes_left", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
       { "type": "stripes_right", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
       { "type": "stripes_fore", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
-      { "type": "stripes_crust", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" },
-
+      { "type": "stripes_crust", "fill": "stripes_basic", "clip": ["head2"], "if": "stripes_enable" }
+    ]
+  },
+  {
+    "layer": "cheeks",
+    "rotate": "cheeks",
+    "elems": [
+      { "type": "fluff_cheek_left", "fill": "fur_SECOND", "stroke": [8, "fur_SECOND_SHADE"], "if": "fluff_cheeks" }
+    ]
+  },
+  {
+  "layer": "head",
+  "rotate": "head",
+  "elems": [
       { "type": "eye_left", "fill": "eyes_sclera", "clip": ["head2"] }
     ]
   },
@@ -112,23 +135,24 @@
     "layer": "head",
     "rotate": "head",
     "elems": [
-      { "type": "nose", "fill": "fur_basic", "stroke": [7, "fur_basic"] }
+      { "type": "nose", "fill": "fur_SECOND", "stroke": [7, "fur_SECOND"] }
     ]
   },
   {
     "layer": "chin",
     "rotate": "head",
     "elems": [
-      { "type": "chin", "stroke": [12, "fur_shade"] }
+      { "type": "chin", "stroke": [12, "fur_SECOND_SHADE"] }
     ]
   },
   {
     "layer": "head",
     "rotate": "head",
     "elems": [
-      { "type": "bridge", "stroke": [12, "fur_shade"] },
+      { "type": "bridge", "stroke": [12, "fur_SECOND_SHADE"] },
       { "type": "mouth", "fill": "jaw_basic", "clip": ["nose"] },
-      { "type": "tongue", "fill": "tongue_basic", "stroke": [5, "tongue_shade"], "clip": ["mouth"] }
+      { "type": "tongue", "fill": "tongue_basic", "stroke": [5, "tongue_shade"], "clip": ["mouth"] },
+      { "type": "nose_point", "fill": "canine_nose_basic", "stroke": [7, "canine_nose_shade"], "if": "canine_nose_enable" }
     ]
   },
   {
@@ -149,16 +173,28 @@
     "layer": "head",
     "rotate": "head",
     "elems": [
-      { "type": "mouth", "stroke": [7, "fur_shade"] },
+      { "type": "mouth", "stroke": [7, "fur_SECOND_SHADE"] },
 
       { "type": "fangs_left", "fill": "#ffe", "stroke": [3, "#ccb"], "clip": ["head2", "nose"], "if": "fangs" },
       { "type": "fangs_right", "fill": "#ffe", "stroke": [3, "#ccb"], "if": "fangs" },
 
-      { "type": "mouth2", "stroke": [7, "fur_shade"] },
+      { "type": "mouth2", "stroke": [7, "fur_SECOND_SHADE"] },
 
-      { "type": "nostril_left", "stroke": [8, "fur_shade"], "clip": ["head2", "nose"] },
-      { "type": "nostril_right", "stroke": [8, "fur_shade"] },
-
+      { "type": "nostril_left", "stroke": [8, "fur_SECOND_SHADE"], "clip": ["head2", "nose"], "if": "canine_nose_NOT_ENABLED" },
+      { "type": "nostril_right", "stroke": [8, "fur_SECOND_SHADE"], "if": "canine_nose_NOT_ENABLED" }
+    ]
+  },
+  {
+    "layer": "cheeks",
+    "rotate": "cheeks",
+    "elems": [
+      { "type": "fluff_cheek_right", "fill": "fur_SECOND", "stroke": [8, "fur_SECOND_SHADE"], "if": "fluff_cheeks" }
+    ]
+  },
+  {
+    "layer": "head",
+    "rotate": "head",
+    "elems": [
       { "type": "eye_right", "fill": "eyes_sclera" }
     ]
   },
@@ -207,14 +243,14 @@
     "rotate": "head",
     "elems": [
       { "type": "ear_right", "fill": "fur_basic", "stroke": [12, "fur_shade"], "clip": ["!head0"] },
+      { "type": "ear_right_tassel_inside", "stroke": [8, "fur_basic"], "if": "tassels" },
+      { "type": "ear_right_tassel", "fill": "fur_basic", "stroke": [9, "fur_shade"], "if": "tassels" },
+      { "type": "fluff_ear_right", "fill": "fur_basic", "stroke": [8, "fur_shade"], "clip": ["!head0"], "if": "fluff_ears" },
       { "type": "ear_right_pinna", "stroke": [9, "fur_shade"] },
 
       { "type": "piercings_ear_right_upper", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_right_upper" },
       { "type": "piercings_ear_right_middle", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_right_middle" },
-      { "type": "piercings_ear_right_lower", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_right_lower" },
-
-      { "type": "ear_right_tassel_inside", "stroke": [8, "fur_basic"], "if": "tassels" },
-      { "type": "ear_right_tassel", "fill": "fur_basic", "stroke": [9, "fur_shade"], "if": "tassels" }
+      { "type": "piercings_ear_right_lower", "fill": "piercings_basic", "stroke": [7, "piercings_shade"], "if": "piercings_right_lower" }
     ]
   },
   {

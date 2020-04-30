@@ -87,7 +87,7 @@ export default {
     manifest: {
       name: 'The Fluffies',
       short_name: 'Fluffies',
-      theme_color: '#ffaa00',
+      theme_color: '#1f1f1f',
       background_color: '#1f1f1f'
     }
   },

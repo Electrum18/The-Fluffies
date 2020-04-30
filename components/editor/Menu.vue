@@ -14,6 +14,7 @@
       Glasses
       Mane
       Fur
+      Nose
       Horns
       Mouth
       Emotion
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed } from '@vue/composition-api'
 
 import { mdiGenderMale, mdiGenderFemale } from '@mdi/js'
 
@@ -62,6 +63,7 @@ import Eyes from './menu/Eyes'
 import Glasses from './menu/Glasses'
 import Mane from './menu/Mane'
 import Fur from './menu/Fur'
+import Nose from './menu/Nose'
 import Horns from './menu/Horns'
 import Mouth from './menu/Mouth'
 import Emotion from './menu/Emotion'
@@ -71,12 +73,30 @@ import Hooves from './menu/Hooves'
 import Neck from './menu/Neck'
 import Wings from './menu/Wings'
 
+function Gender({ commit }, globals) {
+  const gender = computed(() => {
+    return globals.value.male
+      ? { color: 'blue', icon: mdiGenderMale }
+      : { color: 'pink', icon: mdiGenderFemale }
+  })
+
+  function changeGender() {
+    commit('avatar/setGlobal', { path: 'male', value: !globals.value.male })
+  }
+
+  return {
+    gender,
+    changeGender
+  }
+}
+
 export default {
   components: {
     Eyes,
     Glasses,
     Mane,
     Fur,
+    Nose,
     Horns,
     Mouth,
     Emotion,
@@ -94,47 +114,21 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getGlobal']),
+  setup(props, { root: { $store } }) {
+    const globals = computed(() => $store.getters['avatar/getGlobal'])
 
-    name: {
-      get() {
-        return this.getGlobal.name
-      },
+    const name = computed({
+      get: () => globals.value.name,
+      set: (value) => $store.commit('avatar/setGlobal', { path: 'name', value })
+    })
 
-      set(val) {
-        this.setGlobal({ path: 'name', value: val })
-      }
-    },
+    return {
+      ...Gender($store, globals),
 
-    gender() {
-      if (this.getGlobal.male) {
-        return {
-          color: 'blue',
-          icon: mdiGenderMale
-        }
-      } else {
-        return {
-          color: 'pink',
-          icon: mdiGenderFemale
-        }
-      }
-    }
-  },
+      globals,
+      name,
 
-  methods: {
-    ...mapMutations('avatar', ['setGlobal']),
-    ...mapMutations('interface', ['setPage']),
-
-    changeGender() {
-      this.setGlobal({
-        path: 'male',
-        value: !this.getGlobal.male
-      })
-    },
-
-    close() {
-      this.setPage(false)
+      close: () => $store.commit('interface/setPage', false)
     }
   }
 }

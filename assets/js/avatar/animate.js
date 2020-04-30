@@ -64,11 +64,9 @@ function interpolationCalculate(elemsList, args) {
   return calculated
 }
 
-function changeCanvas(self) {
-  const ctx = self.ctx
-
-  ctx.canvas.width = Math.round(1024 * self.quality * 2)
-  ctx.canvas.height = Math.round(1024 * self.quality * 1.25)
+function changeCanvas({ ctx, quality }) {
+  ctx.canvas.width = (1024 * quality * 2) | 0
+  ctx.canvas.height = (1024 * quality * 1.25) | 0
 
   ctx.lineCap = ctx.lineJoin = 'round'
 }
@@ -88,22 +86,12 @@ export default function() {
       const slot = +localStorage.getItem('slot')
       const save = JSON.parse(localStorage.getItem('avatars'))
 
-      const {
-        globals,
-        properties,
-        getColor: color,
-        horiz,
-        angle,
-        degress
-      } = this
+      const { globals, properties, getColor: color } = this
 
       save[slot] = {
         globals,
         propers: properties,
-        color,
-        horiz,
-        angle,
-        degress
+        color
       }
 
       localStorage.setItem('avatars', JSON.stringify(save))
@@ -201,9 +189,11 @@ export default function() {
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.drawImage(avatar, xOffset, yOffset, width, height)
 
+      const frameDuration = 1000 / 60
+
       this.gif.addFrame(ctx, {
         copy: true,
-        delay: this.fps.every * 16.666
+        delay: this.fps.every * frameDuration
       })
     }
   }

@@ -13,9 +13,15 @@ export default {
   frame: 'Кадр',
   of: 'из',
 
+  cancel: 'отмена',
+  close: 'закрыть',
+  save: 'сохранить',
+
   menu: {
     close_editor: 'Закрыть редактор',
     close: 'закрыть',
+
+    animated: 'Анимируемый',
 
     change_gender: 'Изменить пол',
 
@@ -82,6 +88,27 @@ export default {
       stripes: {
         title: 'Полоски',
         color: 'полосок'
+      },
+
+      fluff: {
+        title: 'Пушистость',
+        cheeks: 'щеки',
+        ears: 'уши',
+        chest: 'грудь'
+      },
+
+      second: {
+        title: 'Второй цвет',
+        color: 'второго'
+      }
+    },
+
+    nose: {
+      title: 'Нос',
+
+      canine: {
+        title: 'Собачий',
+        color: 'собачной'
       }
     },
 

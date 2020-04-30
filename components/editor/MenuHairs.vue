@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { reactive } from '@vue/composition-api'
 
 import { mdiKeyboardBackspace } from '@mdi/js'
 
@@ -43,33 +43,28 @@ export default {
     }
   },
 
-  data() {
-    return {
-      locale: {
-        list: {
-          en: 'Mane list',
-          ru: 'Список грив'
-        },
-
-        by: {
-          en: 'author: ',
-          ru: 'автор: '
-        }
+  setup(props, { root: { $store } }) {
+    const locale = reactive({
+      list: {
+        en: 'Mane list',
+        ru: 'Список грив'
       },
 
-      icons: {
-        mdiKeyboardBackspace
+      by: {
+        en: 'author: ',
+        ru: 'автор: '
       }
-    }
-  },
+    })
 
-  methods: {
-    ...mapMutations({
-      setPage: 'interface/setPage'
-    }),
+    const icons = reactive({
+      mdiKeyboardBackspace
+    })
 
-    close() {
-      this.setPage('Avatar')
+    return {
+      locale,
+      icons,
+
+      close: () => $store.commit('interface/setPage', 'Avatar')
     }
   }
 }

@@ -15,7 +15,7 @@
           right
 
           :style="topButtons"
-        ) {{ (getRendering || !getRendered) ? 'cancel' : 'close' }}
+        ) {{ (getRendering || !getRendered) ? $t('editor.cancel') : $t('editor.close') }}
 
         v-progress-linear.mt-n3(
           :value="getPlayVal * 100"
@@ -103,7 +103,52 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed, watch, reactive, toRefs } from '@vue/composition-api'
+
+function Progress(getters, commit) {
+  const store = reactive({
+    getPlayVal: computed(() => getters['interface/getPlayVal']),
+    getPlayLen: computed(() => getters['interface/getPlayLen'])
+  })
+
+  watch(
+    () => store.getPlayVal,
+    (value) => {
+      if (value === 1) {
+        commit('interface/setPlaying', false)
+        commit('interface/setRendering', false)
+      }
+    }
+  )
+
+  const progress = computed(() => {
+    return (store.getPlayVal * store.getPlayLen * 100) | 0
+  })
+
+  const leftProgress = computed(() => {
+    return ((1 - store.getPlayVal) * store.getPlayLen * 100) | 0
+  })
+
+  function close() {
+    commit('interface/setPage', false)
+
+    if (store.getPlayVal < 1) {
+      commit('interface/setPlaying', false)
+      commit('interface/setPlayVal', 0)
+      commit('interface/setPlaySeek')
+
+      commit('interface/setRendering', false)
+    }
+  }
+
+  return {
+    ...toRefs(store),
+
+    progress,
+    leftProgress,
+    close
+  }
+}
 
 export default {
   props: {
@@ -113,82 +158,20 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getFrames']),
-    ...mapGetters('interface', [
-      'getPage',
-      'getPlayVal',
-      'getPlayLen',
-      'getRendering',
-      'getRendered'
-    ]),
+  setup(proper, { root: { $store } }) {
+    const { getters, commit } = $store
 
-    opened: {
-      get() {
-        return this.open
-      },
+    const store = reactive({
+      getPage: computed(() => getters['interface/getPage']),
+      getFrames: computed(() => getters['interface/getFrames'])
+    })
 
-      set() {
-        this.setPage(false)
-      }
-    },
+    const opened = computed({
+      get: () => proper.open,
+      set: () => commit('interface/setPage', false)
+    })
 
-    progress() {
-      return (this.getPlayVal * this.getPlayLen * 100) | 0
-    },
-
-    leftProgress() {
-      return ((1 - this.getPlayVal) * this.getPlayLen * 100) | 0
-    },
-
-    topButtons() {
-      return this.getPage ? { 'margin-top': '-56px' } : { 'margin-top': '0px' }
-    },
-
-    getFullTime() {
-      const { getFrames } = this
-
-      let duration = 0
-
-      for (let i = 0; i < getFrames.length - 1; i++) {
-        duration += getFrames[i].duration
-      }
-
-      return duration
-    }
-  },
-
-  watch: {
-    getPlayVal(value) {
-      if (value === 1) {
-        this.setPlaying(false)
-        this.setRendering(false)
-      }
-    }
-  },
-
-  methods: {
-    ...mapMutations('interface', [
-      'setPage',
-      'setPlaying',
-      'setRendering',
-      'setPlayVal',
-      'setPlaySeek'
-    ]),
-
-    close() {
-      this.setPage(false)
-
-      if (this.getPlayVal < 1) {
-        this.setPlaying(false)
-        this.setPlayVal(0)
-        this.setPlaySeek()
-
-        this.setRendering(false)
-      }
-    },
-
-    formatTime(value, compact) {
+    function formatTime(value, compact) {
       let minutes = (value / 60) | 0
       let seconds = (value - minutes * 60) | 0
 
@@ -201,6 +184,34 @@ export default {
       return haveMins
         ? minutes + ':' + seconds + '.' + milliseconds
         : seconds + '.' + milliseconds
+    }
+
+    function getFullTime() {
+      const { getFrames } = store
+
+      let duration = 0
+
+      for (let i = 0; i < getFrames.length - 1; i++) {
+        duration += getFrames[i].duration
+      }
+
+      return duration
+    }
+
+    return {
+      ...Progress(getters, commit),
+      ...toRefs(store),
+
+      opened,
+      formatTime,
+
+      getFullTime,
+
+      getRendering: computed(() => getters['interface/getRendering']),
+      getRendered: computed(() => getters['interface/getRendered']),
+      topButtons: computed(() => ({
+        'margin-top': store.getPage ? '-56px' : '0px'
+      }))
     }
   }
 }

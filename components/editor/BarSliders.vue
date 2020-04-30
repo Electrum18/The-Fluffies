@@ -3,19 +3,29 @@
     v-row
       div.body-2.px-3 {{ text }}
       v-spacer
-      div.body-2.mx-2.px-1.value.primary {{ value }}
 
-    v-slider.inputs2.ma-0(
-      v-model="value"
-      color="primary"
-      hide-details=true
-      :max="max"
-      :min="min"
-    )
+      div.body-2.mx-2.px-1.value.primary {{ modelValue }}
+
+    v-row
+      v-slider.inputs2.mx-1.my-0(
+        v-model="modelValue"
+        color="primary"
+        hide-details=true
+        :max="max"
+        :min="min"
+      )
+
+      v-tooltip(top)
+        template(v-slot:activator="{ on }")
+          v-icon(color="primary" small v-on="on").mr-2.my-2 {{ icons.mdiAnimation }}
+
+        span {{ $t('editor.menu.animated') }}
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { computed, reactive } from '@vue/composition-api'
+
+import { mdiAnimation } from '@mdi/js'
 
 export default {
   props: {
@@ -44,56 +54,37 @@ export default {
     compare: {
       type: String,
       default: undefined
-    },
-
-    global: {
-      type: [Boolean, undefined],
-      default: undefined
     }
   },
 
-  computed: {
-    ...mapGetters('avatar', ['getProper', 'getGlobal']),
+  setup({ val, compare }, { root: { $store } }) {
+    const { getters, commit } = $store
 
-    getting() {
-      return this.global ? this.getGlobal : this.getProper
-    },
+    const icons = reactive({
+      mdiAnimation
+    })
 
-    value: {
-      get() {
-        return this.getting[this.val]
-      },
+    const getting = computed(() => getters['avatar/getProper'])
 
-      set(setVal) {
-        this.setting({
-          path: this.val,
-          value: setVal
-        })
+    const modelValue = computed({
+      get: () => getting.value[val],
+      set(value) {
+        commit('avatar/setProper', { path: val, value })
+        commit('interface/setPlayChangedFrame')
 
-        this.setPlayChangedFrame()
-
-        // Compare part
-
-        if (this.compare) {
-          const getted = this.getProper[this.compare]
-
-          if (100 - getted <= setVal) {
-            this.setting({
-              path: this.compare,
-              value: 100 - setVal
-            })
-          }
+        if (compare && 100 - getting.value[compare] <= value) {
+          commit('avatar/setProper', {
+            path: compare,
+            value: 100 - value
+          })
         }
       }
-    }
-  },
+    })
 
-  methods: {
-    ...mapMutations('avatar', ['setProper', 'setGlobal']),
-    ...mapMutations('interface', ['setPlayChangedFrame']),
-
-    setting(commit) {
-      this.global ? this.setGlobal(commit) : this.setProper(commit)
+    return {
+      icons,
+      getting,
+      modelValue
     }
   }
 }

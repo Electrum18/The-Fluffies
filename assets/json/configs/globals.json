@@ -69,5 +69,14 @@
   "wings_bat": true,
 
   "wings_IS_BAT": true,
-  "wings_IS_BASIC": false
+  "wings_IS_BASIC": false,
+
+  "canine_nose_enable": false,
+  "canine_nose_NOT_ENABLED": true,
+
+  "fluff_cheeks": false,
+  "fluff_ears": false,
+  "fluff_chest": false,
+
+  "fur_second_color": false
 }
