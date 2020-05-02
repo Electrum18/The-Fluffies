@@ -165,6 +165,7 @@ export default {
 .socials.row
   flex: unset
   margin: 0
+  overflow: hidden
 
   .v-card
     height: fit-content

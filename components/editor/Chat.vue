@@ -34,14 +34,14 @@
         v-icon(small right) {{ icons.mdiAccount }}
 
 
-      v-card.chat-space(dark flat ref="chatSpace")
-        v-list(dense)
+      v-card.chat-space(dark flat)
+        v-list(dense ref="chatSpace")
           .py-3
 
           v-list-item(
-            style="pointer-events: none; width: calc(100% - 16px)"
             v-for="(mes, i) in chat.content"
             :key="'chat' + i"
+            :ref="'ChatSpace' + i"
           )
             v-list-item-content
               v-card.my-n1(outlined)
@@ -132,27 +132,11 @@ export default {
 
   watch: {
     'chat.opened'(val) {
-      if (val) {
-        const refs = this.$refs
-
-        setTimeout(() => {
-          const space = refs.chatSpace.$el
-
-          space.scrollTop = space.scrollHeight
-        }, 100)
-      }
+      if (val) this.chatLength(100)
     },
 
     'chat.content'() {
-      if (this.chat.opened) {
-        const refs = this.$refs
-
-        setTimeout(() => {
-          const space = refs.chatSpace.$el
-
-          space.scrollTop = space.scrollHeight
-        })
-      }
+      if (this.chat.opened) this.chatLength()
     }
   },
 
@@ -205,6 +189,25 @@ export default {
         this.chat.name = this.chat.prename
         this.chat.prename = ''
       }
+    },
+
+    chatLength(interval = undefined) {
+      const self = this
+
+      setTimeout(() => {
+        const { $refs } = self
+        const { content } = this.chat
+
+        let length = 0
+
+        for (let i = 0; i < content.length; i++) {
+          const element = $refs['ChatSpace' + i][0]
+
+          length += element.$el.offsetHeight
+        }
+
+        $refs.chatSpace.$el.scrollTop = length
+      }, interval)
     }
   }
 }
@@ -221,4 +224,8 @@ export default {
   .v-list
     height: 100%
     overflow: auto
+
+    .v-list-item
+      pointer-events: none
+      width: calc(100% - 16px)
 </style>

@@ -22,5 +22,9 @@
   "teeth_upper": 1.25,
   "teeth_lower": 1.25,
 
-  "eye_left_brow": 0.75
+  "eye_left_brow": 0.75,
+
+  "glasses_left": 1.2,
+  "glasses_nose": 1.2,
+  "glasses_right": 1.2
 }

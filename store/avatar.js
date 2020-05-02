@@ -1,3 +1,5 @@
+import SetPropersSide from '~/assets/js/avatar/setSide'
+
 import globals from '~/assets/json/configs/globals.json'
 import propers from '~/assets/json/configs/properties.json'
 import color from '~/assets/json/configs/color.json'
@@ -137,7 +139,9 @@ export const state = () => ({
 
   angle: 0,
   horiz: 0,
+
   degress: 12.5,
+  mirror: false,
 
   hairsList: [],
 
@@ -152,7 +156,9 @@ export const state = () => ({
 export const getters = {
   getAngle: ({ angle }) => angle,
   getHoriz: ({ horiz }) => horiz,
+
   getDegress: ({ degress }) => degress,
+  getMirror: ({ mirror }) => mirror,
 
   getFrame: ({ frame }) => frame,
   getFrames: ({ frames }) => frames,
@@ -172,7 +178,9 @@ export const getters = {
 export const mutations = {
   setAngle: (state, angle) => (state.angle = angle),
   setHoriz: (state, value) => (state.horiz = value),
+
   setDegress: (state, degress) => (state.degress = degress),
+  setMirror: (state, mirror) => (state.mirror = mirror),
 
   setFrame: (state, frame) => {
     state.frame = frame
@@ -180,8 +188,12 @@ export const mutations = {
     const { horiz, angle, degress } = state.frames[frame].frame
 
     state.degress = degress
+    state.mirror = degress < 90
+
     state.horiz = horiz
     state.angle = angle
+
+    SetPropersSide(state.mirror, state.frames[frame].frame)
   },
 
   addFrame: ({ frames }, index) => {
@@ -203,8 +215,14 @@ export const mutations = {
     const { horiz, angle, degress } = frames[0].frame
 
     state.degress = degress
+    state.mirror = degress < 90
+
     state.horiz = horiz
     state.angle = angle
+
+    for (let i = 0; i < frames.length; i++) {
+      SetPropersSide(state.mirror, frames[i].frame)
+    }
   },
 
   deleteFrame: (state, index) => {

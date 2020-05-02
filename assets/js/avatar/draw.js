@@ -14,8 +14,7 @@ export default function(
     horiz,
     mirror,
     layers,
-    angle,
-    fps
+    angle
   },
 
   calculated,
@@ -39,41 +38,35 @@ export default function(
 
   // Shifts ratio
 
-  let posX, scaleX, hoovesSide
+  let posX, scaleX
 
   if (mirror) {
     posX = 3 / 4
     scaleX = -1
-
-    hoovesSide = { left: 'hooves_right_', right: 'hooves_left_' }
   } else {
     posX = 1 / 4
     scaleX = 1
-
-    hoovesSide = { left: 'hooves_left_', right: 'hooves_right_' }
   }
 
-  // Left hooves
+  const {
+    hooves_LEFT_SHOULDER_RISE: shoulderLRise,
+    hooves_LEFT_SHOULDER_ANGLE: shoulderLAngle,
 
-  const shoulderLRise = properties[hoovesSide.left + 'shoulder_rise']
-  const shoulderLAngle = properties[hoovesSide.left + 'shoulder_angle']
+    hooves_LEFT_ELBOW_RISE: elbowLRise,
+    hooves_LEFT_ELBOW_ANGLE: elbowLAngle,
 
-  const elbowLRise = properties[hoovesSide.left + 'elbow_rise']
-  const elbowLAngle = properties[hoovesSide.left + 'elbow_angle']
+    hooves_LEFT_WRIST_RISE: wristLRise,
+    hooves_LEFT_WRIST_ANGLE: wristLAngle,
 
-  const wristLRise = properties[hoovesSide.left + 'wrist_rise']
-  const wristLAngle = properties[hoovesSide.left + 'wrist_angle']
+    hooves_RIGHT_SHOULDER_RISE: shoulderRRise,
+    hooves_RIGHT_SHOULDER_ANGLE: shoulderRAngle,
 
-  // Right hooves
+    hooves_RIGHT_ELBOW_RISE: elbowRRise,
+    hooves_RIGHT_ELBOW_ANGLE: elbowRAngle,
 
-  const shoulderRRise = properties[hoovesSide.right + 'shoulder_rise']
-  const shoulderRAngle = properties[hoovesSide.right + 'shoulder_angle']
-
-  const elbowRRise = properties[hoovesSide.right + 'elbow_rise']
-  const elbowRAngle = properties[hoovesSide.right + 'elbow_angle']
-
-  const wristRRise = properties[hoovesSide.right + 'wrist_rise']
-  const wristRAngle = properties[hoovesSide.right + 'wrist_angle']
+    hooves_RIGHT_WRIST_RISE: wristRRise,
+    hooves_RIGHT_WRIST_ANGLE: wristRAngle
+  } = properties
 
   // Getting an array of elements from an array of layers
 
@@ -100,13 +93,21 @@ export default function(
 
       // Arms
     } else if (['left_forearm', 'left_tibia', 'left_wrist'].includes(layer)) {
-      ctx.translate(-(absAngle ** 0.25) * 150 * quality, 0)
+      if (absAngle < 0.5) {
+        ctx.translate(-absAngle * 2 * 160 * quality, 0)
+      } else {
+        ctx.translate(((absAngle - 0.5) * 60 - 160) * quality, 0)
+      }
 
       setAng(shoulderLAngle * (mirror ? -1 : 1), [65, 325], 1.5)
     } else if (
       ['right_forearm', 'right_tibia', 'right_wrist'].includes(layer)
     ) {
-      ctx.translate(-(absAngle ** 0.25) * 33 * quality, 0)
+      if (absAngle < 0.5) {
+        ctx.translate(-absAngle * 80 * quality, 0)
+      } else {
+        ctx.translate(((absAngle - 0.5) * 60 - 40) * quality, 0)
+      }
 
       setAng(shoulderRAngle * (mirror ? -1 : 1), [-65, 325], 1.5)
     }
@@ -173,13 +174,11 @@ export default function(
     } else if (layer === 'cheeks') {
       ctx.translate(0, -horiz * 10 * quality)
     } else if (layer === 'eye_left_brow') {
-      const side = x < 0 ? 'right' : 'left'
-      const height = properties['eyes_brows_' + side + '_height']
+      const height = properties.eyes_BROWS_LEFT_HEIGHT
 
       ctx.translate(0, (-horiz * 20 - height / 5) * quality)
     } else if (layer === 'eye_right_brow') {
-      const side = x < 0 ? 'left' : 'right'
-      const height = properties['eyes_brows_' + side + '_height']
+      const height = properties.eyes_BROWS_RIGHT_HEIGHT
 
       ctx.translate(0, (-horiz * 20 - height / 5) * quality)
     } else if (layer === 'head2') {
