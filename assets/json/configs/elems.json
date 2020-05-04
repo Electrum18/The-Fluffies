@@ -108,7 +108,7 @@
     "rotate": "head",
     "elems": [
       { "type": "eye_left_iris", "fill": "eyes_left_basic", "clip": ["eye_left"] },
-      { "type": "eye_left_pupil", "fill": "#000", "clip": ["eye_left"] },
+      { "type": "eye_left_pupil", "fill": "eyes_pupil", "clip": ["eye_left"] },
       { "type": "eye_left_flare", "fill": "#fff", "clip": ["eye_left"] }
     ]
   },
@@ -203,7 +203,7 @@
     "rotate": "head",
     "elems": [
       { "type": "eye_right_iris", "fill": "eyes_right_basic", "clip": ["eye_right"] },
-      { "type": "eye_right_pupil", "fill": "#000", "clip": ["eye_right"] },
+      { "type": "eye_right_pupil", "fill": "eyes_pupil", "clip": ["eye_right"] },
       { "type": "eye_right_flare", "fill": "#fff", "clip": ["eye_right"] }
     ]
   },

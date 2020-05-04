@@ -86,13 +86,9 @@ export default function() {
       const slot = +localStorage.getItem('slot')
       const save = JSON.parse(localStorage.getItem('avatars'))
 
-      const { globals, properties, getColor: color } = this
+      const { globals, properties: propers, getColor: color } = this
 
-      save[slot] = {
-        globals,
-        propers: properties,
-        color
-      }
+      save[slot] = { globals, propers, color }
 
       localStorage.setItem('avatars', JSON.stringify(save))
 
@@ -101,7 +97,7 @@ export default function() {
       const slot2 = +localStorage.getItem('animationSlot')
       const animations = JSON.parse(localStorage.getItem('animations'))
 
-      animations[slot2].frames[this.getFrame].frame = properties
+      animations[slot2].frames[this.getFrame].frame = propers
 
       localStorage.setItem('animations', JSON.stringify(animations))
 

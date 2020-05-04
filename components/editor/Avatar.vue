@@ -33,16 +33,18 @@ import { mapGetters, mapMutations } from 'vuex'
 import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
-import abs from 'abs-svg-path'
-import parse from 'parse-svg-path'
-import curvify from 'curvify-svg-path'
-
 import { timeline } from 'popmotion'
 
 import GIF from 'gif.js'
 
-import Animate from '~/assets/js/avatar/animate'
-import Draw from '~/assets/js/avatar/draw'
+import animate from '~/assets/js/avatar/animate'
+import draw from '~/assets/js/avatar/draw'
+import SetPropersSide from '~/assets/js/avatar/setSide'
+
+import {
+  FormatSVGinJSON,
+  CompiledPaths as paths
+} from '~/assets/js/dataCompile'
 
 // Configs
 
@@ -50,41 +52,8 @@ import Elems from '~/assets/json/configs/elems.json'
 import IS from '~/assets/json/configs/interpolationScheme.json'
 import Powers from '~/assets/json/configs/power.json'
 
-import Body from '~/assets/json/data/pony/body.json'
-import Emotions from '~/assets/json/data/pony/emotions.json'
-
-import HornLong from '~/assets/json/data/horns/long.json'
-import HornDeer from '~/assets/json/data/horns/deer.json'
-
-import GlassesClassic from '~/assets/json/data/glasses/classic.json'
-import GlassesMonolens from '~/assets/json/data/glasses/monolens.json'
-import GlassesTeashades from '~/assets/json/data/glasses/teashades.json'
-
-const cache = setupCache({
-  readHeaders: true
-})
-
-const api = axios.create({
-  adapter: cache.adapter
-})
-
-function FormatSVGinJSON(json) {
-  const keys = Object.keys(json)
-
-  json.keys = keys
-
-  for (let i = 0; i < keys.length; i++) {
-    const pathsArr = json[keys[i]]
-
-    for (let j = 0; j < pathsArr.length; j++) {
-      if (pathsArr[j][0] === 'M') {
-        pathsArr[j] = curvify(abs(parse(pathsArr[j])))
-      }
-    }
-  }
-
-  return json
-}
+const cache = setupCache({ readHeaders: true })
+const api = axios.create({ adapter: cache.adapter })
 
 export default {
   props: {
@@ -123,25 +92,7 @@ export default {
         time: 0
       },
 
-      paths: {
-        keys: ['body', 'emotions', 'horn', 'glasses', 'hairs'],
-
-        body: FormatSVGinJSON(Body),
-        emotions: FormatSVGinJSON(Emotions),
-
-        horn: {
-          Long: FormatSVGinJSON(HornLong),
-          Deer: FormatSVGinJSON(HornDeer)
-        },
-
-        glasses: {
-          Classic: FormatSVGinJSON(GlassesClassic),
-          Monolens: FormatSVGinJSON(GlassesMonolens),
-          Teashades: FormatSVGinJSON(GlassesTeashades)
-        },
-
-        hairs: {}
-      },
+      paths,
 
       globals: {},
       properties: {},
@@ -243,22 +194,39 @@ export default {
   },
 
   watch: {
-    getAngle(angle) {
-      this.angle = angle
-      this.x = angle / 90
+    getAngle: {
+      handler(angle) {
+        this.angle = angle
+      },
+
+      immediate: true
     },
 
-    getHoriz(horiz) {
-      this.horiz = horiz
+    getHoriz: {
+      handler(horiz) {
+        this.horiz = horiz
+      },
+
+      immediate: true
     },
 
-    getDegress(degress) {
-      this.degress = degress
+    getDegress: {
+      handler(degress) {
+        this.degress = degress
+        this.mirror = degress < 0
+
+        this.x = degress / 90
+      },
+
+      immediate: true
     },
 
     getProper: {
       handler(propers) {
-        this.properties = JSON.parse(JSON.stringify(propers))
+        const properties = JSON.parse(JSON.stringify(propers))
+
+        this.SetPropersSide(this.mirror, properties)
+        this.properties = properties
 
         this.fullQuality = false
         this.executeAnimation = true
@@ -316,21 +284,32 @@ export default {
       deep: true
     },
 
-    mirror() {
-      const {
-        eyes_left_basic: eyesLeftBasic,
-        eyes_right_basic: eyesRightBasic
-      } = this.getColor
+    mirror: {
+      handler(value, old) {
+        const { properties, getColor } = this
 
-      this.setColor({
-        path: 'eyes_left_basic',
-        value: eyesRightBasic
-      })
+        if (old !== undefined) {
+          const {
+            eyes_left_basic: eyesLeftBasic,
+            eyes_right_basic: eyesRightBasic
+          } = getColor
 
-      this.setColor({
-        path: 'eyes_right_basic',
-        value: eyesLeftBasic
-      })
+          this.setColor({
+            path: 'eyes_left_basic',
+            value: eyesRightBasic
+          })
+
+          this.setColor({
+            path: 'eyes_right_basic',
+            value: eyesLeftBasic
+          })
+        }
+
+        this.SetPropersSide(value, properties)
+        this.setMirror(value)
+      },
+
+      immediate: true
     },
 
     getPlaying: {
@@ -343,11 +322,15 @@ export default {
           player.model = this.timeline.start(({ x }) => {
             this.horiz = x.horiz
             this.angle = x.angle
-            this.x = x.angle / 90
 
             this.degress = x.degress
 
+            this.x = x.degress / 90
+            this.mirror = x.degress < 0
+
             this.properties = x
+
+            this.SetPropersSide(this.mirror, this.properties)
 
             this.fullQuality = false
             this.executeAnimation = true
@@ -423,6 +406,8 @@ export default {
 
   mounted() {
     this.properties = JSON.parse(JSON.stringify(this.getProper))
+
+    this.SetPropersSide(this.mirror, this.properties)
 
     this.applyGlobals(this.getGlobal)
 
@@ -506,7 +491,8 @@ export default {
       'setProper',
       'setColor',
       'setHairsList',
-      'setAllHairsList'
+      'setAllHairsList',
+      'setMirror'
     ]),
 
     ...mapMutations('interface', [
@@ -610,11 +596,11 @@ export default {
 
         const absX = x > 0 ? x : -x
 
-        this.horiz = -((y * (1 - absX)) ** 7)
-        this.angle = (y * 90 * absX) / 4
-
         this.degress = x * 90
         this.mirror = x < 0
+
+        this.horiz = -((y * (1 - absX)) ** 7)
+        this.angle = (y * 90 * absX) / 4
 
         this.fullQuality = false
         this.executeAnimation = true
@@ -661,8 +647,9 @@ export default {
       return resolutions[enumerate[quality * 1024]]
     },
 
-    draw: Draw,
-    animate: Animate
+    SetPropersSide,
+    draw,
+    animate
   }
 }
 </script>
