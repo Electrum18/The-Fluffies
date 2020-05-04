@@ -48,6 +48,11 @@
           min=10
         )
 
+        BarColor(
+          :text="$t('editor.menu.eyes.color_pupil')"
+          val="eyes_pupil"
+        )
+
       v-divider.my-4
 
 

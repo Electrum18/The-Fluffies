@@ -31,6 +31,7 @@ export default {
       heterochromia: 'гетерохромия',
       color_right: 'правого',
       color_sclera: 'склеры',
+      color_pupil: 'зрачка',
       scale: 'размер',
 
       pupils: 'Зрачки',

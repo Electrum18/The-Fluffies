@@ -31,6 +31,7 @@ export default {
       heterochromia: 'heterochromia',
       color_right: 'right iris',
       color_sclera: 'sclera',
+      color_pupil: 'pupil',
       scale: 'scale',
 
       pupils: 'Pupils',
