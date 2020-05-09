@@ -32,13 +32,7 @@ function interpolate(
       const scheme = interpolationScheme[keys[j]]
 
       if (scheme) {
-        schemeMorph(
-          { paths, frame, range, key: keys[j] },
-          emotions,
-          scheme,
-          calculated,
-          properties
-        )
+        schemeMorph({ paths, frame, range, key: keys[j] }, emotions, scheme, calculated, properties)
       } else {
         calculated[keys[j]] = morph(paths[frame], paths[frame + 1], range)
       }

@@ -26,7 +26,7 @@
 
       p.subtitle-2 {{ $t('editor.menu.wings.raise') }}
 
-      v-card(outlined).my-2
+      v-card(outlined :disabled="!globals.wings_enable").my-2
         BarSlider(
           :text="$t('editor.menu.wings.left')"
           val="wing_left_folded"
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
+
 import BarSlider from '../BarSliders'
 import BarSwitch from '../BarSwitches'
 import BarColor from '../BarColors'
@@ -54,6 +56,12 @@ export default {
     BarSlider,
     BarSwitch,
     BarColor
+  },
+
+  setup(props, { root: { $store } }) {
+    return {
+      globals: computed(() => $store.getters['avatar/getGlobal'])
+    }
   }
 }
 </script>

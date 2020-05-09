@@ -20,8 +20,7 @@ export default {
 
         {
           text: 'SVG Morphing',
-          url:
-            'https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f'
+          url: 'https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f'
         },
 
         {

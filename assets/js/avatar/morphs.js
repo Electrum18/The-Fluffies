@@ -35,24 +35,11 @@ function emotionMorph(emotions, scheme, paths, frame, range, getProper) {
   )
 }
 
-export function schemeMorph(
-  { paths, frame, range, key },
-  emotions,
-  scheme,
-  calculated,
-  getProper
-) {
+export function schemeMorph({ paths, frame, range, key }, emotions, scheme, calculated, getProper) {
   const nested = !scheme[0][0][3]
 
   if (!nested) {
-    calculated[key] = emotionMorph(
-      emotions,
-      scheme,
-      paths,
-      frame,
-      range,
-      getProper
-    )
+    calculated[key] = emotionMorph(emotions, scheme, paths, frame, range, getProper)
   } else {
     calculated[key] = morph(
       emotionMorph(emotions, scheme[0][0], paths, frame, range, getProper),

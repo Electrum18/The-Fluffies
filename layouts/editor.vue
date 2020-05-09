@@ -20,16 +20,13 @@ import PonyAvatarLogo from '~/assets/svg/PonyLoadingLogo.svg'
 export default {
   setup(props, { root }) {
     const background = computed(() => {
-      const { background_basic: Background } = root.$store.getters[
-        'avatar/getColor'
-      ]
+      const { background_basic: Background } = root.$store.getters['avatar/getColor']
 
       const { h, s, l, a } = Background
 
       return a
         ? {
-            background:
-              'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
+            background: 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
           }
         : { background: 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)' }
     })

@@ -9,8 +9,7 @@
   "hair_name_en": "Spiky to side",
   "hair_name_ru": "Шипастая на бок",
 
-  "hair_IS_DREADS": false,
-  "hair_IS_BASIC": true,
+  "hair_dreads": false,
 
 
   "tassels": true,
@@ -25,9 +24,6 @@
   "horn_name_ru": "Длинные",
 
   "horn_info": [],
-
-  "horn_IS_DEFAULT": false,
-  "horn_IS_CHANGELING": false,
 
 
   "stripes_enable": false,
@@ -68,11 +64,7 @@
   "wings_enable": true,
   "wings_bat": true,
 
-  "wings_IS_BAT": true,
-  "wings_IS_BASIC": false,
-
   "canine_nose_enable": false,
-  "canine_nose_NOT_ENABLED": true,
 
   "fluff_cheeks": false,
   "fluff_ears": false,
