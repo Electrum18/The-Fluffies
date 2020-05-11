@@ -162,5 +162,19 @@ export default {
    */
   build: {
     extractCSS: true
+
+    /*
+    extend({ plugins, output }, { isClient }) {
+      if (isClient) {
+        const extractCSS = plugins[0].options
+
+        extractCSS.filename = '[contenthash:4].css'
+        extractCSS.chunkFilename = '[contenthash:4].css'
+
+        output.filename = '[contenthash:4].js'
+        output.chunkFilename = '[contenthash:4].js'
+      }
+    }
+    */
   }
 }

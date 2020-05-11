@@ -2,7 +2,7 @@
   v-app
     nuxt
 
-    Socials
+    // Socials
 
     .my-7
 

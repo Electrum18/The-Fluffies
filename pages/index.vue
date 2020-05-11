@@ -1,5 +1,10 @@
 <template lang="pug">
   div.pa-3
+    //.defaults-container
+      v-img(eager :src="require('~/assets/img/Defaulty_Zebra.png?webp')" :style="positions[1]")
+      v-img(eager :src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
+      v-img(eager :src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
+
     h1.header {{ $t('meta.title.index') }}
 
     v-row
@@ -7,12 +12,48 @@
       v-spacer
       NetworkStatus.mx-3
 
-    v-container.max.text-center
-      div.pa-6(@click="easter($refs)")
+    v-container.pa-0.max.text-center
+      div.pb-6.px-12(@click="easter($refs)")
         TheFluffiesLogo.logo(ref="logo")
 
-      h2.body-1.font-weight-bold.px-9 {{ $t('index.title') }}
+    v-row.row-bottom
+      v-col
+        v-row
+          v-spacer
 
+          v-btn.mx-4.my-3.width.d-none.d-md-flex(
+            rounded
+            :title="$t('index.about')"
+            :to="localePath('about')"
+            :aria-label="$t('index.about')"
+            nuxt
+          ) {{ $t('index.about') }}
+
+          v-btn.mx-4(fab @click="left"): v-icon {{ icons.mdiArrowLeft }}
+
+          v-btn(
+            x-large
+            rounded
+            :title="haveSave ? $t('index.continue.title') : $t('index.start.title')"
+            :href="localePath('editor')"
+            :aria-label="haveSave ? $t('index.continue.label') : $t('index.start.label')"
+          ) {{ haveSave ? $t('index.continue.title') : $t('index.start.title') }}
+
+          v-btn.mx-4(fab @click="right"): v-icon {{ icons.mdiArrowRight }}
+
+          v-btn.mx-4.my-3.width.d-none.d-md-flex(
+            rounded
+            :title="$t('index.support')"
+            :to="localePath('support')"
+            :aria-label="$t('index.support')"
+            nuxt
+          ) {{ $t('index.support') }}
+
+          v-spacer
+
+      // h2.body-1.font-weight-bold.px-9 {{ $t('index.title') }}
+
+    //
       .py-4.py-md-12.py-lg-12
 
       v-row
@@ -66,29 +107,30 @@
               nuxt
             ) {{ $t('index.support') }}
 
-      v-img#easter(
-        :src="require('~/assets/img/easterEgg.png?webp')"
-        ref="easter"
-        eager
-      )
+    v-img#easter(
+      :src="require('~/assets/img/easterEgg.png?webp')"
+      ref="easter"
+      eager
+    )
 
-      v-img.fruit(
-        :src="require('~/assets/img/apple.png?webp')"
-        ref="apple"
-        max-width=44
-        eager
-      )
+    v-img.fruit(
+      :src="require('~/assets/img/apple.png?webp')"
+      ref="apple"
+      max-width=44
+      eager
+    )
 
-      v-img.fruit(
-        :src="require('~/assets/img/mango.png?webp')"
-        ref="mango"
-        max-width=44
-        eager
-      )
+    v-img.fruit(
+      :src="require('~/assets/img/mango.png?webp')"
+      ref="mango"
+      max-width=44
+      eager
+    )
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import { ref, reactive, computed, toRefs } from '@vue/composition-api'
+import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 
 import i18nHead from '~/assets/js/i18nHead'
 
@@ -125,6 +167,89 @@ function easterEgg() {
   return { easter }
 }
 
+function carousel() {
+  const defaults = reactive({
+    index: 0,
+    length: 3
+  })
+
+  const side = ref('right')
+
+  function left() {
+    defaults.index -= 1
+
+    if (defaults.index < 0) defaults.index = defaults.length - 1
+
+    side.value = 'left'
+  }
+
+  function right() {
+    defaults.index += 1
+
+    if (defaults.index > defaults.length - 1) defaults.index = 0
+
+    side.value = 'right'
+  }
+
+  const positions = computed(() => {
+    return [
+      [
+        { left: '50%', 'max-width': '512px', 'z-index': 3 },
+        {
+          left: 'calc(50% + 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 2 : 1
+        },
+        {
+          left: 'calc(50% - 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 1 : 2
+        }
+      ],
+      [
+        {
+          left: 'calc(50% - 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 1 : 2
+        },
+        { left: '50%', 'max-width': '512px', 'z-index': 3 },
+        {
+          left: 'calc(50% + 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 2 : 1
+        }
+      ],
+      [
+        {
+          left: 'calc(50% + 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 2 : 1
+        },
+        {
+          left: 'calc(50% - 20vw)',
+          'max-width': '448px',
+          filter: 'brightness(0.8)',
+          'z-index': side.value === 'left' ? 1 : 2
+        },
+        { left: '50%', 'max-width': '512px', 'z-index': 3 }
+      ]
+    ][defaults.index]
+  })
+
+  return {
+    defaults,
+    side,
+    left,
+    right,
+    positions
+  }
+}
+
 export default {
   setup(props, { root }) {
     const haveSave = ref(false)
@@ -133,8 +258,17 @@ export default {
       haveSave.value = !!localStorage.getItem('avatars')
     }
 
+    const icons = reactive({
+      mdiArrowLeft,
+      mdiArrowRight
+    })
+
     return {
+      ...toRefs(carousel()),
+
       ...easterEgg(),
+
+      icons,
       haveSave
     }
   },
@@ -162,13 +296,8 @@ html
   width: 0
   height: 0
 
-a.md-size
-  width: 164px
-
-a.sm-size
-  width: 150px
-
 div.max
+  position: relative
   max-width: 700px
 
 .size-by-content
@@ -177,7 +306,7 @@ div.max
 svg.logo
   background-image: linear-gradient(to right, #fa2, #f64)
   border-radius: 4vmin
-  max-width: 600px
+  max-width: 400px
   cursor: pointer
 
 #easter
@@ -191,6 +320,27 @@ svg.logo
   left: 140px
   bottom: -20px
   height: 50px
+
+.defaults-container
+  position: absolute
+  left: 50%
+  bottom: 35px
+  transform: translate(-50%)
+
+  .v-image
+    position: absolute
+    bottom: 0
+    transform: translate(-50%)
+    width: 90vmin
+    transition: left 0.7s ease, max-width 0.7s ease, filter 0.7s ease
+
+.row-bottom
+  position: absolute
+  bottom: 35px
+  width: 100%
+
+.width.v-btn
+  width: 130px
 
 @keyframes logo
   0%
