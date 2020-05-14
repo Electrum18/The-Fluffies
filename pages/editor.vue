@@ -17,8 +17,11 @@
 
         v-row.mx-0
           ButtonBack(:disable="getPage === 'recorderRender'")
+
           v-spacer
+
           v-icon.ma-1.recording(v-if="rendering" color="red") {{ icons.mdiRecord }}
+
           v-chip.mx-1(label) {{ quality }}p • {{ FPS }} FPS
           v-chip.ml-1.mr-3(label)
             | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
@@ -170,6 +173,8 @@ export default {
           : { size: '70vmin', bottom: '260px' }
       }
     })
+
+    if (process.client) commit('avatar/setSaveIndex', localStorage.getItem('defaultIndex') || 0)
 
     return {
       getPage,

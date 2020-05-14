@@ -1,24 +1,24 @@
 {
   "name": "Defaulty",
-  "male": false,
+  "male": true,
 
 
-  "hair_second": true,
+  "hair_second": false,
   "hair_info": [],
 
-  "hair_name_en": "Spiky to side",
-  "hair_name_ru": "Шипастая на бок",
+  "hair_name_en": "Big Bang",
+  "hair_name_ru": "Большая чёлка",
 
   "hair_dreads": false,
 
 
-  "tassels": true,
-  "fangs": true,
+  "tassels": false,
+  "fangs": false,
 
 
   "horn_enable": false,
   "horn_changeling": false,
-  "horn_rear": false,
+  "horn_rear": true,
 
   "horn_name_en": "Long",
   "horn_name_ru": "Длинные",
@@ -29,11 +29,11 @@
   "stripes_enable": false,
 
 
-  "eyes_right_enable": false,
+  "eyes_right_enable": true,
   "eyes_brows_show": true,
 
 
-  "glasses_enable": true,
+  "glasses_enable": false,
 
   "glasses_name_en": "Monolens",
   "glasses_name_ru": "Монолинзовый",
@@ -46,29 +46,29 @@
   "piercings_left_middle": false,
   "piercings_left_lower": true,
 
-  "piercings_right_enable": true,
+  "piercings_right_enable": false,
   "piercings_right_upper": false,
   "piercings_right_middle": false,
-  "piercings_right_lower": true,
+  "piercings_right_lower": false,
 
 
   "hooves_enable": true,
 
 
-  "collar_enable":  true,
+  "collar_enable": false,
 
 
   "bowtie_enable": false,
 
 
-  "wings_enable": true,
-  "wings_bat": true,
+  "wings_enable": false,
+  "wings_bat": false,
 
-  "canine_nose_enable": false,
+  "canine_nose_enable": true,
 
-  "fluff_cheeks": false,
-  "fluff_ears": false,
-  "fluff_chest": false,
+  "fluff_cheeks": true,
+  "fluff_ears": true,
+  "fluff_chest": true,
 
-  "fur_second_color": false
+  "fur_second_color": true
 }

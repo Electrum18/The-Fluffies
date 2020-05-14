@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer.menu-drawer(
+  v-navigation-drawer(
     v-model="open"
     dark
     fixed
@@ -18,19 +18,70 @@
             small
             @click="close()"
             :aria-label="$t('editor.menu.close')"
-            )
+          )
             v-icon {{ icons.mdiKeyboardBackspace }}
 
         v-divider
 
-        v-card-actions
+        v-card-title.py-1.subtitle-2 {{ $t('editor.saves.limit') }}
           v-spacer
-          v-btn(
-            :title="$t('editor.saves.create')"
+          span {{ savesLength }} {{ $t('editor.saves.of') }} {{ maxLength }}
+
+        v-row(justify="center")
+          v-btn.mx-3.my-1(
+            small
             outlined
-            :aria-label="$t('editor.saves.create')"
-            @click="createSave()"
-            ) {{ $t('editor.saves.create') }}
+            disabled
+            color="blue-grey lighten-4"
+            :title="$t('editor.saves.patreon.basic')"
+            :aria-label="$t('editor.saves.patreon.basic')"
+          ) + 15
+            v-icon(right) {{ icons.mdiPatreon }}
+
+          v-btn.mx-3.my-1(
+            small
+            outlined
+            disabled
+            color="yellow accent-4"
+            :title="$t('editor.saves.patreon.huge')"
+            :aria-label="$t('editor.saves.patreon.huge')"
+          ) + 35
+            v-icon(right) {{ icons.mdiPatreon }}
+
+        v-divider
+
+        v-card-title.py-1.subtitle-2 {{ $t('editor.saves.create') }}
+
+        v-row(justify="center")
+          v-btn.my-1(
+            small
+            text
+            color="primary"
+            @click="createSave(0)"
+            :disabled="savesLength >= maxLength"
+            :title="$t('editor.saves.pony')"
+            :aria-label="$t('editor.saves.pony')"
+          ) {{ $t('editor.saves.pony') }}
+
+          v-btn.my-1(
+            small
+            text
+            color="primary"
+            @click="createSave(1)"
+            :disabled="savesLength >= maxLength"
+            :title="$t('editor.saves.zebra')"
+            :aria-label="$t('editor.saves.zebra')"
+          ) {{ $t('editor.saves.zebra') }}
+
+          v-btn.my-1(
+            small
+            text
+            color="primary"
+            @click="createSave(2)"
+            :disabled="savesLength >= maxLength"
+            :title="$t('editor.saves.deer')"
+            :aria-label="$t('editor.saves.deer')"
+          ) {{ $t('editor.saves.deer') }}
 
       v-card(light).my-4
         v-list
@@ -42,17 +93,18 @@
             template(v-for="(save, i) in saves")
               v-list-item(
                 :key="save.globals.name + i"
+                :disabled="i >= 10"
               )
                 v-list-item-content
-                  v-list-item-title {{ i }} • {{ save.globals.name }}
+                  v-list-item-title {{ i + 1 }} • {{ save.globals.name }}
 
                 v-list-item-action.mx-n2.my-0
                   v-btn(
+                    v-if="saves.length > 1 && i < 10"
                     icon
+                    @click="removeSave(i)"
                     :title="$t('editor.saves.delete')"
                     :aria-label="$t('editor.saves.delete')"
-                    v-if="saves.length > 1"
-                    @click="removeSave(i)"
                   )
                     v-icon {{ icons.mdiDelete }}
 
@@ -65,7 +117,7 @@
 <script>
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 
-import { mdiKeyboardBackspace, mdiDelete } from '@mdi/js'
+import { mdiKeyboardBackspace, mdiDelete, mdiPatreon } from '@mdi/js'
 
 export default {
   props: {
@@ -80,15 +132,24 @@ export default {
       saves: null,
       slot: 0,
 
+      defaultIndex: 0,
+
+      maxLength: 10,
+
       icons: {
         mdiKeyboardBackspace,
-        mdiDelete
+        mdiDelete,
+        mdiPatreon
       }
     }
   },
 
   computed: {
-    ...mapGetters('avatar', ['getGlobal', 'getDefault'])
+    ...mapGetters('avatar', ['getGlobal', 'getDefault']),
+
+    savesLength() {
+      return this.saves !== null ? this.saves.length : 0
+    }
   },
 
   watch: {
@@ -129,7 +190,7 @@ export default {
     getSlot() {
       const slot = +localStorage.getItem('slot')
 
-      if (slot) {
+      if (slot && slot <= this.maxLength) {
         return slot
       } else {
         localStorage.setItem('slot', '0')
@@ -147,9 +208,14 @@ export default {
 
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i]
-
         const value = avatar[key]
-        const valueRef = getDefault[key]
+
+        const defaultObj = JSON.parse(JSON.stringify(getDefault))
+
+        defaultObj.globals = defaultObj.globals[this.defaultIndex]
+        defaultObj.color = defaultObj.color[this.defaultIndex]
+
+        const valueRef = defaultObj[key]
 
         // If key does not exist
         if (isEmpty(valueRef)) {
@@ -171,7 +237,7 @@ export default {
             if (key2 === 'horn_behind_NO_EARS') continue
             if (key2 === 'horn_behind_AFTER_EARS') continue
 
-            const global = getDefault.globals[key2]
+            const global = defaultObj.globals[key2]
 
             // If key does not exist
             if (isEmpty(global)) {
@@ -183,7 +249,7 @@ export default {
             }
           }
 
-          const refKeys = Object.keys(getDefault.globals)
+          const refKeys = Object.keys(defaultObj.globals)
 
           for (let i = 0; i < refKeys.length; i++) {
             const key2 = refKeys[i]
@@ -203,7 +269,7 @@ export default {
           for (let i = 0; i < keys2.length; i++) {
             const key2 = keys2[i]
 
-            const color = getDefault.color[key2]
+            const color = defaultObj.color[key2]
             const val2 = value[key2]
 
             // If key does not exist
@@ -218,12 +284,12 @@ export default {
             }
           }
 
-          const refKeys = Object.keys(getDefault.color)
+          const refKeys = Object.keys(defaultObj.color)
 
           for (let i = 0; i < refKeys.length; i++) {
             const key2 = refKeys[i]
             const val2 = value[key2]
-            const val3 = getDefault.color[key2]
+            const val3 = defaultObj.color[key2]
 
             if (isEmpty(val2)) {
               value[key2] = val3
@@ -241,26 +307,37 @@ export default {
       if (avatars && avatars.length) {
         avatars = JSON.parse(avatars)
 
-        this.compability(avatars[this.slot])
+        // this.compability(avatars[this.slot])
         this.setAvatar(avatars[this.slot])
 
         return avatars
       } else {
-        localStorage.setItem('avatars', JSON.stringify([this.getDefault]))
+        const { frame, globals, color } = this.getDefault
 
-        return [this.getDefault]
+        const save = { frame, globals: globals[this.defaultIndex], color: color[this.defaultIndex] }
+
+        localStorage.setItem('avatars', JSON.stringify([save]))
+
+        this.setAvatar(save)
+
+        return [save]
       }
     },
 
-    createSave() {
+    createSave(index) {
       const parsedData = JSON.parse(localStorage.getItem('avatars'))
 
-      parsedData.push(this.getDefault)
+      const { frame, globals, color } = this.getDefault
+
+      const save = { frame, globals: globals[index], color: color[index] }
+
+      parsedData.push(save)
 
       localStorage.setItem('avatars', JSON.stringify(parsedData))
 
       // Apply changes
 
+      this.defaultIndex = index
       this.slot = parsedData.length - 1
       this.saves = this.getSave()
     },
@@ -274,7 +351,7 @@ export default {
 
       // Fix slot (index)
 
-      if (slot === this.slot || slot === 0) this.slot = 0
+      this.slot = 0
 
       localStorage.setItem('slot', this.slot + '')
 

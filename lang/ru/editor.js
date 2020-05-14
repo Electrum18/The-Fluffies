@@ -224,7 +224,18 @@ export default {
     save: 'Сохранения',
     animatons: 'Анимации',
     create: 'Создать новый',
-    delete: 'Удалить'
+    pony: 'Пони',
+    zebra: 'Зебра',
+    deer: 'Олень',
+    delete: 'Удалить',
+
+    limit: 'Лимит сохранений',
+    of: 'из',
+
+    patreon: {
+      basic: 'Patreon • Базовая поддержка',
+      huge: 'Patreon • Гигантская поддержка'
+    }
   },
 
   animator: {
