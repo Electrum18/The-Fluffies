@@ -45,19 +45,19 @@ export default {
       right_eyelids: 'Правые веки',
 
       upper: 'верхнее',
-      lower: 'нижнее',
+      lower: 'нижнее'
+    },
 
-      eyebrows: {
-        title: 'брови',
+    eyebrows: {
+      title: 'Брови',
 
-        left: 'Левая бровь',
-        right: 'Правая бровь',
+      left: 'Левая бровь',
+      right: 'Правая бровь',
 
-        width: 'толщина',
-        height: 'высота',
-        evil: 'злое',
-        surprised: 'удивленное'
-      }
+      width: 'толщина',
+      height: 'высота',
+      evil: 'злое',
+      surprised: 'удивленное'
     },
 
     glasses: {

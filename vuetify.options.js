@@ -6,12 +6,14 @@ export default {
     themes: {
       light: {
         primary: colors.amber.accent4,
-        url: colors.indigo.darken1
+        url: colors.indigo.darken1,
+        lang: colors.purple.darken1
       },
 
       dark: {
         primary: colors.amber.accent4,
-        url: colors.blue.lighten2
+        url: colors.blue.lighten2,
+        lang: colors.deepPurple.accent1
       }
     }
   },

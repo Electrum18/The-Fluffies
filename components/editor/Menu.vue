@@ -9,8 +9,15 @@
     :permanent="open"
     hide-overlay
   )
+    v-container
+      BarColor.ma-0(
+        :text="$t('editor.screener.background')"
+        val="background_basic"
+      )
+
     v-expansion-panels(focusable)
       Eyes
+      Brows
       Glasses
       Mane
       Fur
@@ -60,6 +67,7 @@ import { computed } from '@vue/composition-api'
 import { mdiGenderMale, mdiGenderFemale } from '@mdi/js'
 
 import Eyes from './menu/Eyes'
+import Brows from './menu/Brows'
 import Glasses from './menu/Glasses'
 import Mane from './menu/Mane'
 import Fur from './menu/Fur'
@@ -72,6 +80,8 @@ import Piercing from './menu/Piercing'
 import Hooves from './menu/Hooves'
 import Neck from './menu/Neck'
 import Wings from './menu/Wings'
+
+import BarColor from './BarColors'
 
 function Gender({ commit }, globals) {
   const gender = computed(() => {
@@ -93,6 +103,7 @@ function Gender({ commit }, globals) {
 export default {
   components: {
     Eyes,
+    Brows,
     Glasses,
     Mane,
     Fur,
@@ -104,7 +115,9 @@ export default {
     Piercing,
     Hooves,
     Neck,
-    Wings
+    Wings,
+
+    BarColor
   },
 
   props: {

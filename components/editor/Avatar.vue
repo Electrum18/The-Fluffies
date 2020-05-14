@@ -21,8 +21,10 @@
           v-spacer
           v-btn(text @click="rendered.opened = false") {{ $t('editor.close') }}
           v-btn(
+            ref="gifDownload"
             color="primary"
             :href="rendered.data"
+            :title="rendered.fileName"
             :download="rendered.fileName"
           ) {{ $t('editor.save') }}
 </template>
@@ -463,6 +465,16 @@ export default {
         self.rendered.title = self.globals.name + ' • ' + animations[slot].name
         self.rendered.fileName = 'TFs - ' + self.globals.name + ' - ' + animations[slot].name
         self.rendered.data = reader.result
+
+        setTimeout(() => {
+          const img = document.createElement('img')
+
+          img.src = reader.result
+          img.alt = self.rendered.title
+          img.style = 'display: none'
+
+          self.$refs.gifDownload.$el.appendChild(img)
+        }, 100)
 
         self.setRendered()
       }

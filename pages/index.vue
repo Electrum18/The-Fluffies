@@ -18,114 +18,117 @@
 
       h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
-    v-row.row-bottom
-      v-col
-        v-row.my-auto
-          v-spacer
+    no-ssr
+      v-row.row-bottom.my-4
+        v-spacer
 
-          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
-            rounded
-            large
-            :title="$t('index.about')"
-            :to="localePath('about')"
-            :aria-label="$t('index.about')"
-            nuxt
-          ) {{ $t('index.about') }}
+        v-btn.mx-4.my-auto.width.d-none.d-md-flex(
+          rounded
+          large
+          :title="$t('index.about')"
+          :to="localePath('about')"
+          :aria-label="$t('index.about')"
+          nuxt
+        ) {{ $t('index.about') }}
 
-          v-btn.mx-4.my-auto(
-            v-if="!saveMode"
-            fab
-            elevation=2
-            @click="left"
-          )
-            v-icon {{ icons.mdiArrowLeft }}
+        v-btn.mx-4.my-auto(
+          v-if="!saveMode"
+          fab
+          elevation=2
+          @click="left"
+          :title="$t('index.select.left')"
+          :aria-label="$t('index.select.left')"
+        )
+          v-icon {{ icons.mdiArrowLeft }}
 
-          v-btn(
-            v-if="!haveSave"
-            x-large
-            rounded
-            @click="createStartSave"
-            :title="$t('index.start.title')"
-            :href="localePath('editor')"
-            :aria-label="$t('index.start.label')"
+        v-btn(
+          v-if="!haveSave"
+          x-large
+          rounded
+          @click="createStartSave"
+          :title="$t('index.start.title')"
+          :href="localePath('editor')"
+          :aria-label="$t('index.start.label')"
           ) {{ $t('index.start.title') }}
 
-          v-card.card-rounded(v-if="haveSave && saveMode")
-            v-container.pa-0
-              v-col.py-0
-                v-row
-                  p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
-                  v-spacer
-                  v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
+        v-card.card-rounded(v-if="haveSave && saveMode")
+          v-container.pa-0
+            v-col.py-0
+              v-row
+                p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
+                v-spacer
+                v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
 
-                v-row
-                  v-btn.card-rounded(
-                    x-large
-                    text
-                    block
-                    :title="$t('index.continue.title')"
-                    :href="localePath('editor')"
-                    :aria-label="$t('index.continue.label')"
-                  ) {{ $t('index.continue.title') }}
+              v-row
+                v-btn.card-rounded(
+                  x-large
+                  text
+                  block
+                  :title="$t('index.continue.title')"
+                  :href="localePath('editor')"
+                  :aria-label="$t('index.continue.label')"
+                ) {{ $t('index.continue.title') }}
 
-                v-divider
+              v-divider
 
-                v-row
-                  v-btn.text--secondary.card-rounded(
-                    flex
-                    text
-                    block
-                    @click="saveMode = !saveMode"
-                    :disabled="savesLength > 9"
-                    :title="$t('index.create_more.title')"
-                    :aria-label="$t('index.create_more.label')"
-                  ) {{ $t('index.create_more.title') }}
-                    v-icon(right) {{ icons.mdiPlus }}
+              v-row
+                v-btn.text--secondary.card-rounded(
+                  flex
+                  text
+                  block
+                  @click="saveMode = !saveMode"
+                  :disabled="savesLength > 9"
+                  :title="$t('index.create_more.title')"
+                  :aria-label="$t('index.create_more.label')"
+                ) {{ $t('index.create_more.title') }}
+                  v-icon(right) {{ icons.mdiPlus }}
 
-          v-card.card-rounded(v-if="haveSave && !saveMode")
-            v-container.pa-0
-              v-col.py-0
-                v-row
-                  v-btn.card-rounded(
-                    x-large
-                    text
-                    block
-                    @click="createSave"
-                    :title="$t('index.start.title')"
-                    :href="localePath('editor')"
-                    :aria-label="$t('index.start.label')"
-                    ) {{ $t('index.start.title') }}
+        v-card.card-rounded(v-if="haveSave && !saveMode")
+          v-container.pa-0
+            v-col.py-0
+              v-row
+                v-btn.card-rounded(
+                  x-large
+                  text
+                  block
+                  @click="createSave"
+                  :title="$t('index.start.title')"
+                  :href="localePath('editor')"
+                  :aria-label="$t('index.start.label')"
+                  ) {{ $t('index.start.title') }}
 
-                v-divider
+              v-divider
 
-                v-row
-                  v-btn.text--secondary.card-rounded(
-                    flex
-                    text
-                    block
-                    @click="saveMode = !saveMode"
-                    :title="$t('index.return.title')"
-                    :aria-label="$t('index.return.label')"
-                  ) {{ $t('index.return.title') }}
+              v-row
+                v-btn.text--secondary.card-rounded(
+                  flex
+                  text
+                  block
+                  @click="saveMode = !saveMode"
+                  :title="$t('index.return.title')"
+                  :aria-label="$t('index.return.label')"
+                ) {{ $t('index.return.title') }}
 
-          v-btn.mx-4.my-auto(
-            v-if="!saveMode"
-            fab
-            elevation=2
-            @click="right"
+        v-btn.mx-4.my-auto(
+          v-if="!saveMode"
+          fab
+          elevation=2
+          @click="right"
+          :title="$t('index.select.right')"
+          :aria-label="$t('index.select.right')"
           )
-            v-icon {{ icons.mdiArrowRight }}
+          v-icon {{ icons.mdiArrowRight }}
 
-          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
-            rounded
-            large
-            :title="$t('index.support')"
-            :to="localePath('support')"
-            :aria-label="$t('index.support')"
-            nuxt
+        v-btn.mx-4.my-auto.width.d-none.d-md-flex(
+          rounded
+          large
+          :title="$t('index.support')"
+          :to="localePath('support')"
+          :aria-label="$t('index.support')"
+          nuxt
           ) {{ $t('index.support') }}
 
-          v-spacer
+        v-spacer
 
     v-menu(transition="slide-x-reverse-transition")
       template(v-slot:activator="{ on }")

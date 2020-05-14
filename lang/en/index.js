@@ -9,6 +9,11 @@ export default {
     label: 'Start creating'
   },
 
+  select: {
+    left: 'Select left',
+    right: 'Select right'
+  },
+
   continue: {
     title: 'continue',
     label: 'Continue creating'

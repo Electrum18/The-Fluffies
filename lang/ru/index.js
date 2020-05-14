@@ -9,6 +9,11 @@ export default {
     label: 'Начать создавание'
   },
 
+  select: {
+    left: 'Выбрать слева',
+    right: 'Выбрать справа'
+  },
+
   continue: {
     title: 'продолжить',
     label: 'Продолжить создание'

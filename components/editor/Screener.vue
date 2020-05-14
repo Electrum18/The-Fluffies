@@ -72,7 +72,13 @@
         v-card-actions
           v-spacer
           v-btn(text @click="screened = false") {{ $t('editor.close') }}
-          v-btn(color="primary" :href="photo" :download="download") {{ $t('editor.save') }}
+          v-btn(
+            ref="imageDownload"
+            color="primary"
+            :href="photo"
+            :title="download"
+            :download="download"
+          ) {{ $t('editor.save') }}
 </template>
 
 <script>
@@ -94,7 +100,7 @@ export default {
     }
   },
 
-  setup(props, { root: { $store, $refs } }) {
+  setup(props, { refs, root: { $store, $refs } }) {
     const { getters, commit } = $store
 
     const opened = computed({
@@ -174,6 +180,16 @@ export default {
 
       download.value = 'TFs - ' + store.globals.name + '.' + format
       photo.value = canvas.toDataURL('image/' + format)
+
+      setTimeout(() => {
+        const img = document.createElement('img')
+
+        img.src = photo.value
+        img.alt = download.value
+        img.style = 'display: none'
+
+        refs.imageDownload.$el.appendChild(img)
+      }, 100)
     }
 
     return {
