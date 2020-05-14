@@ -6,10 +6,12 @@ export default function(mirror, propers) {
     propers.eyes_EYELIDS_RIGHT_UP = propers.eyes_eyelids_left_up
     propers.eyes_EYELIDS_RIGHT_DOWN = propers.eyes_eyelids_left_down
 
+    propers.eyes_BROWS_LEFT_WIDTH = propers.eyes_brows_right_width
     propers.eyes_BROWS_LEFT_HEIGHT = propers.eyes_brows_right_height
     propers.eyes_BROWS_LEFT_EVIL = propers.eyes_brows_right_evil
     propers.eyes_BROWS_LEFT_WIDE = propers.eyes_brows_right_wide
 
+    propers.eyes_BROWS_RIGHT_WIDTH = propers.eyes_brows_left_width
     propers.eyes_BROWS_RIGHT_HEIGHT = propers.eyes_brows_left_height
     propers.eyes_BROWS_RIGHT_EVIL = propers.eyes_brows_left_evil
     propers.eyes_BROWS_RIGHT_WIDE = propers.eyes_brows_left_wide
@@ -44,10 +46,12 @@ export default function(mirror, propers) {
     propers.eyes_EYELIDS_RIGHT_UP = propers.eyes_eyelids_right_up
     propers.eyes_EYELIDS_RIGHT_DOWN = propers.eyes_eyelids_right_down
 
+    propers.eyes_BROWS_LEFT_WIDTH = propers.eyes_brows_left_width
     propers.eyes_BROWS_LEFT_HEIGHT = propers.eyes_brows_left_height
     propers.eyes_BROWS_LEFT_EVIL = propers.eyes_brows_left_evil
     propers.eyes_BROWS_LEFT_WIDE = propers.eyes_brows_left_wide
 
+    propers.eyes_BROWS_RIGHT_WIDTH = propers.eyes_brows_right_width
     propers.eyes_BROWS_RIGHT_HEIGHT = propers.eyes_brows_right_height
     propers.eyes_BROWS_RIGHT_EVIL = propers.eyes_brows_right_evil
     propers.eyes_BROWS_RIGHT_WIDE = propers.eyes_brows_right_wide

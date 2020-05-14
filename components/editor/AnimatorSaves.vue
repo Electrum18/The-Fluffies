@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer.menu-drawer(
+  v-navigation-drawer(
     v-model="open"
     dark
     fixed
@@ -23,14 +23,42 @@
 
         v-divider
 
+        v-card-title.py-1.subtitle-2 {{ $t('editor.saves.limit') }}
+          v-spacer
+          span {{ savesLength }} {{ $t('editor.saves.of') }} {{ maxLength }}
+
+        v-row(justify="center")
+          v-btn.mx-3.my-1(
+            small
+            outlined
+            disabled
+            color="blue-grey lighten-4"
+            :title="$t('editor.saves.patreon.basic')"
+            :aria-label="$t('editor.saves.patreon.basic')"
+          ) + 15
+            v-icon(right) {{ icons.mdiPatreon }}
+
+          v-btn.mx-3.my-1(
+            small
+            outlined
+            disabled
+            color="yellow accent-4"
+            :title="$t('editor.saves.patreon.huge')"
+            :aria-label="$t('editor.saves.patreon.huge')"
+          ) + 35
+            v-icon(right) {{ icons.mdiPatreon }}
+
+        v-divider
+
         v-card-actions
           v-spacer
           v-btn(
-            :title="$t('editor.saves.create')"
             outlined
-            :aria-label="$t('editor.saves.create')"
             @click="createSave()"
-            ) {{ $t('editor.saves.create') }}
+            :disabled="savesLength >= maxLength"
+            :title="$t('editor.saves.create')"
+            :aria-label="$t('editor.saves.create')"
+          ) {{ $t('editor.saves.create') }}
 
       v-card(light).my-4
         v-list
@@ -40,17 +68,20 @@
             active-class="orange--text"
           )
             template(v-for="(save, i) in saves")
-              v-list-item(:key="save.name + i")
+              v-list-item(
+                :key="save.name + i"
+                :disabled="i >= 10"
+              )
                 v-list-item-content
-                  v-list-item-title {{ i }} • {{ save.name }}
+                  v-list-item-title {{ i + 1 }} • {{ save.name }}
 
                 v-list-item-action.mx-n2.my-0
                   v-btn(
                     icon
+                    v-if="saves.length > 1 && i < 10"
+                    @click="removeSave(i)"
                     :title="$t('editor.saves.delete')"
                     :aria-label="$t('editor.saves.delete')"
-                    v-if="saves.length > 1"
-                    @click="removeSave(i)"
                   )
                     v-icon {{ icons.mdiDelete }}
 
@@ -63,11 +94,15 @@
 <script>
 import { reactive, ref, onMounted, watch, computed } from '@vue/composition-api'
 
-import { mdiKeyboardBackspace, mdiDelete } from '@mdi/js'
+import { mdiKeyboardBackspace, mdiDelete, mdiPatreon } from '@mdi/js'
 
 function Saves(getters, commit) {
+  let animationSlot = 0
+
+  if (process.client) animationSlot = localStorage.getItem('animationSlot')
+
   const saves = ref(null)
-  const slot = ref(0)
+  const slot = ref(+animationSlot)
 
   watch(
     () => slot.value,
@@ -112,12 +147,12 @@ function Saves(getters, commit) {
     }
   }
 
-  function getSlot() {
+  function getSlot(maxLength) {
     if (!process.client) return
 
     const slotIn = +localStorage.getItem('animationSlot')
 
-    if (slotIn) {
+    if (slotIn !== undefined && slotIn !== null && slotIn <= maxLength.value) {
       return slotIn
     } else {
       localStorage.setItem('animationSlot', '0')
@@ -166,8 +201,11 @@ function Saves(getters, commit) {
     saves.value = getSave()
   }
 
+  const maxLength = ref(10)
+  const savesLength = computed(() => (saves.value ? saves.value.length : 0))
+
   onMounted(() => {
-    slot.value = getSlot()
+    slot.value = getSlot(maxLength)
     saves.value = getSave()
   })
 
@@ -185,6 +223,9 @@ function Saves(getters, commit) {
   return {
     saves,
     slot,
+
+    maxLength,
+    savesLength,
 
     defaultFrames,
     globals,
@@ -208,7 +249,8 @@ export default {
 
     const icons = reactive({
       mdiKeyboardBackspace,
-      mdiDelete
+      mdiDelete,
+      mdiPatreon
     })
 
     return {

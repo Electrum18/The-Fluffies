@@ -39,10 +39,7 @@ export default {
 
     {
       title: 'In future plans',
-      text: [
-        '• Adding [premium features] via donation',
-        '• Adding [gryphons] and [kirin] races'
-      ]
+      text: ['• Adding [premium features] via donation', '• Adding [gryphons] and [kirin] races']
     }
   ],
 

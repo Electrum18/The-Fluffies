@@ -9,8 +9,12 @@ import { mdiSignalOff, mdiSignal } from '@mdi/js'
 
 export default {
   setup(props, { root }) {
+    const offline = computed(() => root.isOffline)
+
     return {
-      icon: computed(() => (root.isOffline ? mdiSignalOff : mdiSignal))
+      offline,
+
+      icon: computed(() => (offline.value ? mdiSignalOff : mdiSignal))
     }
   }
 }

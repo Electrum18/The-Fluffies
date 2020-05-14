@@ -32,13 +32,7 @@ function interpolate(
       const scheme = interpolationScheme[keys[j]]
 
       if (scheme) {
-        schemeMorph(
-          { paths, frame, range, key: keys[j] },
-          emotions,
-          scheme,
-          calculated,
-          properties
-        )
+        schemeMorph({ paths, frame, range, key: keys[j] }, emotions, scheme, calculated, properties)
       } else {
         calculated[keys[j]] = morph(paths[frame], paths[frame + 1], range)
       }
@@ -86,9 +80,9 @@ export default function() {
       const slot = +localStorage.getItem('slot')
       const save = JSON.parse(localStorage.getItem('avatars'))
 
-      const { globals, properties: propers, getColor: color } = this
+      const { frame, globals, properties: propers, getColor: color } = this
 
-      save[slot] = { globals, propers, color }
+      save[slot] = { frame, globals, color }
 
       localStorage.setItem('avatars', JSON.stringify(save))
 

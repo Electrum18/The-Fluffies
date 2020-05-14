@@ -371,13 +371,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('avatar', [
-      'setFrame',
-      'setFrameDur',
-      'addFrame',
-      'deleteFrame'
-    ]),
-
+    ...mapMutations('avatar', ['setFrame', 'setFrameDur', 'addFrame', 'deleteFrame']),
     ...mapMutations('interface', [
       'setPage',
       'setAnimate',
@@ -443,9 +437,7 @@ export default {
       if (minutes < 10) minutes = '0' + minutes
       if (haveMins && seconds < 10) seconds = '0' + seconds
 
-      return haveMins
-        ? minutes + ':' + seconds + '.' + milliseconds
-        : seconds + '.' + milliseconds
+      return haveMins ? minutes + ':' + seconds + '.' + milliseconds : seconds + '.' + milliseconds
     },
 
     getFullTime(length = undefined) {

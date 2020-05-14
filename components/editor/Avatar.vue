@@ -38,17 +38,13 @@ import { timeline } from 'popmotion'
 import GIF from 'gif.js'
 
 import animate from '~/assets/js/avatar/animate'
-import draw from '~/assets/js/avatar/draw'
+import draw from '~/assets/js/avatar/layers'
 import SetPropersSide from '~/assets/js/avatar/setSide'
 
-import {
-  FormatSVGinJSON,
-  CompiledPaths as paths
-} from '~/assets/js/dataCompile'
+import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/js/dataCompile'
 
 // Configs
 
-import Elems from '~/assets/json/configs/elems.json'
 import IS from '~/assets/json/configs/interpolationScheme.json'
 import Powers from '~/assets/json/configs/power.json'
 
@@ -71,7 +67,6 @@ export default {
 
       // Configs
 
-      layers: Elems,
       shiftMul: Powers,
       interpolationScheme: IS,
 
@@ -248,11 +243,9 @@ export default {
 
     'getGlobal.hair_name_en'(name) {
       if (/Dreads/.test(name)) {
-        this.setGlobal({ path: 'hair_IS_DREADS', value: true })
-        this.setGlobal({ path: 'hair_IS_BASIC', value: false })
+        this.setGlobal({ path: 'hair_dreads', value: true })
       } else {
-        this.setGlobal({ path: 'hair_IS_DREADS', value: false })
-        this.setGlobal({ path: 'hair_IS_BASIC', value: true })
+        this.setGlobal({ path: 'hair_dreads', value: false })
       }
 
       if (this.paths.hairs[name]) {
@@ -289,10 +282,7 @@ export default {
         const { properties, getColor } = this
 
         if (old !== undefined) {
-          const {
-            eyes_left_basic: eyesLeftBasic,
-            eyes_right_basic: eyesRightBasic
-          } = getColor
+          const { eyes_left_basic: eyesLeftBasic, eyes_right_basic: eyesRightBasic } = getColor
 
           this.setColor({
             path: 'eyes_left_basic',
@@ -471,9 +461,9 @@ export default {
       reader.onload = () => {
         self.rendered.opened = true
         self.rendered.title = self.globals.name + ' • ' + animations[slot].name
-        self.rendered.fileName =
-          'TFs - ' + self.globals.name + ' - ' + animations[slot].name
+        self.rendered.fileName = 'TFs - ' + self.globals.name + ' - ' + animations[slot].name
         self.rendered.data = reader.result
+
         self.setRendered()
       }
 
