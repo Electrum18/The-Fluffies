@@ -1,6 +1,6 @@
 <template lang="pug">
   div.pa-3
-    //.defaults-container
+    .defaults-container(:style="blur")
       v-img(eager :src="require('~/assets/img/Defaulty_Zebra.png?webp')" :style="positions[1]")
       v-img(eager :src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(eager :src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
@@ -12,37 +12,113 @@
       v-spacer
       NetworkStatus.mx-3
 
-    v-container.pa-0.max.text-center
-      div.pb-6.px-12(@click="easter($refs)")
+    v-container.max.text-center
+      div.px-12(@click="easter($refs)")
         TheFluffiesLogo.logo(ref="logo")
+
+      h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
     v-row.row-bottom
       v-col
-        v-row
+        v-row.my-auto
           v-spacer
 
-          v-btn.mx-4.my-3.width.d-none.d-md-flex(
+          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
             rounded
+            large
             :title="$t('index.about')"
             :to="localePath('about')"
             :aria-label="$t('index.about')"
             nuxt
           ) {{ $t('index.about') }}
 
-          v-btn.mx-4(fab @click="left"): v-icon {{ icons.mdiArrowLeft }}
+          v-btn.mx-4.my-auto(
+            v-if="!saveMode"
+            fab
+            elevation=2
+            @click="left"
+          )
+            v-icon {{ icons.mdiArrowLeft }}
 
           v-btn(
+            v-if="!haveSave"
             x-large
             rounded
-            :title="haveSave ? $t('index.continue.title') : $t('index.start.title')"
+            @click="createStartSave"
+            :title="$t('index.start.title')"
             :href="localePath('editor')"
-            :aria-label="haveSave ? $t('index.continue.label') : $t('index.start.label')"
-          ) {{ haveSave ? $t('index.continue.title') : $t('index.start.title') }}
+            :aria-label="$t('index.start.label')"
+          ) {{ $t('index.start.title') }}
 
-          v-btn.mx-4(fab @click="right"): v-icon {{ icons.mdiArrowRight }}
+          v-card.card-rounded(v-if="haveSave && saveMode")
+            v-container.pa-0
+              v-col.py-0
+                v-row
+                  p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
+                  v-spacer
+                  v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
 
-          v-btn.mx-4.my-3.width.d-none.d-md-flex(
+                v-row
+                  v-btn.card-rounded(
+                    x-large
+                    text
+                    block
+                    :title="$t('index.continue.title')"
+                    :href="localePath('editor')"
+                    :aria-label="$t('index.continue.label')"
+                  ) {{ $t('index.continue.title') }}
+
+                v-divider
+
+                v-row
+                  v-btn.text--secondary.card-rounded(
+                    flex
+                    text
+                    block
+                    @click="saveMode = !saveMode"
+                    :disabled="savesLength > 9"
+                    :title="$t('index.create_more.title')"
+                    :aria-label="$t('index.create_more.label')"
+                  ) {{ $t('index.create_more.title') }}
+                    v-icon(right) {{ icons.mdiPlus }}
+
+          v-card.card-rounded(v-if="haveSave && !saveMode")
+            v-container.pa-0
+              v-col.py-0
+                v-row
+                  v-btn.card-rounded(
+                    x-large
+                    text
+                    block
+                    @click="createSave"
+                    :title="$t('index.start.title')"
+                    :href="localePath('editor')"
+                    :aria-label="$t('index.start.label')"
+                    ) {{ $t('index.start.title') }}
+
+                v-divider
+
+                v-row
+                  v-btn.text--secondary.card-rounded(
+                    flex
+                    text
+                    block
+                    @click="saveMode = !saveMode"
+                    :title="$t('index.return.title')"
+                    :aria-label="$t('index.return.label')"
+                  ) {{ $t('index.return.title') }}
+
+          v-btn.mx-4.my-auto(
+            v-if="!saveMode"
+            fab
+            elevation=2
+            @click="right"
+          )
+            v-icon {{ icons.mdiArrowRight }}
+
+          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
             rounded
+            large
             :title="$t('index.support')"
             :to="localePath('support')"
             :aria-label="$t('index.support')"
@@ -51,61 +127,117 @@
 
           v-spacer
 
-      // h2.body-1.font-weight-bold.px-9 {{ $t('index.title') }}
+    v-menu(transition="slide-x-reverse-transition")
+      template(v-slot:activator="{ on }")
+        v-btn.bottom.d-flex.d-sm-none(
+          fab
+          absolute
+          left
+          small
+          v-on="on"
+          :aria-label="$t('editor.list')"
+        )
+          v-icon {{ icons.mdiMenu }}
 
-    //
-      .py-4.py-md-12.py-lg-12
+        v-btn.bottom.d-none.d-sm-flex.d-md-none(
+          fab
+          absolute
+          left
+          v-on="on"
+          :aria-label="$t('editor.list')"
+        )
+          v-icon(large) {{ icons.mdiMenu }}
 
-      v-row
-        v-col(cols="12" md="12")
-          v-row(justify="center")
-            v-btn.title.md-size.d-none.d-md-flex.ma-8(
-              outlined
-              large
-              :title="$t('index.about')"
-              :to="localePath('about')"
-              :aria-label="$t('index.about')"
-              nuxt
-            ) {{ $t('index.about') }}
+      v-list(dense)
+        v-list-item(
+          :title="$t('index.about')"
+          :to="localePath('about')"
+        )
+          v-list-item-content
+            v-list-item-title(v-text="$t('index.about')")
 
-            v-card.size-by-content
-              v-btn.title(
-                text
-                large
-                :title="haveSave ? $t('index.continue.title') : $t('index.start.title')"
-                :href="localePath('editor')"
-                :aria-label="haveSave ? $t('index.continue.label') : $t('index.start.label')"
-              ) {{ haveSave ? $t('index.continue.title') : $t('index.start.title') }}
+        v-list-item(
+          :title="$t('index.support')"
+          :to="localePath('support')"
+        )
+          v-list-item-content
+            v-list-item-title(v-text="$t('index.support')")
 
-            v-btn.title.md-size.d-none.d-md-flex.ma-8(
-              outlined
-              large
-              :title="$t('index.support')"
-              :to="localePath('support')"
-              :aria-label="$t('index.support')"
-              nuxt
-              ) {{ $t('index.support') }}
+        v-list-item(@click="clearing = !clearing" color="red")
+          v-list-item-content.red--text
+            v-list-item-title(v-text="$t('index.repair')")
 
-        v-col(cols="12" md="4").d-flex.d-md-none
-          v-row(justify="center")
-            v-btn.title.sm-size(
-              outlined
-              large
-              :title="$t('index.about')"
-              :to="localePath('about')"
-              :aria-label="$t('index.about')"
-              nuxt
-            ) {{ $t('index.about') }}
+          v-list-item-icon
+            v-icon(color="error") {{ icons.mdiAlert }}
 
-          v-row(justify="center")
-            v-btn.title.sm-size(
-              outlined
-              large
-              :title="$t('index.support')"
-              :to="localePath('support')"
-              :aria-label="$t('index.support')"
-              nuxt
-            ) {{ $t('index.support') }}
+    v-row.px-2.bottom.d-none.d-md-flex
+      v-tooltip(right)
+        template(v-slot:activator="{ on }")
+          v-btn(
+            icon
+            color="red lighten-1"
+            @click="clearing = !clearing"
+            v-on="on"
+          )
+            v-icon {{ icons.mdiAlert }}
+
+        span {{ $t('index.repair') }}
+
+      v-btn(
+        icon
+        target="_blank"
+        title="Github"
+        href="https://github.com/Electrum18/The-Fluffies"
+        rel="noopener"
+        aria-label="Github"
+      )
+        v-icon {{ icons.mdiGithub }}
+
+      v-btn(
+        icon
+        target="_blank"
+        title="Twitter"
+        href="https://twitter.com/TFluffies"
+        rel="noopener"
+        aria-label="Twitter"
+      )
+        v-icon {{ icons.mdiTwitter }}
+
+      v-btn(
+        icon
+        target="_blank"
+        title="Patreon"
+        href="https://www.patreon.com/the_fluffies"
+        rel="noopener"
+        aria-label="Patreon"
+      )
+        v-icon {{ icons.mdiPatreon }}
+
+    v-dialog(v-model="clearing" width="500")
+      v-card
+        v-card-title.red--text {{ $t('index.repairing.title') }}
+        v-card-text.pt-0 {{ $t('index.repairing.desc') }}
+          v-container
+            v-checkbox.ma-2(
+              v-model="acceptClear"
+              color="error"
+              :label="$t('index.repairing.accept')"
+              hide-details
+            )
+
+            v-row
+              v-spacer
+              v-btn(
+                color="error"
+                :disabled="!acceptClear"
+                @click="clearSaves"
+              ) {{ $t('index.repairing.button') }}
+
+        v-divider
+
+        v-card-actions
+          v-spacer
+          v-btn(text @click="clearing = false; acceptClear = false") {{ $t('index.repairing.back') }}
 
     v-img#easter(
       :src="require('~/assets/img/easterEgg.png?webp')"
@@ -130,7 +262,18 @@
 
 <script>
 import { ref, reactive, computed, toRefs } from '@vue/composition-api'
-import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
+import {
+  mdiMenu,
+  mdiArrowLeft,
+  mdiArrowRight,
+  mdiPlus,
+  mdiGenderMale,
+  mdiGenderFemale,
+  mdiAlert,
+  mdiGithub,
+  mdiPatreon,
+  mdiTwitter
+} from '@mdi/js'
 
 import i18nHead from '~/assets/js/i18nHead'
 
@@ -167,7 +310,7 @@ function easterEgg() {
   return { easter }
 }
 
-function carousel() {
+function carousel(haveSave, saveMode) {
   const defaults = reactive({
     index: 0,
     length: 3
@@ -181,6 +324,8 @@ function carousel() {
     if (defaults.index < 0) defaults.index = defaults.length - 1
 
     side.value = 'left'
+
+    if (process.client) localStorage.setItem('defaultIndex', defaults.index)
   }
 
   function right() {
@@ -189,87 +334,213 @@ function carousel() {
     if (defaults.index > defaults.length - 1) defaults.index = 0
 
     side.value = 'right'
+
+    if (process.client) localStorage.setItem('defaultIndex', defaults.index)
   }
 
-  const positions = computed(() => {
-    return [
-      [
-        { left: '50%', 'max-width': '512px', 'z-index': 3 },
-        {
-          left: 'calc(50% + 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 2 : 1
-        },
-        {
-          left: 'calc(50% - 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 1 : 2
-        }
-      ],
-      [
-        {
-          left: 'calc(50% - 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 1 : 2
-        },
-        { left: '50%', 'max-width': '512px', 'z-index': 3 },
-        {
-          left: 'calc(50% + 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 2 : 1
-        }
-      ],
-      [
-        {
-          left: 'calc(50% + 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 2 : 1
-        },
-        {
-          left: 'calc(50% - 20vw)',
-          'max-width': '448px',
-          filter: 'brightness(0.8)',
-          'z-index': side.value === 'left' ? 1 : 2
-        },
-        { left: '50%', 'max-width': '512px', 'z-index': 3 }
-      ]
-    ][defaults.index]
-  })
+  const styles = [
+    [
+      { left: '50%', 'max-width': '512px', 'z-index': 3 },
+      {
+        left: 'calc(50% + 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 2 : 1
+      },
+      {
+        left: 'calc(50% - 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 1 : 2
+      }
+    ],
+    [
+      {
+        left: 'calc(50% - 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 1 : 2
+      },
+      { left: '50%', 'max-width': '512px', 'z-index': 3 },
+      {
+        left: 'calc(50% + 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 2 : 1
+      }
+    ],
+    [
+      {
+        left: 'calc(50% + 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 2 : 1
+      },
+      {
+        left: 'calc(50% - 20vw)',
+        'max-width': '448px',
+        filter: 'brightness(0.8)',
+        'z-index': side.value === 'left' ? 1 : 2
+      },
+      { left: '50%', 'max-width': '512px', 'z-index': 3 }
+    ]
+  ]
+
+  const positions = computed(() => styles[defaults.index])
+
+  const blur = computed(() =>
+    haveSave.value && saveMode.value ? { filter: 'blur(5px)' } : undefined
+  )
 
   return {
     defaults,
     side,
     left,
     right,
-    positions
+    positions,
+    blur
+  }
+}
+
+function Save(saveMode) {
+  const haveSave = ref(false)
+  const save = ref(false)
+  const saveSlot = ref(0)
+  const savesLength = ref(0)
+
+  if (process.client) {
+    const avatars = localStorage.getItem('avatars')
+    const slot = localStorage.getItem('slot')
+
+    haveSave.value = !!avatars
+
+    if (avatars && slot) {
+      const parsed = JSON.parse(avatars)
+
+      save.value = parsed[slot]
+      savesLength.value = parsed.length
+
+      saveMode.value = true
+      saveSlot.value = +slot
+    }
+  }
+
+  const gender = computed(() => {
+    if (!save.value) return
+
+    return save.value.globals.male
+      ? { color: 'blue', icon: mdiGenderMale }
+      : { color: 'pink', icon: mdiGenderFemale }
+  })
+
+  return {
+    haveSave,
+    save,
+    saveSlot,
+    gender,
+    savesLength
+  }
+}
+
+function CreateSave($store, defaults) {
+  if (process.client) localStorage.setItem('defaultIndex', 0)
+
+  const getDefault = computed(() => $store.getters['avatar/getDefault'])
+
+  function createStartSave() {
+    if (!process.client) return
+
+    $store.commit('avatar/setSaveIndex', defaults.index)
+
+    const { frame, globals, color } = getDefault.value
+
+    const save = { frame, globals: globals[defaults.index], color: color[defaults.index] }
+
+    localStorage.setItem('avatars', JSON.stringify([save]))
+    localStorage.setItem('slot', 0)
+  }
+
+  function createSave() {
+    if (!process.client) return
+
+    const parsedData = JSON.parse(localStorage.getItem('avatars'))
+
+    $store.commit('avatar/setSaveIndex', defaults.index)
+
+    const { frame, globals, color } = getDefault.value
+
+    const save = { frame, globals: globals[defaults.index], color: color[defaults.index] }
+
+    parsedData.push(save)
+
+    localStorage.setItem('avatars', JSON.stringify(parsedData))
+    localStorage.setItem('slot', parsedData.length - 1)
+  }
+
+  function clearSaves() {
+    localStorage.removeItem('avatars')
+    localStorage.removeItem('animations')
+    localStorage.removeItem('slot')
+
+    location.reload()
+  }
+
+  return {
+    getDefault,
+    createStartSave,
+    createSave,
+    clearSaves
   }
 }
 
 export default {
-  setup(props, { root }) {
-    const haveSave = ref(false)
-
-    if (process.client) {
-      haveSave.value = !!localStorage.getItem('avatars')
-    }
-
+  setup(props, { root: { $vuetify, $store } }) {
     const icons = reactive({
+      mdiMenu,
       mdiArrowLeft,
-      mdiArrowRight
+      mdiArrowRight,
+      mdiPlus,
+      mdiAlert,
+      mdiGithub,
+      mdiPatreon,
+      mdiTwitter
     })
 
+    const saveMode = ref(false)
+
+    const { haveSave, save, saveSlot, savesLength, gender } = Save(saveMode)
+    const { defaults, side, left, right, positions, blur } = carousel(haveSave, saveMode)
+
+    const tint = computed(() =>
+      !$vuetify.theme.isDark
+        ? { 'text-shadow': '0 1px 0 white, 0 -1px 0 white, 1px 0 0 white, -1px 0 0 white' }
+        : undefined
+    )
+
+    const clearing = ref(false)
+    const acceptClear = ref(false)
+
     return {
-      ...toRefs(carousel()),
+      ...toRefs(CreateSave($store, defaults)),
 
       ...easterEgg(),
 
+      defaults,
+      side,
+      left,
+      right,
+      positions,
+      blur,
       icons,
-      haveSave
+      haveSave,
+      save,
+      saveMode,
+      saveSlot,
+      savesLength,
+      gender,
+      tint,
+      clearing,
+      acceptClear
     }
   },
 
@@ -323,14 +594,19 @@ svg.logo
 
 .defaults-container
   position: absolute
+  overflow: hidden
+  width: 100%
+  height: 100%
+  max-height: 512px
   left: 50%
   bottom: 35px
   transform: translate(-50%)
+  transition: filter 0.3s ease
 
   .v-image
     position: absolute
-    bottom: 0
     transform: translate(-50%)
+    bottom: 0
     width: 90vmin
     transition: left 0.7s ease, max-width 0.7s ease, filter 0.7s ease
 
@@ -341,6 +617,16 @@ svg.logo
 
 .width.v-btn
   width: 130px
+
+.card-rounded
+  border-radius: 14px!important
+
+.v-btn--fab.bottom
+  bottom: 48px
+
+.row.bottom
+  position: absolute
+  bottom: 42px
 
 @keyframes logo
   0%

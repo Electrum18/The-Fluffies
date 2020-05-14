@@ -224,7 +224,18 @@ export default {
     save: 'Saves',
     animatons: 'Animatons',
     create: 'Create new',
-    delete: 'Remove'
+    pony: 'Pony',
+    zebra: 'Zebra',
+    deer: 'Deer',
+    delete: 'Remove',
+
+    limit: 'Saves limit',
+    of: 'of',
+
+    patreon: {
+      basic: 'Patreon • Basic support',
+      huge: 'Patreon • Huge support'
+    }
   },
 
   animator: {

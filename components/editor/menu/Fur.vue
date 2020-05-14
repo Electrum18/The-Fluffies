@@ -42,8 +42,6 @@
         val="fluff_chest"
       )
 
-      //! SET TRANSLATE
-
       v-divider.my-4
 
       p.subtitle-2 {{ $t('editor.menu.fur.second.title') }}
