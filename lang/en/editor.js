@@ -157,8 +157,8 @@ export default {
       }
     },
 
-    hooves: {
-      title: 'Hooves',
+    paws: {
+      title: 'Paws',
 
       shoulder: 'Shoulder',
       elbow: 'Elbow',

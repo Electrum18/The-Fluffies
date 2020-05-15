@@ -157,8 +157,8 @@ export default {
       }
     },
 
-    hooves: {
-      title: 'Копыта',
+    paws: {
+      title: 'Лапы',
 
       shoulder: 'Плечо',
       elbow: 'Локоть',

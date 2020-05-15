@@ -85,6 +85,7 @@ export default function() {
       save[slot] = { frame, globals, color }
 
       localStorage.setItem('avatars', JSON.stringify(save))
+      localStorage.setItem('lastImage', this.$refs.avatar.toDataURL('image/png'))
 
       // Setting animation frame save
 
