@@ -3,13 +3,12 @@
     v-model="current"
     mandatory
     dense
-    color="primary"
+    color="lang"
   )
     v-btn(
       v-for="item in items"
       :key="item"
       small
-      text
     ) {{ item }}
 </template>
 

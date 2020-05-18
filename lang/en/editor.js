@@ -45,19 +45,19 @@ export default {
       right_eyelids: 'Right eyelids',
 
       upper: 'upper',
-      lower: 'lower',
+      lower: 'lower'
+    },
 
-      eyebrows: {
-        title: 'eyebrows',
+    eyebrows: {
+      title: 'Eyebrows',
 
-        left: 'Left eyebrow',
-        right: 'Right eyebrow',
+      left: 'Left eyebrow',
+      right: 'Right eyebrow',
 
-        width: 'width',
-        height: 'height',
-        evil: 'evil',
-        surprised: 'surprised'
-      }
+      width: 'width',
+      height: 'height',
+      evil: 'evil',
+      surprised: 'surprised'
     },
 
     glasses: {
@@ -157,8 +157,8 @@ export default {
       }
     },
 
-    hooves: {
-      title: 'Hooves',
+    paws: {
+      title: 'Paws',
 
       shoulder: 'Shoulder',
       elbow: 'Elbow',
@@ -206,9 +206,9 @@ export default {
     enter_name: 'Enter your nickname'
   },
 
+  quality: 'Quality',
+
   screener: {
-    width: 'width',
-    height: 'height',
     background: 'background',
     warning: 'JPEG does not support transparency!',
     take_image: 'Take image',

@@ -13,10 +13,14 @@ export const state = () => ({
   },
 
   fps: 60,
-  quality: 480,
+  quality: 720,
 
   rendering: 0,
-  rendered: 0
+  rendered: 0,
+
+  wind: {
+    enabled: true
+  }
 })
 
 export const getters = {
@@ -35,7 +39,9 @@ export const getters = {
   getRendered: ({ rendered }) => rendered,
 
   getFPS: ({ fps }) => fps,
-  getQuality: ({ quality }) => quality
+  getQuality: ({ quality }) => quality,
+
+  getWind: ({ wind }) => wind.enabled
 }
 
 export const mutations = {
@@ -76,5 +82,7 @@ export const mutations = {
   resetRendered: (state) => (state.rendered = 0),
 
   setFPS: (state, value) => (state.fps = value),
-  setQuality: (state, array) => (state.quality = array)
+  setQuality: (state, array) => (state.quality = array),
+
+  setWind: (state, bool) => (state.wind.enabled = bool)
 }

@@ -1,9 +1,16 @@
 <template lang="pug">
   div.pa-3
-    .defaults-container(:style="blur")
-      v-img(eager :src="require('~/assets/img/Defaulty_Zebra.png?webp')" :style="positions[1]")
-      v-img(eager :src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
-      v-img(eager :src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
+    .image-container(:style="opacity")
+      v-img(:src="require('~/assets/img/Defaulty_Zebra.png?webp')" :style="positions[1]")
+      v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
+      v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
+
+    no-ssr
+      .image-container(:style="opacitySave")
+        v-img.save(
+          :src="lastSaveImage"
+          :aspect-ratio="0.9"
+        )
 
     h1.header {{ $t('meta.title.index') }}
 
@@ -14,118 +21,121 @@
 
     v-container.max.text-center
       div.px-12(@click="easter($refs)")
-        TheFluffiesLogo.logo(ref="logo")
+        TheFluffiesLogo.logo.logo-hide(ref="logo")
 
       h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
-    v-row.row-bottom
-      v-col
-        v-row.my-auto
-          v-spacer
+    no-ssr
+      v-row.row-bottom.my-4
+        v-spacer
 
-          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
-            rounded
-            large
-            :title="$t('index.about')"
-            :to="localePath('about')"
-            :aria-label="$t('index.about')"
-            nuxt
-          ) {{ $t('index.about') }}
+        v-btn.mx-4.my-auto.width.d-none.d-md-flex(
+          rounded
+          large
+          :title="$t('index.about')"
+          :to="localePath('about')"
+          :aria-label="$t('index.about')"
+          nuxt
+        ) {{ $t('index.about') }}
 
-          v-btn.mx-4.my-auto(
-            v-if="!saveMode"
-            fab
-            elevation=2
-            @click="left"
-          )
-            v-icon {{ icons.mdiArrowLeft }}
+        v-btn.mx-4.my-auto(
+          v-if="!saveMode"
+          fab
+          elevation=2
+          @click="left"
+          :title="$t('index.select.left')"
+          :aria-label="$t('index.select.left')"
+        )
+          v-icon {{ icons.mdiArrowLeft }}
 
-          v-btn(
-            v-if="!haveSave"
-            x-large
-            rounded
-            @click="createStartSave"
-            :title="$t('index.start.title')"
-            :href="localePath('editor')"
-            :aria-label="$t('index.start.label')"
+        v-btn(
+          v-if="!haveSave"
+          x-large
+          rounded
+          @click="createStartSave"
+          :title="$t('index.start.title')"
+          :href="localePath('editor')"
+          :aria-label="$t('index.start.label')"
           ) {{ $t('index.start.title') }}
 
-          v-card.card-rounded(v-if="haveSave && saveMode")
-            v-container.pa-0
-              v-col.py-0
-                v-row
-                  p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
-                  v-spacer
-                  v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
+        v-card.card-rounded(v-if="haveSave && saveMode")
+          v-container.pa-0
+            v-col.py-0
+              v-row
+                p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
+                v-spacer
+                v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
 
-                v-row
-                  v-btn.card-rounded(
-                    x-large
-                    text
-                    block
-                    :title="$t('index.continue.title')"
-                    :href="localePath('editor')"
-                    :aria-label="$t('index.continue.label')"
-                  ) {{ $t('index.continue.title') }}
+              v-row
+                v-btn.card-rounded(
+                  x-large
+                  text
+                  block
+                  :title="$t('index.continue.title')"
+                  :href="localePath('editor')"
+                  :aria-label="$t('index.continue.label')"
+                ) {{ $t('index.continue.title') }}
 
-                v-divider
+              v-divider
 
-                v-row
-                  v-btn.text--secondary.card-rounded(
-                    flex
-                    text
-                    block
-                    @click="saveMode = !saveMode"
-                    :disabled="savesLength > 9"
-                    :title="$t('index.create_more.title')"
-                    :aria-label="$t('index.create_more.label')"
-                  ) {{ $t('index.create_more.title') }}
-                    v-icon(right) {{ icons.mdiPlus }}
+              v-row
+                v-btn.text--secondary.card-rounded(
+                  flex
+                  text
+                  block
+                  @click="saveMode = !saveMode"
+                  :disabled="savesLength > 9"
+                  :title="$t('index.create_more.title')"
+                  :aria-label="$t('index.create_more.label')"
+                ) {{ $t('index.create_more.title') }}
+                  v-icon(right) {{ icons.mdiPlus }}
 
-          v-card.card-rounded(v-if="haveSave && !saveMode")
-            v-container.pa-0
-              v-col.py-0
-                v-row
-                  v-btn.card-rounded(
-                    x-large
-                    text
-                    block
-                    @click="createSave"
-                    :title="$t('index.start.title')"
-                    :href="localePath('editor')"
-                    :aria-label="$t('index.start.label')"
-                    ) {{ $t('index.start.title') }}
+        v-card.card-rounded(v-if="haveSave && !saveMode")
+          v-container.pa-0
+            v-col.py-0
+              v-row
+                v-btn.card-rounded(
+                  x-large
+                  text
+                  block
+                  @click="createSave"
+                  :title="$t('index.start.title')"
+                  :href="localePath('editor')"
+                  :aria-label="$t('index.start.label')"
+                  ) {{ $t('index.start.title') }}
 
-                v-divider
+              v-divider
 
-                v-row
-                  v-btn.text--secondary.card-rounded(
-                    flex
-                    text
-                    block
-                    @click="saveMode = !saveMode"
-                    :title="$t('index.return.title')"
-                    :aria-label="$t('index.return.label')"
-                  ) {{ $t('index.return.title') }}
+              v-row
+                v-btn.text--secondary.card-rounded(
+                  flex
+                  text
+                  block
+                  @click="saveMode = !saveMode"
+                  :title="$t('index.return.title')"
+                  :aria-label="$t('index.return.label')"
+                ) {{ $t('index.return.title') }}
 
-          v-btn.mx-4.my-auto(
-            v-if="!saveMode"
-            fab
-            elevation=2
-            @click="right"
+        v-btn.mx-4.my-auto(
+          v-if="!saveMode"
+          fab
+          elevation=2
+          @click="right"
+          :title="$t('index.select.right')"
+          :aria-label="$t('index.select.right')"
           )
-            v-icon {{ icons.mdiArrowRight }}
+          v-icon {{ icons.mdiArrowRight }}
 
-          v-btn.mx-4.my-auto.width.d-none.d-md-flex(
-            rounded
-            large
-            :title="$t('index.support')"
-            :to="localePath('support')"
-            :aria-label="$t('index.support')"
-            nuxt
+        v-btn.mx-4.my-auto.width.d-none.d-md-flex(
+          rounded
+          large
+          :title="$t('index.support')"
+          :to="localePath('support')"
+          :aria-label="$t('index.support')"
+          nuxt
           ) {{ $t('index.support') }}
 
-          v-spacer
+        v-spacer
 
     v-menu(transition="slide-x-reverse-transition")
       template(v-slot:activator="{ on }")
@@ -388,8 +398,9 @@ function carousel(haveSave, saveMode) {
 
   const positions = computed(() => styles[defaults.index])
 
-  const blur = computed(() =>
-    haveSave.value && saveMode.value ? { filter: 'blur(5px)' } : undefined
+  const opacity = computed(() => (haveSave.value && saveMode.value ? { opacity: 0 } : undefined))
+  const opacitySave = computed(() =>
+    haveSave.value && saveMode.value ? undefined : { opacity: 0 }
   )
 
   return {
@@ -398,7 +409,8 @@ function carousel(haveSave, saveMode) {
     left,
     right,
     positions,
-    blur
+    opacity,
+    opacitySave
   }
 }
 
@@ -509,7 +521,10 @@ export default {
     const saveMode = ref(false)
 
     const { haveSave, save, saveSlot, savesLength, gender } = Save(saveMode)
-    const { defaults, side, left, right, positions, blur } = carousel(haveSave, saveMode)
+    const { defaults, side, left, right, positions, opacity, opacitySave } = carousel(
+      haveSave,
+      saveMode
+    )
 
     const tint = computed(() =>
       !$vuetify.theme.isDark
@@ -519,6 +534,8 @@ export default {
 
     const clearing = ref(false)
     const acceptClear = ref(false)
+
+    const lastSaveImage = computed(() => (process.client ? localStorage.getItem('lastImage') : ''))
 
     return {
       ...toRefs(CreateSave($store, defaults)),
@@ -530,7 +547,8 @@ export default {
       left,
       right,
       positions,
-      blur,
+      opacity,
+      opacitySave,
       icons,
       haveSave,
       save,
@@ -540,7 +558,8 @@ export default {
       gender,
       tint,
       clearing,
-      acceptClear
+      acceptClear,
+      lastSaveImage
     }
   },
 
@@ -592,7 +611,7 @@ svg.logo
   bottom: -20px
   height: 50px
 
-.defaults-container
+.image-container
   position: absolute
   overflow: hidden
   width: 100%
@@ -601,11 +620,12 @@ svg.logo
   left: 50%
   bottom: 35px
   transform: translate(-50%)
-  transition: filter 0.3s ease
+  transition: opacity 0.3s ease
 
   .v-image
     position: absolute
     transform: translate(-50%)
+    left: 50%
     bottom: 0
     width: 90vmin
     transition: left 0.7s ease, max-width 0.7s ease, filter 0.7s ease
@@ -627,6 +647,20 @@ svg.logo
 .row.bottom
   position: absolute
   bottom: 42px
+
+@media (max-height: 600px)
+  .logo-hide
+    display: none!important
+
+@media (min-width: 600px)
+  .image-container
+    .v-image.save
+      transform: translate(-50%, 16%)
+
+@media (max-width: 600px)
+  .image-container
+    .v-image.save
+      transform: translate(-50%, 8%)
 
 @keyframes logo
   0%

@@ -2,11 +2,26 @@ function notNull(value) {
   return value !== null && value !== undefined
 }
 
-function draw(ctx, { male }, quality, calculated) {
+function draw(ctx, { male, hair_name_en: hairName }, quality, calculated, wind, windPropers) {
   return function(element) {
     const name = male && calculated['male_' + element] ? 'male_' + element : element
-
     const curves = calculated[name]
+    const toRad = Math.PI / 180
+
+    let windOffsetPoints
+
+    if (wind && wind[name]) {
+      const HairName = hairName
+        .toLowerCase()
+        .split(' ')
+        .join('_')
+
+      if (wind[name][HairName]) {
+        windOffsetPoints = wind[name][HairName]
+      } else if (wind[name].constructor === Array) {
+        windOffsetPoints = wind[name]
+      }
+    }
 
     if (!notNull(curves)) return
 
@@ -14,6 +29,16 @@ function draw(ctx, { male }, quality, calculated) {
       const [command] = curves[i]
 
       let [, x1, y1, x2, y2, x3, y3] = curves[i]
+      let windVector = 0
+
+      if (windPropers.enabled && windOffsetPoints && windOffsetPoints[i] !== null) {
+        windVector = Math.sin((windPropers.cycle + windOffsetPoints[i] * 45) * toRad)
+
+        windVector *= 8 * quality
+
+        if (name === 'tail' || name === 'tail_second') windVector *= -1
+        if (name === 'eye_left_lashes' || name === 'eye_right_lashes') windVector /= 2
+      }
 
       x1 *= quality
       y1 *= quality
@@ -23,7 +48,7 @@ function draw(ctx, { male }, quality, calculated) {
       y3 *= quality
 
       if (command === 'C') {
-        ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3)
+        ctx.bezierCurveTo(x1, y1, x2, y2, x3 + windVector, y3)
       } else {
         // If the item is not the first
         if (i > 0) {
@@ -32,13 +57,13 @@ function draw(ctx, { male }, quality, calculated) {
         }
 
         ctx.beginPath()
-        ctx.moveTo(x1, y1)
+        ctx.moveTo(x1 + windVector, y1)
       }
     }
   }
 }
 
-function graphics(ctx, globals, quality, calculated) {
+function graphics(ctx, globals, quality, calculated, wind, windPropers) {
   return {
     notNull,
 
@@ -65,7 +90,7 @@ function graphics(ctx, globals, quality, calculated) {
         if (notNull(X) && notNull(Y)) {
           ctx.translate(-X, -Y)
 
-          draw(ctx, globals, quality, calculated)(elem)
+          draw(ctx, globals, quality, calculated, wind, windPropers)(elem)
 
           if (clear) {
             const { width, height } = ctx.canvas
@@ -75,7 +100,7 @@ function graphics(ctx, globals, quality, calculated) {
 
           ctx.translate(X, Y)
         } else {
-          draw(ctx, globals, quality, calculated)(elem)
+          draw(ctx, globals, quality, calculated, wind, windPropers)(elem)
         }
       }
 
@@ -94,7 +119,7 @@ function graphics(ctx, globals, quality, calculated) {
       }
     },
 
-    Draw: draw(ctx, globals, quality, calculated),
+    Draw: draw(ctx, globals, quality, calculated, wind, windPropers),
     Fill(fill = 'transparent') {
       const { h, s, l, a } = fill
 
@@ -142,9 +167,16 @@ function transforming(ctx, quality) {
   }
 }
 
-export default function(ctx, quality, globals, mirror, calculated) {
+export default function(ctx, quality, globals, mirror, calculated, wind, windPropers) {
   const { Angle } = transforming(ctx, quality)
-  const { Fill, Stroke, Draw, Clip } = graphics(ctx, globals, quality, calculated)
+  const { Fill, Stroke, Draw, Clip } = graphics(
+    ctx,
+    globals,
+    quality,
+    calculated,
+    wind,
+    windPropers
+  )
 
   const height = globals.hooves_enable ? 80 : 112
 

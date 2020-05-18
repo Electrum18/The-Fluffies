@@ -1,8 +1,8 @@
 <template lang="pug">
   v-app
-    Blob1#blob1.blobs
-    Blob2#blob2.blobs
-    Blob3#blob3.blobs
+    Blob1.blob1.blobs
+    Blob2.blob2.blobs
+    Blob3.blob3.blobs
 
     nuxt
 
@@ -28,9 +28,9 @@
         )
           v-icon(large) {{ dark ? icons.mdiBrightness7 : icons.mdiMoonWaningCrescent }}
 
-    UpperBlob1#blob1.blobs
-    UpperBlob2#blob2.blobs
-    UpperBlob3#blob3.blobs
+    UpperBlob1.blob1.blobs
+    UpperBlob2.blob2.blobs
+    UpperBlob3.blob3.blobs
 </template>
 
 <script>
@@ -86,15 +86,15 @@ export default {
   width: 50vmin
   max-width: 350px
 
-#blob1
+.blob1
   bottom: 0
   right: 0
 
-#blob2
+.blob2
   top: 0
   left: 0
 
-#blob3
+.blob3
   top: 0
   right: 0
 </style>

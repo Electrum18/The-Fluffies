@@ -29,7 +29,12 @@ function colorState(getters, commit, val, shade) {
     set(value) {
       if (value.a === 0) value.a += 0.01
 
+      const slot = +localStorage.getItem('slot')
+      const save = JSON.parse(localStorage.getItem('avatars'))
+
       commit('avatar/setColor', { path: val, value })
+
+      save[slot].color[val] = value
 
       if (shade) {
         const { h, s, l } = value
@@ -40,7 +45,11 @@ function colorState(getters, commit, val, shade) {
           path,
           value: { h, s, l: l * shade }
         })
+
+        save[slot].color[path] = { h, s, l: l * shade }
       }
+
+      localStorage.setItem('avatars', JSON.stringify(save))
     }
   })
 

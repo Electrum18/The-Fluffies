@@ -45,19 +45,19 @@ export default {
       right_eyelids: 'Правые веки',
 
       upper: 'верхнее',
-      lower: 'нижнее',
+      lower: 'нижнее'
+    },
 
-      eyebrows: {
-        title: 'брови',
+    eyebrows: {
+      title: 'Брови',
 
-        left: 'Левая бровь',
-        right: 'Правая бровь',
+      left: 'Левая бровь',
+      right: 'Правая бровь',
 
-        width: 'толщина',
-        height: 'высота',
-        evil: 'злое',
-        surprised: 'удивленное'
-      }
+      width: 'толщина',
+      height: 'высота',
+      evil: 'злое',
+      surprised: 'удивленное'
     },
 
     glasses: {
@@ -157,8 +157,8 @@ export default {
       }
     },
 
-    hooves: {
-      title: 'Копыта',
+    paws: {
+      title: 'Лапы',
 
       shoulder: 'Плечо',
       elbow: 'Локоть',
@@ -206,9 +206,9 @@ export default {
     enter_name: 'Введите ваш никнейм'
   },
 
+  quality: 'Качество',
+
   screener: {
-    width: 'ширина',
-    height: 'высота',
     background: 'фона',
     warning: 'JPEG не поддерживает прозрачность!',
     take_image: 'Сделать снимок',

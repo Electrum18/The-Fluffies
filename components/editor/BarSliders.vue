@@ -65,6 +65,7 @@ export default {
     })
 
     const getting = computed(() => getters['avatar/getProper'])
+    const getFrame = computed(() => getters['avatar/getFrame'])
 
     const modelValue = computed({
       get: () => getting.value[val],
@@ -72,12 +73,23 @@ export default {
         commit('avatar/setProper', { path: val, value })
         commit('interface/setPlayChangedFrame')
 
+        const slot = +localStorage.getItem('animationSlot')
+        const animations = JSON.parse(localStorage.getItem('animations'))
+
+        const frame = animations[slot].frames[getFrame.value].frame
+
+        frame[val] = value
+
         if (compare && 100 - getting.value[compare] <= value) {
           commit('avatar/setProper', {
             path: compare,
             value: 100 - value
           })
+
+          frame[compare] = 100 - value
         }
+
+        localStorage.setItem('animations', JSON.stringify(animations))
       }
     })
 

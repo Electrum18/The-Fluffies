@@ -117,6 +117,11 @@ export default {
     }
 
     function setElementName(name) {
+      const slot = +localStorage.getItem('slot')
+      const save = JSON.parse(localStorage.getItem('avatars'))
+
+      const { globals } = save[slot]
+
       commit('avatar/setGlobal', {
         path: target + '_name_en',
         value: name.en
@@ -126,6 +131,11 @@ export default {
         path: target + '_name_ru',
         value: name.ru
       })
+
+      globals[target + '_name_en'] = name.en
+      globals[target + '_name_ru'] = name.ru
+
+      localStorage.setItem('avatars', JSON.stringify(save))
     }
 
     const globals = computed(() => getters['avatar/getGlobal'])

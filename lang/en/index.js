@@ -9,6 +9,11 @@ export default {
     label: 'Start creating'
   },
 
+  select: {
+    left: 'Select left',
+    right: 'Select right'
+  },
+
   continue: {
     title: 'continue',
     label: 'Continue creating'
@@ -34,5 +39,5 @@ export default {
   },
 
   title:
-    'An editor about creating and animating ponies based on ease of use and the magic of special technologies.'
+    'An editor about the creation and animation of ponies, zebras, deer, foxes, wolves and other animals based on the ease of use and the magic of special technologies.'
 }

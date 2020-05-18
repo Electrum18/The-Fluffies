@@ -48,12 +48,12 @@ function shortcuts(
 }
 
 export default function(
-  { ctx, quality, properties, globals, getColor, horiz, mirror, angle },
+  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers },
 
   calculated,
   absAngle
 ) {
-  const { Layer, Elem } = layers(ctx, quality, globals, mirror, calculated)
+  const { Layer, Elem } = layers(ctx, quality, globals, mirror, calculated, wind, windPropers)
   const { Positions, Rotate, Stroke, Clip } = shortcuts(
     horiz,
     angle,
@@ -325,14 +325,14 @@ export default function(
   const upperPos = [upper * absAngle * quality, (-horiz * 20 - upper) * quality]
 
   Layer(upperPos, Rotate.head, () => {
-    Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', upperPos])
+    Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(20 - properties.teeth_upper / 5)]])
   })
 
   const lower = (100 - properties.teeth_lower) / 3
   const lowerPos = [-lower * absAngle * quality, (-horiz * 20 + lower) * quality]
 
   Layer(lowerPos, Rotate.head, () => {
-    Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', lowerPos])
+    Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', [0, 20 - properties.teeth_lower / 5]])
   })
 
   Layer(Positions.head, Rotate.head, () => {

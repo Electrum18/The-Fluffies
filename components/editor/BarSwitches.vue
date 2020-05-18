@@ -43,7 +43,18 @@ export default {
 
     const check = computed({
       get: () => globals.value[val],
-      set: (value) => $store.commit('avatar/setGlobal', { path: val, value })
+      set(value) {
+        const slot = +localStorage.getItem('slot')
+        const save = JSON.parse(localStorage.getItem('avatars'))
+
+        const { globals } = save[slot]
+
+        $store.commit('avatar/setGlobal', { path: val, value })
+
+        globals[val] = value
+
+        localStorage.setItem('avatars', JSON.stringify(save))
+      }
     })
 
     return {
