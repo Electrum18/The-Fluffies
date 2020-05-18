@@ -206,9 +206,9 @@ export default {
     enter_name: 'Enter your nickname'
   },
 
+  quality: 'Quality',
+
   screener: {
-    width: 'width',
-    height: 'height',
     background: 'background',
     warning: 'JPEG does not support transparency!',
     take_image: 'Take image',

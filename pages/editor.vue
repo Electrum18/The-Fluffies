@@ -62,11 +62,15 @@
           v-list-item(
             v-for="(item, i) in list"
             :key="i"
-            @click.stop="openPage(item.text['en'])"
+            @click.stop="item.wind !== undefined ? toggleWind() : openPage(item.text['en'])"
           )
             v-list-item-icon(right): v-icon(v-text="item.icon")
             v-list-item-content
               v-list-item-title(v-text="item.text[$i18n.locale]")
+
+            v-list-item-icon(v-if="item.wind !== undefined")
+              v-icon(v-if="item.wind.value" color="primary") {{ icons.mdiCheckboxMarked }}
+              v-icon(v-else color="grey lighten-2") {{ icons.mdiCheckboxBlankOutline }}
 </template>
 
 <script>
@@ -78,7 +82,10 @@ import {
   mdiMovieOpen,
   mdiCamera,
   mdiVideoVintage,
-  mdiRecord
+  mdiRecord,
+  mdiWeatherWindy,
+  mdiCheckboxMarked,
+  mdiCheckboxBlankOutline
 } from '@mdi/js'
 
 import i18nHead from '~/assets/js/i18nHead'
@@ -128,8 +135,13 @@ export default {
       mdiMovieOpen,
       mdiCamera,
       mdiVideoVintage,
-      mdiRecord
+      mdiRecord,
+      mdiWeatherWindy,
+      mdiCheckboxMarked,
+      mdiCheckboxBlankOutline
     })
+
+    const wind = ref(true)
 
     const list = ref([
       {
@@ -145,6 +157,11 @@ export default {
         icon: icons.mdiMovieOpen
       },
       {
+        text: { en: 'Wind', ru: 'Ветер' },
+        icon: icons.mdiWeatherWindy,
+        wind
+      },
+      {
         text: { en: 'Record', ru: 'Записать' },
         icon: icons.mdiVideoVintage
       },
@@ -153,6 +170,12 @@ export default {
         icon: icons.mdiCamera
       }
     ])
+
+    function toggleWind() {
+      wind.value = !wind.value
+
+      commit('interface/setWind', wind.value)
+    }
 
     const store = reactive({
       frame: computed(() => getters['avatar/getFrame']),
@@ -180,6 +203,9 @@ export default {
       getPage,
       openPage,
       openedList,
+
+      wind,
+      toggleWind,
 
       ...toRefs(store),
 

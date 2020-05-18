@@ -206,9 +206,9 @@ export default {
     enter_name: 'Введите ваш никнейм'
   },
 
+  quality: 'Качество',
+
   screener: {
-    width: 'ширина',
-    height: 'высота',
     background: 'фона',
     warning: 'JPEG не поддерживает прозрачность!',
     take_image: 'Сделать снимок',

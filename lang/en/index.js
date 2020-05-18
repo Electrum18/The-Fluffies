@@ -39,5 +39,5 @@ export default {
   },
 
   title:
-    'An editor about the creation and animation of animals (ponies, zebras, deer, foxes, wolves and other animals) based on the ease of use and the magic of special technologies.'
+    'An editor about the creation and animation of ponies, zebras, deer, foxes, wolves and other animals based on the ease of use and the magic of special technologies.'
 }

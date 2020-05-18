@@ -66,106 +66,57 @@ function changeCanvas({ ctx, quality }) {
 }
 
 export default function() {
-  if (!this.executeAnimation) {
-    // Does not calculate with the same paths
-
-    const delay = 10
-
-    if (this.afterChange < delay) this.afterChange++
-
-    this.fullQuality = this.afterChange >= delay
-    this.executeAnimation = this.fullQuality && this.quality !== 1
-
-    if (this.executeAnimation) {
-      const slot = +localStorage.getItem('slot')
-      const save = JSON.parse(localStorage.getItem('avatars'))
-
-      const { frame, globals, properties: propers, getColor: color } = this
-
-      save[slot] = { frame, globals, color }
-
-      localStorage.setItem('avatars', JSON.stringify(save))
-      localStorage.setItem('lastImage', this.$refs.avatar.toDataURL('image/png'))
-
-      // Setting animation frame save
-
-      const slot2 = +localStorage.getItem('animationSlot')
-      const animations = JSON.parse(localStorage.getItem('animations'))
-
-      animations[slot2].frames[this.getFrame].frame = propers
-
-      localStorage.setItem('animations', JSON.stringify(animations))
-
-      if (this.getPlayChangedFrame) {
-        this.setPlayRedraw()
-        this.resetPlayChangedFrame()
-      }
-    }
-
-    window.requestAnimationFrame(this.animate)
-
-    return
-  }
-
   this.fps.ticker++
 
   if (this.fps.ticker >= this.fps.every) {
     this.fps.ticker = 0
 
-    this.quality = !this.fullQuality ? this.targetQuality / 1.25 : 1
+    this.quality = this.targetQuality / 1.25
 
-    changeCanvas(this)
+    changeCanvas(this) // Canvas reset
+
+    // Angle correction
 
     let absAngle = this.degress / 90
 
     if (absAngle < 0) absAngle = -absAngle
     if (absAngle <= 0.001 && absAngle >= -0.001) absAngle = 0.001
 
-    const hairs = this.paths.hairs
-
-    if (hairs[hairs.name]) {
-      this.executeAnimation = false // All elements loaded and drawn
-    }
+    // Paths calculation
 
     const { shiftMul, interpolationScheme, properties } = this
 
     const args = { absAngle, shiftMul, interpolationScheme, properties }
     const interpolation = interpolationCalculate(this.paths, args)
 
+    // Wind calculation
+
+    this.windPropers.cycle += 5 * this.fps.every
+
+    if (this.windPropers.cycle > 360) this.windPropers.cycle = 0
+
+    // Drawing on canvas
+
     this.draw(this, interpolation, absAngle)
+
+    // Animation rendering
 
     if (this.rendering) {
       const avatar = this.$refs.avatar
-      const ratio = avatar.width / avatar.height
-
       const canvas = document.createElement('canvas')
-
       const dimensions = this.setQuality(this.targetQuality)
 
-      let width = dimensions[0]
-      let height = dimensions[1]
+      const [widthVar, heightVar] = dimensions
 
-      // Canvas setting
+      canvas.width = widthVar
+      canvas.height = heightVar
 
-      canvas.width = width
-      canvas.height = height
+      const [width, height] = [avatar.width * 1.25, avatar.height * 1.25]
 
       // Setting at center
 
-      width = canvas.width
-      height = width / ratio
-
-      if (height > canvas.height) {
-        height = canvas.height
-        width = canvas.height * ratio
-      }
-
-      width *= 1.25
-
-      const xOffset = (canvas.width - width) / 2
-      const yOffset = canvas.height - height * 1.125
-
-      height *= 1.25
+      const xOffset = (widthVar - width) / 2
+      const yOffset = (heightVar - height) / 2
 
       // Drawing image over background at bottom-center
 
@@ -188,8 +139,6 @@ export default function() {
       })
     }
   }
-
-  if (!this.fullQuality) this.afterChange = 0 // Reach full quality & reset timer
 
   window.requestAnimationFrame(this.animate)
 }

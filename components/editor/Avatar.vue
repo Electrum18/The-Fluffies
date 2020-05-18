@@ -49,6 +49,7 @@ import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/js/dataCompile
 
 import IS from '~/assets/json/configs/interpolationScheme.json'
 import Powers from '~/assets/json/configs/power.json'
+import wind from '~/assets/json/configs/wind.json'
 
 const cache = setupCache({ readHeaders: true })
 const api = axios.create({ adapter: cache.adapter })
@@ -65,7 +66,6 @@ export default {
     return {
       quality: 1, // range from 0 to 1
       targetQuality: 0,
-      fullQuality: true, // Rendering at quality equal to 1
 
       // Configs
 
@@ -97,8 +97,6 @@ export default {
       calculated: {}, // Calculated paths
 
       mirror: false,
-      executeAnimation: false, // Check for optimization
-      afterChange: 0, // Counter after changing angle
 
       dragging: false, // If mousedown
 
@@ -123,6 +121,13 @@ export default {
         title: '',
         data: '',
         fileName: ''
+      },
+
+      wind,
+
+      windPropers: {
+        enabled: true,
+        cycle: 0
       }
     }
   },
@@ -148,7 +153,8 @@ export default {
       'getFPS',
       'getQuality',
       'getRendering',
-      'getRendered'
+      'getRendered',
+      'getWind'
     ]),
 
     timeline() {
@@ -224,9 +230,6 @@ export default {
 
         this.SetPropersSide(this.mirror, properties)
         this.properties = properties
-
-        this.fullQuality = false
-        this.executeAnimation = true
       },
 
       deep: true
@@ -235,9 +238,6 @@ export default {
     getGlobal: {
       handler(globals) {
         this.applyGlobals(globals)
-
-        this.fullQuality = false
-        this.executeAnimation = true
       },
 
       deep: true
@@ -252,9 +252,6 @@ export default {
 
       if (this.paths.hairs[name]) {
         this.paths.hairs.name = name
-
-        this.fullQuality = false
-        this.executeAnimation = true
       } else {
         const { fileName, name } = this.asFile('hair')
 
@@ -270,21 +267,17 @@ export default {
       this.paths.glasses.name = name
     },
 
-    getColor: {
-      handler() {
-        this.fullQuality = false
-        this.executeAnimation = true
-      },
-
-      deep: true
-    },
-
     mirror: {
       handler(value, old) {
         const { properties, getColor } = this
 
         if (old !== undefined) {
           const { eyes_left_basic: eyesLeftBasic, eyes_right_basic: eyesRightBasic } = getColor
+
+          const slot = +localStorage.getItem('slot')
+          const save = JSON.parse(localStorage.getItem('avatars'))
+
+          const { color } = save[slot]
 
           this.setColor({
             path: 'eyes_left_basic',
@@ -295,6 +288,11 @@ export default {
             path: 'eyes_right_basic',
             value: eyesLeftBasic
           })
+
+          color.eyes_left_basic = eyesRightBasic
+          color.eyes_right_basic = eyesLeftBasic
+
+          localStorage.setItem('avatars', JSON.stringify(save))
         }
 
         this.SetPropersSide(value, properties)
@@ -323,9 +321,6 @@ export default {
             this.properties = x
 
             this.SetPropersSide(this.mirror, this.properties)
-
-            this.fullQuality = false
-            this.executeAnimation = true
           })
 
           const self = this
@@ -393,6 +388,17 @@ export default {
 
       this.gif.options.width = width
       this.gif.options.height = height
+    },
+
+    getPlayChangedFrame(enabled) {
+      if (enabled) {
+        this.setPlayRedraw()
+        this.resetPlayChangedFrame()
+      }
+    },
+
+    getWind(value) {
+      this.windPropers.enabled = value
     }
   },
 
@@ -557,9 +563,6 @@ export default {
             }
           }
         }
-
-        self.fullQuality = false
-        self.executeAnimation = true
       })
     },
 
@@ -604,9 +607,6 @@ export default {
         this.horiz = -((y * (1 - absX)) ** 7)
         this.angle = (y * 90 * absX) / 4
 
-        this.fullQuality = false
-        this.executeAnimation = true
-
         this.last.x = pageX
         this.last.y = pageY
       }
@@ -614,6 +614,21 @@ export default {
 
     stopDrag() {
       this.dragging = false
+
+      const slot = +localStorage.getItem('animationSlot')
+      const animations = JSON.parse(localStorage.getItem('animations'))
+
+      const frame = animations[slot].frames[this.getFrame].frame
+
+      frame.horiz = this.horiz
+      frame.angle = this.angle
+      frame.degress = this.degress
+
+      localStorage.setItem('animations', JSON.stringify(animations))
+
+      if (this.$refs.avatar) {
+        localStorage.setItem('lastImage', this.$refs.avatar.toDataURL('image/png'))
+      }
 
       this.setProper({ path: 'horiz', value: this.horiz })
       this.setProper({ path: 'angle', value: this.angle })

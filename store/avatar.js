@@ -165,6 +165,10 @@ export const mutations = {
   setAllColors: (state, color) => {
     state.color = color
 
+    if (!state.globals.eyes_right_enable) {
+      state.color.eyes_right_basic = state.color.eyes_left_basic
+    }
+
     if (state.globals.fur_second_color) {
       state.color.fur_SECOND = state.color.fur_second_basic
       state.color.fur_SECOND_SHADE = state.color.fur_second_shade

@@ -9,7 +9,7 @@
 
               color="primary"
               :items="resolutions.types"
-              label="Quality"
+              :label="$t('editor.quality')"
               outlined
               hide-details
             )
@@ -50,11 +50,11 @@
 </template>
 
 <script>
-import { reactive, ref, watch, computed, toRefs } from '@vue/composition-api'
+import { reactive, watch, computed, toRefs } from '@vue/composition-api'
 
 import BarColor from './BarColors.vue'
 
-function Resolutions(commit) {
+function Resolutions(getters, commit) {
   const resolutions = reactive({
     types: ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p'],
 
@@ -70,16 +70,14 @@ function Resolutions(commit) {
     ]
   })
 
-  const size = ref('480p')
-
-  watch(
-    () => size.value,
-    (quality) => {
+  const size = computed({
+    get: () => getters['interface/getQuality'] + 'p',
+    set(quality) {
       const { types, sizes } = resolutions
 
       commit('interface/setQuality', sizes[types.indexOf(quality)][1])
     }
-  )
+  })
 
   return { resolutions, size }
 }
@@ -99,7 +97,7 @@ function Frames(commit) {
 }
 
 function counters(getters, commit) {
-  const { resolutions, size } = Resolutions(commit)
+  const { resolutions, size } = Resolutions(getters, commit)
   const { frames, frame } = Frames(commit)
 
   const getFrames = computed(() => getters['avatar/getFrames'])

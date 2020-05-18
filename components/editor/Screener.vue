@@ -7,33 +7,18 @@
             v-alert(type="error" outlined) {{ $t('editor.screener.warning') }}
 
         v-row
-          v-col(cols="6" sm="6" md="2" lg="2" xl="2")
-            v-text-field(
-              v-model="width"
-              :label="$t('editor.screener.width')"
-              hide-details
+          v-col(cols="5" sm="5" md="2" lg="2" xl="2")
+            v-combobox(
+              v-model="size"
+
+              color="primary"
+              :items="resolutions.types"
+              :label="$t('editor.quality')"
               outlined
-              suffix="px"
-              :rules="[() => !!width || 'argh!']"
-            )
-
-          v-col(cols="6" sm="6" md="2" lg="2" xl="2")
-            v-text-field(
-              v-model="height"
-              :label="$t('editor.screener.height')"
               hide-details
-              outlined
-              suffix="px"
-              :rules="[() => !!height || 'argh!']"
             )
 
-          v-col(cols="12" md="4" lg="4" xl="4")
-            BarColor(
-              :text="$t('editor.screener.background')"
-              val="background_basic"
-            )
-
-          v-col(cols="6" sm="2" md="2" lg="2" xl="2")
+          v-col(cols="6" sm="2" md="3" lg="3" xl="3")
             v-btn-toggle.my-1(
               v-model="mode"
               mandatory
@@ -54,9 +39,14 @@
                 :aria-label="$t('editor.screener.format.bmp')"
               ) bmp
 
-          v-col(cols="3" sm="8" md="1" lg="1" xl="1")
+          v-col(cols="9" md="4" lg="4" xl="4")
+            BarColor(
+              :text="$t('editor.screener.background')"
+              val="background_basic"
+            )
 
-          v-col(cols="3" sm="2" md="1" lg="1" xl="1")
+          v-col(cols="1" sm="1" md="2" lg="2" xl="2")
+          v-col(cols="1" sm="2" md="1" lg="1" xl="1")
             v-btn(
               fab
               @click="takeImage"
@@ -88,6 +78,34 @@ import { mdiCameraImage } from '@mdi/js'
 
 import BarColor from './BarColors.vue'
 
+function Resolutions(getters, commit) {
+  const resolutions = reactive({
+    types: ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p'],
+
+    sizes: [
+      [3840, 2160],
+      [2560, 1440],
+      [1920, 1080],
+      [1280, 720],
+      [854, 480],
+      [640, 360],
+      [426, 240],
+      [256, 144]
+    ]
+  })
+
+  const size = computed({
+    get: () => getters['interface/getQuality'] + 'p',
+    set(quality) {
+      const { types, sizes } = resolutions
+
+      commit('interface/setQuality', sizes[types.indexOf(quality)][1])
+    }
+  })
+
+  return { resolutions, size }
+}
+
 export default {
   components: {
     BarColor
@@ -102,6 +120,7 @@ export default {
 
   setup(props, { refs, root: { $store, $refs } }) {
     const { getters, commit } = $store
+    const { resolutions, size } = Resolutions(getters, commit)
 
     const opened = computed({
       get: () => props.open,
@@ -113,10 +132,7 @@ export default {
     })
 
     const options = reactive({
-      mode: 0,
-
-      width: 1920,
-      height: 1080
+      mode: 0
     })
 
     const store = reactive({
@@ -130,34 +146,21 @@ export default {
 
     function takeImage() {
       const avatar = $refs.avatar
-      const ratio = avatar.width / avatar.height
-
       const canvas = document.createElement('canvas')
 
-      let widthVar = options.width
-      let heightVar = options.height
+      const { types, sizes } = resolutions
 
-      // Canvas setting
+      const [widthVar, heightVar] = sizes[types.indexOf(size.value)]
 
       canvas.width = widthVar
       canvas.height = heightVar
 
+      const [width, height] = [avatar.width * 1.25, avatar.height * 1.25]
+
       // Setting at center
 
-      widthVar = canvas.width
-      heightVar = widthVar / ratio
-
-      if (heightVar > canvas.height) {
-        heightVar = canvas.height
-        widthVar = canvas.height * ratio
-      }
-
-      widthVar *= 1.25
-
-      const xOffset = (canvas.width - widthVar) / 2
-      const yOffset = canvas.height - heightVar * 1.125
-
-      heightVar *= 1.25
+      const xOffset = (widthVar - width) / 2
+      const yOffset = (heightVar - height) / 2
 
       // Drawing image over background at bottom-center
 
@@ -170,7 +173,7 @@ export default {
         : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
 
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(avatar, xOffset, yOffset, widthVar, heightVar)
+      ctx.drawImage(avatar, xOffset, yOffset, width, height)
 
       // Creating file
 
@@ -195,6 +198,9 @@ export default {
     return {
       ...toRefs(options),
       ...toRefs(store),
+
+      resolutions,
+      size,
 
       opened,
       icons,
