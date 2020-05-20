@@ -92,6 +92,13 @@ function Gender({ commit }, globals) {
 
   function changeGender() {
     commit('avatar/setGlobal', { path: 'male', value: !globals.value.male })
+
+    const slot = +localStorage.getItem('slot')
+    const save = JSON.parse(localStorage.getItem('avatars'))
+
+    save[slot].globals.male = globals.value.male
+
+    localStorage.setItem('avatars', JSON.stringify(save))
   }
 
   return {
@@ -132,7 +139,16 @@ export default {
 
     const name = computed({
       get: () => globals.value.name,
-      set: (value) => $store.commit('avatar/setGlobal', { path: 'name', value })
+      set: (value) => {
+        $store.commit('avatar/setGlobal', { path: 'name', value })
+
+        const slot = +localStorage.getItem('slot')
+        const save = JSON.parse(localStorage.getItem('avatars'))
+
+        save[slot].globals.name = value
+
+        localStorage.setItem('avatars', JSON.stringify(save))
+      }
     })
 
     return {

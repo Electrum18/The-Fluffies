@@ -310,40 +310,41 @@ export default function(
   })
 
   Layer(Positions.empty, Rotate.head, () => {
-    Elem('chin', transparent, [12, fur_SECOND_SHADE])
+    Elem('chin_angulus', transparent, [12, fur_SECOND_SHADE])
+    Elem('chin', fur_basic, [12, fur_SECOND_SHADE])
   })
 
   Layer(Positions.head, Rotate.head, () => {
     Elem('bridge', transparent, [12, fur_SECOND_SHADE])
-    Elem('mouth', jaw_basic, transparent, ['nose', Positions.head])
+    Elem('mouth', jaw_basic, transparent)
     Elem('tongue', tongue_basic, [5, tongue_shade], ['mouth', Positions.head])
 
     if (canine_nose_enable) Elem('nose_point', canine_nose_basic, [7, canine_nose_shade])
   })
 
-  const upper = (100 - properties.teeth_upper) / 3
-  const upperPos = [upper * absAngle * quality, (-horiz * 20 - upper) * quality]
+  const upper = (100 - properties.teeth_upper) / 2
+  const upper2 = (100 - properties.teeth_upper) / 100
+  const upperPos = [(angle / 1.5) * upper2 * quality, (-horiz * 20 - upper) * quality]
 
   Layer(upperPos, Rotate.head, () => {
-    Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(20 - properties.teeth_upper / 5)]])
+    Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(30 - properties.teeth_upper / 3.33)]])
   })
 
-  const lower = (100 - properties.teeth_lower) / 3
-  const lowerPos = [-lower * absAngle * quality, (-horiz * 20 + lower) * quality]
+  const lower = (100 - properties.teeth_lower) / 2
+  const lower2 = (100 - properties.teeth_lower) / 100
+  const lowerPos = [-(angle / 1.5) * lower2 * quality, (-horiz * 20 + lower) * quality]
 
   Layer(lowerPos, Rotate.head, () => {
-    Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', [0, 20 - properties.teeth_lower / 5]])
+    Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', [0, 30 - properties.teeth_lower / 3.33]])
   })
 
   Layer(Positions.head, Rotate.head, () => {
     Elem('mouth', transparent, [7, fur_SECOND_SHADE])
 
     if (fangs) {
-      Elem('fangs_left', '#ffe', [3, '#ccb'], [['head2', 'nose'], Positions.head])
-      Elem('fangs_right', '#ffe', [3, '#ccb'])
+      Elem('fangs_left', '#fff', [3, '#ddd'], [['head2', 'nose'], Positions.head])
+      Elem('fangs_right', '#fff', [3, '#ddd'])
     }
-
-    Elem('mouth2', transparent, [7, fur_SECOND_SHADE])
 
     if (!canine_nose_enable) {
       Elem('nostril_left', transparent, [8, fur_SECOND_SHADE], [['head2', 'nose'], Positions.head])

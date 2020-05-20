@@ -137,6 +137,9 @@ export default {
       open: 'открытый',
       sad: 'грустный',
 
+      tongue: 'Язык',
+      raise: 'поднять',
+
       teeth: 'Зубы',
       upper: 'верхние',
       lower: 'нижние'

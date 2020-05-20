@@ -1,10 +1,34 @@
 {
+  "chin": [
+    ["basic", "open_jaw_chin"], "jaw_open"
+  ],
+
+  "male_chin": [
+    ["basic", "male_open_jaw_chin"], "jaw_open"
+  ],
+
+  "nose": [
+    ["basic", "open_jaw_nose"], "jaw_open"
+  ],
+
+  "male_nose": [
+    ["basic", "male_open_jaw_nose"], "jaw_open"
+  ],
+
+  "tongue": [
+    [
+      [["basic", "open_jaw_tongue"], "jaw_open"],
+      [["basic", "open_jaw_tongue_raised"], "jaw_open"]
+    ],
+    "tongue_raised"
+  ],
+
   "mouth": [
     [
-      [["basic", "open_jaw"], "jaw_open"],
-      [["sad_jaw_closed", "sad_jaw_open"], "jaw_open"]
+      [["basic", "sad_jaw_closed"], "jaw_sad"],
+      [["open_jaw", "sad_jaw_open"], "jaw_sad"]
     ],
-    "jaw_sad"
+    "jaw_open"
   ],
 
   "mouth2": [
