@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { computed, ref, watch, reactive } from '@vue/composition-api'
 
 import { mdiCloudCheck } from '@mdi/js'
@@ -55,8 +56,10 @@ function checkCached(getters, isHairList) {
 function listState(globals, target) {
   const selected = ref(0)
 
-  const list = computed(() => globals.value[target + '_info'])
+  const preList = computed(() => globals.value[target + '_info'])
   const rootName = computed(() => globals.value[target + '_name_en'])
+
+  const list = ref([])
 
   function setIndex(listInput) {
     for (let i = 0; i < listInput.length; i++) {
@@ -65,13 +68,20 @@ function listState(globals, target) {
   }
 
   watch(
-    () => list.value,
-    (value) => setIndex(value),
+    () => preList.value,
+    (value) => {
+      setIndex(value)
+
+      for (let i = 0; i < preList.value.length; i++) {
+        Vue.set(list.value, i, preList.value[i])
+      }
+    },
     { immediate: true }
   )
 
   return {
     selected,
+    preList,
     list,
     rootName,
     setIndex

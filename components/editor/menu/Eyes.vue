@@ -32,7 +32,7 @@
           :text="$t('editor.menu.eyes.scale')"
           val="eyes_iris_scale"
           max=125
-          min=50
+          min=10
         )
 
       v-divider.my-4
@@ -48,10 +48,10 @@
           min=10
         )
 
-        BarColor(
-          :text="$t('editor.menu.eyes.color_pupil')"
-          val="eyes_pupil"
-        )
+      BarColor(
+        :text="$t('editor.menu.eyes.color_pupil')"
+        val="eyes_pupil"
+      )
 
       v-divider.my-4
 

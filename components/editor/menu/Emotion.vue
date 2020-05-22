@@ -25,6 +25,18 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.emotion.tongue') }}
+
+      v-card(outlined).my-2
+        BarSlider(
+          :text="$t('editor.menu.emotion.raise')"
+          val="tongue_raised"
+          max=100
+          min=0
+        )
+
+      v-divider.my-4
+
       p.subtitle-2 {{ $t('editor.menu.emotion.teeth') }}
 
       v-card(outlined).my-2

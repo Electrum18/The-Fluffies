@@ -137,6 +137,9 @@ export default {
       open: 'open',
       sad: 'sad',
 
+      tongue: 'Tongue',
+      raise: 'raise',
+
       teeth: 'Teeth',
       upper: 'upper',
       lower: 'lower'

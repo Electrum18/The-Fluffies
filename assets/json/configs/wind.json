@@ -34,7 +34,7 @@
     "simply": [null, 0, null, null],
     "simply_2": [null, null, 0, null],
     "simple_long": [null, null, 1, null],
-    "spiky_to_side": [null, 1, null, null, null, null],
+    "spiky_to_side": [null, 1, null, null, null, null, null, null],
     "spiky_to_side_2": [null, 1, null, null, null, null],
     "spiky_to_back": [null, null, 2, null, 3, null, null, null],
     "spiky_to_forward": [null, null, 2, null, 3, null, null, null],

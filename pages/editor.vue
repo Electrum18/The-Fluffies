@@ -22,9 +22,15 @@
 
           v-icon.ma-1.recording(v-if="rendering" color="red") {{ icons.mdiRecord }}
 
-          v-chip.mx-1(label) {{ quality }}p • {{ FPS }} FPS
-          v-chip.ml-1.mr-3(label)
-            | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
+          div.d-none.d-sm-flex
+            v-chip.mx-1(label) {{ quality }}p • {{ FPS }} FPS
+            v-chip.ml-1.mr-3(label)
+              | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
+
+          div.d-flex.d-sm-none
+            v-chip.mx-1(label) {{ quality }} • {{ FPS }}
+            v-chip.ml-1.mr-3(label)
+              | {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
 
           NetworkStatus.my-1
 

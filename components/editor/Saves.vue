@@ -199,106 +199,25 @@ export default {
       }
     },
 
-    compability(avatar) {
-      if (!avatar) return
-
-      const { getDefault, isEmpty } = this
-
-      const keys = Object.keys(avatar)
+    compability(target, reference) {
+      const object = {}
+      const keys = Object.keys(reference)
 
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i]
-        const value = avatar[key]
 
-        const defaultObj = JSON.parse(JSON.stringify(getDefault))
-
-        defaultObj.globals = defaultObj.globals[this.defaultIndex]
-        defaultObj.color = defaultObj.color[this.defaultIndex]
-
-        const valueRef = defaultObj[key]
-
-        // If key does not exist
-        if (isEmpty(valueRef)) {
-          delete avatar[key]
-
-          // If value does not exist
-        } else if (isEmpty(value)) {
-          avatar[key] = valueRef
-
-          continue
+        if (target[key] === undefined) {
+          object[key] = reference[key]
+        } else {
+          object[key] = target[key]
         }
 
-        if (key === 'globals') {
-          const keys2 = Object.keys(value)
-
-          for (let i = 0; i < keys2.length; i++) {
-            const key2 = keys2[i]
-
-            if (key2 === 'horn_behind_NO_EARS') continue
-            if (key2 === 'horn_behind_AFTER_EARS') continue
-
-            const global = defaultObj.globals[key2]
-
-            // If key does not exist
-            if (isEmpty(global)) {
-              delete value[key2]
-
-              // If value does not exist
-            } else if (isEmpty(value[key2])) {
-              value[key2] = global
-            }
-          }
-
-          const refKeys = Object.keys(defaultObj.globals)
-
-          for (let i = 0; i < refKeys.length; i++) {
-            const key2 = refKeys[i]
-
-            if (key2 === 'horn_behind_NO_EARS') continue
-            if (key2 === 'horn_behind_AFTER_EARS') continue
-
-            if (isEmpty(value[key2])) {
-              value[key2] = global
-            }
-          }
-        }
-
-        if (key === 'color') {
-          const keys2 = Object.keys(value)
-
-          for (let i = 0; i < keys2.length; i++) {
-            const key2 = keys2[i]
-
-            const color = defaultObj.color[key2]
-            const val2 = value[key2]
-
-            // If key does not exist
-            if (isEmpty(color)) {
-              delete value[key2]
-
-              // If value does not exist
-            } else if (isEmpty(val2)) {
-              value[key2] = color
-            } else if (isEmpty(val2.h) || isEmpty(val2.s) || isEmpty(val2.l)) {
-              value[key2] = color
-            }
-          }
-
-          const refKeys = Object.keys(defaultObj.color)
-
-          for (let i = 0; i < refKeys.length; i++) {
-            const key2 = refKeys[i]
-            const val2 = value[key2]
-            const val3 = defaultObj.color[key2]
-
-            if (isEmpty(val2)) {
-              value[key2] = val3
-            } else if (isEmpty(val2.h) || isEmpty(val2.s) || isEmpty(val2.l)) {
-              value[key2] = val3
-            }
-          }
+        if (typeof object[key] === 'object') {
+          object[key] = this.compability(object[key], reference[key])
         }
       }
+
+      return object
     },
 
     getSave() {
@@ -307,7 +226,17 @@ export default {
       if (avatars && avatars.length) {
         avatars = JSON.parse(avatars)
 
-        // this.compability(avatars[this.slot])
+        const { globals, color } = this.getDefault
+
+        for (let i = 0; i < avatars.length; i++) {
+          const avatar = avatars[i]
+
+          avatar.globals = this.compability(avatar.globals, globals[this.defaultIndex])
+          avatar.color = this.compability(avatar.color, color[this.defaultIndex])
+        }
+
+        localStorage.setItem('avatars', JSON.stringify(avatars))
+
         this.setAvatar(avatars[this.slot])
 
         return avatars

@@ -535,7 +535,9 @@ export default {
     const clearing = ref(false)
     const acceptClear = ref(false)
 
-    const lastSaveImage = computed(() => (process.client ? localStorage.getItem('lastImage') : ''))
+    const lastSaveImage = computed(() =>
+      process.client ? localStorage.getItem('lastImage') || '' : ''
+    )
 
     return {
       ...toRefs(CreateSave($store, defaults)),

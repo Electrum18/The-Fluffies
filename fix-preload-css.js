@@ -26,15 +26,11 @@ readdir(target, (err, files) => {
     readFile(target + file, 'utf-8', (err, content) => {
       if (err) throw err
 
-      const foundFile = /var \w=document\.createElement\("link"\);m\.rel="stylesheet"/.exec(
-        content
-      )
+      const foundFile = /var \w=document\.createElement\("link"\);m\.rel="stylesheet"/.exec(content)
 
       if (foundFile !== null) {
         const newContent =
-          content.slice(0, foundFile.index) +
-          integrate +
-          content.slice(foundFile.index)
+          content.slice(0, foundFile.index) + integrate + content.slice(foundFile.index)
 
         writeFile(target + file, newContent, (err) => {
           if (err) throw err

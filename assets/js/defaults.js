@@ -13,6 +13,8 @@ import Hairs from '~/assets/json/configs/names/hair.json'
 import Horns from '~/assets/json/configs/names/horn.json'
 import Glasses from '~/assets/json/configs/names/glasses.json'
 
+import propers from '~/assets/json/configs/properties.json'
+
 // Apply lists configs
 
 globalsPony.hair_info = Hairs
@@ -30,5 +32,6 @@ globalsDeer.glasses_info = Glasses
 export default {
   frame: 0,
   globals: [globalsPony, globalsZebra, globalsDeer],
-  color: [colorPony, colorZebra, colorDeer]
+  color: [colorPony, colorZebra, colorDeer],
+  propers
 }

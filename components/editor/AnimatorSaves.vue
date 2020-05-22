@@ -123,14 +123,58 @@ function Saves(getters, commit) {
   )
 
   const defaultFrames = computed(() => getters['avatar/getDefaultFrames'])
+  const defaults = computed(() => getters['avatar/getDefault'])
 
   function getSave() {
     if (!process.client) return
+
+    function compability(target, reference) {
+      const object = {}
+      const keys = Object.keys(reference)
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i]
+
+        if (target[key] === undefined) {
+          object[key] = reference[key]
+        } else {
+          object[key] = target[key]
+        }
+
+        if (typeof object[key] === 'object') {
+          object[key] = compability(object[key], reference[key])
+        }
+      }
+
+      return object
+    }
 
     let animations = localStorage.getItem('animations')
 
     if (animations && animations.length) {
       animations = JSON.parse(animations)
+
+      for (let i = 0; i < animations.length; i++) {
+        const animation = animations[i]
+
+        for (let j = 0; j < animation.frames.length; j++) {
+          const { frame } = animation.frames[j]
+
+          const { angle, horiz, degress } = frame
+
+          const defaults2 = {
+            angle,
+            horiz,
+            degress,
+
+            ...defaults.value.propers
+          }
+
+          animation.frames[j].frame = compability(frame, defaults2)
+        }
+      }
+
+      localStorage.setItem('animations', JSON.stringify(animations))
 
       commit('avatar/setFrames', animations[slot.value])
 
@@ -228,6 +272,7 @@ function Saves(getters, commit) {
     savesLength,
 
     defaultFrames,
+    defaults,
     globals,
 
     getSave,
