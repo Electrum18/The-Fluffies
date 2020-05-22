@@ -311,7 +311,7 @@ export default function(
 
   Layer(Positions.empty, Rotate.head, () => {
     Elem('chin_angulus', transparent, [12, fur_SECOND_SHADE])
-    Elem('chin', fur_basic, [12, fur_SECOND_SHADE])
+    Elem('chin', fur_SECOND, [12, fur_SECOND_SHADE])
   })
 
   Layer(Positions.head, Rotate.head, () => {
