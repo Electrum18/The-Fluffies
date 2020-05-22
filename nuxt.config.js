@@ -42,7 +42,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/composition-api'],
+  plugins: ['~/plugins/composition-api', '~/plugins/vue-pwa-installer'],
   /*
    ** Nuxt.js dev-modules
    */

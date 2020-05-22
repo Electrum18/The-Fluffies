@@ -160,6 +160,27 @@
 
       v-list(dense)
         v-list-item(
+          v-if="$installer.canInstall"
+          @click="$installer.prompt"
+          color="light-green"
+        )
+          v-list-item-content.light-green--text
+            v-list-item-title(v-text="$t('index.desktop')")
+
+          v-list-item-icon
+            v-icon(color="light-green") {{ icons.mdiHomePlus }}
+
+        v-list-item(
+          v-if="$installer.hasInstalled"
+          color="light-green"
+        )
+          v-list-item-content.light-green--text
+            v-list-item-title(v-text="$t('index.added')")
+
+          v-list-item-icon
+            v-icon(color="light-green") {{ icons.mdiCheck }}
+
+        v-list-item(
           :title="$t('index.about')"
           :to="localePath('about')"
         )
@@ -223,6 +244,30 @@
       )
         v-icon {{ icons.mdiPatreon }}
 
+      v-tooltip(right v-if="$installer.canInstall && !$installer.hasInstalled")
+        template(v-slot:activator="{ on }")
+          v-btn(
+            icon
+            color="light-green"
+            @click="$installer.prompt"
+            v-on="on"
+          )
+            v-icon {{ icons.mdiHomePlus }}
+
+        span {{ $t('index.desktop') }}
+
+      v-tooltip(right v-if="$installer.hasInstalled")
+        template(v-slot:activator="{ on }")
+          v-btn(
+            icon
+            readonly
+            color="light-green"
+            v-on="on"
+          )
+            v-icon {{ icons.mdiCheck }}
+
+        span {{ $t('index.added') }}
+
     v-dialog(v-model="clearing" width="500")
       v-card
         v-card-title.red--text {{ $t('index.repairing.title') }}
@@ -282,7 +327,9 @@ import {
   mdiAlert,
   mdiGithub,
   mdiPatreon,
-  mdiTwitter
+  mdiTwitter,
+  mdiHomePlus,
+  mdiCheck
 } from '@mdi/js'
 
 import i18nHead from '~/assets/js/i18nHead'
@@ -506,7 +553,7 @@ function CreateSave($store, defaults) {
 }
 
 export default {
-  setup(props, { root: { $vuetify, $store } }) {
+  setup(props, { root: { $vuetify, $store, $installer } }) {
     const icons = reactive({
       mdiMenu,
       mdiArrowLeft,
@@ -515,7 +562,9 @@ export default {
       mdiAlert,
       mdiGithub,
       mdiPatreon,
-      mdiTwitter
+      mdiTwitter,
+      mdiHomePlus,
+      mdiCheck
     })
 
     const saveMode = ref(false)

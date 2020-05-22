@@ -31,7 +31,8 @@
     "parse-svg-path": "^x",
     "popmotion": "^x",
     "socket.io": "^x",
-    "socket.io-client": "^x"
+    "socket.io-client": "^x",
+    "vue-pwa-installer": "^0.2.0"
   },
   "devDependencies": {
     "@bazzite/nuxt-optimized-images": "^x",
