@@ -40,6 +40,7 @@ export default {
       position: 'Позиция',
       horizontal: 'горизонтально',
       vertical: 'вертикально',
+      focus: 'фокусировка',
 
       left_eyelids: 'Левые веки',
       right_eyelids: 'Правые веки',

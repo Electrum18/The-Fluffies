@@ -95,8 +95,8 @@ import { ref, reactive, computed } from '@vue/composition-api'
 
 import { mdiChevronLeft } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead'
-import format from '~/assets/js/format'
+import i18nHead from '~/assets/ts/i18nHead.ts'
+import format from '~/assets/ts/format'
 
 import Socials from '~/components/Socials'
 import InfoIcons from '~/components/InfoIcons'
@@ -114,6 +114,7 @@ function parseContributors({ $axios }) {
 }
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
     const icons = reactive({
       mdiChevronLeft

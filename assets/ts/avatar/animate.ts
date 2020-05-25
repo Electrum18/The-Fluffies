@@ -1,15 +1,32 @@
+import {
+  ICalculated,
+  IPaths,
+  IScheme,
+  IProperties,
+  ICompiledPaths
+} from '~/types/paths'
+
 import { morph, schemeMorph } from './morphs'
 
-function interpolate(
-  { emotions },
-  elements,
-  keys,
-  calculated,
+interface IInterpolateProps {
+  absAngle: number
+  shiftMul: {
+    [index: string]: number
+  }
+  interpolationScheme: IScheme,
+  properties: IProperties
+}
 
-  { absAngle, shiftMul, interpolationScheme, properties }
+function interpolate(
+  { emotions }: any,
+  elements: ICalculated,
+  keys: string[],
+  calculated: ICalculated,
+
+  { absAngle, shiftMul, interpolationScheme, properties }: IInterpolateProps
 ) {
   for (let j = 0; j < keys.length; j++) {
-    const paths = elements[keys[j]]
+    const paths: IPaths = elements[keys[j]]
 
     let [pow, mul] = [1, 1]
 
@@ -32,15 +49,21 @@ function interpolate(
       const scheme = interpolationScheme[keys[j]]
 
       if (scheme) {
-        schemeMorph({ paths, frame, range, key: keys[j] }, emotions, scheme, calculated, properties)
+        schemeMorph(
+          { paths, frame, range, key: keys[j] },
+          emotions as ICalculated,
+          scheme as any,
+          calculated,
+          properties
+        )
       } else {
-        calculated[keys[j]] = morph(paths[frame], paths[frame + 1], range)
+        calculated[keys[j]] = morph(paths[frame] as IPaths, paths[frame + 1] as IPaths, range)
       }
     }
   }
 }
 
-function interpolationCalculate(elemsList, args) {
+function interpolationCalculate(elemsList: ICompiledPaths, args: IInterpolateProps) {
   const calculated = {}
 
   for (let i = 0; i < elemsList.keys.length; i++) {
@@ -49,23 +72,28 @@ function interpolationCalculate(elemsList, args) {
     if (elements.name) {
       const elemsInner = elements[elements.name]
 
-      interpolate(elemsList, elemsInner, elemsInner.keys, calculated, args)
+      interpolate(elemsList, elemsInner as ICalculated, elemsInner.keys, calculated, args)
     } else if (elements.keys) {
-      interpolate(elemsList, elements, elements.keys, calculated, args)
+      interpolate(elemsList, elements as ICalculated, elements.keys, calculated, args)
     }
   }
 
   return calculated
 }
 
-function changeCanvas({ ctx, quality }) {
+interface IChangeCanvas {
+  ctx: CanvasRenderingContext2D,
+  quality: number
+}
+
+function changeCanvas({ ctx, quality }: IChangeCanvas) {
   ctx.canvas.width = (1024 * quality * 2) | 0
   ctx.canvas.height = (1024 * quality * 1.25) | 0
 
   ctx.lineCap = ctx.lineJoin = 'round'
 }
 
-export default function() {
+export default function(this: any) {
   this.fps.ticker++
 
   if (this.fps.ticker >= this.fps.every) {
@@ -124,12 +152,14 @@ export default function() {
 
       const { h, s, l, a } = this.getColor.background_basic
 
-      ctx.fillStyle = a
-        ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
-        : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
+      if (ctx instanceof CanvasRenderingContext2D) {
+        ctx.fillStyle = a
+          ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
+          : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
 
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(avatar, xOffset, yOffset, width, height)
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(avatar, xOffset, yOffset, width, height)
+      }
 
       const frameDuration = 1000 / 60
 

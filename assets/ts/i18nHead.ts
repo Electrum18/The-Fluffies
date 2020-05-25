@@ -1,4 +1,6 @@
-export default function(self, page) {
+import { IMetaTag, IMetaTags, IMetaReturn } from '~/types/meta'
+
+export default function(self: any, page: string): IMetaReturn {
   const { messages, locale } = self.$i18n
 
   const t = messages[locale].meta
@@ -8,35 +10,39 @@ export default function(self, page) {
 
   const twitter = '@TFluffies'
 
-  const metaTags = [
+  const metaTags: IMetaTags = [
+    { name: 'title', content: t.title[page] },
     { name: 'description', content: t.description },
-    { name: 'keywords', content: t.keywords },
 
-    { name: 'og:title', content: t.title[page] },
-    { name: 'og:site_name', content: 'The Fluffies' },
-    { name: 'og:description', content: t.description },
+    { name: 'og:type', content: 'website' },
     { name: 'og:url', content: 'https://the-fluffies.net/' },
+    { name: 'og:title', content: t.title[page] },
+    { name: 'og:description', content: t.description },
     { name: 'og:image', content: image },
+    { name: 'og:site_name', content: 'The Fluffies' },
 
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: twitter },
-    { name: 'twitter:creator', content: twitter },
+    { name: 'twitter:url', content: 'https://the-fluffies.net/' },
     { name: 'twitter:title', content: t.title[page] },
     { name: 'twitter:description', content: t.description },
-    { name: 'twitter:image', content: image }
+    { name: 'twitter:image', content: image },
+    { name: 'twitter:site', content: twitter },
+    { name: 'twitter:creator', content: twitter }
   ]
 
-  const appliedMeta = []
+  const appliedMeta: IMetaTag[] = []
 
-  metaTags.forEach((tag) => {
-    if (tag.content !== undefined && tag.content !== null) {
+  for (let i = 0; i < metaTags.length; i++) {
+    const tag = metaTags[i]
+
+    if (tag.content ?? false) {
       appliedMeta.push({
         hid: tag.name,
         name: tag.name,
         content: tag.content
       })
     }
-  })
+  }
 
   const { htmlAttrs, meta, link } = self.$nuxtI18nSeo()
 

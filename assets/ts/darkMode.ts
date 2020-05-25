@@ -1,7 +1,8 @@
 import { ref, watch } from '@vue/composition-api'
 
-function darkMode({ theme }) {
-  const hour = new Date().getHours()
+function darkMode({ theme }: any): any {
+  const hour: number = new Date().getHours()
+
   const dark = ref(hour > 17 || hour < 8)
 
   watch(dark, () => (theme.dark = dark.value))

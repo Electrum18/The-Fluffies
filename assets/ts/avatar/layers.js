@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import layers from './graphics'
+import layers from './graphics.ts'
 
 function shortcuts(
   horiz,
@@ -8,18 +8,21 @@ function shortcuts(
   quality,
   mirror,
 
-  { eyes_position_horiz, eyes_position_verti },
+  { eyes_position_horiz, eyes_position_verti, eyes_focus },
   { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade }
 ) {
+  const eyesPos = [
+    (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
+    (-horiz * 20 - eyes_position_verti / 3) * quality
+  ]
+
   const Positions = {
     empty: undefined,
     head: [0, -horiz * 20 * quality],
     head2: [0, horiz * 10 * quality],
     cheeks: [0, -horiz * 10 * quality],
-    eyes: [
-      (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
-      (-horiz * 20 - eyes_position_verti / 3) * quality
-    ]
+    eye_left: [-(eyes_focus / 3) * quality + eyesPos[0], eyesPos[1]],
+    eye_right: [(eyes_focus / 3) * quality + eyesPos[0], eyesPos[1]]
   }
 
   const Rotate = {
@@ -39,8 +42,8 @@ function shortcuts(
   }
 
   const Clip = {
-    eye_left: ['eye_left', Positions.eyes],
-    eye_right: ['eye_right', Positions.eyes],
+    eye_left: ['eye_left', Positions.eye_left],
+    eye_right: ['eye_right', Positions.eye_right],
     head2: ['head2', Positions.head]
   }
 
@@ -278,7 +281,7 @@ export default function(
     Elem('eye_left', eyes_sclera, transparent, Clip.head2)
   })
 
-  Layer(Positions.eyes, Rotate.head, () => {
+  Layer(Positions.eye_left, Rotate.head, () => {
     Elem('eye_left_iris', eyes_left_basic, transparent, Clip.eye_left)
     Elem('eye_left_pupil', eyes_pupil, transparent, Clip.eye_left)
     Elem('eye_left_flare', '#fff', transparent, Clip.eye_left)
@@ -368,7 +371,7 @@ export default function(
     Elem('eye_right', eyes_sclera)
   })
 
-  Layer(Positions.eyes, Rotate.head, () => {
+  Layer(Positions.eye_right, Rotate.head, () => {
     Elem('eye_right_iris', eyes_right_basic, transparent, Clip.eye_right)
     Elem('eye_right_pupil', eyes_pupil, transparent, Clip.eye_right)
     Elem('eye_right_flare', '#fff', transparent, Clip.eye_right)

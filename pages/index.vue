@@ -5,7 +5,7 @@
       v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
 
-    no-ssr
+    client-only
       .image-container(:style="opacitySave")
         v-img.save(
           :src="lastSaveImage"
@@ -25,7 +25,7 @@
 
       h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
-    no-ssr
+    client-only
       v-row.row-bottom.my-4
         v-spacer
 
@@ -285,7 +285,7 @@ import {
   mdiTwitter
 } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead'
+import i18nHead from '~/assets/ts/i18nHead.ts'
 
 import TheFluffiesLogo from '~/assets/svg/TheFluffiesLogo.svg'
 
@@ -506,6 +506,7 @@ function CreateSave($store, defaults) {
 }
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $vuetify, $store } }) {
     const icons = reactive({
       mdiMenu,
@@ -626,6 +627,7 @@ svg.logo
 
   .v-image
     position: absolute
+    overflow: hidden
     transform: translate(-50%)
     left: 50%
     bottom: 0

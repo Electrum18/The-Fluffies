@@ -7,8 +7,5 @@ export default {
   },
 
   description:
-    'Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle.',
-
-  keywords:
-    'The, Fluffies, MLP, My Little Pony, pony, creator, editor, creating, cartoon, SVG, vector'
+    'Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle.'
 }
