@@ -5,7 +5,7 @@
       v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
 
-    no-ssr
+    client-only
       .image-container(:style="opacitySave")
         v-img.save(
           :src="lastSaveImage"
@@ -25,7 +25,7 @@
 
       h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
-    no-ssr
+    client-only
       v-row.row-bottom.my-4
         v-spacer
 
@@ -160,27 +160,6 @@
 
       v-list(dense)
         v-list-item(
-          v-if="$installer.canInstall"
-          @click="$installer.prompt"
-          color="light-green"
-        )
-          v-list-item-content.light-green--text
-            v-list-item-title(v-text="$t('index.desktop')")
-
-          v-list-item-icon
-            v-icon(color="light-green") {{ icons.mdiHomePlus }}
-
-        v-list-item(
-          v-if="$installer.hasInstalled"
-          color="light-green"
-        )
-          v-list-item-content.light-green--text
-            v-list-item-title(v-text="$t('index.added')")
-
-          v-list-item-icon
-            v-icon(color="light-green") {{ icons.mdiCheck }}
-
-        v-list-item(
           :title="$t('index.about')"
           :to="localePath('about')"
         )
@@ -244,30 +223,6 @@
       )
         v-icon {{ icons.mdiPatreon }}
 
-      v-tooltip(right v-if="$installer.canInstall && !$installer.hasInstalled")
-        template(v-slot:activator="{ on }")
-          v-btn(
-            icon
-            color="light-green"
-            @click="$installer.prompt"
-            v-on="on"
-          )
-            v-icon {{ icons.mdiHomePlus }}
-
-        span {{ $t('index.desktop') }}
-
-      v-tooltip(right v-if="$installer.hasInstalled")
-        template(v-slot:activator="{ on }")
-          v-btn(
-            icon
-            readonly
-            color="light-green"
-            v-on="on"
-          )
-            v-icon {{ icons.mdiCheck }}
-
-        span {{ $t('index.added') }}
-
     v-dialog(v-model="clearing" width="500")
       v-card
         v-card-title.red--text {{ $t('index.repairing.title') }}
@@ -327,12 +282,10 @@ import {
   mdiAlert,
   mdiGithub,
   mdiPatreon,
-  mdiTwitter,
-  mdiHomePlus,
-  mdiCheck
+  mdiTwitter
 } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead'
+import i18nHead from '~/assets/js/i18nHead.ts'
 
 import TheFluffiesLogo from '~/assets/svg/TheFluffiesLogo.svg'
 
@@ -553,7 +506,8 @@ function CreateSave($store, defaults) {
 }
 
 export default {
-  setup(props, { root: { $vuetify, $store, $installer } }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setup(props, { root: { $vuetify, $store } }) {
     const icons = reactive({
       mdiMenu,
       mdiArrowLeft,
@@ -562,9 +516,7 @@ export default {
       mdiAlert,
       mdiGithub,
       mdiPatreon,
-      mdiTwitter,
-      mdiHomePlus,
-      mdiCheck
+      mdiTwitter
     })
 
     const saveMode = ref(false)
@@ -675,6 +627,7 @@ svg.logo
 
   .v-image
     position: absolute
+    overflow: hidden
     transform: translate(-50%)
     left: 50%
     bottom: 0

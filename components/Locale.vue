@@ -16,6 +16,7 @@
 import { ref, reactive, computed } from '@vue/composition-api'
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $i18n } }) {
     const items = ref(['eng', 'rus'])
 

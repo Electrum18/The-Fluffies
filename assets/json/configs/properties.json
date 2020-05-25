@@ -12,6 +12,8 @@
   "eyes_iris_scale": 100,
   "eyes_pupils_width": 10,
 
+  "eyes_focus": 0,
+
   "eyes_position_horiz": 0,
   "eyes_position_verti": 0,
 

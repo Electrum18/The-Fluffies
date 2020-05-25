@@ -1,6 +1,8 @@
+import { IFrame, IFrames } from '~/types/frames'
+
 import propers from '~/assets/json/configs/properties.json'
 
-function cloneObject(object) {
+function cloneObject(object: IFrame): IFrame {
   return JSON.parse(JSON.stringify(object))
 }
 
@@ -109,4 +111,4 @@ export default [
       ...cloneObject(propers)
     }
   }
-]
+] as IFrames

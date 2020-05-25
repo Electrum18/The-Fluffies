@@ -75,6 +75,13 @@
           min=-100
         )
 
+        BarSlider(
+          :text="$t('editor.menu.eyes.focus')"
+          val="eyes_focus"
+          max=100
+          min=-100
+        )
+
       v-divider.my-4
 
 
@@ -138,6 +145,7 @@ export default {
     BarColor
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $store } }) {
     return {
       globals: computed(() => $store.getters['avatar/getGlobal'])

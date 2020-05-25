@@ -1,6 +1,6 @@
 import SetPropersSide from '~/assets/js/avatar/setSide'
-import defaultValues from '~/assets/js/defaults'
-import defaultFrames from '~/assets/js/defaultFrames'
+import defaultValues from '~/assets/js/defaults.ts'
+import defaultFrames from '~/assets/js/defaultFrames.ts'
 
 function cloneObject(object) {
   return JSON.parse(JSON.stringify(object))

@@ -41,9 +41,9 @@ import GIF from 'gif.js'
 
 import animate from '~/assets/js/avatar/animate'
 import draw from '~/assets/js/avatar/layers'
-import SetPropersSide from '~/assets/js/avatar/setSide'
+import SetPropersSide from '~/assets/js/avatar/setSide.ts'
 
-import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/js/dataCompile'
+import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/js/dataCompile.ts'
 
 // Configs
 

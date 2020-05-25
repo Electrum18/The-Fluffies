@@ -3,8 +3,6 @@ export default {
   about: 'About',
   support: 'Support us',
   repair: 'Repair',
-  desktop: 'To the desktop',
-  added: 'Are on desktop',
 
   start: {
     title: 'start',

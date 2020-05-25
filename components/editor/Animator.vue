@@ -358,7 +358,7 @@ export default {
       const slot = +localStorage.getItem('animationSlot')
       const animations = JSON.parse(localStorage.getItem('animations'))
 
-      animations[slot].name = this.saveName
+      animations[slot].name = name
 
       localStorage.setItem('animations', JSON.stringify(animations))
     }
@@ -464,6 +464,7 @@ export default {
     }
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $store } }) {
     const { getters, commit } = $store
 

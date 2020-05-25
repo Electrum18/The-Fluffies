@@ -1,9 +1,12 @@
+import { IObject } from '~/types/basic'
+import { ICompiledPaths, IPaths } from '~/types/paths'
+
 import abs from 'abs-svg-path'
 import parse from 'parse-svg-path'
 import curvify from 'curvify-svg-path'
 
-import Body from '~/assets/js/dataMerge'
-import Emotions from '~/assets/js/emotionsMerge'
+import Body from './dataMerge'
+import Emotions from './emotionsMerge'
 
 import HornLong from '~/assets/json/data/horns/long.json'
 import HornDeer from '~/assets/json/data/horns/deer.json'
@@ -12,7 +15,7 @@ import GlassesClassic from '~/assets/json/data/glasses/classic.json'
 import GlassesMonolens from '~/assets/json/data/glasses/monolens.json'
 import GlassesTeashades from '~/assets/json/data/glasses/teashades.json'
 
-export function FormatSVGinJSON(json) {
+function FormatSVGinJSON(json: IObject): IObject {
   const keys = Object.keys(json)
 
   json.keys = keys
@@ -30,7 +33,7 @@ export function FormatSVGinJSON(json) {
   return json
 }
 
-export const CompiledPaths = {
+const CompiledPaths: ICompiledPaths = {
   keys: ['body', 'emotions', 'horn', 'glasses', 'hairs'],
 
   body: FormatSVGinJSON(Body),
@@ -48,4 +51,9 @@ export const CompiledPaths = {
   },
 
   hairs: {}
+}
+
+export {
+  FormatSVGinJSON,
+  CompiledPaths
 }

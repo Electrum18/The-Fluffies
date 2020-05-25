@@ -42,12 +42,13 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/composition-api', '~/plugins/vue-pwa-installer'],
+  plugins: ['~/plugins/composition-api'],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     '@bazzite/nuxt-optimized-images',
@@ -83,13 +84,11 @@ export default {
    ** PWA module configuration
    ** See https://github.com/nuxt-community/pwa-module
    */
-  pwa: {
-    manifest: {
-      name: 'The Fluffies',
-      short_name: 'Fluffies',
-      theme_color: '#1f1f1f',
-      background_color: '#1f1f1f'
-    }
+  manifest: {
+    name: 'The Fluffies',
+    short_name: 'Fluffies',
+    theme_color: '#ffaa00',
+    background_color: '#1f1f1f'
   },
   /*
    ** vuetify module configuration
@@ -161,20 +160,14 @@ export default {
    ** Build configuration
    */
   build: {
-    extractCSS: true
+    extractCSS: true,
 
-    /*
-    extend({ plugins, output }, { isClient }) {
-      if (isClient) {
-        const extractCSS = plugins[0].options
-
-        extractCSS.filename = '[contenthash:4].css'
-        extractCSS.chunkFilename = '[contenthash:4].css'
-
-        output.filename = '[contenthash:4].js'
-        output.chunkFilename = '[contenthash:4].js'
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        maxSize: 256000
       }
     }
-    */
   }
 }

@@ -94,7 +94,7 @@ import {
   mdiCheckboxBlankOutline
 } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead'
+import i18nHead from '~/assets/js/i18nHead.ts'
 
 import Menu from '~/components/editor/Menu'
 import MenuHairs from '~/components/editor/MenuHairs'
@@ -132,6 +132,7 @@ function pagesControl(getters, commit) {
 export default {
   layout: 'editor',
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $store } }) {
     const { getters, commit } = $store
 

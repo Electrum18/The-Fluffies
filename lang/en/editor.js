@@ -40,6 +40,7 @@ export default {
       position: 'Position',
       horizontal: 'horizontal',
       vertical: 'vertical',
+      focus: 'focus',
 
       left_eyelids: 'Left eyelids',
       right_eyelids: 'Right eyelids',

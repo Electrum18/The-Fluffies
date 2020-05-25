@@ -11,7 +11,7 @@
     "build": "nuxt build --analyze",
     "start": "nuxt start",
     "generate": "nuxt generate --analyze",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
     "socket": "node server/index.js",
     "fix-preload-css": "node fix-preload-css.js"
   },
@@ -36,7 +36,9 @@
   },
   "devDependencies": {
     "@bazzite/nuxt-optimized-images": "^x",
+    "@nuxt/typescript-build": "^1.0.0",
     "@nuxtjs/eslint-config": "^x",
+    "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/eslint-module": "^x",
     "@nuxtjs/google-analytics": "^x",
     "@nuxtjs/sitemap": "^x",

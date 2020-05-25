@@ -38,7 +38,7 @@ import { reactive } from '@vue/composition-api'
 
 import { mdiBrightness7, mdiMoonWaningCrescent } from '@mdi/js'
 
-import darkMode from '~/assets/js/darkMode'
+import darkMode from '~/assets/js/darkMode.ts'
 
 import Socials from '~/components/Socials'
 import Locale from '~/components/Locale'
@@ -52,6 +52,7 @@ import UpperBlob2 from '~/assets/svg/upper/Blob2.svg'
 import UpperBlob3 from '~/assets/svg/upper/Blob3.svg'
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $vuetify } }) {
     const { dark } = darkMode($vuetify)
 

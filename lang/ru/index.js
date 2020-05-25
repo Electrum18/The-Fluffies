@@ -3,8 +3,6 @@ export default {
   about: 'О нас',
   support: 'Поддержать',
   repair: 'Починка',
-  desktop: 'На рабочий стол',
-  added: 'На рабочем столе',
 
   start: {
     title: 'начать',

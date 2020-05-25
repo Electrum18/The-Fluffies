@@ -1,4 +1,6 @@
-export default function(mirror, propers) {
+import { IProperties } from '~/types/paths'
+
+export default function(mirror: boolean, propers: IProperties): void {
   if (mirror) {
     propers.eyes_EYELIDS_LEFT_UP = propers.eyes_eyelids_right_up
     propers.eyes_EYELIDS_LEFT_DOWN = propers.eyes_eyelids_right_down

@@ -1,43 +1,70 @@
-function notNull(value) {
+import { ICalculated } from '~/types/paths'
+import {
+  IDrawProps,
+  IWind,
+  IWindPropers,
+  IWindElemArray,
+  IWindElem,
+  IColor,
+  IMirror,
+  TAngle,
+  TPosition,
+  TClip
+} from '~/types/graphics'
+
+function notNull(value: any) {
   return value !== null && value !== undefined
 }
 
-function draw(ctx, { male, hair_name_en: hairName }, quality, calculated, wind, windPropers) {
-  return function(element) {
+function draw(
+  ctx: CanvasRenderingContext2D,
+  { male, hair_name_en: hairName }: IDrawProps,
+  quality: number,
+  calculated: ICalculated,
+  wind: IWind,
+  windPropers: IWindPropers
+)
+: (element: string) => void
+{
+  return function(element: string): void {
     const name = male && calculated['male_' + element] ? 'male_' + element : element
     const curves = calculated[name]
     const toRad = Math.PI / 180
 
-    let windOffsetPoints
+    let windOffsetPoints: IWindElemArray | undefined
 
-    if (wind && wind[name]) {
+    if (wind[name]) {
       const HairName = hairName
         .toLowerCase()
         .split(' ')
         .join('_')
 
-      if (wind[name][HairName]) {
-        windOffsetPoints = wind[name][HairName]
+      if ((wind[name] as IWindElem)[HairName]) {
+        windOffsetPoints = (wind[name] as IWindElem)[HairName]
       } else if (wind[name].constructor === Array) {
-        windOffsetPoints = wind[name]
+        windOffsetPoints = (wind as IWindElem)[name]
       }
     }
 
-    if (!notNull(curves)) return
+    if (!(curves ?? false)) return
 
     for (let i = 0; i < curves.length; i++) {
-      const [command] = curves[i]
+      const [command] = curves[i] as string
 
-      let [, x1, y1, x2, y2, x3, y3] = curves[i]
+      let [, x1, y1, x2, y2, x3, y3] = curves[i] as number[]
       let windVector = 0
 
-      if (windPropers.enabled && windOffsetPoints && windOffsetPoints[i] !== null) {
-        windVector = Math.sin((windPropers.cycle + windOffsetPoints[i] * 45) * toRad)
+      if (windPropers.enabled) {
+        if (windOffsetPoints && (windOffsetPoints[i] ?? false)) {
+          windVector = Math.sin(
+            (windPropers.cycle + (windOffsetPoints as number[])[i] * 45) * toRad
+          )
 
-        windVector *= 8 * quality
+          windVector *= 8 * quality
 
-        if (name === 'tail' || name === 'tail_second') windVector *= -1
-        if (name === 'eye_left_lashes' || name === 'eye_right_lashes') windVector /= 2
+          if (name === 'tail' || name === 'tail_second') windVector *= -1
+          if (name === 'eye_left_lashes' || name === 'eye_right_lashes') windVector /= 2
+        }
       }
 
       x1 *= quality
@@ -63,18 +90,25 @@ function draw(ctx, { male, hair_name_en: hairName }, quality, calculated, wind, 
   }
 }
 
-function graphics(ctx, globals, quality, calculated, wind, windPropers) {
+function graphics(
+  ctx: CanvasRenderingContext2D,
+  globals: IDrawProps,
+  quality: number,
+  calculated: ICalculated,
+  wind: IWind,
+  windPropers: IWindPropers
+) {
   return {
     notNull,
 
-    Clip(elements) {
-      if (!notNull(elements)) return
+    Clip(elements: any): void {
+      if (!(elements ?? false)) return
 
       ctx.save()
 
       let clear = false
 
-      function compute(elemIn, position = [0, 0]) {
+      function compute(elemIn: string, position = [0, 0]) {
         let elem
 
         if (elemIn[0] === '!') {
@@ -109,7 +143,7 @@ function graphics(ctx, globals, quality, calculated, wind, windPropers) {
           compute(elements[0][i], elements[1])
         }
       } else {
-        compute(elements[0], elements[1])
+        compute(elements[0] as string, elements[1])
       }
 
       if (clear) {
@@ -120,37 +154,41 @@ function graphics(ctx, globals, quality, calculated, wind, windPropers) {
     },
 
     Draw: draw(ctx, globals, quality, calculated, wind, windPropers),
-    Fill(fill = 'transparent') {
-      const { h, s, l, a } = fill
+
+    Fill(fill: IColor | string = 'transparent'): void {
+      const { h, s, l, a } = fill as IColor
 
       if (notNull(h) && notNull(s) && notNull(l) && notNull(a)) {
         ctx.fillStyle = 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
       } else if (notNull(h) && notNull(s) && notNull(l)) {
         ctx.fillStyle = 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
       } else {
-        ctx.fillStyle = fill
+        ctx.fillStyle = fill as string
       }
     },
 
-    Stroke([lineWidth, strokeVal] = [0, 'transparent']) {
+    Stroke([lineWidth, strokeVal]: [number, IColor | string] = [0, 'transparent']): void {
       ctx.lineWidth = lineWidth * quality
 
-      const { h, s, l, a } = strokeVal
+      const { h, s, l, a } = strokeVal as IColor
 
       if (notNull(h) && notNull(s) && notNull(l) && notNull(a)) {
         ctx.strokeStyle = 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
       } else if (notNull(h) && notNull(s) && notNull(l)) {
         ctx.strokeStyle = 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
       } else {
-        ctx.strokeStyle = strokeVal
+        ctx.strokeStyle = strokeVal as string
       }
     }
   }
 }
 
-function transforming(ctx, quality) {
+function transforming(
+  ctx: CanvasRenderingContext2D,
+  quality: number
+) {
   return {
-    Angle([angle, [shiftX, shiftY], ratio]) {
+    Angle([angle, [shiftX, shiftY], ratio]: TAngle): void {
       const qIn = quality * ratio
 
       const {
@@ -167,7 +205,15 @@ function transforming(ctx, quality) {
   }
 }
 
-export default function(ctx, quality, globals, mirror, calculated, wind, windPropers) {
+export default function(
+  ctx: CanvasRenderingContext2D,
+  quality: number,
+  globals: IDrawProps,
+  mirror: IMirror,
+  calculated: ICalculated,
+  wind: IWind,
+  windPropers: IWindPropers
+) {
   const { Angle } = transforming(ctx, quality)
   const { Fill, Stroke, Draw, Clip } = graphics(
     ctx,
@@ -181,7 +227,11 @@ export default function(ctx, quality, globals, mirror, calculated, wind, windPro
   const height = globals.hooves_enable ? 80 : 112
 
   return {
-    Layer(translate, angle, callback) {
+    Layer(
+      translate: TPosition[] | TPosition,
+      angle: TAngle[] | TAngle,
+      callback: (globals: IDrawProps) => void
+    ) {
       ctx.setTransform(
         mirror ? -1 : 1,
         0,
@@ -192,43 +242,51 @@ export default function(ctx, quality, globals, mirror, calculated, wind, windPro
       )
 
       if (translate && angle) {
-        if (notNull(translate[0][0]) && notNull(angle[0][0])) {
+        if (
+          notNull((translate as TPosition[])[0][0]) &&
+          notNull((angle as TAngle[])[0][0])
+        ) {
           const length = translate.length + angle.length
 
           let j = 0
 
           for (let i = 0; i < length; i++) {
             if (i % 2 === 0) {
-              const [X, Y] = translate[j]
+              const [X, Y] = translate[j] as TPosition
 
               ctx.translate(X, Y)
             } else {
-              Angle(angle[j])
+              Angle(angle[j] as TAngle)
 
               j = j + 1
             }
           }
         } else {
-          const [X, Y] = translate
+          const [X, Y] = translate as TPosition
 
           ctx.translate(X, Y)
 
-          Angle(angle)
+          Angle(angle as TAngle)
         }
       } else {
         if (translate) {
-          const [X, Y] = translate
+          const [X, Y] = translate as TPosition
 
           ctx.translate(X, Y)
         }
 
-        if (angle) Angle(angle)
+        if (angle) Angle(angle as TAngle)
       }
 
       callback(globals)
     },
 
-    Elem(element, fill, stroke = undefined, clip = undefined) {
+    Elem(
+      element: string,
+      fill: IColor,
+      stroke: [number, string | IColor] | undefined = undefined,
+      clip: TClip | undefined = undefined
+    ) : void {
       Clip(clip)
       Fill(fill)
       Stroke(stroke)

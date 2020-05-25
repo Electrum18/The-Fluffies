@@ -170,6 +170,7 @@ export default {
     BarSlider
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root: { $store } }) {
     return {
       globals: computed(() => $store.getters['avatar/getGlobal'])

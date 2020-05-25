@@ -18,6 +18,7 @@ import { computed, onMounted } from '@vue/composition-api'
 import PonyAvatarLogo from '~/assets/svg/PonyLoadingLogo.svg'
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
     const background = computed(() => {
       const { background_basic: Background } = root.$store.getters['avatar/getColor']
