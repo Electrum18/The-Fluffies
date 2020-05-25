@@ -1,5 +1,5 @@
 import { IObject } from '~/types/basic'
-import { ICompiledPaths, IPaths } from '~/types/paths'
+import { ICompiledPaths } from '~/types/paths'
 
 import abs from 'abs-svg-path'
 import parse from 'parse-svg-path'

@@ -71,7 +71,7 @@ io.on('connection', (socket) => {
 
   sendMessage(
     {
-      text: 'Welcome to The Fluffies - Elderberry version, enjoy! :3'
+      text: 'Welcome to The Fluffies - Feijoa version, enjoy! :3'
     },
     'ann',
     socket
