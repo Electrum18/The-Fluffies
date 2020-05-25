@@ -39,11 +39,11 @@ import { timeline } from 'popmotion'
 
 import GIF from 'gif.js'
 
-import animate from '~/assets/js/avatar/animate'
-import draw from '~/assets/js/avatar/layers'
-import SetPropersSide from '~/assets/js/avatar/setSide.ts'
+import animate from '~/assets/ts/avatar/animate.ts'
+import draw from '~/assets/ts/avatar/layers'
+import SetPropersSide from '~/assets/ts/avatar/setSide.ts'
 
-import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/js/dataCompile.ts'
+import { FormatSVGinJSON, CompiledPaths as paths } from '~/assets/ts/dataCompile.ts'
 
 // Configs
 

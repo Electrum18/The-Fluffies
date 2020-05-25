@@ -38,7 +38,7 @@ import { reactive } from '@vue/composition-api'
 
 import { mdiBrightness7, mdiMoonWaningCrescent } from '@mdi/js'
 
-import darkMode from '~/assets/js/darkMode.ts'
+import darkMode from '~/assets/ts/darkMode.ts'
 
 import Socials from '~/components/Socials'
 import Locale from '~/components/Locale'

@@ -74,8 +74,8 @@ import { reactive, computed } from '@vue/composition-api'
 
 import { mdiChevronLeft, mdiOpenInNew } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead.ts'
-import format from '~/assets/js/format'
+import i18nHead from '~/assets/ts/i18nHead.ts'
+import format from '~/assets/ts/format'
 
 import Socials from '~/components/Socials'
 import NetworkStatus from '~/components/NetworkStatus'

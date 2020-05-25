@@ -94,7 +94,7 @@ import {
   mdiCheckboxBlankOutline
 } from '@mdi/js'
 
-import i18nHead from '~/assets/js/i18nHead.ts'
+import i18nHead from '~/assets/ts/i18nHead.ts'
 
 import Menu from '~/components/editor/Menu'
 import MenuHairs from '~/components/editor/MenuHairs'
