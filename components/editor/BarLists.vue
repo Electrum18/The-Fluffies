@@ -6,10 +6,10 @@
         mandatory
         active-class="primary--text"
       )
-        template(v-if="list.length" v-for="(element, i) in list")
+        template(v-for="(element, i) in list")
           v-list-item(
             @click="setElementName(element.name)"
-            :key="element.name[locLang]"
+            :key="element.name[locLang] + i"
             :disabled="isHairList && offline && !getCached(element)"
           )
             v-list-item-content(:style="style(element)")
@@ -53,7 +53,7 @@ function checkCached(getters, isHairList) {
   return { hairList, getCached }
 }
 
-function listState(globals, target) {
+function listState(globals, target, isHairList) {
   const selected = ref(0)
 
   const preList = computed(() => globals.value[target + '_info'])
@@ -70,11 +70,13 @@ function listState(globals, target) {
   watch(
     () => preList.value,
     (value) => {
-      setIndex(value)
+      if (isHairList) setIndex(value)
 
       for (let i = 0; i < preList.value.length; i++) {
         Vue.set(list.value, i, preList.value[i])
       }
+
+      if (list.value.length < 1) list.value = preList.value
     },
     { immediate: true }
   )
@@ -151,7 +153,7 @@ export default {
     const globals = computed(() => getters['avatar/getGlobal'])
 
     return {
-      ...listState(globals, target),
+      ...listState(globals, target, isHairList),
       ...checkCached(getters, isHairList),
 
       locale,
