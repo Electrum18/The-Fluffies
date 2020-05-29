@@ -540,7 +540,7 @@ export default {
   margin-right: 70px!important
 
 .field-right
-  position: absolute
+  position: absolute!important
   left: 94px
 
 .arrows
