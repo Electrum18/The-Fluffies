@@ -20,8 +20,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    curly: 'multi',
+    curly: 0,
     "space-before-function-paren": ["error", "never"],
-    "arrow-parens": false
+    "arrow-parens": 0
   }
 }

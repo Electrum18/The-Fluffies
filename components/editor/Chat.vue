@@ -70,6 +70,7 @@
           solo
           outlined
           counter="20"
+          :rules="[(val) => (val || '').length > 2 || 'This field is too short']"
           :append-icon="icons.mdiSend"
           @click:append="checkName"
           @keyup.enter="checkName"
@@ -182,7 +183,7 @@ export default {
     },
 
     checkName() {
-      if (this.chat.prename) {
+      if (this.chat.prename && this.chat.prename.length > 2) {
         this.socket.emit('check name', this.chat.prename)
 
         this.chat.name = this.chat.prename

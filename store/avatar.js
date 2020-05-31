@@ -1,12 +1,8 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
-
-import { IFrame } from '~/types/frames'
-
 import SetPropersSide from '~/assets/ts/avatar/setSide'
 import defaultValues from '~/assets/ts/defaults'
 import defaultFrames from '~/assets/ts/defaultFrames'
 
-function cloneObject(object: IFrame): IFrame {
+function cloneObject(object) {
   return JSON.parse(JSON.stringify(object))
 }
 
@@ -21,7 +17,7 @@ export const state = () => ({
   degress: 12.5,
   mirror: false,
 
-  hairsList: [] as string[],
+  hairsList: [],
 
   frames: defaultFrames,
 
@@ -32,9 +28,7 @@ export const state = () => ({
   default: defaultValues // Default constant params
 })
 
-export type RootState = ReturnType<typeof state>
-
-export const getters: GetterTree<RootState, RootState> = {
+export const getters = {
   getAngle: ({ angle }) => angle,
   getHoriz: ({ horiz }) => horiz,
 
@@ -56,7 +50,7 @@ export const getters: GetterTree<RootState, RootState> = {
   getAnimationSavesSlot: ({ animationSavesSlot }) => animationSavesSlot
 }
 
-export const mutation: MutationTree<RootState> = {
+export const mutations = {
   setAngle: (state, angle) => (state.angle = angle),
   setHoriz: (state, value) => (state.horiz = value),
 
@@ -140,7 +134,7 @@ export const mutation: MutationTree<RootState> = {
     }
   },
 
-  setColor({ color, globals }: any, { path, value }) {
+  setColor({ color, globals }, { path, value }) {
     color[path] = value
 
     if (!globals.eyes_right_enable) {
@@ -195,7 +189,7 @@ export const mutation: MutationTree<RootState> = {
   setAnimationSavesSlot: (state, slot) => (state.animationSavesSlot = slot)
 }
 
-export const actions: ActionTree<RootState, RootState> = {
+export const actions = {
   setAvatar({ commit }, { globals, color }) {
     commit('setAllGlobals', globals)
     commit('setAllColors', color)

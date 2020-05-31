@@ -1,7 +1,5 @@
-import { GetterTree, MutationTree } from 'vuex'
-
 export const state = () => ({
-  page: false as string | boolean,
+  page: false,
   animate: false,
 
   animating: {
@@ -25,9 +23,7 @@ export const state = () => ({
   }
 })
 
-export type RootState = ReturnType<typeof state>
-
-export const getters: GetterTree<RootState, RootState> = {
+export const getters = {
   getPage: ({ page }) => page,
   getAnimate: ({ animate }) => animate,
   getPlaying: ({ animating }) => animating.playing,
@@ -48,7 +44,7 @@ export const getters: GetterTree<RootState, RootState> = {
   getWind: ({ wind }) => wind.enabled
 }
 
-export const mutations: MutationTree<RootState> = {
+export const mutations = {
   setPage: (state, name) => (state.page = name),
   setAnimate: (state, boolean) => (state.animate = boolean),
   setPlaying: (state, boolean) => (state.animating.playing = boolean),
