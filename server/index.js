@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
   socket.on('check name', (name) => {
     name = name.trim()
 
-    if (!name || name.length > 15) {
+    if (!name || name.length < 2 || name.length > 15) {
       socket.emit('isnt nickname')
 
       return

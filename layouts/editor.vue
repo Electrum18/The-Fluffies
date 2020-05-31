@@ -18,17 +18,14 @@ import { computed, onMounted } from '@vue/composition-api'
 import PonyAvatarLogo from '~/assets/svg/PonyLoadingLogo.svg'
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root }) {
+  setup(_, { root }) {
     const background = computed(() => {
       const { background_basic: Background } = root.$store.getters['avatar/getColor']
 
       const { h, s, l, a } = Background
 
       return a
-        ? {
-            background: 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
-          }
+        ? { background: 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')' }
         : { background: 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)' }
     })
 

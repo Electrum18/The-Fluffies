@@ -16,8 +16,7 @@
 import { ref, reactive, computed } from '@vue/composition-api'
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $i18n } }) {
+  setup(_, { root: { $i18n } }) {
     const items = ref(['eng', 'rus'])
 
     const enumItems = reactive({ en: 0, ru: 1 })

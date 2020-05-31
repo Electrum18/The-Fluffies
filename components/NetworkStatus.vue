@@ -8,8 +8,7 @@ import { computed } from '@vue/composition-api'
 import { mdiSignalOff, mdiSignal } from '@mdi/js'
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root }) {
+  setup(_, { root }) {
     const offline = computed(() => root.isOffline)
 
     return {

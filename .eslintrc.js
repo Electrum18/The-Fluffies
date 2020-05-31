@@ -9,16 +9,19 @@ module.exports = {
   },
   extends: [
     '@nuxtjs',
-    '@nuxtjs/eslint-config-typescript',
     'prettier',
     'prettier/vue',
     'plugin:prettier/recommended',
-    'plugin:nuxt/recommended'
+    'plugin:nuxt/recommended',
+    '@nuxtjs/eslint-config-typescript'
   ],
   plugins: [
     'prettier'
   ],
   // add your custom rules here
   rules: {
+    curly: 0,
+    "space-before-function-paren": ["error", "never"],
+    "arrow-parens": 0
   }
 }
