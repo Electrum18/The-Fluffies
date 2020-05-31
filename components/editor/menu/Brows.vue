@@ -45,9 +45,7 @@
           compare="eyes_brows_left_evil"
         )
 
-
       v-divider.my-4
-
 
       p.subtitle-2 {{ $t('editor.menu.eyebrows.right') }}
 
@@ -92,22 +90,21 @@
 <script>
 import { computed } from '@vue/composition-api'
 
-import BarSwitch from '../BarSwitches'
-import BarSlider from '../BarSliders'
-import BarColor from '../BarColors'
+import BarSwitch from '../BarSwitches.vue'
+import BarSlider from '../BarSliders.vue'
+import BarColor from '../BarColors.vue'
 
 export default {
+  setup: (_, { root: { $store } }) => {
+    return {
+      globals: computed(() => $store.getters['avatar/getGlobal'])
+    }
+  },
+
   components: {
     BarSwitch,
     BarSlider,
     BarColor
-  },
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $store } }) {
-    return {
-      globals: computed(() => $store.getters['avatar/getGlobal'])
-    }
   }
 }
 </script>

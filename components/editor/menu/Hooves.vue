@@ -7,7 +7,6 @@
         val="hooves_enable"
       )
 
-
       .py-2
 
       v-divider.my-4
@@ -15,7 +14,6 @@
       p.subtitle-2 {{ $t('editor.menu.paws.left') }}
 
       v-divider.my-4
-
 
       .py-2
 
@@ -38,7 +36,6 @@
           min=-180
         )
 
-
       .py-2
 
       p.subtitle-2 {{ $t('editor.menu.paws.elbow') }}
@@ -59,7 +56,6 @@
           max=180
           min=-180
         )
-
 
       .py-2
 
@@ -82,7 +78,6 @@
           min=-180
         )
 
-
       .py-2
 
       v-divider.my-4
@@ -90,7 +85,6 @@
       p.subtitle-2 {{ $t('editor.menu.paws.right') }}
 
       v-divider.my-4
-
 
       .py-2
 
@@ -113,7 +107,6 @@
           min=-180
         )
 
-
       .py-2
 
       p.subtitle-2 {{ $t('editor.menu.paws.elbow') }}
@@ -134,7 +127,6 @@
           max=180
           min=-180
         )
-
 
       .py-2
 
@@ -170,8 +162,7 @@ export default {
     BarSlider
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $store } }) {
+  setup(_, { root: { $store } }) {
     return {
       globals: computed(() => $store.getters['avatar/getGlobal'])
     }

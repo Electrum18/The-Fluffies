@@ -33,7 +33,6 @@
 
         v-icon(small right) {{ icons.mdiAccount }}
 
-
       v-card.chat-space(dark flat)
         v-list(dense ref="chatSpace")
           .py-3

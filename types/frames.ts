@@ -1,3 +1,5 @@
+import { IObject } from "./basic"
+
 interface IFrame {
   [index: string]: number
 }
@@ -11,6 +13,10 @@ interface IFrames {
       degress: number
     } & IFrame
   }
+
+  length: number
+
+  splice: (index: number, shift: number, content?: IObject) => void
 }
 
 export {

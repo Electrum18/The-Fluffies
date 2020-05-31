@@ -37,7 +37,6 @@
 
       v-divider.my-4
 
-
       p.subtitle-2 {{ $t('editor.menu.eyes.pupils') }}
 
       v-card(outlined).my-2
@@ -54,7 +53,6 @@
       )
 
       v-divider.my-4
-
 
       p.subtitle-2 {{ $t('editor.menu.eyes.position') }}
 
@@ -84,7 +82,6 @@
 
       v-divider.my-4
 
-
       p.subtitle-2 {{ $t('editor.menu.eyes.left_eyelids') }}
 
       v-card(outlined).my-2
@@ -107,7 +104,6 @@
         )
 
       v-divider.my-4
-
 
       p.subtitle-2 {{ $t('editor.menu.eyes.right_eyelids') }}
 
@@ -145,8 +141,7 @@ export default {
     BarColor
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $store } }) {
+  setup(_, { root: { $store } }) {
     return {
       globals: computed(() => $store.getters['avatar/getGlobal'])
     }

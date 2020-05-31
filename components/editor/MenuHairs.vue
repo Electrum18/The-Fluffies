@@ -43,8 +43,7 @@ export default {
     }
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $store } }) {
+  setup(_, { root: { $store } }) {
     const locale = reactive({
       list: {
         en: 'Mane list',
