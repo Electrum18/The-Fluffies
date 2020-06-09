@@ -1,4 +1,4 @@
-import { IFrame, IFrames } from '~/types/frames'
+import { IFrame } from '~/types/frames'
 
 import propers from '~/assets/json/configs/properties.json'
 
@@ -111,4 +111,4 @@ export default [
       ...cloneObject(propers)
     }
   }
-] as IFrames
+]

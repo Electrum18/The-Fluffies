@@ -21,7 +21,7 @@ interface IWindPropers {
   cycle: number
 }
 
-type TPosition = [number, number]
+type TPosition = [number, number] | undefined
 type TClip = [string[] | string, TPosition]
 
 interface IColor {
@@ -31,7 +31,11 @@ interface IColor {
   a?: number
 }
 
-type TAngle = [number, TPosition, number]
+interface IColors {
+  [index: string]: IColor | undefined
+}
+
+type TAngle = [number, TPosition, number] | undefined
 
 type IMirror = 1 | -1
 
@@ -43,6 +47,7 @@ export {
   IWindElem,
   IMirror,
   IColor,
+  IColors,
   TAngle,
   TPosition,
   TClip

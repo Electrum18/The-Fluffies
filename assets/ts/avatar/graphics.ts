@@ -16,6 +16,9 @@ function notNull(value: any) {
   return value !== null && value !== undefined
 }
 
+type TDefinedPosition = [number, number]
+type TDefinedAngle = [number, TDefinedPosition ,number]
+
 function draw(
   ctx: CanvasRenderingContext2D,
   { male, hair_name_en: hairName }: IDrawProps,
@@ -167,7 +170,7 @@ function graphics(
       }
     },
 
-    Stroke([lineWidth, strokeVal]: [number, IColor | string] = [0, 'transparent']): void {
+    Stroke([lineWidth, strokeVal]: [number, IColor | string | undefined] = [0, 'transparent']): void {
       ctx.lineWidth = lineWidth * quality
 
       const { h, s, l, a } = strokeVal as IColor
@@ -188,7 +191,7 @@ function transforming(
   quality: number
 ) {
   return {
-    Angle([angle, [shiftX, shiftY], ratio]: TAngle): void {
+    Angle([angle, [shiftX, shiftY], ratio]: TDefinedAngle): void {
       const qIn = quality * ratio
 
       const {
@@ -228,7 +231,7 @@ export default function(
 
   return {
     Layer(
-      translate: TPosition[] | TPosition,
+      translate: TPosition[] | TPosition | undefined,
       angle: TAngle[] | TAngle,
       callback: (globals: IDrawProps) => void
     ) {
@@ -243,8 +246,8 @@ export default function(
 
       if (translate && angle) {
         if (
-          notNull((translate as TPosition[])[0][0]) &&
-          notNull((angle as TAngle[])[0][0])
+          notNull((translate as TDefinedPosition[])[0][0]) &&
+          notNull((angle as TDefinedAngle[])[0][0])
         ) {
           const length = translate.length + angle.length
 
@@ -252,30 +255,30 @@ export default function(
 
           for (let i = 0; i < length; i++) {
             if (i % 2 === 0) {
-              const [X, Y] = translate[j] as TPosition
+              const [X, Y] = translate[j] as TDefinedPosition
 
               ctx.translate(X, Y)
             } else {
-              Angle(angle[j] as TAngle)
+              Angle(angle[j] as TDefinedAngle)
 
               j = j + 1
             }
           }
         } else {
-          const [X, Y] = translate as TPosition
+          const [X, Y] = translate as TDefinedPosition
 
           ctx.translate(X, Y)
 
-          Angle(angle as TAngle)
+          Angle(angle as TDefinedAngle)
         }
       } else {
         if (translate) {
-          const [X, Y] = translate as TPosition
+          const [X, Y] = translate as TDefinedPosition
 
           ctx.translate(X, Y)
         }
 
-        if (angle) Angle(angle as TAngle)
+        if (angle) Angle(angle as TDefinedAngle)
       }
 
       callback(globals)
@@ -283,9 +286,9 @@ export default function(
 
     Elem(
       element: string,
-      fill: IColor,
-      stroke: [number, string | IColor] | undefined = undefined,
-      clip: TClip | undefined = undefined
+      fill?: string | IColor,
+      stroke?: [number, string | IColor | undefined],
+      clip?: TClip
     ) : void {
       Clip(clip)
       Fill(fill)
