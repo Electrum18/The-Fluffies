@@ -18,6 +18,9 @@ export default {
   save: 'сохранить',
 
   menu: {
+    separated: 'Отдельный цвет',
+    separate: 'отделить',
+
     close_editor: 'Закрыть редактор',
     close: 'закрыть',
 
@@ -51,6 +54,8 @@ export default {
 
     eyebrows: {
       title: 'Брови',
+
+      brows: 'бровей',
 
       left: 'Левая бровь',
       right: 'Правая бровь',
@@ -148,7 +153,12 @@ export default {
 
     ears: {
       title: 'Уши',
-      tassels: 'кисточки'
+      tassels: 'кисточки',
+
+      second: {
+        title: 'Второй цвет',
+        color: 'второго'
+      }
     },
 
     piercing: {
@@ -172,7 +182,12 @@ export default {
       angle: 'угол',
 
       left: 'Левое копыто',
-      right: 'Правое копыто'
+      right: 'Правое копыто',
+
+      second: {
+        title: 'Второй цвет',
+        color: 'второго'
+      }
     },
 
     neck: {
@@ -195,7 +210,12 @@ export default {
       left: 'левый',
       right: 'правый',
       color: 'крыльев',
-      bat: 'мышиные'
+      bat: 'мышиные',
+
+      second: {
+        title: 'Второй цвет',
+        color: 'второго'
+      }
     }
   },
 

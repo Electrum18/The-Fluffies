@@ -17,27 +17,27 @@ import Glasses from '~/assets/json/configs/names/glasses.json'
 
 import propers from '~/assets/json/configs/properties.json'
 
-const globals: IObject[] = [globalsPony, globalsZebra, globalsDeer] as any
+const globals: IObject[] = [globalsPony, globalsZebra, globalsDeer]
 
 enum races {
-  pony,
-  zebra,
-  deer
+  Pony,
+  Zebra,
+  Deer
 }
 
 // Apply lists configs
 
-globals[races.pony].hair_info = Hairs
-globals[races.pony].horn_info = Horns
-globals[races.pony].glasses_info = Glasses
+globals[races.Pony].hair_info = Hairs
+globals[races.Pony].horn_info = Horns
+globals[races.Pony].glasses_info = Glasses
 
-globals[races.zebra].hair_info = Hairs
-globals[races.zebra].horn_info = Horns
-globals[races.zebra].glasses_info = Glasses
+globals[races.Zebra].hair_info = Hairs
+globals[races.Zebra].horn_info = Horns
+globals[races.Zebra].glasses_info = Glasses
 
-globals[races.deer].hair_info = Hairs
-globals[races.deer].horn_info = Horns
-globals[races.deer].glasses_info = Glasses
+globals[races.Deer].hair_info = Hairs
+globals[races.Deer].horn_info = Horns
+globals[races.Deer].glasses_info = Glasses
 
 export default {
   frame: 0,

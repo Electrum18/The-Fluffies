@@ -31,6 +31,7 @@
 
   "eyes_right_enable": false,
   "eyes_brows_show": true,
+  "eyes_brows_color": false,
 
 
   "glasses_enable": true,
@@ -53,6 +54,7 @@
 
 
   "hooves_enable": true,
+  "hooves_second_color": false,
 
 
   "collar_enable": false,
@@ -63,6 +65,7 @@
 
   "wings_enable": false,
   "wings_bat": false,
+  "wings_second_color": true,
 
   "canine_nose_enable": false,
 
@@ -70,5 +73,7 @@
   "fluff_ears": false,
   "fluff_chest": false,
 
-  "fur_second_color": false
+  "fur_second_color": false,
+
+  "ear_second_color": false
 }

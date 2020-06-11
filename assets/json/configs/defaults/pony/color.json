@@ -12,6 +12,8 @@
   "eyes_sclera": { "h": 0, "s": 0, "l": 1 },
   "eyes_pupil": { "h": 0, "s": 0, "l": 0 },
 
+  "brows": { "h": 0, "s": 0, "l": 0.13 },
+
   "glasses_lenses": { "h": 272, "s": 1, "l": 0.5, "a": 0.63 },
   "glasses_frame": { "h": 0, "s": 0, "l": 0.13 },
 
@@ -46,5 +48,11 @@
   "wings_shade": { "h": 48, "s": 1, "l": 0.4 },
 
   "canine_nose_basic": { "h": 0, "s": 0, "l": 0.2 },
-  "canine_nose_shade": { "h": 0, "s": 0, "l": 0.15 }
+  "canine_nose_shade": { "h": 0, "s": 0, "l": 0.15 },
+
+  "ear_basic": { "h": 0, "s": 0, "l": 1 },
+  "ear_shade": { "h": 0, "s": 0, "l": 0.8 },
+
+  "hooves_second_basic": { "h": 0, "s": 0, "l": 1 },
+  "hooves_second_shade": { "h": 0, "s": 0, "l": 0.8 }
 }
