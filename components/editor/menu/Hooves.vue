@@ -7,6 +7,23 @@
         val="hooves_enable"
       )
 
+      v-divider.my-4
+
+      p.subtitle-2 {{ $t('editor.menu.paws.second.title') }}
+
+      BarSwitch(
+        :text="$t('editor.enable')"
+        val="hooves_second_color"
+        off="hooves_enable"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.paws.second.color')"
+        val="hooves_second_basic"
+        :shade="4 / 5"
+        off="hooves_second_color"
+      )
+
       .py-2
 
       v-divider.my-4
@@ -155,11 +172,13 @@ import { computed } from '@vue/composition-api'
 
 import BarSwitch from '../BarSwitches'
 import BarSlider from '../BarSliders'
+import BarColor from '../BarColors'
 
 export default {
   components: {
     BarSwitch,
-    BarSlider
+    BarSlider,
+    BarColor
   },
 
   setup(_, { root: { $store } }) {

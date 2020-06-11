@@ -18,6 +18,9 @@ export default {
   save: 'save',
 
   menu: {
+    separated: 'Separated color',
+    separate: 'separate',
+
     close_editor: 'Close editor',
     close: 'close',
 
@@ -51,6 +54,8 @@ export default {
 
     eyebrows: {
       title: 'Eyebrows',
+
+      brows: 'brows',
 
       left: 'Left eyebrow',
       right: 'Right eyebrow',
@@ -148,7 +153,12 @@ export default {
 
     ears: {
       title: 'Ears',
-      tassels: 'tassels'
+      tassels: 'tassels',
+
+      second: {
+        title: 'Second color',
+        color: 'second'
+      }
     },
 
     piercing: {
@@ -172,7 +182,12 @@ export default {
       angle: 'angle',
 
       left: 'Left hoof',
-      right: 'Right hoof'
+      right: 'Right hoof',
+
+      second: {
+        title: 'Second color',
+        color: 'second'
+      }
     },
 
     neck: {
@@ -195,7 +210,12 @@ export default {
       left: 'left',
       right: 'right',
       color: 'wings',
-      bat: 'bat wings'
+      bat: 'bat wings',
+
+      second: {
+        title: 'Second color',
+        color: 'second'
+      }
     }
   },
 

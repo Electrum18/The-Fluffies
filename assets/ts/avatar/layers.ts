@@ -29,8 +29,9 @@ function shortcuts(
   quality: number,
   mirror: IMirror,
 
+  { wings_second_color }: IObject,
   { eyes_position_horiz, eyes_position_verti, eyes_focus }: IProperties,
-  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade }: IColors
+  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade, ears_shade }: IColors
 ) {
   const eyesPos = [
     (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
@@ -54,7 +55,7 @@ function shortcuts(
 
   const Stroke: IStrokeConfig = {
     fur: [12, fur_shade],
-    wing: [12, wings_shade],
+    wing: [12, wings_second_color ? wings_shade : fur_shade],
     piercing: [7, piercings_shade],
     horn: [12, horn_rear_shade],
     hair: [12, hair_shade],
@@ -96,6 +97,7 @@ export default function(
     angle,
     quality,
     mirror,
+    globals,
     properties,
     getColor
   )
@@ -127,7 +129,11 @@ export default function(
     horn_changeling,
     hooves_enable,
     collar_enable,
-    bowtie_enable
+    bowtie_enable,
+    eyes_brows_color,
+    wings_second_color,
+    ear_second_color,
+    hooves_second_color
   } = globals as IObject
 
   const {
@@ -156,7 +162,12 @@ export default function(
     collar_basic,
     collar_shade,
     bowtie_basic,
-    bowtie_shade
+    bowtie_shade,
+    brows,
+    ear_basic,
+    ear_shade,
+    hooves_second_basic,
+    hooves_second_shade
   } = getColor
 
   const {
@@ -184,6 +195,16 @@ export default function(
 
   const transparent = undefined
 
+  const brows_color = eyes_brows_color ? brows : '#222'
+
+  const wings_color_second = wings_second_color ? wings_basic : fur_basic
+
+  const ears_color = ear_second_color ? ear_basic : fur_basic
+  const ears_color_shade = ear_second_color ? ear_shade : fur_shade
+
+  const hooves_color = hooves_second_color ? hooves_second_basic : fur_basic
+  const hooves_color_shade = hooves_second_color ? hooves_second_shade : fur_shade
+
   let height
 
   // Declaration of layers
@@ -193,16 +214,16 @@ export default function(
   Layer(Positions.empty, Rotate.empty, () => {
     if (wings_enable) {
       if (wings_bat) {
-        Elem('wing_bat_left', wings_basic, Stroke.wing)
+        Elem('wing_bat_left', wings_color_second, Stroke.wing)
         Elem('wing_bat_left_fluff', fur_basic, Stroke.fur)
 
-        Elem('wing_bat_right', wings_basic, Stroke.wing)
+        Elem('wing_bat_right', wings_color_second, Stroke.wing)
         Elem('wing_bat_right_fluff', fur_basic, Stroke.fur)
       } else {
-        Elem('wing_left', wings_basic, Stroke.wing)
+        Elem('wing_left', wings_color_second, Stroke.wing)
         Elem('wing_left_fluff', fur_basic, Stroke.fur)
 
-        Elem('wing_right', wings_basic, Stroke.wing)
+        Elem('wing_right', wings_color_second, Stroke.wing)
         Elem('wing_right_fluff', fur_basic, Stroke.fur)
       }
     }
@@ -213,16 +234,16 @@ export default function(
   // Left ear
 
   Layer(Positions.head2, Rotate.head, () => {
-    Elem('ear_left', fur_basic, Stroke.fur)
+    Elem('ear_left', ears_color, [12, ears_color_shade])
 
     if (tassels) {
-      Elem('ear_left_tassel_inside', transparent, [8, fur_basic])
-      Elem('ear_left_tassel', fur_basic, [8, fur_shade])
+      Elem('ear_left_tassel_inside', transparent, [8, ears_color])
+      Elem('ear_left_tassel', ears_color, [8, ears_color_shade])
     }
 
-    if (fluff_ears) Elem('fluff_ear_left', fur_basic, [8, fur_shade])
+    if (fluff_ears) Elem('fluff_ear_left', ears_color, [8, ears_color_shade])
 
-    Elem('ear_left_pinna', transparent, [7, fur_shade])
+    Elem('ear_left_pinna', transparent, [7, ears_color_shade])
 
     if (piercingLUpper) Elem('piercings_ear_left_upper', piercings_basic, Stroke.piercing)
     if (piercingLMiddle) Elem('piercings_ear_left_middle', piercings_basic, Stroke.piercing)
@@ -334,7 +355,7 @@ export default function(
 
   Layer([0, (-horiz * 20 - height / 5) * quality], Rotate.head, () => {
     if (eyes_brows_show) {
-      Elem('eye_left_brow', transparent, [browsLWidth / 10, '#222'], Clip.head2)
+      Elem('eye_left_brow', transparent, [browsLWidth / 10, brows_color], Clip.head2)
     }
   })
 
@@ -428,7 +449,7 @@ export default function(
   height = properties.eyes_BROWS_RIGHT_HEIGHT
 
   Layer([0, (-horiz * 20 - height / 5) * quality], Rotate.head, () => {
-    if (eyes_brows_show) Elem('eye_right_brow', transparent, [browsRWidth / 10, '#222'])
+    if (eyes_brows_show) Elem('eye_right_brow', transparent, [browsRWidth / 10, brows_color])
   })
 
   // ---------------------------------------------------------------------------
@@ -453,16 +474,16 @@ export default function(
   // Ear right
 
   Layer(Positions.head2, Rotate.head, () => {
-    Elem('ear_right', fur_basic, Stroke.fur, ['!head0', Positions.head2])
+    Elem('ear_right', ears_color, [12, ears_color_shade], ['!head0', Positions.head2])
 
     if (tassels) {
-      Elem('ear_right_tassel_inside', transparent, [8, fur_basic])
-      Elem('ear_right_tassel', fur_basic, [9, fur_shade])
+      Elem('ear_right_tassel_inside', transparent, [8, ears_color])
+      Elem('ear_right_tassel', ears_color, [9, ears_color_shade])
     }
 
-    if (fluff_ears) Elem('fluff_ear_right', fur_basic, [8, fur_shade], ['!head0', Positions.head2])
+    if (fluff_ears) Elem('fluff_ear_right', ears_color, [8, ears_color_shade], ['!head0', Positions.head2])
 
-    Elem('ear_right_pinna', transparent, [9, fur_shade])
+    Elem('ear_right_pinna', transparent, [9, ears_color_shade])
 
     if (piercingRUpper) Elem('piercings_ear_right_upper', piercings_basic, Stroke.piercing)
     if (piercingRMiddle) Elem('piercings_ear_right_middle', piercings_basic, Stroke.piercing)
@@ -511,7 +532,7 @@ export default function(
   }
 
   Layer([leftArm.pos, leftArmTibia.pos], [leftArm.angle, leftArmTibia.angle], () => {
-    if (hooves_enable) Elem('hooves_left_tibia', fur_basic, Stroke.fur)
+    if (hooves_enable) Elem('hooves_left_tibia', hooves_color, [12, hooves_color_shade])
   })
 
   // Wrist
@@ -538,8 +559,8 @@ export default function(
     [leftArm.angle, leftArmTibia.angle, leftArmWrist.angle],
     () => {
       if (hooves_enable) {
-        Elem('hooves_left_wrist', fur_basic, Stroke.fur)
-        Elem('hooves_left_hoof', transparent, [6, fur_shade])
+        Elem('hooves_left_wrist', hooves_color, [12, hooves_color_shade])
+        Elem('hooves_left_hoof', transparent, [6, hooves_color_shade])
       }
     }
   )
@@ -569,7 +590,7 @@ export default function(
   }
 
   Layer([rightArm.pos, rightArmTibia.pos], [rightArm.angle, rightArmTibia.angle], () => {
-    if (hooves_enable) Elem('hooves_right_tibia', fur_basic, Stroke.fur)
+    if (hooves_enable) Elem('hooves_right_tibia', hooves_color, [12, hooves_color_shade])
   })
 
   // Wrist
@@ -596,8 +617,8 @@ export default function(
     [rightArm.angle, rightArmTibia.angle, rightArmWrist.angle],
     () => {
       if (hooves_enable) {
-        Elem('hooves_right_wrist', fur_basic, Stroke.fur)
-        Elem('hooves_right_hoof', transparent, [6, fur_shade])
+        Elem('hooves_right_wrist', hooves_color, [12, hooves_color_shade])
+        Elem('hooves_right_hoof', transparent, [6, hooves_color_shade])
       }
     }
   )

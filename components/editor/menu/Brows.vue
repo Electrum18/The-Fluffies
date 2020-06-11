@@ -6,6 +6,22 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.separated') }}
+
+      BarSwitch(
+        :text="$t('editor.menu.separate')"
+        val="eyes_brows_color"
+        off="eyes_brows_show"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.eyebrows.brows')"
+        val="brows"
+        off="eyes_brows_color"
+      )
+
+      v-divider.my-4
+
       p.subtitle-2 {{ $t('editor.menu.eyebrows.left') }}
 
       v-card(outlined :disabled="!globals.eyes_brows_show").my-2

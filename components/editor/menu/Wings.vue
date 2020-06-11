@@ -15,11 +15,19 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.wings.second.title') }}
+
+      BarSwitch(
+        :text="$t('editor.enable')"
+        val="wings_second_color"
+        off="wings_enable"
+      )
+
       BarColor(
-        :text="$t('editor.menu.wings.color')"
+        :text="$t('editor.menu.wings.second.color')"
         val="wings_basic"
         :shade="4 / 5"
-        off="wings_enable"
+        off="wings_second_color"
       )
 
       v-divider.my-4
