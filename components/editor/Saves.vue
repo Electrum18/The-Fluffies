@@ -114,8 +114,8 @@
                   v-row
                     v-btn(
                       icon
-                      :href="encodeSave(saves[i])"
-                      :download="saves[i].globals.name + '.json'"
+                      :href="encodeSave(save)"
+                      :download="save.globals.name + '.json'"
                       :title="$t('editor.saves.download')"
                       :aria-label="$t('editor.saves.download')"
                     )
@@ -314,7 +314,13 @@ export default {
     },
 
     encodeSave(object) {
-      return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(object))
+      const tempObj = JSON.parse(JSON.stringify(object))
+
+      tempObj.globals.hair_info = {}
+      tempObj.globals.glasses_info = {}
+      tempObj.globals.horn_info = {}
+
+      return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(tempObj))
     },
 
     upload(file) {
