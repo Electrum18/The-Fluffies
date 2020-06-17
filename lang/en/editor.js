@@ -133,7 +133,8 @@ export default {
       title: 'Mouth',
       mouth: 'mouth',
       tongue: 'tongue',
-      fangs: 'fangs'
+      fangs: 'fangs',
+      sharp: 'sharp'
     },
 
     emotion: {

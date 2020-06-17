@@ -133,7 +133,8 @@ export default {
       title: 'Рот',
       mouth: 'рта',
       tongue: 'языка',
-      fangs: 'клыки'
+      fangs: 'клыки',
+      sharp: 'острые'
     },
 
     emotion: {

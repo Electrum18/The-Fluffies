@@ -9,6 +9,15 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.emotion.teeth') }}
+
+      BarSwitch(
+        :text="$t('editor.menu.mouth.sharp')"
+        val="sharp_teeth"
+      )
+
+      v-divider.my-4
+
       BarColor(
         :text="$t('editor.menu.mouth.mouth')"
         val="jaw_basic"
