@@ -252,6 +252,8 @@ export default {
     zebra: 'Зебра',
     deer: 'Олень',
     delete: 'Удалить',
+    download: 'Скачать сохранение',
+    upload: 'Загрузить файл',
 
     limit: 'Лимит сохранений',
     of: 'из',

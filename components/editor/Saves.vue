@@ -23,6 +23,18 @@
 
         v-divider
 
+        v-file-input.px-2.my-3(
+          dense
+          accept=".json"
+          hide-details
+          @change="upload"
+          :disabled="savesLength >= maxLength"
+          :prepend-icon="icons.mdiUpload"
+          :label="$t('editor.saves.upload')"
+        )
+
+        v-divider
+
         v-card-title.py-1.subtitle-2 {{ $t('editor.saves.limit') }}
           v-spacer
           span {{ savesLength }} {{ $t('editor.saves.of') }} {{ maxLength }}
@@ -99,14 +111,24 @@
                   v-list-item-title {{ i + 1 }} • {{ save.globals.name }}
 
                 v-list-item-action.mx-n2.my-0
-                  v-btn(
-                    v-if="saves.length > 1 && i < 10"
-                    icon
-                    @click="removeSave(i)"
-                    :title="$t('editor.saves.delete')"
-                    :aria-label="$t('editor.saves.delete')"
-                  )
-                    v-icon {{ icons.mdiDelete }}
+                  v-row
+                    v-btn(
+                      icon
+                      :href="encodeSave(saves[i])"
+                      :download="saves[i].globals.name + '.json'"
+                      :title="$t('editor.saves.download')"
+                      :aria-label="$t('editor.saves.download')"
+                    )
+                      v-icon {{ icons.mdiDownload }}
+
+                    v-btn.mr-2(
+                      v-if="saves.length > 1 && i < 10"
+                      icon
+                      @click="removeSave(i)"
+                      :title="$t('editor.saves.delete')"
+                      :aria-label="$t('editor.saves.delete')"
+                    )
+                      v-icon {{ icons.mdiDelete }}
 
               v-divider.light(
                 v-if="i + 1 < saves.length"
@@ -117,7 +139,7 @@
 <script>
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 
-import { mdiKeyboardBackspace, mdiDelete, mdiPatreon } from '@mdi/js'
+import { mdiKeyboardBackspace, mdiDelete, mdiPatreon, mdiDownload, mdiUpload } from '@mdi/js'
 
 export default {
   props: {
@@ -139,7 +161,9 @@ export default {
       icons: {
         mdiKeyboardBackspace,
         mdiDelete,
-        mdiPatreon
+        mdiPatreon,
+        mdiDownload,
+        mdiUpload
       }
     }
   },
@@ -287,6 +311,31 @@ export default {
       // Apply changes
 
       this.saves = this.getSave()
+    },
+
+    encodeSave(object) {
+      return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(object))
+    },
+
+    upload(file) {
+      if (file) {
+        const reader = new FileReader()
+
+        reader.onload = () => {
+          const parsedData = JSON.parse(localStorage.getItem('avatars'))
+
+          parsedData.push(JSON.parse(reader.result))
+
+          localStorage.setItem('avatars', JSON.stringify(parsedData))
+
+          // Apply changes
+
+          this.slot = parsedData.length - 1
+          this.saves = this.getSave()
+        }
+
+        reader.readAsText(file)
+      }
     }
   }
 }
