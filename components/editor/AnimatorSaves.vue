@@ -23,6 +23,18 @@
 
         v-divider
 
+        v-file-input.px-2.my-3(
+          dense
+          accept=".json"
+          hide-details
+          @change="uploadSave"
+          :disabled="savesLength >= maxLength"
+          :prepend-icon="icons.mdiUpload"
+          :label="$t('editor.saves.upload')"
+        )
+
+        v-divider
+
         v-card-title.py-1.subtitle-2 {{ $t('editor.saves.limit') }}
           v-spacer
           span {{ savesLength }} {{ $t('editor.saves.of') }} {{ maxLength }}
@@ -76,14 +88,24 @@
                   v-list-item-title {{ i + 1 }} • {{ save.name }}
 
                 v-list-item-action.mx-n2.my-0
-                  v-btn(
-                    icon
-                    v-if="saves.length > 1 && i < 10"
-                    @click="removeSave(i)"
-                    :title="$t('editor.saves.delete')"
-                    :aria-label="$t('editor.saves.delete')"
-                  )
-                    v-icon {{ icons.mdiDelete }}
+                  v-row
+                    v-btn(
+                      icon
+                      :href="encodeSave(save)"
+                      :download="save.name + '.json'"
+                      :title="$t('editor.saves.download')"
+                      :aria-label="$t('editor.saves.download')"
+                    )
+                      v-icon {{ icons.mdiDownload }}
+
+                    v-btn.mr-2(
+                      v-if="saves.length > 1 && i < 10"
+                      icon
+                      @click="removeSave(i)"
+                      :title="$t('editor.saves.delete')"
+                      :aria-label="$t('editor.saves.delete')"
+                    )
+                      v-icon {{ icons.mdiDelete }}
 
               v-divider.light(
                 v-if="i + 1 < saves.length"
@@ -94,7 +116,7 @@
 <script>
 import { reactive, ref, onMounted, watch, computed } from '@vue/composition-api'
 
-import { mdiKeyboardBackspace, mdiDelete, mdiPatreon } from '@mdi/js'
+import { mdiKeyboardBackspace, mdiDelete, mdiPatreon, mdiDownload } from '@mdi/js'
 
 function Saves(getters, commit) {
   let animationSlot = 0
@@ -245,6 +267,29 @@ function Saves(getters, commit) {
     saves.value = getSave()
   }
 
+  function uploadSave(file) {
+    if (!process.client) return
+
+    if (file) {
+      const reader = new FileReader()
+
+      reader.onload = () => {
+        const parsedData = JSON.parse(localStorage.getItem('animations'))
+
+        parsedData.push(JSON.parse(reader.result))
+
+        localStorage.setItem('animations', JSON.stringify(parsedData))
+
+        // Apply changes
+
+        slot.value = parsedData.length - 1
+        saves.value = getSave()
+      }
+
+      reader.readAsText(file)
+    }
+  }
+
   const maxLength = ref(10)
   const savesLength = computed(() => (saves.value ? saves.value.length : 0))
 
@@ -277,7 +322,8 @@ function Saves(getters, commit) {
 
     getSave,
     createSave,
-    removeSave
+    removeSave,
+    uploadSave
   }
 }
 
@@ -295,13 +341,19 @@ export default {
     const icons = reactive({
       mdiKeyboardBackspace,
       mdiDelete,
-      mdiPatreon
+      mdiPatreon,
+      mdiDownload
     })
+
+    function encodeSave(object) {
+      return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(object))
+    }
 
     return {
       ...Saves(getters, commit),
 
       icons,
+      encodeSave,
 
       setPage: (page) => commit('interface/setPage', page)
     }

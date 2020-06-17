@@ -252,6 +252,8 @@ export default {
     zebra: 'Zebra',
     deer: 'Deer',
     delete: 'Remove',
+    download: 'Download save',
+    upload: 'Upload save',
 
     limit: 'Saves limit',
     of: 'of',
