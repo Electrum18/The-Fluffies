@@ -128,7 +128,9 @@ export default {
       windPropers: {
         enabled: true,
         cycle: 0
-      }
+      },
+
+      tapped: false
     }
   },
 
@@ -510,7 +512,8 @@ export default {
       'setPlayRedraw',
       'setPlayChangedFrame',
       'resetPlayChangedFrame',
-      'setRendered'
+      'setRendered',
+      'setTapping'
     ]),
 
     applyGlobals(globals) {
@@ -575,6 +578,12 @@ export default {
       this.last.y = e.pageY
 
       this.dragging = true
+
+      if (this.tapped === false) {
+        this.tapped = true
+
+        this.setTapping(false)
+      }
     },
 
     onDrag(e) {

@@ -20,7 +20,9 @@ export const state = () => ({
 
   wind: {
     enabled: true
-  }
+  },
+
+  tapping: true
 })
 
 export const getters = {
@@ -41,7 +43,9 @@ export const getters = {
   getFPS: ({ fps }) => fps,
   getQuality: ({ quality }) => quality,
 
-  getWind: ({ wind }) => wind.enabled
+  getWind: ({ wind }) => wind.enabled,
+
+  getTapping: ({ tapping }) => tapping
 }
 
 export const mutations = {
@@ -84,5 +88,7 @@ export const mutations = {
   setFPS: (state, value) => (state.fps = value),
   setQuality: (state, array) => (state.quality = array),
 
-  setWind: (state, bool) => (state.wind.enabled = bool)
+  setWind: (state, bool) => (state.wind.enabled = bool),
+
+  setTapping: (state, bool) => (state.tapping = bool)
 }

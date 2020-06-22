@@ -9,6 +9,7 @@ export default {
   three: 'Three',
 
   list: 'Open list',
+  animate: 'Animate',
 
   frame: 'Frame',
   of: 'of',

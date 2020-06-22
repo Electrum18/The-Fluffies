@@ -9,6 +9,7 @@ export default {
   three: 'Три',
 
   list: 'Открыть список',
+  animate: 'Анимация',
 
   frame: 'Кадр',
   of: 'из',
