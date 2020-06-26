@@ -279,5 +279,10 @@ export default {
     wait: 'Please wait and keep cookies',
     preparing: 'Preparing',
     ready: 'Yay, ready!'
+  },
+
+  lipsync: {
+    title: 'Creating lip animations',
+    text: 'Click on a word to create a lip expression'
   }
 }

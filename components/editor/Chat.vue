@@ -87,127 +87,138 @@
 </template>
 
 <script>
+import { reactive, watch, ref, computed, toRefs } from '@vue/composition-api'
+
 import io from 'socket.io-client'
 
 import { mdiAccount, mdiSend, mdiWifiOff, mdiMessageText } from '@mdi/js'
 
-export default {
-  data() {
-    return {
-      chat: {
-        opened: false,
-        online: false,
+function defineSocket(chat) {
+  const socket = ref({ on: () => undefined })
 
-        name: '',
-        prename: '',
-
-        message: '',
-
-        users: 0,
-        content: [],
-
-        socket: undefined
-      },
-
-      icons: {
-        mdiAccount,
-        mdiSend,
-        mdiWifiOff,
-        mdiMessageText
-      }
-    }
-  },
-
-  computed: {
-    onlineStatus() {
-      const online = this.chat.online
-      const { mdiMessageText, mdiWifiOff } = this.icons
-
-      return {
-        color: online ? 'white' : 'red lighten-1',
-        icon: online ? mdiMessageText : mdiWifiOff
-      }
-    }
-  },
-
-  watch: {
-    'chat.opened'(val) {
-      if (val) this.chatLength(100)
-    },
-
-    'chat.content'() {
-      if (this.chat.opened) this.chatLength()
-    }
-  },
-
-  mounted() {
+  if (process.browser) {
     const { host, hostname } = window.location
 
-    this.socket = io(hostname === 'localhost' ? hostname + ':5000' : host)
+    socket.value = io(hostname === 'localhost' ? hostname + ':5000' : host)
+  }
 
-    const socket = this.socket
+  socket.value.on('connect', () => {
+    chat.online = socket.value.connected
+  })
 
-    const chat = this.chat
+  socket.value.on('disconnect', () => {
+    chat.online = socket.value.connected
+  })
 
-    socket.on('connect', () => {
-      chat.online = socket.connected
-    })
+  socket.value.on('get first', (msg) => (chat.content = msg))
+  socket.value.on('get message', (msg) => chat.content.push(msg))
+  socket.value.on('get announce', (msg) => chat.content.push(msg))
+  socket.value.on('get users', (users) => (chat.users = users))
 
-    socket.on('disconnect', () => {
-      chat.online = socket.connected
-    })
+  socket.value.on('isnt nickname', () => {
+    chat.prename = ''
+    chat.name = ''
+  })
 
-    socket.on('get first', (msg) => (chat.content = msg))
-    socket.on('get message', (msg) => chat.content.push(msg))
-    socket.on('get announce', (msg) => chat.content.push(msg))
-    socket.on('get users', (users) => (chat.users = users))
+  return socket
+}
 
-    socket.on('isnt nickname', () => {
-      this.text = ''
-      this.name = ''
-    })
-  },
+function Chat(refs, chat, icons, socket) {
+  function chatLength(interval = undefined) {
+    setTimeout(() => {
+      let length = 0
 
-  methods: {
-    submit() {
-      const length = this.chat.message.length
+      for (let i = 0; i < chat.content.length; i++) {
+        const element = refs['ChatSpace' + i][0]
 
-      if (length > 0 && length <= 100) {
-        this.socket.emit('send message', {
-          name: this.chat.name,
-          text: this.chat.message
-        })
-
-        this.chat.message = ''
+        length += element.$el.offsetHeight
       }
-    },
 
-    checkName() {
-      if (this.chat.prename && this.chat.prename.length > 2) {
-        this.socket.emit('check name', this.chat.prename)
+      refs.chatSpace.$el.scrollTop = length
+    }, interval)
+  }
 
-        this.chat.name = this.chat.prename
-        this.chat.prename = ''
-      }
-    },
+  function submit() {
+    const length = chat.message.length
 
-    chatLength(interval = undefined) {
-      const self = this
+    if (length > 0 && length <= 100) {
+      socket.value.emit('send message', {
+        name: chat.name,
+        text: chat.message
+      })
 
-      setTimeout(() => {
-        const { $refs } = self
-        const { content } = this.chat
+      chat.message = ''
+    }
+  }
 
-        let length = 0
+  function checkName() {
+    if (chat.prename && chat.prename.length > 2) {
+      socket.value.emit('check name', chat.prename)
 
-        for (let i = 0; i < content.length; i++) {
-          const element = $refs['ChatSpace' + i][0]
+      chat.name = chat.prename
+      chat.prename = ''
+    }
+  }
 
-          length += element.$el.offsetHeight
-        }
+  watch(
+    () => chat.opened,
+    (val) => {
+      if (val) chatLength(100)
+    }
+  )
 
-        $refs.chatSpace.$el.scrollTop = length
-      }, interval)
+  watch(
+    () => chat.content,
+    () => {
+      if (chat.opened) chatLength()
+    }
+  )
+
+  const onlineStatus = computed(() => {
+    return chat.online
+      ? { color: 'white', icon: icons.mdiMessageText }
+      : { color: 'red lighten-1', icon: icons.mdiWifiOff }
+  })
+
+  return {
+    chat,
+    chatLength,
+    submit,
+    checkName,
+    onlineStatus
+  }
+}
+
+export default {
+  setup(_, { refs }) {
+    const icons = reactive({
+      mdiAccount,
+      mdiSend,
+      mdiWifiOff,
+      mdiMessageText
+    })
+
+    const chat = reactive({
+      opened: false,
+      online: false,
+
+      name: '',
+      prename: '',
+
+      message: '',
+
+      users: 0,
+      content: []
+    })
+
+    const socket = defineSocket(chat)
+
+    return {
+      icons,
+      chat,
+      socket,
+
+      ...toRefs(Chat(refs, chat, icons, socket))
     }
   }
 }
