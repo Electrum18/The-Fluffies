@@ -9,6 +9,7 @@ export default {
   three: 'Three',
 
   list: 'Open list',
+  animate: 'Animate',
 
   frame: 'Frame',
   of: 'of',
@@ -133,7 +134,8 @@ export default {
       title: 'Mouth',
       mouth: 'mouth',
       tongue: 'tongue',
-      fangs: 'fangs'
+      fangs: 'fangs',
+      sharp: 'sharp'
     },
 
     emotion: {
@@ -277,5 +279,14 @@ export default {
     wait: 'Please wait and keep cookies',
     preparing: 'Preparing',
     ready: 'Yay, ready!'
+  },
+
+  lipsync: {
+    title: 'Creating lip animations',
+    text: 'Click on a word to create a lip expression'
+  },
+
+  profile: {
+    title: 'Profile'
   }
 }

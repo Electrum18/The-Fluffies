@@ -11,7 +11,7 @@
     Recorder(:open="getPage === 'Record'")
     RecorderProcess(:open="getPage === 'recorderRender'")
 
-    v-content
+    v-main
       v-container(fluid)
         Avatar(:raise="avatarPos")
 
@@ -51,6 +51,16 @@
 
       v-spacer
 
+      v-btn.mx-3(
+        fab
+        dark
+        small
+        style="pointer-events: auto"
+        :aria-label="$t('editor.animate')"
+        @click="openPage('Animate')"
+      )
+        v-icon {{ icons.mdiMovieOpen }}
+
       // List popup menu
 
       v-menu(transition="slide-x-reverse-transition" v-model="openedList")
@@ -77,6 +87,9 @@
             v-list-item-icon(v-if="item.wind !== undefined")
               v-icon(v-if="item.wind.value" color="primary") {{ icons.mdiCheckboxMarked }}
               v-icon(v-else color="grey lighten-2") {{ icons.mdiCheckboxBlankOutline }}
+
+    v-icon.pointer.d-none.d-sm-flex(v-if="tapping") {{ icons.mdiCursorDefaultClick }}
+    v-icon.pointer2.d-flex.d-sm-none(v-if="tapping") {{ icons.mdiGestureTapHold }}
 </template>
 
 <script>
@@ -91,7 +104,9 @@ import {
   mdiRecord,
   mdiWeatherWindy,
   mdiCheckboxMarked,
-  mdiCheckboxBlankOutline
+  mdiCheckboxBlankOutline,
+  mdiCursorDefaultClick,
+  mdiGestureTapHold
 } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
@@ -145,7 +160,9 @@ export default {
       mdiRecord,
       mdiWeatherWindy,
       mdiCheckboxMarked,
-      mdiCheckboxBlankOutline
+      mdiCheckboxBlankOutline,
+      mdiCursorDefaultClick,
+      mdiGestureTapHold
     })
 
     const wind = ref(true)
@@ -158,10 +175,6 @@ export default {
       {
         text: { en: 'Saves', ru: 'Сохранения' },
         icon: icons.mdiContentSave
-      },
-      {
-        text: { en: 'Animate', ru: 'Анимация' },
-        icon: icons.mdiMovieOpen
       },
       {
         text: { en: 'Wind', ru: 'Ветер' },
@@ -191,7 +204,8 @@ export default {
       FPS: computed(() => getters['interface/getFPS']),
       animate: computed(() => getters['interface/getAnimate']),
       quality: computed(() => getters['interface/getQuality']),
-      rendering: computed(() => getters['interface/getRendering'])
+      rendering: computed(() => getters['interface/getRendering']),
+      tapping: computed(() => getters['interface/getTapping'])
     })
 
     const { getPage, openPage, openedList } = pagesControl(getters, commit)
@@ -218,7 +232,9 @@ export default {
 
       icons,
       list,
-      avatarPos
+      avatarPos,
+
+      Feedback: ref(false)
     }
   },
 
@@ -271,6 +287,48 @@ html
   100%
     opacity: 1
 
+@keyframes drag
+  0%
+    right: 40vmin
+    transform: scale(0)
+
+  15%
+    right: 40vmin
+    transform: scale(1.2)
+
+  66%
+    right: 15vmin
+    transform: scale(1.2)
+
+  75%
+    right: 15vmin
+    transform: scale(0)
+
+  100%
+    right: 15vmin
+    transform: scale(0)
+
+@keyframes drag2
+  0%
+    right: 40vmin
+    transform: scale(0)
+
+  15%
+    right: 40vmin
+    transform: scale(1.5)
+
+  66%
+    right: 15vmin
+    transform: scale(1.5)
+
+  75%
+    right: 15vmin
+    transform: scale(0)
+
+  100%
+    right: 15vmin
+    transform: scale(0)
+
 .header
   position: fixed
   opacity: 0
@@ -280,4 +338,16 @@ html
 
 .recording
   animation: recording 3s linear infinite
+
+.pointer
+  position: absolute!important
+  right: 15vmin
+  top: 100px
+  animation: drag 2s ease-in-out infinite
+
+.pointer2
+  position: absolute!important
+  right: 15vmin
+  top: 100px
+  animation: drag2 2s ease-in-out infinite
 </style>

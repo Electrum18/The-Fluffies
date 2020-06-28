@@ -9,6 +9,7 @@ export default {
   three: 'Три',
 
   list: 'Открыть список',
+  animate: 'Анимация',
 
   frame: 'Кадр',
   of: 'из',
@@ -133,7 +134,8 @@ export default {
       title: 'Рот',
       mouth: 'рта',
       tongue: 'языка',
-      fangs: 'клыки'
+      fangs: 'клыки',
+      sharp: 'острые'
     },
 
     emotion: {
@@ -277,5 +279,14 @@ export default {
     wait: 'Сохраняйте спокойствие и печеньки',
     preparing: 'Обработка',
     ready: 'Yay, готово!'
+  },
+
+  lipsync: {
+    title: 'Создание анимации губ',
+    text: 'Нажмите на слово для создания выражения губ'
+  },
+
+  profile: {
+    title: 'Профиль'
   }
 }

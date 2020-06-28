@@ -30,7 +30,7 @@
 
       NetworkStatus
 
-    v-content
+    v-main
       .my-12
 
       Socials

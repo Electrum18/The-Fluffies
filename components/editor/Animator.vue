@@ -33,7 +33,7 @@
       )
         v-icon(large) {{ icons.mdiClose }}
 
-      v-btn.panel-buttons.left-button.transition(
+      v-btn.panel-buttons.middle-button.transition(
         @click="smaller"
         fab
         absolute
@@ -41,6 +41,34 @@
         :style="topButtons"
       )
         v-icon(x-large) {{ small ? icons.mdiChevronUp : icons.mdiChevronDown }}
+
+      v-menu(transition="slide-x-reverse-transition" v-model="openedListLipsync")
+        template(v-slot:activator="{ on }")
+          v-btn.panel-buttons.left-button.transition(
+            fab
+            absolute
+            right
+            v-on="on"
+            :style="[topButtons, { opacity: +!small, 'background-color': '#272727!important' }]"
+            :disabled="sequence.length - 1 == frame"
+          )
+            v-icon(x-large color="primary") $vuetify.icons.values.ponyTalking
+
+        v-list.px-3(
+          dense
+          max-width=400
+        )
+          p.subtitle-1.font-weight-bold {{ $t('editor.lipsync.title') }}
+          span.body-2 {{ $t('editor.lipsync.text') }}
+
+          v-divider.my-2
+
+          v-chip-group(column)
+            v-chip(
+              v-for="word in lipSounds"
+              :key="word"
+              @click="addFromLetter(word)"
+            ) {{ word }}
 
       v-row.px-6
         v-col(cols="4")
@@ -119,13 +147,19 @@
                   v-img(:src="images[i]" width=96 height=64)
                     v-icon.center(v-if="images[i] === ''") {{ icons.mdiCursorPointer }}
 
-                v-col.px-6.py-4.overline(v-if="sequence.length - 1 > i")
+                v-col.px-6.py-4.text-caption.text-uppercase(
+                  v-if="sequence.length - 1 > i"
+                  style="font-size: 0.625rem!important; letter-spacing: .1666666667em!important"
+                )
                   p.my-1.primary--text {{ $t('editor.animator.frame') }} №{{ i + 1 }}
                   p.mb-1.grey--text
                     | {{ $t('editor.animator.duration') }}
                     | {{ formatTime(elem.duration, true) }}s
 
-                v-col.px-6.py-4.overline(v-if="sequence.length - 1 <= i")
+                v-col.px-6.py-4.text-caption.text-uppercase(
+                  v-if="sequence.length - 1 <= i"
+                  style="font-size: 0.625rem!important; letter-spacing: .1666666667em!important"
+                )
                   p.my-5.pink--text.body-2.font-weight-black
                     | {{ $t('editor.animator.final') }}
                     | {{ $t('editor.animator.frame') }}
@@ -141,7 +175,7 @@
 
                 :disabled="playing"
 
-                @click="add(i + 1)"
+                @click="add(i)"
               )
                 v-icon {{ icons.mdiPlus }}
 
@@ -184,7 +218,7 @@
 <script>
 import Vue from 'vue'
 
-import { reactive, computed } from '@vue/composition-api'
+import { reactive, computed, ref } from '@vue/composition-api'
 
 import { mapMutations, mapGetters } from 'vuex'
 
@@ -235,10 +269,12 @@ export default {
         x: 0
       },
 
-      framesLenght: 0,
+      framesLength: 0,
 
       canvas: undefined,
-      images: []
+      images: [],
+
+      openedListLipsync: false
     }
   },
 
@@ -320,7 +356,7 @@ export default {
 
     getPlayLen: {
       handler(value) {
-        this.framesLenght = value
+        this.framesLength = value
       },
 
       immediate: true
@@ -371,7 +407,14 @@ export default {
   },
 
   methods: {
-    ...mapMutations('avatar', ['setFrame', 'setFrameDur', 'addFrame', 'deleteFrame']),
+    ...mapMutations('avatar', [
+      'setFrame',
+      'setFrameDur',
+      'addFrame',
+      'addFrameFromLetter',
+      'deleteFrame'
+    ]),
+
     ...mapMutations('interface', [
       'setPage',
       'setAnimate',
@@ -383,7 +426,13 @@ export default {
     ]),
 
     add(index) {
-      this.addFrame(index)
+      this.addFrame(index + 1)
+      this.updateSave()
+    },
+
+    addFromLetter(letter) {
+      this.addFrameFromLetter([this.frame + 1, letter])
+      this.setFrame(this.frame + 1)
       this.updateSave()
     },
 
@@ -503,12 +552,25 @@ export default {
       return { 'margin-top': getPage.value === 'Animate' ? '-58px' : '0px' }
     })
 
+    const lipSounds = ref([
+      'a',
+      'b, m, p',
+      'c, d, x',
+      'e, g, h, j, k, r',
+      'i',
+      'o, u, q, y',
+      'f, v, w',
+      's',
+      'n, t, z'
+    ])
+
     return {
       icons,
 
       percentLen,
       valTime,
       getPage,
+      lipSounds,
 
       topButtons,
       topInput,
@@ -533,10 +595,13 @@ export default {
     width: max-content!important
 
 .panel-buttons
-  transition: margin-top 500ms ease
+  transition: margin-top 300ms ease, opacity 300ms ease!important
+
+.middle-button
+  margin-right: 70px!important
 
 .left-button
-  margin-right: 70px!important
+  margin-right: 140px!important
 
 .field-right
   position: absolute!important

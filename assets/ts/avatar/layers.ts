@@ -133,7 +133,8 @@ export default function(
     eyes_brows_color,
     wings_second_color,
     ear_second_color,
-    hooves_second_color
+    hooves_second_color,
+    sharp_teeth
   } = globals as IObject
 
   const {
@@ -386,7 +387,11 @@ export default function(
   const upperPos: [number, number] = [(angle / 1.5) * upper2 * quality, (-horiz * 20 - upper) * quality]
 
   Layer(upperPos, Rotate.head, () => {
-    Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(30 - properties.teeth_upper / 3.33)]])
+    if (sharp_teeth) {
+      Elem('teeth_sharp_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(30 - properties.teeth_upper / 3.33)]])
+    } else {
+      Elem('teeth_upper', '#fff', [5, '#ddd'], ['mouth', [0, -(30 - properties.teeth_upper / 3.33)]])
+    }
   })
 
   const lower = (100 - properties.teeth_lower) / 2
@@ -395,7 +400,11 @@ export default function(
   const lowerPos: [number, number] = [-(angle / 1.5) * lower2 * quality, (-horiz * 20 + lower) * quality]
 
   Layer(lowerPos, Rotate.head, () => {
-    Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', [0, 30 - properties.teeth_lower / 3.33]])
+    if (sharp_teeth) {
+      Elem('teeth_sharp_lower', '#fff', [5, '#ddd'], ['mouth', [0, 30 - properties.teeth_lower / 3.33]])
+    } else {
+      Elem('teeth_lower', '#fff', [5, '#ddd'], ['mouth', [0, 30 - properties.teeth_lower / 3.33]])
+    }
   })
 
   Layer(Positions.head, Rotate.head, () => {

@@ -1,6 +1,7 @@
 import SetPropersSide from '~/assets/ts/avatar/setSide'
 import defaultValues from '~/assets/ts/defaults'
 import defaultFrames from '~/assets/ts/defaultFrames'
+import expressions from '~/assets/json/configs/expressions.json'
 
 function cloneObject(object) {
   return JSON.parse(JSON.stringify(object))
@@ -79,6 +80,29 @@ export const mutations = {
         horiz: 0,
         degress: 12.5,
         ...cloneObject(frames[index - 1].frame)
+      }
+    })
+  },
+
+  addFrameFromLetter: ({ frames }, [index, letter]) => {
+    const frame = cloneObject(frames[index - 1].frame)
+    const expression = expressions[letter]
+
+    frame.jaw_open = expression.jaw_open
+    frame.jaw_sad = expression.jaw_sad
+
+    frame.tongue_raised = expression.tongue_raised
+
+    frame.teeth_upper = expression.teeth_upper
+    frame.teeth_lower = expression.teeth_lower
+
+    frames.splice(index, 0, {
+      duration: 0.5,
+      frame: {
+        angle: 0,
+        horiz: 0,
+        degress: 12.5,
+        ...frame
       }
     })
   },

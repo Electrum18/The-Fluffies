@@ -128,7 +128,9 @@ export default {
       windPropers: {
         enabled: true,
         cycle: 0
-      }
+      },
+
+      tapped: false
     }
   },
 
@@ -510,7 +512,8 @@ export default {
       'setPlayRedraw',
       'setPlayChangedFrame',
       'resetPlayChangedFrame',
-      'setRendered'
+      'setRendered',
+      'setTapping'
     ]),
 
     applyGlobals(globals) {
@@ -527,10 +530,7 @@ export default {
     asFile(key) {
       const name = this.globals[key + '_name_en']
 
-      const fileName = name
-        .toLowerCase()
-        .split(' ')
-        .join('_')
+      const fileName = name.toLowerCase().split(' ').join('_')
 
       return { name, fileName }
     },
@@ -575,6 +575,12 @@ export default {
       this.last.y = e.pageY
 
       this.dragging = true
+
+      if (this.tapped === false) {
+        this.tapped = true
+
+        this.setTapping(false)
+      }
     },
 
     onDrag(e) {

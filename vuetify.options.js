@@ -1,5 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 import AvatarPonyIcon from '~/components/editor/IconPony.vue'
+import AvatarPonyIconTalking from '~/components/editor/IconPonyTalking.vue'
 
 export default {
   theme: {
@@ -23,6 +24,10 @@ export default {
     values: {
       pony: {
         component: AvatarPonyIcon
+      },
+
+      ponyTalking: {
+        component: AvatarPonyIconTalking
       }
     }
   }

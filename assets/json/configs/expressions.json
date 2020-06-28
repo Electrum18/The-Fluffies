@@ -1,0 +1,91 @@
+{
+  "a": {
+    "jaw_open": 75,
+    "jaw_sad": 0,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "b, m, p": {
+    "jaw_open": 0,
+    "jaw_sad": 33,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "c, d, x": {
+    "jaw_open": 50,
+    "jaw_sad": 0,
+
+    "tongue_raised": 50,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "e, g, h, j, k, r": {
+    "jaw_open": 50,
+    "jaw_sad": 0,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "i": {
+    "jaw_open": 50,
+    "jaw_sad": 33,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "o, u, q, y": {
+    "jaw_open": 50,
+    "jaw_sad": 50,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "f, v, w": {
+    "jaw_open": 50,
+    "jaw_sad": 0,
+
+    "tongue_raised": 0,
+
+    "teeth_upper": 100,
+    "teeth_lower": 0
+  },
+
+  "s": {
+    "jaw_open": 75,
+    "jaw_sad": 0,
+
+    "tongue_raised": 100,
+
+    "teeth_upper": 0,
+    "teeth_lower": 0
+  },
+
+  "n, t, z": {
+    "jaw_open": 75,
+    "jaw_sad": 0,
+
+    "tongue_raised": 75,
+
+    "teeth_upper": 50,
+    "teeth_lower": 0
+  }
+}

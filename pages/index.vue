@@ -271,7 +271,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, toRefs } from '@vue/composition-api'
+import { ref, reactive, computed } from '@vue/composition-api'
 import {
   mdiMenu,
   mdiArrowLeft,
@@ -541,7 +541,7 @@ export default {
     )
 
     return {
-      ...toRefs(CreateSave($store, defaults)),
+      ...CreateSave($store, defaults),
 
       ...easterEgg(),
 
