@@ -147,13 +147,19 @@
                   v-img(:src="images[i]" width=96 height=64)
                     v-icon.center(v-if="images[i] === ''") {{ icons.mdiCursorPointer }}
 
-                v-col.px-6.py-4.overline(v-if="sequence.length - 1 > i")
+                v-col.px-6.py-4.text-caption.text-uppercase(
+                  v-if="sequence.length - 1 > i"
+                  style="font-size: 0.625rem!important; letter-spacing: .1666666667em!important"
+                )
                   p.my-1.primary--text {{ $t('editor.animator.frame') }} №{{ i + 1 }}
                   p.mb-1.grey--text
                     | {{ $t('editor.animator.duration') }}
                     | {{ formatTime(elem.duration, true) }}s
 
-                v-col.px-6.py-4.overline(v-if="sequence.length - 1 <= i")
+                v-col.px-6.py-4.text-caption.text-uppercase(
+                  v-if="sequence.length - 1 <= i"
+                  style="font-size: 0.625rem!important; letter-spacing: .1666666667em!important"
+                )
                   p.my-5.pink--text.body-2.font-weight-black
                     | {{ $t('editor.animator.final') }}
                     | {{ $t('editor.animator.frame') }}

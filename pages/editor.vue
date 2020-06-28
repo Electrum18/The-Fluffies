@@ -11,7 +11,7 @@
     Recorder(:open="getPage === 'Record'")
     RecorderProcess(:open="getPage === 'recorderRender'")
 
-    v-content
+    v-main
       v-container(fluid)
         Avatar(:raise="avatarPos")
 

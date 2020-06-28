@@ -52,7 +52,7 @@ const sendMessage = (mes, type = false, socket = false) => {
 
 const maxMessages = 100
 const messages = []
-const users = []
+const users = {}
 
 let length = 0
 
@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
 
   length++
 
-  io.emit('get users', length)
+  io.emit('get users count', length)
 
   socket.emit('get first', messages, 'first')
 
@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
   socket.on('check name', (name) => {
     name = name.trim()
 
-    if (!name || name.length < 2 || name.length > 15) {
+    if (!name || name.length < 2 || name.length > 20) {
       socket.emit('isnt nickname')
 
       return
@@ -135,6 +135,20 @@ io.on('connection', (socket) => {
       name,
       id: Math.round(Math.random() * 999999)
     }
+
+    // Send users array
+
+    const usersArr = []
+    const sockets2 = Object.keys(users)
+
+    for (let i = 0, len = sockets2.length; i < len; i++) {
+      usersArr.push({
+        id: users[sockets2[i]].id,
+        nickname: users[sockets2[i]].name
+      })
+    }
+
+    io.emit('get users', usersArr)
 
     // Broadcast to users about connected client
 
@@ -160,9 +174,23 @@ io.on('connection', (socket) => {
 
     delete users[socket.id]
 
+    // Send users array
+
+    const usersArr = []
+    const sockets = Object.keys(users)
+
+    for (let i = 0, len = sockets.length; i < len; i++) {
+      usersArr.push({
+        id: users[sockets[i]].id,
+        nickname: users[sockets[i]].name
+      })
+    }
+
+    io.emit('get users', usersArr)
+
     length--
 
-    io.emit('get users', length)
+    io.emit('get users count', length)
   })
 })
 

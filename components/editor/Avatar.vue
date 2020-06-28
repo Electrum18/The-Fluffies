@@ -530,10 +530,7 @@ export default {
     asFile(key) {
       const name = this.globals[key + '_name_en']
 
-      const fileName = name
-        .toLowerCase()
-        .split(' ')
-        .join('_')
+      const fileName = name.toLowerCase().split(' ').join('_')
 
       return { name, fileName }
     },

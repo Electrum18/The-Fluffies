@@ -15,13 +15,11 @@ module.exports = {
     'plugin:nuxt/recommended',
     '@nuxtjs/eslint-config-typescript'
   ],
-  plugins: [
-    'prettier'
-  ],
+  plugins: ['prettier'],
   // add your custom rules here
   rules: {
     curly: 0,
-    "space-before-function-paren": ["error", "never"],
-    "arrow-parens": 0
+    'space-before-function-paren': ['error', 'never'],
+    'arrow-parens': 0
   }
 }

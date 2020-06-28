@@ -15,27 +15,68 @@
         :aria-label="$t('editor.chat.open')"
       )
         v-badge.py-2.grad
-          template(v-slot:badge) {{ chat.users }}
+          template(v-slot:badge) {{ chat.users.count }}
 
           v-icon(
             :color="onlineStatus.color"
           ) {{ onlineStatus.icon }}
 
     v-card
-      v-btn.grad(
+      v-btn.grad.my-2(
         absolute
         dark
         right
         small
         style="pointer-events: none; z-index: 1"
         :aria-label="$t('editor.chat.users')"
-      ) {{ chat.users }}
+      ) {{ chat.users.count }}
 
         v-icon(small right) {{ icons.mdiAccount }}
 
+      v-menu(
+        v-model="chat.users.opened"
+        flat
+        :close-on-content-click="false"
+        transition="slide-x-transition"
+        origin="left bottom"
+      )
+        template(v-slot:activator="{ on }")
+          v-btn.ma-2(
+            absolute
+            small
+            fab
+            style="z-index: 1"
+            v-on="on"
+            :aria-label="$t('editor.chat.users')"
+          )
+            v-icon {{ icons.mdiAccountGroup }}
+
+        v-card
+          v-virtual-scroll(
+            :items="chat.users.array"
+            :item-height="50"
+            width="100vw"
+            height=600
+            max-width=300
+          )
+            template(v-slot="{ item }")
+              v-list-item
+                v-list-item-avatar
+                  v-avatar(color="grey" size=64)
+                    v-icon(
+                      color="grey lighten-3"
+                      style="width: 31px; left: 1px"
+                    ) $vuetify.icons.values.pony
+
+                v-list-item-content
+                  v-btn(
+                    text
+                    @click="openProfile(item)"
+                  ) {{ item.nickname }}
+
       v-card.chat-space(dark flat)
         v-list(dense ref="chatSpace")
-          .py-3
+          .py-4
 
           v-list-item(
             v-for="(mes, i) in chat.content"
@@ -84,14 +125,45 @@
           large
           color="red lighten-1"
         ) {{ icons.mdiWifiOff }}
+
+    v-dialog(v-model="profile.opened" width="500")
+      v-card(dark)
+        v-card-title {{ $t('editor.profile.title') }}
+          v-spacer
+          v-btn.mx-n2(
+            fab
+            small
+            @click="profile.opened = false"
+            :aria-label="$t('editor.back')"
+          )
+            v-icon {{ icons.mdiKeyboardBackspace }}
+
+        v-divider
+        v-list-item.py-2
+          v-list-item-avatar(color="grey" size=84)
+            v-icon(
+              color="grey lighten-3"
+              style="width: 60px; left: 3px"
+            ) $vuetify.icons.values.pony
+
+          v-list-item-content.mx-2
+            v-list-item-title.headline.mb-2 {{ profile.user.nickname }}
+            v-list-item-subtitle \#{{ profile.user.id }}
 </template>
 
 <script>
-import { reactive, watch, ref, computed, toRefs } from '@vue/composition-api'
+import { reactive, watch, ref, computed } from '@vue/composition-api'
 
 import io from 'socket.io-client'
 
-import { mdiAccount, mdiSend, mdiWifiOff, mdiMessageText } from '@mdi/js'
+import {
+  mdiAccount,
+  mdiSend,
+  mdiWifiOff,
+  mdiMessageText,
+  mdiAccountGroup,
+  mdiKeyboardBackspace
+} from '@mdi/js'
 
 function defineSocket(chat) {
   const socket = ref({ on: () => undefined })
@@ -113,7 +185,12 @@ function defineSocket(chat) {
   socket.value.on('get first', (msg) => (chat.content = msg))
   socket.value.on('get message', (msg) => chat.content.push(msg))
   socket.value.on('get announce', (msg) => chat.content.push(msg))
-  socket.value.on('get users', (users) => (chat.users = users))
+
+  socket.value.on('get users', (users) => {
+    chat.users.array = users
+  })
+
+  socket.value.on('get users count', (users) => (chat.users.count = users))
 
   socket.value.on('isnt nickname', () => {
     chat.prename = ''
@@ -180,12 +257,43 @@ function Chat(refs, chat, icons, socket) {
       : { color: 'red lighten-1', icon: icons.mdiWifiOff }
   })
 
+  const list = computed(() => {
+    return Array.from({ length: 10000 }, () => {
+      return {
+        nickname: Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, '')
+          .substr(0, 20),
+
+        id:
+          '#' +
+          Math.random()
+            .toString(36)
+            .replace(/[^a-z]+/g, '')
+            .substr(0, 10)
+      }
+    })
+  })
+
+  const profile = reactive({
+    opened: false,
+    user: {}
+  })
+
+  function openProfile(user) {
+    profile.opened = true
+    profile.user = user
+  }
+
   return {
     chat,
     chatLength,
     submit,
     checkName,
-    onlineStatus
+    onlineStatus,
+    list,
+    profile,
+    openProfile
   }
 }
 
@@ -195,7 +303,9 @@ export default {
       mdiAccount,
       mdiSend,
       mdiWifiOff,
-      mdiMessageText
+      mdiMessageText,
+      mdiAccountGroup,
+      mdiKeyboardBackspace
     })
 
     const chat = reactive({
@@ -207,8 +317,13 @@ export default {
 
       message: '',
 
-      users: 0,
-      content: []
+      content: [],
+
+      users: {
+        opened: false,
+        count: 0,
+        array: []
+      }
     })
 
     const socket = defineSocket(chat)
@@ -218,7 +333,7 @@ export default {
       chat,
       socket,
 
-      ...toRefs(Chat(refs, chat, icons, socket))
+      ...Chat(refs, chat, icons, socket)
     }
   }
 }
