@@ -287,6 +287,8 @@ export default {
   },
 
   profile: {
-    title: 'Профиль'
+    title: 'Профиль',
+    total: 'Всего пользователей:',
+    authorized: 'Авторизированных:'
   }
 }

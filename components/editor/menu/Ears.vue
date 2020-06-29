@@ -14,7 +14,6 @@
       BarSwitch(
         :text="$t('editor.enable')"
         val="ear_second_color"
-        off="tassels"
       )
 
       BarColor(

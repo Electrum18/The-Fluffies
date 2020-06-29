@@ -51,28 +51,32 @@
           )
             v-icon {{ icons.mdiAccountGroup }}
 
-        v-card
-          v-virtual-scroll(
-            :items="chat.users.array"
-            :item-height="50"
-            width="100vw"
-            height=600
-            max-width=300
-          )
-            template(v-slot="{ item }")
-              v-list-item
-                v-list-item-avatar
-                  v-avatar(color="grey" size=64)
-                    v-icon(
-                      color="grey lighten-3"
-                      style="width: 31px; left: 1px"
-                    ) $vuetify.icons.values.pony
+        v-card(dark).pt-3
+          p.mx-4.mb-1.text-h6 {{ $t('editor.profile.total') }} {{ chat.users.count }}
+          p.mx-4.text-subtitle-2 {{ $t('editor.profile.authorized') }} {{ chat.users.array.length }}
 
-                v-list-item-content
-                  v-btn(
-                    text
-                    @click="openProfile(item)"
-                  ) {{ item.nickname }}
+          v-card(light tile)
+            v-virtual-scroll(
+              :items="chat.users.array"
+              :item-height="50"
+              width="100vw"
+              height=600
+              max-width=300
+            )
+              template(v-slot="{ item }")
+                v-list-item
+                  v-list-item-avatar
+                    v-avatar(color="grey" size=64)
+                      v-icon(
+                        color="grey lighten-3"
+                        style="width: 31px; left: 1px"
+                      ) $vuetify.icons.values.pony
+
+                  v-list-item-content
+                    v-btn.justify-start(
+                      text
+                      @click="openProfile(item)"
+                    ) {{ item.nickname }}
 
       v-card.chat-space(dark flat)
         v-list(dense ref="chatSpace")
