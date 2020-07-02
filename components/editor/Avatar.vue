@@ -644,35 +644,30 @@ export default {
       this.setPlayChangedFrame()
     },
 
-    setQuality(quality) {
-      const enumerate = {
-        2160: 0,
-        1440: 1,
-        1080: 2,
-        720: 3,
-        480: 4,
-        360: 5,
-        240: 6,
-        144: 7
-      }
-
-      const resolutions = [
-        [3840, 2160],
-        [2560, 1440],
-        [1920, 1080],
-        [1280, 720],
-        [854, 480],
-        [640, 360],
-        [426, 240],
-        [256, 144]
-      ]
-
-      return resolutions[enumerate[quality * 1024]]
-    },
-
     SetPropersSide,
     draw,
     animate
+  },
+
+  setup() {
+    function setQuality(quality) {
+      const resolutions = {
+        2160: [3840, 2160],
+        1440: [2560, 1440],
+        1080: [1920, 1080],
+        720: [1280, 720],
+        480: [854, 480],
+        360: [640, 360],
+        240: [426, 240],
+        144: [256, 144]
+      }
+
+      return resolutions[quality * 1024]
+    }
+
+    return {
+      setQuality
+    }
   }
 }
 </script>

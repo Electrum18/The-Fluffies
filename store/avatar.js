@@ -97,7 +97,7 @@ export const mutations = {
     frame.teeth_lower = expression.teeth_lower
 
     frames.splice(index, 0, {
-      duration: 0.5,
+      duration: 0.3,
       frame: {
         angle: 0,
         horiz: 0,
