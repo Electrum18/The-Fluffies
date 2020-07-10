@@ -561,7 +561,7 @@ export default {
       'o, u, q, y',
       'f, v, w',
       's',
-      'n, t, z'
+      'l, n, t, z'
     ])
 
     return {

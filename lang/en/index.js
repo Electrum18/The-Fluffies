@@ -3,6 +3,8 @@ export default {
   about: 'About',
   support: 'Support us',
   repair: 'Repair',
+  terms: 'Terms of Service',
+  privacy: 'Privacy policy',
 
   start: {
     title: 'start',

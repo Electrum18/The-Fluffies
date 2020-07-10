@@ -3,6 +3,8 @@ export default {
   about: 'О нас',
   support: 'Поддержать',
   repair: 'Починка',
+  terms: 'Условия использования',
+  privacy: 'Конфиденциальность',
 
   start: {
     title: 'начать',

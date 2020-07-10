@@ -3,7 +3,9 @@ export default {
     index: 'The Fluffies: Продвинутый редактор о создании пони',
     about: 'The Fluffies: О проекте',
     support: 'The Fluffies: Типы поддержки для проекта',
-    editor: 'The Fluffies: Редактор создания пони'
+    editor: 'The Fluffies: Редактор создания пони',
+    privacy: 'The Flufffies: Политика конфиденциальности',
+    terms: 'The Flufffies: Условия использования'
   },
 
   description:

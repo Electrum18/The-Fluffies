@@ -43,6 +43,16 @@
       flat
       style="pointer-events: none"
     )
+      v-progress-linear.white-stripes(
+        :value="100"
+
+        striped
+        absolute
+        bottom
+        height=6
+        color="#222"
+      )
+
       Chat
 
       .px-2
@@ -51,7 +61,7 @@
 
       v-spacer
 
-      v-btn.mx-3(
+      v-btn.mx-3.mt-5(
         fab
         dark
         small
@@ -60,6 +70,8 @@
         @click="openPage('Animate')"
       )
         v-icon {{ icons.mdiMovieOpen }}
+
+      v-spacer.mx-12
 
       // List popup menu
 
@@ -350,4 +362,10 @@ html
   right: 15vmin
   top: 100px
   animation: drag2 2s ease-in-out infinite
+
+.white-stripes.v-progress-linear--striped
+  z-index: 0
+
+  .v-progress-linear__determinate
+    background-image: linear-gradient(135deg, #fffe 25%, #0000 0, #0000 50%, #fffe 0, #fffe 75%, #0000 0, #0000)!important
 </style>

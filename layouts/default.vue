@@ -12,6 +12,28 @@
       span.d-none.d-sm-flex &copy; {{ new Date().getFullYear() }} - The Fluffies
       span.d-flex.d-sm-none &copy; The Fluffies
 
+      v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+        v-if="pathname != '/termsofservice'"
+        small
+        text
+        target="_blank"
+        :title="$t('index.terms')"
+        href="termsofservice"
+        rel="noopener"
+        :aria-label="$t('index.terms')"
+      ) {{ $t('index.terms') }}
+
+      v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+        v-if="pathname != '/privacypolicy'"
+        small
+        text
+        target="_blank"
+        :title="$t('index.privacy')"
+        href="privacypolicy"
+        rel="noopener"
+        :aria-label="$t('index.privacy')"
+      ) {{ $t('index.privacy') }}
+
       v-spacer
 
       Locale
@@ -34,7 +56,7 @@
 </template>
 
 <script>
-import { reactive } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 
 import { mdiBrightness7, mdiMoonWaningCrescent } from '@mdi/js'
 
@@ -61,9 +83,18 @@ export default {
       mdiMoonWaningCrescent
     })
 
+    const pathname = computed(() => {
+      if (process.browser) {
+        return window.location.pathname
+      } else {
+        return ''
+      }
+    })
+
     return {
       dark,
-      icons
+      icons,
+      pathname
     }
   },
 

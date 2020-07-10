@@ -57,7 +57,8 @@ export default {
       '[Redy] for graphic type ideas',
       '[Train Drive] for many ideas of a graphic type',
       '[EAlex] for graphic type ideas',
-      '[SweetMouse] for testing and lots of ideas'
+      '[SweetMouse] for testing and lots of ideas',
+      '[Archius] for catching bugs and testing'
     ]
   }
 }
