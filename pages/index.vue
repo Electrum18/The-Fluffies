@@ -180,6 +180,20 @@
           v-list-item-icon
             v-icon(color="error") {{ icons.mdiAlert }}
 
+        v-list-item(
+          :title="$t('index.terms')"
+          href="termsofservice"
+        )
+          v-list-item-content
+            v-list-item-title.text--secondary(v-text="$t('index.terms')")
+
+        v-list-item(
+          :title="$t('index.privacy')"
+          href="privacypolicy"
+        )
+          v-list-item-content
+            v-list-item-title.text--secondary(v-text="$t('index.privacy')")
+
     v-row.px-2.bottom.d-none.d-md-flex
       v-tooltip(right)
         template(v-slot:activator="{ on }")
