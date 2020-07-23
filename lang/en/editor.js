@@ -227,9 +227,9 @@ export default {
 
   chat: {
     open: 'Open chat',
-    users: 'Users count',
+    users: 'Users',
     type: 'Type a message',
-    enter_name: 'Enter your nickname'
+    login: 'Login to enter the chat'
   },
 
   quality: 'Quality',
@@ -287,8 +287,16 @@ export default {
   },
 
   profile: {
-    title: 'Profile',
-    total: 'Total users:',
-    authorized: 'Authorized:'
+    title: 'Your profile',
+    require: 'Login to your account requires authorization',
+    level: 'Current level',
+    left: 'Time left to level up',
+    timeleft: 'You have reached a level for this day',
+    logout: 'Logout',
+
+    maximum: {
+      title: 'You have reached the maximum level!',
+      subtitle: 'Keep logging in daily to maintain level'
+    }
   }
 }

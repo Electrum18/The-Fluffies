@@ -1,198 +1,41 @@
 /* eslint-disable no-console */
 
-let io
+const mongoose = require('mongoose')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 
-try {
-  io = require('socket.io').listen(5000)
+let io = require('socket.io')
 
-  console.log('connection:  \x1B[40m\x1B[32m SUCCESS \x1B[0m')
-} catch (err) {
-  console.log('connection:  \x1B[40m\x1B[31m ERROR \x1B[0m')
+const keys = require('./config/keys')
 
-  return
-}
+const initSocket = require('./modules/socket')
+const initOAuth = require('./modules/oauth')
 
-const sendMessage = (mes, type = false, socket = false) => {
-  // Message type
+io = io.listen(keys.ports.socket)
 
-  if (type === 'ann') {
-    // Announce
+mongoose.connect(
+  keys.mongodb.dbURI,
 
-    mes.notMessage = true
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  },
 
-    if (socket) {
-      socket.emit('get announce', mes)
-    } else {
-      io.emit('get announce', mes)
-    }
-  } else if (type === 'first') {
-    // Greetings
-
-    mes.notMessage = true
-
-    messages.push(mes)
-
-    if (mes.length > maxMessages) {
-      messages.shift()
-    }
-
-    io.emit('get first', messages)
-  } else {
-    // Basic
-
-    messages.push(mes)
-
-    if (mes.length > maxMessages) {
-      messages.shift()
-    }
-
-    io.emit('get message', mes)
+  () => {
+    console.log('Connected to MongoDB')
   }
-}
+)
 
-const maxMessages = 100
-const messages = []
-const users = {}
-
-let length = 0
-
-console.log('variables:   \x1B[40m\x1B[32m ONLINE \x1B[0m')
-
-// Socket event listeners
-
-io.on('connection', (socket) => {
-  // Emit data to entered client
-
-  length++
-
-  io.emit('get users count', length)
-
-  socket.emit('get first', messages, 'first')
-
-  sendMessage(
-    {
-      text: 'Welcome to The Fluffies - Feijoa version, enjoy! :3'
-    },
-    'ann',
-    socket
-  )
-
-  socket.emit('isnt nickname') // Reset on reconect server
-
-  // Receiving messages to the server
-
-  socket.on('send message', (msg) => {
-    if (msg.text.length > 99) return // Text limit
-
-    if (!msg.name.trim() || msg.name.length > 15) {
-      socket.emit('isnt nickname')
-
-      return
-    }
-
-    // Message assembly
-
-    msg.text = msg.text.charAt(0).toUpperCase() + msg.text.slice(1) // Capitalize
-    msg.id = users[socket.id].id
-
-    messages.push(msg)
-
-    if (messages.length > maxMessages) {
-      messages.shift()
-    }
-
-    // Send messages to client
-
-    io.emit('get message', msg)
-  })
-
-  // Checking name
-
-  socket.on('check name', (name) => {
-    name = name.trim()
-
-    if (!name || name.length < 2 || name.length > 20) {
-      socket.emit('isnt nickname')
-
-      return
-    }
-
-    // Duplicate check
-
-    const sockets = Object.keys(users)
-
-    for (let i = 0, len = sockets.length; i < len; i++) {
-      if (users[sockets[i]].name === name) {
-        socket.emit('isnt nickname')
-
-        return
-      }
-    }
-
-    // Add to users list
-
-    users[socket.id] = {
-      name,
-      id: Math.round(Math.random() * 999999)
-    }
-
-    // Send users array
-
-    const usersArr = []
-    const sockets2 = Object.keys(users)
-
-    for (let i = 0, len = sockets2.length; i < len; i++) {
-      usersArr.push({
-        id: users[sockets2[i]].id,
-        nickname: users[sockets2[i]].name
-      })
-    }
-
-    io.emit('get users', usersArr)
-
-    // Broadcast to users about connected client
-
-    sendMessage(
-      {
-        text: '#' + users[socket.id].id + ' joined as ' + users[socket.id].name
-      },
-      'ann'
-    )
-  })
-
-  // Removing connected client from list
-
-  socket.on('disconnect', () => {
-    if (users[socket.id]) {
-      sendMessage(
-        {
-          text: users[socket.id].name + ' disconnected'
-        },
-        'ann'
-      )
-    }
-
-    delete users[socket.id]
-
-    // Send users array
-
-    const usersArr = []
-    const sockets = Object.keys(users)
-
-    for (let i = 0, len = sockets.length; i < len; i++) {
-      usersArr.push({
-        id: users[sockets[i]].id,
-        nickname: users[sockets[i]].name
-      })
-    }
-
-    io.emit('get users', usersArr)
-
-    length--
-
-    io.emit('get users count', length)
-  })
+const sessionStore = new MongoStore({
+  mongooseConnection: mongoose.connection,
+  secret: keys.mongodb.secret
 })
 
-console.log('socket:      \x1B[40m\x1B[32m ONLINE \x1B[0m')
-console.log('all systems: \x1B[40m\x1B[32m NOMINAL \x1B[0m')
+const users = {}
+const usersPublic = []
+const alias = []
+
+initOAuth(keys.ports.oauth, session, sessionStore, io, usersPublic, alias)
+initSocket(io, sessionStore, users, usersPublic, alias)
+
+console.log('Socket service launched on port: ' + keys.ports.socket)

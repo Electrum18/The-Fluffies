@@ -1,0 +1,40 @@
+{
+  "ids": {
+    "google": "",
+    "twitter": "",
+    "vk": ""
+  },
+
+  "level": 0,
+  "levelGiven": false,
+
+  "current": {
+    "avatar": ""
+  },
+
+  "name": "",
+
+  "avatars": {
+    "google": "",
+    "twitter": "",
+    "vk": ""
+  },
+
+  "emails": {
+    "google": "",
+    "twitter": "",
+    "vk": ""
+  },
+
+  "mailing": true,
+
+  "saves": [],
+
+  "date": {
+    "first": 0,
+    "last": 0,
+    "levelTimeout": 0
+  },
+
+  "badges": []
+}

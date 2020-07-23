@@ -53,6 +53,7 @@
         color="#222"
       )
 
+      Account
       Chat
 
       .px-2
@@ -71,7 +72,8 @@
       )
         v-icon {{ icons.mdiMovieOpen }}
 
-      v-spacer.mx-12
+      v-spacer.mx-12.d-none.d-sm-inline-flex
+      v-spacer.d-inline-flex.d-sm-none
 
       // List popup menu
 
@@ -123,6 +125,7 @@ import {
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
 
+import Account from '~/components/editor/Account'
 import Menu from '~/components/editor/Menu'
 import MenuHairs from '~/components/editor/MenuHairs'
 import Saves from '~/components/editor/Saves'
@@ -251,6 +254,8 @@ export default {
   },
 
   components: {
+    Account,
+
     Menu,
     MenuHairs,
     Saves,
