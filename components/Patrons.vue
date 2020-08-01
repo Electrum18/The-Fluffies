@@ -85,7 +85,7 @@ export default {
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5001'
       } else {
-        url = 'https://the-fluffies.net:3001'
+        url = 'https://the-fluffies.net'
       }
     }
 

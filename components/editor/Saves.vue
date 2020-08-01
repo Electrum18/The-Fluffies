@@ -227,7 +227,7 @@ export default {
         if (window.location.hostname === 'localhost') {
           return 'http://localhost:5001'
         } else {
-          return 'https://the-fluffies.net:3001'
+          return 'https://the-fluffies.net'
         }
       } else {
         return null

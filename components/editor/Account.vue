@@ -397,7 +397,8 @@
         v-list-item-avatar.text-h5.mb-10(
           :color="badgeColor(user.level)"
           size=52
-        ) {{ user.level }}
+        )
+          span.white--text.abs-center {{ user.level }}
 
       v-divider
 
@@ -424,7 +425,7 @@
       v-divider
       v-list-item.py-2
         v-list-item-content.pa-6
-          v-row.mx-12
+          v-row
             v-spacer
 
             v-btn(icon large :href="authGoogle")
@@ -529,7 +530,7 @@ export default {
       if (window.location.hostname === 'localhost') {
         url.value = 'http://localhost:5001'
       } else {
-        url.value = 'https://the-fluffies.net:3001'
+        url.value = 'https://the-fluffies.net'
       }
     }
 
