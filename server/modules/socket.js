@@ -4,7 +4,7 @@ const passportSocketIo = require('passport.socketio')
 
 const keys = require('../config/keys')
 
-function initSocket(io, sessionStore, users, usersPublic, alias) {
+function initSocket(io, sessionStore, users, usersPublic, alias, patreon) {
   const maxMessages = 100
   const messages = []
 
@@ -27,7 +27,8 @@ function initSocket(io, sessionStore, users, usersPublic, alias) {
         name: user.name,
         avatar: user.avatars[user.current.avatar],
         badges: user.badges,
-        level: user.level
+        level: user.level,
+        patron: user.ids.patreon && patreon.pledges[user.ids.patreon]
       })
 
       alias.push(user._id.toString())
@@ -46,7 +47,8 @@ function initSocket(io, sessionStore, users, usersPublic, alias) {
         name: user.name,
         avatar: user.avatars[user.current.avatar],
         level: user.level,
-        text: msg.charAt(0).toUpperCase() + msg.slice(1) // Capitalize
+        text: msg.charAt(0).toUpperCase() + msg.slice(1), // Capitalize
+        patron: user.ids.patreon && patreon.pledges[user.ids.patreon]
       }
 
       messages.push(message)

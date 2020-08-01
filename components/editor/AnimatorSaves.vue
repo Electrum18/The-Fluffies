@@ -37,24 +37,29 @@
 
         v-card-title.py-1.subtitle-2 {{ $t('editor.saves.limit') }}
           v-spacer
-          span {{ savesLength }} {{ $t('editor.saves.of') }} {{ maxLength }}
+          span {{ savesLength }} {{ $t('editor.saves.of') }}
+          span.px-1.py-0.mx-1.rounded(
+            :style="underBadgeColor(level)"
+          ) {{ maxLength }}
 
         v-row(justify="center")
           v-btn.mx-3.my-1(
+            v-if="patronage !== 'Basic supporter' && patronage !== 'Huge supporter'"
             small
             outlined
-            disabled
             color="blue-grey lighten-4"
+            href="https://www.patreon.com/join/the_fluffies/checkout?rid=3797254"
             :title="$t('editor.saves.patreon.basic')"
             :aria-label="$t('editor.saves.patreon.basic')"
           ) + 15
             v-icon(right) {{ icons.mdiPatreon }}
 
           v-btn.mx-3.my-1(
+            v-if="patronage !== 'Huge supporter'"
             small
             outlined
-            disabled
             color="yellow accent-4"
+            href="https://www.patreon.com/join/the_fluffies/checkout?rid=3797257"
             :title="$t('editor.saves.patreon.huge')"
             :aria-label="$t('editor.saves.patreon.huge')"
           ) + 35
@@ -82,7 +87,7 @@
             template(v-for="(save, i) in saves")
               v-list-item(
                 :key="save.name + i"
-                :disabled="i >= 10"
+                :disabled="i >= maxLength"
               )
                 v-list-item-content
                   v-list-item-title {{ i + 1 }} • {{ save.name }}
@@ -99,7 +104,7 @@
                       v-icon {{ icons.mdiDownload }}
 
                     v-btn.mr-2(
-                      v-if="saves.length > 1 && i < 10"
+                      v-if="saves.length > 1 && i < maxLength"
                       icon
                       @click="removeSave(i)"
                       :title="$t('editor.saves.delete')"
@@ -116,9 +121,14 @@
 <script>
 import { reactive, ref, onMounted, watch, computed } from '@vue/composition-api'
 
+import axios from 'axios'
+import jwt from 'jwt-simple'
+
 import { mdiKeyboardBackspace, mdiDelete, mdiPatreon, mdiDownload } from '@mdi/js'
 
-function Saves(getters, commit) {
+import secret from '~/assets/json/configs/secret.json'
+
+function Saves(props, getters, commit) {
   let animationSlot = 0
 
   if (process.client) animationSlot = localStorage.getItem('animationSlot')
@@ -290,15 +300,47 @@ function Saves(getters, commit) {
     }
   }
 
-  const maxLength = ref(10)
+  const level = ref(0)
+  const patronage = ref(undefined)
+
+  const maxLength = computed(() => {
+    if (patronage.value === 'Basic supporter') {
+      return 4 + level.value * 3
+    } else if (patronage.value === 'Huge supporter') {
+      return 8 + level.value * 6
+    } else {
+      return 3 + level.value
+    }
+  })
+
   const savesLength = computed(() => (saves.value ? saves.value.length : 0))
 
   onMounted(() => {
     slot.value = getSlot(maxLength)
     saves.value = getSave()
+
+    function visibilityChange() {
+      if (!document.hidden && props.open) cloudLimits()
+    }
+
+    if (process.browser) {
+      document.addEventListener('visibilitychange', visibilityChange, false)
+    }
   })
 
   const globals = reactive(() => getters['avatar/getGlobal'])
+
+  const url = computed(() => {
+    if (process.browser) {
+      if (window.location.hostname === 'localhost') {
+        return 'http://localhost:5001'
+      } else {
+        return 'https://the-fluffies.net:3001'
+      }
+    } else {
+      return null
+    }
+  })
 
   if (process.client) {
     watch(
@@ -309,9 +351,45 @@ function Saves(getters, commit) {
     )
   }
 
+  function cloudLimits() {
+    if (!props.open) return
+
+    axios
+      .get(url.value + '/user/saves/limits', { withCredentials: true })
+      .then(({ data }) => {
+        if (data.error) return
+
+        const decoded = jwt.decode(data, secret.jwt || '')
+
+        level.value = decoded.level
+        patronage.value = decoded.patron
+      })
+      .catch(() => {})
+  }
+
+  function underBadgeColor(level) {
+    if (level < 3) {
+      return { background: '#9E9E9E' }
+    } else if (level >= 3 && level < 5) {
+      return { background: '#00BCD4' }
+    } else if (level >= 5 && level < 7) {
+      return { background: '#3F51B5' }
+    } else if (level >= 7) {
+      return { background: '#9C27B0' }
+    }
+  }
+
+  watch(
+    () => props.open,
+    () => cloudLimits()
+  )
+
   return {
     saves,
     slot,
+
+    level,
+    patronage,
 
     maxLength,
     savesLength,
@@ -323,7 +401,11 @@ function Saves(getters, commit) {
     getSave,
     createSave,
     removeSave,
-    uploadSave
+    uploadSave,
+
+    cloudLimits,
+    underBadgeColor,
+    url
   }
 }
 
@@ -335,7 +417,7 @@ export default {
     }
   },
 
-  setup(_, { root: { $store } }) {
+  setup(props, { root: { $store } }) {
     const { getters, commit } = $store
 
     const icons = reactive({
@@ -350,7 +432,7 @@ export default {
     }
 
     return {
-      ...Saves(getters, commit),
+      ...Saves(props, getters, commit),
 
       icons,
       encodeSave,

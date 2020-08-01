@@ -1,6 +1,6 @@
 /* eslint-disable space-before-function-paren */
 
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const PatreonStrategy = require('passport-patreon').Strategy
 
 const jsonScheme = require('../config/user-scheme.json')
 const defaulty = require('../config/defaulty.js')
@@ -11,34 +11,34 @@ const User = require('../models/user-model')
 const halfOfDay = 12 * 60 * 60 * 1000
 const fiveMins = 5 * 60 * 1000
 
-function activateGoogleStrategy(passport) {
+function activatePatreonStrategy(passport) {
   passport.use(
-    new GoogleStrategy(
+    new PatreonStrategy(
       {
-        clientID: keys.google.clientID,
-        clientSecret: keys.google.clientSecret,
-        callbackURL: '/auth/google/redirect',
+        clientID: keys.patreon.clientID,
+        clientSecret: keys.patreon.clientSecret,
+        callbackURL: '/auth/patreon/redirect',
         passReqToCallback: true
       },
       async function (req, _accessToken, _refreshToken, user, done) {
         if (req.user) {
-          const similarUser = await User.findOne({ 'ids.google': user.id })
+          const similarUser = await User.findOne({ 'ids.patreon': user.id })
 
           if (similarUser) {
             done(null, false, { message: 'Collision found' })
           } else {
             const currentUser = await User.findById(req.user._id)
             await currentUser.updateOne({
-              'ids.google': user.id,
+              'ids.patreon': user.id,
               'date.last': Date.now(),
-              'avatars.google': user._json.picture,
-              'emails.google': user._json.email
+              'avatars.patreon': user.avatar,
+              'emails.patreon': user._json.attributes.email
             })
 
             done(null, currentUser)
           }
         } else {
-          const currentUser = await User.findOne({ 'ids.google': user.id })
+          const currentUser = await User.findOne({ 'ids.patreon': user.id })
 
           if (currentUser) {
             const now = Date.now()
@@ -61,19 +61,19 @@ function activateGoogleStrategy(passport) {
             await currentUser.updateOne({
               ...values,
               'date.last': Date.now(),
-              'avatars.google': user._json.picture,
-              'emails.google': user._json.email
+              'avatars.patreon': user.avatar,
+              'emails.patreon': user._json.attributes.email
             })
 
             done(null, currentUser)
           } else {
             const now = Date.now()
 
-            jsonScheme.ids.google = user.id
-            jsonScheme.current.avatar = 'google'
-            jsonScheme.name = user._json.name
-            jsonScheme.avatars.google = user._json.picture
-            jsonScheme.emails.google = user._json.email
+            jsonScheme.ids.patreon = user.id
+            jsonScheme.current.avatar = 'patreon'
+            jsonScheme.name = user.name
+            jsonScheme.avatars.patreon = user.avatar
+            jsonScheme.emails.patreon = user._json.attributes.email
 
             jsonScheme.date = {
               first: now,
@@ -95,4 +95,4 @@ function activateGoogleStrategy(passport) {
   )
 }
 
-module.exports = activateGoogleStrategy
+module.exports = activatePatreonStrategy

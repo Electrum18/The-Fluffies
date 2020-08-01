@@ -11,13 +11,13 @@ const keys = require('../config/keys')
 const User = require('../models/user-model')
 const websiteUrl = require('../misc/url')
 
-const redirect = require('../misc/redirect')
-
 const authRouter = require('../routes/auth')
 const userRouter = require('../routes/user')
 
-function initOAuth(port, session, sessionStore, io, usersPublic, alias) {
+function initOAuth(port, session, sessionStore, io, usersPublic, alias, patreon) {
   require('../strategies/google')(passport)
+  require('../strategies/vkontakte')(passport)
+  require('../strategies/patreon')(passport)
 
   passport.serializeUser((user, done) => {
     done(null, user.id)
@@ -48,10 +48,14 @@ function initOAuth(port, session, sessionStore, io, usersPublic, alias) {
   app.use(cors({ origin: websiteUrl, credentials: true }))
 
   app.use('/auth', authRouter)
-  app.use('/user', userRouter(io, usersPublic, alias))
+  app.use('/user', userRouter(io, usersPublic, alias, patreon))
 
-  app.get('*', (req, res) => {
-    redirect(req, res)
+  app.get('/patrons', (_req, res) => {
+    res.send(patreon.patrons)
+  })
+
+  app.get('*', (_req, res) => {
+    res.redirect(keys.protocol + '://' + keys.host + '/')
   })
 
   app.listen(port, () => console.log('Express server launched on port: ' + port))

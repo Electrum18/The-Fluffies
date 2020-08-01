@@ -108,6 +108,8 @@
 
             v-list-item-content
               v-list-item-title {{ mes.name }}
+                v-icon(right small :color="patronageColor(mes.patron)") {{ icons.mdiPatreon }}
+
               v-list-item-subtitle {{ mes.text }}
 
       v-card-actions
@@ -133,8 +135,18 @@
 
           v-row
             v-spacer
-            v-btn(fab small light :href="authGoogle")
+            v-btn(icon :href="authGoogle")
               v-icon {{ icons.mdiGoogle }}
+
+            v-spacer
+
+            v-btn(icon :href="authVK")
+              v-icon {{ icons.mdiVk }}
+
+            v-spacer
+
+            v-btn(icon :href="authPatreon")
+              v-icon {{ icons.mdiPatreon }}
             v-spacer
 
       v-overlay(
@@ -159,7 +171,9 @@ import {
   mdiMessageText,
   mdiAccountGroup,
   mdiKeyboardBackspace,
-  mdiGoogle
+  mdiGoogle,
+  mdiPatreon,
+  mdiVk
 } from '@mdi/js'
 
 function defineSocket(chat) {
@@ -268,7 +282,9 @@ export default {
       mdiMessageText,
       mdiAccountGroup,
       mdiKeyboardBackspace,
-      mdiGoogle
+      mdiGoogle,
+      mdiPatreon,
+      mdiVk
     })
 
     const chat = reactive({
@@ -309,6 +325,18 @@ export default {
     }
 
     const authGoogle = ref(url + '/auth/google')
+    const authVK = ref(url + '/auth/vkontakte')
+    const authPatreon = ref(url + '/auth/patreon')
+
+    function patronageColor(patron) {
+      if (patron === 'Little supporter') {
+        return 'deep-orange darken-3'
+      } else if (patron === 'Basic supporter') {
+        return 'blue-grey lighten-4'
+      } else if (patron === 'Huge supporter') {
+        return 'yellow accent-4'
+      }
+    }
 
     function badgeColor(level) {
       if (level < 3) {
@@ -327,8 +355,11 @@ export default {
       chat,
       socket,
       authGoogle,
+      authVK,
+      authPatreon,
       popup,
       badgeColor,
+      patronageColor,
 
       ...Chat(refs, chat, icons, socket)
     }

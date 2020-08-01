@@ -21,29 +21,17 @@
       aria-label="Twitter"
     )
       v-icon(large) {{ icons.mdiTwitter }}
-
-    v-btn.ma-4(
-      icon
-      large
-      target="_blank"
-      title="Patreon"
-      href="https://www.patreon.com/the_fluffies"
-      rel="noopener"
-      aria-label="Patreon"
-    )
-      v-icon(large) {{ icons.mdiPatreon }}
 </template>
 
 <script lang="ts">
 import { reactive } from '@vue/composition-api'
 
-import { mdiGithub, mdiPatreon, mdiTwitter } from '@mdi/js'
+import { mdiGithub, mdiTwitter } from '@mdi/js'
 
 export default {
   setup() {
     const icons = reactive({
       mdiGithub,
-      mdiPatreon,
       mdiTwitter
     })
 

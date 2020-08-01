@@ -260,6 +260,13 @@ export default {
     limit: 'Saves limit',
     of: 'of',
 
+    cloud: {
+      title: 'Profile avatars',
+      download: 'Download',
+      upload: 'Upload',
+      not_found: 'No connection to the server'
+    },
+
     patreon: {
       basic: 'Patreon • Basic support',
       huge: 'Patreon • Huge support'
@@ -288,15 +295,37 @@ export default {
 
   profile: {
     title: 'Your profile',
+    auth: 'Authorization',
     require: 'Login to your account requires authorization',
     level: 'Current level',
     left: 'Time left to level up',
     timeleft: 'You have reached a level for this day',
+    accounts: 'Accounts',
     logout: 'Logout',
+    connect: 'Connect',
+    select: 'Select',
+    selected: 'Selected',
+    vk: 'VKontakte',
+
+    email: {
+      title: 'Email',
+      switch: 'Turn off notifications'
+    },
 
     maximum: {
       title: 'You have reached the maximum level!',
       subtitle: 'Keep logging in daily to maintain level'
+    },
+
+    limits: {
+      title: 'Level capabilities',
+      saves: 'Number of slots for saving avatars:'
+    },
+
+    warning: {
+      main:
+        'If you delete all accounts in a profile, and do not link at least one during the day, then this profile will be deleted',
+      ps: 'This action cannot be canceled if a day has passed after unlinking all accounts!'
     }
   }
 }

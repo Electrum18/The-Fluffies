@@ -227,16 +227,6 @@
       )
         v-icon {{ icons.mdiTwitter }}
 
-      v-btn(
-        icon
-        target="_blank"
-        title="Patreon"
-        href="https://www.patreon.com/the_fluffies"
-        rel="noopener"
-        aria-label="Patreon"
-      )
-        v-icon {{ icons.mdiPatreon }}
-
     v-dialog(v-model="clearing" width="500")
       v-card
         v-card-title.red--text {{ $t('index.repairing.title') }}
@@ -295,7 +285,6 @@ import {
   mdiGenderFemale,
   mdiAlert,
   mdiGithub,
-  mdiPatreon,
   mdiTwitter
 } from '@mdi/js'
 
@@ -529,7 +518,6 @@ export default {
       mdiPlus,
       mdiAlert,
       mdiGithub,
-      mdiPatreon,
       mdiTwitter
     })
 

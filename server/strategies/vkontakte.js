@@ -1,6 +1,6 @@
 /* eslint-disable space-before-function-paren */
 
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const VKontakteStrategy = require('passport-vkontakte').Strategy
 
 const jsonScheme = require('../config/user-scheme.json')
 const defaulty = require('../config/defaulty.js')
@@ -11,34 +11,33 @@ const User = require('../models/user-model')
 const halfOfDay = 12 * 60 * 60 * 1000
 const fiveMins = 5 * 60 * 1000
 
-function activateGoogleStrategy(passport) {
+function activateVKontakteStrategy(passport) {
   passport.use(
-    new GoogleStrategy(
+    new VKontakteStrategy(
       {
-        clientID: keys.google.clientID,
-        clientSecret: keys.google.clientSecret,
-        callbackURL: '/auth/google/redirect',
-        passReqToCallback: true
+        clientID: keys.vk.clientID,
+        clientSecret: keys.vk.clientSecret,
+        callbackURL: '/auth/vkontakte/redirect'
       },
-      async function (req, _accessToken, _refreshToken, user, done) {
+      async function (req, _accessToken, _refreshToken, _params, user, done) {
         if (req.user) {
-          const similarUser = await User.findOne({ 'ids.google': user.id })
+          const similarUser = await User.findOne({ 'ids.vk': user.id })
 
           if (similarUser) {
             done(null, false, { message: 'Collision found' })
           } else {
             const currentUser = await User.findById(req.user._id)
             await currentUser.updateOne({
-              'ids.google': user.id,
+              'ids.vk': user.id,
               'date.last': Date.now(),
-              'avatars.google': user._json.picture,
-              'emails.google': user._json.email
+              'avatars.vk': user._json.photo_200,
+              'emails.vk': user.emails[0].value
             })
 
             done(null, currentUser)
           }
         } else {
-          const currentUser = await User.findOne({ 'ids.google': user.id })
+          const currentUser = await User.findOne({ 'ids.vk': user.id })
 
           if (currentUser) {
             const now = Date.now()
@@ -61,19 +60,19 @@ function activateGoogleStrategy(passport) {
             await currentUser.updateOne({
               ...values,
               'date.last': Date.now(),
-              'avatars.google': user._json.picture,
-              'emails.google': user._json.email
+              'avatars.vk': user._json.photo_200,
+              'emails.vk': user.emails[0].value
             })
 
             done(null, currentUser)
           } else {
             const now = Date.now()
 
-            jsonScheme.ids.google = user.id
-            jsonScheme.current.avatar = 'google'
-            jsonScheme.name = user._json.name
-            jsonScheme.avatars.google = user._json.picture
-            jsonScheme.emails.google = user._json.email
+            jsonScheme.ids.vk = user.id
+            jsonScheme.current.avatar = 'vk'
+            jsonScheme.name = user.displayName
+            jsonScheme.avatars.vk = user._json.photo_200
+            jsonScheme.emails.vk = user.emails[0].value
 
             jsonScheme.date = {
               first: now,
@@ -95,4 +94,4 @@ function activateGoogleStrategy(passport) {
   )
 }
 
-module.exports = activateGoogleStrategy
+module.exports = activateVKontakteStrategy

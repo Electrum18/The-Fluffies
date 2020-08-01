@@ -5,14 +5,16 @@ const userSchema = new Schema({
   ids: {
     google: String,
     twitter: String,
-    vk: String
+    vk: String,
+    patreon: String
   },
 
   level: Number,
   levelGiven: Boolean,
 
   current: {
-    avatar: String
+    avatar: String,
+    lang: String
   },
 
   name: String,
@@ -20,19 +22,22 @@ const userSchema = new Schema({
   avatars: {
     google: String,
     twitter: String,
-    vk: String
+    vk: String,
+    patreon: String
   },
 
   emails: {
     google: String,
     twitter: String,
-    vk: String
+    vk: String,
+    patreon: String
   },
 
   mailing: Boolean,
 
   saves: [
     {
+      frame: Number,
       globals: Object,
       color: Object
     }
@@ -41,6 +46,7 @@ const userSchema = new Schema({
   date: {
     first: Number,
     last: Number,
+    lastChecked: Number,
     levelTimeout: Number
   },
 
