@@ -3,7 +3,7 @@
     v-container
       v-sheet(shaped elevation=3).my-4.pa-4
         h1 Terms of Service ("Terms")
-        p Last updated: August 11, 2016
+        p Last updated: July 10, 2020
         p Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the https://the-fluffies.net/ website (the "Service") operated by us.
         p Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.
         p By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.

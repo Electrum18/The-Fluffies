@@ -1,0 +1,80 @@
+{
+  "name": "Defaulty",
+  "male": false,
+
+
+  "hair_second": true,
+  "hair_info": [],
+
+  "hair_name_en": "Spiky to side",
+  "hair_name_ru": "Шипастая на бок",
+
+  "hair_dreads": false,
+
+
+  "tassels": true,
+  "fangs": true,
+  "sharp_teeth": false,
+
+
+  "horn_enable": false,
+  "horn_changeling": false,
+  "horn_rear": false,
+
+  "horn_name_en": "Long",
+  "horn_name_ru": "Длинные",
+
+  "horn_info": [],
+
+
+  "stripes_enable": false,
+
+
+  "eyes_right_enable": false,
+  "eyes_brows_show": true,
+  "eyes_brows_color": false,
+
+
+  "glasses_enable": true,
+
+  "glasses_name_en": "Monolens",
+  "glasses_name_ru": "Монолинзовый",
+
+  "glasses_info": [],
+
+
+  "piercings_left_enable": false,
+  "piercings_left_upper": false,
+  "piercings_left_middle": false,
+  "piercings_left_lower": true,
+
+  "piercings_right_enable": true,
+  "piercings_right_upper": false,
+  "piercings_right_middle": false,
+  "piercings_right_lower": true,
+
+
+  "hooves_enable": true,
+  "hooves_second_color": false,
+
+
+  "collar_enable": true,
+
+
+  "bowtie_enable": false,
+
+
+  "wings_enable": true,
+  "wings_bat": true,
+  "wings_second_color": true,
+
+  "canine_nose_enable": false,
+
+  "fluff_cheeks": false,
+  "fluff_ears": false,
+  "fluff_chest": false,
+
+  "fur_second_color": false,
+
+  "ear_second_color": false
+}

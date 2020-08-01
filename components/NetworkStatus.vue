@@ -3,18 +3,31 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { computed, onMounted, ref } from '@vue/composition-api'
 
 import { mdiSignalOff, mdiSignal } from '@mdi/js'
 
 export default {
-  setup(_, { root }) {
-    const offline = computed(() => root.isOffline)
+  setup() {
+    const online = ref(true)
+
+    function handleNetworkChange() {
+      online.value = navigator.onLine
+    }
+
+    if (process.browser) {
+      window.addEventListener('online', handleNetworkChange)
+      window.addEventListener('offline', handleNetworkChange)
+    }
+
+    onMounted(() => {
+      handleNetworkChange()
+    })
 
     return {
-      offline,
+      online,
 
-      icon: computed(() => (offline.value ? mdiSignalOff : mdiSignal))
+      icon: computed(() => (online.value ? mdiSignal : mdiSignalOff))
     }
   }
 }

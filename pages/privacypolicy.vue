@@ -3,7 +3,7 @@
     v-container
       v-sheet(shaped elevation=3).my-4.pa-4
         h1 Privacy Policy
-        p Last updated: April 27, 2018
+        p Last updated: July 10, 2020
         p We operate https://the-fluffies.net/ (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site.
         p We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy.
 

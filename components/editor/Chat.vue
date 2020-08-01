@@ -21,7 +21,10 @@
             :color="onlineStatus.color"
           ) {{ onlineStatus.icon }}
 
-    v-card
+    v-card(
+      width="100vw"
+      max-width=400
+    )
       v-btn.grad.my-2(
         absolute
         dark
@@ -51,52 +54,68 @@
           )
             v-icon {{ icons.mdiAccountGroup }}
 
-        v-card(dark).pt-3
-          p.mx-4.mb-1.text-h6 {{ $t('editor.profile.total') }} {{ chat.users.count }}
-          p.mx-4.text-subtitle-2 {{ $t('editor.profile.authorized') }} {{ chat.users.array.length }}
+        v-card(light tile)
+          v-card-title {{ $t('editor.chat.users') }}
 
-          v-card(light tile)
-            v-virtual-scroll(
-              :items="chat.users.array"
-              :item-height="50"
-              width="100vw"
-              height=600
-              max-width=300
-            )
-              template(v-slot="{ item }")
-                v-list-item
-                  v-list-item-avatar
-                    v-avatar(color="grey" size=64)
-                      v-icon(
-                        color="grey lighten-3"
-                        style="width: 31px; left: 1px"
-                      ) $vuetify.icons.values.pony
+          v-divider
 
-                  v-list-item-content
-                    v-btn.justify-start(
-                      text
-                      @click="openProfile(item)"
-                    ) {{ item.nickname }}
+          v-virtual-scroll(
+            :items="chat.users.array"
+            :item-height="50"
+            width="100vw"
+            height=600
+            max-width=300
+          )
+            template(v-slot="{ item }")
+              v-list-item
+                v-badge(
+                  :content="item.level"
+                  bottom
+                  offset-x="30"
+                  offset-y="20"
+                  :color="badgeColor(item.level)"
+                  bordered
+                )
+                  v-list-item-avatar.ml-0
+                    v-avatar(color="grey" size=42)
+                      img(
+                        :alt="item.name"
+                        :src="item.avatar"
+                      )
+
+                v-list-item-content
+                  v-list-item-title {{ item.name }}
 
       v-card.chat-space(dark flat)
-        v-list(dense ref="chatSpace")
-          .py-4
+        v-list(dense two-line ref="chatSpace")
+          .py-5
 
           v-list-item(
             v-for="(mes, i) in chat.content"
             :key="'chat' + i"
             :ref="'ChatSpace' + i"
           )
+            v-badge(
+              :content="mes.level"
+              bottom
+              offset-x="30"
+              offset-y="20"
+              :color="badgeColor(mes.level)"
+              bordered
+            )
+              v-list-item-avatar.my-2
+                v-img(:src="mes.avatar")
+
             v-list-item-content
-              v-card.my-n1(outlined)
-                v-card-text.pa-2 #[kbd(v-if="mes.name") {{ mes.name }}] {{ mes.text }}
+              v-list-item-title {{ mes.name }}
+                v-icon(right small :color="patronageColor(mes.patron)") {{ icons.mdiPatreon }}
+
+              v-list-item-subtitle {{ mes.text }}
 
       v-card-actions
         v-text-field(
           v-model="chat.message"
           :label="$t('editor.chat.type')"
-          :hint="chat.name"
-          persistent-hint
           outlined
           counter="100"
           :append-icon="icons.mdiSend"
@@ -106,57 +125,42 @@
 
       v-overlay(
         absolute
-        :value="!chat.name"
+        :value="!chat.logged"
       )
-        v-text-field(
-          v-model="chat.prename"
-          label="Outlined"
-          :placeholder="$t('editor.chat.enter_name')"
-          solo
-          outlined
-          counter="20"
-          :rules="[(val) => (val || '').length > 2 || 'This field is too short']"
-          :append-icon="icons.mdiSend"
-          @click:append="checkName"
-          @keyup.enter="checkName"
-        )
+        v-col
+          v-row
+            v-spacer
+            p.title-text.text-caption {{ $t('editor.chat.login') }}
+            v-spacer
+
+          v-row
+            v-spacer
+            v-btn(icon :href="authGoogle")
+              v-icon {{ icons.mdiGoogle }}
+
+            v-spacer
+
+            v-btn(icon :href="authVK")
+              v-icon {{ icons.mdiVk }}
+
+            v-spacer
+
+            v-btn(icon :href="authPatreon")
+              v-icon {{ icons.mdiPatreon }}
+            v-spacer
 
       v-overlay(
         absolute
         :value="!chat.online"
-      )
+        )
         v-icon(
           large
           color="red lighten-1"
         ) {{ icons.mdiWifiOff }}
-
-    v-dialog(v-model="profile.opened" width="500")
-      v-card(dark)
-        v-card-title {{ $t('editor.profile.title') }}
-          v-spacer
-          v-btn.mx-n2(
-            fab
-            small
-            @click="profile.opened = false"
-            :aria-label="$t('editor.back')"
-          )
-            v-icon {{ icons.mdiKeyboardBackspace }}
-
-        v-divider
-        v-list-item.py-2
-          v-list-item-avatar(color="grey" size=84)
-            v-icon(
-              color="grey lighten-3"
-              style="width: 60px; left: 3px"
-            ) $vuetify.icons.values.pony
-
-          v-list-item-content.mx-2
-            v-list-item-title.headline.mb-2 {{ profile.user.nickname }}
-            v-list-item-subtitle \#{{ profile.user.id }}
 </template>
 
 <script>
-import { reactive, watch, ref, computed } from '@vue/composition-api'
+import { reactive, watch, ref, computed, onMounted } from '@vue/composition-api'
 
 import io from 'socket.io-client'
 
@@ -166,7 +170,10 @@ import {
   mdiWifiOff,
   mdiMessageText,
   mdiAccountGroup,
-  mdiKeyboardBackspace
+  mdiKeyboardBackspace,
+  mdiGoogle,
+  mdiPatreon,
+  mdiVk
 } from '@mdi/js'
 
 function defineSocket(chat) {
@@ -179,27 +186,21 @@ function defineSocket(chat) {
   }
 
   socket.value.on('connect', () => {
-    chat.online = socket.value.connected
+    chat.logged = socket.value.connected
   })
 
   socket.value.on('disconnect', () => {
-    chat.online = socket.value.connected
+    chat.logged = socket.value.connected
   })
 
-  socket.value.on('get first', (msg) => (chat.content = msg))
+  socket.value.on('get messages', (msg) => (chat.content = msg))
   socket.value.on('get message', (msg) => chat.content.push(msg))
-  socket.value.on('get announce', (msg) => chat.content.push(msg))
 
   socket.value.on('get users', (users) => {
     chat.users.array = users
   })
 
   socket.value.on('get users count', (users) => (chat.users.count = users))
-
-  socket.value.on('isnt nickname', () => {
-    chat.prename = ''
-    chat.name = ''
-  })
 
   return socket
 }
@@ -223,21 +224,9 @@ function Chat(refs, chat, icons, socket) {
     const length = chat.message.length
 
     if (length > 0 && length <= 100) {
-      socket.value.emit('send message', {
-        name: chat.name,
-        text: chat.message
-      })
+      socket.value.emit('send message', chat.message)
 
       chat.message = ''
-    }
-  }
-
-  function checkName() {
-    if (chat.prename && chat.prename.length > 2) {
-      socket.value.emit('check name', chat.prename)
-
-      chat.name = chat.prename
-      chat.prename = ''
     }
   }
 
@@ -261,43 +250,26 @@ function Chat(refs, chat, icons, socket) {
       : { color: 'red lighten-1', icon: icons.mdiWifiOff }
   })
 
-  const list = computed(() => {
-    return Array.from({ length: 10000 }, () => {
-      return {
-        nickname: Math.random()
-          .toString(36)
-          .replace(/[^a-z]+/g, '')
-          .substr(0, 20),
-
-        id:
-          '#' +
-          Math.random()
-            .toString(36)
-            .replace(/[^a-z]+/g, '')
-            .substr(0, 10)
-      }
-    })
-  })
-
-  const profile = reactive({
-    opened: false,
-    user: {}
-  })
-
-  function openProfile(user) {
-    profile.opened = true
-    profile.user = user
-  }
-
   return {
     chat,
     chatLength,
     submit,
-    checkName,
-    onlineStatus,
-    list,
-    profile,
-    openProfile
+    onlineStatus
+  }
+}
+
+function OnlineStatus(chat) {
+  function handleNetworkChange() {
+    chat.online = navigator.onLine
+  }
+
+  onMounted(() => {
+    handleNetworkChange()
+  })
+
+  if (process.browser) {
+    window.addEventListener('online', handleNetworkChange)
+    window.addEventListener('offline', handleNetworkChange)
   }
 }
 
@@ -309,15 +281,18 @@ export default {
       mdiWifiOff,
       mdiMessageText,
       mdiAccountGroup,
-      mdiKeyboardBackspace
+      mdiKeyboardBackspace,
+      mdiGoogle,
+      mdiPatreon,
+      mdiVk
     })
 
     const chat = reactive({
       opened: false,
       online: false,
+      logged: false,
 
       name: '',
-      prename: '',
 
       message: '',
 
@@ -330,12 +305,61 @@ export default {
       }
     })
 
+    OnlineStatus(chat)
+
     const socket = defineSocket(chat)
+
+    const popup = reactive({
+      windowObjectReference: null,
+      previousUrl: null
+    })
+
+    let url
+
+    if (process.browser) {
+      if (window.location.hostname === 'localhost') {
+        url = 'http://localhost:5001'
+      } else {
+        url = 'https://the-fluffies.net:3001'
+      }
+    }
+
+    const authGoogle = ref(url + '/auth/google')
+    const authVK = ref(url + '/auth/vkontakte')
+    const authPatreon = ref(url + '/auth/patreon')
+
+    function patronageColor(patron) {
+      if (patron === 'Little supporter') {
+        return 'deep-orange darken-3'
+      } else if (patron === 'Basic supporter') {
+        return 'blue-grey lighten-4'
+      } else if (patron === 'Huge supporter') {
+        return 'yellow accent-4'
+      }
+    }
+
+    function badgeColor(level) {
+      if (level < 3) {
+        return 'grey'
+      } else if (level >= 3 && level < 5) {
+        return 'cyan'
+      } else if (level >= 5 && level < 7) {
+        return 'indigo'
+      } else if (level >= 7) {
+        return 'purple'
+      }
+    }
 
     return {
       icons,
       chat,
       socket,
+      authGoogle,
+      authVK,
+      authPatreon,
+      popup,
+      badgeColor,
+      patronageColor,
 
       ...Chat(refs, chat, icons, socket)
     }
@@ -357,5 +381,12 @@ export default {
 
     .v-list-item
       pointer-events: none
-      width: calc(100% - 16px)
+      width: calc(100% - 48px)
+
+      .v-list-item__subtitle
+        white-space: normal
+
+.title-text
+  min-width: min-content
+  opacity: 0.7
 </style>

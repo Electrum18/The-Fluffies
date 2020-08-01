@@ -53,6 +53,8 @@
     UpperBlob1.blob1.blobs
     UpperBlob2.blob2.blobs
     UpperBlob3.blob3.blobs
+
+    Patrons
 </template>
 
 <script>
@@ -64,6 +66,7 @@ import darkMode from '~/assets/ts/darkMode.ts'
 
 import Socials from '~/components/Socials'
 import Locale from '~/components/Locale'
+import Patrons from '~/components/Patrons'
 
 import Blob1 from '~/assets/svg/under/Blob1.svg'
 import Blob2 from '~/assets/svg/under/Blob2.svg'
@@ -101,9 +104,12 @@ export default {
   components: {
     Socials,
     Locale,
+    Patrons,
+
     Blob1,
     Blob2,
     Blob3,
+
     UpperBlob1,
     UpperBlob2,
     UpperBlob3
