@@ -5,6 +5,7 @@
     :close-on-content-click="false"
     transition="slide-x-transition"
     origin="left bottom"
+    max-width=400
   )
     template(v-slot:activator="{ on }")
       v-btn(
@@ -21,10 +22,7 @@
             :color="onlineStatus.color"
           ) {{ onlineStatus.icon }}
 
-    v-card(
-      width="100vw"
-      max-width=400
-    )
+    v-card(width="100vw")
       v-btn.grad.my-2(
         absolute
         dark
@@ -108,7 +106,12 @@
 
             v-list-item-content
               v-list-item-title {{ mes.name }}
-                v-icon(right small :color="patronageColor(mes.patron)") {{ icons.mdiPatreon }}
+                v-icon(
+                  v-if="mes.patron !== ''"
+                  right
+                  small
+                  :color="patronageColor(mes.patron)"
+                ) {{ icons.mdiPatreon }}
 
               v-list-item-subtitle {{ mes.text }}
 
@@ -123,10 +126,7 @@
           @keyup.enter="submit"
         )
 
-      v-overlay(
-        absolute
-        :value="!chat.logged"
-      )
+      v-overlay(absolute :value="!chat.logged")
         v-col
           v-row
             v-spacer
@@ -149,14 +149,8 @@
               v-icon {{ icons.mdiPatreon }}
             v-spacer
 
-      v-overlay(
-        absolute
-        :value="!chat.online"
-        )
-        v-icon(
-          large
-          color="red lighten-1"
-        ) {{ icons.mdiWifiOff }}
+      v-overlay(absolute :value="!chat.online")
+        v-icon(large color="red lighten-1") {{ icons.mdiWifiOff }}
 </template>
 
 <script>
