@@ -621,7 +621,6 @@ svg.logo
   overflow: hidden
   width: 100%
   height: 100%
-  max-height: 512px
   left: 50%
   bottom: 35px
   transform: translate(-50%)
