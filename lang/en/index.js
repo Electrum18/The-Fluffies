@@ -45,6 +45,5 @@ export default {
     subtitle: 'Become our patron too!'
   },
 
-  title:
-    'An editor about the creation and animation of ponies, zebras, deer, foxes, wolves and other animals based on the ease of use and the magic of special technologies.'
+  title: 'Create and animate ponies, deer, foxes and other animal characters in a couple of clicks'
 }

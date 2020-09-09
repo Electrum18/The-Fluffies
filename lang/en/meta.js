@@ -1,6 +1,6 @@
 export default {
   title: {
-    index: 'The Fluffies: An advanced editor about creating ponies',
+    index: 'The Fluffies: Pony Animation and Character Editor',
     about: 'The Fluffies: About the project',
     support: 'The Fluffies: Types of support for the project',
     editor: 'The Fluffies: Pony creation editor',
@@ -9,5 +9,5 @@ export default {
   },
 
   description:
-    'Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle.'
+    'Create and animate your pony characters through this editor without installation with just a few clicks'
 }

@@ -62,7 +62,7 @@
           v-container.pa-0
             v-col.py-0
               v-row
-                p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals.name }}
+                p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals ? save.globals.name : 'Noname' }}
                 v-spacer
                 v-icon.mx-2.mt-1(:color="gender.color") {{ gender.icon }}
 
