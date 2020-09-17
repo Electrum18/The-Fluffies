@@ -4,7 +4,7 @@ import layers from './graphics'
 
 import { IObject } from "~/types/basic";
 import { IProperties, ICalculated } from "~/types/paths"
-import { IColor, IColors, IWind, IWindPropers, IDrawProps, IMirror, TPosition, TAngle, TClip } from "~/types/graphics"
+import { IColor, IColors, IWind, IWindPropers, IDrawProps, IMirror, TPosition, TAngle } from "~/types/graphics"
 
 interface IPositionsConfig {
   [index: string]: TPosition
@@ -31,7 +31,7 @@ function shortcuts(
 
   { wings_second_color }: IObject,
   { eyes_position_horiz, eyes_position_verti, eyes_focus }: IProperties,
-  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade, ears_shade }: IColors
+  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade }: IColors
 ) {
   const eyesPos = [
     (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
@@ -210,6 +210,14 @@ export default function(
 
   // Declaration of layers
 
+  // Rear
+
+  Layer(Positions.empty, Rotate.empty, () => {
+    Elem('pelvis', transparent, Stroke.fur)
+  })
+
+  // ---------------------------------------------------------------------------
+
   // Wings
 
   Layer(Positions.empty, Rotate.empty, () => {
@@ -284,11 +292,35 @@ export default function(
 
   // ---------------------------------------------------------------------------
 
+  // Left arm / hoof
+
+  Layer(Positions.empty, Rotate.empty, () => {
+    if (hooves_enable) {
+      Elem('hooves_left_behind_thigh', fur_basic, Stroke.fur)
+      Elem('hooves_left_behind_forearm', fur_basic, Stroke.fur)
+      Elem('hooves_left_behind_tibia', hooves_color, [12, hooves_color_shade])
+      Elem('hooves_left_behind_wrist', hooves_color, [12, hooves_color_shade])
+
+      Elem('hooves_left_front_forearm', fur_basic, Stroke.fur)
+      Elem('hooves_left_front_tibia', hooves_color, [12, hooves_color_shade])
+      Elem('hooves_left_front_wrist', hooves_color, [12, hooves_color_shade])
+    }
+  })
+
+  // ---------------------------------------------------------------------------
+
   // Body
 
   Layer(Positions.empty, Rotate.empty, () => {
     Elem('head', fur_basic, Stroke.fur)
     Elem('chest', fur_basic, Stroke.fur)
+    Elem('body', fur_basic, Stroke.fur)
+
+    Elem('hooves_right_behind_thigh', fur_basic, Stroke.fur)
+    Elem('hooves_right_behind_forearm', fur_basic, Stroke.fur)
+    Elem('hooves_right_behind_tibia', hooves_color, [12, hooves_color_shade])
+    Elem('hooves_right_behind_wrist', hooves_color, [12, hooves_color_shade])
+
     Elem('neck', fur_basic, [7, fur_basic])
 
     if (fur_second_color) Elem('fur_second_chest', fur_second_basic)
@@ -303,7 +335,6 @@ export default function(
     if (collar_enable) Elem('collar', collar_basic, [8, collar_shade])
     if (bowtie_enable) Elem('bowtie', bowtie_basic, [8, bowtie_shade])
 
-    Elem('chest_bottom', fur_basic, Stroke.fur)
   })
 
   Layer(Positions.empty, Rotate.cheeks, () => {
@@ -516,10 +547,19 @@ export default function(
 
   // ---------------------------------------------------------------------------
 
-  // Left arm / hoof
+  // Right arm / hoof
+
+  Layer(Positions.empty, Rotate.empty, () => {
+    if (hooves_enable) {
+      Elem('hooves_right_front_forearm', fur_basic, Stroke.fur)
+      Elem('hooves_right_front_tibia', hooves_color, [12, hooves_color_shade])
+      Elem('hooves_right_front_wrist', hooves_color, [12, hooves_color_shade])
+    }
+  })
 
   // Shoulder
 
+  /*
   const leftArm: IRelativePos = {
     pos:
       absAngle < 0.5
@@ -631,4 +671,5 @@ export default function(
       }
     }
   )
+  */
 }

@@ -227,7 +227,7 @@ export default function(
     windPropers
   )
 
-  const height = globals.hooves_enable ? 80 : 112
+  const height = 25 // globals.hooves_enable ? 80 : 112
 
   return {
     Layer(
@@ -236,11 +236,11 @@ export default function(
       callback: (globals: IDrawProps) => void
     ) {
       ctx.setTransform(
-        mirror ? -1 : 1,
+        mirror ? -0.66 : 0.66,
         0,
         0,
-        1,
-        ctx.canvas.width * (mirror ? 0.75 : 0.25),
+        0.66,
+        ctx.canvas.width * (mirror ? 0.665 : 0.335),
         height * quality * 2
       )
 
