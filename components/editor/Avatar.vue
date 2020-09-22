@@ -1,16 +1,15 @@
 <template lang="pug">
   .avatar
-    canvas(
-      @mousedown="startDrag"
-      @mousemove="onDrag"
+    #canvas
+      canvas(
+        @mousedown="startDrag"
+        @mousemove="onDrag"
 
-      @touchstart="startDrag"
-      @touchmove="onDrag"
+        @touchstart="startDrag"
+        @touchmove="onDrag"
 
-      :style="position"
-
-      ref="avatar"
-    )
+        ref="avatar"
+      )
 
     v-overlay(:value="rendered.opened")
       v-card.pa-4.max-photo-scale(light raised max-width="800")
@@ -55,13 +54,6 @@ const cache = setupCache({ readHeaders: true })
 const api = axios.create({ adapter: cache.adapter })
 
 export default {
-  props: {
-    raise: {
-      type: Object,
-      default: undefined
-    }
-  },
-
   data() {
     return {
       quality: 1, // range from 0 to 1
@@ -187,14 +179,6 @@ export default {
         elapsed: maxDuration * 1000 * this.player.value,
         loop: this.getPlayRepeat > 0 ? Infinity : 0
       })
-    },
-
-    position() {
-      if (!this.raise) return
-
-      const { size, bottom } = this.raise
-
-      return { width: size, height: size, bottom }
     }
   },
 
@@ -258,6 +242,22 @@ export default {
         const { fileName, name } = this.asFile('hair')
 
         this.importJSON('hairs', 'hairs/' + fileName + '.json', name)
+      }
+    },
+
+    'getGlobal.tail_name_en'(name) {
+      if (/Dreads/.test(name)) {
+        this.setGlobal({ path: 'tail_dreads', value: true })
+      } else {
+        this.setGlobal({ path: 'tail_dreads', value: false })
+      }
+
+      if (this.paths.tails[name]) {
+        this.paths.tails.name = name
+      } else {
+        const { fileName, name } = this.asFile('tail')
+
+        this.importJSON('tails', 'tails/' + fileName + '.json', name)
       }
     },
 
@@ -433,16 +433,23 @@ export default {
 
     this.$root.$refs.avatar = this.$refs.avatar
 
-    const { fileName, name } = this.asFile('hair')
+    const fileHair = this.asFile('hair')
+    const fileTail = this.asFile('tail')
 
-    this.importJSON('hairs', 'hairs/' + fileName + '.json', name)
+    this.importJSON('hairs', 'hairs/' + fileHair.fileName + '.json', fileHair.name)
+    this.importJSON('tails', 'tails/' + fileTail.fileName + '.json', fileTail.name)
 
-    // Set cached hairs
+    // Set cached hairs && tails
 
-    const cache = JSON.parse(localStorage.getItem('hairsCache'))
+    const cacheHair = JSON.parse(localStorage.getItem('hairsCache'))
+    const cacheTail = JSON.parse(localStorage.getItem('tailsCache'))
 
-    if (cache && cache.length > 0) {
-      this.setAllHairsList(cache)
+    if (cacheHair && cacheHair.length > 0) {
+      this.setAllHairsList(cacheHair)
+    }
+
+    if (cacheTail && cacheTail.length > 0) {
+      this.setAllTailsList(cacheTail)
     }
 
     this.setPlayChangedFrame()
@@ -502,6 +509,8 @@ export default {
       'setColor',
       'setHairsList',
       'setAllHairsList',
+      'setTailsList',
+      'setAllTailsList',
       'setMirror'
     ]),
 
@@ -542,11 +551,13 @@ export default {
         self.paths[target][name] = FormatSVGinJSON(res.data)
         self.paths[target].name = name
 
-        if (target === 'hairs') {
-          self.setHairsList(name)
+        if (target === 'hairs' || target === 'tails') {
+          target === 'tails' ? self.setTailsList(name) : self.setHairsList(name)
 
           if (process.client) {
-            let cache = localStorage.getItem('hairsCache')
+            const cacheType = target === 'tails' ? 'tailsCache' : 'hairsCache'
+
+            let cache = localStorage.getItem(cacheType)
 
             if (cache !== null) {
               cache = JSON.parse(cache)
@@ -554,12 +565,12 @@ export default {
               if (!cache.includes(name)) {
                 cache.push(name)
 
-                localStorage.setItem('hairsCache', JSON.stringify(cache))
+                localStorage.setItem(cacheType, JSON.stringify(cache))
               }
             } else {
               const array = [name]
 
-              localStorage.setItem('hairsCache', JSON.stringify(array))
+              localStorage.setItem(cacheType, JSON.stringify(array))
             }
           }
         }
@@ -673,16 +684,21 @@ export default {
 </script>
 
 <style lang="sass">
-.avatar canvas
+.avatar #canvas
   position: fixed
   cursor: move
-  width: 100vmin
-  height: 100vmin
-  z-index: 0
+  width: 80vw
+  height: 50vw
   left: 50%
-  bottom: 0
-  transform: translate(-50%) scale(2, 1.25)
+  bottom: 50%
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0MzUyLCAyMDIwLzAxLzMwLTE1OjUwOjM4ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMSAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTA5LTIyVDE1OjU0OjA0KzAzOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHN0RXZ0OndoZW49IjIwMjAtMDktMjJUMTU6NTQ6MDQrMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChXaW5kb3dzKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6W5vuQAAAAGElEQVQYlWN4igr+owKGgZRG46OpHkhpAMBDG6il9PcHAAAAAElFTkSuQmCC) repeat
+  background-size: 16px
+  transform: translate(-50%, 50%)
   transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+  canvas
+    width: 80vw
+    z-index: 0
 
 .max-photo-scale
   width: 75vmin

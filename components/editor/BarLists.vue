@@ -10,7 +10,7 @@
           v-list-item(
             @click="setElementName(element.name)"
             :key="element.name[locLang] + i"
-            :disabled="isHairList && offline && !getCached(element)"
+            :disabled="listOf && offline && !getCached(element)"
           )
             v-list-item-content(:style="style(element)")
               v-list-item-title {{ element.name[locLang] }}
@@ -41,19 +41,27 @@ import { computed, ref, watch, reactive } from '@vue/composition-api'
 
 import { mdiCloudCheck } from '@mdi/js'
 
-function checkCached(getters, isHairList) {
-  const hairList = computed(() => {
-    return isHairList ? getters['avatar/getHairsList'] : []
+function checkCached(getters, isListOf) {
+  let getterOf = ''
+
+  if (isListOf === 'hairs') {
+    getterOf = 'avatar/getHairsList'
+  } else if (isListOf === 'tails') {
+    getterOf = 'avatar/getTailsList'
+  }
+
+  const listOf = computed(() => {
+    return isListOf !== undefined ? getters[getterOf] : []
   })
 
   function getCached({ name }) {
-    return isHairList ? hairList.value.includes(name.en) : false
+    return isListOf !== undefined ? listOf.value.includes(name.en) : false
   }
 
-  return { hairList, getCached }
+  return { listOf, getCached }
 }
 
-function listState(globals, target, isHairList) {
+function listState(globals, target, isListOf) {
   const selected = ref(0)
 
   const preList = computed(() => globals.value[target + '_info'])
@@ -70,7 +78,7 @@ function listState(globals, target, isHairList) {
   watch(
     () => preList.value,
     (value) => {
-      if (isHairList) setIndex(value)
+      if (isListOf !== undefined) setIndex(value)
 
       for (let i = 0; i < preList.value.length; i++) {
         Vue.set(list.value, i, preList.value[i])
@@ -98,9 +106,9 @@ export default {
       required: true
     },
 
-    isHairList: {
-      type: Boolean,
-      default: false
+    isListOf: {
+      type: String,
+      default: undefined
     },
 
     off: {
@@ -109,7 +117,7 @@ export default {
     }
   },
 
-  setup({ target, isHairList, off }, { root }) {
+  setup({ target, isListOf, off }, { root }) {
     const { $store, $i18n } = root
     const { getters, commit } = $store
 
@@ -153,8 +161,8 @@ export default {
     const globals = computed(() => getters['avatar/getGlobal'])
 
     return {
-      ...listState(globals, target, isHairList),
-      ...checkCached(getters, isHairList),
+      ...listState(globals, target, isListOf),
+      ...checkCached(getters, isListOf),
 
       locale,
       icons,

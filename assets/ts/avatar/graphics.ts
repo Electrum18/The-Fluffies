@@ -17,11 +17,11 @@ function notNull(value: any) {
 }
 
 type TDefinedPosition = [number, number]
-type TDefinedAngle = [number, TDefinedPosition ,number]
+type TDefinedAngle = [number, TDefinedPosition]
 
 function draw(
   ctx: CanvasRenderingContext2D,
-  { male, hair_name_en: hairName }: IDrawProps,
+  { male, hair_name_en: hairName, tail_name_en: tailName }: IDrawProps,
   quality: number,
   calculated: ICalculated,
   wind: IWind,
@@ -42,8 +42,15 @@ function draw(
         .split(' ')
         .join('_')
 
+      const TailName = tailName
+        .toLowerCase()
+        .split(' ')
+        .join('_')
+
       if ((wind[name] as IWindElem)[HairName]) {
         windOffsetPoints = (wind[name] as IWindElem)[HairName]
+      } else if ((wind[name] as IWindElem)[TailName]) {
+        windOffsetPoints = (wind[name] as IWindElem)[TailName]
       } else if (wind[name].constructor === Array) {
         windOffsetPoints = (wind as IWindElem)[name]
       }
@@ -58,9 +65,9 @@ function draw(
       let windVector = 0
 
       if (windPropers.enabled) {
-        if (windOffsetPoints && (windOffsetPoints[i] ?? false)) {
+        if (windOffsetPoints && notNull(windOffsetPoints[i])) {
           windVector = Math.sin(
-            (windPropers.cycle + (windOffsetPoints as number[])[i] * 45) * toRad
+            (windPropers.cycle + ((windOffsetPoints as number[])[i]) * 45) * toRad
           )
 
           windVector *= 8 * quality
@@ -191,8 +198,8 @@ function transforming(
   quality: number
 ) {
   return {
-    Angle([angle, [shiftX, shiftY], ratio]: TDefinedAngle): void {
-      const qIn = quality * ratio
+    Angle([angle, [shiftX, shiftY]]: TDefinedAngle): void {
+      const qIn = quality
 
       const {
         canvas: { width, height }
@@ -213,6 +220,7 @@ export default function(
   quality: number,
   globals: IDrawProps,
   mirror: IMirror,
+  absAngle: number,
   calculated: ICalculated,
   wind: IWind,
   windPropers: IWindPropers
@@ -227,6 +235,7 @@ export default function(
     windPropers
   )
 
+  const size = 0.75
   const height = 25 // globals.hooves_enable ? 80 : 112
 
   return {
@@ -235,12 +244,16 @@ export default function(
       angle: TAngle[] | TAngle,
       callback: (globals: IDrawProps) => void
     ) {
+      const width = ctx.canvas.width
+      const center = (width - (580 * size)) / 2
+      const shift = (absAngle ** 0.5) * 150
+
       ctx.setTransform(
-        mirror ? -0.66 : 0.66,
+        mirror ? -size : size,
         0,
         0,
-        0.66,
-        ctx.canvas.width * (mirror ? 0.665 : 0.335),
+        size,
+        mirror ? width - center - shift : center + shift,
         height * quality * 2
       )
 

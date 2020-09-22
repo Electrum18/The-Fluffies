@@ -1,6 +1,8 @@
 interface IDrawProps {
+  eyes_brows_color: any
   male: boolean
   hair_name_en: string
+  tail_name_en: string
   hooves_enable: boolean
 }
 
@@ -35,7 +37,7 @@ interface IColors {
   [index: string]: IColor | undefined
 }
 
-type TAngle = [number, TPosition, number] | undefined
+type TAngle = [number, TPosition] | undefined
 
 type IMirror = 1 | -1
 

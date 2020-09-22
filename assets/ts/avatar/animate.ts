@@ -1,3 +1,4 @@
+import { IColor } from '~/types/graphics'
 import {
   ICalculated,
   IPaths,
@@ -83,12 +84,23 @@ function interpolationCalculate(elemsList: ICompiledPaths, args: IInterpolatePro
 
 interface IChangeCanvas {
   ctx: CanvasRenderingContext2D,
-  quality: number
+  quality: number,
+  getColor: {
+    background_basic: IColor
+  }
 }
 
-function changeCanvas({ ctx, quality }: IChangeCanvas) {
+function changeCanvas({ ctx, quality, getColor: color }: IChangeCanvas) {
+  const { h, s, l, a } = color.background_basic
+
   ctx.canvas.width = (1024 * quality * 2) | 0
   ctx.canvas.height = (1024 * quality * 1.25) | 0
+
+  ctx.fillStyle = a
+    ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
+    : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
+
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   ctx.lineCap = ctx.lineJoin = 'round'
 }
@@ -130,43 +142,15 @@ export default function(this: any) {
     // Animation rendering
 
     if (this.rendering) {
-      const avatar = this.$refs.avatar
-      const canvas = document.createElement('canvas')
-      const dimensions = this.setQuality(this.targetQuality)
-
-      const [widthVar, heightVar] = dimensions
-
-      canvas.width = widthVar
-      canvas.height = heightVar
-
-      const [width, height] = [avatar.width * 1.25, avatar.height * 1.25]
-
-      // Setting at center
-
-      const xOffset = (widthVar - width) / 2
-      const yOffset = (heightVar - height) / 2
-
-      // Drawing image over background at bottom-center
-
-      const ctx = canvas.getContext('2d')
-
-      const { h, s, l, a } = this.getColor.background_basic
-
-      if (ctx instanceof CanvasRenderingContext2D) {
-        ctx.fillStyle = a
-          ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
-          : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
-
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(avatar, xOffset, yOffset, width, height)
-      }
-
       const frameDuration = 1000 / 60
 
-      this.gif.addFrame(ctx, {
-        copy: true,
-        delay: this.fps.every * frameDuration
-      })
+      this.gif.addFrame(
+        this.$refs.avatar,
+        {
+          copy: true,
+          delay: this.fps.every * frameDuration
+        }
+      )
     }
   }
 

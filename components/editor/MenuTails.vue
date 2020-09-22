@@ -21,7 +21,7 @@
           )
             v-icon {{ icons.mdiKeyboardBackspace }}
 
-        BarList(target="hair" isListOf='hairs')
+        BarList(target="tail" isListOf='tails')
 </template>
 
 <script>
@@ -46,8 +46,8 @@ export default {
   setup(_, { root: { $store } }) {
     const locale = reactive({
       list: {
-        en: 'Mane list',
-        ru: 'Список грив'
+        en: 'Tails list',
+        ru: 'Список хвостов'
       },
 
       by: {

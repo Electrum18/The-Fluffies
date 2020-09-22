@@ -83,7 +83,19 @@ export default {
       change: 'Change hairstyle',
 
       second: {
-        title: 'Second color & ends',
+        title: 'Second color',
+        ends: 'ends',
+        color: 'second'
+      }
+    },
+
+    tail: {
+      title: 'Tail',
+      color: 'tail',
+      change: 'Change taik',
+
+      second: {
+        title: 'Second color',
         ends: 'ends',
         color: 'second'
       }
@@ -180,11 +192,20 @@ export default {
       elbow: 'Elbow',
       wrist: 'Wrist',
 
-      rise: 'rise',
-      angle: 'angle',
+      thigh: 'Thigh',
+      forearm: 'Forearm',
+      knee: 'Knee',
+      foot: 'Foot',
 
-      left: 'Left hoof',
-      right: 'Right hoof',
+      front: {
+        left: 'Left front paw',
+        right: 'Right front paw'
+      },
+
+      back: {
+        left: 'Left back paw',
+        right: 'Right back paw'
+      },
 
       second: {
         title: 'Second color',

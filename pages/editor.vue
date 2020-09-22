@@ -4,6 +4,7 @@
 
     Menu(:open="getPage === 'Avatar'")
     MenuHairs(:open="getPage === 'Hairs'")
+    MenuTails(:open="getPage === 'Tails'")
     Saves(:open="getPage === 'Saves'")
     Screener(:open="getPage === 'Capture'")
     Animator(:open="getPage === 'Animate'")
@@ -13,7 +14,7 @@
 
     v-main
       v-container(fluid)
-        Avatar(:raise="avatarPos")
+        Avatar
 
         v-row.mx-0
           ButtonBack(:disable="getPage === 'recorderRender'")
@@ -128,6 +129,7 @@ import i18nHead from '~/assets/ts/i18nHead.ts'
 import Account from '~/components/editor/Account'
 import Menu from '~/components/editor/Menu'
 import MenuHairs from '~/components/editor/MenuHairs'
+import MenuTails from '~/components/editor/MenuTails'
 import Saves from '~/components/editor/Saves'
 import Screener from '~/components/editor/Screener'
 import Animator from '~/components/editor/Animator'
@@ -225,14 +227,6 @@ export default {
 
     const { getPage, openPage, openedList } = pagesControl(getters, commit)
 
-    const avatarPos = computed(() => {
-      if (getPage.value === 'Animate') {
-        return store.animate
-          ? { size: 'calc(100vmin - 74px)', bottom: '74px' }
-          : { size: '70vmin', bottom: '260px' }
-      }
-    })
-
     if (process.client) commit('avatar/setSaveIndex', localStorage.getItem('defaultIndex') || 0)
 
     return {
@@ -247,7 +241,6 @@ export default {
 
       icons,
       list,
-      avatarPos,
 
       Feedback: ref(false)
     }
@@ -258,6 +251,7 @@ export default {
 
     Menu,
     MenuHairs,
+    MenuTails,
     Saves,
     Screener,
 

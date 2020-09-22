@@ -19,6 +19,7 @@ export const state = () => ({
   mirror: false,
 
   hairsList: [],
+  tailsList: [],
 
   frames: defaultFrames,
 
@@ -47,6 +48,7 @@ export const getters = {
   getDefaultFrames: (state) => state.defaultFrames,
 
   getHairsList: ({ hairsList }) => hairsList,
+  getTailsList: ({ tailsList }) => tailsList,
 
   getAnimationSavesSlot: ({ animationSavesSlot }) => animationSavesSlot
 }
@@ -209,6 +211,14 @@ export const mutations = {
   },
 
   setAllHairsList: (state, array) => (state.hairsList = array),
+
+  setTailsList: ({ tailsList }, string) => {
+    if (!tailsList.includes(string)) {
+      tailsList.push(string)
+    }
+  },
+
+  setAllTailsList: (state, array) => (state.tailsList = array),
 
   setAnimationSavesSlot: (state, slot) => (state.animationSavesSlot = slot)
 }
