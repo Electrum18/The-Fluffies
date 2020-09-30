@@ -71,6 +71,13 @@ export default {
 
       degress: 12.5,
 
+      position: {
+        vertical: 0,
+        horizontal: 0,
+        scale: 1,
+        angle: 0
+      },
+
       x: 0, // Horizontal of angle in -1 to 1 range
       y: 0, // Vertical of angle in 0 to 1 range
 
@@ -131,6 +138,10 @@ export default {
       'getAngle',
       'getHoriz',
       'getDegress',
+      'getPosHoriz',
+      'getPosVerti',
+      'getPosScale',
+      'getPosAngle',
       'getGlobal',
       'getProper',
       'getColor',
@@ -205,6 +216,38 @@ export default {
         this.mirror = degress < 0
 
         this.x = degress / 90
+      },
+
+      immediate: true
+    },
+
+    getPosHoriz: {
+      handler(horizontal) {
+        this.position.horizontal = horizontal
+      },
+
+      immediate: true
+    },
+
+    getPosVerti: {
+      handler(vertical) {
+        this.position.vertical = vertical
+      },
+
+      immediate: true
+    },
+
+    getPosScale: {
+      handler(scale) {
+        this.position.scale = scale
+      },
+
+      immediate: true
+    },
+
+    getPosAngle: {
+      handler(angle) {
+        this.position.angle = angle
       },
 
       immediate: true
@@ -317,11 +360,15 @@ export default {
 
             this.degress = x.degress
 
+            this.position.horizontal = x.position_horizontal
+            this.position.vertical = x.position_vertical
+            this.position.scale = x.position_scale
+            this.position.angle = x.position_angle
+
             this.x = x.degress / 90
             this.mirror = x.degress < 0
 
             this.properties = x
-
             this.SetPropersSide(this.mirror, this.properties)
           })
 
@@ -414,10 +461,12 @@ export default {
     this.paths.horn.name = this.getGlobal.horn_name_en
     this.paths.glasses.name = this.getGlobal.glasses_name_en
 
+    const [width, height] = this.setQuality(this.targetQuality)
+
     const ctx = this.$refs.avatar.getContext('2d')
 
-    ctx.canvas.width = (1024 * this.quality * 2) | 0
-    ctx.canvas.height = (1024 * this.quality * 1.25) | 0
+    ctx.canvas.width = width
+    ctx.canvas.height = height
 
     ctx.lineCap = ctx.lineJoin = 'round'
 
@@ -453,8 +502,6 @@ export default {
     }
 
     this.setPlayChangedFrame()
-
-    const [width, height] = this.setQuality(this.targetQuality)
 
     const NewGIF = this.gifRef
 
@@ -688,7 +735,7 @@ export default {
   position: fixed
   cursor: move
   width: 80vw
-  height: 50vw
+  height: 45vw
   left: 50%
   bottom: 50%
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0MzUyLCAyMDIwLzAxLzMwLTE1OjUwOjM4ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMSAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTA5LTIyVDE1OjU0OjA0KzAzOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHN0RXZ0OndoZW49IjIwMjAtMDktMjJUMTU6NTQ6MDQrMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChXaW5kb3dzKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6W5vuQAAAAGElEQVQYlWN4igr+owKGgZRG46OpHkhpAMBDG6il9PcHAAAAAElFTkSuQmCC) repeat

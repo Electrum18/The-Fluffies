@@ -93,8 +93,10 @@ interface IChangeCanvas {
 function changeCanvas({ ctx, quality, getColor: color }: IChangeCanvas) {
   const { h, s, l, a } = color.background_basic
 
-  ctx.canvas.width = (1024 * quality * 2) | 0
-  ctx.canvas.height = (1024 * quality * 1.25) | 0
+  const height = 1024 * quality * 1.25
+
+  ctx.canvas.width = (height * 1.777) | 0
+  ctx.canvas.height = height | 0
 
   ctx.fillStyle = a
     ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'

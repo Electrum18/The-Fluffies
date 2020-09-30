@@ -7,44 +7,42 @@ function cloneObject(object: IFrame): IFrame {
 }
 
 const FrameObj2 = cloneObject(propers)
-const FrameObj3 = cloneObject(propers)
-const FrameObj4 = cloneObject(propers)
 
-FrameObj2.eyes_position_horiz = -25
+FrameObj2.eyes_position_horiz = -80
+FrameObj2.eyes_position_verti = -20
 
-FrameObj3.eyes_position_horiz = -25
-FrameObj3.eyes_eyelids_left_up = 15
-FrameObj3.eyes_eyelids_right_up = 20
-FrameObj3.eyes_brows_right_height = -100
+FrameObj2.teeth_upper = 0
+FrameObj2.teeth_lower = 0
 
-FrameObj3.jaw_open = 100
+FrameObj2.jaw_open = 100
 
-FrameObj3.hooves_left_shoulder_rise = 100
-FrameObj3.hooves_left_shoulder_angle = 66
+FrameObj2.hooves_front_left_shoulder_angle = -90
+FrameObj2.hooves_front_left_elbow_angle = 90
+FrameObj2.hooves_front_left_wrist_angle = 90
 
-FrameObj3.hooves_left_elbow_rise = 100
-FrameObj3.hooves_left_elbow_angle = -33
+FrameObj2.hooves_front_right_shoulder_angle = -90
+FrameObj2.hooves_front_right_elbow_angle = 90
+FrameObj2.hooves_front_right_wrist_angle = 90
 
-FrameObj4.eyes_position_horiz = -25
-FrameObj4.eyes_eyelids_left_up = 15
-FrameObj4.eyes_eyelids_right_up = 20
-FrameObj4.eyes_brows_right_height = -100
+FrameObj2.hooves_back_left_thigh_angle = 20
+FrameObj2.hooves_back_right_thigh_angle = 20
 
-FrameObj4.jaw_open = 100
-
-FrameObj4.hooves_left_shoulder_rise = 100
-FrameObj4.hooves_left_shoulder_angle = 66
-
-FrameObj4.hooves_left_elbow_rise = 100
-FrameObj4.hooves_left_elbow_angle = -75
+FrameObj2.wing_left_folded = 100
+FrameObj2.wing_right_folded = 100
 
 export default [
   {
-    duration: 0.5,
+    duration: 1.2,
     frame: {
       angle: 0,
       horiz: 0,
       degress: 12.5,
+
+      position_horizontal: 0,
+      position_vertical: 0,
+      position_scale: 1,
+      position_angle: 0,
+
       ...cloneObject(propers)
     }
   },
@@ -53,44 +51,29 @@ export default [
     frame: {
       angle: 0,
       horiz: 0,
-      degress: 12.5,
+      degress: 30,
+
+      position_horizontal: 0,
+      position_vertical: 0,
+      position_scale: 1,
+      position_angle: -20,
+
       ...FrameObj2
     }
   },
   {
-    duration: 0.5,
+    duration: 1.2,
     frame: {
       angle: 0,
       horiz: 0,
-      degress: 12.5,
-      ...FrameObj3
-    }
-  },
-  {
-    duration: 0.5,
-    frame: {
-      angle: 0,
-      horiz: 0,
-      degress: 12.5,
-      ...FrameObj4
-    }
-  },
-  {
-    duration: 0.5,
-    frame: {
-      angle: 0,
-      horiz: 0,
-      degress: 12.5,
-      ...FrameObj3
-    }
-  },
-  {
-    duration: 0.5,
-    frame: {
-      angle: 0,
-      horiz: 0,
-      degress: 12.5,
-      ...FrameObj4
+      degress: 30,
+
+      position_horizontal: 0,
+      position_vertical: 0,
+      position_scale: 1,
+      position_angle: -20,
+
+      ...FrameObj2
     }
   },
   {
@@ -99,15 +82,12 @@ export default [
       angle: 0,
       horiz: 0,
       degress: 12.5,
-      ...FrameObj3
-    }
-  },
-  {
-    duration: 1.2,
-    frame: {
-      angle: 0,
-      horiz: 0,
-      degress: 12.5,
+
+      position_horizontal: 0,
+      position_vertical: 0,
+      position_scale: 1,
+      position_angle: 0,
+
       ...cloneObject(propers)
     }
   }

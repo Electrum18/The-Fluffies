@@ -124,8 +124,8 @@ async function updateUsers() {
       User.deleteOne({ _id: doc.id }, deleteCallback(doc.name))
     }
 
-    if (doc.date.lastChecked < now && doc.level > 0) {
-      doc.level -= Math.floor((now - doc.date.lastChecked) / day)
+    if (doc.date.last < now && doc.level > 0) {
+      doc.level -= Math.floor((now - doc.date.last) / day)
       doc.date.lastChecked = now + day
 
       if (doc.level < 0) doc.level = 0

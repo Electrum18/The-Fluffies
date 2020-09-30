@@ -5,12 +5,17 @@
     Menu(:open="getPage === 'Avatar'")
     MenuHairs(:open="getPage === 'Hairs'")
     MenuTails(:open="getPage === 'Tails'")
+
     Saves(:open="getPage === 'Saves'")
     Screener(:open="getPage === 'Capture'")
+
     Animator(:open="getPage === 'Animate'")
     AnimatorSaves(:open="getPage === 'AnimateSaves'")
+
     Recorder(:open="getPage === 'Record'")
     RecorderProcess(:open="getPage === 'recorderRender'")
+
+    Position(:open="getPage === 'Position'")
 
     v-main
       v-container(fluid)
@@ -25,15 +30,15 @@
 
           div.d-none.d-sm-flex
             v-chip.mx-1(label) {{ quality }}p • {{ FPS }} FPS
-            v-chip.ml-1.mr-3(label)
+            v-chip.ml-1.mr-2(label)
               | {{ $t('editor.frame') }} {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
 
           div.d-flex.d-sm-none
             v-chip.mx-1(label) {{ quality }} • {{ FPS }}
-            v-chip.ml-1.mr-3(label)
+            v-chip.mx-1.mr-2(label)
               | {{ frame + 1 }} {{ $t('editor.of') }} {{ frames }}
 
-          NetworkStatus.my-1
+          NetworkStatus
 
     // Bottom interface
 
@@ -54,6 +59,7 @@
         color="#222"
       )
 
+      Welcome
       Account
       Chat
 
@@ -63,15 +69,27 @@
 
       v-spacer
 
-      v-btn.mx-3.mt-5(
-        fab
-        dark
-        small
-        style="pointer-events: auto"
-        :aria-label="$t('editor.animate')"
-        @click="openPage('Animate')"
-      )
-        v-icon {{ icons.mdiMovieOpen }}
+      div.d-flex.d-sm-none
+        v-btn.mx-3.mt-5(
+          fab
+          dark
+          small
+          style="pointer-events: auto"
+          :aria-label="$t('editor.animate')"
+          @click="openPage('Animate')"
+        )
+          v-icon {{ icons.mdiMovieOpen }}
+
+      div.d-none.d-sm-flex
+        v-btn.mx-3.mt-5(
+          rounded
+          dark
+          style="pointer-events: auto"
+          :aria-label="$t('editor.animate')"
+          @click="openPage('Animate')"
+        )
+          v-icon(left) {{ icons.mdiMovieOpen }}
+          | {{ $t('editor.animate') }}
 
       v-spacer.mx-12.d-none.d-sm-inline-flex
       v-spacer.d-inline-flex.d-sm-none
@@ -121,7 +139,8 @@ import {
   mdiCheckboxMarked,
   mdiCheckboxBlankOutline,
   mdiCursorDefaultClick,
-  mdiGestureTapHold
+  mdiGestureTapHold,
+  mdiArrowAll
 } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
@@ -136,9 +155,11 @@ import Animator from '~/components/editor/Animator'
 import AnimatorSaves from '~/components/editor/AnimatorSaves'
 import Recorder from '~/components/editor/Recorder'
 import RecorderProcess from '~/components/editor/RecorderProcess'
+import Position from '~/components/editor/Position'
 import Chat from '~/components/editor/Chat'
 import Avatar from '~/components/editor/Avatar'
 import ButtonBack from '~/components/editor/ButtonBack'
+import Welcome from '~/components/editor/Welcome'
 
 import Version from '~/components/Version'
 import NetworkStatus from '~/components/NetworkStatus'
@@ -179,7 +200,8 @@ export default {
       mdiCheckboxMarked,
       mdiCheckboxBlankOutline,
       mdiCursorDefaultClick,
-      mdiGestureTapHold
+      mdiGestureTapHold,
+      mdiArrowAll
     })
 
     const wind = ref(true)
@@ -188,6 +210,10 @@ export default {
       {
         text: { en: 'Avatar', ru: 'Аватар' },
         icon: '$vuetify.icons.values.pony'
+      },
+      {
+        text: { en: 'Position', ru: 'Позиция' },
+        icon: icons.mdiArrowAll
       },
       {
         text: { en: 'Saves', ru: 'Сохранения' },
@@ -261,12 +287,16 @@ export default {
     Recorder,
     RecorderProcess,
 
+    Position,
+
     Chat,
     Avatar,
     ButtonBack,
 
     Version,
-    NetworkStatus
+    NetworkStatus,
+
+    Welcome
   },
 
   head() {

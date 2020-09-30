@@ -1,5 +1,6 @@
 <template lang="pug">
-  v-icon.network {{ icon }}
+  v-chip(label).my-0.px-2
+    v-icon.network {{ icon }}
 </template>
 
 <script>

@@ -3,9 +3,9 @@
 import layers from './graphics'
 import createOrigins from './computeOrigins'
 
-import { IObject } from "~/types/basic";
 import { IProperties, ICalculated } from "~/types/paths"
 import { IColor, IColors, IWind, IWindPropers, IDrawProps, IMirror, TPosition, TAngle } from "~/types/graphics"
+import { IObject } from '~/types/basic'
 
 interface IPositionsConfig {
   [index: string]: TPosition
@@ -17,11 +17,6 @@ interface IRotateConfig {
 
 interface IStrokeConfig {
   [index: string]: [number, IColor | undefined]
-}
-
-interface IRelativePos {
-  pos: [number, number]
-  angle: TAngle
 }
 
 function shortcuts(
@@ -85,15 +80,16 @@ interface IModule {
   angle: number
   wind: IWind
   windPropers: IWindPropers
+  position: IObject
 }
 
 export default function(
-  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers }: IModule,
+  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers, position }: IModule,
 
   calculated: ICalculated,
   absAngle: number
 ) {
-  const { Layer, Elem } = layers(ctx, quality, globals, mirror, absAngle, calculated, wind, windPropers)
+  const { Layer, Elem } = layers(ctx, quality, globals, mirror, absAngle, calculated, wind, windPropers, position)
   const { Positions, Rotate, Stroke, Clip } = shortcuts(
     horiz,
     angle,

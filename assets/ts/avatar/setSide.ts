@@ -21,13 +21,13 @@ export default function(mirror: boolean, propers: IProperties): void {
     propers.eyes_BROWS_LEFT_HEIGHT = propers.eyes_brows_right_height
     propers.eyes_BROWS_RIGHT_HEIGHT = propers.eyes_brows_left_height
 
-    propers.hooves_FRONT_LEFT_SHOULDER_ANGLE = propers.hooves_right_shoulder_angle
-    propers.hooves_FRONT_LEFT_ELBOW_ANGLE = propers.hooves_right_elbow_angle
-    propers.hooves_FRONT_LEFT_WRIST_ANGLE = propers.hooves_right_wrist_angle
+    propers.hooves_FRONT_LEFT_SHOULDER_ANGLE = propers.hooves_front_right_shoulder_angle
+    propers.hooves_FRONT_LEFT_ELBOW_ANGLE = propers.hooves_front_right_elbow_angle
+    propers.hooves_FRONT_LEFT_WRIST_ANGLE = propers.hooves_front_right_wrist_angle
 
-    propers.hooves_FRONT_RIGHT_SHOULDER_ANGLE = propers.hooves_left_shoulder_angle
-    propers.hooves_FRONT_RIGHT_ELBOW_ANGLE = propers.hooves_left_elbow_angle
-    propers.hooves_FRONT_RIGHT_WRIST_ANGLE = propers.hooves_left_wrist_angle
+    propers.hooves_FRONT_RIGHT_SHOULDER_ANGLE = propers.hooves_front_left_shoulder_angle
+    propers.hooves_FRONT_RIGHT_ELBOW_ANGLE = propers.hooves_front_left_elbow_angle
+    propers.hooves_FRONT_RIGHT_WRIST_ANGLE = propers.hooves_front_left_wrist_angle
 
     propers.hooves_BACK_LEFT_THIGH_ANGLE = propers.hooves_back_right_thigh_angle
     propers.hooves_BACK_LEFT_FOREARM_ANGLE = propers.hooves_back_right_forearm_angle

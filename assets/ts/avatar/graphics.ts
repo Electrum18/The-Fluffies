@@ -12,6 +12,8 @@ import {
   TClip
 } from '~/types/graphics'
 
+import { IObject } from '~/types/basic'
+
 function notNull(value: any) {
   return value !== null && value !== undefined
 }
@@ -205,7 +207,7 @@ function transforming(
         canvas: { width, height }
       } = ctx
 
-      const X = width / 4
+      const X = (width / 4) * 0.9
       const Y = (height / 2) * 0.8
 
       ctx.translate(X + shiftX * qIn, Y + shiftY * qIn)
@@ -223,7 +225,8 @@ export default function(
   absAngle: number,
   calculated: ICalculated,
   wind: IWind,
-  windPropers: IWindPropers
+  windPropers: IWindPropers,
+  position: IObject
 ) {
   const { Angle } = transforming(ctx, quality)
   const { Fill, Stroke, Draw, Clip } = graphics(
@@ -235,27 +238,34 @@ export default function(
     windPropers
   )
 
-  const size = 0.75
-  const height = 25 // globals.hooves_enable ? 80 : 112
-
   return {
     Layer(
       translate: TPosition[] | TPosition | undefined,
       angle: TAngle[] | TAngle,
       callback: (globals: IDrawProps) => void
     ) {
-      const width = ctx.canvas.width
-      const center = (width - (580 * size)) / 2
-      const shift = (absAngle ** 0.5) * 150
+      const scale = position.scale * 0.7
+
+      const pos = {
+        x: (position.horizontal * 11) + 608,
+        y: (position.vertical * 5) - 64
+      }
+
+      const shift = (absAngle ** 0.5) * (mirror ? -200 : 200)
+
+      const degToRad = Math.PI / 180
 
       ctx.setTransform(
-        mirror ? -size : size,
+        mirror ? -scale : scale,
         0,
         0,
-        size,
-        mirror ? width - center - shift : center + shift,
-        height * quality * 2
+        scale,
+        (512 + pos.x + shift) * quality,
+        (512 + pos.y) * quality
       )
+
+      ctx.rotate(mirror ? (360 - position.angle) * degToRad : position.angle * degToRad)
+      ctx.translate(-512 * quality, -512 * quality)
 
       if (translate && angle) {
         if (
