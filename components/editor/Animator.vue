@@ -143,8 +143,8 @@
             p.time(v-if="sequence.length - 1 > i") {{ formatTime(getFullTime(i), true) }}s
             div.hidden.px-4
               v-row.px-4(:style="frame === i ? 'margin-top: -4px' : false")
-                v-card.mx-n2.my-4(width=96 height=64)
-                  v-img(:src="images[i]" width=96 height=64)
+                v-card.mx-n2.my-4(width=114 height=64)
+                  v-img(:src="images[i]" width=114 height=64)
                     v-icon.center(v-if="images[i] === ''") {{ icons.mdiCursorPointer }}
 
                 v-col.px-6.py-4.text-caption.text-uppercase(
@@ -280,13 +280,7 @@ export default {
 
   computed: {
     ...mapGetters('avatar', ['getAnimationSavesSlot']),
-    ...mapGetters('interface', [
-      'getAnimate',
-      'getPlaying',
-      'getPlayVal',
-      'getPlayLen',
-      'getPlayRedraw'
-    ]),
+    ...mapGetters('interface', ['getAnimate', 'getPlayVal', 'getPlayLen', 'getPlayRedraw']),
 
     height() {
       return this.small ? 74 : 260

@@ -1,0 +1,106 @@
+{
+  "head0": true,
+  "head": true,
+  "head2": true,
+  "head3": true,
+
+  "eye_left": true,
+  "eye_left_iris": true,
+  "eye_left_pupil": true,
+  "eye_left_flare": true,
+  "eye_left_lid_up": true,
+  "eye_left_lid_up_fill": true,
+  "eye_left_lid_down_fill": true,
+  "eye_left_lashes": true,
+  "eye_left_brow": true,
+
+  "eye_right": true,
+  "eye_right_iris": true,
+  "eye_right_pupil": true,
+  "eye_right_flare": true,
+  "eye_right_lid_up": true,
+  "eye_right_lid_up_fill": true,
+  "eye_right_lid_down_fill": true,
+  "eye_right_lashes": true,
+  "eye_right_brow": true,
+
+  "ear_left": true,
+  "ear_left_inside": true,
+  "ear_left_pinna": true,
+  "ear_left_tassel": true,
+  "ear_left_tassel_inside": true,
+
+  "ear_right": true,
+  "ear_right_inside": true,
+  "ear_right_pinna": true,
+  "ear_right_tassel": true,
+  "ear_right_tassel_inside": true,
+
+  "fangs_left": true,
+  "fangs_right": true,
+
+  "fluff_cheek_left": true,
+  "fluff_cheek_right": true,
+
+  "fluff_ear_left": true,
+  "fluff_ear_right": true,
+
+  "horn": true,
+  "horn_changeling": true,
+  "horn_second": true,
+
+  "mouth": true,
+
+  "teeth_upper": true,
+  "teeth_lower": true,
+
+  "teeth_sharp_upper": true,
+  "teeth_sharp_lower": true,
+
+  "tongue": true,
+
+  "bridge": true,
+  "chin": true,
+  "chin_angulus": true,
+  "nose": true,
+  "nose_point": true,
+
+  "male_bridge": true,
+  "male_chin": true,
+  "male_nose": true,
+  "male_nose_point": true,
+
+  "nostril_left": true,
+  "nostril_right": true,
+
+  "piercings_ear_left_upper": true,
+  "piercings_ear_left_middle": true,
+  "piercings_ear_left_lower": true,
+
+  "piercings_ear_right_upper": true,
+  "piercings_ear_right_middle": true,
+  "piercings_ear_right_lower": true,
+
+  "fur_second_nose": true,
+
+  "stripes_left": true,
+  "stripes_right": true,
+  "stripes_fore": true,
+  "stripes_crust": true,
+
+  "horn_left": true,
+  "horn_right": true,
+
+  "glasses_left": true,
+  "glasses_right": true,
+  "glasses_nose": true,
+
+  "front": true,
+  "front_second": true,
+
+  "back": true,
+  "back_second": true,
+
+  "tail": true,
+  "tail_second": true
+}

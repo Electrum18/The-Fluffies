@@ -113,40 +113,6 @@
   ],
 
 
-  "hooves_left_forearm": [
-    ["hooves_left_forearm_down", "basic"], "hooves_LEFT_SHOULDER_RISE"
-  ],
-
-  "hooves_left_tibia": [
-    ["hooves_left_tibia_down", "basic"], "hooves_LEFT_ELBOW_RISE"
-  ],
-
-  "hooves_left_wrist": [
-    ["hooves_left_wrist_down", "basic"], "hooves_LEFT_WRIST_RISE"
-  ],
-
-  "hooves_left_hoof": [
-    ["hooves_left_hoof_down", "basic"], "hooves_LEFT_WRIST_RISE"
-  ],
-
-
-  "hooves_right_forearm": [
-    ["hooves_right_forearm_down", "basic"], "hooves_RIGHT_SHOULDER_RISE"
-  ],
-
-  "hooves_right_tibia": [
-    ["hooves_right_tibia_down", "basic"], "hooves_RIGHT_ELBOW_RISE"
-  ],
-
-  "hooves_right_wrist": [
-    ["hooves_right_wrist_down", "basic"], "hooves_RIGHT_WRIST_RISE"
-  ],
-
-  "hooves_right_hoof": [
-    ["hooves_right_hoof_down", "basic"], "hooves_RIGHT_WRIST_RISE"
-  ],
-
-
   "wing_left": [
     ["wing_left_folded", "basic"], "wing_LEFT_FOLDED"
   ],

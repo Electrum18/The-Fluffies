@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 
 import layers from './graphics'
+import createOrigins from './computeOrigins'
 
-import { IObject } from "~/types/basic";
 import { IProperties, ICalculated } from "~/types/paths"
-import { IColor, IColors, IWind, IWindPropers, IDrawProps, IMirror, TPosition, TAngle, TClip } from "~/types/graphics"
+import { IColor, IColors, IWind, IWindPropers, IDrawProps, IMirror, TPosition, TAngle } from "~/types/graphics"
+import { IObject } from '~/types/basic'
 
 interface IPositionsConfig {
   [index: string]: TPosition
@@ -18,11 +19,6 @@ interface IStrokeConfig {
   [index: string]: [number, IColor | undefined]
 }
 
-interface IRelativePos {
-  pos: [number, number]
-  angle: TAngle
-}
-
 function shortcuts(
   horiz: number,
   angle: number,
@@ -31,7 +27,7 @@ function shortcuts(
 
   { wings_second_color }: IObject,
   { eyes_position_horiz, eyes_position_verti, eyes_focus }: IProperties,
-  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade, ears_shade }: IColors
+  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade }: IColors
 ) {
   const eyesPos = [
     (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
@@ -40,6 +36,7 @@ function shortcuts(
 
   const Positions: IPositionsConfig = {
     empty: undefined,
+    zero: [0, 0],
     head: [0, -horiz * 20 * quality],
     head2: [0, horiz * 10 * quality],
     cheeks: [0, -horiz * 10 * quality],
@@ -49,8 +46,8 @@ function shortcuts(
 
   const Rotate: IRotateConfig = {
     empty: undefined,
-    head: [angle, [0, 0], 0],
-    cheeks: [angle / 2, [0, 0], 0]
+    head: [angle, [0, 0]],
+    cheeks: [angle / 2, [0, 0]]
   }
 
   const Stroke: IStrokeConfig = {
@@ -83,15 +80,16 @@ interface IModule {
   angle: number
   wind: IWind
   windPropers: IWindPropers
+  position: IObject
 }
 
 export default function(
-  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers }: IModule,
+  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers, position }: IModule,
 
   calculated: ICalculated,
   absAngle: number
 ) {
-  const { Layer, Elem } = layers(ctx, quality, globals, mirror, calculated, wind, windPropers)
+  const { Layer, Elem } = layers(ctx, quality, globals, mirror, absAngle, calculated, wind, windPropers, position)
   const { Positions, Rotate, Stroke, Clip } = shortcuts(
     horiz,
     angle,
@@ -101,6 +99,8 @@ export default function(
     properties,
     getColor
   )
+
+  const origins = createOrigins(absAngle)
 
   const {
     male,
@@ -117,6 +117,8 @@ export default function(
     horn_rear,
     hair_dreads,
     hair_second,
+    tail_dreads,
+    tail_name_en,
     fur_second_color,
     stripes_enable,
     fluff_chest,
@@ -127,7 +129,6 @@ export default function(
     fangs,
     horn_enable,
     horn_changeling,
-    hooves_enable,
     collar_enable,
     bowtie_enable,
     eyes_brows_color,
@@ -172,23 +173,23 @@ export default function(
   } = getColor
 
   const {
-    hooves_LEFT_SHOULDER_RISE: shoulderLRise,
-    hooves_LEFT_SHOULDER_ANGLE: shoulderLAngle,
+    hooves_FRONT_LEFT_SHOULDER_ANGLE: shoulderLAngle,
+    hooves_FRONT_LEFT_ELBOW_ANGLE: elbowLAngle,
+    hooves_FRONT_LEFT_WRIST_ANGLE: wristLAngle,
 
-    hooves_LEFT_ELBOW_RISE: elbowLRise,
-    hooves_LEFT_ELBOW_ANGLE: elbowLAngle,
+    hooves_FRONT_RIGHT_SHOULDER_ANGLE: shoulderRAngle,
+    hooves_FRONT_RIGHT_ELBOW_ANGLE: elbowRAngle,
+    hooves_FRONT_RIGHT_WRIST_ANGLE: wristRAngle,
 
-    hooves_LEFT_WRIST_RISE: wristLRise,
-    hooves_LEFT_WRIST_ANGLE: wristLAngle,
+    hooves_BACK_LEFT_THIGH_ANGLE: thighLAngle,
+    hooves_BACK_LEFT_FOREARM_ANGLE: forearmLAngle,
+    hooves_BACK_LEFT_KNEE_ANGLE: kneeLAngle,
+    hooves_BACK_LEFT_FOOT_ANGLE: footLAngle,
 
-    hooves_RIGHT_SHOULDER_RISE: shoulderRRise,
-    hooves_RIGHT_SHOULDER_ANGLE: shoulderRAngle,
-
-    hooves_RIGHT_ELBOW_RISE: elbowRRise,
-    hooves_RIGHT_ELBOW_ANGLE: elbowRAngle,
-
-    hooves_RIGHT_WRIST_RISE: wristRRise,
-    hooves_RIGHT_WRIST_ANGLE: wristRAngle,
+    hooves_BACK_RIGHT_THIGH_ANGLE: thighRAngle,
+    hooves_BACK_RIGHT_FOREARM_ANGLE: forearmRAngle,
+    hooves_BACK_RIGHT_KNEE_ANGLE: kneeRAngle,
+    hooves_BACK_RIGHT_FOOT_ANGLE: footRAngle,
 
     eyes_BROWS_LEFT_WIDTH: browsLWidth,
     eyes_BROWS_RIGHT_WIDTH: browsRWidth
@@ -210,6 +211,37 @@ export default function(
 
   // Declaration of layers
 
+  // Rear
+
+  Layer(Positions.empty, Rotate.empty, () => {
+    Elem('pelvis', transparent, Stroke.fur)
+  })
+
+  // ---------------------------------------------------------------------------
+
+  // Tail of body
+
+  Layer(Positions.empty, Rotate.empty, () => {
+    if (tail_dreads) {
+      Elem('body_tail', transparent, Stroke.dreads_tint)
+      Elem('body_tail', transparent, Stroke.dreads)
+    } else if (tail_name_en === 'Deer') {
+      Elem('body_tail', fur_basic)
+
+      if (fur_second_color) Elem('body_tail_second', fur_second_basic)
+
+      Elem('body_tail', transparent, Stroke.fur)
+    } else {
+      Elem('body_tail', hair_basic)
+
+      if (hair_second) Elem('body_tail_second', hair_second_color)
+
+      Elem('body_tail', transparent, Stroke.hair)
+    }
+  })
+
+  // ---------------------------------------------------------------------------
+
   // Wings
 
   Layer(Positions.empty, Rotate.empty, () => {
@@ -217,15 +249,9 @@ export default function(
       if (wings_bat) {
         Elem('wing_bat_left', wings_color_second, Stroke.wing)
         Elem('wing_bat_left_fluff', fur_basic, Stroke.fur)
-
-        Elem('wing_bat_right', wings_color_second, Stroke.wing)
-        Elem('wing_bat_right_fluff', fur_basic, Stroke.fur)
       } else {
         Elem('wing_left', wings_color_second, Stroke.wing)
         Elem('wing_left_fluff', fur_basic, Stroke.fur)
-
-        Elem('wing_right', wings_color_second, Stroke.wing)
-        Elem('wing_right_fluff', fur_basic, Stroke.fur)
       }
     }
   })
@@ -284,11 +310,129 @@ export default function(
 
   // ---------------------------------------------------------------------------
 
+  // Left arm / hoof
+
+  const leftBehindThighAng: [number, TPosition] = [thighLAngle, origins.hooves_left_behind_thigh]
+  const leftBehindForearmAng: [number, TPosition] = [forearmLAngle, origins.hooves_left_behind_forearm]
+  const lefBehindtTibiaAng: [number, TPosition] = [kneeLAngle, origins.hooves_left_behind_tibia]
+  const lefBehindtWristAng: [number, TPosition] = [footLAngle, origins.hooves_left_behind_wrist]
+
+  Layer(Positions.empty, leftBehindThighAng, () => {
+    Elem('hooves_left_behind_thigh', fur_basic, Stroke.fur)
+
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_left_behind_thigh', stripes_basic, transparent, ['hooves_left_behind_thigh', Positions.empty])
+      Elem('stripes_back_hooves_left_behind_thigh', stripes_basic, transparent, ['hooves_left_behind_thigh', Positions.empty])
+    }
+  })
+
+  Layer([Positions.zero, Positions.zero], [leftBehindThighAng, leftBehindForearmAng], () => {
+    Elem('hooves_left_behind_forearm', fur_basic, Stroke.fur)
+  })
+
+  Layer(
+    [Positions.zero, Positions.zero, Positions.zero],
+    [leftBehindThighAng, leftBehindForearmAng, lefBehindtTibiaAng],
+    () => {
+      Elem('hooves_left_behind_tibia', hooves_color, [12, hooves_color_shade])
+
+      if (stripes_enable) {
+        Elem('stripes_front_hooves_left_behind_tibia', stripes_basic, transparent, ['hooves_left_behind_tibia', Positions.empty])
+        Elem('stripes_back_hooves_left_behind_tibia', stripes_basic, transparent, ['hooves_left_behind_tibia', Positions.empty])
+      }
+    }
+  )
+
+  Layer(
+    [Positions.zero, Positions.zero, Positions.zero, Positions.zero],
+    [leftBehindThighAng, leftBehindForearmAng, lefBehindtTibiaAng, lefBehindtWristAng],
+    () => {
+      Elem('hooves_left_behind_wrist', hooves_color, [12, hooves_color_shade])
+    }
+  )
+
+
+  const leftForearmAng: [number, TPosition] = [shoulderLAngle, origins.hooves_left_front_forearm]
+  const leftTibiaAng: [number, TPosition] = [elbowLAngle, origins.hooves_left_front_tibia]
+  const leftWristAng: [number, TPosition] = [wristLAngle, origins.hooves_left_front_wrist]
+
+  Layer(Positions.empty, leftForearmAng, () => {
+    Elem('hooves_left_front_forearm', fur_basic, Stroke.fur)
+
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_left_front_forearm', stripes_basic, transparent, ['hooves_left_front_forearm', Positions.empty])
+      Elem('stripes_back_hooves_left_front_forearm', stripes_basic, transparent, ['hooves_left_front_forearm', Positions.empty])
+    }
+  })
+
+  Layer([Positions.zero, Positions.zero], [leftForearmAng, leftTibiaAng], () => {
+    Elem('hooves_left_front_tibia', hooves_color, [12, hooves_color_shade])
+
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_left_front_tibia', stripes_basic, transparent, ['hooves_left_front_tibia', Positions.empty])
+      Elem('stripes_back_hooves_left_front_tibia', stripes_basic, transparent, ['hooves_left_front_tibia', Positions.empty])
+    }
+  })
+
+  Layer([Positions.zero, Positions.zero, Positions.zero], [leftForearmAng, leftTibiaAng, leftWristAng], () => {
+    Elem('hooves_left_front_wrist', hooves_color, [12, hooves_color_shade])
+  })
+
+  // ---------------------------------------------------------------------------
+
   // Body
 
   Layer(Positions.empty, Rotate.empty, () => {
     Elem('head', fur_basic, Stroke.fur)
     Elem('chest', fur_basic, Stroke.fur)
+    Elem('body', fur_basic, Stroke.fur)
+
+    if (stripes_enable) Elem('stripes_body', stripes_basic, transparent, ['body', Positions.empty])
+    if (fur_second_color) Elem('fur_second_body', fur_second_basic)
+  })
+
+
+  const rightBehindThighAng: [number, TPosition] = [thighRAngle, origins.hooves_right_behind_thigh]
+  const rightBehindForearmAng: [number, TPosition] = [forearmRAngle, origins.hooves_right_behind_forearm]
+  const rightBehindTibiaAng: [number, TPosition] = [kneeRAngle, origins.hooves_right_behind_tibia]
+  const rightBehindWristAng: [number, TPosition] = [footRAngle, origins.hooves_right_behind_wrist]
+
+  Layer(Positions.empty, rightBehindThighAng, () => {
+    Elem('hooves_right_behind_thigh', fur_basic, Stroke.fur)
+
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_right_behind_thigh', stripes_basic, transparent, ['hooves_right_behind_thigh', Positions.empty])
+      Elem('stripes_back_hooves_right_behind_thigh', stripes_basic, transparent, ['hooves_right_behind_thigh', Positions.empty])
+    }
+  })
+
+  Layer([Positions.zero, Positions.zero], [rightBehindThighAng, rightBehindForearmAng], () => {
+    Elem('hooves_right_behind_forearm', fur_basic, Stroke.fur)
+  })
+
+  Layer(
+    [Positions.zero, Positions.zero, Positions.zero],
+    [rightBehindThighAng, rightBehindForearmAng, rightBehindTibiaAng],
+    () => {
+      Elem('hooves_right_behind_tibia', hooves_color, [12, hooves_color_shade])
+
+      if (stripes_enable) {
+        Elem('stripes_front_hooves_right_behind_tibia', stripes_basic, transparent, ['hooves_right_behind_tibia', Positions.empty])
+        Elem('stripes_back_hooves_right_behind_tibia', stripes_basic, transparent, ['hooves_right_behind_tibia', Positions.empty])
+      }
+    }
+  )
+
+  Layer(
+    [Positions.zero, Positions.zero, Positions.zero, Positions.zero],
+    [rightBehindThighAng, rightBehindForearmAng, rightBehindTibiaAng, rightBehindWristAng],
+    () => {
+      Elem('hooves_right_behind_wrist', hooves_color, [12, hooves_color_shade])
+    }
+  )
+
+
+  Layer(Positions.empty, Rotate.empty, () => {
     Elem('neck', fur_basic, [7, fur_basic])
 
     if (fur_second_color) Elem('fur_second_chest', fur_second_basic)
@@ -303,7 +447,15 @@ export default function(
     if (collar_enable) Elem('collar', collar_basic, [8, collar_shade])
     if (bowtie_enable) Elem('bowtie', bowtie_basic, [8, bowtie_shade])
 
-    Elem('chest_bottom', fur_basic, Stroke.fur)
+    if (wings_enable) {
+      if (wings_bat) {
+        Elem('wing_bat_right', wings_color_second, Stroke.wing)
+        Elem('wing_bat_right_fluff', fur_basic, Stroke.fur)
+      } else {
+        Elem('wing_right', wings_color_second, Stroke.wing)
+        Elem('wing_right_fluff', fur_basic, Stroke.fur)
+      }
+    }
   })
 
   Layer(Positions.empty, Rotate.cheeks, () => {
@@ -516,119 +668,31 @@ export default function(
 
   // ---------------------------------------------------------------------------
 
-  // Left arm / hoof
-
-  // Shoulder
-
-  const leftArm: IRelativePos = {
-    pos:
-      absAngle < 0.5
-        ? [-absAngle * 2 * 160 * quality, 0]
-        : [((absAngle - 0.5) * 60 - 160) * quality, 0],
-
-    angle: [shoulderLAngle * (mirror ? -1 : 1), [65, 325], 1.5]
-  }
-
-  Layer(leftArm.pos, leftArm.angle, () => {
-    if (hooves_enable) Elem('hooves_left_forearm', fur_basic, Stroke.fur)
-  })
-
-  // Tibia
-
-  const leftArmTibia: IRelativePos = {
-    pos: [0, -(shoulderLRise - elbowLRise) * 3 * quality],
-    angle: [elbowLAngle * (mirror ? -1 : 1), [71, 350 - elbowLRise * 2.22], 1.4]
-  }
-
-  Layer([leftArm.pos, leftArmTibia.pos], [leftArm.angle, leftArmTibia.angle], () => {
-    if (hooves_enable) Elem('hooves_left_tibia', hooves_color, [12, hooves_color_shade])
-  })
-
-  // Wrist
-
-  const leftArmWrist: IRelativePos = {
-    pos: [
-      15 *
-        (1 - wristLRise / 100) *
-        (shoulderLRise / 500 + elbowLRise / 90) *
-        (1 - wristLRise / 200) *
-        quality,
-      -(elbowLRise - wristLRise) * 6 * quality
-    ],
-
-    angle: [
-      wristLAngle * (mirror ? -1 : 1),
-      [86, 350 - elbowLRise * 4.15 + (100 - wristLRise) * 4.15],
-      1.4
-    ]
-  }
-
-  Layer(
-    [leftArm.pos, leftArmTibia.pos, leftArmWrist.pos],
-    [leftArm.angle, leftArmTibia.angle, leftArmWrist.angle],
-    () => {
-      if (hooves_enable) {
-        Elem('hooves_left_wrist', hooves_color, [12, hooves_color_shade])
-        Elem('hooves_left_hoof', transparent, [6, hooves_color_shade])
-      }
-    }
-  )
-
-  // ---------------------------------------------------------------------------
-
   // Right arm / hoof
 
-  // Shoulder
+  const rightForearmAng: [number, TPosition] = [shoulderRAngle, origins.hooves_right_front_forearm]
+  const rightTibiaAng: [number, TPosition] = [elbowRAngle, origins.hooves_right_front_tibia]
+  const rightWristAng: [number, TPosition] = [wristRAngle, origins.hooves_right_front_wrist]
 
-  const rightArm: IRelativePos = {
-    pos:
-      absAngle < 0.5 ? [-absAngle * 80 * quality, 0] : [((absAngle - 0.5) * 60 - 40) * quality, 0],
+  Layer(Positions.empty, rightForearmAng, () => {
+    Elem('hooves_right_front_forearm', fur_basic, Stroke.fur)
 
-    angle: [shoulderRAngle * (mirror ? -1 : 1), [-65, 325], 1.5]
-  }
-
-  Layer(rightArm.pos, rightArm.angle, () => {
-    if (hooves_enable) Elem('hooves_right_forearm', fur_basic, Stroke.fur)
-  })
-
-  // Tibia
-
-  const rightArmTibia: IRelativePos = {
-    pos: [0, -(shoulderRRise - elbowRRise) * 3 * quality],
-    angle: [elbowRAngle * (mirror ? -1 : 1), [-71, 350 - elbowRRise * 2.22], 1.4]
-  }
-
-  Layer([rightArm.pos, rightArmTibia.pos], [rightArm.angle, rightArmTibia.angle], () => {
-    if (hooves_enable) Elem('hooves_right_tibia', hooves_color, [12, hooves_color_shade])
-  })
-
-  // Wrist
-
-  const rightArmWrist: IRelativePos = {
-    pos: [
-      -15 *
-        (1 - wristRRise / 100) *
-        (shoulderRRise / 500 + elbowRRise / 90) *
-        (1 - wristRRise / 200) *
-        quality,
-      -(elbowRRise - wristRRise) * 6 * quality
-    ],
-
-    angle: [
-      wristRAngle * (mirror ? -1 : 1),
-      [86, 350 - elbowRRise * 4.15 + (100 - wristRRise) * 4.15],
-      1.4
-    ]
-  }
-
-  Layer(
-    [rightArm.pos, rightArmTibia.pos, rightArmWrist.pos],
-    [rightArm.angle, rightArmTibia.angle, rightArmWrist.angle],
-    () => {
-      if (hooves_enable) {
-        Elem('hooves_right_wrist', hooves_color, [12, hooves_color_shade])
-        Elem('hooves_right_hoof', transparent, [6, hooves_color_shade])
-      }
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_right_front_forearm', stripes_basic, transparent, ['hooves_right_front_forearm', Positions.empty])
+      Elem('stripes_back_hooves_right_front_forearm', stripes_basic, transparent, ['hooves_right_front_forearm', Positions.empty])
     }
-  )
+  })
+
+  Layer([Positions.zero, Positions.zero], [rightForearmAng, rightTibiaAng], () => {
+    Elem('hooves_right_front_tibia', hooves_color, [12, hooves_color_shade])
+
+    if (stripes_enable) {
+      Elem('stripes_front_hooves_right_front_tibia', stripes_basic, transparent, ['hooves_right_front_tibia', Positions.empty])
+      Elem('stripes_back_hooves_right_front_tibia', stripes_basic, transparent, ['hooves_right_front_tibia', Positions.empty])
+    }
+  })
+
+  Layer([Positions.zero, Positions.zero, Positions.zero], [rightForearmAng, rightTibiaAng, rightWristAng], () => {
+    Elem('hooves_right_front_wrist', hooves_color, [12, hooves_color_shade])
+  })
 }

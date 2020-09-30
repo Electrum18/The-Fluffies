@@ -2,12 +2,7 @@
   v-expansion-panel
     v-expansion-panel-header.title {{ $t('editor.menu.paws.title') }}
     v-expansion-panel-content
-      BarSwitch(
-        :text="$t('editor.enable')"
-        val="hooves_enable"
-      )
-
-      v-divider.my-4
+      .py-2
 
       p.subtitle-2 {{ $t('editor.menu.paws.second.title') }}
 
@@ -24,152 +19,146 @@
         off="hooves_second_color"
       )
 
-      .py-2
+      v-divider.my-4
+
+      p.subtitle-2 {{ $t('editor.menu.paws.front.left') }}
+
+      v-card(outlined).my-2
+        BarSlider(
+          :text="$t('editor.menu.paws.shoulder')"
+          val="hooves_front_left_shoulder_angle"
+          max=180
+          min=-180
+        )
+
+        v-divider
+
+        BarSlider(
+          :text="$t('editor.menu.paws.elbow')"
+          val="hooves_front_left_elbow_angle"
+          max=180
+          min=-180
+        )
+
+        v-divider
+
+        BarSlider(
+          :text="$t('editor.menu.paws.wrist')"
+          val="hooves_front_left_wrist_angle"
+          max=180
+          min=-180
+        )
 
       v-divider.my-4
 
-      p.subtitle-2 {{ $t('editor.menu.paws.left') }}
+      p.subtitle-2 {{ $t('editor.menu.paws.front.right') }}
+
+      v-card(outlined).my-2
+        BarSlider(
+          :text="$t('editor.menu.paws.shoulder')"
+          val="hooves_front_right_shoulder_angle"
+          max=180
+          min=-180
+        )
+
+        v-divider
+
+        BarSlider(
+          :text="$t('editor.menu.paws.elbow')"
+          val="hooves_front_right_elbow_angle"
+          max=180
+          min=-180
+        )
+
+        v-divider
+
+        BarSlider(
+          :text="$t('editor.menu.paws.wrist')"
+          val="hooves_front_right_wrist_angle"
+          max=180
+          min=-180
+        )
 
       v-divider.my-4
 
-      .py-2
+      p.subtitle-2 {{ $t('editor.menu.paws.back.left') }}
 
-      p.subtitle-2 {{ $t('editor.menu.paws.shoulder') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
+      v-card(outlined).my-2
         BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_left_shoulder_rise"
-          max=100
-          min=0
+          :text="$t('editor.menu.paws.thigh')"
+          val="hooves_back_left_thigh_angle"
+          max=180
+          min=-180
         )
 
         v-divider
 
         BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_left_shoulder_angle"
+          :text="$t('editor.menu.paws.forearm')"
+          val="hooves_back_left_forearm_angle"
           max=180
           min=-180
-        )
-
-      .py-2
-
-      p.subtitle-2 {{ $t('editor.menu.paws.elbow') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
-        BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_left_elbow_rise"
-          max=100
-          min=0
         )
 
         v-divider
 
         BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_left_elbow_angle"
+          :text="$t('editor.menu.paws.knee')"
+          val="hooves_back_left_knee_angle"
           max=180
           min=-180
-        )
-
-      .py-2
-
-      p.subtitle-2 {{ $t('editor.menu.paws.wrist') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
-        BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_left_wrist_rise"
-          max=100
-          min=0
         )
 
         v-divider
 
         BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_left_wrist_angle"
+          :text="$t('editor.menu.paws.foot')"
+          val="hooves_back_left_foot_angle"
           max=180
           min=-180
         )
-
-      .py-2
 
       v-divider.my-4
 
-      p.subtitle-2 {{ $t('editor.menu.paws.right') }}
+      p.subtitle-2 {{ $t('editor.menu.paws.back.right') }}
 
-      v-divider.my-4
-
-      .py-2
-
-      p.subtitle-2 {{ $t('editor.menu.paws.shoulder') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
+      v-card(outlined).my-2
         BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_right_shoulder_rise"
-          max=100
-          min=0
-        )
-
-        v-divider
-
-        BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_right_shoulder_angle"
+          :text="$t('editor.menu.paws.thigh')"
+          val="hooves_back_right_thigh_angle"
           max=180
           min=-180
         )
 
-      .py-2
-
-      p.subtitle-2 {{ $t('editor.menu.paws.elbow') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
-        BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_right_elbow_rise"
-          max=100
-          min=0
-        )
-
         v-divider
 
         BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_right_elbow_angle"
+          :text="$t('editor.menu.paws.forearm')"
+          val="hooves_back_right_forearm_angle"
           max=180
           min=-180
         )
 
-      .py-2
+        v-divider
 
-      p.subtitle-2 {{ $t('editor.menu.paws.wrist') }}
-
-      v-card(outlined :disabled="!globals.hooves_enable").my-2
         BarSlider(
-          :text="$t('editor.menu.paws.rise')"
-          val="hooves_right_wrist_rise"
-          max=100
-          min=0
+          :text="$t('editor.menu.paws.knee')"
+          val="hooves_back_right_knee_angle"
+          max=180
+          min=-180
         )
 
         v-divider
 
         BarSlider(
-          :text="$t('editor.menu.paws.angle')"
-          val="hooves_right_wrist_angle"
+          :text="$t('editor.menu.paws.foot')"
+          val="hooves_back_right_foot_angle"
           max=180
           min=-180
         )
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
-
 import BarSwitch from '../BarSwitches'
 import BarSlider from '../BarSliders'
 import BarColor from '../BarColors'
@@ -179,12 +168,6 @@ export default {
     BarSwitch,
     BarSlider,
     BarColor
-  },
-
-  setup(_, { root: { $store } }) {
-    return {
-      globals: computed(() => $store.getters['avatar/getGlobal'])
-    }
   }
 }
 </script>

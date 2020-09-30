@@ -1,6 +1,6 @@
 {
   "name": "the_fluffies",
-  "version": "0.6.7",
+  "version": "0.7.0",
   "description": "Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle. Created by Electrum18",
   "author": "Electrum18",
   "homepage": "https://github.com/Electrum18/The-Fluffies/",
@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build --analyze",
+    "dev_remote": "nuxt --hostname 0.0.0.0",
+    "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",

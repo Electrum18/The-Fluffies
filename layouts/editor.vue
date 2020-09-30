@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-app(:style="background")
+    v-app#edutor-background
       nuxt
 
     .loading
@@ -13,22 +13,12 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/composition-api'
+import { onMounted } from '@vue/composition-api'
 
 import PonyAvatarLogo from '~/assets/svg/PonyLoadingLogo.svg'
 
 export default {
-  setup(_, { root }) {
-    const background = computed(() => {
-      const { background_basic: Background } = root.$store.getters['avatar/getColor']
-
-      const { h, s, l, a } = Background
-
-      return a
-        ? { background: 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')' }
-        : { background: 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)' }
-    })
-
+  setup() {
     onMounted(() => {
       const loading = document.getElementsByClassName('loading')[0]
 
@@ -38,10 +28,6 @@ export default {
         loading.remove()
       }, 500)
     })
-
-    return {
-      background
-    }
   },
 
   components: {
@@ -51,9 +37,8 @@ export default {
 </script>
 
 <style lang="sass">
-body
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat
-  background-size: 16px
+#edutor-background
+  background: #666
 
 @keyframes loading
   0%

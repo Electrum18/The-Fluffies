@@ -149,6 +149,25 @@
     "short_tails": [null, null, 1, null, null]
   },
 
+  "body_tail": {
+    "simple": [null, 0, null, 1, null, 2, null, 3, null, 2, null, 1],
+    "short": [null, 0, null, 1, null, 2, null, 3, null, 2],
+    "tiny": [null, null, 0, null, 1, null, 2, null, 3, null, 2],
+    "smooth": [null, 0, 2, 0, null],
+    "flat": [null, null, 0, 1, null],
+    "flat_long": [null, null, 0, 1, null],
+    "dreads": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "dreads_short": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "dreads_tiny": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "deer": [null, 0, null, 1, null, 2, null, 3, null, 4]
+  },
+
+  "body_tail_second": {
+    "smooth": [null, 0, 2, 0, null],
+    "flat": [null, 1, 0, null],
+    "flat_long": [null, 1, 0, null]
+  },
+
   "ear_left_tassel": [null, 2, null, 1, null, 0, null, null],
   "ear_left_tassel_inside": [null, 2, null, 1, null, 0, null, null],
 

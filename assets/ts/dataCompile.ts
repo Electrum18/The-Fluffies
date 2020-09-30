@@ -33,7 +33,7 @@ function FormatSVGinJSON(json: IObject): IObject {
 }
 
 const CompiledPaths: ICompiledPaths = {
-  keys: ['body', 'emotions', 'horn', 'glasses', 'hairs'],
+  keys: ['body', 'emotions', 'horn', 'glasses', 'hairs', 'tails'],
 
   body: FormatSVGinJSON(Body),
   emotions: FormatSVGinJSON(Emotions),
@@ -49,7 +49,8 @@ const CompiledPaths: ICompiledPaths = {
     Teashades: FormatSVGinJSON(GlassesTeashades)
   },
 
-  hairs: {}
+  hairs: {},
+  tails: {}
 }
 
 export { FormatSVGinJSON, CompiledPaths }

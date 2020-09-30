@@ -145,44 +145,12 @@ export default {
     const download = ref('')
 
     function takeImage() {
-      const avatar = $refs.avatar
-      const canvas = document.createElement('canvas')
-
-      const { types, sizes } = resolutions
-
-      const [widthVar, heightVar] = sizes[types.indexOf(size.value)]
-
-      canvas.width = widthVar
-      canvas.height = heightVar
-
-      const [width, height] = [avatar.width * 1.25, avatar.height * 1.25]
-
-      // Setting at center
-
-      const xOffset = (widthVar - width) / 2
-      const yOffset = (heightVar - height) / 2
-
-      // Drawing image over background at bottom-center
-
-      const ctx = canvas.getContext('2d')
-
-      const { h, s, l, a } = store.colors.background_basic
-
-      ctx.fillStyle = a
-        ? 'hsla(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%, ' + a + ')'
-        : 'hsl(' + h + ', ' + s * 100 + '%, ' + l * 100 + '%)'
-
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(avatar, xOffset, yOffset, width, height)
-
-      // Creating file
-
       const format = ['png', 'jpeg', 'bmp'][options.mode]
 
       screened.value = true
 
       download.value = 'TFs - ' + store.globals.name + '.' + format
-      photo.value = canvas.toDataURL('image/' + format)
+      photo.value = $refs.avatar.toDataURL('image/' + format)
 
       setTimeout(() => {
         const img = document.createElement('img')

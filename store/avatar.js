@@ -18,7 +18,15 @@ export const state = () => ({
   degress: 12.5,
   mirror: false,
 
+  position: {
+    vertical: 0,
+    horizontal: 0,
+    scale: 1,
+    angle: 0
+  },
+
   hairsList: [],
+  tailsList: [],
 
   frames: defaultFrames,
 
@@ -39,6 +47,11 @@ export const getters = {
   getFrame: ({ frame }) => frame,
   getFrames: ({ frames }) => frames,
 
+  getPosHoriz: ({ position }) => position.horizontal,
+  getPosVerti: ({ position }) => position.vertical,
+  getPosScale: ({ position }) => position.scale,
+  getPosAngle: ({ position }) => position.angle,
+
   getGlobal: ({ globals }) => globals,
   getProper: ({ frames, frame }) => frames[frame].frame,
   getColor: ({ color }) => color,
@@ -47,6 +60,7 @@ export const getters = {
   getDefaultFrames: (state) => state.defaultFrames,
 
   getHairsList: ({ hairsList }) => hairsList,
+  getTailsList: ({ tailsList }) => tailsList,
 
   getAnimationSavesSlot: ({ animationSavesSlot }) => animationSavesSlot
 }
@@ -58,16 +72,34 @@ export const mutations = {
   setDegress: (state, degress) => (state.degress = degress),
   setMirror: (state, mirror) => (state.mirror = mirror),
 
+  setPosHoriz: (state, horizontal) => (state.position.horizontal = horizontal),
+  setPosVerti: (state, vertical) => (state.position.vertical = vertical),
+  setPosScale: (state, scale) => (state.position.scale = scale),
+  setPosAngle: (state, angle) => (state.position.angle = angle),
+
   setFrame: (state, frame) => {
     state.frame = frame
 
-    const { horiz, angle, degress } = state.frames[frame].frame
+    const {
+      horiz,
+      angle,
+      degress,
+      position_horizontal: posHoriz,
+      position_vertical: posVerti,
+      position_scale: posScale,
+      position_angle: posAngle
+    } = state.frames[frame].frame
 
     state.degress = degress
     state.mirror = degress < 90
 
     state.horiz = horiz
     state.angle = angle
+
+    state.position.horizontal = posHoriz
+    state.position.vertical = posVerti
+    state.position.scale = posScale
+    state.position.angle = posAngle
 
     SetPropersSide(state.mirror, state.frames[frame].frame)
   },
@@ -79,6 +111,12 @@ export const mutations = {
         angle: 0,
         horiz: 0,
         degress: 12.5,
+
+        position_horizontal: 0,
+        position_vertical: 0,
+        position_scale: 1,
+        position_angle: 0,
+
         ...cloneObject(frames[index - 1].frame)
       }
     })
@@ -102,6 +140,12 @@ export const mutations = {
         angle: 0,
         horiz: 0,
         degress: 12.5,
+
+        position_horizontal: 0,
+        position_vertical: 0,
+        position_scale: 1,
+        position_angle: 0,
+
         ...frame
       }
     })
@@ -111,13 +155,26 @@ export const mutations = {
     state.frames = frames
     state.frame = 0
 
-    const { horiz, angle, degress } = frames[0].frame
+    const {
+      horiz,
+      angle,
+      degress,
+      position_horizontal: posHoriz,
+      position_vertical: posVerti,
+      position_scale: posScale,
+      position_angle: posAngle
+    } = frames[0].frame
 
     state.degress = degress
     state.mirror = degress < 90
 
     state.horiz = horiz
     state.angle = angle
+
+    state.position.horizontal = posHoriz
+    state.position.vertical = posVerti
+    state.position.scale = posScale
+    state.position.angle = posAngle
 
     for (let i = 0; i < frames.length; i++) {
       SetPropersSide(state.mirror, frames[i].frame)
@@ -209,6 +266,14 @@ export const mutations = {
   },
 
   setAllHairsList: (state, array) => (state.hairsList = array),
+
+  setTailsList: ({ tailsList }, string) => {
+    if (!tailsList.includes(string)) {
+      tailsList.push(string)
+    }
+  },
+
+  setAllTailsList: (state, array) => (state.tailsList = array),
 
   setAnimationSavesSlot: (state, slot) => (state.animationSavesSlot = slot)
 }

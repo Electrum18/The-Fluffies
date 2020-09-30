@@ -12,16 +12,18 @@ import {
   TClip
 } from '~/types/graphics'
 
+import { IObject } from '~/types/basic'
+
 function notNull(value: any) {
   return value !== null && value !== undefined
 }
 
 type TDefinedPosition = [number, number]
-type TDefinedAngle = [number, TDefinedPosition ,number]
+type TDefinedAngle = [number, TDefinedPosition]
 
 function draw(
   ctx: CanvasRenderingContext2D,
-  { male, hair_name_en: hairName }: IDrawProps,
+  { male, hair_name_en: hairName, tail_name_en: tailName }: IDrawProps,
   quality: number,
   calculated: ICalculated,
   wind: IWind,
@@ -42,8 +44,15 @@ function draw(
         .split(' ')
         .join('_')
 
+      const TailName = tailName
+        .toLowerCase()
+        .split(' ')
+        .join('_')
+
       if ((wind[name] as IWindElem)[HairName]) {
         windOffsetPoints = (wind[name] as IWindElem)[HairName]
+      } else if ((wind[name] as IWindElem)[TailName]) {
+        windOffsetPoints = (wind[name] as IWindElem)[TailName]
       } else if (wind[name].constructor === Array) {
         windOffsetPoints = (wind as IWindElem)[name]
       }
@@ -58,9 +67,9 @@ function draw(
       let windVector = 0
 
       if (windPropers.enabled) {
-        if (windOffsetPoints && (windOffsetPoints[i] ?? false)) {
+        if (windOffsetPoints && notNull(windOffsetPoints[i])) {
           windVector = Math.sin(
-            (windPropers.cycle + (windOffsetPoints as number[])[i] * 45) * toRad
+            (windPropers.cycle + ((windOffsetPoints as number[])[i]) * 45) * toRad
           )
 
           windVector *= 8 * quality
@@ -191,14 +200,14 @@ function transforming(
   quality: number
 ) {
   return {
-    Angle([angle, [shiftX, shiftY], ratio]: TDefinedAngle): void {
-      const qIn = quality * ratio
+    Angle([angle, [shiftX, shiftY]]: TDefinedAngle): void {
+      const qIn = quality
 
       const {
         canvas: { width, height }
       } = ctx
 
-      const X = width / 4
+      const X = (width / 4) * 0.9
       const Y = (height / 2) * 0.8
 
       ctx.translate(X + shiftX * qIn, Y + shiftY * qIn)
@@ -213,9 +222,11 @@ export default function(
   quality: number,
   globals: IDrawProps,
   mirror: IMirror,
+  absAngle: number,
   calculated: ICalculated,
   wind: IWind,
-  windPropers: IWindPropers
+  windPropers: IWindPropers,
+  position: IObject
 ) {
   const { Angle } = transforming(ctx, quality)
   const { Fill, Stroke, Draw, Clip } = graphics(
@@ -227,22 +238,34 @@ export default function(
     windPropers
   )
 
-  const height = globals.hooves_enable ? 80 : 112
-
   return {
     Layer(
       translate: TPosition[] | TPosition | undefined,
       angle: TAngle[] | TAngle,
       callback: (globals: IDrawProps) => void
     ) {
+      const scale = position.scale * 0.7
+
+      const pos = {
+        x: (position.horizontal * 11) + 608,
+        y: (position.vertical * 5) - 64
+      }
+
+      const shift = (absAngle ** 0.5) * (mirror ? -200 : 200)
+
+      const degToRad = Math.PI / 180
+
       ctx.setTransform(
-        mirror ? -1 : 1,
+        mirror ? -scale : scale,
         0,
         0,
-        1,
-        ctx.canvas.width * (mirror ? 0.75 : 0.25),
-        height * quality * 2
+        scale,
+        (512 + pos.x + shift) * quality,
+        (512 + pos.y) * quality
       )
+
+      ctx.rotate(mirror ? (360 - position.angle) * degToRad : position.angle * degToRad)
+      ctx.translate(-512 * quality, -512 * quality)
 
       if (translate && angle) {
         if (

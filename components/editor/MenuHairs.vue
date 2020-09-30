@@ -21,7 +21,7 @@
           )
             v-icon {{ icons.mdiKeyboardBackspace }}
 
-        BarList(target="hair" isHairList=true)
+        BarList(target="hair" isListOf='hairs')
 </template>
 
 <script>

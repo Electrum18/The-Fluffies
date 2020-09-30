@@ -5,12 +5,9 @@
       v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
 
-    client-only
+    //client-only
       .image-container(:style="opacitySave")
-        v-img.save(
-          :src="lastSaveImage"
-          :aspect-ratio="0.9"
-        )
+        v-img.save(:src="lastSaveImage")
 
     h1.header {{ $t('meta.title.index') }}
 
@@ -36,6 +33,7 @@
           :to="localePath('about')"
           :aria-label="$t('index.about')"
           nuxt
+          style="margin: auto 16px 24px 16px !important"
         ) {{ $t('index.about') }}
 
         v-btn.mx-4.my-auto(
@@ -61,6 +59,13 @@
         v-card.card-rounded(v-if="haveSave && saveMode")
           v-container.pa-0
             v-col.py-0
+              v-row
+                v-img.ma-3.save.card-rounded(
+                  :src="lastSaveImage"
+                  max-width=400
+                  style="width: 80vw !important"
+                )
+
               v-row
                 p.mx-4.mt-2.mb-0.body-2 {{ saveSlot + 1 }} • {{ save.globals ? save.globals.name : 'Noname' }}
                 v-spacer
@@ -133,6 +138,7 @@
           :to="localePath('support')"
           :aria-label="$t('index.support')"
           nuxt
+          style="margin: auto 16px 24px 16px !important"
           ) {{ $t('index.support') }}
 
         v-spacer
@@ -402,9 +408,6 @@ function carousel(haveSave, saveMode) {
   const positions = computed(() => styles[defaults.index])
 
   const opacity = computed(() => (haveSave.value && saveMode.value ? { opacity: 0 } : undefined))
-  const opacitySave = computed(() =>
-    haveSave.value && saveMode.value ? undefined : { opacity: 0 }
-  )
 
   return {
     defaults,
@@ -412,8 +415,7 @@ function carousel(haveSave, saveMode) {
     left,
     right,
     positions,
-    opacity,
-    opacitySave
+    opacity
   }
 }
 
@@ -443,7 +445,7 @@ function Save(saveMode) {
   const gender = computed(() => {
     if (!save.value) return
 
-    return save.value.globals.male
+    return save.value.globals && save.value.globals.male
       ? { color: 'blue', icon: mdiGenderMale }
       : { color: 'pink', icon: mdiGenderFemale }
   })
@@ -524,10 +526,7 @@ export default {
     const saveMode = ref(false)
 
     const { haveSave, save, saveSlot, savesLength, gender } = Save(saveMode)
-    const { defaults, side, left, right, positions, opacity, opacitySave } = carousel(
-      haveSave,
-      saveMode
-    )
+    const { defaults, side, left, right, positions, opacity } = carousel(haveSave, saveMode)
 
     const tint = computed(() =>
       !$vuetify.theme.isDark
@@ -553,7 +552,6 @@ export default {
       right,
       positions,
       opacity,
-      opacitySave,
       icons,
       haveSave,
       save,

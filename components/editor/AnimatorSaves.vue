@@ -192,12 +192,25 @@ function Saves(props, getters, commit) {
         for (let j = 0; j < animation.frames.length; j++) {
           const { frame } = animation.frames[j]
 
-          const { angle, horiz, degress } = frame
+          const {
+            angle,
+            horiz,
+            degress,
+            position_horizontal: posHoriz,
+            position_vertical: posVerti,
+            position_scale: posScale,
+            position_angle: posAngle
+          } = frame
 
           const defaults2 = {
             angle,
             horiz,
             degress,
+
+            position_horizontal: posHoriz,
+            position_vertical: posVerti,
+            position_scale: posScale,
+            position_angle: posAngle,
 
             ...defaults.value.propers
           }
@@ -213,7 +226,7 @@ function Saves(props, getters, commit) {
       return animations
     } else {
       const save = {
-        name: 'Greetings!',
+        name: 'Reared up',
         frames: defaultFrames.value
       }
 
@@ -243,7 +256,7 @@ function Saves(props, getters, commit) {
     const parsedData = JSON.parse(localStorage.getItem('animations'))
 
     const save = {
-      name: 'Greetings!',
+      name: 'Reared up',
       frames: defaultFrames.value
     }
 

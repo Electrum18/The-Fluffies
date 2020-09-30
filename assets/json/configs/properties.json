@@ -37,23 +37,24 @@
   "glasses_width": 100,
 
 
-  "hooves_left_shoulder_rise": 0,
-  "hooves_left_shoulder_angle": 0,
+  "hooves_front_left_shoulder_angle": 0,
+  "hooves_front_left_elbow_angle": 0,
+  "hooves_front_left_wrist_angle": 0,
 
-  "hooves_left_elbow_rise": 0,
-  "hooves_left_elbow_angle": 0,
+  "hooves_front_right_shoulder_angle": 0,
+  "hooves_front_right_elbow_angle": 0,
+  "hooves_front_right_wrist_angle": 0,
 
-  "hooves_left_wrist_rise": 0,
-  "hooves_left_wrist_angle": 0,
+  "hooves_back_left_thigh_angle": 0,
+  "hooves_back_left_forearm_angle": 0,
+  "hooves_back_left_knee_angle": 0,
+  "hooves_back_left_foot_angle": 0,
 
-  "hooves_right_shoulder_rise": 0,
-  "hooves_right_shoulder_angle": 0,
+  "hooves_back_right_thigh_angle": 0,
+  "hooves_back_right_forearm_angle": 0,
+  "hooves_back_right_knee_angle": 0,
+  "hooves_back_right_foot_angle": 0,
 
-  "hooves_right_elbow_rise": 0,
-  "hooves_right_elbow_angle": 0,
-
-  "hooves_right_wrist_rise": 0,
-  "hooves_right_wrist_angle": 0,
 
   "wing_left_folded": 0,
   "wing_right_folded": 0

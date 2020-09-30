@@ -1,0 +1,51 @@
+[
+  {
+      "name": { "en": "Simple", "ru": "Простая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Short", "ru": "Короткая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Tiny", "ru": "Маленькая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Smooth", "ru": "Гладкая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Flat", "ru": "Плоская" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Flat long", "ru": "Плоская длинная" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Dreads", "ru": "Дредастая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Dreads short", "ru": "Дредастая короткая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Dreads tiny", "ru": "Дредастая маленькая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Deer", "ru": "Оленья" },
+      "author": "Electrum18"
+  }
+]

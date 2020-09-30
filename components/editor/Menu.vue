@@ -20,6 +20,7 @@
       Brows
       Glasses
       Mane
+      Tail
       Fur
       Nose
       Horns
@@ -70,6 +71,7 @@ import Eyes from './menu/Eyes'
 import Brows from './menu/Brows'
 import Glasses from './menu/Glasses'
 import Mane from './menu/Mane'
+import Tail from './menu/Tail'
 import Fur from './menu/Fur'
 import Nose from './menu/Nose'
 import Horns from './menu/Horns'
@@ -113,6 +115,7 @@ export default {
     Brows,
     Glasses,
     Mane,
+    Tail,
     Fur,
     Nose,
     Horns,

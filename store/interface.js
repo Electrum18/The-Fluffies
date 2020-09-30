@@ -12,7 +12,7 @@ export const state = () => ({
     changed_frame: 0
   },
 
-  fps: 60,
+  fps: 30,
   quality: 720,
 
   rendering: 0,

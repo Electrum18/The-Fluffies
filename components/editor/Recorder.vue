@@ -85,7 +85,7 @@ function Resolutions(getters, commit) {
 function Frames(commit) {
   const FPS = reactive({
     frames: [15, 20, 30, 60],
-    frame: 60
+    frame: 30
   })
 
   watch(
