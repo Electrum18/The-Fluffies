@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-app#edutor-background
+    v-app#editor-background
       nuxt
 
     .loading
@@ -37,8 +37,8 @@ export default {
 </script>
 
 <style lang="sass">
-#edutor-background
-  background: #666
+#editor-background
+  background: #666 url("~assets/img/background.png?webp") repeat
 
 @keyframes loading
   0%
