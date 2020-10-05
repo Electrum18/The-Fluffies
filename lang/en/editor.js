@@ -388,7 +388,7 @@ export default {
       character: {
         title: 'Character',
         text:
-          'The main element of the editor with which you have to deal, it is changed using the menu bar, and you can also rotate it by clicking on the character and moving the cursor to the side.'
+          'The main element of the editor with which you have to deal, it is changed using the menu bar, you can rotate it by clicking on the character and moving the cursor to the side.'
       },
 
       editor: {
@@ -424,7 +424,7 @@ export default {
       save: {
         title: 'Saving a character',
         text:
-          'The character save menu has several slots, as well as the ability to save to the cloud.'
+          'The character save menu has several slots, as well as ability of saving to the cloud.'
       },
 
       wind: {
@@ -434,7 +434,7 @@ export default {
 
       image: {
         title: 'Photo and gif creation',
-        text: 'Used to be able to create images and turn animations into gifs.'
+        text: 'Used to create images and turn animations into gifs.'
       }
     },
 
@@ -445,7 +445,7 @@ export default {
       how: {
         title: 'How to use it?',
         text:
-          'The use of animations occurs through changing the frames from the bottom of the panel, by selecting a frame, you can change it using the appearance of character and its location, by changing the length of the frame, you can increase its duration.'
+          'The use of animations occurs through changing the frames from the bottom of the panel, by selecting a frame you can change it using the appearance of character and its location, by changing the length of the frame, you can increase its duration.'
       },
 
       lips: {
@@ -484,13 +484,13 @@ export default {
       artists: {
         title: 'For artists',
         text:
-          'If you want to add hairstyles or character elements, then write to the project mail or to the author, the entire editor is drawn in vector graphics and the project file will be available when writing to the author.'
+          'If you want to add hairstyles or character elements, then write to project mail or its author directly., the entire editor is drawn in vector graphics and the project file will be available when writing to the author.'
       },
 
       coders: {
         title: 'For programmers',
         text:
-          'The project code is publicly access and available to anyone, but has a license that prohibits its use outside the project in the public sense.'
+          'The project code is publicly accessible for anyone, if you wish it is possible to upgrade and change the code, but you can not redistribute it or use for your own web project nor purposes.'
       },
 
       patreon: {
