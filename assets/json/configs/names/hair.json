@@ -36,6 +36,14 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "Big Bang 2", "ru": "Большая чёлка 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Big Bang 3", "ru": "Большая чёлка 3" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Long Bang", "ru": "Длинная чёлка" },
       "author": "Electrum18"
   },
@@ -109,7 +117,19 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "Soft to side 3", "ru": "Мягкая на бок 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Soft to side 4", "ru": "Мягкая на бок 4" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Soft long", "ru": "Мягкая длинная" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Soft long 2", "ru": "Мягкая длинная 2" },
       "author": "Electrum18"
   },
   {
@@ -123,11 +143,67 @@
       "warning": { "en": "No second color", "ru": "Без второго цвета" }
   },
   {
+      "name": { "en": "Lush to side", "ru": "Пышная на бок" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Long tails", "ru": "Длинные косы" },
       "author": "Electrum18"
   },
   {
       "name": { "en": "Short tails", "ru": "Короткие косы" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Many tails", "ru": "Много косов" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tail", "ru": "С хвостом" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tail 2", "ru": "С хвостом 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tail 3", "ru": "С хвостом 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Wavy to side", "ru": "Волнистые на бок" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Long to side", "ru": "Длинная на бок" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Emo short", "ru": "Эмо короткая" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Emo short 2", "ru": "Эмо короткая 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Emo short 3", "ru": "Эмо короткая 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Emo long", "ru": "Эмо длинная" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Short to side", "ru": "Короткая на бок" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Bob cut", "ru": "Каре" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Bob cut with tail", "ru": "Каре с хвостом" },
       "author": "Electrum18"
   }
 ]
