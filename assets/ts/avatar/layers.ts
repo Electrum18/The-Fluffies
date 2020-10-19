@@ -27,7 +27,7 @@ function shortcuts(
 
   { wings_second_color }: IObject,
   { eyes_position_horiz, eyes_position_verti, eyes_focus }: IProperties,
-  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade }: IColors
+  { fur_shade, wings_shade, piercings_shade, horn_rear_shade, hair_basic, hair_shade, clothing_shade, pants_shade }: IColors
 ) {
   const eyesPos = [
     (eyes_position_horiz / 3) * quality * (mirror ? -1 : 1),
@@ -52,6 +52,8 @@ function shortcuts(
 
   const Stroke: IStrokeConfig = {
     fur: [12, fur_shade],
+    clothing: [12, clothing_shade],
+    pants: [12, pants_shade],
     wing: [12, wings_second_color ? wings_shade : fur_shade],
     piercing: [7, piercings_shade],
     horn: [12, horn_rear_shade],
@@ -135,7 +137,12 @@ export default function(
     wings_second_color,
     ear_second_color,
     hooves_second_color,
-    sharp_teeth
+    sharp_teeth,
+    clothing_enable,
+    pants_enable,
+    scarf: scarf_enable,
+    fluff_neck,
+    fluff_hooves
   } = globals as IObject
 
   const {
@@ -169,7 +176,13 @@ export default function(
     ear_basic,
     ear_shade,
     hooves_second_basic,
-    hooves_second_shade
+    hooves_second_shade,
+    clothing_basic,
+    pants_basic,
+    scarf_basic,
+    scarf_shade,
+    fluff_basic,
+    fluff_shade
   } = getColor
 
   const {
@@ -231,6 +244,9 @@ export default function(
       if (fur_second_color) Elem('body_tail_second', fur_second_basic)
 
       Elem('body_tail', transparent, Stroke.fur)
+    } else if (tail_name_en[0] === 'L' && tail_name_en[3] === 'g') {
+      Elem('body_tail_second', hair_basic, Stroke.hair)
+      Elem('body_tail', fur_basic, Stroke.fur)
     } else {
       Elem('body_tail', hair_basic)
 
@@ -324,10 +340,14 @@ export default function(
       Elem('stripes_front_hooves_left_behind_thigh', stripes_basic, transparent, ['hooves_left_behind_thigh', Positions.empty])
       Elem('stripes_back_hooves_left_behind_thigh', stripes_basic, transparent, ['hooves_left_behind_thigh', Positions.empty])
     }
+
+    if (pants_enable) Elem('pants_left_thigh', pants_basic, Stroke.pants)
   })
 
   Layer([Positions.zero, Positions.zero], [leftBehindThighAng, leftBehindForearmAng], () => {
     Elem('hooves_left_behind_forearm', fur_basic, Stroke.fur)
+
+    if (pants_enable) Elem('pants_left_forearm', pants_basic, Stroke.pants)
   })
 
   Layer(
@@ -340,6 +360,8 @@ export default function(
         Elem('stripes_front_hooves_left_behind_tibia', stripes_basic, transparent, ['hooves_left_behind_tibia', Positions.empty])
         Elem('stripes_back_hooves_left_behind_tibia', stripes_basic, transparent, ['hooves_left_behind_tibia', Positions.empty])
       }
+
+      if (pants_enable) Elem('pants_left_tibia', pants_basic, Stroke.pants)
     }
   )
 
@@ -348,6 +370,9 @@ export default function(
     [leftBehindThighAng, leftBehindForearmAng, lefBehindtTibiaAng, lefBehindtWristAng],
     () => {
       Elem('hooves_left_behind_wrist', hooves_color, [12, hooves_color_shade])
+
+      if (pants_enable) Elem('pants_left_wrist', pants_basic, Stroke.pants)
+      if (fluff_hooves) Elem('fluff_left_back', fluff_basic, [8, fluff_shade])
     }
   )
 
@@ -363,6 +388,8 @@ export default function(
       Elem('stripes_front_hooves_left_front_forearm', stripes_basic, transparent, ['hooves_left_front_forearm', Positions.empty])
       Elem('stripes_back_hooves_left_front_forearm', stripes_basic, transparent, ['hooves_left_front_forearm', Positions.empty])
     }
+
+    if (clothing_enable) Elem('clothing_left_forearm', clothing_basic, Stroke.clothing)
   })
 
   Layer([Positions.zero, Positions.zero], [leftForearmAng, leftTibiaAng], () => {
@@ -372,10 +399,15 @@ export default function(
       Elem('stripes_front_hooves_left_front_tibia', stripes_basic, transparent, ['hooves_left_front_tibia', Positions.empty])
       Elem('stripes_back_hooves_left_front_tibia', stripes_basic, transparent, ['hooves_left_front_tibia', Positions.empty])
     }
+
+    if (clothing_enable) Elem('clothing_left_tibia', clothing_basic, Stroke.clothing)
   })
 
   Layer([Positions.zero, Positions.zero, Positions.zero], [leftForearmAng, leftTibiaAng, leftWristAng], () => {
     Elem('hooves_left_front_wrist', hooves_color, [12, hooves_color_shade])
+
+    if (clothing_enable) Elem('clothing_left_wrist', clothing_basic, Stroke.clothing)
+    if (fluff_hooves) Elem('fluff_left_front', fluff_basic, [8, fluff_shade])
   })
 
   // ---------------------------------------------------------------------------
@@ -383,12 +415,18 @@ export default function(
   // Body
 
   Layer(Positions.empty, Rotate.empty, () => {
+    if (scarf_enable) Elem('scarf_behind', scarf_basic, [8, scarf_shade])
+    if (fluff_neck) Elem('fluff_neck_back', fluff_basic, [8, fluff_shade])
+
     Elem('head', fur_basic, Stroke.fur)
     Elem('chest', fur_basic, Stroke.fur)
+
     Elem('body', fur_basic, Stroke.fur)
 
     if (stripes_enable) Elem('stripes_body', stripes_basic, transparent, ['body', Positions.empty])
     if (fur_second_color) Elem('fur_second_body', fur_second_basic)
+
+    if (pants_enable) Elem('pants_body', pants_basic, Stroke.pants)
   })
 
 
@@ -404,10 +442,14 @@ export default function(
       Elem('stripes_front_hooves_right_behind_thigh', stripes_basic, transparent, ['hooves_right_behind_thigh', Positions.empty])
       Elem('stripes_back_hooves_right_behind_thigh', stripes_basic, transparent, ['hooves_right_behind_thigh', Positions.empty])
     }
+
+    if (pants_enable) Elem('pants_right_thigh', pants_basic, Stroke.pants)
   })
 
   Layer([Positions.zero, Positions.zero], [rightBehindThighAng, rightBehindForearmAng], () => {
     Elem('hooves_right_behind_forearm', fur_basic, Stroke.fur)
+
+    if (pants_enable) Elem('pants_right_forearm', pants_basic, Stroke.pants)
   })
 
   Layer(
@@ -420,6 +462,8 @@ export default function(
         Elem('stripes_front_hooves_right_behind_tibia', stripes_basic, transparent, ['hooves_right_behind_tibia', Positions.empty])
         Elem('stripes_back_hooves_right_behind_tibia', stripes_basic, transparent, ['hooves_right_behind_tibia', Positions.empty])
       }
+
+      if (pants_enable) Elem('pants_right_tibia', pants_basic, Stroke.pants)
     }
   )
 
@@ -428,6 +472,9 @@ export default function(
     [rightBehindThighAng, rightBehindForearmAng, rightBehindTibiaAng, rightBehindWristAng],
     () => {
       Elem('hooves_right_behind_wrist', hooves_color, [12, hooves_color_shade])
+
+      if (pants_enable) Elem('pants_right_wrist', pants_basic, Stroke.pants)
+      if (fluff_hooves) Elem('fluff_right_back', fluff_basic, [8, fluff_shade])
     }
   )
 
@@ -444,8 +491,11 @@ export default function(
     Elem('neck_lines', transparent, Stroke.fur)
 
     if (fluff_chest) Elem('fluff_chest', fur_SECOND, [8, fur_SECOND_SHADE])
+    if (clothing_enable) Elem('clothing_chest', clothing_basic, Stroke.clothing)
     if (collar_enable) Elem('collar', collar_basic, [8, collar_shade])
     if (bowtie_enable) Elem('bowtie', bowtie_basic, [8, bowtie_shade])
+    if (scarf_enable) Elem('scarf', scarf_basic, [8, scarf_shade])
+    if (fluff_neck) Elem('fluff_neck', fluff_basic, [8, fluff_shade])
 
     if (wings_enable) {
       if (wings_bat) {
@@ -681,6 +731,8 @@ export default function(
       Elem('stripes_front_hooves_right_front_forearm', stripes_basic, transparent, ['hooves_right_front_forearm', Positions.empty])
       Elem('stripes_back_hooves_right_front_forearm', stripes_basic, transparent, ['hooves_right_front_forearm', Positions.empty])
     }
+
+    if (clothing_enable) Elem('clothing_right_forearm', clothing_basic, Stroke.clothing)
   })
 
   Layer([Positions.zero, Positions.zero], [rightForearmAng, rightTibiaAng], () => {
@@ -690,9 +742,15 @@ export default function(
       Elem('stripes_front_hooves_right_front_tibia', stripes_basic, transparent, ['hooves_right_front_tibia', Positions.empty])
       Elem('stripes_back_hooves_right_front_tibia', stripes_basic, transparent, ['hooves_right_front_tibia', Positions.empty])
     }
+
+    if (clothing_enable) Elem('clothing_right_tibia', clothing_basic, Stroke.clothing)
+
   })
 
   Layer([Positions.zero, Positions.zero, Positions.zero], [rightForearmAng, rightTibiaAng, rightWristAng], () => {
     Elem('hooves_right_front_wrist', hooves_color, [12, hooves_color_shade])
+
+    if (clothing_enable) Elem('clothing_right_wrist', clothing_basic, Stroke.clothing)
+    if (fluff_hooves) Elem('fluff_right_front', fluff_basic, [8, fluff_shade])
   })
 }

@@ -1,45 +1,29 @@
 <template lang="pug">
   v-card(light :disabled="enable")
-    v-list(two-line)
-      v-list-item-group(
-        v-model="selected"
-        mandatory
-        active-class="primary--text"
-      )
-        template(v-for="(element, i) in list")
-          v-list-item(
-            @click="setElementName(element.name)"
-            :key="element.name[locLang] + i"
-            :disabled="listOf && offline && !getCached(element)"
-          )
-            v-list-item-content(:style="style(element)")
-              v-list-item-title {{ element.name[locLang] }}
-              v-list-item-subtitle {{ locale.by[locLang] }} {{ element.author }}
-                v-icon.mx-2(
-                  v-if="getCached(element)"
-                  color="green"
-                  small
-                ) {{ icons.mdiCloudCheck }}
-
-              v-list-item-action(v-if="element.warning").mx-0.my-1
-                v-chip(
-                  small
-                  outlined
-                  label
-                  color="yellow darken-2"
-                ) {{ element.warning[locLang] }}
-
-          v-divider.border--light(
-            v-if="i < list.length - 1"
+    v-container.pa-1
+      v-item-group(v-model="selected" mandatory)
+        v-row.ma-0.image-borders
+          v-col.pa-1(
+            v-for="(element, i) in list"
             :key="i"
+            cols="6"
           )
+            v-item(v-slot:default="{ active, toggle }")
+              v-img.pa-0.grey.white--text.text-caption(
+                :src="require('~/assets/img/' + target + '/' + i + '.png?webp')"
+                aspect-ratio="1"
+                @click="toggle"
+                :style="[selectedBorder(active), disabled(listOf && !getCached(element))]"
+              )
+                v-icon.ma-1(v-if="getCached(element)" small) {{ icons.mdiContentSave }}
+                p @{{ element.author }}
 </template>
 
 <script>
 import Vue from 'vue'
 import { computed, ref, watch, reactive } from '@vue/composition-api'
 
-import { mdiCloudCheck } from '@mdi/js'
+import { mdiContentSave } from '@mdi/js'
 
 function checkCached(getters, isListOf) {
   let getterOf = ''
@@ -61,7 +45,7 @@ function checkCached(getters, isListOf) {
   return { listOf, getCached }
 }
 
-function listState(globals, target, isListOf) {
+function listState(globals, target, commit) {
   const selected = ref(0)
 
   const preList = computed(() => globals.value[target + '_info'])
@@ -69,24 +53,47 @@ function listState(globals, target, isListOf) {
 
   const list = ref([])
 
-  function setIndex(listInput) {
-    for (let i = 0; i < listInput.length; i++) {
-      if (listInput[i].name.en === rootName.value) selected.value = i
-    }
+  function setElementName(name) {
+    const slot = +localStorage.getItem('slot')
+    const save = JSON.parse(localStorage.getItem('avatars'))
+
+    const { globals } = save[slot]
+
+    commit('avatar/setGlobal', {
+      path: target + '_name_en',
+      value: name.en
+    })
+
+    commit('avatar/setGlobal', {
+      path: target + '_name_ru',
+      value: name.ru
+    })
+
+    globals[target + '_name_en'] = name.en
+    globals[target + '_name_ru'] = name.ru
+
+    localStorage.setItem('avatars', JSON.stringify(save))
   }
 
   watch(
     () => preList.value,
     (value) => {
-      if (isListOf !== undefined) setIndex(value)
+      const indexes = Object.keys(value)
 
-      for (let i = 0; i < preList.value.length; i++) {
-        Vue.set(list.value, i, preList.value[i])
+      for (let i = 0; i < indexes.length; i++) {
+        Vue.set(list.value, i, value[indexes[i]])
+
+        if (value[indexes[i]].name.en === rootName.value) selected.value = i
       }
 
-      if (list.value.length < 1) list.value = preList.value
+      if (list.value.length < 1) list.value = value
     },
     { immediate: true }
+  )
+
+  watch(
+    () => selected.value,
+    (index) => setElementName(list.value[index].name)
   )
 
   return {
@@ -94,7 +101,7 @@ function listState(globals, target, isListOf) {
     preList,
     list,
     rootName,
-    setIndex
+    setElementName
   }
 }
 
@@ -122,55 +129,42 @@ export default {
     const { getters, commit } = $store
 
     const icons = reactive({
-      mdiCloudCheck
+      mdiContentSave
     })
-
-    const locale = reactive({
-      by: {
-        en: 'author: ',
-        ru: 'автор: '
-      }
-    })
-
-    function style({ warning }) {
-      return { 'padding-bottom': warning ? '4px' : '12px' }
-    }
-
-    function setElementName(name) {
-      const slot = +localStorage.getItem('slot')
-      const save = JSON.parse(localStorage.getItem('avatars'))
-
-      const { globals } = save[slot]
-
-      commit('avatar/setGlobal', {
-        path: target + '_name_en',
-        value: name.en
-      })
-
-      commit('avatar/setGlobal', {
-        path: target + '_name_ru',
-        value: name.ru
-      })
-
-      globals[target + '_name_en'] = name.en
-      globals[target + '_name_ru'] = name.ru
-
-      localStorage.setItem('avatars', JSON.stringify(save))
-    }
 
     const globals = computed(() => getters['avatar/getGlobal'])
 
+    function selectedBorder(active) {
+      if (active) {
+        return {
+          border: '3px solid #fa0!important',
+          margin: '-3px 0',
+          'box-shadow': '0 0 4px 1px #fa0'
+        }
+      }
+    }
+
+    const offline = computed(() => root.isOffline)
+
+    function disabled(isOffline) {
+      if (offline.value && isOffline) {
+        return {
+          opacity: 0.5,
+          'pointer-events': 'none'
+        }
+      }
+    }
+
     return {
-      ...listState(globals, target, isListOf),
+      ...listState(globals, target, commit),
       ...checkCached(getters, isListOf),
 
-      locale,
       icons,
-      style,
-      setElementName,
+      selectedBorder,
+      disabled,
 
       enable: computed(() => (off ? !globals.value[off] : false)),
-      offline: computed(() => root.isOffline),
+      offline,
       locLang: computed(() => $i18n.locale)
     }
   }
@@ -178,6 +172,18 @@ export default {
 </script>
 
 <style lang="sass">
-hr.border--light
-  border-color: rgba(0, 0, 0, 0.12)!important
+.image-borders
+  .v-image
+    border-radius: 12px!important
+    transition: margin 300ms ease, border 300ms ease, box-shadow 500ms ease
+    cursor: pointer
+
+    p
+      margin: 0
+      text-align: center
+      background: #0006
+      white-space: nowrap
+      bottom: 0
+      position: absolute
+      width: 100%
 </style>

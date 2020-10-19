@@ -31,6 +31,8 @@
       Hooves
       Neck
       Wings
+      Clothing
+      Pants
 
     .abs
       v-card(light tile)
@@ -82,6 +84,8 @@ import Piercing from './menu/Piercing'
 import Hooves from './menu/Hooves'
 import Neck from './menu/Neck'
 import Wings from './menu/Wings'
+import Clothing from './menu/Clothing'
+import Pants from './menu/Pants'
 
 import BarColor from './BarColors'
 
@@ -126,6 +130,8 @@ export default {
     Hooves,
     Neck,
     Wings,
+    Clothing,
+    Pants,
 
     BarColor
   },
@@ -178,7 +184,7 @@ export default {
 
 .name-input
   padding-left: 0!important
-  padding-right: 6px!important
+  margin-right: 6px!important
 
 .menu-drawer .v-navigation-drawer__content
   height: calc(100% - 120px)

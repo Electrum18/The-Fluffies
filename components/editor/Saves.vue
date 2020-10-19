@@ -409,6 +409,7 @@ export default {
       const tempObj = JSON.parse(JSON.stringify(object))
 
       tempObj.globals.hair_info = {}
+      tempObj.globals.tail_info = {}
       tempObj.globals.glasses_info = {}
       tempObj.globals.horn_info = {}
 

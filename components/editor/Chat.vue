@@ -179,13 +179,8 @@ function defineSocket(chat) {
     socket.value = io(hostname === 'localhost' ? hostname + ':5000' : host)
   }
 
-  socket.value.on('connect', () => {
-    chat.logged = socket.value.connected
-  })
-
-  socket.value.on('disconnect', () => {
-    chat.logged = socket.value.connected
-  })
+  socket.value.on('disconnect', () => (chat.logged = false))
+  socket.value.on('is authorized', (val) => (chat.logged = val))
 
   socket.value.on('get messages', (msg) => (chat.content = msg))
   socket.value.on('get message', (msg) => chat.content.push(msg))
@@ -314,7 +309,7 @@ export default {
       if (window.location.hostname === 'localhost') {
         url = 'http://localhost:5001'
       } else {
-        url = 'https://the-fluffies.net:3001'
+        url = 'https://the-fluffies.net'
       }
     }
 

@@ -15,6 +15,8 @@ import Hairs from '~/assets/json/configs/names/hair.json'
 import Tails from '~/assets/json/configs/names/tail.json'
 import Horns from '~/assets/json/configs/names/horn.json'
 import Glasses from '~/assets/json/configs/names/glasses.json'
+import Clothing from '~/assets/json/configs/names/clothing.json'
+import Pants from '~/assets/json/configs/names/pants.json'
 
 import propers from '~/assets/json/configs/properties.json'
 
@@ -32,16 +34,22 @@ globals[races.Pony].hair_info = Hairs
 globals[races.Pony].tail_info = Tails
 globals[races.Pony].horn_info = Horns
 globals[races.Pony].glasses_info = Glasses
+globals[races.Pony].clothing_info = Clothing
+globals[races.Pony].pants_info = Pants
 
 globals[races.Zebra].hair_info = Hairs
 globals[races.Zebra].tail_info = Tails
 globals[races.Zebra].horn_info = Horns
 globals[races.Zebra].glasses_info = Glasses
+globals[races.Zebra].clothing_info = Clothing
+globals[races.Zebra].pants_info = Pants
 
 globals[races.Deer].hair_info = Hairs
 globals[races.Deer].tail_info = Tails
 globals[races.Deer].horn_info = Horns
 globals[races.Deer].glasses_info = Glasses
+globals[races.Deer].clothing_info = Clothing
+globals[races.Deer].pants_info = Pants
 
 export default {
   frame: 0,

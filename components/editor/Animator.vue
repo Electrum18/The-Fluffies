@@ -376,6 +376,8 @@ export default {
           setTimeout(() => {
             const animations = JSON.parse(localStorage.getItem('animations'))
 
+            if (!animations) return
+
             this.saveName = animations[slot].name
           })
         }

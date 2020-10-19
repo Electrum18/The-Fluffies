@@ -336,9 +336,11 @@ export default {
 
     if (process.browser) {
       if (localStorage.getItem('firstGuide') === null) {
-        opened.value = true
+        setTimeout(() => {
+          opened.value = true
 
-        localStorage.setItem('firstGuide', true)
+          localStorage.setItem('firstGuide', true)
+        })
       }
     }
 
