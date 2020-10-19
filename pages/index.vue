@@ -5,10 +5,6 @@
       v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
 
-    //client-only
-      .image-container(:style="opacitySave")
-        v-img.save(:src="lastSaveImage")
-
     h1.header {{ $t('meta.title.index') }}
 
     v-row

@@ -11,6 +11,14 @@ import GlassesClassic from '~/assets/json/data/glasses/classic.json'
 import GlassesMonolens from '~/assets/json/data/glasses/monolens.json'
 import GlassesTeashades from '~/assets/json/data/glasses/teashades.json'
 
+import ClothingHoodie from '~/assets/json/data/clothing/hoodie.json'
+import ClothingShirt from '~/assets/json/data/clothing/shirt.json'
+import ClothingSweater from '~/assets/json/data/clothing/sweater.json'
+
+import PantsBasic from '~/assets/json/data/pants/basic.json'
+import PantsShorts from '~/assets/json/data/pants/shorts.json'
+
+
 import { IObject } from '~/types/basic'
 import { ICompiledPaths } from '~/types/paths'
 
@@ -33,7 +41,7 @@ function FormatSVGinJSON(json: IObject): IObject {
 }
 
 const CompiledPaths: ICompiledPaths = {
-  keys: ['body', 'emotions', 'horn', 'glasses', 'hairs', 'tails'],
+  keys: ['body', 'emotions', 'horn', 'glasses', 'clothing', 'pants', 'hairs', 'tails'],
 
   body: FormatSVGinJSON(Body),
   emotions: FormatSVGinJSON(Emotions),
@@ -47,6 +55,17 @@ const CompiledPaths: ICompiledPaths = {
     Classic: FormatSVGinJSON(GlassesClassic),
     Monolens: FormatSVGinJSON(GlassesMonolens),
     Teashades: FormatSVGinJSON(GlassesTeashades)
+  },
+
+  clothing: {
+    Hoodie: FormatSVGinJSON(ClothingHoodie),
+    Shirt: FormatSVGinJSON(ClothingShirt),
+    Sweater: FormatSVGinJSON(ClothingSweater)
+  },
+
+  pants: {
+    Basic: FormatSVGinJSON(PantsBasic),
+    Shorts: FormatSVGinJSON(PantsShorts)
   },
 
   hairs: {},

@@ -42,6 +42,22 @@
         val="fluff_chest"
       )
 
+      BarSwitch(
+        :text="$t('editor.menu.fur.fluff.neck')"
+        val="fluff_neck"
+      )
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.fluff.paws')"
+        val="fluff_hooves"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.fur.fluff.color')"
+        val="fluff_basic"
+        :shade="4/5"
+      )
+
       v-divider.my-4
 
       p.subtitle-2 {{ $t('editor.menu.fur.second.title') }}

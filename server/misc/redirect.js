@@ -1,10 +1,10 @@
-const websiteUrl = require('./url')
+const { websiteURL } = require('./url')
 
 function redirect(req, res) {
   if (req.cookies !== undefined && req.cookies.i18n_redirected === 'ru') {
-    res.redirect(websiteUrl + '/ru/editor/')
+    res.redirect(websiteURL + '/ru/editor/')
   } else {
-    res.redirect(websiteUrl + '/editor/')
+    res.redirect(websiteURL + '/editor/')
   }
 }
 

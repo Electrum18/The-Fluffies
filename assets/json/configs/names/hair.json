@@ -85,28 +85,23 @@
   },
   {
       "name": { "en": "Dreads to back", "ru": "Дреды назад" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Dreads to side", "ru": "Дреды на бок" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Dreads long", "ru": "Дреды длинные" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Dreads tails", "ru": "Дреды косы" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Dreads tails 2", "ru": "Дреды косы 2" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Soft to side", "ru": "Мягкая на бок" },
@@ -134,13 +129,11 @@
   },
   {
       "name": { "en": "Lush", "ru": "Пышная" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Lush long", "ru": "Пышная длинная" },
-      "author": "Electrum18",
-      "warning": { "en": "No second color", "ru": "Без второго цвета" }
+      "author": "Electrum18"
   },
   {
       "name": { "en": "Lush to side", "ru": "Пышная на бок" },

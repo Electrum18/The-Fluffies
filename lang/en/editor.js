@@ -114,7 +114,10 @@ export default {
         title: 'Fluff',
         cheeks: 'cheeks',
         ears: 'ears',
-        chest: 'chest'
+        chest: 'chest',
+        neck: 'neck',
+        paws: 'paws',
+        color: 'fluff'
       },
 
       second: {
@@ -239,6 +242,21 @@ export default {
         title: 'Second color',
         color: 'second'
       }
+    },
+
+    clothing: {
+      title: 'Clothing',
+      color: 'clothing'
+    },
+
+    scarf: {
+      title: 'Scarf',
+      color: 'scarf'
+    },
+
+    pants: {
+      title: 'Pants',
+      color: 'pants'
     }
   },
 

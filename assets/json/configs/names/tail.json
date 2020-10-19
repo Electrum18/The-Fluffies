@@ -47,5 +47,30 @@
   {
       "name": { "en": "Deer", "ru": "Оленья" },
       "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Long", "ru": "Длинная" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Long 2", "ru": "Длинная 2" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Long 3", "ru": "Длинная 3" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Wolf", "ru": "Волчий" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Cat", "ru": "Кошачий" },
+      "author": "Electrum18"
   }
 ]

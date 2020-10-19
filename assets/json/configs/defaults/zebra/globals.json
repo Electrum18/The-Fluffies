@@ -51,6 +51,22 @@
   "glasses_info": [],
 
 
+  "clothing_enable": false,
+
+  "clothing_name_en": "Shirt",
+  "clothing_name_ru": "Рубашка",
+
+  "clothing_info": [],
+
+
+  "pants_enable": false,
+
+  "pants_name_en": "Basic",
+  "pants_name_ru": "Обычные",
+
+  "pants_info": [],
+
+
   "piercings_left_enable": true,
   "piercings_left_upper": true,
   "piercings_left_middle": true,
@@ -81,8 +97,12 @@
   "fluff_cheeks": false,
   "fluff_ears": false,
   "fluff_chest": false,
+  "fluff_neck": false,
+  "fluff_hooves": false,
 
   "fur_second_color": false,
 
-  "ear_second_color": false
+  "ear_second_color": false,
+
+  "scarf": false
 }

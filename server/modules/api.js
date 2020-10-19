@@ -9,7 +9,8 @@ const bodyParser = require('body-parser')
 
 const keys = require('../config/keys')
 const User = require('../models/user-model')
-const websiteUrl = require('../misc/url')
+
+const { serverURL } = require('../misc/url')
 
 const authRouter = require('../routes/auth')
 const userRouter = require('../routes/user')
@@ -35,7 +36,11 @@ function initOAuth(port, session, sessionStore, io, usersPublic, alias, patreon)
       secret: keys.session.secret,
       store: sessionStore,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365
+      }
     })
   )
 
@@ -45,7 +50,7 @@ function initOAuth(port, session, sessionStore, io, usersPublic, alias, patreon)
   app.use(passport.initialize())
   app.use(passport.session())
 
-  app.use(cors({ origin: websiteUrl, credentials: true }))
+  app.use(cors({ origin: serverURL, credentials: true }))
 
   app.use('/auth', authRouter)
   app.use('/user', userRouter(io, usersPublic, alias, patreon))

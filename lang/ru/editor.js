@@ -114,7 +114,10 @@ export default {
         title: 'Пушистость',
         cheeks: 'щеки',
         ears: 'уши',
-        chest: 'грудь'
+        chest: 'грудь',
+        neck: 'шея',
+        paws: 'лапы',
+        color: 'меха'
       },
 
       second: {
@@ -239,6 +242,21 @@ export default {
         title: 'Второй цвет',
         color: 'второго'
       }
+    },
+
+    clothing: {
+      title: 'Одежда',
+      color: 'одежды'
+    },
+
+    scarf: {
+      title: 'Шарф',
+      color: 'шарфа'
+    },
+
+    pants: {
+      title: 'Штаны',
+      color: 'штанов'
     }
   },
 

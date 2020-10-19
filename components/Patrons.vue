@@ -8,6 +8,8 @@
       color="#f96854"
       dark
       small
+      title="Patreon"
+      aria-label="Patreon"
     )
       v-icon {{ icons.mdiPatreon }}
 

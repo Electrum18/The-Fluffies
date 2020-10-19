@@ -1,5 +1,6 @@
 module.exports = {
-  host: 'localhost:3000',
+  host: 'localhost',
+  port: 3000,
   protocol: 'http',
 
   rest_secret: '',

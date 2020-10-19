@@ -312,6 +312,14 @@ export default {
       this.paths.glasses.name = name
     },
 
+    'getGlobal.clothing_name_en'(name) {
+      this.paths.clothing.name = name
+    },
+
+    'getGlobal.pants_name_en'(name) {
+      this.paths.pants.name = name
+    },
+
     mirror: {
       handler(value, old) {
         const { properties, getColor } = this
@@ -460,6 +468,8 @@ export default {
 
     this.paths.horn.name = this.getGlobal.horn_name_en
     this.paths.glasses.name = this.getGlobal.glasses_name_en
+    this.paths.clothing.name = this.getGlobal.clothing_name_en
+    this.paths.pants.name = this.getGlobal.pants_name_en
 
     const [width, height] = this.setQuality(this.targetQuality)
 
