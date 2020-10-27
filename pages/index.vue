@@ -13,8 +13,8 @@
       NetworkStatus.mx-3
 
     v-container.max.text-center
-      div.px-12(@click="easter($refs)")
-        TheFluffiesLogo.logo.logo-hide(ref="logo")
+      div.px-12.mb-2(@click="easter($refs)")
+        v-img(:src="require('~/assets/svg/TheFluffiesLogo.svg')" ref="logo").logo.logo-hide
 
       h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
@@ -292,8 +292,6 @@ import {
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
 
-import TheFluffiesLogo from '~/assets/svg/TheFluffiesLogo.svg'
-
 import Version from '~/components/Version'
 import NetworkStatus from '~/components/NetworkStatus'
 
@@ -508,7 +506,7 @@ function CreateSave($store, defaults) {
 
 export default {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $vuetify, $store } }) {
+  setup(props, { refs, root: { $vuetify, $store } }) {
     const icons = reactive({
       mdiMenu,
       mdiArrowLeft,
@@ -563,7 +561,6 @@ export default {
   },
 
   components: {
-    TheFluffiesLogo,
     Version,
     NetworkStatus
   },
@@ -592,11 +589,16 @@ div.max
 .size-by-content
   height: 100%
 
-svg.logo
+.logo
   background-image: linear-gradient(to right, #fa2, #f64)
   border-radius: 4vmin
   max-width: 400px
   cursor: pointer
+  left: 50%
+  transform: translate(-50%)
+
+  .v-responsive__content
+    padding-bottom: 40.6667%!important
 
 #easter
   display: block
@@ -663,16 +665,16 @@ svg.logo
 
 @keyframes logo
   0%
-    transform: rotate(0deg)
+    transform: translate(-50%) rotate(0deg)
 
   33%
-    transform: rotate(-3deg)
+    transform: translate(-50%) rotate(-3deg)
 
   66%
-    transform: rotate(3deg)
+    transform: translate(-50%) rotate(3deg)
 
   100%
-    transform: rotate(0deg)
+    transform: translate(-50%) rotate(0deg)
 
 @keyframes easter
   0%

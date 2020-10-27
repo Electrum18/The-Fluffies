@@ -1,8 +1,8 @@
 <template lang="pug">
   v-app
-    Blob1.blob1.blobs
-    Blob2.blob2.blobs
-    Blob3.blob3.blobs
+    v-img(:src="require('~/assets/svg/under/Blob1.svg')").blob1.blobs
+    v-img(:src="require('~/assets/svg/under/Blob2.svg')").blob2.blobs
+    v-img(:src="require('~/assets/svg/under/Blob3.svg')").blob3.blobs
 
     nuxt
 
@@ -13,7 +13,7 @@
       span.d-flex.d-sm-none &copy; The Fluffies
 
       v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-        v-if="pathname != '/termsofservice'"
+        v-if="pathname !== '/termsofservice' && pathname !== '/ru/termsofservice'"
         small
         text
         target="_blank"
@@ -24,7 +24,7 @@
       ) {{ $t('index.terms') }}
 
       v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-        v-if="pathname != '/privacypolicy'"
+        v-if="pathname !== '/privacypolicy' && pathname !== '/ru/privacypolicy'"
         small
         text
         target="_blank"
@@ -50,9 +50,9 @@
         )
           v-icon(large) {{ dark ? icons.mdiBrightness7 : icons.mdiMoonWaningCrescent }}
 
-    UpperBlob1.blob1.blobs
-    UpperBlob2.blob2.blobs
-    UpperBlob3.blob3.blobs
+    v-img(:src="require('~/assets/svg/upper/Blob1.svg')").blob1.blobs
+    v-img(:src="require('~/assets/svg/upper/Blob2.svg')").blob2.blobs
+    v-img(:src="require('~/assets/svg/upper/Blob3.svg')").blob3.blobs
 
     Patrons
 </template>
@@ -68,17 +68,8 @@ import Socials from '~/components/Socials'
 import Locale from '~/components/Locale'
 import Patrons from '~/components/Patrons'
 
-import Blob1 from '~/assets/svg/under/Blob1.svg'
-import Blob2 from '~/assets/svg/under/Blob2.svg'
-import Blob3 from '~/assets/svg/under/Blob3.svg'
-
-import UpperBlob1 from '~/assets/svg/upper/Blob1.svg'
-import UpperBlob2 from '~/assets/svg/upper/Blob2.svg'
-import UpperBlob3 from '~/assets/svg/upper/Blob3.svg'
-
 export default {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $vuetify } }) {
+  setup(_, { root: { $vuetify } }) {
     const { dark } = darkMode($vuetify)
 
     const icons = reactive({
@@ -104,15 +95,7 @@ export default {
   components: {
     Socials,
     Locale,
-    Patrons,
-
-    Blob1,
-    Blob2,
-    Blob3,
-
-    UpperBlob1,
-    UpperBlob2,
-    UpperBlob3
+    Patrons
   }
 }
 </script>
@@ -122,6 +105,7 @@ export default {
   position: fixed
   pointer-events: none
   width: 50vmin
+  height: 46vmin
   max-width: 350px
 
 .blob1

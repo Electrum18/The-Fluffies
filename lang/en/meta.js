@@ -9,5 +9,5 @@ export default {
   },
 
   description:
-    'Create and animate your pony characters through this editor without installation with just a few clicks'
+    'New editor for creating pony characters and pony animations, has many hairstyles, tails and clothes with technology of any pose and angle. Made as a replacement for the old pony creator with new features.'
 }

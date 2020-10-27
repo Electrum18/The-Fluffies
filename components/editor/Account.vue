@@ -30,7 +30,7 @@
             :color="badgeColor(user.level)"
           )
 
-        v-icon#avatar-icon(v-else) $vuetify.icons.values.pony
+        v-icon#avatar-icon(v-else large) $vuetify.icons.values.pony
 
     v-card(v-if="user.id" dark :style="dialogPatronBorder")
       v-card-title {{ $t('editor.profile.title') }}

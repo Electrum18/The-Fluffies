@@ -50,7 +50,7 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxt/typescript-build',
     '@nuxtjs/vuetify',
-    '@bazzite/nuxt-optimized-images',
+    '@aceforth/nuxt-optimized-images',
     '@nuxtjs/google-analytics'
   ],
   /*
@@ -60,7 +60,6 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    'nuxt-svg-loader',
     'nuxt-webfontloader',
     'nuxt-i18n',
     '@nuxtjs/sitemap'
@@ -116,10 +115,10 @@ export default {
   },
   /*
    ** Optimized images module configuration
-   ** See https://github.com/bazzite/nuxt-optimized-images
+   ** See https://github.com/juliomrqz/nuxt-optimized-images
    */
   optimizedImages: {
-    optimizeImages: true
+    inlineImageLimit: -1
   },
   /*
    ** sitemap module configuration
@@ -145,7 +144,13 @@ export default {
       { url: '/ru/support', priority: 0.8 },
 
       { url: '/editor', priority: 0.5 },
-      { url: '/ru/editor', priority: 0.5 }
+      { url: '/ru/editor', priority: 0.5 },
+
+      { url: '/termsofservice', priority: 0.2 },
+      { url: '/ru/termsofservice', priority: 0.2 },
+
+      { url: '/privacypolicy', priority: 0.2 },
+      { url: '/ru/privacypolicy', priority: 0.2 }
     ]
   },
   /*
