@@ -4,7 +4,7 @@
       nuxt
 
     .loading
-      PonyAvatarLogo.loading-pony
+      v-img(:src="require('~/assets/svg/PonyLoadingLogo.svg')" eager).loading-pony
 
       .loading-button.left-top
       .loading-button.right-top
@@ -14,8 +14,6 @@
 
 <script>
 import { onMounted } from '@vue/composition-api'
-
-import PonyAvatarLogo from '~/assets/svg/PonyLoadingLogo.svg'
 
 export default {
   setup() {
@@ -28,10 +26,6 @@ export default {
         loading.remove()
       }, 500)
     })
-  },
-
-  components: {
-    PonyAvatarLogo
   }
 }
 </script>
