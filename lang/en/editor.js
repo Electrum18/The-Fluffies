@@ -18,6 +18,11 @@ export default {
   close: 'close',
   save: 'save',
 
+  mode: {
+    head: 'Head',
+    body: 'Body'
+  },
+
   menu: {
     separated: 'Separated color',
     separate: 'separate',

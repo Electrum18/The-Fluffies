@@ -144,7 +144,7 @@ export default function(this: any) {
     // Animation rendering
 
     if (this.rendering) {
-      const frameDuration = 1000 / 60
+      const frameDuration = 1000 / this.getFPS
 
       this.gif.addFrame(
         this.$refs.avatar,

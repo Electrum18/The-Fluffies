@@ -22,7 +22,9 @@ export const state = () => ({
     enabled: true
   },
 
-  tapping: true
+  tapping: true,
+
+  edit_mode: 1
 })
 
 export const getters = {
@@ -45,7 +47,9 @@ export const getters = {
 
   getWind: ({ wind }) => wind.enabled,
 
-  getTapping: ({ tapping }) => tapping
+  getTapping: ({ tapping }) => tapping,
+
+  getEditMode: ({ edit_mode: editMode }) => editMode
 }
 
 export const mutations = {
@@ -90,5 +94,7 @@ export const mutations = {
 
   setWind: (state, bool) => (state.wind.enabled = bool),
 
-  setTapping: (state, bool) => (state.tapping = bool)
+  setTapping: (state, bool) => (state.tapping = bool),
+
+  setEditMode: (state, value) => (state.edit_mode = value)
 }

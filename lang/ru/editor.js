@@ -18,6 +18,11 @@ export default {
   close: 'закрыть',
   save: 'сохранить',
 
+  mode: {
+    head: 'Голова',
+    body: 'Тело'
+  },
+
   menu: {
     separated: 'Отдельный цвет',
     separate: 'отделить',

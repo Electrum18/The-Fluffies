@@ -226,7 +226,8 @@ export default function(
   calculated: ICalculated,
   wind: IWind,
   windPropers: IWindPropers,
-  position: IObject
+  position: IObject,
+  editMode: Boolean
 ) {
   const { Angle } = transforming(ctx, quality)
   const { Fill, Stroke, Draw, Clip } = graphics(
@@ -244,14 +245,14 @@ export default function(
       angle: TAngle[] | TAngle,
       callback: (globals: IDrawProps) => void
     ) {
-      const scale = position.scale * 0.7
+      const scale = position.scale * (editMode ? 0.7 : 1.4)
 
       const pos = {
         x: (position.horizontal * 11) + 608,
-        y: (position.vertical * 5) - 64
+        y: (position.vertical * 5) - (editMode ? 64 : -160)
       }
 
-      const shift = (absAngle ** 0.5) * (mirror ? -200 : 200)
+      const shift =  (absAngle ** 0.5) * (mirror ? -200 : 200)
 
       const degToRad = Math.PI / 180
 
