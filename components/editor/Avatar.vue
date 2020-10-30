@@ -159,7 +159,8 @@ export default {
       'getQuality',
       'getRendering',
       'getRendered',
-      'getWind'
+      'getWind',
+      'getEditMode'
     ]),
 
     timeline() {

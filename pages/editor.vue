@@ -40,6 +40,29 @@
 
           NetworkStatus
 
+        v-row.mx-0.mt-2
+          v-spacer
+
+          v-btn-toggle.d-none.d-sm-flex(
+            v-model="editMode"
+            dense
+            mandatory
+            dark
+            color="primary"
+          )
+            v-btn(outlined :aria-label="$t('editor.mode.head')") {{ $t('editor.mode.head') }}
+            v-btn(outlined :aria-label="$t('editor.mode.body')") {{ $t('editor.mode.body') }}
+
+          v-btn-toggle.d-flex.d-sm-none(
+            v-model="editMode"
+            dense
+            mandatory
+            dark
+            color="primary"
+          )
+            v-btn(outlined :aria-label="$t('editor.mode.head')" small) {{ $t('editor.mode.head') }}
+            v-btn(outlined :aria-label="$t('editor.mode.body')" small) {{ $t('editor.mode.body') }}
+
     // Bottom interface
 
     v-app-bar(
@@ -255,6 +278,13 @@ export default {
 
     if (process.client) commit('avatar/setSaveIndex', localStorage.getItem('defaultIndex') || 0)
 
+    const editMode = computed({
+      get: () => getters['interface/getEditMode'],
+      set(value) {
+        commit('interface/setEditMode', value)
+      }
+    })
+
     return {
       getPage,
       openPage,
@@ -268,7 +298,9 @@ export default {
       icons,
       list,
 
-      Feedback: ref(false)
+      Feedback: ref(false),
+
+      editMode
     }
   },
 

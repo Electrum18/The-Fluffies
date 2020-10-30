@@ -82,16 +82,42 @@ interface IModule {
   angle: number
   wind: IWind
   windPropers: IWindPropers
-  position: IObject
+  position: IObject,
+  getEditMode: Boolean
 }
 
 export default function(
-  { ctx, quality, properties, globals, getColor, horiz, mirror, angle, wind, windPropers, position }: IModule,
+  {
+    ctx,
+    quality,
+    properties,
+    globals,
+    getColor,
+    horiz,
+    mirror,
+    angle,
+    wind,
+    windPropers,
+    position,
+    getEditMode
+  }: IModule,
 
   calculated: ICalculated,
   absAngle: number
 ) {
-  const { Layer, Elem } = layers(ctx, quality, globals, mirror, absAngle, calculated, wind, windPropers, position)
+  const { Layer, Elem } = layers(
+    ctx,
+    quality,
+    globals,
+    mirror,
+    absAngle,
+    calculated,
+    wind,
+    windPropers,
+    position,
+    getEditMode
+  )
+
   const { Positions, Rotate, Stroke, Clip } = shortcuts(
     horiz,
     angle,
