@@ -46,7 +46,38 @@
     "emo_long": [null, null, null, 0, 1],
     "short_to_side": [null, 0, null, 1, null, 2],
     "bob_cut": [null, 0, 0, null, 1, 2],
-    "bob_cut_with_tail": [null, 0, 0, null, 1, 2]
+    "bob_cut_with_tail": [null, 0, 0, null, 1, 2],
+    "spiky_to_side_3": [null, 0, null, 1, null, 2, null, 3],
+    "spiky_to_side_4": [null, 0, null, 1, null, 2],
+    "spiky_small": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "spiky_small_2": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "spiky_small_3": [null, null, null, 0, null, null, null, null, 1, null, null, null, null, 2],
+    "spiky_bang": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "spiky_bang_2": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
+    "dreads_fluff": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 0, null, 1, null, 2, null, 3],
+    "soft_to_side_5": [null, 0, null, 1, null, 2],
+    "soft_to_side_6": [null, 0, null, 1, null, 2],
+    "two_sides": [null, 0, null, 1, 1, null, 2, 2, null, 3, null, 4, null, 0, null, 1, 1, null, 2, 2],
+    "two_sides_2": [null, null, null, null, null, null, 0, 0, 1, 2, 2],
+    "with_tail_4": [null, null, 0, null, 1, 1],
+    "with_tail_5": [null, null, 0, null, 1],
+    "with_tail_6": [null, null, 0],
+    "with_tails": [null, 0, null, 1, null, 2, null, 3],
+    "with_tails_2": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6],
+    "with_tails_3": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "with_tails_4": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "with_tails_5": [null, 0, null, 1, null, 2, null, 3],
+    "with_tails_6": [null, 0, null, 1, null, 2, null, 3],
+    "with_tails_7": [null, 0, null, 1, null, 2, null, 3, null, null, 4, null, 5, null, 6, null, 7, null],
+    "with_tails_8": [null, 0, null, 1, null, 2],
+    "with_tails_9": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "feathers_to_back_4": [null, 0, null, 1, null, 2, null, 3],
+    "feathers_to_back_5": [null, 0, null, 1, null, 2],
+    "feathers_bang": [null, 0, null, 1, null, 2, null, 3, null, 4],
+    "feathers": [null, 0, null, 1, null, 2],
+    "feathers_2": [null, 0, null, 1, null, 2],
+    "feathers_3": [null, 0, null, 1, null, 2, null, 3],
+    "feathers_to_up": [null, 0, null, 1, null, 2, null, 3]
   },
 
   "front_second": {
@@ -88,7 +119,11 @@
     "emo_short_3": [null, null, 2, null, 3],
     "short_to_side": [null, null, 1],
     "bob_cut": [null, 0, 0],
-    "bob_cut_with_tail": [null, 0, 0]
+    "bob_cut_with_tail": [null, 0, 0],
+    "spiky_to_side_3": [null, null, 1, null, 2],
+    "spiky_to_side_4": [null, null, 1, null, 2],
+    "spiky_small": [null, null, 4, null, 5],
+    "spiky_bang_2": [null, null, 1, null, 2, null, 3]
   },
 
   "back": {
@@ -127,7 +162,22 @@
     "emo_short_3": [null, 0, null, 1, null, 2],
     "emo_long": [null, null, 1, 1],
     "bob_cut": [null, 1, 2],
-    "bob_cut_with_tail": [null, 1, 2]
+    "bob_cut_with_tail": [null, 1, 2],
+    "spiky_to_side_3": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "soft_to_side_5": [null, 0, null, 1, null, 2],
+    "soft_to_side_6": [null, 0, null, 1, null, 2],
+    "two_sides": [null, 0, null, 1, 1, null, 2, 2],
+    "two_sides_2": [null, 0, 0, 1, 2, 2],
+    "with_tail_6": [null, null, 1],
+    "with_tails": [null, 0, null, 1, null, 2],
+    "with_tails_2": [null, 0, null, 1, null, 2],
+    "with_tails_3": [null, 0, null, 1, null, 2],
+    "with_tails_4": [null, 0, null, 1, null, 2],
+    "with_tails_5": [null, 0, null, 1, null, 2],
+    "with_tails_6": [null, 0, null, 1, null, 2],
+    "with_tails_7": [null, 0, null, 1, null, 2],
+    "with_tails_8": [null, 0, null, 1, null, 2],
+    "with_tails_9": [null, 0, null, 1, null, 2]
   },
 
   "back_second": {
@@ -155,7 +205,16 @@
     "wavy_to_side": [0, 1, 2, 3, 2, 3, 4, 5, 4],
     "long_to_side": [null, null, 1, null, 2],
     "emo_short_3": [null, null, 2],
-    "emo_long": [null, 1, 1]
+    "emo_long": [null, 1, 1],
+    "with_tails": [null, null, 1],
+    "with_tails_2": [null, null, 1],
+    "with_tails_3": [null, null, 1],
+    "with_tails_4": [null, null, 1],
+    "with_tails_5": [null, null, 1],
+    "with_tails_6": [null, null, 1],
+    "with_tails_7": [null, null, 1],
+    "with_tails_8": [null, null, 1],
+    "with_tails_9": [null, null, 1]
   },
 
   "tail": {
@@ -195,7 +254,31 @@
     "emo_long": [null, 1, 1],
     "short_to_side": [null, 1, null, 0],
     "bob_cut": [null, 2, 1],
-    "bob_cut_with_tail": [null, 4, null, 3, 2, null, 2, 1]
+    "bob_cut_with_tail": [null, 4, null, 3, 2, null, 2, 1],
+    "spiky_to_side_3": [null, 0, null, 1],
+    "spiky_to_side_4": [null, 0, null, 1, null, 2],
+    "spiky_small_3": [null, 0, null, 1, null, 2],
+    "dreads_fluff": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 3, null, 2, null, 1],
+    "two_sides_2": [null, 3],
+    "with_tail_4": [null, null, null, null, null, 0, null, 1],
+    "with_tail_5": [null, null, null, null, null, 0, null, 1, null, 2, null, 3, null, 4],
+    "with_tails": [null, 0, null, 1, null, 2],
+    "with_tails_2": [null, 0, null, 1, null, 2],
+    "with_tails_3": [null, 0, null, 1, null, 2],
+    "with_tails_4": [null, 0, null, 1, null, 2],
+    "with_tails_5": [null, 0, null, 1, null, 2],
+    "with_tails_6": [null, 0, null, 1, null, 2],
+    "with_tails_7": [null, 0, null, 1, null, 2],
+    "with_tails_8": [null, 0, null, 1, null, 2],
+    "with_tails_9": [null, 0, null, 1, null, 2],
+    "feathers_to_back": [null, 0, 1, 2, 3, 4],
+    "feathers_to_back_2": [null, 0, null, 1, null, 2, null, 3],
+    "feathers_to_back_3": [null, null, 1, null, 2, null, 3, null, 4, null, 5],
+    "feathers_to_back_4": [null, 3, null, 2, null, 1, null, 0],
+    "feathers_to_back_5": [null, 0, 1, 2, 3, 4],
+    "feathers": [null, 0, null, 1, null, 2, null, 3, null, 4],
+    "feathers_2": [null, 0, null, 1, null, 2, null, 3],
+    "feathers_3": [null, 0, null, 1, null, 2]
   },
 
   "tail_second": {
@@ -217,7 +300,8 @@
     "long_tails": [null, null, 2, 3, null, null],
     "short_tails": [null, null, 1, null, null],
     "many_tails": [null, null, 3, null, 4],
-    "with_tail_3": [null, null, 1]
+    "with_tail_3": [null, null, 1],
+    "with_tail_4": [null, null, 0, null, 1]
   },
 
   "body_tail": {

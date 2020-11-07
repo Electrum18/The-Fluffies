@@ -144,6 +144,7 @@ export default function(
     piercings_right_lower: piercingRLower,
     horn_rear,
     hair_dreads,
+    hair_feathers,
     hair_second,
     tail_dreads,
     tail_name_en,
@@ -246,6 +247,9 @@ export default function(
   const hooves_color = hooves_second_color ? hooves_second_basic : fur_basic
   const hooves_color_shade = hooves_second_color ? hooves_second_shade : fur_shade
 
+  const hair_color = hair_feathers ? fur_basic : hair_basic
+  const hair_stroke = hair_feathers ? Stroke.fur : Stroke.hair
+
   let height
 
   // Declaration of layers
@@ -336,17 +340,17 @@ export default function(
       Elem('tail', transparent, Stroke.dreads_tint)
       Elem('tail', transparent, Stroke.dreads)
     } else {
-      Elem('back', hair_basic)
+      Elem('back', hair_color)
 
       if (hair_second) Elem('back_second', hair_second_color)
 
-      Elem('back', transparent, Stroke.hair)
+      Elem('back', transparent, hair_stroke)
 
-      Elem('tail', hair_basic)
+      Elem('tail', hair_color)
 
       if (hair_second) Elem('tail_second', hair_second_color)
 
-      Elem('tail', transparent, Stroke.hair)
+      Elem('tail', transparent, hair_stroke)
     }
   })
 
@@ -698,11 +702,11 @@ export default function(
       Elem('front', transparent, Stroke.dreads_tint)
       Elem('front', transparent, Stroke.dreads)
     } else {
-      Elem('front', hair_basic)
+      Elem('front', hair_color)
 
       if (hair_second) Elem('front_second', hair_second_color, transparent)
 
-      Elem('front', transparent, Stroke.hair)
+      Elem('front', transparent, hair_stroke)
     }
   })
 

@@ -274,11 +274,8 @@ export default {
     },
 
     'getGlobal.hair_name_en'(name) {
-      if (/Dreads/.test(name)) {
-        this.setGlobal({ path: 'hair_dreads', value: true })
-      } else {
-        this.setGlobal({ path: 'hair_dreads', value: false })
-      }
+      this.setGlobal({ path: 'hair_dreads', value: /Dreads/.test(name) })
+      this.setGlobal({ path: 'hair_feathers', value: /Feathers/.test(name) })
 
       if (this.paths.hairs[name]) {
         this.paths.hairs.name = name
@@ -290,11 +287,7 @@ export default {
     },
 
     'getGlobal.tail_name_en'(name) {
-      if (/Dreads/.test(name)) {
-        this.setGlobal({ path: 'tail_dreads', value: true })
-      } else {
-        this.setGlobal({ path: 'tail_dreads', value: false })
-      }
+      this.setGlobal({ path: 'tail_dreads', value: /Dreads/.test(name) })
 
       if (this.paths.tails[name]) {
         this.paths.tails.name = name
