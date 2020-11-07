@@ -21,7 +21,11 @@
           )
             v-icon {{ icons.mdiKeyboardBackspace }}
 
-        BarList(target="hair" isListOf='hairs')
+        BarList(
+          target="hair"
+          isListOf='hairs'
+          style="height: calc(100vh - 98px); overflow: auto"
+        )
 </template>
 
 <script>

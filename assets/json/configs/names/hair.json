@@ -1,5 +1,9 @@
 [
   {
+    "name": { "en": "Empty", "ru": "Пустой" },
+    "author": "Electrum18"
+  },
+  {
       "name": { "en": "Simply", "ru": "Простецкий" },
       "author": "Electrum18"
   },
@@ -20,6 +24,14 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "Spiky to side 3", "ru": "Шипастая на бок 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky to side 4", "ru": "Шипастая на бок 4" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Spiky to back", "ru": "Шипастая назад" },
       "author": "Electrum18"
   },
@@ -29,6 +41,26 @@
   },
   {
       "name": { "en": "Spiky short", "ru": "Шипастая короткая" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky small", "ru": "Шипастая маленькая" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky small 2", "ru": "Шипастая маленькая 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky small 3", "ru": "Шипастая маленькая 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky bang", "ru": "Шипастая чёлка" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Spiky bang 2", "ru": "Шипастая чёлка 2" },
       "author": "Electrum18"
   },
   {
@@ -104,6 +136,10 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "Dreads fluff", "ru": "Дреды пушистые" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Soft to side", "ru": "Мягкая на бок" },
       "author": "Electrum18"
   },
@@ -120,11 +156,27 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "Soft to side 5", "ru": "Мягкая на бок 5" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Soft to side 6", "ru": "Мягкая на бок 6" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Soft long", "ru": "Мягкая длинная" },
       "author": "Electrum18"
   },
   {
       "name": { "en": "Soft long 2", "ru": "Мягкая длинная 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Two sides", "ru": "В две стороны" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Two sides 2", "ru": "В две стороны 2" },
       "author": "Electrum18"
   },
   {
@@ -164,6 +216,18 @@
       "author": "Electrum18"
   },
   {
+      "name": { "en": "With tail 4", "ru": "С хвостом 4" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tail 5", "ru": "С хвостом 5" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tail 6", "ru": "С хвостом 6" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Wavy to side", "ru": "Волнистые на бок" },
       "author": "Electrum18"
   },
@@ -197,6 +261,78 @@
   },
   {
       "name": { "en": "Bob cut with tail", "ru": "Каре с хвостом" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails", "ru": "С хвостами" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 2", "ru": "С хвостами 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 3", "ru": "С хвостами 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 4", "ru": "С хвостами 4" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 5", "ru": "С хвостами 5" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 7", "ru": "С хвостами 7" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 8", "ru": "С хвостами 8" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "With tails 9", "ru": "С хвостами 9" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to back", "ru": "Перья назад" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to back 2", "ru": "Перья назад 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to back 3", "ru": "Перья назад 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to back 4", "ru": "Перья назад 4" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to back 5", "ru": "Перья назад 5" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers bang", "ru": "Чёлка из перьев" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers", "ru": "Перья" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers 2", "ru": "Перья 2" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers 3", "ru": "Перья 3" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Feathers to up", "ru": "Перья на верх" },
       "author": "Electrum18"
   }
 ]
