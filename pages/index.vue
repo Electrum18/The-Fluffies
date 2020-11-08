@@ -5,8 +5,6 @@
       v-img(:src="require('~/assets/img/Defaulty_Deer.png?webp')" :style="positions[2]")
       v-img(:src="require('~/assets/img/Defaulty.png?webp')" :style="positions[0]")
 
-    h1.header {{ $t('meta.title.index') }}
-
     v-row
       Version.mx-3
       v-spacer
@@ -204,6 +202,8 @@
             color="red lighten-1"
             @click="clearing = !clearing"
             v-on="on"
+            :title="$t('index.repair')"
+            :aria-label="$t('index.repair')"
           )
             v-icon {{ icons.mdiAlert }}
 
@@ -574,13 +574,6 @@ export default {
 <style lang="sass">
 html
   overflow: auto!important
-
-.header
-  position: fixed
-  opacity: 0
-  pointer-events: none
-  width: 0
-  height: 0
 
 div.max
   position: relative
