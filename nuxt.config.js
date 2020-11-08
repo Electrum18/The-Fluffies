@@ -1,5 +1,6 @@
 export default {
-  mode: 'universal',
+  ssr: false,
+  target: 'static',
   /*
    ** See headers of the page
    */
@@ -135,7 +136,7 @@ export default {
 
     routes: [
       { url: '/', priority: 1 },
-      { url: '/ru/', priority: 1 },
+      { url: '/ru', priority: 1 },
 
       { url: '/about', priority: 0.8 },
       { url: '/ru/about', priority: 0.8 },

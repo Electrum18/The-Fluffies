@@ -1,7 +1,5 @@
 <template lang="pug">
   div
-    h1.header {{ $t('meta.title.editor') }}
-
     Menu(:open="getPage === 'Avatar'")
     MenuHairs(:open="getPage === 'Hairs'")
     MenuTails(:open="getPage === 'Tails'")
@@ -401,13 +399,6 @@ html
   100%
     right: 15vmin
     transform: scale(0)
-
-.header
-  position: fixed
-  opacity: 0
-  pointer-events: none
-  width: 0
-  height: 0
 
 .recording
   animation: recording 3s linear infinite

@@ -9,30 +9,31 @@
     .my-7
 
     v-footer(fixed app)
-      span.d-none.d-sm-flex &copy; {{ new Date().getFullYear() }} - The Fluffies
-      span.d-flex.d-sm-none &copy; The Fluffies
+      div.d-none.d-sm-flex &copy; {{ new Date().getFullYear() }} - The Fluffies
+      div.d-flex.d-sm-none &copy; The Fluffies
 
-      v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-        v-if="pathname !== '/termsofservice' && pathname !== '/ru/termsofservice'"
-        small
-        text
-        target="_blank"
-        :title="$t('index.terms')"
-        href="termsofservice"
-        rel="noopener"
-        :aria-label="$t('index.terms')"
-      ) {{ $t('index.terms') }}
+      div#footer
+        div(v-if="!/termsofservice/.test(pathname)")
+          v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+            small
+            text
+            target="_blank"
+            :title="$t('index.terms')"
+            href="termsofservice"
+            rel="noopener"
+            :aria-label="$t('index.terms')"
+          ) {{ $t('index.terms') }}
 
-      v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-        v-if="pathname !== '/privacypolicy' && pathname !== '/ru/privacypolicy'"
-        small
-        text
-        target="_blank"
-        :title="$t('index.privacy')"
-        href="privacypolicy"
-        rel="noopener"
-        :aria-label="$t('index.privacy')"
-      ) {{ $t('index.privacy') }}
+        div(v-if="!/privacypolicy/.test(pathname)")
+          v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+            small
+            text
+            target="_blank"
+            :title="$t('index.privacy')"
+            href="privacypolicy"
+            rel="noopener"
+            :aria-label="$t('index.privacy')"
+          ) {{ $t('index.privacy') }}
 
       v-spacer
 
@@ -119,4 +120,7 @@ export default {
 .blob3
   top: 0
   right: 0
+
+div#footer
+  display: flex!important
 </style>
