@@ -1,6 +1,16 @@
 [
   {
+    "name": { "en": "Empty", "ru": "Пустой" },
+    "author": "Electrum18"
+  },
+
+  {
       "name": { "en": "Simple", "ru": "Простая" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Spiky", "ru": "Шипастая" },
       "author": "Electrum18"
   },
 
@@ -65,12 +75,57 @@
   },
 
   {
+      "name": { "en": "Long 4", "ru": "Длинная 4" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Long 5", "ru": "Длинная 5" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Long 6", "ru": "Мульти" },
+      "author": "Electrum18"
+  },
+
+  {
       "name": { "en": "Wolf", "ru": "Волчий" },
       "author": "Electrum18"
   },
 
   {
       "name": { "en": "Cat", "ru": "Кошачий" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Dog", "ru": "Собачий" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Zebra", "ru": "Зебриный" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Shark", "ru": "Акулий" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Shark 2", "ru": "Акулий 2" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Pigtail", "ru": "Косичка" },
+      "author": "Electrum18"
+  },
+
+  {
+      "name": { "en": "Pigtail 2", "ru": "Косичка 2" },
       "author": "Electrum18"
   }
 ]
