@@ -37,6 +37,14 @@ export default {
    */
   loading: { color: '#fa0' },
   /*
+   ** Modifying the loading indicator for spa  - https://nuxtjs.org/guides/features/loading
+   */
+  loadingIndicator: {
+    name: 'folding-cube',
+    color: '#fa0',
+    background: '#222'
+  },
+  /*
    ** Global CSS
    */
   css: [],

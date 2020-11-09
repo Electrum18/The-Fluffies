@@ -274,7 +274,12 @@ export default function(
       if (fur_second_color) Elem('body_tail_second', fur_second_basic)
 
       Elem('body_tail', transparent, Stroke.fur)
-    } else if (tail_name_en[0] === 'L' && tail_name_en[3] === 'g') {
+    } else if (
+      (tail_name_en[0] === 'L' && tail_name_en[3] === 'g') ||
+      (tail_name_en[0] === 'S' && tail_name_en[4] === 'k') ||
+      tail_name_en === 'Zebra' ||
+      tail_name_en === 'Dog'
+    ) {
       Elem('body_tail_second', hair_basic, Stroke.hair)
       Elem('body_tail', fur_basic, Stroke.fur)
     } else {

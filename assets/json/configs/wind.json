@@ -306,6 +306,7 @@
 
   "body_tail": {
     "simple": [null, 0, null, 1, null, 2, null, 3, null, 2, null, 1],
+    "spiky": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
     "short": [null, 0, null, 1, null, 2, null, 3, null, 2],
     "tiny": [null, null, 0, null, 1, null, 2, null, 3, null, 2],
     "smooth": [null, 0, 2, 0, null],
@@ -316,16 +317,25 @@
     "dreads_tiny": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7],
     "deer": [null, 0, null, 1, null, 2, null, 3, null, 4],
     "wolf": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5],
-    "cat": [null, 0, null, 1, null, 2, null, 3, null, 4, null, null, 5, null, 6, null, 7]
+    "cat": [null, 0, null, 1, null, 2, null, 3, null, 4, null, null, 5, null, 6, null, 7],
+    "dog": [null, null, null, null, 0, null, 1, null, 2],
+    "pigtail": [null, 0, null, 1, null, 2],
+    "pigtail_2": [null, 0, null, 1, null, 2]
   },
 
   "body_tail_second": {
     "smooth": [null, 0, 2, 0, null],
+    "spiky": [null, null, 3, null, 4],
     "flat": [null, 1, 0, null],
     "flat_long": [null, 1, 0, null],
     "long": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 0, null, 1, null],
     "long_2": [null, 0, null, 1, null, 2, null, 3, null, 4, 4, null, 5, null, 6, null, 7],
-    "long_3": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 0, null, null, 1]
+    "long_3": [null, 0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 0, null, null, 1],
+    "long_5": [null, 0, null, 1, null, 2, null, 3],
+    "long_6": [null, 0, null, 1, null, 2],
+    "zebra": [null, null, 0, null, 1],
+    "pigtail": [null, null, 1],
+    "pigtail_2": [null, null, 1]
   },
 
   "ear_left_tassel": [null, 2, null, 1, null, 0, null, null],
