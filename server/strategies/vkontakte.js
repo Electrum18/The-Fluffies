@@ -31,7 +31,7 @@ function activateVKontakteStrategy(passport) {
               'ids.vk': user.id,
               'date.last': Date.now(),
               'avatars.vk': user._json.photo_200,
-              'emails.vk': user.emails[0].value
+              'emails.vk': user.emails[0] && user.emails[0].value ? user.emails[0].value : undefined
             })
 
             done(null, currentUser)
@@ -61,7 +61,7 @@ function activateVKontakteStrategy(passport) {
               ...values,
               'date.last': Date.now(),
               'avatars.vk': user._json.photo_200,
-              'emails.vk': user.emails[0].value
+              'emails.vk': user.emails[0] && user.emails[0].value ? user.emails[0].value : undefined
             })
 
             done(null, currentUser)
@@ -72,7 +72,8 @@ function activateVKontakteStrategy(passport) {
             jsonScheme.current.avatar = 'vk'
             jsonScheme.name = user.displayName
             jsonScheme.avatars.vk = user._json.photo_200
-            jsonScheme.emails.vk = user.emails[0].value
+            jsonScheme.emails.vk =
+              user.emails[0] && user.emails[0].value ? user.emails[0].value : undefined
 
             jsonScheme.date = {
               first: now,

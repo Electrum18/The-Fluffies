@@ -27,8 +27,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.shoulder')"
           val="hooves_front_left_shoulder_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -36,8 +36,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.elbow')"
           val="hooves_front_left_elbow_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -45,8 +45,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.wrist')"
           val="hooves_front_left_wrist_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 
       v-divider.my-4
@@ -57,8 +57,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.shoulder')"
           val="hooves_front_right_shoulder_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -66,8 +66,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.elbow')"
           val="hooves_front_right_elbow_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -75,8 +75,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.wrist')"
           val="hooves_front_right_wrist_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 
       v-divider.my-4
@@ -87,8 +87,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.thigh')"
           val="hooves_back_left_thigh_angle"
-          max=180
-          min=-180
+          max=45
+          min=-45
         )
 
         v-divider
@@ -96,8 +96,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.forearm')"
           val="hooves_back_left_forearm_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 
         v-divider
@@ -105,8 +105,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.knee')"
           val="hooves_back_left_knee_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -114,8 +114,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.foot')"
           val="hooves_back_left_foot_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 
       v-divider.my-4
@@ -126,8 +126,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.thigh')"
           val="hooves_back_right_thigh_angle"
-          max=180
-          min=-180
+          max=45
+          min=-45
         )
 
         v-divider
@@ -135,8 +135,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.forearm')"
           val="hooves_back_right_forearm_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 
         v-divider
@@ -144,8 +144,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.knee')"
           val="hooves_back_right_knee_angle"
-          max=180
-          min=-180
+          max=120
+          min=-120
         )
 
         v-divider
@@ -153,8 +153,8 @@
         BarSlider(
           :text="$t('editor.menu.paws.foot')"
           val="hooves_back_right_foot_angle"
-          max=180
-          min=-180
+          max=90
+          min=-90
         )
 </template>
 

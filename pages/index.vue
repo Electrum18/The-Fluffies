@@ -14,7 +14,8 @@
       div.px-12.mb-2(@click="easter($refs)")
         v-img(:src="require('~/assets/svg/TheFluffiesLogo.svg')" ref="logo").logo.logo-hide
 
-      h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
+      noindex
+        span.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
     client-only
       v-row.row-bottom.my-4

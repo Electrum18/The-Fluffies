@@ -1,6 +1,6 @@
 export default {
   title: {
-    index: 'The Fluffies: Pony animation and character editor',
+    index: 'A new pony creator? - The Fluffies: Pony animation and character editor',
     about: 'The Fluffies: About the project',
     support: 'The Fluffies: Types of support for the project',
     editor: 'The Fluffies: Pony creation editor',

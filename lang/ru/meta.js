@@ -1,6 +1,6 @@
 export default {
   title: {
-    index: 'The Fluffies: Редактор пони анимаций и персонажей',
+    index: 'Новый пони креатор? - The Fluffies: Редактор пони анимаций и персонажей',
     about: 'The Fluffies: О проекте',
     support: 'The Fluffies: Типы поддержки для проекта',
     editor: 'The Fluffies: Редактор создания пони',

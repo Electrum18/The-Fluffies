@@ -22,14 +22,16 @@ function activatePatreonStrategy(passport) {
       },
       async function (req, _accessToken, _refreshToken, user, done) {
         if (req.user) {
-          const similarUser = await User.findOne({ 'ids.patreon': user.id })
+          const similarUser = await User.findOne({
+            'ids.patreon': user.id ? user.id : user._json.id ? user._json.id : undefined
+          })
 
           if (similarUser) {
             done(null, false, { message: 'Collision found' })
           } else {
             const currentUser = await User.findById(req.user._id)
             await currentUser.updateOne({
-              'ids.patreon': user.id,
+              'ids.patreon': user.id ? user.id : user._json.id ? user._json.id : undefined,
               'date.last': Date.now(),
               'avatars.patreon': user.avatar,
               'emails.patreon': user._json.attributes.email
@@ -38,7 +40,9 @@ function activatePatreonStrategy(passport) {
             done(null, currentUser)
           }
         } else {
-          const currentUser = await User.findOne({ 'ids.patreon': user.id })
+          const currentUser = await User.findOne({
+            'ids.patreon': user.id ? user.id : user._json.id ? user._json.id : undefined
+          })
 
           if (currentUser) {
             const now = Date.now()
@@ -69,7 +73,7 @@ function activatePatreonStrategy(passport) {
           } else {
             const now = Date.now()
 
-            jsonScheme.ids.patreon = user.id
+            jsonScheme.ids.patreon = user.id ? user.id : user._json.id ? user._json.id : undefined
             jsonScheme.current.avatar = 'patreon'
             jsonScheme.name = user.name
             jsonScheme.avatars.patreon = user.avatar

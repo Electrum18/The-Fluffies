@@ -411,6 +411,11 @@ export default function(
     }
   )
 
+  /*
+  Layer(Positions.empty, Rotate.empty, () => {
+    Elem('skirt_behind', '#ff0', [14, '#880'])
+  })
+  */
 
   const leftForearmAng: [number, TPosition] = [shoulderLAngle, origins.hooves_left_front_forearm]
   const leftTibiaAng: [number, TPosition] = [elbowLAngle, origins.hooves_left_front_tibia]
@@ -515,6 +520,8 @@ export default function(
 
 
   Layer(Positions.empty, Rotate.empty, () => {
+    // Elem('skirt', '#ff0', [14, '#880'])
+
     Elem('neck', fur_basic, [7, fur_basic])
 
     if (fur_second_color) Elem('fur_second_chest', fur_second_basic)

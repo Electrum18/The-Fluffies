@@ -17,12 +17,7 @@ module.exports = {
 
   google: {
     clientID: '',
-    clientSecret: '',
-
-    email: {
-      user: '',
-      pass: ''
-    }
+    clientSecret: ''
   },
 
   vk: {

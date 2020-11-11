@@ -4,7 +4,6 @@ const fs = require('fs')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const nodemailer = require('nodemailer')
 const patreon = require('patreon')
 
 let io = require('socket.io')
@@ -48,16 +47,6 @@ const tokens = {
   access_token: undefined,
   refresh_token: keys.patreon.refreshToken
 }
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: keys.google.email.user,
-    pass: keys.google.email.pass
-  }
-})
 
 const patreonInfo = {
   pledges: {},
@@ -129,6 +118,7 @@ async function updateUsers() {
       doc.date.lastChecked = now + day
 
       if (doc.level < 0) doc.level = 0
+      /*
       if (doc.level === 0 && doc.mailing) {
         const emails = doc.emails
         const emailsArr = []
@@ -153,16 +143,8 @@ async function updateUsers() {
         ) {
           emailsArr.push(emails.patreon)
         }
-
-        for (let j = 0; j < emailsArr.length; j++) {
-          await transporter.sendMail({
-            from: keys.google.email.user,
-            to: emailsArr[j],
-            subject: Email.title[doc.current.lang],
-            html: Email.body[doc.current.lang]
-          })
-        }
       }
+      */
 
       doc.save()
     }

@@ -8,48 +8,49 @@
 
     .my-7
 
-    v-footer(fixed app)
-      div.d-none.d-sm-flex &copy; {{ new Date().getFullYear() }} - The Fluffies
-      div.d-flex.d-sm-none &copy; The Fluffies
+    noindex
+      v-footer(fixed app)
+        div.d-none.d-sm-flex &copy; {{ new Date().getFullYear() }} - The Fluffies
+        div.d-flex.d-sm-none &copy; The Fluffies
 
-      div#footer
-        div(v-if="!/termsofservice/.test(pathname)")
-          v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-            small
-            text
-            target="_blank"
-            :title="$t('index.terms')"
-            href="termsofservice"
-            rel="noopener"
-            :aria-label="$t('index.terms')"
-          ) {{ $t('index.terms') }}
+        div#footer
+          div(v-if="!/termsofservice/.test(pathname)")
+            v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+              small
+              text
+              target="_blank"
+              :title="$t('index.terms')"
+              href="termsofservice"
+              rel="noopener"
+              :aria-label="$t('index.terms')"
+            ) {{ $t('index.terms') }}
 
-        div(v-if="!/privacypolicy/.test(pathname)")
-          v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
-            small
-            text
-            target="_blank"
-            :title="$t('index.privacy')"
-            href="privacypolicy"
-            rel="noopener"
-            :aria-label="$t('index.privacy')"
-          ) {{ $t('index.privacy') }}
+          div(v-if="!/privacypolicy/.test(pathname)")
+            v-btn.text-caption.ml-1.px-1.d-none.d-md-flex(
+              small
+              text
+              target="_blank"
+              :title="$t('index.privacy')"
+              href="privacypolicy"
+              rel="noopener"
+              :aria-label="$t('index.privacy')"
+            ) {{ $t('index.privacy') }}
 
-      v-spacer
+        v-spacer
 
-      Locale
+        Locale
 
-      v-btn(
-          @click="dark = !dark"
-          :light="dark"
-          :dark="!dark"
-          absolute
-          fab
-          top
-          right
-          aria-label="Dark mode"
-        )
-          v-icon(large) {{ dark ? icons.mdiBrightness7 : icons.mdiMoonWaningCrescent }}
+        v-btn(
+            @click="dark = !dark"
+            :light="dark"
+            :dark="!dark"
+            absolute
+            fab
+            top
+            right
+            aria-label="Dark mode"
+          )
+            v-icon(large) {{ dark ? icons.mdiBrightness7 : icons.mdiMoonWaningCrescent }}
 
     v-img(:src="require('~/assets/svg/upper/Blob1.svg')").blob1.blobs
     v-img(:src="require('~/assets/svg/upper/Blob2.svg')").blob2.blobs
