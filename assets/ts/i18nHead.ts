@@ -1,6 +1,6 @@
 import { IMetaTag, IMetaTags, IMetaReturn } from '~/types/meta'
 
-export default function(self: any, page: string): IMetaReturn {
+export default function(self: any, page: string, canonical: string): IMetaReturn {
   const { messages, locale } = self.$i18n
 
   const t = messages[locale].meta
@@ -50,6 +50,14 @@ export default function(self: any, page: string): IMetaReturn {
     htmlAttrs,
     title: t.title[page],
     meta: [...appliedMeta, ...meta],
-    link
+    link: [
+      {
+        rel: 'canonical',
+        href: "https://the-fluffies.net" +
+          (page !== 'privacy' && page !== 'terms' && locale === 'ru' ? '/ru' : '') +
+          canonical
+      },
+      ...link
+    ]
   }
 }

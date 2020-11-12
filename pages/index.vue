@@ -567,7 +567,7 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'index')
+    return i18nHead(this, 'index', '/')
   }
 }
 </script>

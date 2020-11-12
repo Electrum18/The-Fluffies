@@ -330,7 +330,7 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'editor')
+    return i18nHead(this, 'editor', '/editor/')
   }
 }
 </script>

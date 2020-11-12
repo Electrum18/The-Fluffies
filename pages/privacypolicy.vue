@@ -48,7 +48,7 @@ import i18nHead from '~/assets/ts/i18nHead.ts'
 
 export default {
   head() {
-    return i18nHead(this, 'privacy')
+    return i18nHead(this, 'privacy', '/privacypolicy/')
   }
 }
 </script>

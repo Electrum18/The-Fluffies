@@ -137,7 +137,7 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'about')
+    return i18nHead(this, 'about', '/about/')
   }
 }
 </script>

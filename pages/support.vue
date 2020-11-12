@@ -102,7 +102,7 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'support')
+    return i18nHead(this, 'support', '/support/')
   }
 }
 </script>
