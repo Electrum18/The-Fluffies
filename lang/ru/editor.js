@@ -46,6 +46,13 @@ export default {
       pupils: 'Зрачки',
       width: 'ширина',
 
+      eyelashes: {
+        title: 'Ресницы',
+        enable: 'свой цвет',
+        color: 'ресниц',
+        scale: 'толщина'
+      },
+
       position: 'Позиция',
       horizontal: 'горизонтально',
       vertical: 'вертикально',
@@ -143,10 +150,15 @@ export default {
     horn: {
       title: 'Рога',
       changeling: 'чейнджлинг',
-      second: 'второй цвет',
+
       rear: {
         title: 'Задние рога',
         set: 'второго'
+      },
+
+      second: {
+        title: 'Второй цвет',
+        color: 'второго'
       }
     },
 

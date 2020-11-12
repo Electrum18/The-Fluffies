@@ -15,6 +15,22 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.horn.second.title') }}
+
+      BarSwitch(
+        :text="$t('editor.enable')"
+        val="horn_second_color"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.horn.second.color')"
+        val="horn_basic"
+        :shade="4 / 5"
+        off="horn_second_color"
+      )
+
+      v-divider.my-4
+
       p.subtitle-2 {{ $t('editor.menu.horn.rear.title') }}
 
       BarSwitch(

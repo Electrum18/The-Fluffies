@@ -169,7 +169,9 @@ export default function(
     pants_enable,
     scarf: scarf_enable,
     fluff_neck,
-    fluff_hooves
+    fluff_hooves,
+    horn_second_color,
+    eyelashes_second_color
   } = globals as IObject
 
   const {
@@ -209,7 +211,10 @@ export default function(
     scarf_basic,
     scarf_shade,
     fluff_basic,
-    fluff_shade
+    fluff_shade,
+    horn_basic,
+    horn_shade,
+    eyelashes_basic
   } = getColor
 
   const {
@@ -232,7 +237,9 @@ export default function(
     hooves_BACK_RIGHT_FOOT_ANGLE: footRAngle,
 
     eyes_BROWS_LEFT_WIDTH: browsLWidth,
-    eyes_BROWS_RIGHT_WIDTH: browsRWidth
+    eyes_BROWS_RIGHT_WIDTH: browsRWidth,
+
+    eyelashes_width
   } = properties
 
   const transparent = undefined
@@ -249,6 +256,12 @@ export default function(
 
   const hair_color = hair_feathers ? fur_basic : hair_basic
   const hair_stroke = hair_feathers ? Stroke.fur : Stroke.hair
+
+  const horn_color = horn_second_color ? horn_basic : fur_basic
+  const horn_color_shade = horn_second_color ? horn_shade : fur_shade
+
+  const eyelashes_color = eyelashes_second_color ? eyelashes_basic : '#222'
+  const eyelashes_scale = 9 + 4 * (eyelashes_width / 100)
 
   let height
 
@@ -592,7 +605,7 @@ export default function(
     Elem('eye_left_lid_down_fill', fur_basic, [2, fur_basic], Clip.head2)
     Elem('eye_left_lid_up', transparent, [9, '#222'], Clip.head2)
 
-    if (!male) Elem('eye_left_lashes', transparent, [9, '#222'])
+    if (!male && absAngle < 2 / 3) Elem('eye_left_lashes', transparent, [eyelashes_scale, eyelashes_color])
     if (glasses_enable) Elem('glasses_left', glasses_lenses, [12, glasses_frame])
   })
 
@@ -692,7 +705,7 @@ export default function(
     Elem('eye_right_lid_down_fill', fur_basic, [2, fur_basic], Clip.head2)
     Elem('eye_right_lid_up', transparent, [9, '#222'])
 
-    if (!male) Elem('eye_right_lashes', transparent, [9, '#222'])
+    if (!male) Elem('eye_right_lashes', transparent, [eyelashes_scale, eyelashes_color])
     if (glasses_enable) {
       Elem('glasses_nose', transparent, [12, glasses_frame])
       Elem('glasses_right', glasses_lenses, [12, glasses_frame])
@@ -750,10 +763,10 @@ export default function(
   Layer(Positions.head, Rotate.head, () => {
     if (horn_enable) {
       if (horn_changeling) {
-        Elem('horn_changeling', fur_basic, Stroke.fur)
+        Elem('horn_changeling', horn_color, [12, horn_color_shade])
       } else {
-        Elem('horn', fur_basic, Stroke.fur)
-        Elem('horn_second', transparent, [9, fur_shade])
+        Elem('horn', horn_color, [12, horn_color_shade])
+        Elem('horn_second', transparent, [9, horn_color_shade])
       }
     }
   })

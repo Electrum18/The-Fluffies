@@ -46,6 +46,13 @@ export default {
       pupils: 'Pupils',
       width: 'width',
 
+      eyelashes: {
+        title: 'Eyelashes',
+        enable: 'divide color',
+        color: 'eyelashes',
+        scale: 'wide'
+      },
+
       position: 'Position',
       horizontal: 'horizontal',
       vertical: 'vertical',
@@ -143,10 +150,15 @@ export default {
     horn: {
       title: 'Horns',
       changeling: 'changeling',
-      second: 'second color',
+
       rear: {
         title: 'Rear horns',
         set: 'set'
+      },
+
+      second: {
+        title: 'Second color',
+        color: 'second'
       }
     },
 

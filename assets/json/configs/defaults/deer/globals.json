@@ -105,5 +105,9 @@
 
   "ear_second_color": false,
 
+  "horn_second_color": false,
+
+  "eyelashes_second_color": false,
+
   "scarf": false
 }

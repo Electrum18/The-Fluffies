@@ -54,6 +54,29 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.eyes.eyelashes.title') }}
+
+      v-card(outlined).my-2
+        BarSlider(
+          :text="$t('editor.menu.eyes.eyelashes.scale')"
+          val="eyelashes_width"
+          max=150
+          min=50
+        )
+
+      BarSwitch(
+        :text="$t('editor.menu.eyes.eyelashes.enable')"
+        val="eyelashes_second_color"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.eyes.eyelashes.color')"
+        val="eyelashes_basic"
+        off="eyelashes_second_color"
+      )
+
+      v-divider.my-4
+
       p.subtitle-2 {{ $t('editor.menu.eyes.position') }}
 
       v-card(outlined).my-2
