@@ -2,17 +2,15 @@
   v-expansion-panel
     v-expansion-panel-header.title {{ $t('editor.menu.clothing.title') }}
     v-expansion-panel-content
-      BarSwitch(
-        :text="$t('editor.enable')"
-        val="clothing_enable"
-      )
-
       BarColor(
         :text="$t('editor.menu.clothing.color')"
         val="clothing_basic"
         :shade="4 / 5"
-        off="clothing_enable"
       )
+
+      v-divider.my-4
+
+      BarList(target="clothing")
 
       v-divider.my-4
 
@@ -27,10 +25,6 @@
         :shade="4 / 5"
         off="scarf"
       )
-
-      v-divider.my-4
-
-      BarList(target="clothing" off="clothing_enable")
 </template>
 
 <script>

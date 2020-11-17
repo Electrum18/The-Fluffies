@@ -149,7 +149,6 @@ export default {
 
     horn: {
       title: 'Horns',
-      changeling: 'changeling',
 
       rear: {
         title: 'Rear horns',
@@ -198,11 +197,7 @@ export default {
     piercing: {
       title: 'Piercing',
       color: 'piercings',
-
-      ears: {
-        left: 'Left ear',
-        right: 'Right ear'
-      }
+      ears: 'Ear piercing'
     },
 
     paws: {

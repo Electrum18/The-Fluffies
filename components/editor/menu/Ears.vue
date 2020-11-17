@@ -2,10 +2,7 @@
   v-expansion-panel
     v-expansion-panel-header.title {{ $t('editor.menu.ears.title') }}
     v-expansion-panel-content
-      BarSwitch.my-2(
-        :text="$t('editor.menu.ears.tassels')"
-        val="tassels"
-      )
+      BarList(target="ears")
 
       v-divider.my-4
 
@@ -25,11 +22,15 @@
 </template>
 
 <script>
+import BarList from '../BarLists'
+import BarSlider from '../BarSliders'
 import BarSwitch from '../BarSwitches'
 import BarColor from '../BarColors'
 
 export default {
   components: {
+    BarList,
+    BarSlider,
     BarSwitch,
     BarColor
   }

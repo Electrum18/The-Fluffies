@@ -21,19 +21,19 @@
   "tail_dreads": false,
 
 
-  "tassels": false,
   "fangs": false,
   "sharp_teeth": false,
 
-
-  "horn_enable": false,
-  "horn_changeling": false,
-  "horn_rear": true,
 
   "horn_name_en": "Long",
   "horn_name_ru": "Длинные",
 
   "horn_info": [],
+
+  "horn_front_name_en": "Empty",
+  "horn_front_name_ru": "Пустой",
+
+  "horn_front_info": [],
 
 
   "stripes_enable": false,
@@ -44,39 +44,34 @@
   "eyes_brows_color": false,
 
 
-  "glasses_enable": false,
-
-  "glasses_name_en": "Monolens",
-  "glasses_name_ru": "Монолинзовый",
+  "glasses_name_en": "Empty",
+  "glasses_name_ru": "Пустой",
 
   "glasses_info": [],
 
 
-  "clothing_enable": false,
-
-  "clothing_name_en": "Shirt",
-  "clothing_name_ru": "Рубашка",
+  "clothing_name_en": "Empty",
+  "clothing_name_ru": "Пустой",
 
   "clothing_info": [],
 
 
-  "pants_enable": false,
-
-  "pants_name_en": "Basic",
-  "pants_name_ru": "Обычные",
+  "pants_name_en": "Empty",
+  "pants_name_ru": "Пустой",
 
   "pants_info": [],
 
 
-  "piercings_left_enable": false,
-  "piercings_left_upper": false,
-  "piercings_left_middle": false,
-  "piercings_left_lower": true,
+  "ears_name_en": "Basic",
+  "ears_name_ru": "Обычный",
 
-  "piercings_right_enable": false,
-  "piercings_right_upper": false,
-  "piercings_right_middle": false,
-  "piercings_right_lower": false,
+  "ears_info": [],
+
+
+  "piercing_ears_name_en": "Empty",
+  "piercing_ears_name_ru": "Пустой",
+
+  "piercing_ears_info": [],
 
 
   "hooves_enable": true,
@@ -96,7 +91,6 @@
   "canine_nose_enable": true,
 
   "fluff_cheeks": true,
-  "fluff_ears": true,
   "fluff_chest": true,
   "fluff_neck": false,
   "fluff_hooves": false,

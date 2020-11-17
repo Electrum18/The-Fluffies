@@ -33,11 +33,6 @@
       )
 
       BarSwitch(
-        :text="$t('editor.menu.fur.fluff.ears')"
-        val="fluff_ears"
-      )
-
-      BarSwitch(
         :text="$t('editor.menu.fur.fluff.chest')"
         val="fluff_chest"
       )

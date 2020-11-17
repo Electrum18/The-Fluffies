@@ -13,27 +13,24 @@ interface IMetaTags {
   }
 }
 
-interface IRoute {
-  readonly [index: number]: {
-    hid: string
-    rel: string
-    href: string
-    hreflang: string
+interface IMetaImport {
+  meta: {
+    title: {
+      [index: string]: string
+    },
+
+    description: string,
+
+    schema: {
+      breadcrumbs: {
+        [index: string]: string
+      }
+    }
   }
-}
-
-interface IMetaReturn {
-  htmlAttrs: {
-    [index: string]: any
-  },
-
-  title: string
-  meta: IMetaTag[]
-  link: IRoute[]
 }
 
 export {
   IMetaTag,
   IMetaTags,
-  IMetaReturn
+  IMetaImport
 }

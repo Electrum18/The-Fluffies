@@ -149,7 +149,6 @@ export default {
 
     horn: {
       title: 'Рога',
-      changeling: 'чейнджлинг',
 
       rear: {
         title: 'Задние рога',
@@ -198,11 +197,7 @@ export default {
     piercing: {
       title: 'Пирсинг',
       color: 'пирсинга',
-
-      ears: {
-        left: 'Левое ухо',
-        right: 'Правое ухо'
-      }
+      ears: 'Пирсинг ушей'
     },
 
     paws: {

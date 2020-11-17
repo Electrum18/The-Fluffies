@@ -48,10 +48,22 @@
 
 <script>
 import i18nHead from '~/assets/ts/i18nHead.ts'
+import schemaOrg from '~/assets/ts/schema-org.ts'
 
 export default {
   head() {
-    return i18nHead(this, 'terms', '/termsofservice/')
+    const { messages, locale } = this.$i18n
+    const { htmlAttrs, meta, link } = this.$nuxtI18nSeo()
+    const { title, newMeta } = i18nHead(messages[locale], 'terms')
+
+    return {
+      htmlAttrs,
+      title,
+      meta: [...newMeta, ...meta],
+      link: [{ rel: 'canonical', href: 'https://the-fluffies.net/termsofservice/' }, ...link],
+      script: [schemaOrg(messages[locale], 'terms', '/termsofservice/')],
+      __dangerouslyDisableSanitizers: ['script']
+    }
   }
 }
 </script>

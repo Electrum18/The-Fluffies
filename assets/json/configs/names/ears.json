@@ -1,0 +1,34 @@
+[
+  {
+    "name": { "en": "Basic", "ru": "Обычный" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Tassels", "ru": "Кисточки" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Fluff", "ru": "Пушистые" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Fluff tassels", "ru": "Пушистые кисточки" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Wolf", "ru": "Волчий" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Cat", "ru": "Кошачий" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Bunny", "ru": "Заячий" },
+    "author": "Electrum18"
+  },
+  {
+    "name": { "en": "Griffon", "ru": "Грифоный" },
+    "author": "Electrum18"
+  }
+]

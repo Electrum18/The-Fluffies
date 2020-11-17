@@ -1,5 +1,9 @@
 [
   {
+      "name": { "en": "Empty", "ru": "Пустой" },
+      "author": "Electrum18"
+  },
+  {
       "name": { "en": "Shirt", "ru": "Рубашка" },
       "author": "Electrum18"
   },

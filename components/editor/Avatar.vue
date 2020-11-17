@@ -298,8 +298,20 @@ export default {
       }
     },
 
+    'getGlobal.piercing_ears_name_en'(name) {
+      this.paths.piercings_ears.name = name
+    },
+
+    'getGlobal.ears_name_en'(name) {
+      this.paths.ears.name = name
+    },
+
     'getGlobal.horn_name_en'(name) {
       this.paths.horn.name = name
+    },
+
+    'getGlobal.horn_front_name_en'(name) {
+      this.paths.horn_front.name = name
     },
 
     'getGlobal.glasses_name_en'(name) {
@@ -460,7 +472,10 @@ export default {
 
     this.applyGlobals(this.getGlobal)
 
+    this.paths.piercings_ears.name = this.getGlobal.piercing_ears_name_en
+    this.paths.ears.name = this.getGlobal.ears_name_en
     this.paths.horn.name = this.getGlobal.horn_name_en
+    this.paths.horn_front.name = this.getGlobal.horn_front_name_en
     this.paths.glasses.name = this.getGlobal.glasses_name_en
     this.paths.clothing.name = this.getGlobal.clothing_name_en
     this.paths.pants.name = this.getGlobal.pants_name_en
