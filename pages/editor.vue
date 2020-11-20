@@ -80,6 +80,21 @@
         color="#222"
       )
 
+      v-btn#button-vk(
+        fab
+        dark
+        absolute
+        left
+        top
+        small
+        target="_blank"
+        title="VKontakte"
+        href="https://vk.com/thefluffies"
+        rel="noopener"
+        aria-label="VKontakte"
+      )
+        v-icon {{ icons.mdiVk }}
+
       Welcome
       Account
       Chat
@@ -161,7 +176,8 @@ import {
   mdiCheckboxBlankOutline,
   mdiCursorDefaultClick,
   mdiGestureTapHold,
-  mdiArrowAll
+  mdiArrowAll,
+  mdiVk
 } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
@@ -223,7 +239,8 @@ export default {
       mdiCheckboxBlankOutline,
       mdiCursorDefaultClick,
       mdiGestureTapHold,
-      mdiArrowAll
+      mdiArrowAll,
+      mdiVk
     })
 
     const wind = ref(true)
@@ -434,4 +451,8 @@ html
 
   .v-progress-linear__determinate
     background-image: linear-gradient(135deg, #fffe 25%, #0000 0, #0000 50%, #fffe 0, #fffe 75%, #0000 0, #0000)!important
+
+#button-vk
+  top: -180px!important
+  pointer-events: auto
 </style>

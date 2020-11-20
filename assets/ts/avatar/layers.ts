@@ -168,7 +168,9 @@ export default function(
     fluff_neck,
     fluff_hooves,
     horn_second_color,
-    eyelashes_second_color
+    eyelashes_second_color,
+    freckles_nose,
+    freckles_cheeks
   } = globals as IObject
 
   const {
@@ -210,7 +212,8 @@ export default function(
     fluff_shade,
     horn_basic,
     horn_shade,
-    eyelashes_basic
+    eyelashes_basic,
+    freckles_basic
   } = getColor
 
   const {
@@ -565,6 +568,11 @@ export default function(
       Elem('stripes_fore', stripes_basic, transparent, Clip.head2)
       Elem('stripes_crust', stripes_basic, transparent, Clip.head2)
     }
+
+    if (freckles_cheeks) {
+      Elem('freckles_left', freckles_basic, transparent, Clip.head2)
+      Elem('freckles_right', freckles_basic, transparent, Clip.head2)
+    }
   })
 
   // ---------------------------------------------------------------------------
@@ -580,6 +588,8 @@ export default function(
   // Eye left
 
   Layer(Positions.head, Rotate.head, () => {
+    if (freckles_nose) Elem('freckles_nose', freckles_basic)
+
     Elem('eye_left', eyes_sclera, transparent, Clip.head2)
   })
 

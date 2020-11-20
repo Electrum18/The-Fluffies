@@ -12,6 +12,7 @@ import HoovesBehind from '~/assets/json/data/hooves/behind.json'
 import Wing from '~/assets/json/data/wings.json'
 import Fluff from '~/assets/json/data/fluff.json'
 import FurSecond from '~/assets/json/data/second_fur_color.json'
+import Freckles from '~/assets/json/data/freckles.json'
 
 export default {
   ...Head,
@@ -27,5 +28,6 @@ export default {
   ...HoovesBehind,
   ...Wing,
   ...Fluff,
-  ...FurSecond
+  ...FurSecond,
+  ...Freckles
 }

@@ -103,5 +103,8 @@
 
   "eyelashes_second_color": false,
 
-  "scarf": false
+  "scarf": false,
+
+  "freckles_nose": false,
+  "freckles_cheeks": false
 }

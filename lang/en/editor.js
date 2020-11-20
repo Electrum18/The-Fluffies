@@ -122,6 +122,13 @@ export default {
         color: 'stripes'
       },
 
+      freckles: {
+        title: 'Freckles',
+        nose: 'Nose',
+        cheek: 'Cheeks',
+        color: 'freckles'
+      },
+
       fluff: {
         title: 'Fluff',
         cheeks: 'cheeks',

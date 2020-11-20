@@ -66,6 +66,7 @@ Use that email to send: `thefluffiessite@gmail.com`
 - `Train Drive` for many ideas of a graphic type
 - `EAlex` for graphic type ideas
 - `SweetMouse` for testing and lots of ideas
+- `The_Milkyz` for lots of ideas and drawing assistance
 
 ## License
 **[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**

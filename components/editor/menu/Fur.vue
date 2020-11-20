@@ -25,6 +25,25 @@
 
       v-divider.my-4
 
+      p.subtitle-2 {{ $t('editor.menu.fur.freckles.title') }}
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.freckles.nose')"
+        val="freckles_nose"
+      )
+
+      BarSwitch(
+        :text="$t('editor.menu.fur.freckles.cheek')"
+        val="freckles_cheeks"
+      )
+
+      BarColor(
+        :text="$t('editor.menu.fur.freckles.color')"
+        val="freckles_basic"
+      )
+
+      v-divider.my-4
+
       p.subtitle-2 {{ $t('editor.menu.fur.fluff.title') }}
 
       BarSwitch(

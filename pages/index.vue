@@ -230,6 +230,16 @@
       )
         v-icon {{ icons.mdiTwitter }}
 
+      v-btn(
+        icon
+        target="_blank"
+        title="VKontakte"
+        href="https://vk.com/thefluffies"
+        rel="noopener"
+        aria-label="VKontakte"
+      )
+        v-icon {{ icons.mdiVk }}
+
     v-dialog(v-model="clearing" width="500")
       v-card
         v-card-title.red--text {{ $t('index.repairing.title') }}
@@ -288,7 +298,8 @@ import {
   mdiGenderFemale,
   mdiAlert,
   mdiGithub,
-  mdiTwitter
+  mdiTwitter,
+  mdiVk
 } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
@@ -516,7 +527,8 @@ export default {
       mdiPlus,
       mdiAlert,
       mdiGithub,
-      mdiTwitter
+      mdiTwitter,
+      mdiVk
     })
 
     const saveMode = ref(false)

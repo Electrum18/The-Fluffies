@@ -122,6 +122,13 @@ export default {
         color: 'полосок'
       },
 
+      freckles: {
+        title: 'Веснушки',
+        nose: 'Нос',
+        cheek: 'Щеки',
+        color: 'веснушек'
+      },
+
       fluff: {
         title: 'Пушистость',
         cheeks: 'щеки',

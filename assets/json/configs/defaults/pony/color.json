@@ -71,5 +71,7 @@
   "horn_basic": { "h": 0, "s": 0, "l": 1 },
   "horn_shade": { "h": 0, "s": 0, "l": 0.8 },
 
-  "eyelashes_basic": { "h": 0, "s": 0, "l": 0.13 }
+  "eyelashes_basic": { "h": 0, "s": 0, "l": 0.13 },
+
+  "freckles_basic": { "h": 0, "s": 0, "l": 1 }
 }
