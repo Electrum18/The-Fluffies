@@ -8,7 +8,9 @@ interface IMetaTags {
   length: number
 
   readonly [index: number]: {
-    name: string
+    name?: string
+    itemprop?: string
+    property?: string
     content: string
   }
 }
@@ -19,7 +21,9 @@ interface IMetaImport {
       [index: string]: string
     },
 
-    description: string,
+    description: {
+      [index: string]: string
+    },
 
     schema: {
       breadcrumbs: {

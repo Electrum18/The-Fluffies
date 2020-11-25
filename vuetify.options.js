@@ -16,7 +16,9 @@ export default {
         url: colors.blue.lighten2,
         lang: colors.deepPurple.accent1
       }
-    }
+    },
+
+    options: { variations: false }
   },
 
   icons: {

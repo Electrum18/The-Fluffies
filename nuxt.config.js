@@ -94,6 +94,7 @@ export default {
    */
   vuetify: {
     optionsPath: './vuetify.options.js',
+    treeShake: true,
     defaultAssets: false
   },
   /*
@@ -109,7 +110,7 @@ export default {
     vueI18n: {
       fallbackLocale: 'en'
     },
-    seo: false,
+    seo: true,
     lazy: true,
     langDir: 'lang/'
   },
@@ -164,7 +165,9 @@ export default {
    ** Build configuration
    */
   build: {
-    extractCSS: true,
+    extractCSS: {
+      ignoreOrder: true
+    },
 
     optimization: {
       splitChunks: {
@@ -172,6 +175,12 @@ export default {
         automaticNameDelimiter: '.',
         maxSize: 256000
       }
+    }
+  },
+
+  vue: {
+    config: {
+      ignoredElements: ['noindex']
     }
   }
 }

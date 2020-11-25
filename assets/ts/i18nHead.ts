@@ -8,19 +8,23 @@ export default function({ meta: { title, description } }: IMetaImport, page: str
 
   const metaTags: IMetaTags = [
     { name: 'title', content: title[page] },
-    { name: 'description', content: description },
+    { name: 'description', content: description[page] },
 
-    { name: 'og:type', content: 'website' },
-    { name: 'og:url', content: 'https://the-fluffies.net/' },
-    { name: 'og:title', content: title[page] },
-    { name: 'og:description', content: description },
-    { name: 'og:image', content: image },
-    { name: 'og:site_name', content: 'The Fluffies' },
+    { itemprop: 'title', content: title[page] },
+    { itemprop: 'description', content: description[page] },
+    { itemprop: 'image', content: image },
+
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://the-fluffies.net/' },
+    { property: 'og:title', content: title[page] },
+    { property: 'og:description', content: description[page] },
+    { property: 'og:image', content: image },
+    { property: 'og:site_name', content: 'The Fluffies' },
 
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:url', content: 'https://the-fluffies.net/' },
     { name: 'twitter:title', content: title[page] },
-    { name: 'twitter:description', content: description },
+    { name: 'twitter:description', content: description[page] },
     { name: 'twitter:image', content: image },
     { name: 'twitter:site', content: twitter },
     { name: 'twitter:creator', content: twitter }
@@ -33,9 +37,8 @@ export default function({ meta: { title, description } }: IMetaImport, page: str
 
     if (tag.content ?? false) {
       appliedMeta.push({
-        hid: tag.name,
-        name: tag.name,
-        content: tag.content
+        hid: tag.name || tag.itemprop || tag.property,
+        ...tag as any
       })
     }
   }

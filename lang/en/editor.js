@@ -18,6 +18,8 @@ export default {
   close: 'close',
   save: 'save',
 
+  vk: 'VKontakte',
+
   mode: {
     head: 'Head',
     body: 'Body'
@@ -287,7 +289,13 @@ export default {
     open: 'Open chat',
     users: 'Users',
     type: 'Type a message',
-    login: 'Login to enter the chat'
+    login: 'Login to enter the chat',
+
+    pin: {
+      welcome: 'Welcome to chat 🥭',
+      text: 'Here you can start communication and receive it in return.',
+      issue: 'Having problems with the editor or have ideas?'
+    }
   },
 
   quality: 'Quality',

@@ -14,7 +14,7 @@
     v-dialog(v-model="opened" width="600")
       v-card(dark)
         v-img.white--text.align-end(
-          height=250
+          height="250px"
           :src="require('~/assets/img/welcome.png?webp')"
         )
           v-card-title {{ $t('editor.welcome.title') }}
