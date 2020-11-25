@@ -2,36 +2,38 @@
   v-expansion-panel
     v-expansion-panel-header.title {{ $t('editor.menu.horn.title') }}
     v-expansion-panel-content
-      BarSwitch(
-        :text="$t('editor.enable')"
-        val="horn_enable"
-      )
+
+      p.subtitle-2.mt-4 {{ $t('editor.menu.horn.second.title') }}
 
       BarSwitch(
-        :text="$t('editor.menu.horn.changeling')"
-        val="horn_changeling"
-        off="horn_enable"
+        :text="$t('editor.enable')"
+        val="horn_second_color"
       )
+
+      BarColor(
+        :text="$t('editor.menu.horn.second.color')"
+        val="horn_basic"
+        :shade="4 / 5"
+        off="horn_second_color"
+      )
+
+      v-divider.my-4
+
+      BarList(target="horn_front")
 
       v-divider.my-4
 
       p.subtitle-2 {{ $t('editor.menu.horn.rear.title') }}
 
-      BarSwitch(
-        :text="$t('editor.enable')"
-        val="horn_rear"
-      )
-
       BarColor(
         :text="$t('editor.menu.horn.rear.set')"
         val="horn_rear_basic"
         :shade="4 / 5"
-        off="horn_rear"
       )
 
       v-divider.my-4
 
-      BarList(target="horn" off="horn_rear")
+      BarList(target="horn")
 </template>
 
 <script>

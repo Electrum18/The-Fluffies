@@ -14,7 +14,8 @@
       div.px-12.mb-2(@click="easter($refs)")
         v-img(:src="require('~/assets/svg/TheFluffiesLogo.svg')" ref="logo").logo.logo-hide
 
-      h2.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
+      noindex
+        span.body-1.font-weight-bold.px-0(:style="tint") {{ $t('index.title') }}
 
     client-only
       v-row.row-bottom.my-4
@@ -229,6 +230,16 @@
       )
         v-icon {{ icons.mdiTwitter }}
 
+      v-btn(
+        icon
+        target="_blank"
+        title="VKontakte"
+        href="https://vk.com/thefluffies"
+        rel="noopener"
+        aria-label="VKontakte"
+      )
+        v-icon {{ icons.mdiVk }}
+
     v-dialog(v-model="clearing" width="500")
       v-card
         v-card-title.red--text {{ $t('index.repairing.title') }}
@@ -287,10 +298,12 @@ import {
   mdiGenderFemale,
   mdiAlert,
   mdiGithub,
-  mdiTwitter
+  mdiTwitter,
+  mdiVk
 } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
+import schemaOrg from '~/assets/ts/schema-org.ts'
 
 import Version from '~/components/Version'
 import NetworkStatus from '~/components/NetworkStatus'
@@ -514,7 +527,8 @@ export default {
       mdiPlus,
       mdiAlert,
       mdiGithub,
-      mdiTwitter
+      mdiTwitter,
+      mdiVk
     })
 
     const saveMode = ref(false)
@@ -566,7 +580,20 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'index')
+    const { messages, locale } = this.$i18n
+    const { htmlAttrs, meta, link } = this.$nuxtI18nSeo()
+    const { title, newMeta } = i18nHead(messages[locale], 'index')
+
+    const lang = locale === 'ru' ? '/ru' : ''
+
+    return {
+      htmlAttrs,
+      title,
+      meta: [...newMeta, ...meta],
+      link: [{ rel: 'canonical', href: `https://the-fluffies.net${lang}/` }, ...link],
+      script: [schemaOrg(messages[locale], 'index', lang + '/')],
+      __dangerouslyDisableSanitizers: ['script']
+    }
   }
 }
 </script>

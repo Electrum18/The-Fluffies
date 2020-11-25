@@ -73,6 +73,7 @@ import { reactive, computed } from '@vue/composition-api'
 import { mdiChevronLeft, mdiOpenInNew } from '@mdi/js'
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
+import schemaOrg from '~/assets/ts/schema-org.ts'
 import format from '~/assets/ts/format'
 
 import Socials from '~/components/Socials'
@@ -102,7 +103,20 @@ export default {
   },
 
   head() {
-    return i18nHead(this, 'support')
+    const { messages, locale } = this.$i18n
+    const { htmlAttrs, meta, link } = this.$nuxtI18nSeo()
+    const { title, newMeta } = i18nHead(messages[locale], 'support')
+
+    const lang = locale === 'ru' ? '/ru' : ''
+
+    return {
+      htmlAttrs,
+      title,
+      meta: [...newMeta, ...meta],
+      link: [{ rel: 'canonical', href: `https://the-fluffies.net${lang}/support/` }, ...link],
+      script: [schemaOrg(messages[locale], 'support', lang + '/support/')],
+      __dangerouslyDisableSanitizers: ['script']
+    }
   }
 }
 </script>

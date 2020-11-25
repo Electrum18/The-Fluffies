@@ -18,6 +18,8 @@ export default {
   close: 'close',
   save: 'save',
 
+  vk: 'VKontakte',
+
   mode: {
     head: 'Head',
     body: 'Body'
@@ -45,6 +47,13 @@ export default {
 
       pupils: 'Pupils',
       width: 'width',
+
+      eyelashes: {
+        title: 'Eyelashes',
+        enable: 'divide color',
+        color: 'eyelashes',
+        scale: 'wide'
+      },
 
       position: 'Position',
       horizontal: 'horizontal',
@@ -115,6 +124,13 @@ export default {
         color: 'stripes'
       },
 
+      freckles: {
+        title: 'Freckles',
+        nose: 'Nose',
+        cheek: 'Cheeks',
+        color: 'freckles'
+      },
+
       fluff: {
         title: 'Fluff',
         cheeks: 'cheeks',
@@ -142,11 +158,15 @@ export default {
 
     horn: {
       title: 'Horns',
-      changeling: 'changeling',
-      second: 'second color',
+
       rear: {
         title: 'Rear horns',
         set: 'set'
+      },
+
+      second: {
+        title: 'Second color',
+        color: 'second'
       }
     },
 
@@ -186,11 +206,7 @@ export default {
     piercing: {
       title: 'Piercing',
       color: 'piercings',
-
-      ears: {
-        left: 'Left ear',
-        right: 'Right ear'
-      }
+      ears: 'Ear piercing'
     },
 
     paws: {
@@ -273,7 +289,13 @@ export default {
     open: 'Open chat',
     users: 'Users',
     type: 'Type a message',
-    login: 'Login to enter the chat'
+    login: 'Login to enter the chat',
+
+    pin: {
+      welcome: 'Welcome to chat 🥭',
+      text: 'Here you can start communication and receive it in return.',
+      issue: 'Having problems with the editor or have ideas?'
+    }
   },
 
   quality: 'Quality',

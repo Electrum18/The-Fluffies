@@ -1,0 +1,22 @@
+[
+  {
+      "name": { "en": "Empty", "ru": "Пустой" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Basic", "ru": "Обычный" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Changeling", "ru": "Чейнджлингская" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Long", "ru": "Длинный" },
+      "author": "Electrum18"
+  },
+  {
+      "name": { "en": "Bug long", "ru": "Жучий длинный" },
+      "author": "Electrum18"
+  }
+]

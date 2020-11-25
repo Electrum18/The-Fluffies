@@ -124,7 +124,7 @@ import { reactive, ref, onMounted, watch, computed } from '@vue/composition-api'
 import axios from 'axios'
 import jwt from 'jwt-simple'
 
-import { mdiKeyboardBackspace, mdiDelete, mdiPatreon, mdiDownload } from '@mdi/js'
+import { mdiKeyboardBackspace, mdiDelete, mdiPatreon, mdiDownload, mdiUpload } from '@mdi/js'
 
 import secret from '~/assets/json/configs/secret.json'
 
@@ -437,7 +437,8 @@ export default {
       mdiKeyboardBackspace,
       mdiDelete,
       mdiPatreon,
-      mdiDownload
+      mdiDownload,
+      mdiUpload
     })
 
     function encodeSave(object) {

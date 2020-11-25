@@ -21,18 +21,30 @@
       aria-label="Twitter"
     )
       v-icon(large) {{ icons.mdiTwitter }}
+
+    v-btn.ma-4(
+      icon
+      large
+      target="_blank"
+      title="VKontakte"
+      href="https://vk.com/thefluffies"
+      rel="noopener"
+      aria-label="VKontakte"
+    )
+      v-icon(large) {{ icons.mdiVk }}
 </template>
 
 <script lang="ts">
 import { reactive } from '@vue/composition-api'
 
-import { mdiGithub, mdiTwitter } from '@mdi/js'
+import { mdiGithub, mdiTwitter, mdiVk } from '@mdi/js'
 
 export default {
   setup() {
     const icons = reactive({
       mdiGithub,
-      mdiTwitter
+      mdiTwitter,
+      mdiVk
     })
 
     return {

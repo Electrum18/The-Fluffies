@@ -5,7 +5,7 @@ const passportSocketIo = require('passport.socketio')
 const keys = require('../config/keys')
 const Message = require('../models/message-model')
 
-const day = 24 * 60 * 60 * 1000
+const twoHours = 2 * 60 * 60 * 1000
 
 async function initSocket(io, sessionStore, users, usersPublic, alias, patreon) {
   const maxMessages = 100
@@ -99,7 +99,7 @@ async function initSocket(io, sessionStore, users, usersPublic, alias, patreon) 
     })
   })
 
-  setInterval(() => addMessagesDB(messages), day)
+  setInterval(() => addMessagesDB(messages), twoHours)
 }
 
 function onAuthorizeSuccess(_, accept) {

@@ -45,10 +45,22 @@
 
 <script>
 import i18nHead from '~/assets/ts/i18nHead.ts'
+import schemaOrg from '~/assets/ts/schema-org.ts'
 
 export default {
   head() {
-    return i18nHead(this, 'privacy')
+    const { messages, locale } = this.$i18n
+    const { htmlAttrs, meta, link } = this.$nuxtI18nSeo()
+    const { title, newMeta } = i18nHead(messages[locale], 'privacy')
+
+    return {
+      htmlAttrs,
+      title,
+      meta: [...newMeta, ...meta],
+      link: [{ rel: 'canonical', href: 'https://the-fluffies.net/privacypolicy/' }, ...link],
+      script: [schemaOrg(messages[locale], 'privacy', '/privacypolicy/')],
+      __dangerouslyDisableSanitizers: ['script']
+    }
   }
 }
 </script>

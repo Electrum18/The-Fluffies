@@ -338,12 +338,6 @@
     "pigtail_2": [null, null, 1]
   },
 
-  "ear_left_tassel": [null, 2, null, 1, null, 0, null, null],
-  "ear_left_tassel_inside": [null, 2, null, 1, null, 0, null, null],
-
-  "ear_right_tassel": [null, 2, null, 1, null, 0, null, null],
-  "ear_right_tassel_inside": [null, 2, null, 1, null, 0, null, null],
-
   "eye_left_lashes": [null, 0, null, 1, null, 2],
   "eye_right_lashes": [null, 2, null, 1, null, 0],
 
@@ -351,9 +345,6 @@
 
   "fluff_cheek_left": [null, null, null, 0, null, 1, null, 2, null],
   "fluff_cheek_right": [null, null, null, 2, null, 1, null, 0, null],
-
-  "fluff_ear_left": [null, 0, null, 1, null, 2, null, 3, null],
-  "fluff_ear_right": [null, 0, null, 1, null, 2, null, 3, null],
 
   "fluff_chest": [null, 0, null, 1, null, 2, null]
 }

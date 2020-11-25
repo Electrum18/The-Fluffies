@@ -18,12 +18,10 @@
         v-badge.py-2.grad
           template(v-slot:badge) {{ chat.users.count }}
 
-          v-icon(
-            :color="onlineStatus.color"
-          ) {{ onlineStatus.icon }}
+          v-icon(:color="onlineStatus.color") {{ onlineStatus.icon }}
 
     v-card(width="100vw")
-      v-btn.grad.my-2(
+      v-btn.grad.my-2.mr-10(
         absolute
         dark
         right
@@ -83,6 +81,76 @@
 
                 v-list-item-content
                   v-list-item-title {{ item.name }}
+
+      v-menu(
+        flat
+        transition="slide-x-transition"
+        origin="bottom"
+      )
+        template(v-slot:activator="{ on }")
+          v-btn.ma-2(
+            absolute
+            x-small
+            fab
+            v-on="on"
+            style="z-index: 1; margin-left: 64px!important"
+          )
+            v-icon {{ icons.mdiPin }}
+
+        v-card(light tile)
+          v-card-text
+            div.font-weight-bold {{ $t('editor.chat.pin.welcome') }}
+
+            v-divider.my-2
+
+            div.text-subtitle-2 {{ $t('editor.chat.pin.text') }}
+
+            v-divider.my-2
+
+            div.text-subtitle-2 {{ $t('editor.chat.pin.issue') }}
+
+            v-row.mt-2
+              v-spacer
+
+              v-btn.mx-1(
+                small
+                dark
+                style="pointer-events: auto"
+                color="blue"
+                target="_blank"
+                :title="$t('editor.vk')"
+                href="https://vk.com/board187679567"
+                rel="noopener"
+                :aria-label="$t('editor.vk')"
+              )
+                | {{ $t('editor.vk') }}
+                v-icon(right) {{ icons.mdiVk }}
+
+              v-btn.mx-1(
+                small
+                dark
+                style="pointer-events: auto"
+                color="black"
+                target="_blank"
+                title="Github"
+                href="https://github.com/Electrum18/The-Fluffies/issues"
+                rel="noopener"
+                aria-label="Github"
+              )
+                | GitHub
+                v-icon(right) {{ icons.mdiGithub }}
+
+              v-spacer
+
+      v-btn.mt-2(
+        absolute
+        right
+        x-small
+        fab
+        style="z-index: 6"
+        @click="chat.opened = false"
+      )
+        v-icon {{ icons.mdiCloseThick }}
 
       v-card.chat-space(dark flat)
         v-list(dense two-line ref="chatSpace")
@@ -167,7 +235,10 @@ import {
   mdiKeyboardBackspace,
   mdiGoogle,
   mdiPatreon,
-  mdiVk
+  mdiVk,
+  mdiCloseThick,
+  mdiPin,
+  mdiGithub
 } from '@mdi/js'
 
 function defineSocket(chat) {
@@ -273,7 +344,10 @@ export default {
       mdiKeyboardBackspace,
       mdiGoogle,
       mdiPatreon,
-      mdiVk
+      mdiVk,
+      mdiCloseThick,
+      mdiPin,
+      mdiGithub
     })
 
     const chat = reactive({

@@ -1,30 +1,30 @@
-import { IMetaTag, IMetaTags, IMetaReturn } from '~/types/meta'
+import { IMetaTag, IMetaTags, IMetaImport } from '~/types/meta'
 
-export default function(self: any, page: string): IMetaReturn {
-  const { messages, locale } = self.$i18n
-
-  const t = messages[locale].meta
-
+export default function({ meta: { title, description } }: IMetaImport, page: string) {
   const image =
     'https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/assets/img/announcement.png'
 
   const twitter = '@TFluffies'
 
   const metaTags: IMetaTags = [
-    { name: 'title', content: t.title[page] },
-    { name: 'description', content: t.description },
+    { name: 'title', content: title[page] },
+    { name: 'description', content: description[page] },
 
-    { name: 'og:type', content: 'website' },
-    { name: 'og:url', content: 'https://the-fluffies.net/' },
-    { name: 'og:title', content: t.title[page] },
-    { name: 'og:description', content: t.description },
-    { name: 'og:image', content: image },
-    { name: 'og:site_name', content: 'The Fluffies' },
+    { itemprop: 'title', content: title[page] },
+    { itemprop: 'description', content: description[page] },
+    { itemprop: 'image', content: image },
+
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://the-fluffies.net/' },
+    { property: 'og:title', content: title[page] },
+    { property: 'og:description', content: description[page] },
+    { property: 'og:image', content: image },
+    { property: 'og:site_name', content: 'The Fluffies' },
 
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:url', content: 'https://the-fluffies.net/' },
-    { name: 'twitter:title', content: t.title[page] },
-    { name: 'twitter:description', content: t.description },
+    { name: 'twitter:title', content: title[page] },
+    { name: 'twitter:description', content: description[page] },
     { name: 'twitter:image', content: image },
     { name: 'twitter:site', content: twitter },
     { name: 'twitter:creator', content: twitter }
@@ -37,19 +37,14 @@ export default function(self: any, page: string): IMetaReturn {
 
     if (tag.content ?? false) {
       appliedMeta.push({
-        hid: tag.name,
-        name: tag.name,
-        content: tag.content
+        hid: tag.name || tag.itemprop || tag.property,
+        ...tag as any
       })
     }
   }
 
-  const { htmlAttrs, meta, link } = self.$nuxtI18nSeo()
-
   return {
-    htmlAttrs,
-    title: t.title[page],
-    meta: [...appliedMeta, ...meta],
-    link
+    title: title[page],
+    newMeta: appliedMeta
   }
 }

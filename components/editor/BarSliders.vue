@@ -1,8 +1,12 @@
 <template lang="pug">
   v-col
     v-row
-      div.body-2.px-3 {{ text }}
+      div.body-2.pl-3 {{ text }}
+
       v-spacer
+
+      v-btn(icon x-small @click="modelValue = defaultVal.propers[val]")
+        v-icon {{ icons.mdiRestore }}
 
       div.body-2.mx-2.px-1.value.primary {{ modelValue }}
 
@@ -25,7 +29,7 @@
 <script>
 import { computed, reactive } from '@vue/composition-api'
 
-import { mdiAnimation } from '@mdi/js'
+import { mdiAnimation, mdiRestore } from '@mdi/js'
 
 export default {
   props: {
@@ -61,9 +65,11 @@ export default {
     const { getters, commit } = $store
 
     const icons = reactive({
-      mdiAnimation
+      mdiAnimation,
+      mdiRestore
     })
 
+    const defaultVal = computed(() => getters['avatar/getDefault'])
     const getting = computed(() => getters['avatar/getProper'])
     const getFrame = computed(() => getters['avatar/getFrame'])
 
@@ -96,7 +102,8 @@ export default {
     return {
       icons,
       getting,
-      modelValue
+      modelValue,
+      defaultVal
     }
   }
 }

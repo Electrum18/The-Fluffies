@@ -2,28 +2,19 @@
   v-expansion-panel
     v-expansion-panel-header.title {{ $t('editor.menu.glasses.title') }}
     v-expansion-panel-content
-      BarSwitch(
-        :text="$t('editor.enable')"
-        val="glasses_enable"
-      )
-
-      v-divider.my-4
-
       BarColor(
         :text="$t('editor.menu.glasses.color.lenses')"
         val="glasses_lenses"
-        off="glasses_enable"
       )
 
       BarColor(
         :text="$t('editor.menu.glasses.color.frame')"
         val="glasses_frame"
-        off="glasses_enable"
       )
 
       v-divider.my-4
 
-      v-card(outlined :disabled="!globals.glasses_enable").my-2
+      v-card(outlined).my-2
         BarSlider(
           :text="$t('editor.menu.glasses.width')"
           val="glasses_width"
@@ -33,12 +24,10 @@
 
       v-divider.my-4
 
-      BarList(target="glasses" off="glasses_enable")
+      BarList(target="glasses")
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
-
 import BarSwitch from '../BarSwitches'
 import BarSlider from '../BarSliders'
 import BarColor from '../BarColors'
@@ -50,12 +39,6 @@ export default {
     BarSlider,
     BarColor,
     BarList
-  },
-
-  setup(_, { root: { $store } }) {
-    return {
-      globals: computed(() => $store.getters['avatar/getGlobal'])
-    }
   }
 }
 </script>
