@@ -1,45 +1,49 @@
 <template lang="pug">
-  v-btn-toggle.right(
-    v-model="current"
-    mandatory
-    dense
-    color="lang"
+  v-btn.right(
+    icon
+    tile
+    :title="langTitle"
+    :aria-label="langTitle"
+    @click="changeLang"
   )
-    v-btn(
-      v-for="item in items"
-      :key="item"
-      small
-    ) {{ item }}
+    v-icon(large :style="hideEnglish") $vuetify.icons.values.english
+    v-icon(large :style="hideRussian") $vuetify.icons.values.russian
 </template>
 
 <script>
-import { ref, reactive, computed } from '@vue/composition-api'
-
+import { computed } from '@vue/composition-api'
 export default {
   setup(_, { root: { $i18n } }) {
-    const items = ref(['eng', 'rus'])
-
-    const enumItems = reactive({ en: 0, ru: 1 })
-    const getLang = reactive(['en', 'ru'])
-
-    const current = computed({
-      get: () => enumItems[$i18n.locale],
-      set: (locale) => $i18n.setLocale(getLang[locale])
+    const langTitle = computed(() => {
+      return $i18n.locale === 'ru' ? 'English' : 'Русский'
     })
 
-    return {
-      items,
-      enumItems,
-      getLang,
-      current,
+    const hideEnglish = computed(() => {
+      return { display: $i18n.locale !== 'ru' ? 'none' : undefined }
+    })
 
-      opened: ref(false)
+    const hideRussian = computed(() => {
+      return { display: $i18n.locale === 'ru' ? 'none' : undefined }
+    })
+
+    function changeLang() {
+      $i18n.setLocale($i18n.locale === 'ru' ? 'en' : 'ru')
+    }
+
+    return {
+      langTitle,
+      hideEnglish,
+      hideRussian,
+      changeLang
     }
   }
 }
 </script>
 
 <style lang="sass">
-.v-item-group.right
-  margin-right: 72px
+button.right
+  margin: -8px 72px -8px 0!important
+
+.lang-icon svg
+  width: 46px!important
 </style>

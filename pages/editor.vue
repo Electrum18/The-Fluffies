@@ -80,6 +80,20 @@
         color="#222"
       )
 
+      v-btn#button-lang(
+        fab
+        dark
+        absolute
+        left
+        top
+        small
+        target="_self"
+        :title="$i18n.locale === 'ru' ? 'English' : 'Русский'"
+        :href="$i18n.locale === 'ru' ? '/editor/' : '/ru/editor/'"
+        :aria-label="$i18n.locale === 'ru' ? 'English' : 'Русский'"
+      )
+        v-icon(v-text="'$vuetify.icons.values.' + ($i18n.locale === 'ru' ? 'english' : 'russian')")
+
       v-btn#button-vk(
         fab
         dark
@@ -224,7 +238,7 @@ export default {
   layout: 'editor',
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setup(props, { root: { $store } }) {
+  setup(props, { root: { $store, $i18n } }) {
     const { getters, commit } = $store
 
     const icons = reactive({
@@ -452,7 +466,15 @@ html
   .v-progress-linear__determinate
     background-image: linear-gradient(135deg, #fffe 25%, #0000 0, #0000 50%, #fffe 0, #fffe 75%, #0000 0, #0000)!important
 
-#button-vk
-  top: -180px!important
+#button-lang
+  top: -208px!important
   pointer-events: auto
+  border-radius: 10px 10px 0 0!important
+  border-bottom: 1px solid #666!important
+
+#button-vk
+  top: -168px!important
+  pointer-events: auto
+  border-radius: 0px!important
+  border-bottom: 1px solid #666!important
 </style>
