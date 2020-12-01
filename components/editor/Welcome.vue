@@ -9,7 +9,7 @@
       small
       @click="opened = true; openedGuide = false"
     )
-      v-icon(large color="primary") {{ icons.mdiInformationOutline }}
+      v-icon(color="primary") {{ icons.mdiInformation }}
 
     v-dialog(v-model="opened" width="600")
       v-card(dark)
@@ -295,7 +295,7 @@
 <script>
 import { ref, watch, reactive, computed } from '@vue/composition-api'
 
-import { mdiStar, mdiGithub, mdiPatreon, mdiInformationOutline } from '@mdi/js'
+import { mdiStar, mdiGithub, mdiPatreon, mdiInformation } from '@mdi/js'
 
 export default {
   setup(_, { root: { $i18n } }) {
@@ -303,7 +303,7 @@ export default {
       mdiStar,
       mdiGithub,
       mdiPatreon,
-      mdiInformationOutline
+      mdiInformation
     })
 
     const opened = ref(false)
@@ -365,6 +365,7 @@ export default {
 #button-guide
   top: -128px!important
   pointer-events: auto
+  border-radius: 0 0 10px 10px!important
 
 .no-clamp
   -webkit-line-clamp: inherit!important

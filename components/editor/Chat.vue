@@ -142,6 +142,17 @@
 
               v-spacer
 
+            v-divider.my-2
+
+            v-alert(
+              color="primary"
+              dark
+              :icon="icons.mdiHeart"
+              max-width=390
+            ).ma-0
+              h3.text-center.mb-2 {{ $t('editor.chat.thanks.title') }}
+              div.text-subtitle-2 {{ $t('editor.chat.thanks.text') }}
+
       v-btn.mt-2(
         absolute
         right
@@ -238,7 +249,8 @@ import {
   mdiVk,
   mdiCloseThick,
   mdiPin,
-  mdiGithub
+  mdiGithub,
+  mdiHeart
 } from '@mdi/js'
 
 function defineSocket(chat) {
@@ -347,7 +359,8 @@ export default {
       mdiVk,
       mdiCloseThick,
       mdiPin,
-      mdiGithub
+      mdiGithub,
+      mdiHeart
     })
 
     const chat = reactive({

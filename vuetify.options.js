@@ -1,4 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
+
+import EngilshIcon from '~/components/editor/IconEnglish.vue'
+import RussianIcon from '~/components/editor/IconRussian.vue'
+
 import AvatarPonyIcon from '~/components/editor/IconPony.vue'
 import AvatarPonyIconTalking from '~/components/editor/IconPonyTalking.vue'
 
@@ -24,13 +28,10 @@ export default {
   icons: {
     iconfont: 'mdiSvg',
     values: {
-      pony: {
-        component: AvatarPonyIcon
-      },
-
-      ponyTalking: {
-        component: AvatarPonyIconTalking
-      }
+      english: { component: EngilshIcon },
+      russian: { component: RussianIcon },
+      pony: { component: AvatarPonyIcon },
+      ponyTalking: { component: AvatarPonyIconTalking }
     }
   }
 }

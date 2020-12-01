@@ -295,6 +295,12 @@ export default {
       welcome: 'Welcome to chat 🥭',
       text: 'Here you can start communication and receive it in return.',
       issue: 'Having problems with the editor or have ideas?'
+    },
+
+    thanks: {
+      title: 'Thank you for using our project!',
+      text:
+        'Your attention is important to us, but at the moment the project is having difficulties, we would not mind your support just by telling or using an editor for your content'
     }
   },
 

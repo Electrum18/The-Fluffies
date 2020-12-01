@@ -51,7 +51,8 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/vuetify',
     '@aceforth/nuxt-optimized-images',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    '@nuxtjs/yandex-metrika'
   ],
   /*
    ** Nuxt.js modules
@@ -110,9 +111,10 @@ export default {
     vueI18n: {
       fallbackLocale: 'en'
     },
-    seo: true,
+    seo: false,
     lazy: true,
-    langDir: 'lang/'
+    langDir: 'lang/',
+    detectBrowserLanguage: false
   },
   /*
    ** Optimized images module configuration
@@ -136,22 +138,22 @@ export default {
 
     routes: [
       { url: '/', priority: 1 },
-      { url: '/ru', priority: 1 },
+      { url: '/ru/', priority: 1 },
 
-      { url: '/about', priority: 0.8 },
-      { url: '/ru/about', priority: 0.8 },
+      { url: '/about/', priority: 0.8 },
+      { url: '/ru/about/', priority: 0.8 },
 
-      { url: '/support', priority: 0.8 },
-      { url: '/ru/support', priority: 0.8 },
+      { url: '/support/', priority: 0.8 },
+      { url: '/ru/support/', priority: 0.8 },
 
-      { url: '/editor', priority: 0.5 },
-      { url: '/ru/editor', priority: 0.5 },
+      { url: '/editor/', priority: 0.5 },
+      { url: '/ru/editor/', priority: 0.5 },
 
-      { url: '/termsofservice', priority: 0.2 },
-      { url: '/ru/termsofservice', priority: 0.2 },
+      { url: '/termsofservice/', priority: 0.2 },
+      { url: '/ru/termsofservice/', priority: 0.2 },
 
-      { url: '/privacypolicy', priority: 0.2 },
-      { url: '/ru/privacypolicy', priority: 0.2 }
+      { url: '/privacypolicy/', priority: 0.2 },
+      { url: '/ru/privacypolicy/', priority: 0.2 }
     ]
   },
   /*
@@ -160,6 +162,18 @@ export default {
    */
   googleAnalytics: {
     id: 'UA-128687531-3'
+  },
+  /*
+   ** Yandex Metrika module configuration
+   ** See https://github.com/nuxt-community/community-modules/tree/master/packages/yandex-metrika
+   */
+  yandexMetrika: {
+    id: '69935281',
+    webvisor: false,
+    clickmap: false,
+    useCDN: false,
+    trackLinks: true,
+    accurateTrackBounce: true
   },
   /*
    ** Build configuration
