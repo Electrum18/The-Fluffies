@@ -196,6 +196,7 @@ import {
 
 import i18nHead from '~/assets/ts/i18nHead.ts'
 import schemaOrg from '~/assets/ts/schema-org.ts'
+import { linkNormalize } from '~/assets/ts/link-normalize.ts'
 
 import Account from '~/components/editor/Account'
 import Menu from '~/components/editor/Menu'
@@ -372,7 +373,7 @@ export default {
       htmlAttrs,
       title,
       meta: [...newMeta, ...meta],
-      link: [{ rel: 'canonical', href: `https://the-fluffies.net${lang}/editor/` }, ...link],
+      link: linkNormalize(link),
       script: [schemaOrg(messages[locale], 'editor', lang + '/editor/')],
       __dangerouslyDisableSanitizers: ['script']
     }

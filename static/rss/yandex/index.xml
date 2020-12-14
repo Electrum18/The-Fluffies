@@ -13,13 +13,12 @@
             <turbo:content>
                 <![CDATA[
                   <header>
-                      <h1>The Fluffies</h1>
+                      <h1>Самый Новый Пони Креатор С Анимациями</h1>
                       <figure>
-                          <img src="https://the-fluffies.net/rss/yandex/brand-soft.png">
+                          <img src="https://the-fluffies.net/rss/yandex/title.png">
                       </figure>
                   </header>
                   <p>Создание и анимация пони, оленей, лис и прочих животных персонажей за пару кликов</p>
-                  <img src="https://the-fluffies.net/rss/yandex/Defaulty.png"/>
                   <button
                     formaction="https://the-fluffies.net/ru/editor/"
                     data-background-color="#222"

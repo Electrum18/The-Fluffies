@@ -49,6 +49,7 @@
 <script>
 import i18nHead from '~/assets/ts/i18nHead.ts'
 import schemaOrg from '~/assets/ts/schema-org.ts'
+import { linkNormalize } from '~/assets/ts/link-normalize.ts'
 
 export default {
   head() {
@@ -60,7 +61,7 @@ export default {
       htmlAttrs,
       title,
       meta: [...newMeta, ...meta],
-      link: [{ rel: 'canonical', href: 'https://the-fluffies.net/termsofservice/' }, ...link],
+      link: linkNormalize(link),
       script: [schemaOrg(messages[locale], 'terms', '/termsofservice/')],
       __dangerouslyDisableSanitizers: ['script']
     }
