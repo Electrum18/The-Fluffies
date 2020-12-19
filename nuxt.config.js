@@ -63,6 +63,7 @@ export default {
     '@nuxtjs/pwa',
     'nuxt-webfontloader',
     'nuxt-i18n',
+    '@nuxtjs/sentry',
     '@nuxtjs/sitemap'
   ],
   /*
@@ -176,9 +177,21 @@ export default {
     accurateTrackBounce: true
   },
   /*
+   ** Sentry module configuration
+   ** See https://github.com/nuxt-community/sentry-module
+   */
+  sentry: {
+    dsn: 'https://a1ae76af9b5d4e5ab2258817d16443e4@o491620.ingest.sentry.io/5557480',
+    config: {
+      lazy: true
+    }
+  },
+  /*
    ** Build configuration
    */
   build: {
+    analyze: true,
+
     extractCSS: {
       ignoreOrder: true
     },
