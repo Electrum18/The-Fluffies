@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const fs = require('fs')
+// const fs = require('fs')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -15,6 +15,7 @@ const keys = require('./config/keys')
 const initSocket = require('./modules/socket')
 const initOAuth = require('./modules/api')
 
+/*
 const Email = {
   title: {
     en: 'Your level has reached zero!',
@@ -38,6 +39,7 @@ fs.readFile('./server/misc/email/ru.html', 'utf8', (err, data) => {
 
   Email.body.ru = data
 })
+*/
 
 io = io.listen(keys.ports.socket)
 

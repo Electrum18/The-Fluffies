@@ -61,7 +61,10 @@ function activateVKontakteStrategy(passport) {
               ...values,
               'date.last': Date.now(),
               'avatars.vk': user._json.photo_200,
-              'emails.vk': user.emails[0] && user.emails[0].value ? user.emails[0].value : undefined
+              'emails.vk':
+                user.emails && user.emails[0] && user.emails[0].value
+                  ? user.emails[0].value
+                  : undefined
             })
 
             done(null, currentUser)
@@ -73,7 +76,9 @@ function activateVKontakteStrategy(passport) {
             jsonScheme.name = user.displayName
             jsonScheme.avatars.vk = user._json.photo_200
             jsonScheme.emails.vk =
-              user.emails[0] && user.emails[0].value ? user.emails[0].value : undefined
+              user.emails && user.emails[0] && user.emails[0].value
+                ? user.emails[0].value
+                : undefined
 
             jsonScheme.date = {
               first: now,

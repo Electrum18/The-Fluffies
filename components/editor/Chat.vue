@@ -15,10 +15,7 @@
         v-on="on"
         :aria-label="$t('editor.chat.open')"
       )
-        v-badge.py-2.grad
-          template(v-slot:badge) {{ chat.users.count }}
-
-          v-icon(:color="onlineStatus.color") {{ onlineStatus.icon }}
+        v-icon(:color="onlineStatus.color") {{ onlineStatus.icon }}
 
     v-card(width="100vw")
       v-btn.grad.my-2.mr-10(
@@ -26,7 +23,7 @@
         dark
         right
         small
-        style="pointer-events: none; z-index: 1"
+        style="pointer-events: none; z-index: 6"
         :aria-label="$t('editor.chat.users')"
       ) {{ chat.users.count }}
 
@@ -93,7 +90,7 @@
             x-small
             fab
             v-on="on"
-            style="z-index: 1; margin-left: 64px!important"
+            style="z-index: 6; margin-left: 64px!important"
           )
             v-icon {{ icons.mdiPin }}
 
