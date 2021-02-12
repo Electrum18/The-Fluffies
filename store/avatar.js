@@ -1,7 +1,8 @@
-import SetPropersSide from '~/assets/ts/avatar/setSide'
 import defaultValues from '~/assets/ts/defaults'
 import defaultFrames from '~/assets/ts/defaultFrames'
 import expressions from '~/assets/json/configs/expressions.json'
+
+const MAX_DEGRESS = 90
 
 function cloneObject(object) {
   return JSON.parse(JSON.stringify(object))
@@ -91,7 +92,7 @@ export const mutations = {
     } = state.frames[frame].frame
 
     state.degress = degress
-    state.mirror = degress < 90
+    state.mirror = degress < MAX_DEGRESS
 
     state.horiz = horiz
     state.angle = angle
@@ -100,8 +101,6 @@ export const mutations = {
     state.position.vertical = posVerti
     state.position.scale = posScale
     state.position.angle = posAngle
-
-    SetPropersSide(state.mirror, state.frames[frame].frame)
   },
 
   addFrame: ({ frames }, index) => {
@@ -166,7 +165,7 @@ export const mutations = {
     } = frames[0].frame
 
     state.degress = degress
-    state.mirror = degress < 90
+    state.mirror = degress < MAX_DEGRESS
 
     state.horiz = horiz
     state.angle = angle
@@ -175,10 +174,6 @@ export const mutations = {
     state.position.vertical = posVerti
     state.position.scale = posScale
     state.position.angle = posAngle
-
-    for (let i = 0; i < frames.length; i++) {
-      SetPropersSide(state.mirror, frames[i].frame)
-    }
   },
 
   deleteFrame: (state, index) => {
@@ -189,14 +184,8 @@ export const mutations = {
     if (frame > frames.length - 1) state.frame = frames.length - 1
   },
 
-  setFrameDur: ({ frames }, [index, length]) => {
-    frames[index].duration = length
-  },
-
-  setProper({ frames, frame }, { path, value }) {
-    frames[frame].frame[path] = value
-  },
-
+  setFrameDur: ({ frames }, [index, length]) => (frames[index].duration = length),
+  setProper: ({ frames, frame }, { path, value }) => (frames[frame].frame[path] = value),
   setSaveIndex: (state, index) => (state.saveIndex = index),
 
   setGlobal({ globals, color }, { path, value }) {
@@ -204,14 +193,6 @@ export const mutations = {
 
     if (!globals.eyes_right_enable) {
       color.eyes_right_basic = color.eyes_left_basic
-    }
-
-    if (globals.fur_second_color) {
-      color.fur_SECOND = color.fur_second_basic
-      color.fur_SECOND_SHADE = color.fur_second_shade
-    } else {
-      color.fur_SECOND = color.fur_basic
-      color.fur_SECOND_SHADE = color.fur_shade
     }
   },
 
@@ -221,41 +202,14 @@ export const mutations = {
     if (!globals.eyes_right_enable) {
       color.eyes_right_basic = color.eyes_left_basic
     }
-
-    if (globals.fur_second_color) {
-      color.fur_SECOND = color.fur_second_basic
-      color.fur_SECOND_SHADE = color.fur_second_shade
-    } else {
-      color.fur_SECOND = color.fur_basic
-      color.fur_SECOND_SHADE = color.fur_shade
-    }
   },
 
-  setAllGlobals: (state, globals) => {
-    state.globals = globals
-
-    if (state.globals.fur_second_color) {
-      state.color.fur_SECOND = state.color.fur_second_basic
-      state.color.fur_SECOND_SHADE = state.color.fur_second_shade
-    } else {
-      state.color.fur_SECOND = state.color.fur_basic
-      state.color.fur_SECOND_SHADE = state.color.fur_shade
-    }
-  },
-
+  setAllGlobals: (state, globals) => (state.globals = globals),
   setAllColors: (state, color) => {
     state.color = color
 
     if (!state.globals.eyes_right_enable) {
       state.color.eyes_right_basic = state.color.eyes_left_basic
-    }
-
-    if (state.globals.fur_second_color) {
-      state.color.fur_SECOND = state.color.fur_second_basic
-      state.color.fur_SECOND_SHADE = state.color.fur_second_shade
-    } else {
-      state.color.fur_SECOND = state.color.fur_basic
-      state.color.fur_SECOND_SHADE = state.color.fur_shade
     }
   },
 

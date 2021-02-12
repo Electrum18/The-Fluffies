@@ -1,56 +1,49 @@
-interface IDrawProps {
-  eyes_brows_color: any
-  male: boolean
-  hair_name_en: string
-  tail_name_en: string
-  hooves_enable: boolean
+import * as PIXI from 'pixi.js'
+
+import { IObject } from './basic'
+
+import { options } from '~/assets/ts/avatar/index'
+import { initLibrary } from '~/assets/ts/avatar/library'
+interface IElement {
+  points: number[][]
+  ids: number[]
 }
 
-interface IWindElemArray {
-  [index: number]: number | null
+type TElements = IObject<IElement>
+type TRGB = [number, number, number]
+type TRGBA = [number, number, number, number]
+
+type TPosConditional = [[string[], number[]], [string[], number[]]]
+type TAngleConditional = [string | [string, string, string], string]
+type TColorConditional = [string[], string, string]
+
+const { Elem, Outline, Mask, VarElem, VarOutline, Layer } = initLibrary(new PIXI.Application(), {})
+interface ILibrary {
+  Elem: typeof Elem
+  VarElem: typeof VarElem
+  Mask: typeof Mask
+  Outline: typeof Outline
+  VarOutline: typeof VarOutline
+  Layer: typeof Layer
 }
 
-interface IWindElem {
-  [index: string]: IWindElemArray
+type TOptions = typeof options
+interface IShortcutsJSON {
+  Is: IObject<string[]>
+  Pos: IObject<TPosConditional>
+  Angle: IObject<TAngleConditional>
+  Color: IObject<string | TColorConditional>
 }
-
-interface IWind {
-  [index: string]: IWindElem | IWindElemArray
-}
-
-interface IWindPropers {
-  enabled: boolean
-  cycle: number
-}
-
-type TPosition = [number, number] | undefined
-type TClip = [string[] | string, TPosition]
-
-interface IColor {
-  h: number
-  s: number
-  l: number
-  a?: number
-}
-
-interface IColors {
-  [index: string]: IColor | undefined
-}
-
-type TAngle = [number, TPosition] | undefined
-
-type IMirror = 1 | -1
 
 export {
-  IDrawProps,
-  IWind,
-  IWindPropers,
-  IWindElemArray,
-  IWindElem,
-  IMirror,
-  IColor,
-  IColors,
-  TAngle,
-  TPosition,
-  TClip
+  IElement,
+  TElements,
+  TRGB,
+  TRGBA,
+  TPosConditional,
+  TAngleConditional,
+  TColorConditional,
+  TOptions,
+  ILibrary,
+  IShortcutsJSON
 }

@@ -19,11 +19,11 @@ interface IMetaImport {
   meta: {
     title: {
       [index: string]: string
-    },
+    }
 
     description: {
       [index: string]: string
-    },
+    }
 
     schema: {
       breadcrumbs: {
@@ -33,8 +33,4 @@ interface IMetaImport {
   }
 }
 
-export {
-  IMetaTag,
-  IMetaTags,
-  IMetaImport
-}
+export { IMetaTag, IMetaTags, IMetaImport }

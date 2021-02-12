@@ -170,9 +170,6 @@
             v-list-item-icon(v-if="item.wind !== undefined")
               v-icon(v-if="item.wind.value" color="primary") {{ icons.mdiCheckboxMarked }}
               v-icon(v-else color="grey lighten-2") {{ icons.mdiCheckboxBlankOutline }}
-
-    v-icon.pointer.d-none.d-sm-flex(v-if="tapping") {{ icons.mdiCursorDefaultClick }}
-    v-icon.pointer2.d-flex.d-sm-none(v-if="tapping") {{ icons.mdiGestureTapHold }}
 </template>
 
 <script>
@@ -188,15 +185,13 @@ import {
   mdiWeatherWindy,
   mdiCheckboxMarked,
   mdiCheckboxBlankOutline,
-  mdiCursorDefaultClick,
-  mdiGestureTapHold,
   mdiArrowAll,
   mdiVk
 } from '@mdi/js'
 
-import i18nHead from '~/assets/ts/i18nHead.ts'
-import schemaOrg from '~/assets/ts/schema-org.ts'
-import { linkNormalize } from '~/assets/ts/link-normalize.ts'
+import i18nHead from '~/assets/ts/seo/i18nHead.ts'
+import schemaOrg from '~/assets/ts/seo/schema-org.ts'
+import { linkNormalize } from '~/assets/ts/seo/link-normalize.ts'
 
 import Account from '~/components/editor/Account'
 import Menu from '~/components/editor/Menu'
@@ -252,8 +247,6 @@ export default {
       mdiWeatherWindy,
       mdiCheckboxMarked,
       mdiCheckboxBlankOutline,
-      mdiCursorDefaultClick,
-      mdiGestureTapHold,
       mdiArrowAll,
       mdiVk
     })
@@ -404,62 +397,8 @@ html
   100%
     opacity: 1
 
-@keyframes drag
-  0%
-    right: 40vmin
-    transform: scale(0)
-
-  15%
-    right: 40vmin
-    transform: scale(1.2)
-
-  66%
-    right: 15vmin
-    transform: scale(1.2)
-
-  75%
-    right: 15vmin
-    transform: scale(0)
-
-  100%
-    right: 15vmin
-    transform: scale(0)
-
-@keyframes drag2
-  0%
-    right: 40vmin
-    transform: scale(0)
-
-  15%
-    right: 40vmin
-    transform: scale(1.5)
-
-  66%
-    right: 15vmin
-    transform: scale(1.5)
-
-  75%
-    right: 15vmin
-    transform: scale(0)
-
-  100%
-    right: 15vmin
-    transform: scale(0)
-
 .recording
   animation: recording 3s linear infinite
-
-.pointer
-  position: absolute!important
-  right: 15vmin
-  top: 100px
-  animation: drag 2s ease-in-out infinite
-
-.pointer2
-  position: absolute!important
-  right: 15vmin
-  top: 100px
-  animation: drag2 2s ease-in-out infinite
 
 .white-stripes.v-progress-linear--striped
   z-index: 0

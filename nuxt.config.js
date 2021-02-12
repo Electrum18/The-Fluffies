@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+  ssr: false,
   /*
    ** See headers of the page
    */
@@ -137,6 +138,8 @@ export default {
       lastmodrealtime: true
     },
 
+    exclude: ['/*'],
+
     routes: [
       { url: '/', priority: 1 },
       { url: '/ru/', priority: 1 },
@@ -151,10 +154,7 @@ export default {
       { url: '/ru/editor/', priority: 0.5 },
 
       { url: '/termsofservice/', priority: 0.2 },
-      { url: '/ru/termsofservice/', priority: 0.2 },
-
-      { url: '/privacypolicy/', priority: 0.2 },
-      { url: '/ru/privacypolicy/', priority: 0.2 }
+      { url: '/privacypolicy/', priority: 0.2 }
     ]
   },
   /*
@@ -182,6 +182,7 @@ export default {
    */
   sentry: {
     dsn: 'https://a1ae76af9b5d4e5ab2258817d16443e4@o491620.ingest.sentry.io/5557480',
+    disabled: process.env.NODE_ENV !== 'production',
     config: {
       lazy: true
     }

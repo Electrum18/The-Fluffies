@@ -51,13 +51,13 @@ interface IScheme {
 }
 
 interface ICompiledPathsElem {
-  [index: string]: IObject
+  [index: string]: IObject<any>
 }
 
 interface ICompiledPaths {
   keys: string[]
 
-  [index: string]: ICompiledPathsElem | IObject
+  [index: string]: ICompiledPathsElem | IObject<any>
 }
 
 export {

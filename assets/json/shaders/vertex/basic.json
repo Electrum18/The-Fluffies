@@ -1,0 +1,14 @@
+[
+  "precision mediump float;",
+
+  "attribute vec2 positions;",
+
+  "uniform mat3 translationMatrix;",
+  "uniform mat3 projectionMatrix;",
+
+  "void main() {",
+  "  vec2 result = (projectionMatrix * translationMatrix * vec3(positions, 1.0)).xy;",
+
+  "  gl_Position = vec4(result, 0, 1);",
+  "}"
+]

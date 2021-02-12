@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import i18nHead from '~/assets/ts/i18nHead.ts'
-import schemaOrg from '~/assets/ts/schema-org.ts'
-import { linkNormalize } from '~/assets/ts/link-normalize.ts'
+import i18nHead from '~/assets/ts/seo/i18nHead.ts'
+import schemaOrg from '~/assets/ts/seo/schema-org.ts'
+import { linkNormalize } from '~/assets/ts/seo/link-normalize.ts'
 
 export default {
   head() {

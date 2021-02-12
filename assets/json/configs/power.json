@@ -1,33 +1,6 @@
 {
-  "nose": 1.5,
-  "nose_point": 1.5,
-  "male_nose_point": 1.5,
-
-  "bridge": 1.5,
-
-  "mouth": 1.5,
-  "mouth2": 1.5,
-
-  "fangs_left": 1.5,
-  "fangs_right": 1.5,
-
-  "nostril_left": 1.5,
-  "nostril_right": 1.5,
-
-  "male_nose": 1.5,
-  "male_bridge": 1.5,
-
-  "tongue": 1.5,
-
-  "teeth_upper": 1.25,
-  "teeth_lower": 1.25,
-
-  "teeth_sharp_upper": 1.25,
-  "teeth_sharp_lower": 1.25,
-
-  "eye_left_brow": 0.75,
-
-  "glasses_left": 1.2,
-  "glasses_nose": 1.2,
-  "glasses_right": 1.2
+  "chin_upper": 0.35,
+  "chin_lower": 0.35,
+  "mouth_inner": 0.45,
+  "tongue": 0.45
 }

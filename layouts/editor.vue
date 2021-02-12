@@ -3,54 +3,15 @@
     v-app#editor-background
       nuxt
 
-    .loading
-      svg(xmlns='http://www.w3.org/2000/svg' viewbox='64 32 832 832').loading-pony
-        lineargradient#a(x1='1' x2='0' y1='0.2' y2='0')
-          stop(offset='0' stop-color='#fa2')
-          stop(offset='1' stop-color='#f64')
-
-        lineargradient#b(x1='1' x2='0' y1='0.8' y2='0')
-          stop(offset='0' stop-color='#fa2')
-          stop(offset='1' stop-color='#f64')
-
-        lineargradient#d(x1='1' x2='0' y1='0' y2='1')
-          stop(offset='0' stop-color='#fa2')
-          stop(offset='1' stop-color='#f64')
-
-        lineargradient#e(x1='1' x2='0' y1='0' y2='0.8')
-          stop(offset='0' stop-color='#fa2')
-          stop(offset='1' stop-color='#f64')
-
-        lineargradient#f(x1='0' x2='0' y1='0' y2='1')
-          stop(offset='0' stop-color='#fa2')
-          stop(offset='1' stop-color='#f64')
-
-        path(fill='url(#a)' d='M499 971a145 145 0 01-290 0c0-80 65-144 145-144s145 64 145 144z')
-        path(fill='url(#b)' d='M494 773c18 125-1 243-1 243S354 878 239 883c11-24 75-105 60-232l195 122z')
-        path(fill='url(#f)' d='M575 341c11-62 3-166-40-166-72 9-77 140-77 140')
-        ellipse(cx='512' cy='512.5' fill='url(#d)' rx='252.5' ry='260')
-        path(fill='url(#e)' d='M507 773s189 16 253-63l1-1c14-14 23-33 28-55 5-32-65-14-80-43-144-44-202 162-202 162z')
-        path(fill='url(#f)' d='M260 501c-81-46-16-279 62-291 56 8 50 147 50 147')
-
-      .loading-button.left-top
-      .loading-button.right-top
-      .loading-button.left-bottom
-      .loading-button.right-bottom
+    #canvas
+      canvas(ref="avatar")
 </template>
 
 <script>
 import { onMounted } from '@vue/composition-api'
 export default {
-  setup() {
-    onMounted(() => {
-      const loading = document.getElementsByClassName('loading')[0]
-
-      loading.style.opacity = 0
-
-      setTimeout(() => {
-        loading.remove()
-      }, 500)
-    })
+  setup(_, { refs, root }) {
+    onMounted(() => (root.$refs.avatar = refs.avatar))
   }
 }
 </script>
@@ -59,54 +20,20 @@ export default {
 #editor-background
   background: #666 url("~assets/img/background.png?webp") repeat
 
-@keyframes loading
-  0%
-    opacity: 1
-  50%
-    opacity: 0.33
-  100%
-    opacity: 1
-
-.loading
+#canvas
   position: fixed
-  left: 0
-  top: 0
-  width: 100%
-  height: 100%
-  z-index: 10
-  background: #fff
-  transition: opacity 500ms
+  width: 80vw
+  height: 45vw
+  left: 50%
+  bottom: 50%
+  border-radius: 16px
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0MzUyLCAyMDIwLzAxLzMwLTE1OjUwOjM4ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMSAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTA5LTIyVDE1OjU0OjA0KzAzOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0wOS0yMlQxNTo1NjowOCswMzowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6YjE1ZWEyZjItNmJjMC0xMDQ4LThkYWEtNTdmM2RjZWI1M2ExIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDpiMTVlYTJmMi02YmMwLTEwNDgtOGRhYS01N2YzZGNlYjUzYTEiIHN0RXZ0OndoZW49IjIwMjAtMDktMjJUMTU6NTQ6MDQrMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChXaW5kb3dzKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6W5vuQAAAAGElEQVQYlWN4igr+owKGgZRG46OpHkhpAMBDG6il9PcHAAAAAElFTkSuQmCC) repeat
+  background-size: 16px
+  transform: translate(-50%, 50%)
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
 
-  .loading-pony
-    width: 100vmin
-    height: 100vmin
-    left: 50%
-    bottom: 0
-    position: fixed
-    transform: translate(-50%)
-    animation: loading 1.5s ease-in-out infinite
-
-  .loading-button
-    width: 56px
-    height: 56px
-    background: #272727
-    margin: 16px
-    border-radius: 50%
-    position: fixed
-
-  .left-top
-    left: 0
-    top: 0
-
-  .right-top
-    right: 0
-    top: 0
-
-  .left-bottom
-    left: 0
-    bottom: 0
-
-  .right-bottom
-    right: 0
-    bottom: 0
+  canvas
+    width: 80vw
+    border-radius: 16px
+    z-index: 0
 </style>

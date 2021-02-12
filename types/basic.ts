@@ -1,7 +1,5 @@
-interface IObject {
-  [index: string]: any
+interface IObject<T> {
+  [index: string]: T
 }
 
-export {
-  IObject
-}
+export { IObject }

@@ -1,0 +1,51 @@
+{
+  "eyelashes_left": "eye_left_lashes",
+  "eyelashes_right": "eye_right_lashes",
+
+  "eyelid_left_up_fill": "eye_left_lid_up_fill",
+  "eyelid_left_down_fill": "eye_left_lid_down_fill",
+
+  "eyelid_right_up_fill": "eye_right_lid_up_fill",
+  "eyelid_right_down_fill": "eye_right_lid_down_fill",
+
+  "eyes_left_size_iris": "eye_left_iris",
+  "eyes_right_size_iris": "eye_right_iris",
+
+  "eyes_left_size_pupil": "eye_left_pupil",
+  "eyes_right_size_pupil": "eye_right_pupil",
+  "eyes_left_narrow_pupil": "eye_left_pupil",
+  "eyes_right_narrow_pupil": "eye_right_pupil",
+  "eyes_left_size_narrow_pupil": "eye_left_pupil",
+  "eyes_right_size_narrow_pupil": "eye_right_pupil",
+
+  "open_chin_upper": "chin_upper",
+  "open_chin_lower": "chin_lower",
+  "open_nose": "nose",
+  "open_tongue": "tongue",
+  "open_tongue_raised": "tongue",
+
+  "male_open_chin": "male_chin",
+  "male_open_nose": "male_nose",
+
+  "wing_left_folded": "wing_left",
+  "wing_left_fluff_folded": "wing_left_fluff",
+  "wing_right_folded": "wing_right",
+  "wing_right_fluff_folded": "wing_right_fluff",
+  "wing_bat_left_folded": "wing_bat_left",
+  "wing_bat_left_fluff_folded": "wing_bat_left_fluff",
+  "wing_bat_right_folded": "wing_bat_right",
+  "wing_bat_right_fluff_folded": "wing_bat_right_fluff",
+
+  "mouth_outline_sad": "mouth_outline",
+  "mouth_outline_sad_opened": "mouth_outline",
+
+  "mouth_lower_outline_opened": "mouth_lower_outline",
+  "mouth_lower_outline_sad_opened": "mouth_lower_outline",
+
+  "mouth_inner_opened": "mouth_inner",
+  "mouth_inner_sad": "mouth_inner",
+  "mouth_inner_sad_opened": "mouth_inner",
+
+  "mouth_fill_sad": "mouth_fill",
+  "mouth_fill_sad_opened": "mouth_fill"
+}

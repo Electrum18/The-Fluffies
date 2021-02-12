@@ -44,7 +44,7 @@
           :text="$t('editor.menu.eyes.width')"
           val="eyes_pupils_width"
           max=100
-          min=10
+          min=0
         )
 
       BarColor(

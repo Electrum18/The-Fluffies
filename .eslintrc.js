@@ -4,22 +4,20 @@ module.exports = {
     browser: true,
     node: true
   },
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
   extends: [
     '@nuxtjs',
+    '@nuxtjs/eslint-config-typescript',
     'prettier',
     'prettier/vue',
     'plugin:prettier/recommended',
-    'plugin:nuxt/recommended',
-    '@nuxtjs/eslint-config-typescript'
+    'plugin:nuxt/recommended'
   ],
   plugins: ['prettier'],
   // add your custom rules here
   rules: {
     curly: 0,
     'space-before-function-paren': ['error', 'never'],
-    'arrow-parens': 0
+    'arrow-parens': 0,
+    'no-magic-numbers': ['error', { ignoreArrayIndexes: true, ignore: [1, 1.5, 2, 3, 0, -1] }]
   }
 }

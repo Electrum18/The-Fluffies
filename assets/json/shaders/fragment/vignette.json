@@ -1,0 +1,16 @@
+[
+  "varying vec2 vTextureCoord;",
+
+  "uniform sampler2D uSampler;",
+  "uniform float value;",
+
+  "void main(void) {",
+  "  vec4 texture = texture2D(uSampler, vTextureCoord);",
+  "  vec2 uv = vTextureCoord;",
+
+  "  uv *= 1.0 - uv.yx;",
+  "  texture *= vec4(pow(uv.x * uv.y * 100.0, value)) - vec4(value);",
+
+  "  gl_FragColor = texture;",
+  "}"
+]

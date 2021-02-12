@@ -1,10 +1,12 @@
-import { IFrame } from '~/types/frames'
-
 import propers from '~/assets/json/configs/properties.json'
 
-function cloneObject(object: IFrame): IFrame {
+import { IObject } from '~/types/basic'
+
+function cloneObject(object: IObject<any>): IObject<any> {
   return JSON.parse(JSON.stringify(object))
 }
+
+// ! object assign
 
 const FrameObj2 = cloneObject(propers)
 

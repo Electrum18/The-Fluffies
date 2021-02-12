@@ -1,0 +1,92 @@
+{
+  "chin_upper": ["chin_upper", "emotion_open_chin_upper", "jaw_open"],
+  "chin_lower": ["chin_lower", "emotion_open_chin_lower", "jaw_open"],
+
+  "male_chin": ["male_chin", "emotion_male_open_chin", "jaw_open"],
+  "male_chin_outline": ["male_chin_outline", "emotion_male_open_chin_outline", "jaw_open"],
+
+  "nose": ["nose", "emotion_open_nose", "jaw_open"],
+  "male_nose": ["male_nose", "emotion_male_open_nose", "jaw_open"],
+
+  "tongue": [
+    ["tongue", "emotion_open_tongue", "jaw_open"],
+    ["tongue", "emotion_open_tongue_raised", "jaw_open"],
+    "tongue_raised"
+  ],
+
+  "mouth_inner": [
+    ["mouth_inner", "emotion_mouth_inner_opened", "jaw_open"],
+    ["emotion_mouth_inner_sad", "emotion_mouth_inner_sad_opened", "jaw_open"],
+    "jaw_sad"
+  ],
+
+  "mouth_outline": [
+    ["mouth_outline", "mouth_outline", "jaw_open"],
+    ["emotion_mouth_outline_sad", "emotion_mouth_outline_sad_opened", "jaw_open"],
+    "jaw_sad"
+  ],
+
+  "mouth_fill": [
+    ["mouth_fill", "mouth_fill", "jaw_open"],
+    ["emotion_mouth_fill_sad", "emotion_mouth_fill_sad_opened", "jaw_open"],
+    "jaw_sad"
+  ],
+
+  "mouth_lower_outline": [
+    ["mouth_lower_outline", "emotion_mouth_lower_outline_opened", "jaw_open"],
+    ["emotion_mouth_outline_sad", "emotion_mouth_lower_outline_sad_opened", "jaw_open"],
+    "jaw_sad"
+  ],
+
+  "eye_left_pupil": [
+    ["emotion_eyes_left_size_narrow_pupil", "emotion_eyes_left_size_pupil", "eyes_pupils_width"],
+    ["emotion_eyes_left_narrow_pupil", "eye_left_pupil", "eyes_pupils_width"],
+    "eyes_iris_scale"
+  ],
+
+  "eye_right_pupil": [
+    ["emotion_eyes_right_size_narrow_pupil", "emotion_eyes_right_size_pupil", "eyes_pupils_width"],
+    ["emotion_eyes_right_narrow_pupil", "eye_right_pupil", "eyes_pupils_width"],
+    "eyes_iris_scale"
+  ],
+
+  "eye_left_iris": ["emotion_eyes_left_size_iris", "eye_left_iris", "eyes_iris_scale"],
+  "eye_right_iris": ["emotion_eyes_right_size_iris", "eye_right_iris", "eyes_iris_scale"],
+  "eye_left_lid_up": ["eye_left_lid_up", "emotion_eyelid_left_up", ["eyes_eyelids", "left", "up"]],
+  "eye_right_lid_up": ["eye_right_lid_up", "emotion_eyelid_right_up", ["eyes_eyelids", "right", "up"]],
+  "eye_left_lid_down": ["eye_left_lid_down", "emotion_eyelid_left_down", ["eyes_eyelids", "left", "down"]],
+  "eye_right_lid_down": ["eye_right_lid_down", "emotion_eyelid_right_down", ["eyes_eyelids", "right", "down"]],
+
+  "eye_left_lashes": ["eye_left_lashes", "emotion_eyelashes_left", ["eyes_eyelids", "left", "up"]],
+  "eye_right_lashes": ["eye_right_lashes", "emotion_eyelashes_right", ["eyes_eyelids", "right", "up"]],
+
+  "wing_left": ["emotion_wing_left_folded", "wing_left", ["wing", "left", "folded"]],
+  "wing_left_outline": ["emotion_wing_left_folded_outline", "wing_left_outline", ["wing", "left", "folded"]],
+  "wing_left_fluff": ["emotion_wing_left_fluff_folded", "wing_left_fluff", ["wing", "left", "folded"]],
+  "wing_left_fluff_outline": ["emotion_wing_left_fluff_folded_outline", "wing_left_fluff_outline", ["wing", "left", "folded"]],
+  "wing_right": ["emotion_wing_right_folded", "wing_right", ["wing", "right", "folded"]],
+  "wing_right_outline": ["emotion_wing_right_folded_outline", "wing_right_outline", ["wing", "right", "folded"]],
+  "wing_right_fluff": ["emotion_wing_right_fluff_folded", "wing_right_fluff", ["wing", "right", "folded"]],
+  "wing_right_fluff_outline": ["emotion_wing_right_fluff_folded_outline", "wing_right_fluff_outline", ["wing", "right", "folded"]],
+
+  "wing_bat_left": ["emotion_wing_bat_left_folded", "wing_bat_left", ["wing", "left", "folded"]],
+  "wing_bat_left_outline": ["emotion_wing_bat_left_folded_outline", "wing_bat_left_outline", ["wing", "left", "folded"]],
+  "wing_bat_left_fluff": ["emotion_wing_bat_left_fluff_folded", "wing_bat_left_fluff", ["wing", "left", "folded"]],
+  "wing_bat_left_fluff_outline": ["emotion_wing_bat_left_fluff_folded_outline", "wing_bat_left_fluff_outline", ["wing", "left", "folded"]],
+  "wing_bat_right": ["emotion_wing_bat_right_folded", "wing_bat_right", ["wing", "right", "folded"]],
+  "wing_bat_right_outline": ["emotion_wing_bat_right_folded_outline", "wing_bat_right_outline", ["wing", "right", "folded"]],
+  "wing_bat_right_fluff": ["emotion_wing_bat_right_fluff_folded", "wing_bat_right_fluff", ["wing", "right", "folded"]],
+  "wing_bat_right_fluff_outline": ["emotion_wing_bat_right_fluff_folded_outline", "wing_bat_right_fluff_outline", ["wing", "right", "folded"]],
+
+  "teeth_upper": ["emotion_teeth_upper", "teeth_upper", "teeth_upper"],
+  "teeth_upper_outline": ["emotion_teeth_upper_outline", "teeth_upper_outline", "teeth_upper"],
+
+  "teeth_lower": ["emotion_teeth_lower", "teeth_lower", "teeth_lower"],
+  "teeth_lower_outline": ["emotion_teeth_lower_outline", "teeth_lower_outline", "teeth_lower"],
+
+  "teeth_sharp_upper": ["emotion_teeth_sharp_upper", "teeth_sharp_upper", "teeth_upper"],
+  "teeth_sharp_upper_outline": ["emotion_teeth_sharp_upper_outline", "teeth_sharp_upper_outline", "teeth_upper"],
+
+  "teeth_sharp_lower": ["emotion_teeth_sharp_lower", "teeth_sharp_lower", "teeth_lower"],
+  "teeth_sharp_lower_outline": ["emotion_teeth_sharp_lower_outline", "teeth_sharp_lower_outline", "teeth_lower"]
+}
