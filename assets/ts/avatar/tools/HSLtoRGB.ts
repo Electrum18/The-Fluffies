@@ -26,7 +26,7 @@ interface IHSLA {
   a: number
 }
 
-function hslToRgb({ h, s, l, a = 1 }: IHSLA): TRGBA {
+export function hslToRgb({ h, s, l, a = 1 }: IHSLA): TRGBA {
   if (s === 0) return [l, l, l, a] // Achromatic
 
   h /= MAX_ANGLE
@@ -36,5 +36,3 @@ function hslToRgb({ h, s, l, a = 1 }: IHSLA): TRGBA {
 
   return [hueToColor(p, q, h + THIRD), hueToColor(p, q, h), hueToColor(p, q, h - THIRD), a]
 }
-
-export { hslToRgb }

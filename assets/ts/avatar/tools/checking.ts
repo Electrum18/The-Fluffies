@@ -8,10 +8,11 @@ const LIGHT_GRAY = 0.87
 
 const isLeft = (value: string) => value === 'left'
 const isRight = (value: string) => value === 'right'
-const isStringArray = (value: string[]) => value[1] && value[1][1]
+
+export const isStringArray = (value: string[]) => value[1] && value[1][1]
 
 // Checking for all matching global values
-function checkGlobals(globals: IObject<any>, conditions: string[]) {
+export function checkGlobals(globals: IObject<any>, conditions: string[]) {
   let condition = true
 
   for (let i = 0; i < conditions.length; i++) {
@@ -26,7 +27,7 @@ function checkGlobals(globals: IObject<any>, conditions: string[]) {
 }
 
 // Validation of properties
-function checkProperty(property: string | [string, string, string], normalAngle: number) {
+export function checkProperty(property: string | [string, string, string], normalAngle: number) {
   let gettedProperty = property
   let propertySide = 1
 
@@ -65,7 +66,7 @@ const findColor = (colors: IHSLA, name: string) => {
 }
 
 // Getting a color by name or with a condition
-function checkColor(colors: IHSLA, globals: IObject<any>, name: string | TColorConditional) {
+export function checkColor(colors: IHSLA, globals: IObject<any>, name: string | TColorConditional) {
   if (isStringArray(name as string[])) {
     const [global, trueColor, falseColor] = name as TColorConditional
 
@@ -74,5 +75,3 @@ function checkColor(colors: IHSLA, globals: IObject<any>, name: string | TColorC
     return findColor(colors, name as string)
   }
 }
-
-export { isStringArray, checkGlobals, checkProperty, checkColor }

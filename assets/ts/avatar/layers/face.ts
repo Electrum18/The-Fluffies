@@ -3,7 +3,7 @@ import { ILibrary, IShortcutsJSON } from '~/types/graphics'
 
 const None = undefined
 
-const { Is, Pos, Angle, Color } = (shortcuts as unknown) as IShortcutsJSON
+const { Is, Pos, Angle, Color, Masking } = (shortcuts as unknown) as IShortcutsJSON
 
 export default ({ Elem, Mask, Outline, Layer, VarElem, VarOutline }: ILibrary) => {
   return Layer(
@@ -14,24 +14,23 @@ export default ({ Elem, Mask, Outline, Layer, VarElem, VarOutline }: ILibrary) =
       None,
       Elem('freckles_nose', 'freckles_basic', ['freckles_nose']),
 
-      Elem('eye_left', 'eyes_sclera', None, 'head_mask'),
-      Mask('eye_left')
+      Elem('eye_left', 'eyes_sclera', None, 'head_mask', true)
     ),
 
     Layer(
-      Pos.eyeLeft,
+      [Pos.eyeLeft, 'eyeLeft'],
       None,
-      Elem('eye_left_iris', 'eyes_left_basic', None, 'eye_left'),
-      Elem('eye_left_pupil', 'eyes_pupil', None, 'eye_left')
+      Elem('eye_left_iris', 'eyes_left_basic', None, Masking.eyeLeft),
+      Elem('eye_left_pupil', 'eyes_pupil', None, Masking.eyeLeft)
     ),
 
     Layer(
       Pos.horiz,
       None,
-      Elem('eye_left_flare', 'white', None, 'eye_left'),
+      Elem('eye_left_flare', 'white', None, Masking.eyeLeft),
       Elem('eye_left_lid_up', 'fur_basic', None, 'head_mask'),
       Elem('eye_left_lid_down', 'fur_basic', None, 'head_mask'),
-      Elem('eye_left_lashes', Color.eyelashes),
+      Elem('eye_left_lashes', Color.eyelashes, None, 'head_mask'),
 
       VarElem('glasses', 'left', 'glasses_lenses'),
       VarOutline('glasses', 'left', 'glasses_frame')
@@ -113,8 +112,8 @@ export default ({ Elem, Mask, Outline, Layer, VarElem, VarOutline }: ILibrary) =
     Layer(
       None,
       None,
-      VarElem('hair', 'front', Color.hair),
-      VarOutline('hair', 'front', Color.hairOutline),
+      VarElem('hair', 'front', Color.hair, None, Masking.earRight),
+      VarOutline('hair', 'front', Color.hairOutline, None, Masking.earRight),
 
       VarElem('horn_front', 'fill', Color.horn),
       VarOutline('horn_front', '', Color.hornOutline)

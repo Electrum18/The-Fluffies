@@ -25,11 +25,6 @@ import GIF from 'gif.js'
 
 import { initEngine, options } from '~/assets/ts/avatar/index.ts'
 
-// Configs
-
-import CM from '~/assets/json/configs/cross-morphs.json'
-import Powers from '~/assets/json/configs/power.json'
-
 export default {
   data() {
     return {
@@ -38,22 +33,7 @@ export default {
 
       // Configs
 
-      shiftMul: Powers,
-      interpolationScheme: CM,
-
       ctx: {}, // Context of canvas
-
-      horiz: 0,
-      angle: 0,
-
-      degress: 12.5,
-
-      position: {
-        vertical: 0,
-        horizontal: 0,
-        scale: 1,
-        angle: 0
-      },
 
       x: 0, // Horizontal of angle in -1 to 1 range
       y: 0, // Vertical of angle in 0 to 1 range
@@ -95,11 +75,6 @@ export default {
 
       globals: {},
       properties: {},
-      calculated: {}, // Calculated paths
-
-      mirror: false,
-
-      dragging: false, // If mousedown
 
       player: {
         model: undefined,
@@ -195,73 +170,14 @@ export default {
   },
 
   watch: {
-    getAngle: {
-      handler(angle) {
-        this.angle = angle
-      },
-
-      immediate: true
-    },
-
-    getHoriz: {
-      handler(horiz) {
-        this.horiz = horiz
-      },
-
-      immediate: true
-    },
-
-    getDegress: {
-      handler(degress) {
-        this.degress = degress
-        this.mirror = degress < 0
-
-        options.XYuv[0] = degress / 90
-      },
-
-      immediate: true
-    },
-
-    getPosHoriz: {
-      handler(horizontal) {
-        this.position.horizontal = horizontal
-      },
-
-      immediate: true
-    },
-
-    getPosVerti: {
-      handler(vertical) {
-        this.position.vertical = vertical
-      },
-
-      immediate: true
-    },
-
-    getPosScale: {
-      handler(scale) {
-        this.position.scale = scale
-      },
-
-      immediate: true
-    },
-
-    getPosAngle: {
-      handler(angle) {
-        this.position.angle = angle
-      },
-
-      immediate: true
-    },
-
     getProper: {
       handler(propers) {
-        const properties = JSON.parse(JSON.stringify(propers))
+        this.properties = JSON.parse(JSON.stringify(propers))
 
-        // this.SetPropersSide(this.mirror, properties)
-        this.properties = properties
+        options.XYuv[0] = this.properties.degress / 90
       },
 
+      immediate: true,
       deep: true
     },
 
@@ -279,10 +195,6 @@ export default {
 
       if (this.paths.hairs[name]) {
         this.paths.hairs.name = name
-      } else {
-        const { fileName, name } = this.asFile('hair')
-
-        this.importJSON('hairs', 'hairs/' + fileName + '.json', name)
       }
     },
 
@@ -291,10 +203,6 @@ export default {
 
       if (this.paths.tails[name]) {
         this.paths.tails.name = name
-      } else {
-        const { fileName, name } = this.asFile('tail')
-
-        this.importJSON('tails', 'tails/' + fileName + '.json', name)
       }
     },
 
@@ -326,41 +234,6 @@ export default {
       this.paths.pants.name = name
     },
 
-    mirror: {
-      handler(value, old) {
-        const { getColor } = this
-
-        if (old !== undefined) {
-          const { eyes_left_basic: eyesLeftBasic, eyes_right_basic: eyesRightBasic } = getColor
-
-          const slot = +localStorage.getItem('slot')
-          const save = JSON.parse(localStorage.getItem('avatars'))
-
-          const { color } = save[slot]
-
-          this.setColor({
-            path: 'eyes_left_basic',
-            value: eyesRightBasic
-          })
-
-          this.setColor({
-            path: 'eyes_right_basic',
-            value: eyesLeftBasic
-          })
-
-          color.eyes_left_basic = eyesRightBasic
-          color.eyes_right_basic = eyesLeftBasic
-
-          localStorage.setItem('avatars', JSON.stringify(save))
-        }
-
-        // this.SetPropersSide(value, properties)
-        this.setMirror(value)
-      },
-
-      immediate: true
-    },
-
     getPlaying: {
       handler(playing) {
         const { player } = this
@@ -369,16 +242,6 @@ export default {
 
         if (playing) {
           player.model = this.timeline.start(({ x }) => {
-            this.horiz = x.horiz
-            this.angle = x.angle
-
-            this.degress = x.degress
-
-            this.position.horizontal = x.position_horizontal
-            this.position.vertical = x.position_vertical
-            this.position.scale = x.position_scale
-            this.position.angle = x.position_angle
-
             options.XYuv[0] = x.degress / 90
 
             this.properties = x
@@ -464,10 +327,6 @@ export default {
   },
 
   mounted() {
-    this.properties = JSON.parse(JSON.stringify(this.getProper))
-
-    // this.SetPropersSide(this.mirror, this.properties)
-
     this.applyGlobals(this.getGlobal)
 
     this.paths.piercings_ears.name = this.getGlobal.piercing_ears_name_en
@@ -563,18 +422,9 @@ export default {
       return { name, fileName }
     },
 
-    importJSON(target, url, name) {},
+    importJSON() {},
 
-    startDrag(e) {
-      if (!e.pageX && e.touches) {
-        e = e.touches[0]
-      }
-
-      this.last.x = e.pageX
-      this.last.y = e.pageY
-
-      this.dragging = true
-
+    startDrag() {
       if (this.tapped === false) {
         this.tapped = true
 
@@ -582,8 +432,7 @@ export default {
       }
     },
 
-    onDrag(e) {
-    },
+    onDrag() {},
 
     stopDrag() {
       if (this.$refs.avatar) {

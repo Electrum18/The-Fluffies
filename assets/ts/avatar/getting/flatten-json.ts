@@ -6,7 +6,7 @@ import { IObject } from '~/types/basic'
 type TNewJson = IObject<string | TNewJson>
 
 // Divides sub-objects into separate objects with their own keys
-function unflattenKeys(json: TNewJson) {
+function unmergeKeys(json: TNewJson) {
   const newJson: TNewJson = {}
   const keys = Object.keys(json)
 
@@ -17,7 +17,7 @@ function unflattenKeys(json: TNewJson) {
     for (let gettedKeyId = 0; gettedKeyId < gettedKeys.length; gettedKeyId++) {
       const gettedKey = gettedKeys[gettedKeyId]
 
-      newJson[gettedKey] = unflattenKeys(json[key] as IObject<TNewJson>)
+      newJson[gettedKey] = unmergeKeys(json[key] as IObject<TNewJson>)
     }
   }
 
@@ -48,4 +48,4 @@ function createFlatArray(json: TNewJson, alias: string = '') {
   return array
 }
 
-export default createFlatArray(unflattenKeys(elementNames))
+export default createFlatArray(unmergeKeys(elementNames))

@@ -9,6 +9,8 @@
   },
 
   "Pos": {
+    "empty": [[[], []], [[], []]],
+
     "horiz": [[[], []], [["horiz"], [10]]],
     "antiHoriz": [[[], []], [["horiz"], [-10]]],
 
@@ -69,5 +71,10 @@
 
     "furSecond": [["fur_second_color"], "fur_second_basic", "fur_basic"],
     "furSecondOutline": [["fur_second_color"], "fur_second_shade", "fur_shade"]
+  },
+
+  "Masking": {
+    "eyeLeft": ["eye_left", "eyeLeft", "head_mask", "empty", "MASK_DOUBLE"],
+    "earRight": ["ears_right", "earRight", "MASK_INVERT"]
   }
 }

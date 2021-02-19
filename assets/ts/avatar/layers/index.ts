@@ -17,6 +17,10 @@ import shortcuts from '~/assets/json/configs/shortcuts.json'
 import { ILibrary, TOptions, IShortcutsJSON } from '~/types/graphics'
 import { IObject } from '~/types/basic'
 
+const CENTER = 512
+const MAX_ANG = 180
+const NORMAL_VAL = 0.02
+
 const None = undefined
 
 const { Is, Pos, Angle, Color } = (shortcuts as unknown) as IShortcutsJSON
@@ -109,7 +113,9 @@ function layers(library: ILibrary) {
       None,
       Angle.head,
       Elem('fluff_cheek_left', Color.furSecond, ['fluff_cheeks']),
-      Outline('fluff_cheek_left', Color.furSecondOutline, ['fluff_cheeks'])
+      Outline('fluff_cheek_left', Color.furSecondOutline, ['fluff_cheeks']),
+
+      Elem('eye_left_lashes_behind', Color.eyelashes)
     ),
 
     Layer(
@@ -128,7 +134,7 @@ function layers(library: ILibrary) {
     ),
 
     Layer(
-      None,
+      [Pos.empty, 'empty'],
       Angle.head,
       Elem('head', 'fur_basic'),
       Outline('head', 'fur_shade'),
@@ -136,9 +142,9 @@ function layers(library: ILibrary) {
     ),
 
     Layer(
-      Pos.antiHoriz,
+      [Pos.antiHoriz, 'earRight'],
       Angle.head,
-      VarElem('ears', 'right', Color.ears),
+      VarElem('ears', 'right', Color.ears, None, None, true),
       VarOutline('ears', 'right', Color.earsOutline),
 
       VarElem('ears', 'right_overlay', Color.ears),
@@ -172,10 +178,20 @@ export default (app: PIXI.Application, self: IObject<any>, options: TOptions) =>
 
     container.addChild(...layers(initLibrary(app, self) as ILibrary))
 
-    container.x = position.x
-    container.y = position.y
+    app.ticker.add(() => {
+      const { properties } = self
 
-    container.scale.set(scale)
+      const horiz = 1 - properties.position_horizontal * NORMAL_VAL
+      const verti = 1 - properties.position_vertical * NORMAL_VAL
+
+      container.x = position.x * horiz
+      container.y = position.y * verti
+
+      container.pivot.set(CENTER)
+      container.scale.set(scale * properties.position_scale)
+
+      container.rotation = properties.position_angle * (Math.PI / MAX_ANG)
+    })
 
     app.stage.addChild(createBackground(app, self, options))
     app.stage.addChild(container)

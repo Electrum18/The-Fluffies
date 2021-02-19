@@ -58,6 +58,7 @@
   "eye_right_lid_down": ["eye_right_lid_down", "emotion_eyelid_right_down", ["eyes_eyelids", "right", "down"]],
 
   "eye_left_lashes": ["eye_left_lashes", "emotion_eyelashes_left", ["eyes_eyelids", "left", "up"]],
+  "eye_left_lashes_behind": ["eye_left_lashes_behind", "emotion_eyelashes_left_behind", ["eyes_eyelids", "left", "up"]],
   "eye_right_lashes": ["eye_right_lashes", "emotion_eyelashes_right", ["eyes_eyelids", "right", "up"]],
 
   "wing_left": ["emotion_wing_left_folded", "wing_left", ["wing", "left", "folded"]],

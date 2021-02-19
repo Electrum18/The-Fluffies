@@ -17,6 +17,11 @@ type TPosConditional = [[string[], number[]], [string[], number[]]]
 type TAngleConditional = [string | [string, string, string], string]
 type TColorConditional = [string[], string, string]
 
+type TMasking = [string, string, string, string, 'MASK_DOUBLE'] | [string, string, 'MASK_INVERT']
+type TMaskingTexture =
+  | [PIXI.RenderTexture, PIXI.Container, PIXI.RenderTexture, PIXI.Container, 'MASK_DOUBLE']
+  | [PIXI.RenderTexture, PIXI.Container, 'MASK_INVERT']
+
 const { Elem, Outline, Mask, VarElem, VarOutline, Layer } = initLibrary(new PIXI.Application(), {})
 interface ILibrary {
   Elem: typeof Elem
@@ -33,6 +38,7 @@ interface IShortcutsJSON {
   Pos: IObject<TPosConditional>
   Angle: IObject<TAngleConditional>
   Color: IObject<string | TColorConditional>
+  Masking: IObject<TMasking>
 }
 
 export {
@@ -44,6 +50,8 @@ export {
   TAngleConditional,
   TColorConditional,
   TOptions,
+  TMasking,
+  TMaskingTexture,
   ILibrary,
   IShortcutsJSON
 }

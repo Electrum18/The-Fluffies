@@ -2,8 +2,6 @@ import defaultValues from '~/assets/ts/defaults'
 import defaultFrames from '~/assets/ts/defaultFrames'
 import expressions from '~/assets/json/configs/expressions.json'
 
-const MAX_DEGRESS = 90
-
 function cloneObject(object) {
   return JSON.parse(JSON.stringify(object))
 }
@@ -78,30 +76,7 @@ export const mutations = {
   setPosScale: (state, scale) => (state.position.scale = scale),
   setPosAngle: (state, angle) => (state.position.angle = angle),
 
-  setFrame: (state, frame) => {
-    state.frame = frame
-
-    const {
-      horiz,
-      angle,
-      degress,
-      position_horizontal: posHoriz,
-      position_vertical: posVerti,
-      position_scale: posScale,
-      position_angle: posAngle
-    } = state.frames[frame].frame
-
-    state.degress = degress
-    state.mirror = degress < MAX_DEGRESS
-
-    state.horiz = horiz
-    state.angle = angle
-
-    state.position.horizontal = posHoriz
-    state.position.vertical = posVerti
-    state.position.scale = posScale
-    state.position.angle = posAngle
-  },
+  setFrame: (state, frame) => (state.frame = frame),
 
   addFrame: ({ frames }, index) => {
     frames.splice(index, 0, {
@@ -153,27 +128,6 @@ export const mutations = {
   setFrames: (state, { frames }) => {
     state.frames = frames
     state.frame = 0
-
-    const {
-      horiz,
-      angle,
-      degress,
-      position_horizontal: posHoriz,
-      position_vertical: posVerti,
-      position_scale: posScale,
-      position_angle: posAngle
-    } = frames[0].frame
-
-    state.degress = degress
-    state.mirror = degress < MAX_DEGRESS
-
-    state.horiz = horiz
-    state.angle = angle
-
-    state.position.horizontal = posHoriz
-    state.position.vertical = posVerti
-    state.position.scale = posScale
-    state.position.angle = posAngle
   },
 
   deleteFrame: (state, index) => {

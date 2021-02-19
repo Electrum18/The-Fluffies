@@ -11,11 +11,15 @@ import {
   TAngleConditional,
   TColorConditional,
   TElements,
+  TMasking,
+  TMaskingTexture,
   TPosConditional,
   TRGBA
 } from '~/types/graphics'
 
 import { IObject } from '~/types/basic'
+
+const AVATAR_WIDTH = 1024
 
 const crossMorph: IObject<any> = CM
 const origins: IObject<number[][]> = Origins
@@ -28,10 +32,34 @@ const WEIGHT_MUL_CORRECTING = 32
 const elements: TElements = {}
 
 const masks: { [index: string]: PIXI.Mesh } = {}
+const masksBuffers: { [index: string]: PIXI.RenderTexture } = {}
+
+const layersPos: { [index: string]: PIXI.Container } = {}
 
 // Creates a mesh by finded morph pattern
-function createMeshTyped(name: string, elements: TElements, color: TRGBA) {
+function createMeshTyped(
+  name: string,
+  elements: TElements,
+  color: TRGBA,
+  maskBuffer: false | TMasking
+) {
   let mesh = {} as PIXI.Mesh
+  let mask: false | TMaskingTexture = false
+
+  if (Array.isArray(maskBuffer)) {
+    // eslint-disable-next-line no-magic-numbers
+    if (maskBuffer.length > 4) {
+      mask = [
+        masksBuffers[maskBuffer[0]],
+        layersPos[maskBuffer[1]],
+        masksBuffers[maskBuffer[2]],
+        layersPos[maskBuffer[3] as string],
+        maskBuffer[4] as 'MASK_DOUBLE'
+      ]
+    } else {
+      mask = [masksBuffers[maskBuffer[0]], layersPos[maskBuffer[1]], maskBuffer[2] as 'MASK_INVERT']
+    }
+  }
 
   if (crossMorph[name]) {
     if (isStringArray(crossMorph[name][0])) {
@@ -42,20 +70,30 @@ function createMeshTyped(name: string, elements: TElements, color: TRGBA) {
         elements[name2],
         elements[name3],
         elements[name4],
-        color
+        color,
+        mask
       )
     } else {
       const [name1, name2] = crossMorph[name]
 
-      mesh = createMeshDouble(elements[name1], elements[name2], color)
+      mesh = createMeshDouble(elements[name1], elements[name2], color, mask)
     }
   } else {
-    mesh = createMesh(elements[name], color)
+    mesh = createMesh(elements[name], color, mask)
   }
 
   mesh.interactive = false
 
   return mesh
+}
+
+// Creates a mask for the mesh if it is a regular PIXI type
+function checkSimpleMask(mesh: PIXI.Mesh, mask?: string | TMasking) {
+  if (mask) {
+    if (!Array.isArray(mask)) {
+      if (masks[mask]) mesh.mask = masks[mask]
+    }
+  }
 }
 
 // Interpolate a mesh by finded morph pattern
@@ -94,7 +132,7 @@ function selectMorphType(name: string, mesh: PIXI.Mesh, elements: TElements, sel
 }
 
 // Argument declaration function for nested functions
-function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
+function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>) {
   const global = self.getGlobal
   const colors = self.getColor
 
@@ -125,20 +163,33 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
 
   // Grouping of editor elements
   function Layer(
-    position?: TPosConditional,
+    positionAndCache?: TPosConditional | [TPosConditional, string],
     angle?: TAngleConditional,
     ...childs: (PIXI.Mesh | PIXI.Container)[]
   ) {
     const container = new PIXI.Container()
 
+    if (positionAndCache) {
+      if (!Array.isArray(positionAndCache[1])) {
+        layersPos[(positionAndCache[1] as unknown) as string] = container
+      }
+    }
+
     // If there is a position or angle
-    if (position || angle) {
+    if (positionAndCache || angle) {
       let propersX: [string[], number[]]
       let propersY: [string[], number[]]
 
       let proper: string | [string, string, string], origin: string
 
-      if (position) [propersX, propersY] = position
+      if (positionAndCache) {
+        if (!Array.isArray(positionAndCache[1])) {
+          ;[propersX, propersY] = positionAndCache[0] as TPosConditional
+        } else {
+          ;[propersX, propersY] = positionAndCache as TPosConditional
+        }
+      }
+
       if (angle) [proper, origin] = angle
 
       ticker.add(() => {
@@ -148,7 +199,7 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
         container.y = 0
 
         // Adding a position
-        if (position) {
+        if (positionAndCache) {
           container.x += getPropersSum(propersX, normalAngle)
           container.y += getPropersSum(propersY, normalAngle)
         }
@@ -182,19 +233,34 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
     name: string,
     colorName: string | TColorConditional,
     conditions: string[] = [],
-    mask?: string
+    mask?: string | TMasking,
+    saveBuffer?: boolean
   ) {
-    const mesh = createMeshTyped(name, elements, checkColor(colors, global, colorName))
+    const mesh = createMeshTyped(
+      name,
+      elements,
+      checkColor(colors, global, colorName),
+      Array.isArray(mask) && mask
+    )
 
     mesh.blendMode = PIXI.BLEND_MODES.NORMAL_NPM
 
-    if (mask && masks[mask]) mesh.mask = masks[mask]
+    if (saveBuffer) {
+      masksBuffers[name] = PIXI.RenderTexture.create({
+        width: AVATAR_WIDTH,
+        height: AVATAR_WIDTH
+      })
+    }
+
+    checkSimpleMask(mesh, mask)
 
     ticker.add(() => {
       mesh.visible = checkGlobals(global, conditions)
       mesh.shader.uniforms.color = checkColor(colors, global, colorName)
 
       selectMorphType(name, mesh, elements, self)
+
+      if (saveBuffer) renderer.render(mesh, masksBuffers[name])
     })
 
     return mesh
@@ -202,13 +268,18 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
 
   // Element used for the masking
   function Mask(name: string) {
-    const mesh = createMeshTyped(name, elements, [1, 1, 1, 1])
+    const mesh = createMeshTyped(name, elements, [1, 1, 1, 1], false)
 
     mesh.blendMode = PIXI.BLEND_MODES.NORMAL_NPM
 
     masks[name] = mesh
+    masksBuffers[name] = PIXI.RenderTexture.create({ width: AVATAR_WIDTH, height: AVATAR_WIDTH })
 
-    ticker.add(() => selectMorphType(name, mesh, elements, self))
+    ticker.add(() => {
+      selectMorphType(name, mesh, elements, self)
+
+      renderer.render(mesh, masksBuffers[name])
+    })
 
     return mesh
   }
@@ -218,9 +289,10 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
     name: string,
     color: string | TColorConditional,
     conditions: string[] = [],
-    mask?: string
+    mask?: string | TMasking,
+    saveBuffer?: boolean
   ) {
-    return Elem(name + '_outline', color, conditions, mask)
+    return Elem(name + '_outline', color, conditions, mask, saveBuffer)
   }
 
   // Variable element by global value
@@ -229,11 +301,14 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
     name: string,
     colorName: string | TColorConditional,
     conditions: string[] = [],
-    mask?: string
+    mask?: string | TMasking,
+    saveBuffer?: boolean
   ) {
     let lastGlobal: string
     let lastName: string
     let changed: boolean
+
+    const shortName = group + '_' + name
 
     function fullName() {
       const value = global[group + '_name_en']
@@ -248,11 +323,23 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
       return lastName
     }
 
-    const mesh = createMeshTyped(fullName(), elements, checkColor(colors, global, colorName))
+    const mesh = createMeshTyped(
+      fullName(),
+      elements,
+      checkColor(colors, global, colorName),
+      Array.isArray(mask) && mask
+    )
 
     mesh.blendMode = PIXI.BLEND_MODES.NORMAL_NPM
 
-    if (mask && masks[mask]) mesh.mask = masks[mask]
+    if (saveBuffer) {
+      masksBuffers[shortName] = PIXI.RenderTexture.create({
+        width: AVATAR_WIDTH,
+        height: AVATAR_WIDTH
+      })
+    }
+
+    checkSimpleMask(mesh, mask)
 
     ticker.add(() => {
       mesh.visible = checkGlobals(global, conditions)
@@ -265,6 +352,8 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
 
         changed = true // failsafe
       }
+
+      if (saveBuffer) renderer.render(mesh, masksBuffers[shortName])
     })
 
     return mesh
@@ -276,11 +365,12 @@ function initLibrary({ ticker }: PIXI.Application, self: IObject<any>) {
     name: string,
     color: string | TColorConditional,
     conditions: string[] = [],
-    mask?: string
+    mask?: string | TMasking,
+    saveBuffer?: boolean
   ) {
     const outlineName = name === '' ? '' : name + '_'
 
-    return VarElem(group, outlineName + 'outline', color, conditions, mask)
+    return VarElem(group, outlineName + 'outline', color, conditions, mask, saveBuffer)
   }
 
   return { Elem, Mask, Layer, Outline, VarElem, VarOutline }

@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 type TPoints = number[][]
 
 // Creates a geometry with buffers from arrays of numbers
-function createBuffers(id: string, geometry: PIXI.Geometry, values: TPoints[]) {
+export function createBuffers(id: string, geometry: PIXI.Geometry, values: TPoints[]) {
   for (let value = 0; value < values.length; value++) {
     const index = value * 2
 
@@ -21,7 +21,7 @@ interface IUpdateValues {
 }
 
 // Updates buffers from a word-and-digit array
-function updateBuffers(id: string, geometry: PIXI.Geometry, values: IUpdateValues[]) {
+export function updateBuffers(id: string, geometry: PIXI.Geometry, values: IUpdateValues[]) {
   for (let value = 0; value < values.length; value++) {
     const { currValue, nextValue } = values[value]
     const index = value * 2
@@ -30,5 +30,3 @@ function updateBuffers(id: string, geometry: PIXI.Geometry, values: IUpdateValue
     geometry.getBuffer(id + (index + 2)).update((nextValue as unknown) as ArrayBuffer)
   }
 }
-
-export { createBuffers, updateBuffers }

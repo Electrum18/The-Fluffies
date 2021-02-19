@@ -14,7 +14,7 @@ const SAFE_RANGE_VALUE = 0.99
 const HEAD_MAX_ANGLE = 90
 const VALUE_MAXIMUM = 100
 
-function interpolate(A: number, B: number, range: number): number {
+export function interpolate(A: number, B: number, range: number): number {
   return A + (B - A) * range
 }
 
@@ -25,7 +25,7 @@ interface TMorphData {
   range: number
 }
 
-function morphData(array: number[][], value: number, name: string): TMorphData {
+export function morphData(array: number[][], value: number, name: string): TMorphData {
   const absVal = Math.abs(value)
   const power = powers[name] || 1
 
@@ -40,7 +40,7 @@ function morphData(array: number[][], value: number, name: string): TMorphData {
 }
 
 // Getting a vector between two vectors
-function morphVec2(array: number[][], value: number, name: string) {
+export function morphVec2(array: number[][], value: number, name: string) {
   const { currValue, nextValue, range } = morphData(array, value, name) as TMorphData
 
   return [
@@ -50,7 +50,7 @@ function morphVec2(array: number[][], value: number, name: string) {
 }
 
 // Updating one shader buffer
-function morphMesh(
+export function morphMesh(
   name: string,
   { degress }: IObject<any>,
   { geometry, shader: { uniforms } }: PIXI.Mesh,
@@ -67,7 +67,7 @@ function morphMesh(
 }
 
 // Updating two shader buffers
-function morphMeshDouble(
+export function morphMeshDouble(
   name: string,
   propers: IObject<any>,
   { geometry, shader: { uniforms } }: PIXI.Mesh,
@@ -89,7 +89,7 @@ function morphMeshDouble(
 }
 
 // Updating four shader buffers
-function morphMeshQuad(
+export function morphMeshQuad(
   name: string,
   propers: IObject<any>,
   { geometry, shader: { uniforms } }: PIXI.Mesh,
@@ -125,5 +125,3 @@ function morphMeshQuad(
 
   uniforms.normalX = normalDegress
 }
-
-export { interpolate, morphData, morphVec2, morphMesh, morphMeshDouble, morphMeshQuad }

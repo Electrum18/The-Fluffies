@@ -4,9 +4,9 @@ import { elements } from './library'
 import initLayers from './layers'
 import getData from './getting/get-data'
 
-import RGBShiftFragmentShader from '~/assets/json/shaders/fragment/rgb-shift.json'
-import FastBlurFragmentShader from '~/assets/json/shaders/fragment/fast-blur.json'
-import VignetteFragmentShader from '~/assets/json/shaders/fragment/vignette.json'
+import RGBShiftFragmentShader from '~/assets/json/shaders/fragment/filters/rgb-shift.json'
+import FastBlurFragmentShader from '~/assets/json/shaders/fragment/filters/fast-blur.json'
+import VignetteFragmentShader from '~/assets/json/shaders/fragment/filters/vignette.json'
 
 import { IObject } from '~/types/basic'
 
@@ -21,13 +21,13 @@ let data: IData = {} as IData
 let dragging = false
 
 const WIDTH = 1280
-const AVATAR_WIDTH = 1024
-const POS_CORRECTION = 1.75
+const HEIGHT = 720
 
 const RGB_SHIFT_AMOUNT = 0.25
 const BLUR_AMOUNT = 0.002
 const VIGNETTE_OPACITY = 0.1
 
+const AVATAR_WIDTH = 1024
 const AVATAR_SIZE_HALF = AVATAR_WIDTH / 2
 // eslint-disable-next-line no-magic-numbers
 const AVATAR_SIZE_OCT = AVATAR_WIDTH / 8
@@ -38,7 +38,6 @@ const MAX_ANGLE = 90
 const MAX_ANGLE_HALF = MAX_ANGLE / 2
 
 // Engine settings
-
 export const options = {
   XYuv: [0, 0],
 
@@ -48,13 +47,8 @@ export const options = {
   scale: 0.4,
 
   position: {
-    x: (WIDTH - AVATAR_SIZE_HALF) / POS_CORRECTION,
-    y: 64
-  },
-
-  angle: {
-    front: 0,
-    side: 0
+    x: WIDTH / 2,
+    y: HEIGHT / 3
   }
 }
 
@@ -94,16 +88,15 @@ function setupStage({ stage, screen }: PIXI.Application, self: IObject<any>) {
 
     const frame = animations[slot].frames[self.getFrame].frame
 
-    frame.horiz = self.horiz
-    frame.angle = self.angle
-    frame.degress = self.degress
+    frame.horiz = self.properties.horiz
+    frame.angle = self.properties.angle
+    frame.degress = self.properties.degress
 
     localStorage.setItem('animations', JSON.stringify(animations))
 
-    self.setProper({ path: 'horiz', value: self.horiz })
-    self.setProper({ path: 'angle', value: self.angle })
-
-    self.setProper({ path: 'degress', value: self.degress })
+    self.setProper({ path: 'horiz', value: self.properties.horiz })
+    self.setProper({ path: 'angle', value: self.properties.angle })
+    self.setProper({ path: 'degress', value: self.properties.degress })
 
     self.setPlayChangedFrame()
   }
