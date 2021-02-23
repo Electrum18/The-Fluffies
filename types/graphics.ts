@@ -2,8 +2,9 @@ import * as PIXI from 'pixi.js'
 
 import { IObject } from './basic'
 
-import { options } from '~/assets/ts/avatar/index'
+import { options } from '~/assets/ts/avatar'
 import { initLibrary } from '~/assets/ts/library'
+
 interface IElement {
   points: number[][]
   ids: number[]
@@ -22,7 +23,8 @@ type TMaskingTexture =
   | [PIXI.RenderTexture, PIXI.Container, PIXI.RenderTexture, PIXI.Container, 'MASK_DOUBLE']
   | [PIXI.RenderTexture, PIXI.Container, 'MASK_INVERT']
 
-const { Elem, Outline, Mask, VarElem, VarOutline, Layer } = initLibrary(new PIXI.Application(), {})
+const { Elem, Outline, Mask, VarElem, VarOutline, Layer } = initLibrary({})
+
 interface ILibrary {
   Elem: typeof Elem
   VarElem: typeof VarElem
