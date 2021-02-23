@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { IObject } from './basic'
 
 import { options } from '~/assets/ts/avatar/index'
-import { initLibrary } from '~/assets/ts/avatar/library'
+import { initLibrary } from '~/assets/ts/library'
 interface IElement {
   points: number[][]
   ids: number[]

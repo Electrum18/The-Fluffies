@@ -1,7 +1,10 @@
+import * as PIXI from 'pixi.js'
+
+import { masks } from '../library/config'
 import { hslToRgb } from './HSLtoRGB'
 
 import { IObject } from '~/types/basic'
-import { TColorConditional, TRGBA } from '~/types/graphics'
+import { TColorConditional, TMasking, TRGBA } from '~/types/graphics'
 
 const EIGHTH = 0.125
 const LIGHT_GRAY = 0.87
@@ -73,5 +76,14 @@ export function checkColor(colors: IHSLA, globals: IObject<any>, name: string | 
     return findColor(colors, checkGlobals(globals, global) ? trueColor : falseColor)
   } else {
     return findColor(colors, name as string)
+  }
+}
+
+// Creates a mask for the mesh if it is a regular PIXI type
+export function checkSimpleMask(mesh: PIXI.Mesh, mask?: string | TMasking) {
+  if (mask) {
+    if (!Array.isArray(mask)) {
+      if (masks[mask]) mesh.mask = masks[mask]
+    }
   }
 }

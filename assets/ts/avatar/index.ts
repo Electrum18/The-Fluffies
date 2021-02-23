@@ -1,12 +1,10 @@
 import * as PIXI from 'pixi.js'
 
-import { elements } from './library'
-import initLayers from './layers'
-import getData from './getting/get-data'
+import initLayers from '../layers'
+import getData from '../getting/get-data'
 
-import RGBShiftFragmentShader from '~/assets/json/shaders/fragment/filters/rgb-shift.json'
-import FastBlurFragmentShader from '~/assets/json/shaders/fragment/filters/fast-blur.json'
-import VignetteFragmentShader from '~/assets/json/shaders/fragment/filters/vignette.json'
+import { elements } from '../library/config'
+import { applyFilters } from './filters'
 
 import { IObject } from '~/types/basic'
 
@@ -22,10 +20,6 @@ let dragging = false
 
 const WIDTH = 1280
 const HEIGHT = 720
-
-const RGB_SHIFT_AMOUNT = 0.25
-const BLUR_AMOUNT = 0.002
-const VIGNETTE_OPACITY = 0.1
 
 const AVATAR_WIDTH = 1024
 const AVATAR_SIZE_HALF = AVATAR_WIDTH / 2
@@ -73,7 +67,9 @@ function onDragMove() {
 }
 
 // Applies properties for the application stage
-function setupStage({ stage, screen }: PIXI.Application, self: IObject<any>) {
+function setupStage(self: IObject<any>) {
+  const { stage, screen } = app
+
   stage.filters = applyFilters()
   stage.interactive = true
   stage.interactiveChildren = false
@@ -122,34 +118,14 @@ function setupStage({ stage, screen }: PIXI.Application, self: IObject<any>) {
   }
 }
 
-const {
-  FXAAFilter,
-  AlphaFilter: { defaultVertexSrc }
-} = PIXI.filters
-
-// Filter creating function shorthand
-function createFilter(fragmentShader: string[], value: number) {
-  return new PIXI.Filter(defaultVertexSrc, fragmentShader.join('\n'), { value })
-}
-
-// Creates array of fliters for avatar layer
-function applyFilters() {
-  return [
-    new FXAAFilter(),
-    createFilter(RGBShiftFragmentShader, RGB_SHIFT_AMOUNT),
-    createFilter(FastBlurFragmentShader, BLUR_AMOUNT),
-    createFilter(VignetteFragmentShader, VIGNETTE_OPACITY)
-  ]
-}
+export const app = new PIXI.Application({
+  width: options.width,
+  height: options.height
+})
 
 // Launches the PIXI library engine with the necessary calls to Vue
 export function initEngine(self: IObject<any>) {
-  const app = new PIXI.Application({
-    width: options.width,
-    height: options.height
-  })
-
-  setupStage(app, self)
+  setupStage(self)
 
   app.ticker.add(() => {
     const absX = Math.abs(options.XYuv[0] * MAX_ANGLE_HALF)
@@ -161,9 +137,8 @@ export function initEngine(self: IObject<any>) {
     self.properties.angle = options.XYuv[1] * absX
   })
 
-  const layers = initLayers(app, self, options)
-
-  getData(elements, layers) // Applies element information (coordinates and indices) and runs callback
+  // Applies element information (coordinates and indices) and runs callback
+  getData(elements, initLayers(self, options))
 
   setTimeout(() => {
     self.$root.$refs.avatar.parentNode.replaceChild(app.view, self.$root.$refs.avatar)

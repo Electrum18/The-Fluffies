@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js'
 
 import { initLibrary } from '../library'
-
-import { createBackground } from '../tools/creating'
+import { createBackground } from '../library/creating'
+import { app } from '../avatar'
 
 import face from './face'
 import neck from './neck'
@@ -170,13 +170,13 @@ function layers(library: ILibrary) {
   )
 }
 
-export default (app: PIXI.Application, self: IObject<any>, options: TOptions) => {
+export default (self: IObject<any>, options: TOptions) => {
   return () => {
     const { position, scale } = options
 
     const container = new PIXI.Container()
 
-    container.addChild(...layers(initLibrary(app, self) as ILibrary))
+    container.addChild(...layers(initLibrary(self) as ILibrary))
 
     app.ticker.add(() => {
       const { properties } = self

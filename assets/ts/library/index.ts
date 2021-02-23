@@ -1,138 +1,27 @@
 import * as PIXI from 'pixi.js'
 
-import { morphVec2, morphMesh, morphMeshDouble, morphMeshQuad } from './tools/morphing'
-import { createMesh, createMeshDouble, createMeshQuad } from './tools/creating'
-import { isStringArray, checkColor, checkGlobals, checkProperty } from './tools/checking'
+import { checkColor, checkGlobals, checkProperty, checkSimpleMask } from '../tools/checking'
+import { app } from '../avatar'
 
-import Origins from '~/assets/json/configs/origins.json'
-import CM from '~/assets/json/configs/cross-morphs.json'
+import { morphVec2, selectMorphType } from './morphing'
+import { createMeshTyped, masksBuffers, layersPos } from './creating'
+import { elements, masks, origins } from './config'
 
-import {
-  TAngleConditional,
-  TColorConditional,
-  TElements,
-  TMasking,
-  TMaskingTexture,
-  TPosConditional,
-  TRGBA
-} from '~/types/graphics'
+import { TAngleConditional, TColorConditional, TMasking, TPosConditional } from '~/types/graphics'
 
 import { IObject } from '~/types/basic'
 
 const AVATAR_WIDTH = 1024
-
-const crossMorph: IObject<any> = CM
-const origins: IObject<number[][]> = Origins
 
 const HEAD_MAX_ANGLE = 90
 const PI_ANGLE = 180
 const NORMAL_DEG_OF_PI2 = 1 / (PI_ANGLE / 2)
 const WEIGHT_MUL_CORRECTING = 32
 
-const elements: TElements = {}
-
-const masks: { [index: string]: PIXI.Mesh } = {}
-const masksBuffers: { [index: string]: PIXI.RenderTexture } = {}
-
-const layersPos: { [index: string]: PIXI.Container } = {}
-
-// Creates a mesh by finded morph pattern
-function createMeshTyped(
-  name: string,
-  elements: TElements,
-  color: TRGBA,
-  maskBuffer: false | TMasking
-) {
-  let mesh = {} as PIXI.Mesh
-  let mask: false | TMaskingTexture = false
-
-  if (Array.isArray(maskBuffer)) {
-    // eslint-disable-next-line no-magic-numbers
-    if (maskBuffer.length > 4) {
-      mask = [
-        masksBuffers[maskBuffer[0]],
-        layersPos[maskBuffer[1]],
-        masksBuffers[maskBuffer[2]],
-        layersPos[maskBuffer[3] as string],
-        maskBuffer[4] as 'MASK_DOUBLE'
-      ]
-    } else {
-      mask = [masksBuffers[maskBuffer[0]], layersPos[maskBuffer[1]], maskBuffer[2] as 'MASK_INVERT']
-    }
-  }
-
-  if (crossMorph[name]) {
-    if (isStringArray(crossMorph[name][0])) {
-      const [[name1, name2], [name3, name4]] = crossMorph[name]
-
-      mesh = createMeshQuad(
-        elements[name1],
-        elements[name2],
-        elements[name3],
-        elements[name4],
-        color,
-        mask
-      )
-    } else {
-      const [name1, name2] = crossMorph[name]
-
-      mesh = createMeshDouble(elements[name1], elements[name2], color, mask)
-    }
-  } else {
-    mesh = createMesh(elements[name], color, mask)
-  }
-
-  mesh.interactive = false
-
-  return mesh
-}
-
-// Creates a mask for the mesh if it is a regular PIXI type
-function checkSimpleMask(mesh: PIXI.Mesh, mask?: string | TMasking) {
-  if (mask) {
-    if (!Array.isArray(mask)) {
-      if (masks[mask]) mesh.mask = masks[mask]
-    }
-  }
-}
-
-// Interpolate a mesh by finded morph pattern
-function selectMorphType(name: string, mesh: PIXI.Mesh, elements: TElements, self: IObject<any>) {
-  if (
-    crossMorph[name] &&
-    name !== 'male_nose' &&
-    name !== 'male_chin' &&
-    name !== 'male_chin_outline'
-  ) {
-    if (isStringArray(crossMorph[name][0])) {
-      const [[name1, name2, properName], [name3, name4, properName2], properName3] = crossMorph[
-        name
-      ]
-
-      morphMeshQuad(
-        name,
-        self.properties,
-        mesh,
-        elements[name1],
-        elements[name2],
-        elements[name3],
-        elements[name4],
-        properName,
-        properName2,
-        properName3
-      )
-    } else {
-      const [name1, name2, properName] = crossMorph[name]
-
-      morphMeshDouble(name, self.properties, mesh, elements[name1], elements[name2], properName)
-    }
-  } else {
-    morphMesh(name, self.properties, mesh, elements[name])
-  }
-}
-
 // Argument declaration function for nested functions
-function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>) {
+function initLibrary(self: IObject<any>) {
+  const { ticker, renderer } = app
+
   const global = self.getGlobal
   const colors = self.getColor
 
@@ -238,7 +127,6 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
   ) {
     const mesh = createMeshTyped(
       name,
-      elements,
       checkColor(colors, global, colorName),
       Array.isArray(mask) && mask
     )
@@ -258,7 +146,7 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
       mesh.visible = checkGlobals(global, conditions)
       mesh.shader.uniforms.color = checkColor(colors, global, colorName)
 
-      selectMorphType(name, mesh, elements, self)
+      selectMorphType(name, mesh, self)
 
       if (saveBuffer) renderer.render(mesh, masksBuffers[name])
     })
@@ -268,7 +156,7 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
 
   // Element used for the masking
   function Mask(name: string) {
-    const mesh = createMeshTyped(name, elements, [1, 1, 1, 1], false)
+    const mesh = createMeshTyped(name, [1, 1, 1, 1], false)
 
     mesh.blendMode = PIXI.BLEND_MODES.NORMAL_NPM
 
@@ -276,7 +164,7 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
     masksBuffers[name] = PIXI.RenderTexture.create({ width: AVATAR_WIDTH, height: AVATAR_WIDTH })
 
     ticker.add(() => {
-      selectMorphType(name, mesh, elements, self)
+      selectMorphType(name, mesh, self)
 
       renderer.render(mesh, masksBuffers[name])
     })
@@ -325,7 +213,6 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
 
     const mesh = createMeshTyped(
       fullName(),
-      elements,
       checkColor(colors, global, colorName),
       Array.isArray(mask) && mask
     )
@@ -345,7 +232,7 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
       mesh.visible = checkGlobals(global, conditions)
       mesh.shader.uniforms.color = checkColor(colors, global, colorName)
 
-      selectMorphType(fullName(), mesh, elements as TElements, self)
+      selectMorphType(fullName(), mesh, self)
 
       if (changed) {
         mesh.geometry.getIndex().update(new Uint16Array(elements[fullName()].ids)) // Creates correct indexes
@@ -376,4 +263,4 @@ function initLibrary({ ticker, renderer }: PIXI.Application, self: IObject<any>)
   return { Elem, Mask, Layer, Outline, VarElem, VarOutline }
 }
 
-export { initLibrary, elements }
+export { initLibrary }

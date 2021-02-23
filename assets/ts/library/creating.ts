@@ -1,7 +1,9 @@
 import * as PIXI from 'pixi.js'
 
-import { createBuffers } from './buffers'
-import { checkColor } from './checking'
+import { checkColor, isStringArray } from '../tools/checking'
+import { createBuffers } from '../tools/buffers'
+
+import { crossMorph, elements } from './config'
 
 import ShaderVertexBasic from '~/assets/json/shaders/vertex/basic.json'
 import ShaderVertexSingle from '~/assets/json/shaders/vertex/morphing/single.json'
@@ -12,8 +14,11 @@ import ShaderFragmentFill from '~/assets/json/shaders/fragment/fill.json'
 import ShaderFragmentMaskedDouble from '~/assets/json/shaders/fragment/mask-double.json'
 import ShaderFragmentMaskedInvert from '~/assets/json/shaders/fragment/mask-invert.json'
 
+import { TMasking, TMaskingTexture, TOptions, TRGBA } from '~/types/graphics'
 import { IObject } from '~/types/basic'
-import { IElement, TMaskingTexture, TOptions, TRGBA } from '~/types/graphics'
+
+export const masksBuffers: { [index: string]: PIXI.RenderTexture } = {}
+export const layersPos: { [index: string]: PIXI.Container } = {}
 
 const AVATAR_WIDTH = 1024
 
@@ -74,11 +79,9 @@ function findFragmentBufferTyped(mask: false | TMaskingTexture) {
 }
 
 // Element constructor
-export function createMesh(
-  { points, ids }: IElement,
-  color: TRGBA,
-  maskBuffer: false | TMaskingTexture
-) {
+function createMesh(name: string, color: TRGBA, maskBuffer: false | TMaskingTexture) {
+  const { points, ids } = elements[name]
+
   const { fragmentBuffer, maskData } = findFragmentBufferTyped(maskBuffer)
 
   return new PIXI.Mesh(
@@ -93,12 +96,12 @@ export function createMesh(
 }
 
 // Element constructor with double interpolation
-export function createMeshDouble(
-  { points, ids }: IElement,
-  { points: points2 }: IElement,
-  color: TRGBA,
-  maskBuffer: false | TMaskingTexture
-) {
+function createMeshDouble(name: string, color: TRGBA, maskBuffer: false | TMaskingTexture) {
+  const [name1, name2] = crossMorph[name]
+
+  const { points, ids } = elements[name1]
+  const { points: points2 } = elements[name2]
+
   const { fragmentBuffer, maskData } = findFragmentBufferTyped(maskBuffer)
 
   return new PIXI.Mesh(
@@ -113,14 +116,14 @@ export function createMeshDouble(
 }
 
 // Element constructor with power two interpolation
-export function createMeshQuad(
-  { points, ids }: IElement,
-  { points: points2 }: IElement,
-  { points: points3 }: IElement,
-  { points: points4 }: IElement,
-  color: TRGBA,
-  maskBuffer: false | TMaskingTexture
-) {
+function createMeshQuad(name: string, color: TRGBA, maskBuffer: false | TMaskingTexture) {
+  const [[name1, name2], [name3, name4]] = crossMorph[name]
+
+  const { points, ids } = elements[name1]
+  const { points: points2 } = elements[name2]
+  const { points: points3 } = elements[name3]
+  const { points: points4 } = elements[name4]
+
   const { fragmentBuffer, maskData } = findFragmentBufferTyped(maskBuffer)
 
   return new PIXI.Mesh(
@@ -164,6 +167,41 @@ export function createBackground(
   app.ticker.add(() => {
     mesh.shader.uniforms.color = checkColor(colors, global, colorName)
   })
+
+  return mesh
+}
+
+// Creates a mesh by finded morph pattern
+export function createMeshTyped(name: string, color: TRGBA, maskBuffer: false | TMasking) {
+  let mesh = {} as PIXI.Mesh
+  let mask: false | TMaskingTexture = false
+
+  if (Array.isArray(maskBuffer)) {
+    // eslint-disable-next-line no-magic-numbers
+    if (maskBuffer.length > 4) {
+      mask = [
+        masksBuffers[maskBuffer[0]],
+        layersPos[maskBuffer[1]],
+        masksBuffers[maskBuffer[2]],
+        layersPos[maskBuffer[3] as string],
+        maskBuffer[4] as 'MASK_DOUBLE'
+      ]
+    } else {
+      mask = [masksBuffers[maskBuffer[0]], layersPos[maskBuffer[1]], maskBuffer[2] as 'MASK_INVERT']
+    }
+  }
+
+  if (crossMorph[name]) {
+    if (isStringArray(crossMorph[name][0])) {
+      mesh = createMeshQuad(name, color, mask)
+    } else {
+      mesh = createMeshDouble(name, color, mask)
+    }
+  } else {
+    mesh = createMesh(name, color, mask)
+  }
+
+  mesh.interactive = false
 
   return mesh
 }
