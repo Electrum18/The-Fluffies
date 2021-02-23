@@ -32,7 +32,7 @@
     "nuxt-webfontloader": "^1.1.0",
     "parse-svg-path": "^0.1.2",
     "popmotion": "^8.7.6",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.1",
     "vue-pwa-installer": "^0.2.0"
   },
