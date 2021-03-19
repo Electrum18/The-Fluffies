@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 
 import { initLibrary } from '../library'
 import { createBackground } from '../library/creating'
-import { app } from '../avatar'
+import { app, options } from '../avatar'
 
 import face from './face'
 import neck from './neck'
@@ -14,12 +14,13 @@ import hoovesFrontRight from './hooves/front-right'
 
 import shortcuts from '~/assets/json/configs/shortcuts.json'
 
-import { ILibrary, TOptions, IShortcutsJSON } from '~/types/graphics'
+import { ILibrary, IShortcutsJSON } from '~/types/graphics'
 import { IObject } from '~/types/basic'
 
 const CENTER = 512
 const MAX_ANG = 180
 const NORMAL_VAL = 0.02
+const SHIFT_MUL = 0.3
 
 const None = undefined
 
@@ -170,7 +171,7 @@ function layers(library: ILibrary) {
   )
 }
 
-export default (self: IObject<any>, options: TOptions) => {
+export default (self: IObject<any>) => {
   return () => {
     const { position, scale } = options
 
@@ -181,19 +182,26 @@ export default (self: IObject<any>, options: TOptions) => {
     app.ticker.add(() => {
       const { properties } = self
 
+      const mirrored = properties.degress < 0
+      const toRadians = Math.PI / MAX_ANG
+
       const horiz = 1 - properties.position_horizontal * NORMAL_VAL
       const verti = 1 - properties.position_vertical * NORMAL_VAL
 
-      container.x = position.x * horiz
+      const sin = 1 + Math.sin(Math.abs(properties.degress) * (toRadians / 2)) * SHIFT_MUL
+
+      container.x = position.x * (mirrored ? 2 - horiz : horiz) * sin
       container.y = position.y * verti
 
       container.pivot.set(CENTER)
       container.scale.set(scale * properties.position_scale)
 
-      container.rotation = properties.position_angle * (Math.PI / MAX_ANG)
+      container.rotation = properties.position_angle * toRadians
+
+      if (mirrored) container.rotation = -container.rotation
     })
 
-    app.stage.addChild(createBackground(app, self, options))
+    app.stage.addChild(createBackground(self))
     app.stage.addChild(container)
   }
 }

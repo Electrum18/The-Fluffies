@@ -138,7 +138,7 @@ export function initEngine(self: IObject<any>) {
   })
 
   // Applies element information (coordinates and indices) and runs callback
-  getData(elements, initLayers(self, options))
+  getData(elements, initLayers(self))
 
   setTimeout(() => {
     self.$root.$refs.avatar.parentNode.replaceChild(app.view, self.$root.$refs.avatar)

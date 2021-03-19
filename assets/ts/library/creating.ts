@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 
 import { checkColor, isStringArray } from '../tools/checking'
 import { createBuffers } from '../tools/buffers'
+import { app, options } from '../avatar'
 
 import { crossMorph, elements } from './config'
 
@@ -14,7 +15,7 @@ import ShaderFragmentFill from '~/assets/json/shaders/fragment/fill.json'
 import ShaderFragmentMaskedDouble from '~/assets/json/shaders/fragment/mask-double.json'
 import ShaderFragmentMaskedInvert from '~/assets/json/shaders/fragment/mask-invert.json'
 
-import { TMasking, TMaskingTexture, TOptions, TRGBA } from '~/types/graphics'
+import { TMasking, TMaskingTexture, TRGBA } from '~/types/graphics'
 import { IObject } from '~/types/basic'
 
 export const masksBuffers: { [index: string]: PIXI.RenderTexture } = {}
@@ -140,11 +141,9 @@ function createMeshQuad(name: string, color: TRGBA, maskBuffer: false | TMasking
 }
 
 // Creates background as a square of two polygons
-export function createBackground(
-  app: PIXI.Application,
-  self: IObject<any>,
-  { width, height }: TOptions
-) {
+export function createBackground(self: IObject<any>) {
+  const { width, height } = options
+
   const global = self.getGlobal
   const colors = self.getColor
 

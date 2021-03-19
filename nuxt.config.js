@@ -144,14 +144,14 @@ export default {
       { url: '/', priority: 1 },
       { url: '/ru/', priority: 1 },
 
-      { url: '/about/', priority: 0.8 },
-      { url: '/ru/about/', priority: 0.8 },
+      { url: '/editor/', priority: 0.7 },
+      { url: '/ru/editor/', priority: 0.7 },
 
-      { url: '/support/', priority: 0.8 },
-      { url: '/ru/support/', priority: 0.8 },
+      { url: '/about/', priority: 0.5 },
+      { url: '/ru/about/', priority: 0.5 },
 
-      { url: '/editor/', priority: 0.5 },
-      { url: '/ru/editor/', priority: 0.5 },
+      { url: '/support/', priority: 0.5 },
+      { url: '/ru/support/', priority: 0.5 },
 
       { url: '/termsofservice/', priority: 0.2 },
       { url: '/privacypolicy/', priority: 0.2 }
@@ -191,7 +191,7 @@ export default {
    ** Build configuration
    */
   build: {
-    analyze: true,
+    analyze: process.env.NODE_ENV === 'production',
 
     extractCSS: {
       ignoreOrder: true
