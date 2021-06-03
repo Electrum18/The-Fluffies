@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 865 584">
+  <defs>
+    <linearGradient id="a" x1="161.5" x2="507.3" y1="712.4" y2="366.7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="c" x1="528.6" x2="613.9" y1="339.5" y2="254.3" xlink:href="#a"/>
+    <linearGradient id="b" x1="506.6" x2="524.2" y1="401.2" y2="383.6" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="d" x1="476" x2="493.6" y1="401.2" y2="383.6" xlink:href="#b"/>
+    <linearGradient id="e" x1="15" x2="69.8" y1="436.8" y2="381.9" xlink:href="#b"/>
+    <linearGradient id="f" x1="507.1" x2="524.7" y1="307.8" y2="290.2" xlink:href="#b"/>
+    <linearGradient id="g" x1="476.6" x2="494.2" y1="307.8" y2="290.2" xlink:href="#b"/>
+    <linearGradient id="h" x1="15.6" x2="70.4" y1="343.3" y2="288.5" xlink:href="#b"/>
+    <linearGradient id="i" x1="507.1" x2="524.7" y1="214" y2="196.4" xlink:href="#b"/>
+    <linearGradient id="j" x1="476.6" x2="494.2" y1="214" y2="196.4" xlink:href="#b"/>
+    <linearGradient id="k" x1="15.6" x2="70.4" y1="249.6" y2="194.8" xlink:href="#b"/>
+    <linearGradient id="l" x1="687.1" x2="804.5" y1="221.4" y2="104" xlink:href="#b"/>
+    <linearGradient id="m" x1="763.1" x2="847.4" y1="264.4" y2="180.2" xlink:href="#b"/>
+    <linearGradient id="n" x1="651.4" x2="762.1" y1="273.1" y2="162.3" xlink:href="#b"/>
+    <linearGradient id="o" x1="632.2" x2="693.6" y1="193.6" y2="132.2" xlink:href="#b"/>
+  </defs>
+  <path fill="none" stroke="#1f2937" stroke-miterlimit="10" stroke-width="12" d="M528 368h192a26 26 0 0026-26V234"/>
+  <path fill="none" stroke="#1f2937" stroke-miterlimit="10" stroke-width="12" d="M504 342h192a26 26 0 0026-26V208"/>
+  <path fill="none" stroke="#1f2937" stroke-miterlimit="10" stroke-width="12" d="M550 395h192c14 0 26-12 29-28V259"/>
+  <path fill="url(#a)" d="M388 784q-118 56-199-47T98 524q-10-111 64-184t157-36q82 37 150 58t143 114q75 93-16 172T388 784z" transform="translate(-73 -220)"/>
+  <path fill="url(#c)" d="M624 325q11 36-25 27t-58-14q-22-5-41-27t-1-45a184 184 0 0141-38q23-15 46 0t25 38q2 23 13 59z" transform="translate(-73 -220)"/>
+  <rect width="549.9" height="83.7" y="368" fill="#1f2937" rx="25.2"/>
+  <circle cx="515.4" cy="392.4" r="12.4" fill="url(#b)"/>
+  <circle cx="484.8" cy="392.4" r="12.4" fill="url(#d)"/>
+  <rect width="66.5" height="66.5" x="9" y="376" fill="url(#e)" rx="20"/>
+  <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="6" d="M91 435h47M91 421h47M91 406h47"/>
+  <path fill="#1f2937" d="M43 384l-22 13v26l22 12 22-12v-26zm13 35a3 3 0 01-6 2l-15-16v16c0 3-5 3-5 0v-20a3 3 0 012-3c3-3 16 16 19 17v-15c0-3 5-3 5 0z"/>
+  <rect width="549.9" height="83.7" x="1" y="275" fill="#1f2937" rx="25.2"/>
+  <circle cx="515.9" cy="299" r="12.4" fill="url(#f)"/>
+  <circle cx="485.4" cy="299" r="12.4" fill="url(#g)"/>
+  <rect width="66.5" height="66.5" x="10" y="283" fill="url(#h)" rx="20"/>
+  <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="6" d="M92 342h46M92 327h46M92 313h46"/>
+  <path fill="#1f2937" d="M37 338l6 4 22-13v-26l-22-13-22 13v26c3 1 11 7 11 0v-24h4v16c0 4 1 13-3 15zm23-15c-3 7-23 7-22-3h4c-1 4 14 6 14 1 1-5-15-2-16-7-5-12 20-13 19-2h-3c0-5-13-6-13-1 2 5 20 1 17 12z"/>
+  <rect width="549.9" height="83.7" x="1" y="181" fill="#1f2937" rx="25.2"/>
+  <circle cx="515.9" cy="205.2" r="12.4" fill="url(#i)"/>
+  <circle cx="485.4" cy="205.2" r="12.4" fill="url(#j)"/>
+  <rect width="66.5" height="66.5" x="10" y="189" fill="url(#k)" rx="20"/>
+  <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="6" d="M92 248h46M92 234h46M92 219h46"/>
+  <path fill="#1f2937" d="M43 197a26 26 0 1011 49l-18-28v18h-3v-25h3l21 33a26 26 0 00-14-47zm9 35l-3-4v-16h3z"/>
+  <circle cx="745.9" cy="162.7" r="83" fill="url(#l)"/>
+  <circle cx="805.2" cy="222.3" r="59.6" fill="url(#m)"/>
+  <circle cx="706.8" cy="217.7" r="78.3" fill="url(#n)"/>
+  <circle cx="662.9" cy="162.9" r="43.4" fill="url(#o)"/>
+</svg>

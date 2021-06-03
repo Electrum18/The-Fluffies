@@ -1,0 +1,74 @@
+{
+  "name": "Defaulty",
+  "male": false,
+
+  "hair_second": true,
+  "hair_info": [],
+
+  "hair_name_en": "Spiky to side",
+  "hair_dreads": false,
+  "hair_feathers": false,
+
+  "tail_info": [],
+  "tail_name_en": "Simple",
+  "tail_dreads": false,
+
+  "fangs": true,
+  "sharp_teeth": false,
+
+  "horn_name_en": "Empty",
+  "horn_info": [],
+
+  "horn_front_name_en": "Basic horn",
+  "horn_front_info": [],
+
+  "stripes_enable": false,
+
+  "eyes_right_enable": false,
+  "eyes_brows_show": true,
+  "eyes_brows_color": false,
+
+  "glasses_name_en": "Monolens",
+  "glasses_info": [],
+
+  "clothing_name_en": "Empty",
+  "clothing_info": [],
+
+  "pants_name_en": "Empty",
+  "pants_info": [],
+
+  "ears_name_en": "Basic",
+  "ears_info": [],
+
+  "piercing_ears_name_en": "One ring",
+  "piercing_ears_info": [],
+
+  "hooves_enable": true,
+  "hooves_second_color": false,
+
+  "collar_enable": true,
+
+  "bowtie_enable": false,
+
+  "wings_enable": true,
+  "wings_bat": true,
+  "wings_second_color": true,
+
+  "canine_nose_enable": false,
+
+  "fluff_cheeks": false,
+  "fluff_chest": false,
+
+  "fur_second_color": false,
+
+  "ear_second_color": false,
+
+  "horn_second_color": false,
+
+  "eyelashes_second_color": false,
+
+  "scarf": false,
+
+  "freckles_nose": false,
+  "freckles_cheeks": false
+}

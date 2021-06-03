@@ -1,23 +1,33 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
-    node: true
+    es2021: true,
+    node: true,
   },
   extends: [
-    '@nuxtjs',
-    '@nuxtjs/eslint-config-typescript',
-    'prettier',
-    'prettier/vue',
+    'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'plugin:nuxt/recommended'
+    'react-app',
+    'prettier',
+    'plugin:tailwind/recommended',
+    'plugin:react-hooks/recommended',
   ],
-  plugins: ['prettier'],
-  // add your custom rules here
   rules: {
-    curly: 0,
-    'space-before-function-paren': ['error', 'never'],
-    'arrow-parens': 0,
-    'no-magic-numbers': ['error', { ignoreArrayIndexes: true, ignore: [1, 1.5, 2, 3, 0, -1] }]
-  }
+    'react/prop-types': 'off',
+    'react/display-name': 'off',
+    'react/jsx-indent-props': [2, 'first'],
+    'no-multi-assign': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    'react/self-closing-comp': 'error',
+  },
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: 'module',
+  },
+  plugins: ['react'],
 }

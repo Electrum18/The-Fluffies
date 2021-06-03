@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.icon-upper {
+  margin-top: -1.5rem;
+}
+
+.icon-header {
+  margin: -1rem 0;
+}
+
+@layer base {
+  main {
+    @apply bg-gray-100
+  }
+
+  h1 {
+    @apply my-3 mb-5 text-3xl font-bold text-center md:text-5xl;
+  }
+
+  h1, h2, p {
+    @apply text-gray-600;
+  }
+
+  h2 {
+    @apply font-bold text-3xl my-4;
+  }
+
+  p {
+    @apply mx-8 md:mx-0 my-2 font-medium text-xl;
+  }
+
+  section {
+    @apply flex flex-col md:flex-row place-items-center container justify-around my-8 p-8 bg-white rounded-lg;
+  }
+
+  hr {
+    @apply mx-auto w-3/4 bg-gray-100 h-0.5;
+  }
+}
+
+@layer components {
+  .page-main {
+    @apply pb-8 mx-auto pt-28;
+
+    & > div:first-child {
+      @apply div-section section-center;
+    }
+  }
+
+  .brand-gradient {
+    @apply bg-gradient-to-tr from-primary-dark to-primary;
+  }
+
+  .background-gradient {
+    @apply bg-gradient-to-bl from-gray-500 to-gray-800;
+  }
+
+  .div-section {
+    @apply flex flex-col md:flex-row place-items-center container mx-auto p-8 bg-white rounded-lg;
+  }
+
+  .div-section-lg {
+    @apply flex flex-col lg:flex-row place-items-center container mx-auto p-8 bg-white rounded-lg;
+  }
+
+  .section-center {
+    @apply flex-col text-center;
+  }
+
+  .section-cta {
+    @apply max-w-full py-12 rounded-none section-center brand-gradient;
+
+    & h2, & p {
+      @apply text-white;
+    }
+
+    & a {
+      @apply mt-8 button-white;
+    }
+  }
+
+  .basic-icon {
+    @apply mx-auto p-2 w-12 h-12 text-white brand-gradient rounded-md;
+  }
+
+  .image-side {
+    @apply w-3/5 md:w-1/3;
+  }
+
+  .text-side {
+    @apply text-center md:text-left md:w-2/5;
+  }
+
+  .text-subtitle {
+    @apply my-10 uppercase font-bold text-sm text-orange-600 tracking-wider;
+  }
+
+  .card-outlined {
+    @apply border-2 border-gray-200 rounded-xl;
+  }
+
+  .card-third {
+    @apply w-4/5 md:w-3/5 lg:w-1/3 mx-4 md:mx-8 my-4 card-outlined;
+
+    & h3 {
+      @apply text-2xl font-bold text-center;
+    }
+
+    & p:first-of-type {
+      @apply my-0 text-lg text-center;
+    }
+
+    & p:last-of-type {
+      @apply mx-2 text-lg font-medium;
+    }
+
+    & span {
+      @apply mx-2 text-gray-500;
+    }
+  }
+
+  .card-little {
+    @apply flex flex-row flex-wrap justify-center w-full mt-8 place-items-center;
+
+    & h3 {
+      @apply text-xl font-bold text-center;
+    }
+
+    & p {
+      @apply text-base font-semibold text-center;
+    }
+  }
+
+  .card-center-mini {
+    @apply flex flex-row w-64 py-4 mx-auto mt-8 card-outlined text-center divide-x-2;
+
+    & div {
+      @apply flex flex-col w-1/2;
+
+      & p:first-child {
+        @apply my-0 text-3xl font-bold text-orange-600;
+      }
+
+      & p:last-child {
+        @apply my-0 text-xl;
+      }
+    }
+  }
+
+  .button {
+    @apply mx-auto text-white bg-gray-500 font-bold rounded-md py-2 px-4 hover:bg-gray-400 transition-colors duration-300 select-none
+  }
+
+  .button-white {
+    @apply button bg-white text-gray-800 hover:bg-gray-200
+  }
+}

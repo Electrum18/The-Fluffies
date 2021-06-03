@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 859 800">
+  <defs>
+    <linearGradient id="b" x1="367.9" x2="941" y1="664.2" y2="664.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="a" x1="446.5" x2="486.6" y1="145.5" y2="105.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="c" x1="446.7" x2="486.8" y1="791.9" y2="751.9" xlink:href="#a"/>
+    <linearGradient id="d" x1="782.6" x2="822.6" y1="521.2" y2="481.1" xlink:href="#a"/>
+    <linearGradient id="e" x1="276.6" x2="316.6" y1="521.2" y2="481.1" xlink:href="#a"/>
+    <linearGradient id="f" x1="268.7" x2="361.2" y1="385.6" y2="293.1" gradientTransform="rotate(-28 328 551)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="g" x1="248.3" x2="386" y1="150.2" y2="107.1" gradientTransform="rotate(-28 644 451)" xlink:href="#b"/>
+    <linearGradient id="h" x1="286" x2="406.9" y1="148.9" y2="111" gradientTransform="rotate(-28 644 451)" xlink:href="#b"/>
+    <linearGradient id="i" x1="226.9" x2="347.9" y1="148.9" y2="111" gradientTransform="rotate(-28 644 451)" xlink:href="#b"/>
+    <linearGradient id="j" x1="304.5" x2="325.4" y1="421.4" y2="400.5" gradientTransform="rotate(-28 328 551)" xlink:href="#a"/>
+  </defs>
+  <path fill="url(#b)" d="M889 645q105 71-3 113t-175 83q-66 42-173 40t-154-99q-47-97 43-156t127-102q36-44 109-70t97 47q24 74 129 144z" transform="translate(-82 -135)"/>
+  <path fill="#1f2937" d="M467 126v646l337-270-337-376zM467 126v646L298 502l169-376z"/>
+  <path fill="none" stroke="#fa2" stroke-miterlimit="10" stroke-width="10" d="M467 125v648l337-271-337-377-169 377 169 272"/>
+  <circle cx="466.5" cy="125.5" r="28.3" fill="url(#a)"/>
+  <circle cx="466.8" cy="771.9" r="28.3" fill="url(#c)"/>
+  <circle cx="802.6" cy="501.2" r="28.3" fill="url(#d)"/>
+  <circle cx="296.6" cy="501.2" r="28.3" fill="url(#e)"/>
+  <path fill="url(#f)" d="M174 363l87 88-22-122-63-42-2 76z"/>
+  <path fill="url(#g)" d="M100 162l163 312c7 13 20 19 29 14s12-19 6-32L135 144z" transform="translate(-82 -135)"/>
+  <path fill="url(#h)" d="M135 144l163 312c6 13 16 21 20 18s4-15-3-27L152 135z" transform="translate(-82 -135)"/>
+  <path fill="url(#i)" d="M82 172l164 312c6 12 15 20 20 18s4-15-3-28L100 162z" transform="translate(-82 -135)"/>
+  <path fill="url(#j)" d="M261 451l-6-33-17 10 23 23z"/>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "Hair": { "name": "hair_name_en", "src": "hairs/" },
+  "Tail": { "name": "tail_name_en", "src": "tails/" },
+  "Horn_front": { "name": "horn_front_name_en", "src": "front_horns/" },
+  "Ears": { "name": "ears_name_en", "src": "ears/" }
+}

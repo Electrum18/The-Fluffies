@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 733 585">
+  <defs>
+    <linearGradient id="b" x1="237.5" x2="737.8" y1="291" y2="694.7" gradientTransform="rotate(-84 507 482)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="a" x1="824.8" x2="580.4" y1="590.4" y2="345.9" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="c" x1="360.3" x2="629" y1="407.4" y2="138.7" xlink:href="#a"/>
+    <linearGradient id="d" x1="666.3" x2="421.8" y1="591.7" y2="347.2" xlink:href="#a"/>
+    <linearGradient id="e" x1="201.8" x2="470.4" y1="408.7" y2="140" xlink:href="#a"/>
+    <linearGradient id="f" x1="520.1" x2="275.7" y1="591.1" y2="346.6" xlink:href="#a"/>
+    <linearGradient id="g" x1="55.6" x2="324.3" y1="408.1" y2="139.4" xlink:href="#a"/>
+    <linearGradient id="h" x1="428.3" x2="223.9" y1="661.2" y2="865.7" gradientTransform="rotate(90 565 894)" xlink:href="#a"/>
+    <linearGradient id="i" x1="447.2" x2="639.4" y1="542.3" y2="350.1" xlink:href="#a"/>
+  </defs>
+  <path fill="url(#b)" d="M658 244q87-3 109 81t73 169q51 85 2 174c-56 117-217 135-317 85-284-105-314 76-325-358-10-139 158-240 277-185q93 38 181 34z" transform="translate(-153 -195)"/>
+  <path fill="url(#a)" d="M648 278h30a190 190 0 110 380h-30" transform="translate(-153 -195)"/>
+  <circle cx="494.7" cy="273" r="190" fill="url(#c)"/>
+  <path fill="url(#d)" d="M490 279h30a190 190 0 110 380h-30" transform="translate(-153 -195)"/>
+  <circle cx="336.1" cy="274.3" r="190" fill="url(#e)"/>
+  <path fill="url(#f)" d="M343 279h31a190 190 0 010 380h-31" transform="translate(-153 -195)"/>
+  <circle cx="190" cy="273.8" r="190" fill="url(#g)"/>
+  <path fill="url(#h)" d="M886 641v23c0 27-86 40-190 40s-190-13-190-40v-23" transform="translate(-153 -195)"/>
+  <ellipse cx="543.3" cy="446.2" fill="url(#i)" rx="190" ry="28.7"/>
+  <path fill="#1f2937" d="M259 200a36 36 0 00-7-15l-10 7c9 11 5 22 1 28a73 73 0 00-90 4c-23 20-24 55-51 77-36 33 28 65 58 62 65 2 137-71 93-134 2-3 6-11 6-17 16 14 32 11 46-6-15-19-31-20-46-6zM602 433l-7-3-10 1c8 2 4 4 1 5-24-3-67-3-90 1s-24 10-51 14c-36 6 27 12 58 11 65 0 137-13 92-24l7-3c16 3 32 2 46-1a121 121 0 00-46-1z"/>
+</svg>

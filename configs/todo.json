@@ -1,0 +1,30 @@
+{
+  "sharp_teeth": false,
+  "eyelids": false,
+
+  "textures": {
+    "body": {
+      "stripes": false,
+
+      "freckles": {
+        "nose": false,
+        "cheecks": false
+      },
+
+      "second": false
+    },
+
+    "mane": {
+      "second": false
+    },
+
+    "tail": {
+      "second": false
+    },
+
+    "eye": {
+      "basic": false,
+      "narrow": false
+    }
+  }
+}

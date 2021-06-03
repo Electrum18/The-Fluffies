@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -100 1418 513">
+  <defs>
+    <pattern id="p" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="4" fill="#fff"/>
+    </pattern>
+    <pattern id="p2" width="80" height="71" patternUnits="userSpaceOnUse">
+      <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M38 155l324-96M-42 155l324-96M-122 155l324-96M-202 155l324-96M-282 155L42 59M38 84l324-96M-42 84l324-96M-122 84l324-96M-202 84l324-96M-282 84L42-12M38 13l324-96M-42 13l324-96M-122 13l324-96M-202 13l324-96M-282 13L42-83"/>
+    </pattern>
+    <linearGradient id="g" x1="-142.6" x2="-598.7" y1="-976.1" y2="-520" gradientTransform="rotate(180 425 -228)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".3"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path fill="url(#g)" d="M1387 3s-214-46-267 220c-23 111-243-31-226 189 4 46 91 56 469 26 0 0 67-243 24-435"/>
+    <path fill="url(#p)" d="M1048 465l361-352 9 368-370-16z"/>
+    <path fill="url(#p)" d="M0 326h460v72H0z" opacity=".7"/>
+    <circle cx="670" cy="423.3" r="89.8" fill="url(#p2)" opacity=".7"/>
+  </g>
+</svg>

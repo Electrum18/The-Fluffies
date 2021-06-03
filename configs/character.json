@@ -1,0 +1,10 @@
+{
+  "Head": { "material": "body", "haveOutline": true },
+  "Body": { "material": "body", "haveOutline": true },
+  "Hooves": { "material": "body", "haveOutline": true },
+  "Ears": { "material": "body", "haveOutline": true },
+  "Horn_front": { "material": "body", "haveOutline": true },
+  "Hair": { "material": "hair", "haveOutline": true },
+  "Eyes": { "material": "eyes" },
+  "Eyelashes": { "material": "eyelashes" }
+}

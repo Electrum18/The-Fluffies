@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 937 752">
+  <defs>
+    <linearGradient id="b" x1="282.2" x2="826" y1="777.3" y2="233.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="a" x1="135.3" x2="760.3" y1="696" y2="71" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="c" x1="740" x2="1011.9" y1="742.5" y2="470.5" xlink:href="#a"/>
+  </defs>
+  <path fill="url(#b)" d="M582 158q140-64 218 56t156 251q79 130-1 280T699 887q-178-8-295-73-118-64-242-161T62 397q23-159 201-168t319-71z" transform="translate(-58 -136)"/>
+  <rect width="832.7" height="535.4" x="32" y="116" fill="#1f2937" rx="25"/>
+  <rect width="788.1" height="491.3" x="54" y="138" fill="url(#a)" rx="25"/>
+  <path fill="#1f2937" fill-rule="evenodd" d="M917 655a24 24 0 01-24 25H743a24 24 0 01-24-25V286a24 24 0 0124-24h150a24 24 0 0124 24v369z"/>
+  <path fill="url(#c)" fill-rule="evenodd" d="M965 780c0 13-10 23-22 23H809c-12 0-22-10-22-23V433c0-13 10-23 22-23h134c12 0 22 10 22 23v347z" transform="translate(-58 -136)"/>
+</svg>
