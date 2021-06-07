@@ -2,8 +2,8 @@
   "body": { "shader": "toon", "color": "fur_basic" },
   "body_outline": { "shader": "basic", "color": "fur_shade" },
 
-  "hair": { "shader": "toon", "color": "hair_basic", "texture": "hairs/" },
-  "hair_outline": { "shader": "basic", "color": "hair_shade" },
+  "hair": { "shader": "double-toon", "color": "hair_basic", "color2": "hair_second", "texture": "hairs/" },
+  "hair_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade" },
 
   "eyelashes": { "shader": "basic", "color": "eyelashes_basic" },
   "eyes": { "shader": "basic", "texture": "eye" }

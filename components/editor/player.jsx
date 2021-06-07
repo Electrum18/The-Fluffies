@@ -1,5 +1,5 @@
 import Models from '@/configs/character.json'
-import Materials from '@/configs/materials.json'
+import Materials from '@/configs/materials/list.json'
 
 import {
   SingleModel,

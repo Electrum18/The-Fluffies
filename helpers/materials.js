@@ -1,11 +1,18 @@
 import create from 'zustand'
 import { MeshBasicMaterial, MeshToonMaterial } from 'three'
 
-import Materials from '@/configs/materials.json'
+import Materials from '@/configs/materials/list.json'
+
+import {
+  MeshBasicDoubleMaterial,
+  MeshToonDoubleMaterial,
+} from '@/libs/materials'
 
 const materialsList = {
-  toon: MeshToonMaterial,
   basic: MeshBasicMaterial,
+  toon: MeshToonMaterial,
+  'double-basic': MeshBasicDoubleMaterial,
+  'double-toon': MeshToonDoubleMaterial,
 }
 
 function createMaterials() {
@@ -14,7 +21,9 @@ function createMaterials() {
   for (const key in Materials) {
     const { shader } = Materials[key]
 
-    materials[key] = new materialsList[shader]()
+    materials[key] = shader.match(/double-/)
+      ? materialsList[shader]()
+      : new materialsList[shader]()
   }
 
   return materials
@@ -22,8 +31,10 @@ function createMaterials() {
 
 const useMaterials = create((set) => ({
   materials: createMaterials(),
+  light: {},
+  ambientLight: {},
+  setLight: (light) => set({ light }),
+  setAmbientLight: (ambientLight) => set({ ambientLight }),
 }))
-
-console.log(MeshBasicMaterial)
 
 export default useMaterials

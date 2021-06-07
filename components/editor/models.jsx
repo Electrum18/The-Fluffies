@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import useMaterials from '@/helpers/materials'
 
@@ -8,6 +8,11 @@ import {
   useModelInfo,
   useTextureManager,
 } from '@/hooks/models'
+
+import {
+  useDoubleColorManager,
+  useToonShaderUpdater,
+} from '@/hooks/texturedMaterials'
 
 export function SingleModel({ name: elemName, material }) {
   const model = useRef()
@@ -94,8 +99,15 @@ export function OutlinedTexturedModel({
   const materials = useMaterials((store) => store.materials)
   const texture = useTextureManager(name + '_second', textureName)
 
-  useColorManager(model, material)
-  useColorManager(modelOutline, material + '_outline')
+  useToonShaderUpdater(model)
+
+  useDoubleColorManager(model, material)
+  useDoubleColorManager(modelOutline, material + '_outline')
+
+  useEffect(() => {
+    materials[material].uniforms.textureMask.value = texture
+    materials[material + '_outline'].uniforms.textureMask.value = texture
+  }, [material, materials, texture])
 
   return (
     <group scale={0.1}>
@@ -103,7 +115,6 @@ export function OutlinedTexturedModel({
         ref={model}
         geometry={geometries[name]}
         material={materials[material]}
-        material-map={texture}
       />
 
       <mesh

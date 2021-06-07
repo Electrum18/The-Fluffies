@@ -15,7 +15,7 @@
     },
 
     "mane": {
-      "second": false
+      "second": true
     },
 
     "tail": {

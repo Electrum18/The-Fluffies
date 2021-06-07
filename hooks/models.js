@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
-import { Vector2 } from 'three'
 
 import { useGLTF, useTexture } from '@react-three/drei'
 import shallow from 'zustand/shallow'
 
 import Models from '@/configs/character.json'
-import Materials from '@/configs/materials.json'
+import Materials from '@/configs/materials/list.json'
 import Changeable from '@/configs/changeable.json'
 
 import useGeometries from '@/helpers/geometries'
@@ -53,12 +52,15 @@ export function useColorManager(model, material) {
 
   useEffect(() => {
     if (color) {
-      const { h, s, l } = useParameters.getState().colors[color]
+      const { material } = model.current
 
-      model.current.material.color.setHSL(h, s, l)
+      const { colors } = useParameters.getState()
+      const { h, s, l } = colors[color]
+
+      material.color.setHSL(h, s, l)
 
       useParameters.subscribe(
-        ({ h, s, l }) => model.current.material.color.setHSL(h, s, l),
+        ({ h, s, l }) => material.color.setHSL(h, s, l),
         (state) => state.colors[color]
       )
     }
