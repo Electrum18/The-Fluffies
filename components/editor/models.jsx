@@ -5,6 +5,7 @@ import useMaterials from '@/helpers/materials'
 import {
   useColorManager,
   useGeometryManager,
+  useOutlinedGeometryManager,
   useModelInfo,
   useTextureManager,
 } from '@/hooks/models'
@@ -14,10 +15,10 @@ import {
   useToonShaderUpdater,
 } from '@/hooks/texturedMaterials'
 
-export function SingleModel({ name: elemName, material }) {
+export function SingleModel({ name: elemName, material, modelKey, modelSrc }) {
   const model = useRef()
 
-  const { name, path } = useModelInfo(elemName)
+  const { name, path } = useModelInfo(elemName, { modelKey, modelSrc })
 
   const geometries = useGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
@@ -34,10 +35,15 @@ export function SingleModel({ name: elemName, material }) {
   )
 }
 
-export function TexturedModel({ name: elemName, material }) {
+export function TexturedModel({
+  name: elemName,
+  material,
+  modelKey,
+  modelSrc,
+}) {
   const model = useRef()
 
-  const { name, path } = useModelInfo(elemName)
+  const { name, path } = useModelInfo(elemName, { modelKey, modelSrc })
 
   const geometries = useGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
@@ -56,13 +62,18 @@ export function TexturedModel({ name: elemName, material }) {
   )
 }
 
-export function OutlinedModel({ name: groupName, material }) {
+export function OutlinedModel({
+  name: groupName,
+  material,
+  modelKey,
+  modelSrc,
+}) {
   const model = useRef()
   const modelOutline = useRef()
 
-  const { name, path } = useModelInfo(groupName)
+  const { name, path } = useModelInfo(groupName, { modelKey, modelSrc })
 
-  const geometries = useGeometryManager(name, path, groupName)
+  const geometries = useOutlinedGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
 
   useColorManager(model, material)
@@ -88,16 +99,18 @@ export function OutlinedModel({ name: groupName, material }) {
 export function OutlinedTexturedModel({
   name: groupName,
   material,
-  texture: textureName,
+  modelKey,
+  modelSrc,
+  textureSrc,
 }) {
   const model = useRef()
   const modelOutline = useRef()
 
-  const { name, path } = useModelInfo(groupName)
+  const { name, path } = useModelInfo(groupName, { modelKey, modelSrc })
 
-  const geometries = useGeometryManager(name, path, groupName)
+  const geometries = useOutlinedGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
-  const texture = useTextureManager(name + '_second', textureName)
+  const texture = useTextureManager(name + '_second', textureSrc)
 
   useToonShaderUpdater(model)
 

@@ -1,6 +1,3 @@
-import Models from '@/configs/character.json'
-import Materials from '@/configs/materials/list.json'
-
 import {
   SingleModel,
   TexturedModel,
@@ -10,23 +7,43 @@ import {
 
 export default function Player(props) {
   return (
-    <group rotation={[0, 0.7, 0]} {...props} dispose={null}>
-      {Object.keys(Models).map((modelName) => {
-        const { material, haveOutline } = Models[modelName]
-        const { texture } = Materials[material]
+    <group {...props} dispose={null}>
+      <OutlinedModel name='Head' material='body' />
+      <OutlinedModel name='Body' material='body' />
+      <OutlinedModel name='Hooves' material='body' />
 
-        const modelProps = { key: modelName, name: modelName, material }
+      <OutlinedModel
+        name='Ears'
+        material='body'
+        modelKey='ears_name_en'
+        modelSrc='ears/'
+      />
 
-        if (haveOutline && texture) {
-          return <OutlinedTexturedModel {...modelProps} texture={texture} />
-        } else if (haveOutline) {
-          return <OutlinedModel {...modelProps} />
-        } else if (texture) {
-          return <TexturedModel {...modelProps} />
-        } else {
-          return <SingleModel {...modelProps} />
-        }
-      })}
+      <OutlinedModel
+        name='Horn_front'
+        material='body'
+        modelKey='horn_front_name_en'
+        modelSrc='front_horns/'
+      />
+
+      <OutlinedTexturedModel
+        name='Hair'
+        material='hair'
+        modelKey='hair_name_en'
+        modelSrc='hairs/'
+        textureSrc='hairs/'
+      />
+
+      <OutlinedTexturedModel
+        name='Tail'
+        material='tail'
+        modelKey='tail_name_en'
+        modelSrc='tails/'
+        textureSrc='tails/'
+      />
+
+      <TexturedModel name='Eyes' material='eyes' />
+      <SingleModel name='Eyelashes' material='eyelashes' />
     </group>
   )
 }

@@ -12,19 +12,6 @@
       },
 
       "second": false
-    },
-
-    "mane": {
-      "second": true
-    },
-
-    "tail": {
-      "second": false
-    },
-
-    "eye": {
-      "basic": false,
-      "narrow": false
     }
   }
 }
