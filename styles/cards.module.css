@@ -1,0 +1,51 @@
+.card-outlined {
+  @apply border-2 border-gray-200 rounded-xl;
+}
+
+.card-third {
+  @apply w-4/5 md:w-3/5 lg:w-1/3 mx-4 md:mx-8 my-4 card-outlined;
+
+  & h3 {
+    @apply text-2xl font-bold text-center;
+  }
+
+  & p:first-of-type {
+    @apply my-0 text-lg text-center;
+  }
+
+  & p:last-of-type {
+    @apply mx-2 text-lg font-medium;
+  }
+
+  & span {
+    @apply mx-2 text-gray-500;
+  }
+}
+
+.card-little {
+  @apply flex flex-row flex-wrap justify-center w-full mt-8 place-items-center;
+
+  & h3 {
+    @apply text-xl font-bold text-center;
+  }
+
+  & p {
+    @apply text-base font-semibold text-center;
+  }
+}
+
+.card-center-mini {
+  @apply flex flex-row w-64 py-4 mx-auto mt-8 card-outlined text-center divide-x-2;
+
+  & div {
+    @apply flex flex-col w-1/2;
+
+    & p:first-child {
+      @apply my-0 text-3xl font-bold text-orange-600;
+    }
+
+    & p:last-child {
+      @apply my-0 text-xl;
+    }
+  }
+}

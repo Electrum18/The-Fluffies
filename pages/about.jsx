@@ -26,6 +26,8 @@ import CardLittle from '@/components/cards/little'
 import en from '@/locales/en/pages/about'
 import ru from '@/locales/ru/pages/about'
 
+import cardStyles from '@/styles/cards.module.css'
+
 export default function About() {
   const router = useRouter()
 
@@ -121,7 +123,7 @@ export default function About() {
           <h2>{t.team.h2}</h2>
           <p className='text-center'>{t.team.text}</p>
 
-          <div className='card-little'>
+          <div className={cardStyles['card-little']}>
             <CardLittle
               src='/img/authors/Electrum18.png'
               alt='Electrum18 avatar'

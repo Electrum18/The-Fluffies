@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import cardStyles from '@/styles/cards.module.css'
+
 export default function CardThird({ children, icon, src, alt }) {
   const hasImageData = src && alt
   const hasImageStyle = hasImageData
@@ -7,7 +9,7 @@ export default function CardThird({ children, icon, src, alt }) {
     : 'w-full'
 
   return (
-    <div className='card-third'>
+    <div className={cardStyles['card-third']}>
       <div className={hasImageStyle}>
         <div className='inline-block w-full icon-upper'>{icon}</div>
 

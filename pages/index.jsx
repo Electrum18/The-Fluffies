@@ -26,6 +26,8 @@ import Patrons from '@/components/index/patrons'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
 
+import cardStyles from '@/styles/cards.module.css'
+
 function Home({ patrons }) {
   const router = useRouter()
 
@@ -82,7 +84,7 @@ function Home({ patrons }) {
           <h2>{t.score.h2}</h2>
           <p>{t.score.text}</p>
 
-          <div className='card-center-mini'>
+          <div className={cardStyles['card-center-mini']}>
             <div>
               <p>1000</p>
               <p>{t.score.users}</p>

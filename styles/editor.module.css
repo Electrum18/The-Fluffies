@@ -1,0 +1,19 @@
+.right-bar {
+  @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
+
+  & > div {
+    @apply flex-none m-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
+  }
+}
+
+.list-panel {
+  @apply flex flex-row flex-wrap w-full overflow-x-auto bg-gray-600 rounded-lg max-h-64;
+
+  & > div {
+    @apply bg-white rounded-lg w-18 h-18 m-0.5 transition-transform transform-gpu hover:scale-110;
+
+    & img {
+      @apply rounded-lg;
+    }
+  }
+}

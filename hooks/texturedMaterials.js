@@ -27,15 +27,14 @@ export function useToonShaderUpdater(model) {
   }, [ambientLight, light, model])
 }
 
-export function useDoubleColorManager(model, material) {
-  const { color, color2 } = Materials[material]
+export function useDoubleColorManager(model, materialName) {
+  const { color, color2, color2Value } = Materials[materialName]
 
   useEffect(() => {
     if (color) {
       const { material } = model.current
 
-      const { colors } = useParameters.getState()
-      const { h, s, l } = colors[color]
+      const { h, s, l } = useParameters.getState().colors[color]
 
       material.uniforms.color.value.setHSL(h, s, l)
 
@@ -50,8 +49,7 @@ export function useDoubleColorManager(model, material) {
     if (color2) {
       const { material } = model.current
 
-      const { colors } = useParameters.getState()
-      const { h, s, l } = colors[color2]
+      const { h, s, l } = useParameters.getState().colors[color2]
 
       material.uniforms.color2.value.setHSL(h, s, l)
 
@@ -61,4 +59,18 @@ export function useDoubleColorManager(model, material) {
       )
     }
   }, [color2, model])
+
+  useEffect(() => {
+    if (color2Value) {
+      const { material } = model.current
+
+      material.uniforms.secondEnabled.value =
+        useParameters.getState().values[color2Value]
+
+      useParameters.subscribe(
+        (value) => (material.uniforms.secondEnabled.value = value),
+        (state) => state.values[color2Value]
+      )
+    }
+  }, [color2Value, model])
 }

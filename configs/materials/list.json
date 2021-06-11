@@ -2,11 +2,11 @@
   "body": { "shader": "toon", "color": "fur_basic" },
   "body_outline": { "shader": "basic", "color": "fur_shade" },
 
-  "hair": { "shader": "double-toon", "color": "hair_basic", "color2": "hair_second" },
-  "hair_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade" },
+  "hair": { "shader": "double-toon", "color": "hair_basic", "color2": "hair_second", "color2Value": "hair_second" },
+  "hair_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade", "color2Value": "hair_second" },
 
-  "tail": { "shader": "double-toon", "color": "hair_basic", "color2": "hair_second" },
-  "tail_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade" },
+  "tail": { "shader": "double-toon", "color": "hair_basic", "color2": "hair_second", "color2Value": "hair_second" },
+  "tail_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade", "color2Value": "hair_second" },
 
   "eyelashes": { "shader": "basic", "color": "eyelashes_basic" },
   "eyes": { "shader": "basic", "texture": "eye" }

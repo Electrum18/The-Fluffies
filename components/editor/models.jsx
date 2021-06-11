@@ -15,10 +15,10 @@ import {
   useToonShaderUpdater,
 } from '@/hooks/texturedMaterials'
 
-export function SingleModel({ name: elemName, material, modelKey, modelSrc }) {
+export function SingleModel({ name: elemName, material, modelKey, src }) {
   const model = useRef()
 
-  const { name, path } = useModelInfo(elemName, { modelKey, modelSrc })
+  const { name, path } = useModelInfo(elemName, { modelKey, src })
 
   const geometries = useGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
@@ -30,7 +30,6 @@ export function SingleModel({ name: elemName, material, modelKey, modelSrc }) {
       ref={model}
       geometry={geometries[name]}
       material={materials[material]}
-      scale={0.1}
     />
   )
 }
@@ -39,15 +38,17 @@ export function TexturedModel({
   name: elemName,
   material,
   modelKey,
-  modelSrc,
+  textureKey,
+  src,
+  postfix,
 }) {
   const model = useRef()
 
-  const { name, path } = useModelInfo(elemName, { modelKey, modelSrc })
+  const { name, path } = useModelInfo(elemName, { modelKey, src })
 
   const geometries = useGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
-  const texture = useTextureManager(material)
+  const texture = useTextureManager({ material, textureKey, src, postfix })
 
   useColorManager(model, material)
 
@@ -57,21 +58,15 @@ export function TexturedModel({
       geometry={geometries[name]}
       material={materials[material]}
       material-map={texture}
-      scale={0.1}
     />
   )
 }
 
-export function OutlinedModel({
-  name: groupName,
-  material,
-  modelKey,
-  modelSrc,
-}) {
+export function OutlinedModel({ name: groupName, material, modelKey, src }) {
   const model = useRef()
   const modelOutline = useRef()
 
-  const { name, path } = useModelInfo(groupName, { modelKey, modelSrc })
+  const { name, path } = useModelInfo(groupName, { modelKey, src })
 
   const geometries = useOutlinedGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
@@ -80,7 +75,7 @@ export function OutlinedModel({
   useColorManager(modelOutline, material + '_outline')
 
   return (
-    <group scale={0.1}>
+    <group>
       <mesh
         ref={model}
         geometry={geometries[name]}
@@ -100,17 +95,18 @@ export function OutlinedTexturedModel({
   name: groupName,
   material,
   modelKey,
-  modelSrc,
-  textureSrc,
+  textureKey,
+  src,
+  postfix,
 }) {
   const model = useRef()
   const modelOutline = useRef()
 
-  const { name, path } = useModelInfo(groupName, { modelKey, modelSrc })
+  const { name, path } = useModelInfo(groupName, { modelKey, src })
 
   const geometries = useOutlinedGeometryManager(name, path)
   const materials = useMaterials((store) => store.materials)
-  const texture = useTextureManager(name + '_second', textureSrc)
+  const texture = useTextureManager({ material, textureKey, src, postfix })
 
   useToonShaderUpdater(model)
 
@@ -123,7 +119,7 @@ export function OutlinedTexturedModel({
   }, [material, materials, texture])
 
   return (
-    <group scale={0.1}>
+    <group>
       <mesh
         ref={model}
         geometry={geometries[name]}

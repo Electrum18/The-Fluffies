@@ -9,11 +9,11 @@ import useGeometries from '@/helpers/geometries'
 import useTextures from '@/helpers/textures'
 import useParameters from '@/helpers/parameters'
 
-export function useModelInfo(elemName, { modelKey, modelSrc } = {}) {
+export function useModelInfo(elemName, { modelKey, src } = {}) {
   const properties = useParameters((state) => state.values)
 
   const name = modelKey ? properties[modelKey].replace(/ /g, '_') : elemName
-  const path = modelSrc ? modelSrc + name : 'main'
+  const path = modelKey && src ? src + name : 'main'
 
   return { name, path }
 }
@@ -56,8 +56,7 @@ export function useColorManager(model, material) {
     if (color) {
       const { material } = model.current
 
-      const { colors } = useParameters.getState()
-      const { h, s, l } = colors[color]
+      const { h, s, l } = useParameters.getState().colors[color]
 
       material.color.setHSL(h / 360, s, l)
 
@@ -69,21 +68,26 @@ export function useColorManager(model, material) {
   }, [color, model])
 }
 
-export function useTextureManager(material, group = undefined) {
+export function useTextureManager({ material, textureKey, src, postfix }) {
+  const properties = useParameters((state) => state.values)
+
   const [textures, addTexture] = useTextures(
     (store) => [store.textures, store.addTexture],
     shallow
   )
 
-  const textureName = group ? group + material : Materials[material].texture
+  let textureName =
+    src && textureKey
+      ? src + properties[textureKey].replace(/ /g, '_')
+      : Materials[material].texture
 
-  console.log(textureName)
+  if (postfix) textureName += postfix
 
   const texture = useTexture('/img/textures/' + textureName + '.png')
 
   texture.flipY = false
 
-  if (!textures[material]) addTexture(material, texture)
+  if (!textures[textureName]) addTexture(textureName, texture)
 
-  return textures[material]
+  return textures[textureName]
 }
