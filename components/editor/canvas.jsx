@@ -1,14 +1,35 @@
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { Vector3 } from 'three'
 import shallow from 'zustand/shallow'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
 
 import useMaterials from '@/helpers/materials'
 
 import Player from './player'
 
+function Camera({ controls }) {
+  const [origin] = useState(() => new Vector3())
+
+  useFrame(() => {
+    const { target } = controls.current
+
+    const distance = 4 / target.distanceTo(origin)
+
+    if (controls.current.enableDamping !== distance >= 1) {
+      controls.current.enableDamping = distance >= 1
+    }
+
+    if (distance < 1) target.lerp(origin, distance * 0.02)
+  })
+
+  return null
+}
+
 export default function ExportCanvas() {
+  const controls = useRef()
+
   const pointLight = useRef()
   const ambientLight = useRef()
 
@@ -30,18 +51,21 @@ export default function ExportCanvas() {
       mode='concurrent'
       flat={true}
       style={{ position: 'absolute', top: 0 }}
+      camera={{ fov: 60, near: 0.1, far: 1000, position: [-5, 0, 5] }}
     >
       <color attach='background' args={['white']} />
 
-      <OrbitControls />
+      <OrbitControls ref={controls} minDistance={5} maxDistance={8} />
 
       <ambientLight ref={ambientLight} intensity={0.2} />
-      <pointLight ref={pointLight} position={[-5, 10, 15]} intensity={0.6} />
+      <pointLight ref={pointLight} position={[-5, 3, 5]} intensity={0.6} />
 
       <Suspense fallback={null}>
-        <Player rotation={[0, 0.7, 0]} />
+        <Player position={[0, -3, 0]} />
         <Preload all />
       </Suspense>
+
+      <Camera controls={controls} />
     </Canvas>
   )
 }

@@ -4,10 +4,11 @@
   "tail": "Simple",
   "eyes": "Narrow",
   "horn": "Empty",
-  "horn_front": "Basic horn",
+  "horn_front": "Basic",
   "glasses": "Monolens",
   "clothing": "Empty",
   "pants": "Empty",
   "ears": "Basic",
-  "piercing_ears": "One ring"
+  "piercing_ears": "One ring",
+  "fangs": "Basic"
 }

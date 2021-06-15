@@ -5,6 +5,7 @@ const useResources = create((set) => ({
   geometries: {
     Empty: new BufferGeometry(),
   },
+
   addGeometry: (key, geometry) =>
     set((state) => ({ geometries: { ...state.geometries, [key]: geometry } })),
 }))

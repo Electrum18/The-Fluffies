@@ -6,6 +6,7 @@ import Materials from '@/configs/materials/list.json'
 import {
   MeshBasicDoubleMaterial,
   MeshToonDoubleMaterial,
+  MeshToonTransparentMaterial,
 } from '@/libs/materials'
 
 const materialsList = {
@@ -13,6 +14,7 @@ const materialsList = {
   toon: MeshToonMaterial,
   'double-basic': MeshBasicDoubleMaterial,
   'double-toon': MeshToonDoubleMaterial,
+  'transparent-toon': MeshToonTransparentMaterial,
 }
 
 function createMaterials() {
@@ -33,6 +35,7 @@ const useMaterials = create((set) => ({
   materials: createMaterials(),
   light: {},
   ambientLight: {},
+
   setLight: (light) => set({ light }),
   setAmbientLight: (ambientLight) => set({ ambientLight }),
 }))

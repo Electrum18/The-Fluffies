@@ -9,5 +9,35 @@
   "tail_outline": { "shader": "double-basic", "color": "hair_shade", "color2": "hair_second_shade", "color2Value": "hair_second" },
 
   "eyelashes": { "shader": "basic", "color": "eyelashes_basic" },
-  "eyes": { "shader": "basic", "texture": "eye" }
+  "eyes": { "shader": "basic", "texture": "eye" },
+
+  "canine": { "shader": "toon", "color": "canine_nose_basic" },
+
+  "fluff": { "shader": "toon", "color": "fluff_basic" },
+  "fluff_outline": { "shader": "basic", "color": "fluff_shade" },
+
+  "collar": { "shader": "toon", "color": "collar_basic" },
+  "bowtie": { "shader": "toon", "color": "bowtie_basic" },
+
+  "horns": { "shader": "toon", "color": "horn_rear_basic" },
+  "horns_outline": { "shader": "basic", "color": "horn_rear_shade" },
+
+  "glasses": { "shader": "toon", "color": "glasses_frame" },
+  "glasses_outline": { "shader": "transparent-toon", "color": "glasses_lenses" },
+
+  "piercings": { "shader": "toon", "color": "piercings_basic" },
+
+  "clothing": { "shader": "toon", "color": "clothing_basic" },
+  "clothing_outline": { "shader": "basic", "color": "clothing_shade" },
+
+  "scarf": { "shader": "toon", "color": "scarf_basic" },
+  "scarf_outline": { "shader": "basic", "color": "scarf_shade" },
+
+  "pants": { "shader": "toon", "color": "pants_basic" },
+  "pants_outline": { "shader": "basic", "color": "pants_shade" },
+
+  "fangs": { "shader": "toon", "color": "white" },
+
+  "wings": { "shader": "toon", "color": "fur_basic" },
+  "wings_outline": { "shader": "basic", "color": "fur_shade" }
 }

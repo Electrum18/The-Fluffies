@@ -1,6 +1,7 @@
 const Wings = {
   'Enable wings': { value: 'wings_enable' },
   'Bat wings': { value: 'wings_bat' },
+  'Fold wings': { value: 'wings_folded' },
 
   'Wings second color': {
     folder: {

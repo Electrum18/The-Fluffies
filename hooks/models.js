@@ -1,52 +1,32 @@
 import { useEffect } from 'react'
 
-import { useGLTF, useTexture } from '@react-three/drei'
-import shallow from 'zustand/shallow'
+import useParameters from '@/helpers/parameters'
 
 import Materials from '@/configs/materials/list.json'
 
-import useGeometries from '@/helpers/geometries'
-import useTextures from '@/helpers/textures'
-import useParameters from '@/helpers/parameters'
-
-export function useModelInfo(elemName, { modelKey, src } = {}) {
+export function useModelInfo(
+  elemName,
+  { key, group } = {},
+  material = undefined,
+  { group: textureGroup, key: textureKey, postfix } = {}
+) {
   const properties = useParameters((state) => state.values)
 
-  const name = modelKey ? properties[modelKey].replace(/ /g, '_') : elemName
-  const path = modelKey && src ? src + name : 'main'
+  const name = key ? properties[key].replace(/ /g, '_') : elemName
+  const src = group ? group + name : name
 
-  return { name, path }
-}
+  let textureName
 
-export function useGeometryManager(name, path) {
-  const [geometries, addGeometry] = useGeometries(
-    (store) => [store.geometries, store.addGeometry],
-    shallow
-  )
+  if (material) {
+    textureName =
+      textureGroup && textureKey
+        ? textureGroup + properties[textureKey].replace(/ /g, '_')
+        : Materials[material].texture
 
-  const { nodes } = useGLTF('/models/' + path + '.glb', '/draco-gltf/')
-
-  if (!geometries[name]) addGeometry(name, nodes[name].geometry)
-
-  return geometries
-}
-
-export function useOutlinedGeometryManager(name, path) {
-  const [geometries, addGeometry] = useGeometries(
-    (store) => [store.geometries, store.addGeometry],
-    shallow
-  )
-
-  const { nodes } = useGLTF('/models/' + path + '.glb', '/draco-gltf/')
-
-  if (!geometries[name]) {
-    const [main, outline] = nodes[name].children
-
-    addGeometry(name, main.geometry)
-    addGeometry(name + '_outline', outline.geometry)
+    if (Materials[material] && postfix) textureName += postfix
   }
 
-  return geometries
+  return { name, src, textureName }
 }
 
 export function useColorManager(model, material) {
@@ -68,26 +48,25 @@ export function useColorManager(model, material) {
   }, [color, model])
 }
 
-export function useTextureManager({ material, textureKey, src, postfix }) {
-  const properties = useParameters((state) => state.values)
+export function useHSLAManager(model, material) {
+  const { color } = Materials[material]
 
-  const [textures, addTexture] = useTextures(
-    (store) => [store.textures, store.addTexture],
-    shallow
-  )
+  useEffect(() => {
+    if (color) {
+      const { material } = model.current
 
-  let textureName =
-    src && textureKey
-      ? src + properties[textureKey].replace(/ /g, '_')
-      : Materials[material].texture
+      const { h, s, l, a } = useParameters.getState().colors[color]
 
-  if (postfix) textureName += postfix
+      material.uniforms.color.value.setHSL(h / 360, s, l)
+      material.uniforms.alpha.value = a
 
-  const texture = useTexture('/img/textures/' + textureName + '.png')
-
-  texture.flipY = false
-
-  if (!textures[textureName]) addTexture(textureName, texture)
-
-  return textures[textureName]
+      useParameters.subscribe(
+        ({ h, s, l, a }) => {
+          material.uniforms.color.value.setHSL(h / 360, s, l)
+          material.uniforms.alpha.value = a
+        },
+        (state) => state.colors[color]
+      )
+    }
+  }, [color, model])
 }

@@ -3,7 +3,6 @@
 
   "hair_second": true,
 
-  "fangs": true,
   "sharp_teeth": false,
 
   "stripes_enable": false,
@@ -15,12 +14,12 @@
   "hooves_second_color": false,
 
   "collar_enable": true,
-
   "bowtie_enable": false,
 
   "wings_enable": true,
   "wings_bat": true,
   "wings_second_color": true,
+  "wings_folded": true,
 
   "canine_nose_enable": false,
 

@@ -1,3 +1,5 @@
+import FangsList from '@/configs/changeable/fangs.json'
+
 const Mouth = {
   'Mouth color': {
     value: 'jaw_basic',
@@ -10,10 +12,11 @@ const Mouth = {
     isColor: true,
   },
 
-  Teeth: {
+  Sharp: { value: 'sharp_teeth' },
+
+  Fangs: {
     folder: {
-      Fangs: { value: 'fangs' },
-      Sharp: { value: 'sharp_teeth' },
+      'Fangs list': { value: 'fangs', list: FangsList, imgSrc: 'fangs/' },
     },
   },
 }

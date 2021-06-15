@@ -1,7 +1,7 @@
 .right-bar {
   @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
 
-  & > div {
+  & > li {
     @apply flex-none m-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
   }
 }

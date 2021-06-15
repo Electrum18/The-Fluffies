@@ -14,20 +14,24 @@ for (const key in Colors) {
 }
 
 for (const key of ColorsShade) {
-  const { h, s, l } = colors[key]
+  const { h, s, l, a } = colors[key]
 
   const shade = key.match(/_basic/)
     ? key.replace('_basic', '_shade')
     : key + '_shade'
 
   colors[shade] = { h, s, l: l / 2 }
+
+  if (a) colors[shade].a = a
 }
 
 const useParameters = create((set) => ({
   values: { ...Names, ...Booleans, ...Properties },
   colors,
+
   setValue: (key, value) =>
     set((state) => ({ values: { ...state.values, [key]: value } })),
+
   setColor: (key, color) =>
     set((state) => ({ colors: { ...state.colors, [key]: color } })),
 }))

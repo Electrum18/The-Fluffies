@@ -51,11 +51,17 @@ export default function Customization() {
           value: (isColor ? colors : values)[value],
           onChange: (valueIn) => {
             if (isColor) {
-              const { h, s, l } = valueIn
+              const { h, s, l, a } = valueIn
 
-              setColor(value, { h, s, l })
+              if (a) {
+                setColor(value, { h, s, l, a })
 
-              if (shade) setColor(shade, { h, s, l: l / 2 })
+                if (shade) setColor(shade, { h, s, l: l / 2, a })
+              } else {
+                setColor(value, { h, s, l })
+
+                if (shade) setColor(shade, { h, s, l: l / 2 })
+              }
             } else {
               setValue(value, valueIn)
             }
@@ -87,12 +93,12 @@ export default function Customization() {
   }, [config, setColor, setValue])
 
   return (
-    <div className={styles['right-bar']}>
+    <ul className={styles['right-bar']}>
       {Sections.map((Component, key) => (
-        <div key={key} onClick={() => setConfig(key)}>
+        <li key={key} onClick={() => setConfig(key)}>
           <Component />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }
