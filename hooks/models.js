@@ -1,14 +1,18 @@
 import { useEffect } from 'react'
+import shallow from 'zustand/shallow'
 
 import useParameters from '@/helpers/parameters'
+import useResources from '@/helpers/resources'
 
-import Materials from '@/configs/materials/list.json'
+import Materials from '@/configs/materials.json'
+
+import { useShaderColorManager, useShaderValueManager } from './shader'
 
 export function useModelInfo(
   elemName,
   { key, group } = {},
   material = undefined,
-  { group: textureGroup, key: textureKey, postfix } = {}
+  texture = undefined
 ) {
   const properties = useParameters((state) => state.values)
 
@@ -17,56 +21,82 @@ export function useModelInfo(
 
   let textureName
 
-  if (material) {
+  if (material && texture) {
     textureName =
-      textureGroup && textureKey
-        ? textureGroup + properties[textureKey].replace(/ /g, '_')
-        : Materials[material].texture
+      texture.group && texture.key
+        ? texture.group + properties[texture.key].replace(/ /g, '_')
+        : texture
 
-    if (Materials[material] && postfix) textureName += postfix
+    if (Materials[material] && texture.postfix) textureName += texture.postfix
   }
 
   return { name, src, textureName }
 }
 
-export function useColorManager(model, material) {
-  const { color } = Materials[material]
+export function useColorManager(model, materialName) {
+  const {
+    color,
+    color2,
+    color3,
+    color4,
 
-  useEffect(() => {
-    if (color) {
-      const { material } = model.current
+    color2Value,
+    color3Value,
+    color4Value,
+  } = Materials[materialName]
 
-      const { h, s, l } = useParameters.getState().colors[color]
+  useShaderColorManager('color', model, color)
+  useShaderColorManager('color2', model, color2)
+  useShaderColorManager('color3', model, color3)
+  useShaderColorManager('color4', model, color4)
 
-      material.color.setHSL(h / 360, s, l)
-
-      useParameters.subscribe(
-        ({ h, s, l }) => material.color.setHSL(h / 360, s, l),
-        (state) => state.colors[color]
-      )
-    }
-  }, [color, model])
+  useShaderValueManager('secondEnabled', model, color2Value)
+  useShaderValueManager('thirdEnabled', model, color3Value)
+  useShaderValueManager('fouthEnabled', model, color4Value)
 }
 
-export function useHSLAManager(model, material) {
-  const { color } = Materials[material]
+export function useLight(model) {
+  const [light, ambientLight] = useResources(
+    (state) => [state.light, state.ambientLight],
+    shallow
+  )
 
   useEffect(() => {
-    if (color) {
+    const { material } = model.current
+
+    if (light.current) {
+      material.uniforms.uDirLightPos.value = light.current.position
+      material.uniforms.uDirLightPower.value = light.current.intensity
+    }
+
+    if (ambientLight.current) {
+      material.uniforms.uAmbientLightPower.value =
+        ambientLight.current.intensity
+    }
+  }, [ambientLight, light, model])
+}
+
+export function usePositionManager(model, material) {
+  const parameters = useParameters((store) => store.values)
+
+  const { posX, posY, scale } = Materials[material]
+
+  useEffect(() => {
+    if (posX && posY) {
       const { material } = model.current
 
-      const { h, s, l, a } = useParameters.getState().colors[color]
-
-      material.uniforms.color.value.setHSL(h / 360, s, l)
-      material.uniforms.alpha.value = a
-
-      useParameters.subscribe(
-        ({ h, s, l, a }) => {
-          material.uniforms.color.value.setHSL(h / 360, s, l)
-          material.uniforms.alpha.value = a
-        },
-        (state) => state.colors[color]
+      material.uniforms.uPosition.value.set(
+        -parameters[posX] / 700,
+        parameters[posY] / 700
       )
     }
-  }, [color, model])
+  }, [model, parameters, posX, posY])
+
+  useEffect(() => {
+    if (scale) {
+      const { material } = model.current
+
+      material.uniforms.uScale.value = 1 / (parameters[scale] / 100)
+    }
+  }, [model, parameters, scale])
 }

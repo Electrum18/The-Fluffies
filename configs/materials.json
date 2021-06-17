@@ -1,0 +1,78 @@
+{
+  "body": {
+    "color": "fur_basic",
+
+    "color2": "fur_second_basic",
+    "color2Value": "fur_second_color",
+
+    "color3": "freckles_basic",
+    "color3Value": "freckles_nose",
+
+    "color4": "stripes_basic",
+    "color4Value": "stripes_enable"
+  },
+
+  "hair": {
+    "color": "hair_basic",
+
+    "color2": "hair_second",
+    "color2Value": "hair_second"
+  },
+
+  "tail": {
+    "color": "hair_basic",
+
+    "color2": "hair_second",
+    "color2Value": "hair_second"
+  },
+
+  "eyelashes": { "color": "eyelashes_basic" },
+
+  "eyes": {
+    "color": "eyes_sclera",
+    "color2": "eyes_left_basic",
+    "color3": "eyes_pupil",
+    "color4": "white",
+
+    "posX": "eyes_position_horiz",
+    "posY": "eyes_position_verti",
+    "scale": "eyes_iris_scale"
+  },
+
+  "horn_front": {
+    "color": "fur_basic",
+
+    "color2": "horn_basic",
+    "color2Value": "horn_second_color"
+  },
+
+  "wings": {
+    "color": "fur_basic",
+
+    "color2": "wings_basic",
+    "color2Value": "wings_second_color"
+  },
+
+  "ears": {
+    "color": "fur_basic",
+
+    "color2": "ear_basic",
+    "color2Value": "ear_second_color"
+  },
+
+  "canine": { "color": "canine_nose_basic" },
+
+  "fluff": { "color": "fluff_basic" },
+  "fluff2": { "color": "fur_basic" },
+
+  "collar": { "color": "collar_basic" },
+  "bowtie": { "color": "bowtie_basic" },
+  "glasses": { "color": "glasses_frame" },
+  "piercings": { "color": "piercings_basic" },
+  "clothing": { "color": "clothing_basic" },
+  "scarf": { "color": "scarf_basic" },
+  "pants": { "color": "pants_basic" },
+
+  "horns": { "color": "horn_rear_basic" },
+  "fangs": { "color": "white" }
+}

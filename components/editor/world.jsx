@@ -5,7 +5,7 @@ import shallow from 'zustand/shallow'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
 
-import useMaterials from '@/helpers/materials'
+import useResources from '@/helpers/resources'
 
 import Player from './player'
 
@@ -27,13 +27,13 @@ function Camera({ controls }) {
   return null
 }
 
-export default function ExportCanvas() {
+export default function World() {
   const controls = useRef()
 
   const pointLight = useRef()
   const ambientLight = useRef()
 
-  const [setLight, setAmbientLight] = useMaterials(
+  const [setLight, setAmbientLight] = useResources(
     (state) => [state.setLight, state.setAmbientLight],
     shallow
   )

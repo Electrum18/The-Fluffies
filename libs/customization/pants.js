@@ -1,11 +1,7 @@
 import PantsList from '@/configs/changeable/pants.json'
 
 const Pants = {
-  'Pants color': {
-    value: 'pants_basic',
-    shade: 'pants_shade',
-    isColor: true,
-  },
+  'Pants color': { value: 'pants_basic', isColor: true },
 
   'Pants types': {
     folder: {

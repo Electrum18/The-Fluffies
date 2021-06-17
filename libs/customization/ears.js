@@ -4,11 +4,7 @@ const Ears = {
   'Ears second color': {
     folder: {
       'Second ears': { value: 'ear_second_color' },
-      'Second color ears': {
-        value: 'ear_basic',
-        shade: 'ear_shade',
-        isColor: true,
-      },
+      'Second color ears': { value: 'ear_basic', isColor: true },
     },
   },
 

@@ -1,36 +1,18 @@
 const Eyes = {
-  Eyes: {
-    value: 'eyes_left_basic',
-    isColor: true,
-  },
+  Eyes: { value: 'eyes_left_basic', isColor: true },
 
-  'Heterochromia ': {
-    folder: {
-      Divide: { value: 'eyes_right_enable' },
-      'Right eye': {
-        value: 'eyes_right_basic',
-        isColor: true,
-      },
-    },
-  },
-
-  Sclera: {
-    value: 'eyes_sclera',
-    isColor: true,
-  },
+  Sclera: { value: 'eyes_sclera', isColor: true },
 
   Scale: {
     value: 'eyes_iris_scale',
-    min: 10,
+    min: 50,
     max: 125,
+    step: 1,
   },
 
   Pupils: {
     folder: {
-      'Pupil color': {
-        value: 'eyes_pupil',
-        isColor: true,
-      },
+      'Pupil color': { value: 'eyes_pupil', isColor: true },
     },
   },
 
@@ -45,12 +27,6 @@ const Eyes = {
       Vertical: {
         value: 'eyes_position_verti',
         min: -100,
-        max: 100,
-      },
-
-      Focus: {
-        value: 'eyes_focus',
-        min: 1,
         max: 100,
       },
     },

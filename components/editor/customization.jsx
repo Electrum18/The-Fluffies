@@ -29,11 +29,11 @@ export default function Customization() {
     function createValues({
       label,
       value,
-      shade,
       isColor,
       list,
       min,
       max,
+      step,
       imgSrc,
     }) {
       let valueObj = {}
@@ -49,28 +49,14 @@ export default function Customization() {
         valueObj = {
           label,
           value: (isColor ? colors : values)[value],
-          onChange: (valueIn) => {
-            if (isColor) {
-              const { h, s, l, a } = valueIn
-
-              if (a) {
-                setColor(value, { h, s, l, a })
-
-                if (shade) setColor(shade, { h, s, l: l / 2, a })
-              } else {
-                setColor(value, { h, s, l })
-
-                if (shade) setColor(shade, { h, s, l: l / 2 })
-              }
-            } else {
-              setValue(value, valueIn)
-            }
-          },
+          onChange: (valueIn) =>
+            isColor ? setColor(value, valueIn) : setValue(value, valueIn),
         }
       }
 
       if (min) valueObj.min = min
       if (max) valueObj.max = max
+      if (step) valueObj.step = step
 
       return valueObj
     }

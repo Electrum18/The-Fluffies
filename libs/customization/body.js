@@ -1,28 +1,17 @@
 const Body = {
-  Fur: {
-    value: 'fur_basic',
-    shade: 'fur_shade',
-    isColor: true,
-  },
+  Fur: { value: 'fur_basic', isColor: true },
 
   Stripes: {
     folder: {
       'Stripes enable': { value: 'stripes_enable' },
-      'Stripes color': {
-        value: 'stripes_basic',
-        isColor: true,
-      },
+      'Stripes color': { value: 'stripes_basic', isColor: true },
     },
   },
 
   Freckles: {
     folder: {
-      Nose: { value: 'freckles_nose' },
-      Cheeks: { value: 'freckles_cheeks' },
-      'Freckles color': {
-        value: 'freckles_basic',
-        isColor: true,
-      },
+      'Freckles enable': { value: 'freckles_nose' },
+      'Freckles color': { value: 'freckles_basic', isColor: true },
     },
   },
 
@@ -32,22 +21,14 @@ const Body = {
       Chest: { value: 'fluff_chest' },
       Neck: { value: 'fluff_neck' },
       Hooves: { value: 'fluff_hooves' },
-      'Fluff color': {
-        value: 'fluff_basic',
-        shade: 'fluff_shade',
-        isColor: true,
-      },
+      'Fluff color': { value: 'fluff_basic', isColor: true },
     },
   },
 
   'Second color': {
     folder: {
       Enable: { value: 'fur_second_color' },
-      Color: {
-        value: 'fur_second_basic',
-        shade: 'fur_second_shade',
-        isColor: true,
-      },
+      Color: { value: 'fur_second_basic', isColor: true },
     },
   },
 }

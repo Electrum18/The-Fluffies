@@ -6,11 +6,7 @@ const Wings = {
   'Wings second color': {
     folder: {
       'Enable wings second': { value: 'wings_second_color' },
-      'Second color wings': {
-        value: 'wings_basic',
-        shade: 'wings_shade',
-        isColor: true,
-      },
+      'Second color wings': { value: 'wings_basic', isColor: true },
     },
   },
 }

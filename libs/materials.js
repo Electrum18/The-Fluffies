@@ -1,63 +1,61 @@
-import { Vector3, Color, UniformsUtils, ShaderMaterial, Texture } from 'three'
+import {
+  Vector2,
+  Vector3,
+  Color,
+  Texture,
+  ShaderMaterial,
+  UniformsUtils,
+} from 'three'
 
-import MeshShaderVertex from '@/libs/glsl/basic.vert'
+import vertexShader from '@/libs/glsl/vertex.vert'
+import fragmentShader from '@/libs/glsl/fragment.frag'
 
-import MeshOpacityToonShaderFragment from '@/libs/glsl/opacityToon.frag'
+const shader = {
+  uniforms: {
+    uDirLightPos: { value: new Vector3() },
+    uDirLightPower: { value: new Color(0xeeeeee) },
 
-import MeshDoubleBasicShaderFragment from '@/libs/glsl/doubleBasic.frag'
-import MeshDoubleToonShaderFragment from '@/libs/glsl/doubleToon.frag'
+    uAmbientLightPower: { value: new Color(0x050505) },
 
-const shaders = {
-  basic: {
-    uniforms: {
-      color: { value: new Color(0xeeeeee) },
-      color2: { value: new Color(0x888888) },
-      textureMask: { value: new Texture() },
-      secondEnabled: { value: true },
-    },
-    vertexShader: MeshShaderVertex,
-    fragmentShader: MeshDoubleBasicShaderFragment,
+    uPosition: { value: new Vector2() },
+    uScale: { value: 1 },
+
+    alpha: { value: 1 },
+    textureMask: { value: new Texture() },
+
+    color: { value: new Color(0xeeeeee) },
+    color2: { value: new Color(0x888888) },
+    color3: { value: new Color(0x444444) },
+    color4: { value: new Color(0x222222) },
+
+    secondEnabled: { value: false },
+    thirdEnabled: { value: false },
+    fouthEnabled: { value: false },
   },
-  toon: {
-    uniforms: {
-      uDirLightPos: { value: new Vector3() },
-      uDirLightPower: { value: new Color(0xeeeeee) },
-      uAmbientLightPower: { value: new Color(0x050505) },
-      color: { value: new Color(0xeeeeee) },
-      color2: { value: new Color(0x888888) },
-      textureMask: { value: new Texture() },
-      secondEnabled: { value: true },
-    },
-    vertexShader: MeshShaderVertex,
-    fragmentShader: MeshDoubleToonShaderFragment,
-  },
-  transparentToon: {
-    uniforms: {
-      uDirLightPos: { value: new Vector3() },
-      uDirLightPower: { value: new Color(0xeeeeee) },
-      uAmbientLightPower: { value: new Color(0x050505) },
-      color: { value: new Color(0xeeeeee) },
-      alpha: { value: 1 },
-    },
-    vertexShader: MeshShaderVertex,
-    fragmentShader: MeshOpacityToonShaderFragment,
-    transparent: true,
-  },
+
+  vertexShader,
+  fragmentShader,
 }
 
-function createShaderMaterial(shaderType) {
-  const shader = shaders[shaderType]
+export function createMaterials(materialsIn) {
+  const materials = {}
 
-  return new ShaderMaterial({
-    uniforms: UniformsUtils.clone(shader.uniforms),
-    vertexShader: shader.vertexShader,
-    fragmentShader: shader.fragmentShader,
-    transparent: shader.transparent || false,
-  })
+  for (const key in materialsIn) {
+    const uniforms = UniformsUtils.clone(shader.uniforms)
+
+    const { color2, color3, color4 } = materialsIn[key]
+
+    if (color2) uniforms.secondEnabled.value = true
+    if (color3) uniforms.thirdEnabled.value = true
+    if (color4) uniforms.fouthEnabled.value = true
+
+    materials[key] = new ShaderMaterial({
+      uniforms,
+      vertexShader: shader.vertexShader,
+      fragmentShader: shader.fragmentShader,
+      transparent: true,
+    })
+  }
+
+  return materials
 }
-
-export const MeshBasicDoubleMaterial = () => createShaderMaterial('basic')
-export const MeshToonDoubleMaterial = () => createShaderMaterial('toon')
-
-export const MeshToonTransparentMaterial = () =>
-  createShaderMaterial('transparentToon')

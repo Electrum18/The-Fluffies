@@ -4,7 +4,7 @@ import Dynamic from 'next/dynamic'
 
 import Customization from '@/components/editor/customization'
 
-const Canvas = Dynamic(() => import('../components/editor/canvas'), {
+const Canvas = Dynamic(() => import('../components/editor/world'), {
   ssr: false,
 })
 

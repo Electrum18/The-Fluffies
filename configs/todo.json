@@ -1,17 +1,13 @@
 {
-  "sharp_teeth": false,
-  "eyelids": false,
+  "male": false,
 
-  "textures": {
-    "body": {
-      "stripes": false,
-
-      "freckles": {
-        "nose": false,
-        "cheecks": false
-      },
-
-      "second": false
-    }
+  "keyframes": {
+    "eyelid left upper": false,
+    "eyelid left lower": false,
+    "eyelid right upper": false,
+    "eyelid right lower": false,
+    "opened": false,
+    "sad": false,
+    "sharp teeth": false
   }
 }
