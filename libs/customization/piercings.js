@@ -1,7 +1,7 @@
 import PiercingsList from '@/configs/changeable/piercings/ears.json'
 
 const Piercings = {
-  'Piercing color': { value: 'piercings_basic', isColor: true },
+  'Piercing color': { color: 'piercings_basic' },
 
   'Piercing types': {
     folder: {

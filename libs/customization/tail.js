@@ -1,12 +1,12 @@
 import Tails from '@/configs/changeable/tails.json'
 
 const Tail = {
-  Tail: { value: 'hair_basic', isColor: true },
+  Tail: { color: 'hair_basic' },
 
   'Second color': {
     folder: {
-      Enable: { value: 'hair_second' },
-      Color: { value: 'hair_second', isColor: true },
+      Enable: { boolean: 'hair_second' },
+      Color: { color: 'hair_second' },
     },
   },
 

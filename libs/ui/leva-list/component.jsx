@@ -14,14 +14,14 @@ export function List() {
     <>
       <Row>
         <div className={styles['list-panel']}>
-          {Object.keys(value.list).map((key) => (
+          {Object.keys(value.list).map((key, index) => (
             <div
               key={key}
               className={
                 key === selected ? 'border-4 border-primary' : undefined
               }
               onClick={() => {
-                value.change(key)
+                value.change(key, index)
                 setSelected(key)
               }}
             >

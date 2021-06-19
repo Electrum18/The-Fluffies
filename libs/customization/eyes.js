@@ -1,7 +1,8 @@
-const Eyes = {
-  Eyes: { value: 'eyes_left_basic', isColor: true },
+import EyesList from '@/configs/changeable/eyes.json'
 
-  Sclera: { value: 'eyes_sclera', isColor: true },
+const Eyes = {
+  Eyes: { color: 'eyes_left_basic' },
+  Sclera: { color: 'eyes_sclera' },
 
   Scale: {
     value: 'eyes_iris_scale',
@@ -12,7 +13,7 @@ const Eyes = {
 
   Pupils: {
     folder: {
-      'Pupil color': { value: 'eyes_pupil', isColor: true },
+      'Pupil color': { color: 'eyes_pupil' },
     },
   },
 
@@ -29,6 +30,12 @@ const Eyes = {
         min: -100,
         max: 100,
       },
+    },
+  },
+
+  'Eyes types': {
+    folder: {
+      'Eyes list': { value: 'eyes', list: EyesList, imgSrc: 'eyes/' },
     },
   },
 

@@ -1,7 +1,7 @@
 import SuitsList from '@/configs/changeable/clothing.json'
 
 const Suits = {
-  'Suit color': { value: 'clothing_basic', isColor: true },
+  'Suit color': { color: 'clothing_basic' },
 
   'Suit types': {
     folder: {
@@ -11,8 +11,8 @@ const Suits = {
 
   Scarf: {
     folder: {
-      'Scarf enable': { value: 'scarf' },
-      'Scarf color': { value: 'scarf_basic', isColor: true },
+      'Scarf enable': { boolean: 'scarf' },
+      'Scarf color': { color: 'scarf_basic' },
     },
   },
 }

@@ -1,12 +1,12 @@
 const Wings = {
-  'Enable wings': { value: 'wings_enable' },
-  'Bat wings': { value: 'wings_bat' },
-  'Fold wings': { value: 'wings_folded' },
+  'Enable wings': { boolean: 'wings_enable' },
+  'Bat wings': { boolean: 'wings_bat' },
+  'Fold wings': { boolean: 'wings_folded' },
 
   'Wings second color': {
     folder: {
-      'Enable wings second': { value: 'wings_second_color' },
-      'Second color wings': { value: 'wings_basic', isColor: true },
+      'Enable wings second': { boolean: 'wings_second_color' },
+      'Second color wings': { color: 'wings_basic' },
     },
   },
 }

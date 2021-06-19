@@ -16,20 +16,26 @@ export default function Customization() {
     shallow
   )
 
-  const [setColor, setValue] = useParameters(
-    (state) => [state.setColor, state.setValue],
+  const [setColor, setName, setBoolean, setProperty] = useParameters(
+    (state) => [
+      state.setColor,
+      state.setName,
+      state.setBoolean,
+      state.setProperty,
+    ],
     shallow
   )
 
   useControls(() => {
-    const properties = {}
+    const values = {}
 
-    const { colors, values } = useParameters.getState()
+    const { colors, booleans, names, properties } = useParameters.getState()
 
     function createValues({
       label,
       value,
-      isColor,
+      color,
+      boolean,
       list,
       min,
       max,
@@ -38,20 +44,29 @@ export default function Customization() {
     }) {
       let valueObj = {}
 
+      function createValue(value, onChange) {
+        return { label, value, onChange }
+      }
+
       if (list) {
         valueObj = levaList({
-          value: (isColor ? colors : values)[value],
+          value: names[value],
           list,
           src: imgSrc,
-          change: (valueIn) => setValue(value, valueIn),
+          change: (valueIn, index) => setName(value, valueIn, index),
         })
-      } else {
-        valueObj = {
-          label,
-          value: (isColor ? colors : values)[value],
-          onChange: (valueIn) =>
-            isColor ? setColor(value, valueIn) : setValue(value, valueIn),
-        }
+      } else if (boolean) {
+        valueObj = createValue(booleans[boolean], (valueIn) =>
+          setBoolean(boolean, valueIn)
+        )
+      } else if (color) {
+        valueObj = createValue(colors[color], (valueIn) => {
+          setColor(color, valueIn)
+        })
+      } else if (value) {
+        valueObj = createValue(properties[value], (valueIn) =>
+          setProperty(value, valueIn)
+        )
       }
 
       if (min) valueObj.min = min
@@ -69,14 +84,14 @@ export default function Customization() {
           group[labelInner] = createValues(config[label].folder[labelInner])
         }
 
-        properties[label] = folder(group, { collapsed: true })
+        values[label] = folder(group, { collapsed: true })
       } else {
-        properties[label] = createValues(config[label])
+        values[label] = createValues(config[label])
       }
     }
 
-    return properties
-  }, [config, setColor, setValue])
+    return values
+  }, [config, setColor, setName, setBoolean, setProperty])
 
   return (
     <ul className={styles['right-bar']}>

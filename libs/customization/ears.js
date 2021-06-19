@@ -3,8 +3,8 @@ import EarsList from '@/configs/changeable/ears.json'
 const Ears = {
   'Ears second color': {
     folder: {
-      'Second ears': { value: 'ear_second_color' },
-      'Second color ears': { value: 'ear_basic', isColor: true },
+      'Second ears': { boolean: 'ear_second_color' },
+      'Second color ears': { color: 'ear_basic' },
     },
   },
 

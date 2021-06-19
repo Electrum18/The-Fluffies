@@ -1,8 +1,8 @@
 import GlassesList from '@/configs/changeable/glasses.json'
 
 const Glasses = {
-  Color: { value: 'glasses_lenses', isColor: true },
-  Frame: { value: 'glasses_frame', isColor: true },
+  Color: { color: 'glasses_lenses' },
+  Frame: { color: 'glasses_frame' },
 
   'Glass types': {
     folder: {

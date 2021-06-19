@@ -14,6 +14,12 @@ export default function SiteHead({ t }) {
   const routeFixed = route !== '/' ? route : ''
   const exludedRotes = route === '/termsofservice' || route === '/privacypolicy'
 
+  const keywords =
+    'The Fluffies,My Little Pony,Pony,' +
+    (locale === 'ru'
+      ? 'Пони,Пони Креатор,Пони Редактор,Май Литл Пони'
+      : 'Pony Creator,Pony Editor,Online Editor')
+
   return (
     <Head>
       {/* Recommended Meta Tags */}
@@ -28,6 +34,7 @@ export default function SiteHead({ t }) {
       <meta name='description' content={t.meta.description} />
       <meta name='robots' content='index,follow' />
       <meta name='distribution' content='web' />
+      <meta name='keywords' content={keywords} />
 
       {/*
         Facebook Open Graph meta tags
@@ -39,10 +46,7 @@ export default function SiteHead({ t }) {
       <meta name='og:image' content={'/icons/share.png'} />
       <meta name='og:site_name' content={t.meta.title} />
       <meta name='og:description' content={t.meta.description} />
-      <meta
-        name='og:keywords'
-        content='The Fluffies,My Little Pony,Pony,Pony Creator,Pony Editor,Online Editor'
-      />
+      <meta name='og:keywords' content={keywords} />
       <meta name='og:locale' content={locale} />
 
       <link rel='apple-touch-icon' href='/icons/apple-touch-icon.png' />

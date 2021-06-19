@@ -1,15 +1,15 @@
 const Neck = {
   Collar: {
     folder: {
-      'Toggle collar': { value: 'collar_enable' },
-      'Collar color': { value: 'collar_basic', isColor: true },
+      'Toggle collar': { boolean: 'collar_enable' },
+      'Collar color': { color: 'collar_basic' },
     },
   },
 
   Bowtie: {
     folder: {
-      'Toggle bowtie': { value: 'bowtie_enable' },
-      'Bowtie color': { value: 'bowtie_basic', isColor: true },
+      'Toggle bowtie': { boolean: 'bowtie_enable' },
+      'Bowtie color': { color: 'bowtie_basic' },
     },
   },
 }

@@ -14,9 +14,9 @@ export function useModelInfo(
   material = undefined,
   texture = undefined
 ) {
-  const properties = useParameters((state) => state.values)
+  const names = useParameters((state) => state.names)
 
-  const name = key ? properties[key].replace(/ /g, '_') : elemName
+  const name = key ? names[key].replace(/ /g, '_') : elemName
   const src = group ? group + name : name
 
   let textureName
@@ -24,7 +24,7 @@ export function useModelInfo(
   if (material && texture) {
     textureName =
       texture.group && texture.key
-        ? texture.group + properties[texture.key].replace(/ /g, '_')
+        ? texture.group + names[texture.key].replace(/ /g, '_')
         : texture
 
     if (Materials[material] && texture.postfix) textureName += texture.postfix
@@ -45,10 +45,10 @@ export function useColorManager(model, materialName) {
     color4Value,
   } = Materials[materialName]
 
-  useShaderColorManager('color', model, color)
-  useShaderColorManager('color2', model, color2)
-  useShaderColorManager('color3', model, color3)
-  useShaderColorManager('color4', model, color4)
+  useShaderColorManager('color', 'alpha', model, color)
+  useShaderColorManager('color2', 'alpha2', model, color2)
+  useShaderColorManager('color3', 'alpha3', model, color3)
+  useShaderColorManager('color4', 'alpha4', model, color4)
 
   useShaderValueManager('secondEnabled', model, color2Value)
   useShaderValueManager('thirdEnabled', model, color3Value)
@@ -62,22 +62,25 @@ export function useLight(model) {
   )
 
   useEffect(() => {
-    const { material } = model.current
+    const { uDirLightPos, uDirLightPower } = model.current.material.uniforms
 
     if (light.current) {
-      material.uniforms.uDirLightPos.value = light.current.position
-      material.uniforms.uDirLightPower.value = light.current.intensity
+      uDirLightPos.value = light.current.position
+      uDirLightPower.value = light.current.intensity
     }
+  }, [light, model])
+
+  useEffect(() => {
+    const { uAmbientLightPower } = model.current.material.uniforms
 
     if (ambientLight.current) {
-      material.uniforms.uAmbientLightPower.value =
-        ambientLight.current.intensity
+      uAmbientLightPower.value = ambientLight.current.intensity
     }
-  }, [ambientLight, light, model])
+  }, [ambientLight, model])
 }
 
 export function usePositionManager(model, material) {
-  const parameters = useParameters((store) => store.values)
+  const properties = useParameters((store) => store.properties)
 
   const { posX, posY, scale } = Materials[material]
 
@@ -86,17 +89,17 @@ export function usePositionManager(model, material) {
       const { material } = model.current
 
       material.uniforms.uPosition.value.set(
-        -parameters[posX] / 700,
-        parameters[posY] / 700
+        -properties[posX] / 700,
+        properties[posY] / 700
       )
     }
-  }, [model, parameters, posX, posY])
+  }, [model, properties, posX, posY])
 
   useEffect(() => {
     if (scale) {
       const { material } = model.current
 
-      material.uniforms.uScale.value = 1 / (parameters[scale] / 100)
+      material.uniforms.uScale.value = 1 / (properties[scale] / 100)
     }
-  }, [model, parameters, scale])
+  }, [model, properties, scale])
 }

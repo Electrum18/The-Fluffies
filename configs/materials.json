@@ -67,7 +67,7 @@
 
   "collar": { "color": "collar_basic" },
   "bowtie": { "color": "bowtie_basic" },
-  "glasses": { "color": "glasses_frame" },
+  "glasses": { "color": "glasses_frame", "color2": "glasses_lenses" },
   "piercings": { "color": "piercings_basic" },
   "clothing": { "color": "clothing_basic" },
   "scarf": { "color": "scarf_basic" },

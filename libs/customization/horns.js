@@ -14,14 +14,14 @@ const Horns = {
 
   'Second color horns': {
     folder: {
-      'Enable second horns': { value: 'horn_second_color' },
-      'Horns second color': { value: 'horn_basic', isColor: true },
+      'Enable second horns': { boolean: 'horn_second_color' },
+      'Horns second color': { color: 'horn_basic' },
     },
   },
 
   'Rear horns': {
     folder: {
-      'Horns behind color': { value: 'horn_rear_basic', isColor: true },
+      'Horns behind color': { color: 'horn_rear_basic' },
       'Horn behind type': { value: 'horn', list: HornsBehind, imgSrc: 'horn/' },
     },
   },

@@ -4,24 +4,24 @@ import useParameters from '@/helpers/parameters'
 
 export function useShaderColorManager(
   colorTarget,
+  alphaTarget,
   model,
-  colorName = undefined,
-  alphaTarget = undefined
+  colorName = undefined
 ) {
   useEffect(() => {
     if (colorName) {
       const { material } = model.current
       const { h, s, l, a } = useParameters.getState().colors[colorName]
 
-      material.uniforms[colorTarget].value.setHSL(h / 360, s, l, a)
+      material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
-      if (alphaTarget) material.uniforms[alphaTarget].value = a
+      if (a) material.uniforms[alphaTarget].value = a
 
       useParameters.subscribe(
         ({ h, s, l, a }) => {
           material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
-          if (alphaTarget) material.uniforms[alphaTarget].value = a
+          if (a) material.uniforms[alphaTarget].value = a
         },
         (state) => state.colors[colorName]
       )
@@ -33,13 +33,14 @@ export function useShaderValueManager(valueName, model, valueIn = undefined) {
   useEffect(() => {
     if (valueIn) {
       const { material } = model.current
+      const state = useParameters.getState()
 
       material.uniforms[valueName].value =
-        useParameters.getState().values[valueIn]
+        state.booleans[valueIn] || state.properties[valueIn]
 
       useParameters.subscribe(
         (value) => (material.uniforms[valueName].value = value),
-        (state) => state.values[valueIn]
+        (state) => state.booleans[valueIn] || state.properties[valueIn]
       )
     }
   }, [model, valueIn, valueName])

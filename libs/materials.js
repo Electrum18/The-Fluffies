@@ -20,13 +20,17 @@ const shader = {
     uPosition: { value: new Vector2() },
     uScale: { value: 1 },
 
-    alpha: { value: 1 },
     textureMask: { value: new Texture() },
 
     color: { value: new Color(0xeeeeee) },
     color2: { value: new Color(0x888888) },
     color3: { value: new Color(0x444444) },
     color4: { value: new Color(0x222222) },
+
+    alpha: { value: 1 },
+    alpha2: { value: 1 },
+    alpha3: { value: 1 },
+    alpha4: { value: 1 },
 
     secondEnabled: { value: false },
     thirdEnabled: { value: false },

@@ -3,17 +3,16 @@ import useParameters from '@/helpers/parameters'
 import { Model } from '../model'
 
 export default function Accessories() {
-  const params = useParameters((state) => state.values)
+  const params = useParameters((state) => state.booleans)
 
   return (
     <>
-      {/*
       <Model
         name='Glasses'
         material='glasses'
         file={{ group: 'glasses/', key: 'glasses' }}
+        texture='double'
       />
-      */}
 
       {params.collar_enable && <Model name='Collar' material='collar' />}
       {params.bowtie_enable && <Model name='Bowtie' material='bowtie' />}

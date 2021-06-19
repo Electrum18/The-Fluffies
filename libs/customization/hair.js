@@ -1,12 +1,12 @@
 import Hairs from '@/configs/changeable/hairs.json'
 
 const Hair = {
-  Hair: { value: 'hair_basic', isColor: true },
+  Hair: { color: 'hair_basic' },
 
   'Second color': {
     folder: {
-      Enable: { value: 'hair_second' },
-      Color: { value: 'hair_second', isColor: true },
+      Enable: { boolean: 'hair_second' },
+      Color: { color: 'hair_second' },
     },
   },
 

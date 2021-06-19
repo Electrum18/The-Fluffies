@@ -1,10 +1,10 @@
 import FangsList from '@/configs/changeable/fangs.json'
 
 const Mouth = {
-  'Mouth color': { value: 'jaw_basic', isColor: true },
-  'Tongue color': { value: 'tongue_basic', isColor: true },
+  'Mouth color': { color: 'jaw_basic' },
+  'Tongue color': { color: 'tongue_basic' },
 
-  Sharp: { value: 'sharp_teeth' },
+  Sharp: { boolean: 'sharp_teeth' },
 
   Fangs: {
     folder: {

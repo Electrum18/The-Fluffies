@@ -3,7 +3,7 @@ import useParameters from '@/helpers/parameters'
 import { Model } from '../model'
 
 export default function Body() {
-  const params = useParameters((state) => state.values)
+  const params = useParameters((state) => state.booleans)
 
   return (
     <>
