@@ -29,19 +29,24 @@ export function useShaderColorManager(
   }, [alphaTarget, colorName, colorTarget, model])
 }
 
-export function useShaderValueManager(valueName, model, valueIn = undefined) {
+export function useShaderValueManager(
+  valueName,
+  model,
+  valueIn = undefined,
+  treshold = 1
+) {
   useEffect(() => {
     if (valueIn) {
       const { material } = model.current
       const state = useParameters.getState()
 
       material.uniforms[valueName].value =
-        state.booleans[valueIn] || state.properties[valueIn]
+        (+state.booleans[valueIn] || state.properties[valueIn]) * treshold
 
       useParameters.subscribe(
-        (value) => (material.uniforms[valueName].value = value),
+        (value) => (material.uniforms[valueName].value = +value * treshold),
         (state) => state.booleans[valueIn] || state.properties[valueIn]
       )
     }
-  }, [model, valueIn, valueName])
+  }, [model, treshold, valueIn, valueName])
 }

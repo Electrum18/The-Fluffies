@@ -1,47 +1,27 @@
 {
-  "jaw_open": 0,
-  "jaw_sad": 0,
+  "male_morph": 0,
 
+  "jaw_open": 0,
+  "jaw_happy": 0,
+  "jaw_sad": 0,
+  "jaw_surprised": 0,
+  "jaw_cat": 0,
+
+  "sharp_teeth": 0,
 
   "tongue_raised": 0,
+  "tongue_out": 0,
 
   "teeth_upper": 100,
   "teeth_lower": 100,
 
-
   "eyes_iris_scale": 100,
-  "eyes_pupils_width": 10,
-
-  "eyes_focus": 0,
 
   "eyes_position_horiz": 0,
   "eyes_position_verti": 0,
 
-  "eyes_eyelids_left_up": 0,
-  "eyes_eyelids_left_down": 0,
-  "eyes_eyelids_right_up": 0,
-  "eyes_eyelids_right_down": 0,
-
-
-  "hooves_front_left_shoulder_angle": 0,
-  "hooves_front_left_elbow_angle": 0,
-  "hooves_front_left_wrist_angle": 0,
-
-  "hooves_front_right_shoulder_angle": 0,
-  "hooves_front_right_elbow_angle": 0,
-  "hooves_front_right_wrist_angle": 0,
-
-  "hooves_back_left_thigh_angle": 0,
-  "hooves_back_left_forearm_angle": 0,
-  "hooves_back_left_knee_angle": 0,
-  "hooves_back_left_foot_angle": 0,
-
-  "hooves_back_right_thigh_angle": 0,
-  "hooves_back_right_forearm_angle": 0,
-  "hooves_back_right_knee_angle": 0,
-  "hooves_back_right_foot_angle": 0,
-
-
-  "wing_left_folded": 0,
-  "wing_right_folded": 0
+  "eyes_eyelids_up": 0,
+  "eyes_eyelids_down": 0,
+  "eyes_eyelids_angry": 0,
+  "eyes_eyelids_sad": 0
 }

@@ -1,3 +1,35 @@
+.selected {
+  @apply border-4 border-primary rounded-lg;
+}
+
+.menu-icon {
+  @apply text-white;
+}
+
+.selected-icon {
+  @apply text-primary;
+}
+
+.left-bar {
+  @apply absolute left-0 flex flex-col w-8 h-full md:py-2 overflow-x-hidden overflow-y-auto bg-gray-700 md:w-12 flex-nowrap;
+
+  & > li {
+    @apply md:bg-gray-800 rounded-lg flex-none m-1 py-1 md:p-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
+
+    & svg {
+      @apply w-6 h-6 transition-colors;
+    }
+  }
+
+  & > hr {
+    @apply my-2;
+  }
+
+  & > div {
+    @apply flex-grow;
+  }
+}
+
 .right-bar {
   @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
 

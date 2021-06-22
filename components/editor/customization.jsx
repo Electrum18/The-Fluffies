@@ -7,24 +7,28 @@ import useCustomizing from '@/helpers/customizing'
 import useParameters from '@/helpers/parameters'
 
 import Sections from './inline-icons-pony/index'
+import { Male, Female } from './inline-icons-pony/Genders'
 
 import styles from '@/styles/editor.module.css'
 
 export default function Customization() {
-  const [config, setConfig] = useCustomizing(
-    (state) => [state.config, state.setConfig],
+  const [index, config, setConfig] = useCustomizing(
+    (state) => [state.index, state.config, state.setConfig],
     shallow
   )
 
-  const [setColor, setName, setBoolean, setProperty] = useParameters(
-    (state) => [
-      state.setColor,
-      state.setName,
-      state.setBoolean,
-      state.setProperty,
-    ],
-    shallow
-  )
+  const [params, setMale, setColor, setName, setBoolean, setProperty] =
+    useParameters(
+      (state) => [
+        state.booleans,
+        state.setMale,
+        state.setColor,
+        state.setName,
+        state.setBoolean,
+        state.setProperty,
+      ],
+      shallow
+    )
 
   useControls(() => {
     const values = {}
@@ -94,12 +98,22 @@ export default function Customization() {
   }, [config, setColor, setName, setBoolean, setProperty])
 
   return (
-    <ul className={styles['right-bar']}>
-      {Sections.map((Component, key) => (
-        <li key={key} onClick={() => setConfig(key)}>
-          <Component />
+    <aside>
+      <ul className={styles['right-bar']}>
+        <li onClick={() => setMale(!params.male)}>
+          {params.male ? <Male /> : <Female />}
         </li>
-      ))}
-    </ul>
+
+        {Sections.map((Component, key) => (
+          <li
+            className={index === key ? styles['selected'] : undefined}
+            key={key}
+            onClick={() => setConfig(key)}
+          >
+            <Component />
+          </li>
+        ))}
+      </ul>
+    </aside>
   )
 }

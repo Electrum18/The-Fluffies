@@ -35,6 +35,12 @@ const useParameters = create((set) => ({
 
   setColor: (key, color) =>
     set((state) => ({ colors: { ...state.colors, [key]: color } })),
+
+  setMale: (value) =>
+    set((state) => ({
+      booleans: { ...state.booleans, male: value },
+      properties: { ...state.properties, male_morph: +value * 100 },
+    })),
 }))
 
 export default useParameters

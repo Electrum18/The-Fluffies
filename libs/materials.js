@@ -10,31 +10,49 @@ import {
 import vertexShader from '@/libs/glsl/vertex.vert'
 import fragmentShader from '@/libs/glsl/fragment.frag'
 
+const fragmentUniforms = {
+  uDirLightPos: { value: new Vector3() },
+  uDirLightPower: { value: new Color(0xeeeeee) },
+
+  uAmbientLightPower: { value: new Color(0x050505) },
+
+  uPosition: { value: new Vector2() },
+  uScale: { value: 1 },
+
+  textureMask: { value: new Texture() },
+
+  color: { value: new Color(0xeeeeee) },
+  color2: { value: new Color(0x888888) },
+  color3: { value: new Color(0x444444) },
+  color4: { value: new Color(0x222222) },
+
+  alpha: { value: 1 },
+  alpha2: { value: 1 },
+  alpha3: { value: 1 },
+  alpha4: { value: 1 },
+
+  secondEnabled: { value: false },
+  thirdEnabled: { value: false },
+  fouthEnabled: { value: false },
+}
+
+const vertexUniforms = {
+  morph0: { value: 0 },
+  morph1: { value: 0 },
+  morph2: { value: 0 },
+  morph3: { value: 0 },
+  morph4: { value: 0 },
+  morph5: { value: 0 },
+  morph6: { value: 0 },
+  morph7: { value: 0 },
+  morph8: { value: 0 },
+  morph9: { value: 0 },
+}
+
 const shader = {
   uniforms: {
-    uDirLightPos: { value: new Vector3() },
-    uDirLightPower: { value: new Color(0xeeeeee) },
-
-    uAmbientLightPower: { value: new Color(0x050505) },
-
-    uPosition: { value: new Vector2() },
-    uScale: { value: 1 },
-
-    textureMask: { value: new Texture() },
-
-    color: { value: new Color(0xeeeeee) },
-    color2: { value: new Color(0x888888) },
-    color3: { value: new Color(0x444444) },
-    color4: { value: new Color(0x222222) },
-
-    alpha: { value: 1 },
-    alpha2: { value: 1 },
-    alpha3: { value: 1 },
-    alpha4: { value: 1 },
-
-    secondEnabled: { value: false },
-    thirdEnabled: { value: false },
-    fouthEnabled: { value: false },
+    ...fragmentUniforms,
+    ...vertexUniforms,
   },
 
   vertexShader,
@@ -58,6 +76,7 @@ export function createMaterials(materialsIn) {
       vertexShader: shader.vertexShader,
       fragmentShader: shader.fragmentShader,
       transparent: true,
+      skinning: true,
     })
   }
 

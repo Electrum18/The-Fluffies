@@ -74,5 +74,7 @@
   "pants": { "color": "pants_basic" },
 
   "horns": { "color": "horn_rear_basic" },
-  "fangs": { "color": "white" }
+  "fangs": { "color": "white" },
+  "teeth": { "color": "white" },
+  "tongue": { "color": "tongue_basic" }
 }

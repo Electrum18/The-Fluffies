@@ -3,6 +3,7 @@ import shallow from 'zustand/shallow'
 
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
+import useAnimations from '@/helpers/animations'
 
 import Materials from '@/configs/materials.json'
 
@@ -53,6 +54,27 @@ export function useColorManager(model, materialName) {
   useShaderValueManager('secondEnabled', model, color2Value)
   useShaderValueManager('thirdEnabled', model, color3Value)
   useShaderValueManager('fouthEnabled', model, color4Value)
+}
+
+export function useEmotionManager(model, name, morphsConfig) {
+  const morphsList = useAnimations((state) => state.morphsList)
+
+  function findValue(index) {
+    return (
+      morphsList[name] && morphsConfig && morphsConfig[morphsList[name][index]]
+    )
+  }
+
+  useShaderValueManager('morph0', model, findValue(0), 0.01)
+  useShaderValueManager('morph1', model, findValue(1), 0.01)
+  useShaderValueManager('morph2', model, findValue(2), 0.01)
+  useShaderValueManager('morph3', model, findValue(3), 0.01)
+  useShaderValueManager('morph4', model, findValue(4), 0.01)
+  useShaderValueManager('morph5', model, findValue(5), 0.01)
+  useShaderValueManager('morph6', model, findValue(6), 0.01)
+  useShaderValueManager('morph7', model, findValue(7), 0.01)
+  useShaderValueManager('morph8', model, findValue(8), 0.01)
+  useShaderValueManager('morph9', model, findValue(9), 0.01)
 }
 
 export function useLight(model) {

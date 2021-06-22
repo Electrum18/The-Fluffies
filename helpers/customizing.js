@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import { configs } from '@/libs/configs'
+import { configs } from '@/libs/customization'
 
 const useCustomizing = create((set, get) => ({
   index: null,

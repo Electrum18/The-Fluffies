@@ -39,32 +39,28 @@ const Eyes = {
     },
   },
 
-  'Left eyelids': {
+  Eyelids: {
     folder: {
-      'Upper left': {
-        value: 'eyes_eyelids_left_up',
+      Upper: {
+        value: 'eyes_eyelids_up',
         min: 1,
         max: 100,
       },
 
-      'Lower left': {
-        value: 'eyes_eyelids_left_down',
-        min: 1,
-        max: 100,
-      },
-    },
-  },
-
-  'Right eyelids': {
-    folder: {
-      'Upper right': {
-        value: 'eyes_eyelids_right_up',
+      Lower: {
+        value: 'eyes_eyelids_down',
         min: 1,
         max: 100,
       },
 
-      'Lower right': {
-        value: 'eyes_eyelids_right_down',
+      Angry: {
+        value: 'eyes_eyelids_angry',
+        min: 1,
+        max: 100,
+      },
+
+      Sad: {
+        value: 'eyes_eyelids_sad',
         min: 1,
         max: 100,
       },

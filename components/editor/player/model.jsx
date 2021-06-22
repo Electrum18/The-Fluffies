@@ -10,11 +10,17 @@ import {
   useColorManager,
   usePositionManager,
   useLight,
+  useEmotionManager,
 } from '@/hooks/models'
 
-export function Model({ name: elemName, material, file, texture }) {
-  const [geometries, materials, textures] = useResources(
-    (store) => [store.geometries, store.materials, store.textures],
+export function Model({ name: elemName, material, file, texture, emotions }) {
+  const [geometries, materials, textures, skeleton] = useResources(
+    (store) => [
+      store.geometries,
+      store.materials,
+      store.textures,
+      store.skeleton,
+    ],
     shallow
   )
 
@@ -30,6 +36,7 @@ export function Model({ name: elemName, material, file, texture }) {
   useLight(model)
   useColorManager(model, material)
   usePositionManager(model, material)
+  useEmotionManager(model, elemName, emotions)
 
   useEffect(() => {
     if (material && textureName && textures[textureName]) {
@@ -47,10 +54,11 @@ export function Model({ name: elemName, material, file, texture }) {
         <AppendTexture name={textureName} />
       )}
 
-      <mesh
+      <skinnedMesh
         ref={model}
         geometry={geometries[src] || geometries.Empty}
         material={materials[material]}
+        skeleton={skeleton}
       />
     </>
   )
