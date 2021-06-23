@@ -58,7 +58,7 @@ export default function World() {
       <OrbitControls ref={controls} minDistance={5} maxDistance={8} />
 
       <ambientLight ref={ambientLight} intensity={0.9} />
-      <pointLight ref={pointLight} position={[-5, 3, 5]} intensity={1} />
+      <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
 
       <Suspense fallback={null}>
         <Player position={[0, -3, 0]} />

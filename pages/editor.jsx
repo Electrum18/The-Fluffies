@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Dynamic from 'next/dynamic'
@@ -11,6 +12,10 @@ const Canvas = Dynamic(() => import('../components/editor/world'), {
 
 export default function Editor() {
   const router = useRouter()
+
+  useEffect(() => {
+    document.querySelector('body').style.overflow = 'hidden'
+  }, [])
 
   return (
     <>

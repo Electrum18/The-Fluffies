@@ -17,6 +17,10 @@ html {
   margin: -1rem 0;
 }
 
+.animaton-bg-gradient {
+  background: repeating-linear-gradient(to right, white 67px, white 130px, rgb(204, 204, 204) 130px, rgb(204, 204, 204) 131px);
+}
+
 @layer base {
   main {
     @apply bg-gray-100

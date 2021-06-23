@@ -19,6 +19,8 @@ import useCustomizing from '@/helpers/customizing'
 
 import styles from '@/styles/editor.module.css'
 
+import Animations from './animations'
+
 const elements = [
   'home',
   'divider',
@@ -67,6 +69,8 @@ export default function Menu() {
     } else if (page !== 'Environment' && environment) {
       closeWindow()
       setEnvironment(false)
+    } else if (!environment) {
+      closeWindow()
     }
   }, [closeWindow, environment, page, setConfig])
 
@@ -99,6 +103,8 @@ export default function Menu() {
           )
         )}
       </ul>
+
+      {page === 'Animation' && <Animations />}
     </div>
   )
 }

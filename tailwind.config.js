@@ -28,6 +28,10 @@ module.exports = {
       scale: {
         125: '1.25',
       },
+
+      cursor: {
+        'e-resize': 'e-resize',
+      },
     },
   },
   variants: {
