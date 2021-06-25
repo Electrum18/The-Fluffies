@@ -33,8 +33,13 @@ const useParameters = create((set) => ({
   setBoolean: (key, value) =>
     set((state) => ({ booleans: { ...state.booleans, [key]: value } })),
 
-  setColor: (key, color) =>
-    set((state) => ({ colors: { ...state.colors, [key]: color } })),
+  setColor: (key, { h, s, l, a }) => {
+    const postColor = { h, s: s / 100, l: l / 100 }
+
+    if (a) postColor.a = a
+
+    set((state) => ({ colors: { ...state.colors, [key]: postColor } }))
+  },
 
   setMale: (value) =>
     set((state) => ({

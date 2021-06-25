@@ -123,7 +123,7 @@ export default function About() {
           <h2>{t.team.h2}</h2>
           <p className='text-center'>{t.team.text}</p>
 
-          <div className={cardStyles['card-little']}>
+          <div className={cardStyles.cardLittle}>
             <CardLittle
               src='/img/authors/Electrum18.png'
               alt='Electrum18 avatar'

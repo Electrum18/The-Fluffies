@@ -9,7 +9,7 @@ export default function CardThird({ children, icon, src, alt }) {
     : 'w-full'
 
   return (
-    <div className={cardStyles['card-third']}>
+    <div className={cardStyles.cardThird}>
       <div className={hasImageStyle}>
         <div className='inline-block w-full icon-upper'>{icon}</div>
 

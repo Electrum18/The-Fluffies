@@ -84,7 +84,7 @@ function Home({ patrons }) {
           <h2>{t.score.h2}</h2>
           <p>{t.score.text}</p>
 
-          <div className={cardStyles['card-center-mini']}>
+          <div className={cardStyles.cardCenterMini}>
             <div>
               <p>1000</p>
               <p>{t.score.users}</p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
 
 import {
@@ -15,8 +15,9 @@ import useMenu from '@/helpers/menu'
 import useAnimations from '@/helpers/animations'
 
 import styles from '@/styles/editor.module.css'
+import menuStyles from '@/styles/menu.module.css'
 
-import InputSlider from '../inputSlider'
+import InputSlider from '../../elements/inputSlider'
 
 export default function Animations() {
   const [page, closePages] = useMenu(
@@ -54,40 +55,35 @@ export default function Animations() {
     setTranslate(100 - +(page === 'Animation') * 100 + +folded * 60)
   }, [folded, page])
 
-  const style = { transform: `translateY(${translate}%)` }
-
   return (
     <div
       onMouseUp={() => setDragging(false)}
       onMouseLeave={() => setDragging(false)}
-      style={style}
-      className={styles['bottom-menu']}
+      style={{ transform: `translateY(${translate}%)` }}
+      className={menuStyles.bottomMenu + ' ' + menuStyles.animatingMenu}
     >
       <div>
         <div className='flex-grow' />
-        <div className={'w-10 h-10 mr-2 ' + styles['icon-circle']}>
+        <div className={'w-10 h-10 mr-2 ' + styles.iconCircle}>
           {folded ? (
             <FaChevronUp
-              className={styles['basic-icon']}
+              className={styles.basicIcon}
               onClick={() => setFolded(false)}
             />
           ) : (
             <FaChevronDown
-              className={styles['basic-icon']}
+              className={styles.basicIcon}
               onClick={() => setFolded(true)}
             />
           )}
         </div>
-        <div className={'w-10 h-10 ' + styles['icon-circle']}>
-          <FaTimes
-            className={styles['basic-icon']}
-            onClick={() => closePages()}
-          />
+        <div className={'w-10 h-10 ' + styles.iconCircle}>
+          <FaTimes className={styles.basicIcon} onClick={() => closePages()} />
         </div>
         <div className='w-24' />
       </div>
 
-      <div className={styles['media-player']}>
+      <div className={menuStyles.mediaPlayer}>
         <div>
           <span> 0:00.0 </span>
           <span> left </span>
@@ -96,7 +92,7 @@ export default function Animations() {
         <div>
           <FaStepBackward onClick={() => setPosition(0)} />
 
-          <div className={styles['icon-circle']}>
+          <div className={styles.iconCircle}>
             {play ? (
               <FaPause onClick={() => setPlay(false)} />
             ) : (

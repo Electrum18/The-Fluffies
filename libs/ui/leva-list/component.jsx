@@ -13,7 +13,7 @@ export function List() {
   return (
     <>
       <Row>
-        <div className={styles['list-panel']}>
+        <div className={styles.listPanel}>
           {Object.keys(value.list).map((key, index) => (
             <div
               key={key}

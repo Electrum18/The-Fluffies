@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:import/recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'react-app',
@@ -30,4 +31,14 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
+  settings: {
+    "import/resolver": {
+      "alias" : {
+        map : [
+          ["@","./"]
+        ],
+        extensions: [".js", ".jsx"]
+      }
+    }
+  }
 }

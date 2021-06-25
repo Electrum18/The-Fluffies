@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import styles from '@/styles/editor.module.css'
+import styles from '@/styles/elements.module.css'
 
 export default function InputSlider({
   value,
@@ -39,7 +39,7 @@ export default function InputSlider({
   }, [callback, dragging, pxWidth])
 
   return (
-    <div className={styles['input-slider']}>
+    <div className={styles.inputSlider}>
       <div ref={slider} />
       <div
         onMouseDown={onMouseDown}

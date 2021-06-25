@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
+
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 import shallow from 'zustand/shallow'
 
 import {
@@ -10,7 +13,8 @@ import {
   FaFilm,
   FaImage,
   FaSignOutAlt,
-  FaUser,
+  FaUserCircle,
+  FaUsers,
   FaVideo,
 } from 'react-icons/fa'
 
@@ -20,34 +24,53 @@ import useCustomizing from '@/helpers/customizing'
 import styles from '@/styles/editor.module.css'
 
 import Animations from './animations'
+import TakeImage from './takeImage'
+import TakeAnimation from './takeAnimation'
+import Profile from './profile'
+import Chat from './chat'
+import LevelModal from './level'
+
+function LevelIcon() {
+  return (
+    <div className='w-8 h-8 -m-1 text-lg text-center text-white border-2 border-blue-400 rounded-full'>
+      1
+    </div>
+  )
+}
+
+function LangIcon() {
+  const router = useRouter()
+
+  const locale = router.locale === 'ru' ? 'en' : 'ru'
+
+  return (
+    <Link href={router.route} locale={locale} scroll={false}>
+      <a className='p-2 text-lg text-center text-white -ml-1.5'>{locale}</a>
+    </Link>
+  )
+}
 
 const elements = [
-  'home',
-  'divider',
-  FaImage,
-  FaFilm,
-  'divider',
-  FaCamera,
-  FaVideo,
-  'divider',
-  FaFileImage,
-  FaFileVideo,
-  'divider',
-  'spacer',
-  FaUser,
-  FaCommentDots,
+  { icon: 'home' },
+  { icon: 'divider' },
+  { icon: FaImage, pageName: 'Environment' },
+  { icon: FaFilm, pageName: 'Animation' },
+  { icon: 'divider' },
+  { icon: FaCamera, pageName: 'TakePhoto' },
+  { icon: FaVideo, pageName: 'TakeVideo' },
+  { icon: 'divider' },
+  { icon: FaFileImage, pageName: 'SavePerson' },
+  { icon: FaFileVideo, pageName: 'SaveAnimation' },
+  { icon: 'divider' },
+  { icon: 'spacer' },
+  { icon: LangIcon, pageName: 'Language' },
+  { icon: 'divider' },
+  { icon: LevelIcon, pageName: 'Level' },
+  { icon: FaUserCircle, pageName: 'Profile' },
+  { icon: 'divider' },
+  { icon: FaUsers, pageName: 'Social' },
+  { icon: FaCommentDots, pageName: 'Chat' },
 ]
-
-const indexes = {
-  2: 'Environment',
-  3: 'Animation',
-  5: 'TakePhoto',
-  6: 'TakeVideo',
-  8: 'SavePhoto',
-  9: 'SaveAnimation',
-  12: 'Profile',
-  13: 'Chat',
-}
 
 export default function Menu() {
   const [page, setPage] = useMenu(
@@ -63,10 +86,16 @@ export default function Menu() {
   const [environment, setEnvironment] = useState(false)
 
   useEffect(() => {
-    if (page === 'Environment' && !environment) {
+    if (page === 'SaveAnimation' && !environment) {
+      setConfig(16)
+      setEnvironment(true)
+    } else if (page === 'SavePerson' && !environment) {
+      setConfig(15)
+      setEnvironment(true)
+    } else if (page === 'Environment' && !environment) {
       setConfig(14)
       setEnvironment(true)
-    } else if (page !== 'Environment' && environment) {
+    } else if (page === null && environment) {
       closeWindow()
       setEnvironment(false)
     } else if (!environment) {
@@ -76,10 +105,10 @@ export default function Menu() {
 
   return (
     <div>
-      <ul className={styles['left-bar']}>
-        {elements.map((Component, key) =>
+      <ul className={styles.leftBar}>
+        {elements.map(({ icon: Component, pageName }, key) =>
           Component === 'home' ? (
-            <li key={key} className={styles['menu-icon']}>
+            <li key={key} className='text-white'>
               <Link href='/'>
                 <a>
                   <FaSignOutAlt />
@@ -91,13 +120,9 @@ export default function Menu() {
           ) : Component === 'spacer' ? (
             <div key={key} />
           ) : (
-            <li key={key} onClick={() => setPage(indexes[key])}>
+            <li key={key} onClick={() => setPage(pageName)}>
               <Component
-                className={
-                  page === indexes[key]
-                    ? styles['selected-icon']
-                    : styles['menu-icon']
-                }
+                className={page === pageName ? 'text-primary' : 'text-white'}
               />
             </li>
           )
@@ -105,6 +130,11 @@ export default function Menu() {
       </ul>
 
       {page === 'Animation' && <Animations />}
+      {page === 'TakePhoto' && <TakeImage />}
+      {page === 'TakeVideo' && <TakeAnimation />}
+      {page === 'Level' && <LevelModal />}
+      {page === 'Profile' && <Profile />}
+      {page === 'Chat' && <Chat />}
     </div>
   )
 }

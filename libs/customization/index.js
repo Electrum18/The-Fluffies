@@ -9,6 +9,8 @@ import Neck from './neck'
 import Nose from './nose'
 import Pants from './pants'
 import Piercings from './piercings'
+import SaveAnimation from './saves/animations'
+import SavePerson from './saves/person'
 import Suits from './suits'
 import Tail from './tail'
 import Wings from './wings'
@@ -99,4 +101,6 @@ export const configs = [
   Suits,
   Pants,
   Emotions,
+  SavePerson,
+  SaveAnimation,
 ]

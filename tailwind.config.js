@@ -14,6 +14,8 @@ module.exports = {
         'primary-dark': '#ff6644',
         orange: colors.orange,
         version: '#E91AFF',
+        modal: 'rgba(0, 0, 0, 0.2)',
+        transparent: 'rgba(0, 0, 0, 0)',
       },
 
       maxWidth: {

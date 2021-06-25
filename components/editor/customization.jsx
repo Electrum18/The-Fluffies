@@ -1,4 +1,4 @@
-import { folder, useControls } from 'leva'
+import { folder, useControls, button } from 'leva'
 import shallow from 'zustand/shallow'
 
 import { levaList } from '@/libs/ui/leva-list'
@@ -35,41 +35,44 @@ export default function Customization() {
 
     const { colors, booleans, names, properties } = useParameters.getState()
 
-    function createValues({
-      label,
-      value,
-      color,
-      boolean,
-      list,
-      min,
-      max,
-      step,
-      imgSrc,
-    }) {
+    function createValues({ label, min, max, step, imgSrc, ...value }) {
       let valueObj = {}
 
-      function createValue(value, onChange) {
-        return { label, value, onChange }
+      function createValue(_value, onChange, isColor = false) {
+        const postValue = _value
+
+        if (isColor) {
+          postValue.s *= 100
+          postValue.l *= 100
+        }
+
+        return { label, value: postValue, onChange }
       }
 
-      if (list) {
+      if (value.importList) {
+        valueObj = { label, options: value.importList }
+      } else if (value.button) {
+        valueObj = button(value.button)
+      } else if (value.list) {
         valueObj = levaList({
           value: names[value],
-          list,
+          list: value.list,
           src: imgSrc,
           change: (valueIn, index) => setName(value, valueIn, index),
         })
-      } else if (boolean) {
-        valueObj = createValue(booleans[boolean], (valueIn) =>
-          setBoolean(boolean, valueIn)
+      } else if (value.boolean) {
+        valueObj = createValue(booleans[value.boolean], (valueIn) =>
+          setBoolean(value.boolean, valueIn)
         )
-      } else if (color) {
-        valueObj = createValue(colors[color], (valueIn) => {
-          setColor(color, valueIn)
-        })
-      } else if (value) {
-        valueObj = createValue(properties[value], (valueIn) =>
-          setProperty(value, valueIn)
+      } else if (value.color) {
+        valueObj = createValue(
+          colors[value.color],
+          (valueIn) => setColor(value.color, valueIn),
+          true
+        )
+      } else if (value.value) {
+        valueObj = createValue(properties[value.value], (valueIn) =>
+          setProperty(value.value, valueIn)
         )
       }
 
@@ -99,14 +102,14 @@ export default function Customization() {
 
   return (
     <aside>
-      <ul className={styles['right-bar']}>
+      <ul className={styles.rightBar}>
         <li onClick={() => setMale(!params.male)}>
           {params.male ? <Male /> : <Female />}
         </li>
 
         {Sections.map((Component, key) => (
           <li
-            className={index === key ? styles['selected'] : undefined}
+            className={index === key ? styles.selected : undefined}
             key={key}
             onClick={() => setConfig(key)}
           >

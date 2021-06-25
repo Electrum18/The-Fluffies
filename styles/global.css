@@ -1,6 +1,7 @@
 /* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+
 /* purgecss end ignore */
 
 @tailwind utilities;
@@ -18,19 +19,27 @@ html {
 }
 
 .animaton-bg-gradient {
-  background: repeating-linear-gradient(to right, white 67px, white 130px, rgb(204, 204, 204) 130px, rgb(204, 204, 204) 131px);
+  background: repeating-linear-gradient(
+    to right,
+    white 67px,
+    white 130px,
+    rgb(204, 204, 204) 130px,
+    rgb(204, 204, 204) 131px
+  );
 }
 
 @layer base {
   main {
-    @apply bg-gray-100
+    @apply bg-gray-100;
   }
 
   h1 {
     @apply my-3 mb-5 text-3xl font-bold text-center md:text-5xl;
   }
 
-  h1, h2, p {
+  h1,
+  h2,
+  p {
     @apply text-gray-600;
   }
 
@@ -83,7 +92,8 @@ html {
   .section-cta {
     @apply max-w-full py-12 rounded-none section-center brand-gradient;
 
-    & h2, & p {
+    & h2,
+    & p {
       @apply text-white;
     }
 
