@@ -1,0 +1,35 @@
+.avatar {
+  @apply flex flex-col;
+
+  & div {
+    @apply mx-auto;
+  }
+
+  & img {
+    @apply rounded-2xl;
+  }
+
+  & div:last-child {
+    @apply mb-2 text-xl font-bold text-center text-white;
+  }
+}
+
+.properties {
+  @apply flex flex-row pb-4 mt-2 space-x-4;
+
+  & > div {
+    @apply flex flex-col w-32 bg-gray-700 border-2 border-gray-500 rounded-lg;
+
+    & > p {
+      @apply mb-0 text-sm font-bold text-center text-white;
+    }
+
+    & > div:first-of-type {
+      @apply w-16 h-16 mx-auto mt-2 text-center bg-gray-800 border-2 rounded-full;
+    }
+
+    & > div:nth-of-type(2) {
+      @apply my-1 text-sm font-bold text-center;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.content {
+  @apply mx-12 text-white w-36 grid grid-cols-2 gap-4;
+
+  & svg {
+    @apply w-16 h-16 p-2 bg-gray-700 border-2 rounded-xl transition-colors duration-300;
+  }
+
+  & a:nth-of-type(3) svg {
+    @apply p-3;
+  }
+}

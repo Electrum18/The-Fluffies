@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Dynamic from 'next/dynamic'
@@ -6,7 +7,9 @@ import Dynamic from 'next/dynamic'
 import Customization from '@/components/editor/customization'
 import Menu from '@/components/editor/menu'
 
-const Canvas = Dynamic(() => import('../components/editor/world'), {
+import Pages from '@/components/editor/pages'
+
+const Canvas = Dynamic(() => import('@/components/editor/world'), {
   ssr: false,
 })
 
@@ -28,6 +31,7 @@ export default function Editor() {
         <Canvas />
         <Customization />
         <Menu />
+        <Pages />
       </main>
     </>
   )

@@ -6,6 +6,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
 
 import useResources from '@/helpers/resources'
+import useParameters from '@/helpers/parameters'
 
 import Player from './player'
 
@@ -28,6 +29,8 @@ function Camera({ controls }) {
 }
 
 export default function World() {
+  const background = useRef()
+
   const controls = useRef()
 
   const pointLight = useRef()
@@ -46,6 +49,24 @@ export default function World() {
     setAmbientLight(ambientLight)
   }, [setAmbientLight])
 
+  useEffect(() => {
+    const { h, s, l } = useParameters.getState().colors.background_basic
+
+    setTimeout(() => {
+      background.current.setHSL(h / 360, s, l)
+      console.log(pointLight.current.intensity, ambientLight.current.intensity)
+    }, 5e3)
+
+    useParameters.subscribe(
+      ({ h, s, l }) => {
+        background.current.setHSL(h / 360, s, l)
+
+        pointLight.current.intensity = l
+      },
+      (state) => state.colors.background_basic
+    )
+  }, [])
+
   return (
     <Canvas
       mode='concurrent'
@@ -53,7 +74,7 @@ export default function World() {
       style={{ position: 'absolute', top: 0 }}
       camera={{ fov: 60, near: 0.1, far: 1000, position: [-5, 0, 5] }}
     >
-      <color attach='background' args={['white']} />
+      <color ref={background} attach='background' args={['white']} />
 
       <OrbitControls ref={controls} minDistance={5} maxDistance={8} />
 

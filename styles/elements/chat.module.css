@@ -1,0 +1,70 @@
+.buttons {
+  @apply flex flex-row mb-2 space-x-2;
+
+  & button,
+  a {
+    @apply text-center text-white rounded-lg;
+  }
+
+  & button {
+    @apply flex-grow py-1 font-bold bg-gray-700;
+  }
+
+  & a {
+    @apply w-8 h-8;
+  }
+
+  & svg {
+    @apply w-6 h-6 m-1;
+  }
+
+  & a:last-child svg {
+    @apply w-5 h-5 m-1.5;
+  }
+}
+
+.partBordered {
+  @apply bg-gray-700 border-2 border-gray-500 rounded-lg;
+}
+
+.input {
+  & > div {
+    @apply flex flex-row;
+
+    & input {
+      @apply w-full p-2 mt-4 text-white partBordered;
+    }
+
+    & svg {
+      @apply w-5 h-5 -ml-8 mt-7 text-primary;
+    }
+  }
+
+  & p {
+    @apply mb-0 text-sm text-right text-white;
+  }
+}
+
+.messages {
+  @apply flex flex-col-reverse h-48 overflow-y-scroll lg:h-96 w-96 partBordered;
+
+  & > div {
+    @apply flex flex-row m-1 bg-gray-800 rounded-lg;
+
+    & > div:first-child {
+      @apply flex-shrink-0 m-1 mb-0;
+    }
+
+    & > div:last-child {
+      @apply flex flex-col p-1;
+
+      & > span:first-child {
+        @apply text-sm text-gray-300;
+      }
+
+      & > span:last-child {
+        @apply text-base text-white break-all;
+      }
+    }
+  }
+}

@@ -1,42 +1,51 @@
 import Image from 'next/image'
+import { FaPatreon } from 'react-icons/fa'
 
 import ListButtons from '@/components/elements/listButtons'
 import ModalMini from '@/components/elements/modalMini'
 
+import useMenu from '@/helpers/menu'
+
+import styles from '@/styles/elements/profile.module.css'
+
 export default function Profile() {
+  const setPage = useMenu((state) => state.setPage)
+
   return (
     <ModalMini title='Profile' page='Profile'>
-      <div className='flex flex-col pb-4'>
-        <div className='mx-auto overflow-hidden rounded-2xl'>
+      <div className={styles.avatar}>
+        <div>
           <Image src='/8344290.png' width='96' height='96' />
         </div>
 
-        <div className='mx-auto mb-0 text-xl text-center text-white'>
-          Electrum18
+        <div>Electrum18</div>
+      </div>
+
+      <div className={styles.properties}>
+        <div>
+          <p>Patron level</p>
+
+          <div className='p-1 text-lg text-orange-500 border-orange-500'>
+            <FaPatreon className='w-8 h-8 mx-3 my-2.5' />
+          </div>
+
+          <div className='text-orange-500'>Big supporter</div>
         </div>
 
-        <div className='flex flex-row items-center mx-auto mt-2 space-x-4'>
-          <div className='flex flex-col'>
-            <p className='px-2 my-0 text-sm text-center border-2 rounded-lg border-primary text-primary'>
-              Big supporter
-            </p>
+        <div>
+          <p>Profile level</p>
 
-            <span className='text-sm text-center text-gray-400'>patronage</span>
-          </div>
-
-          <div className='flex flex-col'>
-            <div className='w-10 h-10 p-1 text-lg text-center text-white border-2 border-blue-400 rounded-full'>
-              1
-            </div>
-
-            <span className='text-sm text-center text-gray-400'>level</span>
-          </div>
+          <div className='py-4 text-xl text-white border-blue-500'>100</div>
         </div>
       </div>
 
       <ListButtons
         list={[
-          { text: 'Accounts', style: 'bg-gray-700' },
+          {
+            text: 'Accounts',
+            style: 'bg-gray-700',
+            onClick: () => setPage('Accounts'),
+          },
           { text: 'Logout', style: 'bg-red-500' },
         ]}
       />

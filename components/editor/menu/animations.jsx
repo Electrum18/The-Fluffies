@@ -14,10 +14,10 @@ import {
 import useMenu from '@/helpers/menu'
 import useAnimations from '@/helpers/animations'
 
+import InputSlider from '@/components/elements/inputSlider'
+
 import styles from '@/styles/editor.module.css'
 import menuStyles from '@/styles/menu.module.css'
-
-import InputSlider from '../../elements/inputSlider'
 
 export default function Animations() {
   const [page, closePages] = useMenu(
