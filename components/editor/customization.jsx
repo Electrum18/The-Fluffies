@@ -55,10 +55,10 @@ export default function Customization() {
         valueObj = button(value.button)
       } else if (value.list) {
         valueObj = levaList({
-          value: names[value],
+          value: names[value.value],
           list: value.list,
           src: imgSrc,
-          change: (valueIn, index) => setName(value, valueIn, index),
+          change: (valueIn, index) => setName(value.value, valueIn, index),
         })
       } else if (value.boolean) {
         valueObj = createValue(booleans[value.boolean], (valueIn) =>

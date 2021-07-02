@@ -1,4 +1,7 @@
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+
+import io from 'socket.io-client'
 
 import { FaPaperPlane, FaPatreon, FaTwitter, FaVk } from 'react-icons/fa'
 
@@ -6,11 +9,37 @@ import OuterLink from '@/components/outerLink'
 import ModalMini from '@/components/elements/modalMini'
 
 import useMenu from '@/helpers/menu'
+import useUser from '@/helpers/user'
+
+import Login from './additional/login'
 
 import styles from '@/styles/elements/chat.module.css'
 
 export default function Chat() {
   const setPage = useMenu((state) => state.setPage)
+  const user = useUser((state) => state.user)
+
+  const [online, setOnline] = useState(false)
+  const [messages2, setMessages] = useState([])
+  const [usersCount, setUsersCount] = useState(0)
+
+  useEffect(() => {
+    const { host, hostname } = window.location
+
+    const socket = io(hostname === 'localhost' ? hostname + ':3001' : host)
+
+    socket.on('disconnect', () => setOnline(false))
+    socket.on('is authorized', (val) => setOnline(val))
+
+    socket.on('get messages', (msg) => setMessages(msg))
+    socket.on('get message', (msg) =>
+      setMessages((messages) => [...messages, msg])
+    )
+
+    socket.on('get users count', (users) => setUsersCount(users))
+
+    return () => socket.disconnect()
+  }, [])
 
   const messages = [
     { avatar: '/8344290.png', nickname: 'Electrum18', text: 'Hello', level: 0 },
@@ -99,6 +128,15 @@ export default function Chat() {
 
         <p> 0/100 </p>
       </div>
+
+      {!user.nickname && (
+        <div className='absolute top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl'>
+          <div>
+            <p className='text-center text-white'> Login to chat </p>
+            <Login className='p-4 bg-gray-700 border-2 border-gray-600 rounded-lg' />
+          </div>
+        </div>
+      )}
     </ModalMini>
   )
 }

@@ -16,7 +16,7 @@ function Camera({ controls }) {
   useFrame(() => {
     const { target } = controls.current
 
-    const distance = 4 / target.distanceTo(origin)
+    const distance = 9 / target.distanceTo(origin)
 
     if (controls.current.enableDamping !== distance >= 1) {
       controls.current.enableDamping = distance >= 1
@@ -50,12 +50,9 @@ export default function World() {
   }, [setAmbientLight])
 
   useEffect(() => {
-    const { h, s, l } = useParameters.getState().colors.background_basic
+    //const { h, s, l } = useParameters.getState().colors.background_basic
 
-    setTimeout(() => {
-      background.current.setHSL(h / 360, s, l)
-      console.log(pointLight.current.intensity, ambientLight.current.intensity)
-    }, 5e3)
+    //background.current.setHSL(h / 360, s, l)
 
     useParameters.subscribe(
       ({ h, s, l }) => {
@@ -72,13 +69,13 @@ export default function World() {
       mode='concurrent'
       flat={true}
       style={{ position: 'absolute', top: 0 }}
-      camera={{ fov: 60, near: 0.1, far: 1000, position: [-5, 0, 5] }}
+      camera={{ fov: 45, near: 0.1, far: 1000, position: [-10, 0, 10] }}
     >
       <color ref={background} attach='background' args={['white']} />
 
-      <OrbitControls ref={controls} minDistance={5} maxDistance={8} />
+      <OrbitControls ref={controls} minDistance={7} maxDistance={10} />
 
-      <ambientLight ref={ambientLight} intensity={0.9} />
+      <ambientLight ref={ambientLight} intensity={0.8} />
       <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
 
       <Suspense fallback={null}>

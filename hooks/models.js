@@ -56,6 +56,10 @@ export function useColorManager(model, materialName) {
   useShaderValueManager('fouthEnabled', model, color4Value)
 }
 
+export function useWorldColor(model) {
+  useShaderColorManager('colorEnv', '', model, 'background_basic')
+}
+
 export function useEmotionManager(model, name, morphsConfig) {
   const morphsList = useAnimations((state) => state.morphsList)
 

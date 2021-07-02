@@ -3,6 +3,8 @@ uniform vec3 color2;
 uniform vec3 color3;
 uniform vec3 color4;
 
+uniform vec3 colorEnv;
+
 uniform float alpha;
 uniform float alpha2;
 uniform float alpha3;
@@ -40,9 +42,9 @@ void main() {
   float light = clamp(dot(vNormal, uDirLightPos), 0.0, 1.0);
 
   if (length(light) == 1.00) {
-    gl_FragColor.rgb *= uDirLightPower;
+    gl_FragColor.rgb *= vec3(0.5) + colorEnv * uDirLightPower * 0.5;
   } else {
-    gl_FragColor.rgb *= uAmbientLightPower;
+    gl_FragColor.rgb *= vec3(0.4) + colorEnv * uAmbientLightPower * 0.6;
   }
 
   gl_FragColor.rgb = pow(gl_FragColor.rgb, vec3(0.45));

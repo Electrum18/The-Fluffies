@@ -6,8 +6,9 @@ import Dynamic from 'next/dynamic'
 
 import Customization from '@/components/editor/customization'
 import Menu from '@/components/editor/menu'
-
 import Pages from '@/components/editor/pages'
+
+import useUserFetch from '@/hooks/user'
 
 const Canvas = Dynamic(() => import('@/components/editor/world'), {
   ssr: false,
@@ -19,6 +20,8 @@ export default function Editor() {
   useEffect(() => {
     document.querySelector('body').style.overflow = 'hidden'
   }, [])
+
+  useUserFetch()
 
   return (
     <>

@@ -43,8 +43,9 @@
 .buttonsList {
   @apply flex flex-row space-x-4;
 
-  & button {
-    @apply font-bold w-32 px-4 py-2 text-white text-center rounded-lg;
+  & button,
+  & a {
+    @apply font-bold w-32 px-4 py-2 text-white text-center rounded-lg transition-colors;
   }
 }
 

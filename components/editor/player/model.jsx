@@ -11,6 +11,7 @@ import {
   usePositionManager,
   useLight,
   useEmotionManager,
+  useWorldColor,
 } from '@/hooks/models'
 
 export function Model({ name: elemName, material, file, texture, emotions }) {
@@ -34,6 +35,8 @@ export function Model({ name: elemName, material, file, texture, emotions }) {
   )
 
   useLight(model)
+  useWorldColor(model)
+
   useColorManager(model, material)
   usePositionManager(model, material)
   useEmotionManager(model, elemName, emotions)

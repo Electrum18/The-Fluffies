@@ -1,5 +1,9 @@
 import Link from 'next/link'
+import Image from 'next/image'
+
 import { useRouter } from 'next/router'
+
+import useUser from '@/helpers/user'
 
 import {
   FaCamera,
@@ -32,10 +36,31 @@ function EmotionIcon({ className }) {
 }
 
 function LevelIcon() {
+  const user = useUser((state) => state.user)
+
   return (
     <div className='w-8 h-8 -m-1 text-lg text-center text-white border-2 border-blue-400 rounded-full'>
-      1
+      {user.level || '?'}
     </div>
+  )
+}
+
+function UserIcon() {
+  const user = useUser((state) => state.user)
+
+  return user.avatar && user.nickname ? (
+    <div className='w-6 h-6'>
+      <Image
+        className='rounded'
+        loader={({ src }) => src}
+        src={user.avatar}
+        alt={user.nickname}
+        width='32'
+        height='32'
+      />
+    </div>
+  ) : (
+    <FaUserCircle className='text-white' />
   )
 }
 
@@ -78,7 +103,7 @@ const elementsList = [
   { icon: LangIcon, pageName: 'Language' },
   { icon: 'divider' },
   { icon: LevelIcon, pageName: 'Level' },
-  { icon: FaUserCircle, pageName: 'Profile' },
+  { icon: UserIcon, pageName: 'Profile' },
   { icon: 'divider' },
   { icon: FaUsers, pageName: 'Social' },
   { icon: FaCommentDots, pageName: 'Chat' },

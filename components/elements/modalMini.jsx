@@ -30,8 +30,8 @@ export default function ModalMini({ title, page: pageName, children }) {
         className='p-4 pt-0 mx-auto bg-gray-800 rounded-2xl transition-transform'
       >
         <div className='flex flex-row justify-between py-2 -mr-3'>
-          <p className='mx-0 text-white'>{title}</p>
-          <div className={'w-10 h-10'}>
+          <p className='z-20 mx-0 text-white'>{title}</p>
+          <div className='z-20 w-10 h-10'>
             <FaTimes
               className={styles.basicIcon}
               onClick={() => closePages()}

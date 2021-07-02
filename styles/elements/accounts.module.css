@@ -1,11 +1,55 @@
-.content {
-  @apply mx-12 text-white w-36 grid grid-cols-2 gap-4;
+.socialProfile {
+  @apply flex flex-col items-center;
 
-  & svg {
-    @apply w-16 h-16 p-2 bg-gray-700 border-2 rounded-xl transition-colors duration-300;
+  & img {
+    @apply w-16 h-16 rounded-xl;
   }
 
-  & a:nth-of-type(3) svg {
+  & a {
+    @apply w-16;
+
+    & > svg {
+      @apply w-16 h-16 p-2 bg-gray-800 border-2 rounded-xl transition-colors duration-300;
+    }
+  }
+
+  & p {
+    @apply text-center;
+  }
+
+  & > div {
+    @apply flex flex-row p-1 justify-around;
+
+    & p {
+      @apply mt-0.5 mb-0 text-sm;
+    }
+
+    & svg {
+      @apply m-1 text-red-500 hover:text-red-400 transition-colors cursor-pointer;
+    }
+  }
+
+  & > p:first-child {
+    @apply mt-0 text-white;
+  }
+}
+
+.avatarSelected {
+  @apply border-2 border-primary rounded-xl;
+}
+
+.avatarHovered {
+  @apply cursor-pointer border-2 border-gray-700 hover:border-gray-500 transition-colors rounded-xl;
+}
+
+.content {
+  @apply m-2 text-white w-72 grid grid-cols-2 gap-4 bg-gray-700 p-2 rounded-xl;
+
+  & div:nth-of-type(3) a > svg {
     @apply p-3;
   }
+}
+
+.text {
+  @apply mx-2 my-4 text-sm w-72 text-center text-white;
 }

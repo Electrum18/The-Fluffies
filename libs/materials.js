@@ -26,6 +26,8 @@ const fragmentUniforms = {
   color3: { value: new Color(0x444444) },
   color4: { value: new Color(0x222222) },
 
+  colorEnv: { value: new Color(0xffffff) },
+
   alpha: { value: 1 },
   alpha2: { value: 1 },
   alpha3: { value: 1 },

@@ -15,13 +15,13 @@ export function useShaderColorManager(
 
       material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
-      if (a) material.uniforms[alphaTarget].value = a
+      if (a && alphaTarget) material.uniforms[alphaTarget].value = a
 
       useParameters.subscribe(
         ({ h, s, l, a }) => {
           material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
-          if (a) material.uniforms[alphaTarget].value = a
+          if (a && alphaTarget) material.uniforms[alphaTarget].value = a
         },
         (state) => state.colors[colorName]
       )
