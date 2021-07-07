@@ -2,8 +2,10 @@ import useParameters from '@/helpers/parameters'
 
 import { Model } from '../model'
 
+const selector = (state) => state.saves[state.slot].booleans
+
 export default function Accessories() {
-  const params = useParameters((state) => state.booleans)
+  const params = useParameters(selector)
 
   return (
     <>

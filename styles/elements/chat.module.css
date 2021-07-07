@@ -1,3 +1,25 @@
+.partBordered {
+  @apply bg-gray-700 border-2 border-gray-500 rounded-lg;
+}
+
+.overlay {
+  @apply absolute top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl;
+
+  & div {
+    & > svg {
+      @apply mx-auto w-12 h-12 m-2 text-white;
+    }
+
+    & > p {
+      @apply text-center text-white;
+    }
+
+    & > div {
+      @apply p-4 bg-gray-700 border-2 border-gray-600 rounded-lg;
+    }
+  }
+}
+
 .buttons {
   @apply flex flex-row mb-2 space-x-2;
 
@@ -23,47 +45,59 @@
   }
 }
 
-.partBordered {
-  @apply bg-gray-700 border-2 border-gray-500 rounded-lg;
-}
-
 .input {
-  & > div {
+  & div {
     @apply flex flex-row;
+  }
 
+  & svg,
+  & p,
+  & input {
+    @apply text-white;
+  }
+
+  & > div:first-of-type {
     & input {
-      @apply w-full p-2 mt-4 text-white partBordered;
+      @apply w-full p-2 mt-4 partBordered;
     }
 
     & svg {
-      @apply w-5 h-5 -ml-8 mt-7 text-primary;
+      @apply w-9 h-9 -ml-10 mt-5 p-2 bg-gray-800 hover:bg-gray-600 hover:text-primary rounded-lg transition-colors cursor-pointer;
     }
   }
 
-  & p {
-    @apply mb-0 text-sm text-right text-white;
+  & > div:last-of-type {
+    @apply justify-between;
+
+    & p {
+      @apply mb-0 text-sm;
+    }
+
+    & svg {
+      @apply w-5 h-5 mt-2 p-1;
+    }
   }
 }
 
 .messages {
   @apply flex flex-col-reverse h-48 overflow-y-scroll lg:h-96 w-96 partBordered;
 
-  & > div {
+  & > li {
     @apply flex flex-row m-1 bg-gray-800 rounded-lg;
 
     & > div:first-child {
-      @apply flex-shrink-0 m-1 mb-0;
+      @apply flex-shrink-0 w-10 h-10;
     }
 
     & > div:last-child {
-      @apply flex flex-col p-1;
+      @apply flex flex-col px-2 pt-1 pb-0;
 
       & > span:first-child {
-        @apply text-sm text-gray-300;
+        @apply text-xs align-middle text-gray-300;
       }
 
       & > span:last-child {
-        @apply text-base text-white break-all;
+        @apply text-sm text-white break-all;
       }
     }
   }

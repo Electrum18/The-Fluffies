@@ -124,6 +124,36 @@ function Nickname({ nickname }) {
   )
 }
 
+function Benefits({ user }) {
+  return (
+    <div className={styles.properties}>
+      <div>
+        <div
+          className={'p-1 text-lg ' + patronColor[user.patron || 'None'].icon}
+        >
+          <FaPatreon className='w-8 h-8 mx-3 my-2.5' />
+        </div>
+
+        <p> Patronage </p>
+
+        <div className={patronColor[user.patron || 'None'].text}>
+          {user.patron ? user.patron : 'No patronage :('}
+        </div>
+      </div>
+
+      <div>
+        <div className='py-3 text-2xl text-white bg-blue-700 border-blue-500'>
+          {user.level}
+        </div>
+
+        <p> Profile level </p>
+
+        <div className='text-gray-400'> Level up every day! </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Profile() {
   const setPage = useMenu((state) => state.setPage)
   const user = useUser((state) => state.user)
@@ -144,31 +174,7 @@ export default function Profile() {
         <Nickname nickname={user.nickname} />
       </div>
 
-      <div className={styles.properties}>
-        <div>
-          <div
-            className={'p-1 text-lg ' + patronColor[user.patron || 'None'].icon}
-          >
-            <FaPatreon className='w-8 h-8 mx-3 my-2.5' />
-          </div>
-
-          <p>Patronage</p>
-
-          <div className={patronColor[user.patron || 'None'].text}>
-            {user.patron ? user.patron : 'No patronage :('}
-          </div>
-        </div>
-
-        <div>
-          <div className='py-3 text-2xl text-white bg-blue-700 border-blue-500'>
-            {user.level}
-          </div>
-
-          <p>Profile level</p>
-
-          <div className='text-gray-400'>Level up every day!</div>
-        </div>
-      </div>
+      <Benefits user={user} />
 
       <ListButtons
         list={[

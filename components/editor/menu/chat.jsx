@@ -3,10 +3,19 @@ import Image from 'next/image'
 
 import io from 'socket.io-client'
 
-import { FaPaperPlane, FaPatreon, FaTwitter, FaVk } from 'react-icons/fa'
+import {
+  FaCommentSlash,
+  FaPaperPlane,
+  FaPatreon,
+  FaTwitter,
+  FaUser,
+  FaVk,
+} from 'react-icons/fa'
 
 import OuterLink from '@/components/outerLink'
+
 import ModalMini from '@/components/elements/modalMini'
+import OverlayWarning from '@/components/elements/overlayWarn'
 
 import useMenu from '@/helpers/menu'
 import useUser from '@/helpers/user'
@@ -15,128 +24,156 @@ import Login from './additional/login'
 
 import styles from '@/styles/elements/chat.module.css'
 
-export default function Chat() {
+function Buttons() {
   const setPage = useMenu((state) => state.setPage)
+
+  return (
+    <div className={styles.buttons}>
+      <button
+        className=' hover:bg-gray-600 transition-colors'
+        onClick={() => setPage('Notice')}
+      >
+        Notice
+      </button>
+
+      <button
+        className=' hover:bg-gray-600 transition-colors'
+        onClick={() => setPage('Rules')}
+      >
+        Rules
+      </button>
+
+      <OuterLink
+        className='bg-blue-500 hover:bg-blue-400 transition-colors'
+        name='VKontakte'
+        href='https://vk.com/thefluffies'
+      >
+        <FaVk />
+      </OuterLink>
+
+      <OuterLink
+        className='bg-blue-400 hover:bg-blue-300 transition-colors'
+        name='Twitter'
+        href='https://twitter.com/TFluffies'
+      >
+        <FaTwitter />
+      </OuterLink>
+
+      <OuterLink
+        className='bg-red-400 hover:bg-red-300 transition-colors'
+        name='Patreon'
+        href='https://www.patreon.com/the_fluffies'
+      >
+        <FaPatreon />
+      </OuterLink>
+    </div>
+  )
+}
+
+export default function Chat() {
   const user = useUser((state) => state.user)
 
-  const [online, setOnline] = useState(false)
-  const [messages2, setMessages] = useState([])
+  const [socket, setSocket] = useState(null)
+  const [message, setMessage] = useState('')
+
+  const [messages, setMessages] = useState([])
   const [usersCount, setUsersCount] = useState(0)
 
   useEffect(() => {
     const { host, hostname } = window.location
 
-    const socket = io(hostname === 'localhost' ? hostname + ':3001' : host)
+    setSocket(io(hostname === 'localhost' ? hostname + ':3001' : host))
+  }, [])
 
-    socket.on('disconnect', () => setOnline(false))
-    socket.on('is authorized', (val) => setOnline(val))
+  useEffect(() => {
+    if (!socket) return
 
-    socket.on('get messages', (msg) => setMessages(msg))
+    socket.on('get messages', (msg) => setMessages(msg.reverse()))
     socket.on('get message', (msg) =>
-      setMessages((messages) => [...messages, msg])
+      setMessages((_messages) => [msg, ..._messages])
     )
 
     socket.on('get users count', (users) => setUsersCount(users))
 
-    return () => socket.disconnect()
-  }, [])
+    return () => {
+      socket.disconnect()
 
-  const messages = [
-    { avatar: '/8344290.png', nickname: 'Electrum18', text: 'Hello', level: 0 },
-    {
-      avatar: '/8344290.png',
-      nickname: 'John Doe',
-      text: 'hdrayfdbtsdtsdrygdsarrtsghdrayfdbtsdtsdrygdsarrtsghdrayfdbtsdtsdrygdsarrtsghdrayfdbtsdtsdrygdsarrtsg',
-      level: 10,
-    },
-    {
-      avatar: '/8344290.png',
-      nickname: '12312351213125211',
-      text: '1111',
-      level: 100,
-    },
-    {
-      avatar: '/8344290.png',
-      nickname: '12312351213125211',
-      text: '1111',
-      level: 100,
-    },
-    {
-      avatar: '/8344290.png',
-      nickname: '12312351213125211',
-      text: '1111',
-      level: 100,
-    },
-  ]
+      setSocket(null)
+    }
+  }, [socket])
+
+  function sendMessage() {
+    if (socket && user.nickname && message.length > 0) {
+      socket.emit('send message', message.substring(0, 100))
+
+      setMessage('')
+    }
+  }
 
   return (
     <ModalMini title='Chat' page='Chat'>
-      <div className={styles.buttons}>
-        <button onClick={() => setPage('Notice')}> Notice </button>
-        <button onClick={() => setPage('Rules')}> Rules </button>
+      <Buttons />
 
-        <OuterLink
-          className='bg-blue-500'
-          name='VKontakte'
-          href='https://vk.com/thefluffies'
-        >
-          <FaVk />
-        </OuterLink>
-
-        <OuterLink
-          className='bg-blue-400'
-          name='Twitter'
-          href='https://twitter.com/TFluffies'
-        >
-          <FaTwitter />
-        </OuterLink>
-
-        <OuterLink
-          className='bg-red-400'
-          name='Patreon'
-          href='https://www.patreon.com/the_fluffies'
-        >
-          <FaPatreon />
-        </OuterLink>
-      </div>
-
-      <div className={styles.messages}>
-        {messages.map(({ avatar, nickname, text }, index) => (
-          <div key={index}>
+      <ul className={styles.messages}>
+        {messages.map(({ avatar, name, text, level }, index) => (
+          <li key={index}>
             <div>
               <Image
+                loader={({ src }) => src}
                 src={avatar}
+                alt={name + ' avatar'}
                 className='rounded-lg'
-                width='48'
-                height='48'
+                width='40'
+                height='40'
               />
             </div>
 
             <div>
-              <span>{nickname}</span>
+              <span>
+                {name + ' • '}
+                <span className='font-bold text-blue-400'>{level}</span>
+              </span>
               <span>{text}</span>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className={styles.input}>
         <div>
-          <input placeholder='Enter message...' />
-          <FaPaperPlane />
+          <input
+            value={message}
+            placeholder='Enter message...'
+            onChange={({ target }) =>
+              setMessage(target.value.substring(0, 100))
+            }
+            onKeyUp={({ key }) =>
+              key === 'Enter' && message.length > 0 && sendMessage()
+            }
+          />
+
+          <FaPaperPlane onClick={() => message.length > 0 && sendMessage()} />
         </div>
 
-        <p> 0/100 </p>
+        <div>
+          <div>
+            <FaUser />
+            <p>{' • ' + usersCount}</p>
+          </div>
+
+          <p>{message.length}/100</p>
+        </div>
       </div>
 
-      {!user.nickname && (
-        <div className='absolute top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl'>
-          <div>
-            <p className='text-center text-white'> Login to chat </p>
-            <Login className='p-4 bg-gray-700 border-2 border-gray-600 rounded-lg' />
-          </div>
-        </div>
-      )}
+      <OverlayWarning condition={socket && socket.connected && !user.nickname}>
+        <p> Login to chat </p>
+        <Login />
+      </OverlayWarning>
+
+      <OverlayWarning condition={socket && !socket.connected}>
+        <p> Failed connection to chat </p>
+        <FaCommentSlash />
+      </OverlayWarning>
     </ModalMini>
   )
 }

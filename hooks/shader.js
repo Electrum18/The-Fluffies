@@ -11,7 +11,9 @@ export function useShaderColorManager(
   useEffect(() => {
     if (colorName) {
       const { material } = model.current
-      const { h, s, l, a } = useParameters.getState().colors[colorName]
+
+      const { saves, slot } = useParameters.getState()
+      const { h, s, l, a } = saves[slot].colors[colorName]
 
       material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
@@ -23,7 +25,7 @@ export function useShaderColorManager(
 
           if (a && alphaTarget) material.uniforms[alphaTarget].value = a
         },
-        (state) => state.colors[colorName]
+        (state) => state.saves[state.slot].colors[colorName]
       )
     }
   }, [alphaTarget, colorName, colorTarget, model])
@@ -38,14 +40,17 @@ export function useShaderValueManager(
   useEffect(() => {
     if (valueIn) {
       const { material } = model.current
-      const state = useParameters.getState()
+
+      const { saves, slot, properties } = useParameters.getState()
+      const save = saves[slot]
 
       material.uniforms[valueName].value =
-        (+state.booleans[valueIn] || state.properties[valueIn]) * treshold
+        (+save.booleans[valueIn] || properties[valueIn]) * treshold
 
       useParameters.subscribe(
         (value) => (material.uniforms[valueName].value = +value * treshold),
-        (state) => state.booleans[valueIn] || state.properties[valueIn]
+        (state) =>
+          state.saves[state.slot].booleans[valueIn] || properties[valueIn]
       )
     }
   }, [model, treshold, valueIn, valueName])

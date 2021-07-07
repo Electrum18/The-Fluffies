@@ -12,7 +12,7 @@
 
 .dropdownList {
   & select {
-    @apply w-32 px-2 py-1 m-2 text-lg text-white bg-gray-800 rounded-lg appearance-none;
+    @apply w-64 px-2 py-1 m-2 text-lg text-white bg-gray-800 rounded-lg appearance-none;
   }
 
   & div {
@@ -58,5 +58,33 @@
 
   & > div:last-child {
     @apply absolute w-6 h-6 rounded-md bg-primary cursor-e-resize;
+  }
+}
+
+.modalMini {
+  @apply absolute flex items-center min-w-full min-h-full md:min-w-0 md:min-h-0 md:bottom-0 md:m-4;
+
+  & > div:first-child {
+    @apply absolute min-w-full min-h-full bg-modal md:bg-transparent;
+  }
+
+  & > div:last-child {
+    @apply p-4 pt-0 mx-auto bg-gray-800 rounded-2xl transition-transform;
+
+    & > div:first-child {
+      @apply flex flex-row justify-between py-2 -mr-3;
+
+      & p {
+        @apply z-20 mx-0 text-white;
+      }
+
+      & div {
+        @apply z-20 w-10 h-10;
+      }
+
+      & svg {
+        @apply hover:bg-gray-500 cursor-pointer transition-colors rounded-xl;
+      }
+    }
   }
 }

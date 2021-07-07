@@ -7,6 +7,8 @@ import useAnimations from '@/helpers/animations'
 
 import { nameIndexGroups } from '@/libs/nameIndexes'
 
+const selector = (state) => state.saves[state.slot].nameIndexes
+
 export function AppendGeomtery({
   name,
   src,
@@ -22,7 +24,7 @@ export function AppendGeomtery({
     shallow
   )
 
-  const indexes = useParameters((store) => store.nameIndexes)
+  const indexes = useParameters(selector)
 
   const index = indexes[key]
 

@@ -11,6 +11,17 @@ import { Male, Female } from './inline-icons-pony/Genders'
 
 import styles from '@/styles/editor.module.css'
 
+function createValue({ label, value, onChange, isColor = false }) {
+  const postValue = isColor ? { ...value } : value
+
+  if (isColor) {
+    postValue.s *= 100
+    postValue.l *= 100
+  }
+
+  return { label, value: postValue, onChange }
+}
+
 export default function Customization() {
   const [index, config, setConfig] = useCustomizing(
     (state) => [state.index, state.config, state.setConfig],
@@ -33,47 +44,67 @@ export default function Customization() {
   useControls(() => {
     const values = {}
 
-    const { colors, booleans, names, properties } = useParameters.getState()
+    const { saves, slot, properties } = useParameters.getState()
+    const { colors, booleans, names } = saves[slot]
 
-    function createValues({ label, min, max, step, imgSrc, ...value }) {
-      let valueObj = {}
+    function createValues({ label, min, max, step, imgSrc, ..._value }) {
+      let valueObj
 
-      function createValue(_value, onChange, isColor = false) {
-        const postValue = _value
+      const {
+        importList,
+        button: valueBtn,
+        list,
+        boolean,
+        color,
+        value,
+      } = _value
 
-        if (isColor) {
-          postValue.s *= 100
-          postValue.l *= 100
-        }
+      switch (true) {
+        case !!importList:
+          valueObj = { label, options: importList }
+          break
 
-        return { label, value: postValue, onChange }
-      }
+        case !!valueBtn:
+          valueObj = button(valueBtn)
+          break
 
-      if (value.importList) {
-        valueObj = { label, options: value.importList }
-      } else if (value.button) {
-        valueObj = button(value.button)
-      } else if (value.list) {
-        valueObj = levaList({
-          value: names[value.value],
-          list: value.list,
-          src: imgSrc,
-          change: (valueIn, index) => setName(value.value, valueIn, index),
-        })
-      } else if (value.boolean) {
-        valueObj = createValue(booleans[value.boolean], (valueIn) =>
-          setBoolean(value.boolean, valueIn)
-        )
-      } else if (value.color) {
-        valueObj = createValue(
-          colors[value.color],
-          (valueIn) => setColor(value.color, valueIn),
-          true
-        )
-      } else if (value.value) {
-        valueObj = createValue(properties[value.value], (valueIn) =>
-          setProperty(value.value, valueIn)
-        )
+        case !!list:
+          valueObj = levaList({
+            value: names[value],
+            list,
+            src: imgSrc,
+            change: (valueIn, index) => setName(value, valueIn, index),
+          })
+          break
+
+        case !!boolean:
+          valueObj = createValue({
+            label,
+            value: booleans[boolean],
+            onChange: (valueIn) => setBoolean(boolean, valueIn),
+          })
+          break
+
+        case !!color:
+          valueObj = createValue({
+            label,
+            value: colors[color],
+            onChange: (valueIn) => setColor(color, valueIn),
+            isColor: true,
+          })
+          break
+
+        case !!value:
+          valueObj = createValue({
+            label,
+            value: properties[value],
+            onChange: (valueIn) => setProperty(value, valueIn),
+          })
+          break
+
+        default:
+          valueObj = {}
+          break
       }
 
       if (min) valueObj.min = min

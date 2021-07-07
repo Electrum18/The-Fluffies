@@ -61,6 +61,8 @@ export default function SavePersons() {
     setTranslate(100 - +(page === 'SavePerson') * 100)
   }, [page])
 
+  const [isProfile, setIsProfile] = useState(false)
+
   return (
     <div
       style={{ transform: `translateY(${translate}%)` }}
@@ -73,23 +75,8 @@ export default function SavePersons() {
           list={[
             { text: 'Import', component: ImportButton },
             { text: 'Export', component: ExportButton },
-            { text: 'To profile', style: 'bg-gray-800' },
-          ]}
-        />
-
-        <ListDropdown
-          label='Profile saves'
-          list={[
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
-            'Defaulty',
+            { text: 'New', style: 'bg-gray-800' },
+            { text: 'Delete', style: 'bg-gray-800' },
           ]}
         />
 
@@ -110,7 +97,15 @@ export default function SavePersons() {
         />
 
         <ListButtons
-          list={[{ text: 'Close', style: 'bg-gray-800', onClick: closePages }]}
+          list={[
+            {
+              text: 'Profile saves',
+              style: 'bg-gray-800',
+              onClick: () => setIsProfile(!isProfile),
+            },
+            { text: 'Save to profile', style: 'bg-gray-800' },
+            { text: 'Close', style: 'bg-gray-800', onClick: closePages },
+          ]}
         />
 
         <div />

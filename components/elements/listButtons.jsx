@@ -7,7 +7,11 @@ export default function ListButtons({ list }) {
         Component ? (
           <Component key={text} text={text} />
         ) : (
-          <button key={text} className={style} onClick={onClick}>
+          <button
+            key={text}
+            className={style + (text.length > 10 ? ' text-sm' : '')}
+            onClick={onClick}
+          >
             {text}
           </button>
         )

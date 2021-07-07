@@ -9,13 +9,18 @@ import Materials from '@/configs/materials.json'
 
 import { useShaderColorManager, useShaderValueManager } from './shader'
 
+const selectorNames = (state) => state.saves[state.slot].names
+const selectorProps = (state) => state.properties
+const selectorLignt = (state) => [state.light, state.ambientLight]
+const selectorMorphs = (state) => state.morphsList
+
 export function useModelInfo(
   elemName,
   { key, group } = {},
   material = undefined,
   texture = undefined
 ) {
-  const names = useParameters((state) => state.names)
+  const names = useParameters(selectorNames)
 
   const name = key ? names[key].replace(/ /g, '_') : elemName
   const src = group ? group + name : name
@@ -61,7 +66,7 @@ export function useWorldColor(model) {
 }
 
 export function useEmotionManager(model, name, morphsConfig) {
-  const morphsList = useAnimations((state) => state.morphsList)
+  const morphsList = useAnimations(selectorMorphs)
 
   function findValue(index) {
     return (
@@ -82,10 +87,7 @@ export function useEmotionManager(model, name, morphsConfig) {
 }
 
 export function useLight(model) {
-  const [light, ambientLight] = useResources(
-    (state) => [state.light, state.ambientLight],
-    shallow
-  )
+  const [light, ambientLight] = useResources(selectorLignt, shallow)
 
   useEffect(() => {
     const { uDirLightPos, uDirLightPower } = model.current.material.uniforms
@@ -106,7 +108,7 @@ export function useLight(model) {
 }
 
 export function usePositionManager(model, material) {
-  const properties = useParameters((store) => store.properties)
+  const properties = useParameters(selectorProps)
 
   const { posX, posY, scale } = Materials[material]
 
