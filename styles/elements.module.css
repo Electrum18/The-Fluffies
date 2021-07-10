@@ -11,12 +11,26 @@
 }
 
 .dropdownList {
+  @apply relative;
+
   & select {
     @apply w-64 px-2 py-1 m-2 text-lg text-white bg-gray-800 rounded-lg appearance-none;
   }
 
-  & div {
-    @apply w-5 h-5 mt-4 text-gray-800 rounded pointer-events-none -ml-9 bg-primary;
+  & > div {
+    @apply absolute right-0 top-0 mx-3 my-4 pointer-events-none;
+
+    & div {
+      @apply w-4 h-4 text-gray-300 mr-1 hover:text-primary cursor-pointer;
+    }
+
+    & div:first-of-type {
+      @apply pointer-events-auto;
+    }
+
+    & div:last-of-type {
+      @apply w-5 h-5 text-gray-800 m-0 rounded bg-primary;
+    }
 
     & svg {
       @apply m-0.5;
@@ -49,6 +63,22 @@
   }
 }
 
+.buttonsWithLabel {
+  @apply flex flex-col font-bold text-center;
+
+  & div {
+    @apply flex flex-row flex-nowrap;
+  }
+
+  & > div:last-child {
+    @apply justify-between;
+
+    & > span {
+      @apply mx-2 mb-2 -mt-1 text-sm text-gray-400;
+    }
+  }
+}
+
 .inputSlider {
   @apply flex flex-row flex-nowrap;
 
@@ -62,10 +92,10 @@
 }
 
 .modalMini {
-  @apply absolute flex items-center min-w-full min-h-full md:min-w-0 md:min-h-0 md:bottom-0 md:m-4;
+  @apply fixed left-0 bottom-0 flex items-center min-w-full min-h-full md:min-w-0 md:min-h-0 md:bottom-0 md:m-4;
 
   & > div:first-child {
-    @apply absolute min-w-full min-h-full bg-modal md:bg-transparent;
+    @apply fixed min-w-full min-h-full bg-modal md:bg-transparent;
   }
 
   & > div:last-child {
@@ -84,6 +114,36 @@
 
       & svg {
         @apply hover:bg-gray-500 cursor-pointer transition-colors rounded-xl;
+      }
+    }
+  }
+}
+
+.input {
+  @apply relative;
+
+  & div {
+    @apply flex flex-row flex-nowrap;
+  }
+
+  & > div:first-of-type {
+    & input {
+      @apply w-64 px-2 py-1 m-2 mb-8 text-lg text-white bg-gray-800 rounded-lg appearance-none;
+    }
+
+    & > div {
+      @apply absolute right-0 top-0 m-4;
+
+      & div {
+        @apply w-4 h-4 text-gray-300 mr-1 hover:text-primary cursor-pointer;
+      }
+
+      & svg {
+        @apply m-0.5;
+      }
+
+      & div:last-of-type {
+        @apply m-0;
       }
     }
   }

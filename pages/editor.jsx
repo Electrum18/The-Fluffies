@@ -4,9 +4,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Dynamic from 'next/dynamic'
 
-import Customization from '@/components/editor/customization'
-import Menu from '@/components/editor/menu'
-import Pages from '@/components/editor/pages'
+import LeftBar from '@/components/editor/left-bar'
+import RightBar from '@/components/editor/right-bar'
 
 import useUserFetch from '@/hooks/user'
 
@@ -32,9 +31,8 @@ export default function Editor() {
 
       <main>
         <Canvas />
-        <Customization />
-        <Menu />
-        <Pages />
+        <LeftBar />
+        <RightBar />
       </main>
     </>
   )

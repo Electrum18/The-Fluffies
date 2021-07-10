@@ -2,34 +2,6 @@
   @apply border-4 border-primary rounded-lg;
 }
 
-.leftBar {
-  @apply absolute left-0 flex flex-col w-8 h-full md:py-2 overflow-x-hidden overflow-y-auto bg-gray-700 md:w-12 flex-nowrap;
-
-  & > li {
-    @apply md:bg-gray-800 rounded-lg flex-none m-1 py-1 md:p-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
-
-    & svg {
-      @apply w-6 h-6 transition-colors;
-    }
-  }
-
-  & > hr {
-    @apply my-2;
-  }
-
-  & > div {
-    @apply flex-grow;
-  }
-}
-
-.rightBar {
-  @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
-
-  & > li {
-    @apply flex-none m-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
-  }
-}
-
 .listPanel {
   @apply flex flex-row flex-wrap w-full overflow-x-auto bg-gray-600 rounded-lg max-h-64;
 
@@ -39,6 +11,40 @@
     & img {
       @apply rounded-lg;
     }
+  }
+}
+
+.leftBar {
+  @apply absolute left-0 flex flex-col w-8 h-full md:py-2 bg-gray-700 md:w-12 flex-nowrap;
+
+  & > div {
+    @apply flex-grow;
+  }
+
+  & > li {
+    & > div:first-child {
+      @apply z-10 md:bg-gray-800 rounded-lg flex-none m-1 py-1 md:p-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
+
+      & svg {
+        @apply w-6 h-6 transition-colors;
+      }
+    }
+
+    & > div:last-child {
+      @apply z-20;
+    }
+  }
+
+  & > hr {
+    @apply my-2;
+  }
+}
+
+.rightBar {
+  @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
+
+  & > li {
+    @apply flex-none m-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
   }
 }
 

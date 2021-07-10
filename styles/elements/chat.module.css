@@ -3,7 +3,7 @@
 }
 
 .overlay {
-  @apply absolute top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl;
+  @apply fixed top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl;
 
   & div {
     & > svg {

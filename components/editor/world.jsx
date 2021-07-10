@@ -60,7 +60,7 @@ export default function World() {
 
         pointLight.current.intensity = l
       },
-      (state) => state.colors.background_basic
+      (state) => state.saves[state.slot].background_basic
     )
   }, [])
 

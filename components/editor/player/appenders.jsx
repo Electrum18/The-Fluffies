@@ -2,31 +2,31 @@ import { useGLTF, useTexture } from '@react-three/drei'
 import shallow from 'zustand/shallow'
 
 import useResources from '@/helpers/resources'
-import useParameters from '@/helpers/parameters'
 import useAnimations from '@/helpers/animations'
 
-import { nameIndexGroups } from '@/libs/nameIndexes'
+import { nameIndexGroups, nameInFileIndexes } from '@/libs/nameIndexes'
 
-const selector = (state) => state.saves[state.slot].nameIndexes
+const selectorSkeletonAndGeometry = (store) => [
+  store.skeleton,
+  store.setSkeleton,
+  store.addGeometry,
+]
+
+const selectorMorphsList = (store) => [store.morphsList, store.setMorphsList]
+const selectorAddTexture = (store) => store.addTexture
 
 export function AppendGeomtery({
   name,
   src,
   file: { group, key, postfix } = {},
 }) {
+  const [morphsList, setMorphsList] = useAnimations(selectorMorphsList, shallow)
   const [skeleton, setSkeleton, addGeometry] = useResources(
-    (store) => [store.skeleton, store.setSkeleton, store.addGeometry],
+    selectorSkeletonAndGeometry,
     shallow
   )
 
-  const [morphsList, setMorphsList] = useAnimations(
-    (store) => [store.morphsList, store.setMorphsList],
-    shallow
-  )
-
-  const indexes = useParameters(selector)
-
-  const index = indexes[key]
+  const index = key && nameInFileIndexes[key][name]
 
   const { nodes } = useGLTF(
     `/models/${group ? group + index : 'main'}.glb`,
@@ -72,7 +72,7 @@ export function AppendGeomtery({
 }
 
 export function AppendTexture({ name }) {
-  const addTexture = useResources((store) => store.addTexture)
+  const addTexture = useResources(selectorAddTexture)
   const texture = useTexture('/img/textures/' + name + '.png')
 
   texture.flipY = false

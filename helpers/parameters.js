@@ -1,38 +1,25 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import { generateNameIndexes } from '@/libs/nameIndexes'
-
 import { parsePersonSave } from '@/libs/saves'
 
 import names from '@/configs/default/names.json'
 import booleans from '@/configs/default/booleans.json'
+import colors from '@/configs/default/color.json'
 import properties from '@/configs/default/properties.json'
-import Colors from '@/configs/default/color.json'
 
-const colors = {}
-
-for (const key in Colors) {
-  if (!key.match(/_shade/)) colors[key] = Colors[key]
-}
+const saveDefaultData = { names, booleans, colors }
 
 const useParameters = create((set) => ({
-  names,
-  booleans,
   properties,
-  colors,
 
-  saves: [{ names, booleans, colors, nameIndexes: generateNameIndexes() }],
-
+  saves: [{ ...saveDefaultData }],
   slot: 0,
 
-  nameIndexes: generateNameIndexes(),
-
-  setName: (key, value, index) =>
+  setName: (key, value) =>
     set(
       produce((state) => {
         state.saves[state.slot].names[key] = value
-        state.saves[state.slot].nameIndexes[key] = (index / 6) | 0
       })
     ),
 
@@ -66,6 +53,29 @@ const useParameters = create((set) => ({
       })
     ),
 
+  setSlot: (value) => set({ slot: value }),
+
+  addSave: () =>
+    set(
+      produce((state) => {
+        state.saves.push({ ...saveDefaultData })
+        state.slot = state.saves.length - 1
+      })
+    ),
+
+  deleteSave: (index) =>
+    set(
+      produce((state) => {
+        state.saves.splice(index, 1)
+        state.slot =
+          index > state.saves.length - 1
+            ? state.saves.length - 1
+            : index < 0
+            ? 0
+            : index
+      })
+    ),
+
   parseSave: ({ target: { files } }) => {
     const reader = new FileReader()
 
@@ -78,9 +88,8 @@ const useParameters = create((set) => ({
 
       set(
         produce((state) => {
-          state.saves[state.slot].names = names
-          state.saves[state.slot].booleans = booleans
-          state.saves[state.slot].colors = color
+          state.saves.push({ names, booleans, colors: color })
+          state.slot = state.saves.length - 1
         })
       )
     }

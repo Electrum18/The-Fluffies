@@ -1,5 +1,3 @@
-import Names from '@/configs/default/names.json'
-
 import Hairs from '@/configs/changeable/hairs.json'
 import Tails from '@/configs/changeable/tails.json'
 import Eyes from '@/configs/changeable/eyes.json'
@@ -30,16 +28,24 @@ function createFileGroup(list) {
   return groups
 }
 
-function findIndex(list, target) {
-  return (
-    (Object.keys(list).findIndex((value) => value === Names[target]) / 6) | 0
-  )
+function createNameToFileIndexes(namesInBundle) {
+  const fileIndexes = {}
+
+  for (let index = 0; index < namesInBundle.length; index++) {
+    const names = namesInBundle[index]
+
+    for (const name of names) {
+      if (name) fileIndexes[name] = index
+    }
+  }
+
+  return fileIndexes
 }
 
 const nameIndexGroups = {
   hair: createFileGroup(Hairs),
   tail: createFileGroup(Tails),
-  eys: createFileGroup(Eyes),
+  eyes: createFileGroup(Eyes),
   horn: createFileGroup(Horn),
   horn_front: createFileGroup(HornFront),
   glasses: createFileGroup(Glasses),
@@ -50,20 +56,18 @@ const nameIndexGroups = {
   fangs: createFileGroup(Fangs),
 }
 
-export function generateNameIndexes() {
-  return {
-    hair: findIndex(Hairs, 'hair'),
-    tail: findIndex(Tails, 'tail'),
-    eyes: findIndex(Eyes, 'eyes'),
-    horn: findIndex(Horn, 'horn'),
-    horn_front: findIndex(HornFront, 'horn_front'),
-    glasses: findIndex(Glasses, 'glasses'),
-    clothing: findIndex(Clothing, 'clothing'),
-    pants: findIndex(Pants, 'pants'),
-    ears: findIndex(Ears, 'ears'),
-    piercing_ears: findIndex(PiercingEars, 'piercing_ears'),
-    fangs: findIndex(Fangs, 'fangs'),
-  }
+const nameInFileIndexes = {
+  hair: createNameToFileIndexes(nameIndexGroups.hair),
+  tail: createNameToFileIndexes(nameIndexGroups.tail),
+  eyes: createNameToFileIndexes(nameIndexGroups.eyes),
+  horn: createNameToFileIndexes(nameIndexGroups.horn),
+  horn_front: createNameToFileIndexes(nameIndexGroups.horn_front),
+  glasses: createNameToFileIndexes(nameIndexGroups.glasses),
+  clothing: createNameToFileIndexes(nameIndexGroups.clothing),
+  pants: createNameToFileIndexes(nameIndexGroups.pants),
+  ears: createNameToFileIndexes(nameIndexGroups.ears),
+  piercing_ears: createNameToFileIndexes(nameIndexGroups.piercing_ears),
+  fangs: createNameToFileIndexes(nameIndexGroups.fangs),
 }
 
-export { nameIndexGroups }
+export { nameIndexGroups, nameInFileIndexes }
