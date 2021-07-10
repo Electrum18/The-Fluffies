@@ -14,24 +14,30 @@ function formatColor(color) {
   return pastColor
 }
 
-function bindData(data, valuesIn) {
+function bindData(data) {
   const values = {}
 
-  const { setColor, setName, setBoolean, setProperty } =
-    useParameters.getState()
+  const {
+    saves,
+    slot,
+    properties,
+    setColor,
+    setName,
+    setBoolean,
+    setProperty,
+  } = useParameters.getState()
+
+  const { colors, booleans, names } = saves[slot]
 
   for (const valueName in data) {
     const valueContent = data[valueName]
-    const valueDefault = valuesIn[valueName]
-
-    if (valueDefault === undefined) return {}
 
     const { list, color, boolean, value, imgSrc } = valueContent
 
     switch (true) {
       case !!list:
         values[valueName] = levaList({
-          value: valueDefault,
+          value: names[value],
           list,
           src: imgSrc,
           change: (valueIn) => setName(value, valueIn),
@@ -40,21 +46,21 @@ function bindData(data, valuesIn) {
 
       case !!boolean:
         values[valueName] = {
-          value: valueDefault,
+          value: booleans[boolean],
           onChange: (valueIn) => setBoolean(boolean, valueIn),
         }
         break
 
       case !!color:
         values[valueName] = {
-          value: valueDefault,
+          value: colors[color],
           onChange: (valueIn) => setColor(color, valueIn),
         }
         break
 
       case !!value:
         values[valueName] = {
-          value: valueDefault,
+          value: properties[value],
           onChange: (valueIn) => setProperty(value, valueIn),
         }
         break
@@ -107,20 +113,21 @@ function dataValues(data) {
 }
 
 export default function Controls({ title, data }) {
-  const [values, setValues] = useState({})
+  const [validValues, setValidValues] = useState({})
 
   const [, set] = useControls(
     title || '',
-    () => bindData(data, values),
+    () => {
+      setValidValues(dataValues(data))
+      return bindData(data)
+    },
     { collapsed: true },
-    [values]
+    [data]
   )
 
   useEffect(() => {
-    const _values = dataValues(data)
-
-    setValues(_values)
-  }, [data, set])
+    set(validValues)
+  }, [validValues, set])
 
   return null
 }

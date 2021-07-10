@@ -70,9 +70,13 @@ function ExportButton({ text }) {
   )
 
   return (
-    <div className='w-32 px-4 py-2 overflow-hidden font-bold text-center text-white bg-gray-800 rounded-lg'>
-      <a className='w-32 px-4 py-2' href={data} download='test.json'>
-        {text}
+    <div className='flex'>
+      <a
+        className='flex items-center justify-around w-32 -mx-4 -my-2'
+        href={data}
+        download={names.name + ' - The Fluffies.json'}
+      >
+        <span>{text}</span>
       </a>
     </div>
   )
