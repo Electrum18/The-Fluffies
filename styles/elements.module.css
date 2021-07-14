@@ -21,7 +21,7 @@
     @apply absolute right-0 top-0 mx-3 my-4 pointer-events-none;
 
     & div {
-      @apply w-4 h-4 text-gray-300 mr-1 hover:text-primary cursor-pointer;
+      @apply w-3 h-3 text-gray-300 mr-1 mt-0.5 hover:text-primary cursor-pointer;
     }
 
     & div:first-of-type {
@@ -29,11 +29,7 @@
     }
 
     & div:last-of-type {
-      @apply w-5 h-5 text-gray-800 m-0 rounded bg-primary;
-    }
-
-    & svg {
-      @apply m-0.5;
+      @apply flex items-center justify-around w-5 h-5 text-gray-800 m-0 rounded bg-primary;
     }
   }
 }

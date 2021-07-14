@@ -6,13 +6,10 @@ import { parsePersonSave } from '@/libs/saves'
 import names from '@/configs/default/names.json'
 import booleans from '@/configs/default/booleans.json'
 import colors from '@/configs/default/color.json'
-import properties from '@/configs/default/properties.json'
 
 const saveDefaultData = { names, booleans, colors }
 
 const useParameters = create((set) => ({
-  properties,
-
   saves: [{ ...saveDefaultData }],
   slot: 0,
 
@@ -22,9 +19,6 @@ const useParameters = create((set) => ({
         state.saves[state.slot].names[key] = value
       })
     ),
-
-  setProperty: (key, value) =>
-    set((state) => ({ properties: { ...state.properties, [key]: value } })),
 
   setBoolean: (key, value) =>
     set(
@@ -49,11 +43,10 @@ const useParameters = create((set) => ({
     set(
       produce((state) => {
         state.saves[state.slot].booleans.male = value
-        state.properties.male_morph = +value * 100
       })
     ),
 
-  setSlot: (value) => set({ slot: value }),
+  setSlot: (slot) => set({ slot }),
 
   addSave: () =>
     set(

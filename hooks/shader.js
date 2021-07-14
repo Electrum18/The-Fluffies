@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import useParameters from '@/helpers/parameters'
+import useAnimations from '@/helpers/animations'
 
 export function useShaderColorManager(
   colorTarget,
@@ -41,16 +42,27 @@ export function useShaderValueManager(
     if (valueIn) {
       const { material } = model.current
 
-      const { saves, slot, properties } = useParameters.getState()
+      const { saves, slot } = useParameters.getState()
+      const {
+        saves: animSaves,
+        slot: animSlot,
+        selected,
+      } = useAnimations.getState()
+
       const save = saves[slot]
+      const properties = animSaves[animSlot].frames[selected].frame
 
       material.uniforms[valueName].value =
         (+save.booleans[valueIn] || properties[valueIn]) * treshold
 
       useParameters.subscribe(
         (value) => (material.uniforms[valueName].value = +value * treshold),
-        (state) =>
-          state.saves[state.slot].booleans[valueIn] || properties[valueIn]
+        (state) => state.saves[state.slot].booleans[valueIn]
+      )
+
+      useAnimations.subscribe(
+        (value) => (material.uniforms[valueName].value = +value * treshold),
+        (state) => state.saves[state.slot].frames[state.selected].frame[valueIn]
       )
     }
   }, [model, treshold, valueIn, valueName])

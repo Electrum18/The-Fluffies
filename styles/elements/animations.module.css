@@ -1,0 +1,101 @@
+.bottomBar {
+  & > div:first-child {
+    @apply mb-2 -mt-10;
+
+    & > div {
+      @apply w-8 h-8 bg-gray-800 rounded-full cursor-pointer transition-colors hover:bg-gray-500;
+
+      & > svg {
+        @apply w-8 h-8 p-1.5 text-gray-200;
+      }
+    }
+
+    & > div:nth-child(4) {
+      @apply bg-transparent;
+    }
+
+    & > div:first-child {
+      @apply bg-transparent md:w-12;
+    }
+
+    & > div:last-child {
+      @apply bg-transparent w-16 md:w-24;
+    }
+  }
+
+  & > div:nth-child(2) {
+    @apply justify-between;
+  }
+
+  & > div:last-child {
+    @apply flex flex-row flex-nowrap w-full h-24 my-2 justify-start relative rounded-lg overflow-x-auto overflow-y-hidden;
+
+    & > div:nth-last-of-type(3) {
+      & > div {
+        @apply hidden;
+      }
+    }
+  }
+}
+
+.frame {
+  @apply flex flex-row flex-nowrap h-20 m-2 relative flex-shrink-0 rounded-lg bg-gray-800 cursor-pointer hover:bg-gray-600 transition;
+
+  & > img {
+    @apply h-16 m-2 flex-shrink-0 rounded-lg bg-white;
+  }
+
+  & > div:first-of-type {
+    @apply absolute right-0 m-1 h-18 flex flex-col flex-nowrap justify-between;
+
+    & > p {
+      @apply w-auto text-white text-sm text-right px-1 m-0 bg-gray-800 rounded;
+    }
+  }
+
+  & > div:last-of-type {
+    @apply absolute right-0 text-primary w-8 h-8 p-1 my-6 -mr-3 bg-gray-700 rounded-lg cursor-e-resize hover:bg-gray-500 transition-colors;
+
+    & > svg {
+      @apply w-6 h-6;
+    }
+  }
+}
+
+.placeholder {
+  @apply w-64 h-20 flex-shrink-0;
+}
+
+.progressLine {
+  @apply absolute w-1 h-24 bg-primary-dark;
+}
+
+.mediaPlayer {
+  & > div:nth-child(odd) {
+    @apply flex flex-col p-2 font-bold text-center;
+
+    & > span:first-child {
+      @apply -mb-2 text-lg text-white;
+    }
+
+    & > span:last-child {
+      @apply text-sm text-gray-400;
+    }
+  }
+
+  & > div:nth-child(even) {
+    @apply flex flex-row flex-nowrap;
+
+    & > svg:nth-child(odd) {
+      @apply w-8 h-8 p-1 m-2 text-gray-200 cursor-pointer transition-colors hover:text-primary;
+    }
+
+    & > div:nth-child(even) {
+      @apply -my-4 w-14 h-14 bg-gray-800 rounded-full cursor-pointer transition-colors hover:bg-gray-500;
+
+      & > svg {
+        @apply p-3 w-14 h-14 text-primary;
+      }
+    }
+  }
+}

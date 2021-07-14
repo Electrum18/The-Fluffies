@@ -4,6 +4,7 @@ import { useControls } from 'leva'
 import { levaList } from '@/libs/ui/leva-list'
 
 import useParameters from '@/helpers/parameters'
+import useAnimations from '@/helpers/animations'
 
 function formatColor(color) {
   const pastColor = { ...color }
@@ -17,17 +18,18 @@ function formatColor(color) {
 function bindData(data) {
   const values = {}
 
+  const { saves, slot, setColor, setName, setBoolean } =
+    useParameters.getState()
+
   const {
-    saves,
-    slot,
-    properties,
-    setColor,
-    setName,
-    setBoolean,
+    saves: animSaves,
+    slot: animSlot,
+    selected,
     setProperty,
-  } = useParameters.getState()
+  } = useAnimations.getState()
 
   const { colors, booleans, names } = saves[slot]
+  const properties = animSaves[animSlot].frames[selected].frame
 
   for (const valueName in data) {
     const valueContent = data[valueName]
@@ -80,8 +82,15 @@ function bindData(data) {
 function dataValues(data) {
   const values = {}
 
-  const { saves, slot, properties } = useParameters.getState()
+  const { saves, slot } = useParameters.getState()
+  const {
+    saves: animSaves,
+    slot: animSlot,
+    selected,
+  } = useAnimations.getState()
+
   const { colors, booleans, names } = saves[slot]
+  const properties = animSaves[animSlot].frames[selected].frame
 
   for (const valueName in data) {
     const valueContent = data[valueName]

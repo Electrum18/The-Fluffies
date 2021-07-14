@@ -10,7 +10,9 @@ import Materials from '@/configs/materials.json'
 import { useShaderColorManager, useShaderValueManager } from './shader'
 
 const selectorNames = (state) => state.saves[state.slot].names
-const selectorProps = (state) => state.properties
+const selectorProps = (state) =>
+  state.saves[state.slot].frames[state.selected].frame
+
 const selectorLignt = (state) => [state.light, state.ambientLight]
 const selectorMorphs = (state) => state.morphsList
 
@@ -108,7 +110,7 @@ export function useLight(model) {
 }
 
 export function usePositionManager(model, material) {
-  const properties = useParameters(selectorProps)
+  const properties = useAnimations(selectorProps)
 
   const { posX, posY, scale } = Materials[material]
 
