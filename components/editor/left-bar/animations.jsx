@@ -67,7 +67,7 @@ function Frame({
   duration,
   selected,
   last,
-  onMouseDown,
+  onPointerDown,
   onDragging,
   className,
 }) {
@@ -88,7 +88,7 @@ function Frame({
         (selected === index ? ` ${editorStyles.selected}` : '') +
         className
       }
-      onMouseDown={onMouseDown}
+      onPointerDown={onPointerDown}
     >
       {duration > 0.3 && (
         <img
@@ -114,7 +114,7 @@ function Frame({
 
       <div
         style={{ margin: selected === index ? '20px -16px 20px 0px' : '' }}
-        onMouseDown={onDragging}
+        onPointerDown={onDragging}
       >
         <FaArrowsAltH />
       </div>
@@ -193,8 +193,8 @@ export default function AnimationSection() {
   return (
     <LeftSection name='Animation' icon={Icon}>
       <div
-        onMouseUp={() => setDragging(false)}
-        onMouseLeave={() => setDragging(false)}
+        onPointerUp={() => setDragging(false)}
+        onPointerLeave={() => setDragging(false)}
         style={{ transform: `translateY(${translate}%)` }}
         className={menuStyles.bottomMenu + ' ' + styles.bottomBar}
       >
@@ -257,13 +257,13 @@ export default function AnimationSection() {
           value={position}
           callback={setPosition}
           dragging={dragging}
-          onMouseDown={setDragging}
+          onPointerDown={setDragging}
         />
 
         <div
           className='animaton-bg-gradient'
-          onMouseLeave={stopDraggingFrame}
-          onMouseUp={stopDraggingFrame}
+          onPointerUp={stopDraggingFrame}
+          onPointerLeave={stopDraggingFrame}
         >
           {frames.map(({ duration }, index) => (
             <Frame
@@ -272,7 +272,7 @@ export default function AnimationSection() {
               duration={duration}
               last={index === frames.length - 1}
               selected={selected}
-              onMouseDown={() => {
+              onPointerDown={() => {
                 setSelectedFrame(index)
                 setFrameDragging(true)
               }}

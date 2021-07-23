@@ -12,16 +12,19 @@ import {
   useLight,
   useEmotionManager,
   useWorldColor,
+  useSkinningManager,
 } from '@/hooks/models'
+
+const selector = (store) => [
+  store.geometries,
+  store.materials,
+  store.textures,
+  store.skeleton,
+]
 
 export function Model({ name: elemName, material, file, texture, emotions }) {
   const [geometries, materials, textures, skeleton] = useResources(
-    (store) => [
-      store.geometries,
-      store.materials,
-      store.textures,
-      store.skeleton,
-    ],
+    selector,
     shallow
   )
 
@@ -40,6 +43,7 @@ export function Model({ name: elemName, material, file, texture, emotions }) {
   useColorManager(model, material)
   usePositionManager(model, material)
   useEmotionManager(model, elemName, emotions)
+  useSkinningManager(model, skeleton)
 
   useEffect(() => {
     if (material && textureName && textures[textureName]) {

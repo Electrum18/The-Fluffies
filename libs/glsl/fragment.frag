@@ -44,8 +44,8 @@ void main() {
   if (length(light) == 1.00) {
     gl_FragColor.rgb *= vec3(0.5) + colorEnv * uDirLightPower * 0.5;
   } else {
-    gl_FragColor.rgb *= vec3(0.4) + colorEnv * uAmbientLightPower * 0.6;
+    gl_FragColor.rgb *= vec3(0.5) + colorEnv * uAmbientLightPower * 0.5;
   }
 
-  gl_FragColor.rgb = pow(gl_FragColor.rgb, vec3(0.45));
+  gl_FragColor.rgb = pow(gl_FragColor.rgb, vec3(0.5));
 }

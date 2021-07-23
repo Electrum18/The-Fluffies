@@ -133,3 +133,22 @@ export function usePositionManager(model, material) {
     }
   }, [model, properties, scale])
 }
+
+export function useSkinningManager(model, skeleton) {
+  useEffect(() => {
+    if (!model.current) return
+
+    const { material, bindMatrix, bindMatrixInverse } = model.current
+
+    material.uniforms.bindMatrix.value = bindMatrix
+    material.uniforms.bindMatrixInverse.value = bindMatrixInverse
+  }, [model])
+
+  useEffect(() => {
+    if (skeleton.bones.length < 1 || !model.current) return
+
+    const { material } = model.current
+
+    material.uniforms.boneMatrices.value = skeleton.boneMatrices
+  }, [model, skeleton.boneMatrices, skeleton.bones.length])
+}

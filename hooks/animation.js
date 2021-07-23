@@ -58,10 +58,10 @@ export function useFrameEdit() {
       }
     }
 
-    window.addEventListener('mousemove', handleMove)
+    window.addEventListener('pointermove', handleMove)
 
     return () => {
-      window.removeEventListener('mousemove', handleMove)
+      window.removeEventListener('pointermove', handleMove)
     }
   }, [dragging, frames, selected, setDuration, startLen, startPos])
 

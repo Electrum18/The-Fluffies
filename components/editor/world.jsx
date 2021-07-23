@@ -1,8 +1,10 @@
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import shallow from 'zustand/shallow'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
+
+import { Scene } from 'three'
 
 import useResources from '@/helpers/resources'
 import useParameters from '@/helpers/parameters'
@@ -11,11 +13,40 @@ import useAnimations from '@/helpers/animations'
 import Player from './player'
 import Camera from './camera'
 
-const selector = (state) => state.play
+import IK from './player/kinematics'
+import Chain from './player/kinematics/chain'
+
+const selector = (state) => [state.play, state.dragging]
+const selectorResources = (state) => [state.setLight, state.setAmbientLight]
+
+function Main({ children }) {
+  const [scene] = useState(() => new Scene())
+
+  const { gl, camera } = useThree()
+
+  useFrame(() => {
+    gl.autoClear = true
+    gl.render(scene, camera)
+  }, 0)
+
+  return createPortal(children, scene)
+}
+
+function HeadsUpDisplay({ children }) {
+  const [scene] = useState(() => new Scene())
+
+  const { gl, camera } = useThree()
+
+  useFrame(() => {
+    gl.autoClear = false
+    gl.clearDepth()
+    gl.render(scene, camera)
+  }, 1)
+
+  return createPortal(children, scene)
+}
 
 export default function World() {
-  const play = useAnimations(selector)
-
   const background = useRef()
 
   const controls = useRef()
@@ -23,18 +54,11 @@ export default function World() {
   const pointLight = useRef()
   const ambientLight = useRef()
 
-  const [setLight, setAmbientLight] = useResources(
-    (state) => [state.setLight, state.setAmbientLight],
-    shallow
-  )
+  const [play, dragging] = useAnimations(selector, shallow)
+  const [setLight, setAmbientLight] = useResources(selectorResources, shallow)
 
-  useEffect(() => {
-    setLight(pointLight)
-  }, [setLight])
-
-  useEffect(() => {
-    setAmbientLight(ambientLight)
-  }, [setAmbientLight])
+  useEffect(() => setLight(pointLight), [setLight])
+  useEffect(() => setAmbientLight(ambientLight), [setAmbientLight])
 
   useEffect(() => {
     useParameters.subscribe(
@@ -60,20 +84,38 @@ export default function World() {
         ref={controls}
         minDistance={7}
         maxDistance={10}
-        enablePan={!play}
-        enableZoom={!play}
-        enableRotate={!play}
+        enabled={!play && !dragging}
       />
 
-      <ambientLight ref={ambientLight} intensity={0.8} />
+      <ambientLight ref={ambientLight} intensity={0.7} />
       <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
+
+      <Camera controls={controls} play={play} />
 
       <Suspense fallback={null}>
         <Player position={[0, -3, 0]} />
         <Preload all />
       </Suspense>
 
-      <Camera controls={controls} play={play} />
+      <Main>
+        <Suspense fallback={null}>
+          <Player position={[0, -3, 0]} />
+          <Preload all />
+        </Suspense>
+      </Main>
+
+      <HeadsUpDisplay>
+        <IK>
+          {/*<Chain bones={['Pelvis', 'Chest', 'Chest2', 'Neck']} />}
+          {/*
+          <Chain bones={['Neck', 'Head_1']} />
+          <Chain bones={['ForearmL', 'HandL', 'BallL', 'HoofL']} />
+          <Chain bones={['ForearmR', 'HandR', 'BallR', 'HoofR']} />
+          <Chain bones={['LegL', 'Leg2L', 'FootL', 'BackHoofL']} />
+          <Chain bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']} />
+          */}
+        </IK>
+      </HeadsUpDisplay>
     </Canvas>
   )
 }

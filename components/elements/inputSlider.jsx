@@ -6,7 +6,7 @@ export default function InputSlider({
   value,
   callback,
   dragging,
-  onMouseDown,
+  onPointerDown,
 }) {
   const slider = useRef()
 
@@ -31,10 +31,10 @@ export default function InputSlider({
       if (pxWidth > 0 && dragging) callback((e.pageX - 12) / pxWidth)
     }
 
-    window.addEventListener('mousemove', handleMove)
+    window.addEventListener('pointermove', handleMove)
 
     return () => {
-      window.removeEventListener('mousemove', handleMove)
+      window.removeEventListener('pointermove', handleMove)
     }
   }, [callback, dragging, pxWidth])
 
@@ -42,7 +42,7 @@ export default function InputSlider({
     <div className={styles.inputSlider}>
       <div ref={slider} />
       <div
-        onMouseDown={onMouseDown}
+        onPointerDown={onPointerDown}
         style={{ left: `calc(1rem + ${pxWidth * value - 12}px)` }}
       />
     </div>

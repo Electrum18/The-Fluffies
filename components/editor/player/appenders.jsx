@@ -6,12 +6,7 @@ import useAnimations from '@/helpers/animations'
 
 import { nameIndexGroups, nameInFileIndexes } from '@/libs/nameIndexes'
 
-const selectorSkeletonAndGeometry = (store) => [
-  store.skeleton,
-  store.setSkeleton,
-  store.addGeometry,
-]
-
+const selectorAddGeometry = (store) => store.addGeometry
 const selectorMorphsList = (store) => [store.morphsList, store.setMorphsList]
 const selectorAddTexture = (store) => store.addTexture
 
@@ -21,15 +16,12 @@ export function AppendGeomtery({
   file: { group, key, postfix } = {},
 }) {
   const [morphsList, setMorphsList] = useAnimations(selectorMorphsList, shallow)
-  const [skeleton, setSkeleton, addGeometry] = useResources(
-    selectorSkeletonAndGeometry,
-    shallow
-  )
+  const addGeometry = useResources(selectorAddGeometry)
 
   const index = key && nameInFileIndexes[key][name]
 
   const { nodes } = useGLTF(
-    `/models/${group ? group + index : 'main'}.glb`,
+    `/models/${group ? group + index : 'Main'}.glb`,
     '/draco-gltf/'
   )
 
@@ -63,8 +55,6 @@ export function AppendGeomtery({
     if (fifth) add(group + fifth, fifth)
     if (sixth) add(group + sixth, sixth)
   } else {
-    if (!skeleton.bones && nodes.Armature) setSkeleton(nodes.Armature)
-
     add(src, name)
   }
 

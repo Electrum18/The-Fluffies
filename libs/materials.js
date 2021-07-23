@@ -5,6 +5,7 @@ import {
   Texture,
   ShaderMaterial,
   UniformsUtils,
+  Matrix4,
 } from 'three'
 
 import vertexShader from '@/libs/glsl/vertex.vert'
@@ -49,6 +50,10 @@ const vertexUniforms = {
   morph7: { value: 0 },
   morph8: { value: 0 },
   morph9: { value: 0 },
+
+  bindMatrix: { value: new Matrix4() },
+  bindMatrixInverse: { value: new Matrix4() },
+  boneMatrices: { value: [new Matrix4()] },
 }
 
 const shader = {

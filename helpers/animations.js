@@ -28,6 +28,8 @@ const useAnimations = create((set) => ({
   slot: 0,
   selected: 0,
 
+  dragging: 0,
+
   setPlay: (play) => set({ play }),
   setLoop: (loop) => set({ loop }),
 
@@ -35,6 +37,8 @@ const useAnimations = create((set) => ({
 
   setPosition: (value) =>
     set({ position: value > 1 ? 1 : value < 0 ? 0 : value }),
+
+  setDragging: (dragging) => set({ dragging }),
 
   setMorphsList: (key, value) =>
     set((state) => ({

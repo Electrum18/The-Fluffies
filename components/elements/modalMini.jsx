@@ -21,7 +21,7 @@ export default function ModalMini({ title, page: pageName, children }) {
 
   return (
     <div className={stylesElems.modalMini}>
-      <div onMouseDown={() => closePages()} />
+      <div onPointerDown={() => closePages()} />
 
       <div style={{ transform: `scale(${scale})` }}>
         <div>

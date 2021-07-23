@@ -38,8 +38,8 @@ export default function Camera({ controls, play }) {
     }
   }
 
-  const [tempPlay, setTempPlay] = useState(false)
-  const [tempSelected, setTempSelected] = useState(0)
+  const [tempPlay, setTempPlay] = useState(false) // Toggle state
+  const [tempSelected, setTempSelected] = useState(0) // Toggle state
 
   const [intervalIndex, localPosition] = useAnimationPosition(frames, position)
 
@@ -49,11 +49,12 @@ export default function Camera({ controls, play }) {
     const frame = frames[selected].frame
 
     if (!play) {
+      // Toggle logic
       if (tempPlay !== play || selected !== tempSelected) {
         controls.current.target.lerp(frame.camera_target, 1)
         controls.current.object.position.lerp(frame.camera_position, 1)
 
-        if (tempSelected !== selected) setTempSelected(selected)
+        if (tempSelected !== selected) setTempSelected(selected) // Toggle state
       } else {
         const targetPos = formatVec3(target)
         const position = formatVec3(object.position)
@@ -91,7 +92,7 @@ export default function Camera({ controls, play }) {
 
     if (distance < 1) target.lerp(origin, distance * 0.02)
 
-    if (tempPlay !== play) setTempPlay(play)
+    if (tempPlay !== play) setTempPlay(play) // Toggle state
   })
 
   return null
