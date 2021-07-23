@@ -18,31 +18,19 @@ function Helper({ position, setter }) {
   )
 }
 
-function Marker({ position }) {
-  return (
-    <mesh position={position}>
-      <octahedronGeometry args={[0.1]} />
-      <meshBasicMaterial color={'red'} />
-    </mesh>
-  )
-}
-
-function getBonePosition(bone) {
-  const position = bone.getWorldPosition(new Vector3())
-
-  return position.multiplyScalar(0.1).add(new Vector3(0, -3, 0))
-}
-
 export default function Chain({ skeleton, bones }) {
   const [bonesArr, setBonesArr] = useState([])
-  const [inverses, setInverses] = useState([])
   const [lengths, setLengths] = useState([])
 
   const [helperPos, setHelperPos] = useState(() => new Vector3())
   const [skeletonBefore, setSkeletonBefore] = useState()
 
   useEffect(() => {
-    if (!skeletonBefore || skeletonBefore.uuid !== skeleton.uuid) {
+    if (
+      skeleton.bones.length > 0 &&
+      (!skeletonBefore || skeletonBefore.uuid !== skeleton.uuid)
+    ) {
+      console.log(skeleton)
       setBonesArr(bones.map((bone) => skeleton.getBoneByName(bone)))
       setSkeletonBefore(skeleton)
     }
@@ -57,28 +45,30 @@ export default function Chain({ skeleton, bones }) {
       bonesArr.forEach((bone, index, array) => {
         if (index === array.length - 1) return
 
-        _lengths.push(
-          getBonePosition(bone).distanceTo(getBonePosition(array[index + 1]))
-        )
+        const position = bone.getWorldPosition(new Vector3())
+        const posTarget = array[index + 1].getWorldPosition(new Vector3())
+
+        _lengths.push(position.distanceTo(posTarget))
       })
 
       setLengths(_lengths)
-      setHelperPos(getBonePosition(bone))
+      setHelperPos(bone.getWorldPosition(new Vector3()))
     }
   }, [bonesArr])
 
   useFrame(() => {
-    const globalPoses = bonesArr.map((bone) => getBonePosition(bone))
-    const _inverses = bonesArr.map(() => new Vector3())
+    const globalPoses = bonesArr.map((bone) =>
+      bone.getWorldPosition(new Vector3())
+    )
 
-    setInverses(_inverses)
+    const inverses = bonesArr.map(() => new Vector3())
 
     for (let index = bonesArr.length - 2; index >= 0; index--) {
       const bone = bonesArr[index]
       const nextPos =
-        index + 1 === bonesArr.length - 1 ? helperPos : _inverses[index + 1]
+        index + 1 === bonesArr.length - 1 ? helperPos : inverses[index + 1]
 
-      _inverses[index].lerpVectors(
+      inverses[index].lerpVectors(
         nextPos,
         globalPoses[index],
         lengths[index] / globalPoses[index].distanceTo(nextPos)
@@ -89,15 +79,5 @@ export default function Chain({ skeleton, bones }) {
     }
   })
 
-  //console.log(bonesArr)
-
-  return (
-    <>
-      <Helper position={helperPos} setter={setHelperPos} />
-
-      {inverses[0] && <Marker position={inverses[0]} />}
-      {inverses[1] && <Marker position={inverses[1]} />}
-      {inverses[2] && <Marker position={inverses[2]} />}
-    </>
-  )
+  return <Helper position={helperPos} setter={setHelperPos} />
 }

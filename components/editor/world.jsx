@@ -18,13 +18,18 @@ import Chain from './player/kinematics/chain'
 
 const selector = (state) => [state.play, state.dragging]
 const selectorResources = (state) => [state.setLight, state.setAmbientLight]
+const selectorSkeleton = (state) => state.skeleton
 
 function Main({ children }) {
   const [scene] = useState(() => new Scene())
 
+  const skeleton = useResources(selectorSkeleton)
+
   const { gl, camera } = useThree()
 
   useFrame(() => {
+    if (skeleton.bones.length < 1) return
+
     gl.autoClear = true
     gl.render(scene, camera)
   }, 0)
@@ -106,14 +111,12 @@ export default function World() {
 
       <HeadsUpDisplay>
         <IK>
-          {/*<Chain bones={['Pelvis', 'Chest', 'Chest2', 'Neck']} />}
-          {/*
+          <Chain bones={['Pelvis', 'Chest', 'Chest2', 'Neck']} />
           <Chain bones={['Neck', 'Head_1']} />
           <Chain bones={['ForearmL', 'HandL', 'BallL', 'HoofL']} />
           <Chain bones={['ForearmR', 'HandR', 'BallR', 'HoofR']} />
           <Chain bones={['LegL', 'Leg2L', 'FootL', 'BackHoofL']} />
           <Chain bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']} />
-          */}
         </IK>
       </HeadsUpDisplay>
     </Canvas>

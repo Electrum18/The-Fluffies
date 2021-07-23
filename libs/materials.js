@@ -53,7 +53,7 @@ const vertexUniforms = {
 
   bindMatrix: { value: new Matrix4() },
   bindMatrixInverse: { value: new Matrix4() },
-  boneMatrices: { value: [new Matrix4()] },
+  boneMatrices: { value: new Array(27).fill(new Matrix4()) },
 }
 
 const shader = {

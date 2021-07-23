@@ -17,7 +17,6 @@ const useResources = create((set) => ({
   ambientLight: {},
 
   skeleton: new Skeleton([]),
-  bones: {},
 
   addGeometry: (key, geometry) =>
     set((state) => ({ geometries: { ...state.geometries, [key]: geometry } })),
@@ -29,7 +28,6 @@ const useResources = create((set) => ({
   setAmbientLight: (ambientLight) => set({ ambientLight }),
 
   setSkeleton: (skeleton) => set({ skeleton }),
-  setBones: (bones) => set({ bones }),
 }))
 
 export default useResources
