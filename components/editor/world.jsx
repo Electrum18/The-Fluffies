@@ -51,15 +51,11 @@ function HeadsUpDisplay({ children }) {
   return createPortal(children, scene)
 }
 
-export default function World() {
+function useLight() {
   const background = useRef()
-
-  const controls = useRef()
-
   const pointLight = useRef()
   const ambientLight = useRef()
 
-  const [play, dragging] = useAnimations(selector, shallow)
   const [setLight, setAmbientLight] = useResources(selectorResources, shallow)
 
   useEffect(() => setLight(pointLight), [setLight])
@@ -75,6 +71,16 @@ export default function World() {
       (state) => state.saves[state.slot].colors.background_basic
     )
   }, [])
+
+  return [background, pointLight, ambientLight]
+}
+
+export default function World() {
+  const controls = useRef()
+
+  const [play, dragging] = useAnimations(selector, shallow)
+
+  const [background, pointLight, ambientLight] = useLight()
 
   return (
     <Canvas
@@ -97,11 +103,6 @@ export default function World() {
 
       <Camera controls={controls} play={play} />
 
-      <Suspense fallback={null}>
-        <Player position={[0, -3, 0]} />
-        <Preload all />
-      </Suspense>
-
       <Main>
         <Suspense fallback={null}>
           <Player position={[0, -3, 0]} />
@@ -112,11 +113,27 @@ export default function World() {
       <HeadsUpDisplay>
         <IK>
           <Chain bones={['Pelvis', 'Chest', 'Chest2', 'Neck']} />
-          <Chain bones={['Neck', 'Head_1']} />
-          <Chain bones={['ForearmL', 'HandL', 'BallL', 'HoofL']} />
-          <Chain bones={['ForearmR', 'HandR', 'BallR', 'HoofR']} />
-          <Chain bones={['LegL', 'Leg2L', 'FootL', 'BackHoofL']} />
-          <Chain bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']} />
+          <Chain bones={['Neck', 'Head_1']} setUp={[0, 0, -1]} />
+
+          <Chain
+            bones={['ForearmL', 'HandL', 'BallL', 'HoofL']}
+            setUp={[1, 0, 0.5]}
+          />
+
+          <Chain
+            bones={['ForearmR', 'HandR', 'BallR', 'HoofR']}
+            setUp={[-1, 0, 0.5]}
+          />
+
+          <Chain
+            bones={['LegL', 'Leg2L', 'FootL', 'BackHoofL']}
+            setUp={[1, 0, 1]}
+          />
+
+          <Chain
+            bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']}
+            setUp={[-1, 0, 1]}
+          />
         </IK>
       </HeadsUpDisplay>
     </Canvas>

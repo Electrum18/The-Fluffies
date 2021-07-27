@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import shallow from 'zustand/shallow'
 
@@ -25,24 +26,27 @@ export function AppendGeomtery({
     '/draco-gltf/'
   )
 
-  function add(_group, _name) {
-    const mesh = nodes[_name] || nodes[_name + '_' + key + (postfix || '')]
-    const { geometry } = mesh
+  const add = useCallback(
+    (_group, _name) => {
+      const mesh = nodes[_name] || nodes[_name + '_' + key + (postfix || '')]
+      const { geometry } = mesh
 
-    if (geometry.morphAttributes.position) {
-      const { position } = mesh.geometry.morphAttributes
+      if (geometry.morphAttributes.position) {
+        const { position } = mesh.geometry.morphAttributes
 
-      position.forEach((value, index) => {
-        geometry.attributes['morphTarget' + index] = value
-      })
-    }
+        position.forEach((value, index) => {
+          geometry.attributes['morphTarget' + index] = value
+        })
+      }
 
-    if (mesh.morphTargetDictionary && !morphsList[name]) {
-      setMorphsList(name, mesh.morphTargetDictionary)
-    }
+      if (mesh.morphTargetDictionary && !morphsList[name]) {
+        setMorphsList(name, mesh.morphTargetDictionary)
+      }
 
-    addGeometry(_group, geometry)
-  }
+      addGeometry(_group, geometry)
+    },
+    [addGeometry, key, morphsList, name, nodes, postfix, setMorphsList]
+  )
 
   if (group) {
     const [first, second, third, fourth, fifth, sixth] =

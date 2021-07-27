@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { Vector3 } from 'three'
 
 import useDragging from '@/hooks/dragging'
+import { useBoneLengths, useBonesArray } from '@/hooks/bones'
 
 function Helper({ position, setter }) {
   const helper = useRef()
@@ -18,43 +19,19 @@ function Helper({ position, setter }) {
   )
 }
 
-export default function Chain({ skeleton, bones }) {
-  const [bonesArr, setBonesArr] = useState([])
-  const [lengths, setLengths] = useState([])
-
+export default function Chain({ skeleton, bones, setUp = [0, 1, 0] }) {
   const [helperPos, setHelperPos] = useState(() => new Vector3())
-  const [skeletonBefore, setSkeletonBefore] = useState()
+
+  const bonesArr = useBonesArray(skeleton, bones)
+  const lengths = useBoneLengths(bonesArr, setHelperPos)
 
   useEffect(() => {
-    if (
-      skeleton.bones.length > 0 &&
-      (!skeletonBefore || skeletonBefore.uuid !== skeleton.uuid)
-    ) {
-      console.log(skeleton)
-      setBonesArr(bones.map((bone) => skeleton.getBoneByName(bone)))
-      setSkeletonBefore(skeleton)
+    const vector = new Vector3(...setUp)
+
+    for (const bone of bonesArr) {
+      bone.up = vector
     }
-  }, [bones, skeleton, skeletonBefore])
-
-  useEffect(() => {
-    const bone = bonesArr[bonesArr.length - 1]
-
-    if (bone) {
-      const _lengths = []
-
-      bonesArr.forEach((bone, index, array) => {
-        if (index === array.length - 1) return
-
-        const position = bone.getWorldPosition(new Vector3())
-        const posTarget = array[index + 1].getWorldPosition(new Vector3())
-
-        _lengths.push(position.distanceTo(posTarget))
-      })
-
-      setLengths(_lengths)
-      setHelperPos(bone.getWorldPosition(new Vector3()))
-    }
-  }, [bonesArr])
+  }, [bonesArr, setUp])
 
   useFrame(() => {
     const globalPoses = bonesArr.map((bone) =>
@@ -63,8 +40,11 @@ export default function Chain({ skeleton, bones }) {
 
     const inverses = bonesArr.map(() => new Vector3())
 
-    for (let index = bonesArr.length - 2; index >= 0; index--) {
-      const bone = bonesArr[index]
+    // Inverse kinematics coordinates
+
+    for (let index = inverses.length - 2; index >= 0; index--) {
+      if (index === 0) continue
+
       const nextPos =
         index + 1 === bonesArr.length - 1 ? helperPos : inverses[index + 1]
 
@@ -73,8 +53,20 @@ export default function Chain({ skeleton, bones }) {
         globalPoses[index],
         lengths[index] / globalPoses[index].distanceTo(nextPos)
       )
+    }
 
-      bone.lookAt(nextPos)
+    // Forward kinematics (FABRIK)
+
+    const length = inverses.length - 1
+
+    for (let index = 0; index < length; index++) {
+      if (index === length) continue
+
+      const next = index + 1
+      const bone = bonesArr[index]
+      const inverse = next === length ? helperPos : inverses[next]
+
+      bone.lookAt(inverse)
       bone.rotateX(Math.PI / 2)
     }
   })
