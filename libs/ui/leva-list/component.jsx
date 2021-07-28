@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import { Components, useInputContext } from 'leva/plugin'
+import React, { useState } from 'react'
 
 import styles from '@/styles/editor.module.css'
 
@@ -14,7 +14,7 @@ export function List() {
     <>
       <Row>
         <div className={styles.listPanel}>
-          {Object.keys(value.list).map((key) => (
+          {Object.keys(value.list).map(key => (
             <div
               key={key}
               className={

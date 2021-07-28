@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
 import { useControls } from 'leva'
+import { useEffect, useState } from 'react'
 
-import { levaList } from '@/libs/ui/leva-list'
-
-import useParameters from '@/helpers/parameters'
 import useAnimations from '@/helpers/animations'
+import useParameters from '@/helpers/parameters'
+import { levaList } from '@/libs/ui/leva-list'
 
 function formatColor(color) {
   const pastColor = { ...color }
@@ -25,7 +24,7 @@ function bindData(data) {
     saves: animSaves,
     slot: animSlot,
     selected,
-    setProperty,
+    setProperty
   } = useAnimations.getState()
 
   const { colors, booleans, names } = saves[slot]
@@ -42,28 +41,28 @@ function bindData(data) {
           value: names[value],
           list,
           src: imgSrc,
-          change: (valueIn) => setName(value, valueIn),
+          change: valueIn => setName(value, valueIn)
         })
         break
 
       case !!boolean:
         values[valueName] = {
           value: booleans[boolean],
-          onChange: (valueIn) => setBoolean(boolean, valueIn),
+          onChange: valueIn => setBoolean(boolean, valueIn)
         }
         break
 
       case !!color:
         values[valueName] = {
           value: colors[color],
-          onChange: (valueIn) => setColor(color, valueIn),
+          onChange: valueIn => setColor(color, valueIn)
         }
         break
 
       case !!value:
         values[valueName] = {
           value: properties[value],
-          onChange: (valueIn) => setProperty(value, valueIn),
+          onChange: valueIn => setProperty(value, valueIn)
         }
         break
 
@@ -86,7 +85,7 @@ function dataValues(data) {
   const {
     saves: animSaves,
     slot: animSlot,
-    selected,
+    selected
   } = useAnimations.getState()
 
   const { colors, booleans, names } = saves[slot]

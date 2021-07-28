@@ -4,8 +4,8 @@ const Editor = {
     description:
       'Page for creating and editing pony characters in cartoon 3D graphics ' +
       'with animations and saving directly in the browser with support for ' +
-      'offline version 🐴',
-  },
+      'offline version 🐴'
+  }
 }
 
 export default Editor

@@ -1,6 +1,6 @@
 import { normalizeVector, sanitizeVector } from 'leva/plugin'
 
-export const normalize = (input) => {
+export const normalize = input => {
   const { value, settings } = normalizeVector(input, {})
 
   return { value, settings }

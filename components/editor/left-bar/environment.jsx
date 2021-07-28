@@ -13,7 +13,7 @@ function Icon({ className, onClick }) {
 
 export default function EnvSection() {
   return (
-    <LeftSection name='Environment' icon={Icon}>
+    <LeftSection name="Environment" icon={Icon}>
       <Controls data={{ World: { color: 'background_basic' } }} />
     </LeftSection>
   )

@@ -4,7 +4,7 @@ const About = {
     description:
       'Description about pony editor and us, history of development and ' +
       'creation, reasons for using 3D graphics, editor authors and technologies ' +
-      'used in the editor 🔨',
+      'used in the editor 🔨'
   },
 
   header: 'About us and our history | of editor creation',
@@ -21,7 +21,7 @@ const About = {
       'downloading and installing requirements',
     text2:
       'At the same time, achieving great convenience and many options for ' +
-      'tools for interacting with the character',
+      'tools for interacting with the character'
   },
 
   motivation: {
@@ -31,7 +31,7 @@ const About = {
       'there was a decision to come up with an editor and attract users ' +
       'with an alternative option and design in order to improve the ' +
       'content and the editor itself for creating it, I did not like the ' +
-      'current state of this content and its consumption',
+      'current state of this content and its consumption'
   },
 
   technologies: {
@@ -41,7 +41,7 @@ const About = {
       'also includes other programs written in Node.js, Three.js is used ' +
       'for rendering 3D, and Socket.io is used to contact the browser with ' +
       'the server',
-    sub: 'constantly finding new solutions',
+    sub: 'constantly finding new solutions'
   },
 
   history: {
@@ -49,7 +49,7 @@ const About = {
     text:
       "How we found the ideal style and how the editor's appearance changed " +
       'over time from the choice of solutions with the description of ' +
-      'versions',
+      'versions'
   },
 
   version: 'version',
@@ -69,30 +69,30 @@ const About = {
     'The current version with a complete overhaul of technologies, ' +
       'the project is now in 3D with ease of development and its ' +
       'support, the emergence of many ideas due to the ease of their ' +
-      'implementation',
+      'implementation'
   ],
 
   team: {
     h2: 'Our team',
-    text: 'Main persons who support the project',
+    text: 'Main persons who support the project'
   },
 
   members: [
     {
       nickname: 'Electrum18',
-      rank: 'Project author | Programmer | DevOps',
+      rank: 'Project author | Programmer | DevOps'
     },
     {
       nickname: 'LightingZap',
-      rank: 'Hosting',
-    },
+      rank: 'Hosting'
+    }
   ],
 
   helping: {
     h2: 'Want to help us?',
     text: 'Anyone can develop a project and even become a part of our team!',
-    button: 'Go to the support page',
-  },
+    button: 'Go to the support page'
+  }
 }
 
 export default About

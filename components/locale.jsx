@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 
 export default function Locale() {
   const router = useRouter()
@@ -37,7 +36,7 @@ export default function Locale() {
   localeStyle += OnBottom ? ' mr-auto' : 'mr-0'
 
   return (
-    <div className='fixed flex flex-row w-full px-4 pointer-events-none bottom-3'>
+    <div className="fixed flex flex-row w-full px-4 pointer-events-none bottom-3">
       <Link href={router.route} locale={locale} scroll={false}>
         <a
           className={

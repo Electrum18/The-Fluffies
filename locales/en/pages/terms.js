@@ -4,8 +4,8 @@ const Terms = {
     description:
       'Terms of Service is the rules established between website or application ' +
       'and the user, and also describe rules of using of interface and project ' +
-      'services 📝',
-  },
+      'services 📝'
+  }
 }
 
 export default Terms

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
-import useParameters from '@/helpers/parameters'
 import useAnimations from '@/helpers/animations'
+import useParameters from '@/helpers/parameters'
 
 export function useShaderColorManager(
   colorTarget,
@@ -26,7 +26,7 @@ export function useShaderColorManager(
 
           if (a && alphaTarget) material.uniforms[alphaTarget].value = a
         },
-        (state) => state.saves[state.slot].colors[colorName]
+        state => state.saves[state.slot].colors[colorName]
       )
     }
   }, [alphaTarget, colorName, colorTarget, model])
@@ -46,7 +46,7 @@ export function useShaderValueManager(
       const {
         saves: animSaves,
         slot: animSlot,
-        selected,
+        selected
       } = useAnimations.getState()
 
       const save = saves[slot]
@@ -56,13 +56,13 @@ export function useShaderValueManager(
         (+save.booleans[valueIn] || properties[valueIn]) * treshold
 
       useParameters.subscribe(
-        (value) => (material.uniforms[valueName].value = +value * treshold),
-        (state) => state.saves[state.slot].booleans[valueIn]
+        value => (material.uniforms[valueName].value = +value * treshold),
+        state => state.saves[state.slot].booleans[valueIn]
       )
 
       useAnimations.subscribe(
-        (value) => (material.uniforms[valueName].value = +value * treshold),
-        (state) => state.saves[state.slot].frames[state.selected].frame[valueIn]
+        value => (material.uniforms[valueName].value = +value * treshold),
+        state => state.saves[state.slot].frames[state.selected].frame[valueIn]
       )
     }
   }, [model, treshold, valueIn, valueName])

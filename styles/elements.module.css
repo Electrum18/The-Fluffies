@@ -74,6 +74,10 @@
   }
 }
 
+.buttonLittle {
+  @apply px-4 py-1 text-sm md:text-lg font-bold bg-gray-800 rounded-lg hover:bg-gray-600 transition-colors;
+}
+
 .inputSlider {
   @apply flex flex-row flex-nowrap;
 

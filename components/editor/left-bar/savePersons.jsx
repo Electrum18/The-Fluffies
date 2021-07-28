@@ -1,37 +1,34 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { FaCheck, FaFile, FaTimes } from 'react-icons/fa'
 import shallow from 'zustand/shallow'
 
-import ListDropdown from '@/components/elements/listDropdown'
 import ListButtons from '@/components/elements/listButtons'
-
+import ListDropdown from '@/components/elements/listDropdown'
 import useMenu from '@/helpers/menu'
 import useParameters from '@/helpers/parameters'
-
-import styles from '@/styles/menu.module.css'
 import stylesElems from '@/styles/elements.module.css'
+import styles from '@/styles/menu.module.css'
 
 import { LeftSection } from '../createSection'
 
-import { FaCheck, FaFile, FaTimes } from 'react-icons/fa'
-
-const selectorParseSave = (state) => state.parseSave
-const selectorCurrentSave = (state) => [
+const selectorParseSave = state => state.parseSave
+const selectorCurrentSave = state => [
   state.saves[state.slot].names,
   state.saves[state.slot].booleans,
-  state.saves[state.slot].colors,
+  state.saves[state.slot].colors
 ]
 
-const selectorAllSaves = (state) => [
+const selectorAllSaves = state => [
   state.saves,
   state.slot,
   state.setSlot,
   state.addSave,
   state.deleteSave,
-  state.setName,
+  state.setName
 ]
 
-const selectorPageControl = (state) => [state.page, state.closePages]
-const selectorClosePage = (state) => state.closePages
+const selectorPageControl = state => [state.page, state.closePages]
+const selectorClosePage = state => state.closePages
 
 function Icon({ className, onClick }) {
   return (
@@ -46,12 +43,12 @@ function ImportButton({ text }) {
   const closePages = useMenu(selectorClosePage)
 
   return (
-    <div className='relative w-32 px-4 py-2 overflow-hidden font-bold text-center text-white bg-gray-800 rounded-lg'>
+    <div className="relative w-32 px-4 py-2 overflow-hidden font-bold text-center text-white bg-gray-800 rounded-lg">
       <span>{text}</span>
       <input
-        className='absolute top-0 left-0 w-32 p-1 m-0 opacity-0 cursor-pointer'
-        type='file'
-        accept='.json'
+        className="absolute top-0 left-0 w-32 p-1 m-0 opacity-0 cursor-pointer"
+        type="file"
+        accept=".json"
         onChange={parseSave}
         onClick={() => closePages}
       />
@@ -70,9 +67,9 @@ function ExportButton({ text }) {
   )
 
   return (
-    <div className='flex'>
+    <div className="flex">
       <a
-        className='flex items-center justify-around w-32 -mx-4 -my-2'
+        className="flex items-center justify-around w-32 -mx-4 -my-2"
         href={data}
         download={names.name + ' - The Fluffies.json'}
       >
@@ -100,7 +97,7 @@ export default function SavePersonSection() {
   }, [page])
 
   return (
-    <LeftSection name='SavePerson' icon={Icon}>
+    <LeftSection name="SavePerson" icon={Icon}>
       <div
         style={{ transform: `translateY(${translate}%)` }}
         className={styles.bottomMenu}
@@ -113,21 +110,21 @@ export default function SavePersonSection() {
               {
                 text: 'Import',
                 component: ImportButton,
-                disabled: saves.length >= 10,
+                disabled: saves.length >= 10
               },
               { text: 'Export', component: ExportButton },
               {
                 text: 'New',
                 style: 'bg-gray-800',
                 onClick: () => addSave(),
-                disabled: saves.length >= 10,
+                disabled: saves.length >= 10
               },
               {
                 text: 'Delete',
                 style: 'bg-gray-800',
                 onClick: () => deleteSave(slot),
-                disabled: saves.length < 2,
-              },
+                disabled: saves.length < 2
+              }
             ]}
           />
 
@@ -136,7 +133,7 @@ export default function SavePersonSection() {
               <div>
                 <input
                   value={tempName}
-                  placeholder='Enter name...'
+                  placeholder="Enter name..."
                   onChange={({ target }) =>
                     setTempName(target.value.substring(0, 20))
                   }
@@ -164,14 +161,14 @@ export default function SavePersonSection() {
             </div>
           ) : (
             <ListDropdown
-              label='Local saves'
+              label="Local saves"
               selectIndex={slot}
               list={saves.map(
                 (save, index) => index + 1 + ' • ' + save.names.name
               )}
               maximum={10}
               onChange={({ target }) => setSlot(target.selectedIndex)}
-              onEdit={(value) => {
+              onEdit={value => {
                 setTempName(value.replace(/^[0-9]+ • /m, '').substring(0, 20))
                 setNameEditing(true)
               }}
@@ -183,10 +180,10 @@ export default function SavePersonSection() {
               {
                 text: 'Profile saves',
                 style: 'bg-gray-800',
-                onClick: () => setIsProfile(!isProfile),
+                onClick: () => setIsProfile(!isProfile)
               },
               { text: 'Save to profile', style: 'bg-gray-800' },
-              { text: 'Close', style: 'bg-gray-800', onClick: closePages },
+              { text: 'Close', style: 'bg-gray-800', onClick: closePages }
             ]}
           />
 

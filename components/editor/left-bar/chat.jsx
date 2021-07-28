@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-
-import io from 'socket.io-client'
-
+import React, { useEffect, useState } from 'react'
 import {
   FaCommentDots,
   FaCommentSlash,
@@ -10,22 +7,19 @@ import {
   FaPatreon,
   FaTwitter,
   FaUser,
-  FaVk,
+  FaVk
 } from 'react-icons/fa'
-
-import OuterLink from '@/components/outerLink'
+import io from 'socket.io-client'
 
 import ModalMini from '@/components/elements/modalMini'
 import OverlayWarning from '@/components/elements/overlayWarn'
-
+import OuterLink from '@/components/outerLink'
 import useMenu from '@/helpers/menu'
 import useUser from '@/helpers/user'
+import styles from '@/styles/elements/chat.module.css'
 
 import { LeftSection } from '../createSection'
-
 import Login from './additional/login'
-
-import styles from '@/styles/elements/chat.module.css'
 
 function Icon({ className, onClick }) {
   return (
@@ -36,44 +30,44 @@ function Icon({ className, onClick }) {
 }
 
 function Buttons() {
-  const setPage = useMenu((state) => state.setPage)
+  const setPage = useMenu(state => state.setPage)
 
   return (
     <div className={styles.buttons}>
       <button
-        className=' hover:bg-gray-600 transition-colors'
+        className=" hover:bg-gray-600 transition-colors"
         onClick={() => setPage('Notice')}
       >
         Notice
       </button>
 
       <button
-        className=' hover:bg-gray-600 transition-colors'
+        className=" hover:bg-gray-600 transition-colors"
         onClick={() => setPage('Rules')}
       >
         Rules
       </button>
 
       <OuterLink
-        className='bg-blue-500 hover:bg-blue-400 transition-colors'
-        name='VKontakte'
-        href='https://vk.com/thefluffies'
+        className="bg-blue-500 hover:bg-blue-400 transition-colors"
+        name="VKontakte"
+        href="https://vk.com/thefluffies"
       >
         <FaVk />
       </OuterLink>
 
       <OuterLink
-        className='bg-blue-400 hover:bg-blue-300 transition-colors'
-        name='Twitter'
-        href='https://twitter.com/TFluffies'
+        className="bg-blue-400 hover:bg-blue-300 transition-colors"
+        name="Twitter"
+        href="https://twitter.com/TFluffies"
       >
         <FaTwitter />
       </OuterLink>
 
       <OuterLink
-        className='bg-red-400 hover:bg-red-300 transition-colors'
-        name='Patreon'
-        href='https://www.patreon.com/the_fluffies'
+        className="bg-red-400 hover:bg-red-300 transition-colors"
+        name="Patreon"
+        href="https://www.patreon.com/the_fluffies"
       >
         <FaPatreon />
       </OuterLink>
@@ -82,7 +76,7 @@ function Buttons() {
 }
 
 export default function ChatSection() {
-  const user = useUser((state) => state.user)
+  const user = useUser(state => state.user)
 
   const [socket, setSocket] = useState(null)
   const [message, setMessage] = useState('')
@@ -99,12 +93,12 @@ export default function ChatSection() {
   useEffect(() => {
     if (!socket) return
 
-    socket.on('get messages', (msg) => setMessages(msg.reverse()))
-    socket.on('get message', (msg) =>
-      setMessages((_messages) => [msg, ..._messages])
+    socket.on('get messages', msg => setMessages(msg.reverse()))
+    socket.on('get message', msg =>
+      setMessages(_messages => [msg, ..._messages])
     )
 
-    socket.on('get users count', (users) => setUsersCount(users))
+    socket.on('get users count', users => setUsersCount(users))
 
     return () => {
       socket.disconnect()
@@ -122,8 +116,8 @@ export default function ChatSection() {
   }
 
   return (
-    <LeftSection name='Chat' icon={Icon}>
-      <ModalMini title='Chat' page='Chat'>
+    <LeftSection name="Chat" icon={Icon}>
+      <ModalMini title="Chat" page="Chat">
         <Buttons />
 
         <ul className={styles.messages}>
@@ -134,16 +128,16 @@ export default function ChatSection() {
                   loader={({ src }) => src}
                   src={avatar}
                   alt={name + ' avatar'}
-                  className='rounded-lg'
-                  width='40'
-                  height='40'
+                  className="rounded-lg"
+                  width="40"
+                  height="40"
                 />
               </div>
 
               <div>
                 <span>
                   {name + ' • '}
-                  <span className='font-bold text-blue-400'>{level}</span>
+                  <span className="font-bold text-blue-400">{level}</span>
                 </span>
                 <span>{text}</span>
               </div>
@@ -155,7 +149,7 @@ export default function ChatSection() {
           <div>
             <input
               value={message}
-              placeholder='Enter message...'
+              placeholder="Enter message..."
               onChange={({ target }) =>
                 setMessage(target.value.substring(0, 100))
               }

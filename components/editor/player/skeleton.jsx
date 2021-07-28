@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
-import shallow from 'zustand/shallow'
-
+import React, { useEffect, useState } from 'react'
 import { Skeleton as CreateSkeleton } from 'three'
+import shallow from 'zustand/shallow'
 
 import useResources from '@/helpers/resources'
 
-const selector = (state) => [state.skeleton, state.setSkeleton]
+const selector = state => [state.skeleton, state.setSkeleton]
 
 function getAllBonesFromTree(bone) {
   const bonesList = []

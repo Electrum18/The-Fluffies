@@ -1,6 +1,6 @@
-import Names from '@/configs/default/names.json'
 import Booleans from '@/configs/default/booleans.json'
 import PreColors from '@/configs/default/color.json'
+import Names from '@/configs/default/names.json'
 
 const Colors = {}
 

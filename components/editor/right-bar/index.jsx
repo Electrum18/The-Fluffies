@@ -1,27 +1,25 @@
 import shallow from 'zustand/shallow'
 
 import useParameters from '@/helpers/parameters'
-
-import { Male, Female } from '../inline-icons-pony/Genders'
-
-import BodySection from './body'
-import HairSection from './hair'
-import TailSection from './tail'
-import EyesSection from './eyes'
-import GlassesSection from './glasses'
-import NoseSection from './nose'
-import HornsSection from './horns'
-import MouthSection from './mouth'
-import EarsSection from './ears'
-import PiercingSection from './piercing'
-import NeckSection from './neck'
-import WingsSection from './wings'
-import SuitsSection from './suits'
-import PantsSection from './pants'
-
 import styles from '@/styles/editor.module.css'
 
-const selector = (state) => [state.saves[state.slot].booleans, state.setMale]
+import { Female, Male } from '../inline-icons-pony/Genders'
+import BodySection from './body'
+import EarsSection from './ears'
+import EyesSection from './eyes'
+import GlassesSection from './glasses'
+import HairSection from './hair'
+import HornsSection from './horns'
+import MouthSection from './mouth'
+import NeckSection from './neck'
+import NoseSection from './nose'
+import PantsSection from './pants'
+import PiercingSection from './piercing'
+import SuitsSection from './suits'
+import TailSection from './tail'
+import WingsSection from './wings'
+
+const selector = state => [state.saves[state.slot].booleans, state.setMale]
 
 export default function RightBar() {
   const [params, setMale] = useParameters(selector, shallow)

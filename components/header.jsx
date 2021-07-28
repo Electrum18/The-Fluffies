@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
-
 import Image from 'next/image'
 import Link from 'next/link'
-
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 
 import en from '../locales/en/header'
-import ru from '../locales/ru/header'
-
 import enLinks from '../locales/en/links'
+import ru from '../locales/ru/header'
 import ruLinks from '../locales/ru/links'
 
 export default function Header() {
@@ -49,7 +46,7 @@ export default function Header() {
     } else {
       return (
         <Link href={href}>
-          <a className='mx-4 select-none hover:text-primary transition-colors duration-300'>
+          <a className="mx-4 select-none hover:text-primary transition-colors duration-300">
             {text}
           </a>
         </Link>
@@ -64,7 +61,7 @@ export default function Header() {
         headerStyle
       }
     >
-      <div className='flex flex-row justify-around md:justify-between'>
+      <div className="flex flex-row justify-around md:justify-between">
         {router.route === '/' ? (
           <div
             className={
@@ -73,18 +70,23 @@ export default function Header() {
             }
           >
             {t.version}
-            <div className='px-2 py-1 mx-3 text-white bg-version rounded-md'>
+            <div className="px-2 py-1 mx-3 text-white bg-version rounded-md">
               Huckleberry
             </div>
           </div>
         ) : (
-          <div className='hidden md:flex'>
-            <Link href='/'>
-              <a className='flex flex-row'>
-                <div className='flex icon-header'>
-                  <Image src='/svg/mango.svg' width={32} height={32} />
+          <div className="hidden md:flex">
+            <Link href="/">
+              <a className="flex flex-row">
+                <div className="flex icon-header">
+                  <Image
+                    src="/svg/mango.svg"
+                    alt="The Fluffies logo"
+                    width={32}
+                    height={32}
+                  />
                 </div>
-                <div className='mx-2 text-xl font-bold tracking-wide'>
+                <div className="mx-2 text-xl font-bold tracking-wide">
                   The Fluffies
                 </div>
               </a>
@@ -93,9 +95,9 @@ export default function Header() {
         )}
 
         <nav>
-          <NavLink href='/' text={tLink.home} />
-          <NavLink href='/about' text={tLink.about} />
-          <NavLink href='/support' text={tLink.support} />
+          <NavLink href="/" text={tLink.home} />
+          <NavLink href="/about" text={tLink.about} />
+          <NavLink href="/support" text={tLink.support} />
         </nav>
       </div>
     </header>

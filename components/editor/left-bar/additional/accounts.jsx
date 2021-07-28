@@ -1,17 +1,14 @@
 import Image from 'next/image'
-import { FaTrash, FaGoogle, FaPatreon, FaVk } from 'react-icons/fa'
+import { FaGoogle, FaPatreon, FaTrash, FaVk } from 'react-icons/fa'
 import { mutate } from 'swr'
 
 import ModalMini from '@/components/elements/modalMini'
-
-import { useSiteUrl } from '@/hooks/urls'
-
 import useUser from '@/helpers/user'
-
+import { useSiteUrl } from '@/hooks/urls'
 import styles from '@/styles/elements/accounts.module.css'
 
 function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
-  const user = useUser((state) => state.user)
+  const user = useUser(state => state.user)
 
   const loginUrl = useSiteUrl()
 
@@ -21,22 +18,22 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
     fetch(loginUrl + '/user/change/current', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify({ current }),
-    }).then((res) => res.ok && mutate(loginUrl + '/user'))
+      body: JSON.stringify({ current })
+    }).then(res => res.ok && mutate(loginUrl + '/user'))
   }
 
   function accountDelete(account) {
     fetch(loginUrl + '/user/unlink', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify({ account }),
-    }).then((res) => res.ok && mutate(loginUrl + '/user'))
+      body: JSON.stringify({ account })
+    }).then(res => res.ok && mutate(loginUrl + '/user'))
   }
 
   return (
@@ -55,8 +52,8 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
             loader={({ src }) => src}
             src={profileAvatar}
             alt={title + ' avatar'}
-            width='64'
-            height='64'
+            width="64"
+            height="64"
             onClick={() => accountSelect(profile)}
           />
         </div>
@@ -69,15 +66,15 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
       <div>
         {profileAvatar ? (
           user.current === profile ? (
-            <p className='text-primary'> selected </p>
+            <p className="text-primary"> selected </p>
           ) : (
             <>
-              <p className='text-gray-400'> select </p>
+              <p className="text-gray-400"> select </p>
               <FaTrash onClick={() => accountDelete(profile)} />
             </>
           )
         ) : (
-          <p className='text-gray-400'> connect </p>
+          <p className="text-gray-400"> connect </p>
         )}
       </div>
     </div>
@@ -86,32 +83,32 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
 
 export default function Accounts() {
   return (
-    <ModalMini title='Profile accounts' page='Accounts'>
+    <ModalMini title="Profile accounts" page="Accounts">
       <p className={styles.text}>Login to profile with</p>
 
       <div className={styles.content}>
         <SocialProfile
-          title='Google'
-          profile='google'
-          auth='google'
+          title="Google"
+          profile="google"
+          auth="google"
           icon={FaGoogle}
-          iconStyle='border-red-500 hover:text-red-500'
+          iconStyle="border-red-500 hover:text-red-500"
         />
 
         <SocialProfile
-          title='VK'
-          profile='vk'
-          auth='vkontakte'
+          title="VK"
+          profile="vk"
+          auth="vkontakte"
           icon={FaVk}
-          iconStyle='border-blue-500 hover:text-blue-500'
+          iconStyle="border-blue-500 hover:text-blue-500"
         />
 
         <SocialProfile
-          title='Patreon'
-          profile='patreon'
-          auth='patreon'
+          title="Patreon"
+          profile="patreon"
+          auth="patreon"
           icon={FaPatreon}
-          iconStyle='border-red-400 hover:text-red-400'
+          iconStyle="border-red-400 hover:text-red-400"
         />
       </div>
 

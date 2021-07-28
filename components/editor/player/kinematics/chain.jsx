@@ -1,25 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-
+import React, { useEffect, useRef, useState } from 'react'
 import { Vector3 } from 'three'
 
-import useDragging from '@/hooks/dragging'
+import useAnimations from '@/helpers/animations'
 import { useBoneLengths, useBonesArray } from '@/hooks/bones'
+import useDragging from '@/hooks/dragging'
+
+const selector = state => state.poseEditing
 
 function Helper({ position, setter }) {
   const helper = useRef()
 
-  useDragging(helper, () => setter(helper.current.position))
+  const poseEditing = useAnimations(selector)
+
+  useDragging(helper, () => poseEditing && setter(helper.current.position))
 
   return (
     <mesh ref={helper} position={position}>
       <octahedronGeometry args={[0.15]} />
-      <meshBasicMaterial color={'orange'} />
+      <meshBasicMaterial color={'orange'} visible={poseEditing} />
     </mesh>
   )
 }
 
-export default function Chain({ skeleton, bones, setUp = [0, 1, 0] }) {
+export default function Chain({ name, skeleton, bones, setUp = [0, 1, 0] }) {
   const [helperPos, setHelperPos] = useState(() => new Vector3())
 
   const bonesArr = useBonesArray(skeleton, bones)
@@ -34,7 +38,7 @@ export default function Chain({ skeleton, bones, setUp = [0, 1, 0] }) {
   }, [bonesArr, setUp])
 
   useFrame(() => {
-    const globalPoses = bonesArr.map((bone) =>
+    const globalPoses = bonesArr.map(bone =>
       bone.getWorldPosition(new Vector3())
     )
 

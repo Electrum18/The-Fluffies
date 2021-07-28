@@ -2,24 +2,23 @@ import React, { useEffect, useRef } from 'react'
 import shallow from 'zustand/shallow'
 
 import useResources from '@/helpers/resources'
+import {
+  useColorManager,
+  useEmotionManager,
+  useLight,
+  useModelInfo,
+  usePositionManager,
+  useSkinningManager,
+  useWorldColor
+} from '@/hooks/models'
 
 import { AppendGeomtery, AppendTexture } from './appenders'
 
-import {
-  useModelInfo,
-  useColorManager,
-  usePositionManager,
-  useLight,
-  useEmotionManager,
-  useWorldColor,
-  useSkinningManager,
-} from '@/hooks/models'
-
-const selector = (store) => [
+const selector = store => [
   store.geometries,
   store.materials,
   store.textures,
-  store.skeleton,
+  store.skeleton
 ]
 
 export function Model({ name: elemName, material, file, texture, emotions }) {

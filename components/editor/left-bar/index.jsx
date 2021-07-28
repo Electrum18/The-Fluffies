@@ -1,17 +1,17 @@
-import HomeSection from './home'
+import styles from '@/styles/editor.module.css'
+
+import AnimationSection from './animations'
+import ChatSection from './chat'
 import EmotionsSection from './emotions'
 import EnvSection from './environment'
-import AnimationSection from './animations'
-import TakeImageSection from './takeImage'
-import TakeAnimationSection from './takeAnimation'
-import SavePersonSection from './savePersons'
+import HomeSection from './home'
 import LanguageSection from './language'
 import LevelSection from './level'
 import ProfileSection from './profile'
+import SavePersonSection from './savePersons'
 import SocialSection from './socials'
-import ChatSection from './chat'
-
-import styles from '@/styles/editor.module.css'
+import TakeAnimationSection from './takeAnimation'
+import TakeImageSection from './takeImage'
 
 function Spacer() {
   return <div />

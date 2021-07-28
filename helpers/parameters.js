@@ -1,28 +1,27 @@
-import create from 'zustand'
 import produce from 'immer'
+import create from 'zustand'
 
-import { parsePersonSave } from '@/libs/saves'
-
-import names from '@/configs/default/names.json'
 import booleans from '@/configs/default/booleans.json'
 import colors from '@/configs/default/color.json'
+import names from '@/configs/default/names.json'
+import { parsePersonSave } from '@/libs/saves'
 
 const saveDefaultData = { names, booleans, colors }
 
-const useParameters = create((set) => ({
+const useParameters = create(set => ({
   saves: [{ ...saveDefaultData }],
   slot: 0,
 
   setName: (key, value) =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].names[key] = value
       })
     ),
 
   setBoolean: (key, value) =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].booleans[key] = value
       })
     ),
@@ -33,32 +32,32 @@ const useParameters = create((set) => ({
     if (a) postColor.a = a
 
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].colors[key] = postColor
       })
     )
   },
 
-  setMale: (value) =>
+  setMale: value =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].booleans.male = value
       })
     ),
 
-  setSlot: (slot) => set({ slot }),
+  setSlot: slot => set({ slot }),
 
   addSave: () =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves.push({ ...saveDefaultData })
         state.slot = state.saves.length - 1
       })
     ),
 
-  deleteSave: (index) =>
+  deleteSave: index =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves.splice(index, 1)
         state.slot =
           index > state.saves.length - 1
@@ -80,7 +79,7 @@ const useParameters = create((set) => ({
       )
 
       set(
-        produce((state) => {
+        produce(state => {
           state.saves.push({ names, booleans, colors: color })
           state.slot = state.saves.length - 1
         })
@@ -88,7 +87,7 @@ const useParameters = create((set) => ({
     }
 
     reader.onerror = () => console.log(reader.error)
-  },
+  }
 }))
 
 export default useParameters

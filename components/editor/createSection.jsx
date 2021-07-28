@@ -2,12 +2,11 @@ import shallow from 'zustand/shallow'
 
 import useCustomizing from '@/helpers/customizing'
 import useMenu from '@/helpers/menu'
-
 import styles from '@/styles/editor.module.css'
 
-const selector = (state) => [state.index, state.setConfig]
-const selectorPage = (state) => [state.page, state.setPage]
-const selectorClose = (state) => state.closeWindow
+const selector = state => [state.index, state.setConfig]
+const selectorPage = state => [state.page, state.setPage]
+const selectorClose = state => state.closeWindow
 
 export default function Section({ name, icon: Icon, children }) {
   const [index, setConfig] = useCustomizing(selector, shallow)

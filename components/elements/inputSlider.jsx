@@ -6,7 +6,7 @@ export default function InputSlider({
   value,
   callback,
   dragging,
-  onPointerDown,
+  onPointerDown
 }) {
   const slider = useRef()
 

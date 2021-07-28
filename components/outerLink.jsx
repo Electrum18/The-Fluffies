@@ -3,9 +3,9 @@ export default function OuterLink({ children, name, href, className }) {
     <a
       className={className}
       href={href}
-      target='_blank'
+      target="_blank"
       title={name}
-      rel='noopener noreferrer'
+      rel="noopener noreferrer"
       aria-label={name}
     >
       {children}

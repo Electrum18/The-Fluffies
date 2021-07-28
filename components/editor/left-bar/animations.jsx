@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import shallow from 'zustand/shallow'
-
 import {
-  FaChevronUp,
+  FaArrowsAltH,
   FaChevronDown,
+  FaChevronUp,
+  FaFilm,
+  FaMinus,
   FaPause,
   FaPlay,
+  FaPlus,
   FaStepBackward,
   FaSyncAlt,
-  FaTimes,
-  FaFilm,
-  FaArrowsAltH,
-  FaPlus,
-  FaMinus,
+  FaTimes
 } from 'react-icons/fa'
-
-import useMenu from '@/helpers/menu'
-import useAnimations from '@/helpers/animations'
-
-import { useFrameEdit } from '@/hooks/animation'
+import shallow from 'zustand/shallow'
 
 import InputSlider from '@/components/elements/inputSlider'
+import useAnimations from '@/helpers/animations'
+import useMenu from '@/helpers/menu'
+import { useFrameEdit } from '@/hooks/animation'
+import editorStyles from '@/styles/editor.module.css'
+import styles from '@/styles/elements/animations.module.css'
+import menuStyles from '@/styles/menu.module.css'
 
 import { LeftSection } from '../createSection'
 
-import styles from '@/styles/elements/animations.module.css'
-import menuStyles from '@/styles/menu.module.css'
-import editorStyles from '@/styles/editor.module.css'
-
-const selectorPage = (state) => [state.page, state.closePages]
-const selectorAnimations = (state) => [
+const selectorPage = state => [state.page, state.closePages]
+const selectorAnimations = state => [
   state.play,
   state.loop,
   state.folded,
@@ -41,7 +37,7 @@ const selectorAnimations = (state) => [
   state.setFolded,
   state.setPosition,
   state.addFrame,
-  state.deleteFrame,
+  state.deleteFrame
 ]
 
 function Icon({ className, onClick }) {
@@ -69,7 +65,7 @@ function Frame({
   last,
   onPointerDown,
   onDragging,
-  className,
+  className
 }) {
   function clamp(value, min, max) {
     return value < min ? min : value > max ? max : value
@@ -81,7 +77,7 @@ function Frame({
     <div
       style={{
         marginLeft: index === 0 ? '10px' : undefined,
-        width: (last ? 112 : duration * 240) + 'px',
+        width: (last ? 112 : duration * 240) + 'px'
       }}
       className={
         styles.frame +
@@ -94,7 +90,7 @@ function Frame({
         <img
           style={{
             width: (last ? 96 : 64 + 64 * clamp(duration - 0.5, 0, 1)) + 'px',
-            margin: selected === index ? '4px' : '',
+            margin: selected === index ? '4px' : ''
           }}
           alt={'Frame ' + index}
         />
@@ -137,7 +133,7 @@ export default function AnimationSection() {
     setFolded,
     setPosition,
     addFrame,
-    deleteFrame,
+    deleteFrame
   ] = useAnimations(selectorAnimations, shallow)
 
   const [translate, setTranslate] = useState(100)
@@ -191,7 +187,7 @@ export default function AnimationSection() {
   }
 
   return (
-    <LeftSection name='Animation' icon={Icon}>
+    <LeftSection name="Animation" icon={Icon}>
       <div
         onPointerUp={() => setDragging(false)}
         onPointerLeave={() => setDragging(false)}
@@ -200,7 +196,7 @@ export default function AnimationSection() {
       >
         <div>
           <div />
-          <div className='mr-2'>
+          <div className="mr-2">
             <FaPlus onClick={() => addFrame()} />
           </div>
           <div
@@ -210,8 +206,8 @@ export default function AnimationSection() {
           >
             <FaMinus onClick={() => deleteFrame()} />
           </div>
-          <div className='flex-grow' />
-          <div className='mr-2'>
+          <div className="flex-grow" />
+          <div className="mr-2">
             {folded ? (
               <FaChevronUp onClick={() => setFolded(false)} />
             ) : (
@@ -237,7 +233,7 @@ export default function AnimationSection() {
               {play ? (
                 <FaPause onClick={() => setPlay(false)} />
               ) : (
-                <FaPlay className='ml-0.5' onClick={() => setPlay(true)} />
+                <FaPlay className="ml-0.5" onClick={() => setPlay(true)} />
               )}
             </div>
 
@@ -261,7 +257,7 @@ export default function AnimationSection() {
         />
 
         <div
-          className='animaton-bg-gradient'
+          className="animaton-bg-gradient"
           onPointerUp={stopDraggingFrame}
           onPointerLeave={stopDraggingFrame}
         >

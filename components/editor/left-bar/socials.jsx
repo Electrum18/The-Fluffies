@@ -1,11 +1,10 @@
-import { FaGithub, FaUsers, FaPatreon, FaTwitter, FaVk } from 'react-icons/fa'
+import { FaGithub, FaPatreon, FaTwitter, FaUsers, FaVk } from 'react-icons/fa'
 
-import OuterLink from '@/components/outerLink'
 import ModalMini from '@/components/elements/modalMini'
+import OuterLink from '@/components/outerLink'
+import styles from '@/styles/elements/socials.module.css'
 
 import { LeftSection } from '../createSection'
-
-import styles from '@/styles/elements/socials.module.css'
 
 function Icon({ className, onClick }) {
   return (
@@ -17,26 +16,26 @@ function Icon({ className, onClick }) {
 
 export default function SocialSection() {
   return (
-    <LeftSection name='Social' icon={Icon}>
-      <ModalMini title='We are here!' page='Social'>
+    <LeftSection name="Social" icon={Icon}>
+      <ModalMini title="We are here!" page="Social">
         <div className={styles.content}>
-          <OuterLink name='VKontakte' href='https://vk.com/thefluffies'>
-            <FaVk className='border-blue-500 hover:text-blue-500' />
+          <OuterLink name="VKontakte" href="https://vk.com/thefluffies">
+            <FaVk className="border-blue-500 hover:text-blue-500" />
           </OuterLink>
 
-          <OuterLink name='Twitter' href='https://twitter.com/TFluffies'>
-            <FaTwitter className='border-blue-400 hover:text-blue-400' />
+          <OuterLink name="Twitter" href="https://twitter.com/TFluffies">
+            <FaTwitter className="border-blue-400 hover:text-blue-400" />
           </OuterLink>
 
-          <OuterLink name='Patreon' href='https://www.patreon.com/the_fluffies'>
-            <FaPatreon className='border-red-400 hover:text-red-400' />
+          <OuterLink name="Patreon" href="https://www.patreon.com/the_fluffies">
+            <FaPatreon className="border-red-400 hover:text-red-400" />
           </OuterLink>
 
           <OuterLink
-            name='GitHub'
-            href='https://github.com/Electrum18/The-Fluffies'
+            name="GitHub"
+            href="https://github.com/Electrum18/The-Fluffies"
           >
-            <FaGithub className='border-gray-400 hover:text-gray-400' />
+            <FaGithub className="border-gray-400 hover:text-gray-400" />
           </OuterLink>
         </div>
       </ModalMini>

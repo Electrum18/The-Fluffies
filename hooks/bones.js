@@ -10,7 +10,7 @@ export function useBonesArray(skeleton, bones) {
       skeleton.bones.length > 0 &&
       (!skeletonBefore || skeletonBefore.uuid !== skeleton.uuid)
     ) {
-      setBonesArr(bones.map((bone) => skeleton.getBoneByName(bone)))
+      setBonesArr(bones.map(bone => skeleton.getBoneByName(bone)))
       setSkeletonBefore(skeleton)
     }
   }, [bones, skeleton, skeletonBefore])

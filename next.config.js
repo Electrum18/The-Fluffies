@@ -40,11 +40,11 @@ function UseEsbuildLoader(config, options) {
 }
 
 module.exports = withPlugins([withOffline, withBundleAnalyzer], {
-  future: { webpack5: true },
   i18n: {
     locales: ['en', 'ru'],
     defaultLocale: 'en',
   },
+
   webpack(config, { webpack, isServer, dev }) {
     config.plugins.push(
       new webpack.ProvidePlugin({

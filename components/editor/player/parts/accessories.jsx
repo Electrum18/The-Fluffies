@@ -2,7 +2,7 @@ import useParameters from '@/helpers/parameters'
 
 import { Model } from '../model'
 
-const selector = (state) => state.saves[state.slot].booleans
+const selector = state => state.saves[state.slot].booleans
 
 export default function Accessories() {
   const params = useParameters(selector)
@@ -10,32 +10,32 @@ export default function Accessories() {
   return (
     <>
       <Model
-        name='Glasses'
-        material='glasses'
+        name="Glasses"
+        material="glasses"
         file={{ group: 'glasses/', key: 'glasses' }}
-        texture='double'
+        texture="double"
       />
 
-      {params.collar_enable && <Model name='Collar' material='collar' />}
-      {params.bowtie_enable && <Model name='Bowtie' material='bowtie' />}
+      {params.collar_enable && <Model name="Collar" material="collar" />}
+      {params.bowtie_enable && <Model name="Bowtie" material="bowtie" />}
 
       <Model
-        name='Piercing ears'
-        material='piercings'
+        name="Piercing ears"
+        material="piercings"
         file={{ group: 'piercings/ears/', key: 'piercing_ears' }}
       />
 
       <Model
-        name='Clothing'
-        material='clothing'
+        name="Clothing"
+        material="clothing"
         file={{ group: 'clothing/', key: 'clothing' }}
       />
 
-      {params.scarf && <Model name='Scarf' material='scarf' />}
+      {params.scarf && <Model name="Scarf" material="scarf" />}
 
       <Model
-        name='Pants'
-        material='pants'
+        name="Pants"
+        material="pants"
         file={{ group: 'pants/', key: 'pants' }}
       />
     </>

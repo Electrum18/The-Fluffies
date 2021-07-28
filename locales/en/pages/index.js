@@ -4,7 +4,7 @@ const Index = {
     description:
       'Easily create ponies using 3D editor in browser, inspired by the pony ' +
       'creator, with a revolution in creation and the presence of animations, ' +
-      'use editor now 🔥',
+      'use editor now 🔥'
   },
 
   header: 'Pony editor directly in browser with animation & 3D graphics',
@@ -18,7 +18,7 @@ const Index = {
       'List of patrons who supported our project financially, we are ' +
       'grateful for their participation in the life of the project become ' +
       'one of our patrons by subscribing to Patreon',
-    button: 'Become patron',
+    button: 'Become patron'
   },
 
   score: {
@@ -27,7 +27,7 @@ const Index = {
       'We constantly find opportunities for development of the project and ' +
       'its improvement every month',
     users: 'users',
-    years: 'years',
+    years: 'years'
   },
 
   features: {
@@ -36,7 +36,7 @@ const Index = {
       'The editor allows you to create various characters, as well as animate ' +
       'them through the built-in tools and then auto-save in the browser and ' +
       'in the account',
-    sub: 'maximum simplification of actions ',
+    sub: 'maximum simplification of actions '
   },
 
   create: {
@@ -44,7 +44,7 @@ const Index = {
     text:
       'The editor provides tools right in the browser for animating and ' +
       'creating your character, then saving the work and using it',
-    sub: 'characters are saved automatically',
+    sub: 'characters are saved automatically'
   },
 
   using: {
@@ -53,7 +53,7 @@ const Index = {
       'The editor in the form of a website allows you to use it anywhere ' +
       'and on any device, as well as transfer the save between them through ' +
       'a single account',
-    sub: 'just run it on the device you want',
+    sub: 'just run it on the device you want'
   },
 
   help: {
@@ -62,7 +62,7 @@ const Index = {
       'The project provides the ability to send messages for communication ' +
       'asking for help and finding friends, we also have social networks ' +
       'where you can watch the life of the project',
-    sub: 'just use chat in editor page',
+    sub: 'just use chat in editor page'
   },
 
   community: {
@@ -71,7 +71,7 @@ const Index = {
       'The project is open to criticism, ideas and creativity, anyone can ' +
       'help with the development and promotion of the project, the main ' +
       'directions for support: artists, programmers and patrons',
-    sub: 'just contact us on the support page',
+    sub: 'just contact us on the support page'
   },
 
   start: {
@@ -79,8 +79,8 @@ const Index = {
     text:
       "Check out the editor's capabilities for yourself now and " +
       'become a part of the community too',
-    button: 'Come back and start',
-  },
+    button: 'Come back and start'
+  }
 }
 
 export default Index

@@ -1,19 +1,16 @@
-import { useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-
+import { useState } from 'react'
 import { Vector3 } from 'three'
-
 import shallow from 'zustand/shallow'
 
 import useAnimations from '@/helpers/animations'
-
 import { useAnimationPosition } from '@/hooks/animation'
 
-const selector = (state) => [
+const selector = state => [
   state.saves[state.slot].frames,
   state.position,
   state.selected,
-  state.setProperty,
+  state.setProperty
 ]
 
 function formatVec3({ x, y, z }) {

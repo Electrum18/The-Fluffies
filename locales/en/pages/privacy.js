@@ -4,8 +4,8 @@ const Privacy = {
     description:
       'The privacy policy page describes how our website collects and uses ' +
       'personal information about your visits to and use of the website, online ' +
-      'or offline 🔒',
-  },
+      'or offline 🔒'
+  }
 }
 
 export default Privacy

@@ -11,12 +11,12 @@ function Icon() {
   return (
     <div>
       <Link href={router.route} locale={locale} scroll={false}>
-        <a className='p-2 text-lg text-center text-white -ml-1.5'>{locale}</a>
+        <a className="p-2 text-lg text-center text-white -ml-1.5">{locale}</a>
       </Link>
     </div>
   )
 }
 
 export default function LanguageSection() {
-  return <LeftSection name='Language' icon={Icon} />
+  return <LeftSection name="Language" icon={Icon} />
 }

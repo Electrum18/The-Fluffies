@@ -1,35 +1,27 @@
+import { OrbitControls, Preload } from '@react-three/drei'
+import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { Scene } from 'three'
 import shallow from 'zustand/shallow'
 
-import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, Preload } from '@react-three/drei'
-
-import { Scene } from 'three'
-
-import useResources from '@/helpers/resources'
-import useParameters from '@/helpers/parameters'
 import useAnimations from '@/helpers/animations'
+import useParameters from '@/helpers/parameters'
+import useResources from '@/helpers/resources'
 
-import Player from './player'
 import Camera from './camera'
-
+import Player from './player'
 import IK from './player/kinematics'
 import Chain from './player/kinematics/chain'
 
-const selector = (state) => [state.play, state.dragging]
-const selectorResources = (state) => [state.setLight, state.setAmbientLight]
-const selectorSkeleton = (state) => state.skeleton
+const selector = state => [state.play, state.dragging]
+const selectorResources = state => [state.setLight, state.setAmbientLight]
 
 function Main({ children }) {
   const [scene] = useState(() => new Scene())
 
-  const skeleton = useResources(selectorSkeleton)
-
   const { gl, camera } = useThree()
 
   useFrame(() => {
-    if (skeleton.bones.length < 1) return
-
     gl.autoClear = true
     gl.render(scene, camera)
   }, 0)
@@ -68,7 +60,7 @@ function useLight() {
 
         pointLight.current.intensity = l
       },
-      (state) => state.saves[state.slot].colors.background_basic
+      state => state.saves[state.slot].colors.background_basic
     )
   }, [])
 
@@ -84,12 +76,12 @@ export default function World() {
 
   return (
     <Canvas
-      mode='concurrent'
+      mode="concurrent"
       flat={true}
       style={{ position: 'absolute', top: 0 }}
       camera={{ fov: 45, near: 0.1, far: 1000, position: [-10, 0, 10] }}
     >
-      <color ref={background} attach='background' args={['white']} />
+      <color ref={background} attach="background" args={['white']} />
 
       <OrbitControls
         ref={controls}
@@ -134,6 +126,9 @@ export default function World() {
             bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']}
             setUp={[-1, 0, 1]}
           />
+
+          <Chain bones={['WingL', 'Wing2L']} setUp={[0, 1, -1]} />
+          <Chain bones={['WingR', 'Wing2R']} setUp={[0, 1, -1]} />
         </IK>
       </HeadsUpDisplay>
     </Canvas>

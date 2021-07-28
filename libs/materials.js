@@ -1,15 +1,15 @@
 import {
-  Vector2,
-  Vector3,
   Color,
-  Texture,
-  ShaderMaterial,
-  UniformsUtils,
   Matrix4,
+  ShaderMaterial,
+  Texture,
+  UniformsUtils,
+  Vector2,
+  Vector3
 } from 'three'
 
-import vertexShader from '@/libs/glsl/vertex.vert'
 import fragmentShader from '@/libs/glsl/fragment.frag'
+import vertexShader from '@/libs/glsl/vertex.vert'
 
 const fragmentUniforms = {
   uDirLightPos: { value: new Vector3() },
@@ -36,7 +36,7 @@ const fragmentUniforms = {
 
   secondEnabled: { value: false },
   thirdEnabled: { value: false },
-  fouthEnabled: { value: false },
+  fouthEnabled: { value: false }
 }
 
 const vertexUniforms = {
@@ -53,17 +53,17 @@ const vertexUniforms = {
 
   bindMatrix: { value: new Matrix4() },
   bindMatrixInverse: { value: new Matrix4() },
-  boneMatrices: { value: new Array(27).fill(new Matrix4()) },
+  boneMatrices: { value: new Array(27).fill(new Matrix4()) }
 }
 
 const shader = {
   uniforms: {
     ...fragmentUniforms,
-    ...vertexUniforms,
+    ...vertexUniforms
   },
 
   vertexShader,
-  fragmentShader,
+  fragmentShader
 }
 
 export function createMaterials(materialsIn) {
@@ -83,7 +83,7 @@ export function createMaterials(materialsIn) {
       vertexShader: shader.vertexShader,
       fragmentShader: shader.fragmentShader,
       transparent: true,
-      skinning: true,
+      skinning: true
     })
   }
 

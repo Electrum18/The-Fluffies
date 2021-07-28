@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
-
 import { FaUserCheck } from 'react-icons/fa'
 
-import SiteHead from '@/components/siteHead'
-import Header from '@/components/header'
-import Title from '@/components/title'
 import Footer from '@/components/footer'
+import Header from '@/components/header'
 import Locale from '@/components/locale'
-
+import SiteHead from '@/components/siteHead'
+import Title from '@/components/title'
 import en from '@/locales/en/pages/terms'
 import ru from '@/locales/ru/pages/terms'
 
@@ -21,14 +19,14 @@ export default function About() {
       <SiteHead t={t} />
       <Header />
 
-      <main className='page-main'>
+      <main className="page-main">
         <div>
-          <FaUserCheck className='basic-icon' />
-          <Title header='Terms of Service' />
+          <FaUserCheck className="basic-icon" />
+          <Title header="Terms of Service" />
           <p>Last updated: May 27, 2021</p>
         </div>
 
-        <div section className='flex-col my-8 div-section'>
+        <div section className="flex-col my-8 div-section">
           <p>
             Please read these Terms of Service (&quot;Terms&quot;, &quot;Terms
             of Service&quot;) carefully before using the
@@ -47,7 +45,7 @@ export default function About() {
           </p>
         </div>
 
-        <section section className='flex-col'>
+        <section section className="flex-col">
           <h2>Termination</h2>
           <p>
             We may terminate or suspend access to our Service immediately,
@@ -62,7 +60,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className='flex-col'>
+        <section section className="flex-col">
           <h2>Links To Other Web Sites</h2>
           <p>
             Our Service may contain links to third­party web sites or services
@@ -83,7 +81,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className='flex-col'>
+        <section section className="flex-col">
           <h2>User submitted content</h2>
           <p>
             Our Service may contain content submited by other users of the
@@ -102,7 +100,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className='flex-col'>
+        <section section className="flex-col">
           <h2>Governing Law</h2>
           <p>
             These Terms shall be governed and construed in accordance with the
@@ -119,7 +117,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className='flex-col'>
+        <section section className="flex-col">
           <h2>Changes</h2>
           <p>
             We reserve the right, at our sole discretion, to modify or replace
@@ -135,7 +133,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className='flex-col mb-0'>
+        <section section className="flex-col mb-0">
           <h2>Contact Us</h2>
           <p>If you have any questions about these Terms, please contact us.</p>
         </section>

@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
-
 import { FaShieldAlt } from 'react-icons/fa'
 
-import SiteHead from '@/components/siteHead'
-import Header from '@/components/header'
-import Title from '@/components/title'
 import Footer from '@/components/footer'
+import Header from '@/components/header'
 import Locale from '@/components/locale'
-
+import SiteHead from '@/components/siteHead'
+import Title from '@/components/title'
 import en from '@/locales/en/pages/privacy'
 import ru from '@/locales/ru/pages/privacy'
 
@@ -21,14 +19,14 @@ export default function About() {
       <SiteHead t={t} />
       <Header />
 
-      <main className='page-main'>
+      <main className="page-main">
         <div>
-          <FaShieldAlt className='basic-icon' />
-          <Title header='Privacy Policy' />
+          <FaShieldAlt className="basic-icon" />
+          <Title header="Privacy Policy" />
           <p>Last updated: May 27, 2021</p>
         </div>
 
-        <div className='flex-col my-8 div-section'>
+        <div className="flex-col my-8 div-section">
           <p>
             We operate https://the-fluffies.net/ (the &quot;Site&quot;). This
             page informs you of our policies regarding the collection, use and
@@ -42,7 +40,7 @@ export default function About() {
           </p>
         </div>
 
-        <section className='flex-col'>
+        <section className="flex-col">
           <h2>Information Collection And Use</h2>
           <p>
             While using our Site, we may ask you to provide us with certain
@@ -53,7 +51,7 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex-col'>
+        <section className="flex-col">
           <h2>Cookies</h2>
           <p>
             Cookies are files with small amount of data, which may include an
@@ -68,7 +66,7 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex-col'>
+        <section className="flex-col">
           <h2>Security</h2>
           <p>
             The security of your Personal Information is important to us, but
@@ -79,7 +77,7 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex-col'>
+        <section className="flex-col">
           <h2>Log Data</h2>
           <p>
             Like many site operators, we collect information that your browser
@@ -98,7 +96,7 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex-col'>
+        <section className="flex-col">
           <h2>Changes To This Privacy Policy</h2>
           <p>
             This Privacy Policy is effective as of August 11, 2016 and will
@@ -121,7 +119,7 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex-col mb-0'>
+        <section className="flex-col mb-0">
           <h2>Contact Us</h2>
           <p>
             If you have any questions about this Privacy Policy, please contact

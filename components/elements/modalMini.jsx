@@ -3,13 +3,12 @@ import { FaTimes } from 'react-icons/fa'
 import shallow from 'zustand/shallow'
 
 import useMenu from '@/helpers/menu'
-
 import styles from '@/styles/editor.module.css'
 import stylesElems from '@/styles/elements.module.css'
 
 export default function ModalMini({ title, page: pageName, children }) {
   const [page, closePages] = useMenu(
-    (state) => [state.page, state.closePages],
+    state => [state.page, state.closePages],
     shallow
   )
 

@@ -3,7 +3,7 @@ import styles from '@/styles/elements.module.css'
 function ListPart({ list }) {
   return (
     <div className={styles.chipsList}>
-      {list.map((value) => (
+      {list.map(value => (
         <span key={value}>{value}</span>
       ))}
     </div>

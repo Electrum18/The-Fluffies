@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
 import { useThree } from '@react-three/fiber'
-
+import { useEffect, useState } from 'react'
 import { DragControls } from 'three-stdlib'
 
 import useAnimations from '@/helpers/animations'
 
-const selector = (state) => state.setDragging
+const selector = state => state.setDragging
 
 export default function useDragging(ref, setter) {
   const setDragging = useAnimations(selector)

@@ -1,5 +1,5 @@
 const Header = {
-  version: 'version',
+  version: 'version'
 }
 
 export default Header

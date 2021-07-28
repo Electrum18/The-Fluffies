@@ -1,17 +1,17 @@
-import { Children, cloneElement } from 'react'
+import React, { Children, cloneElement } from 'react'
 
 import useResources from '@/helpers/resources'
 
-const selectorSkeleton = (state) => state.skeleton
+const selectorSkeleton = state => state.skeleton
 
 export default function IK({ children }) {
   const skeleton = useResources(selectorSkeleton)
 
-  if (!skeleton.bones) return null
+  if (skeleton.bones.length < 1) return null
 
   return (
     <>
-      {Children.map(children, (child) =>
+      {Children.map(children, child =>
         cloneElement(child, { skeleton, ...child.props })
       )}
     </>

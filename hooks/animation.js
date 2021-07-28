@@ -3,11 +3,11 @@ import shallow from 'zustand/shallow'
 
 import useAnimations from '@/helpers/animations'
 
-const selector = (state) => [
+const selector = state => [
   state.saves[state.slot].frames,
   state.selected,
   state.setDuration,
-  state.setSelectedFrame,
+  state.setSelectedFrame
 ]
 
 function easeInOutQuad(t) {

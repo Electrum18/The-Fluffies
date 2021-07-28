@@ -5,7 +5,7 @@ export default function InfoSection({ children, src, alt, flip }) {
     <section>
       {flip ? (
         <>
-          <div className='image-side'>
+          <div className="image-side">
             <Image
               src={src}
               alt={alt}
@@ -14,12 +14,12 @@ export default function InfoSection({ children, src, alt, flip }) {
               draggable={false}
             />
           </div>
-          <div className='text-side'>{children}</div>
+          <div className="text-side">{children}</div>
         </>
       ) : (
         <>
-          <div className='text-side'>{children}</div>
-          <div className='image-side'>
+          <div className="text-side">{children}</div>
+          <div className="image-side">
             <Image
               src={src}
               alt={alt}

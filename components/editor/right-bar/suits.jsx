@@ -1,31 +1,30 @@
 import SuitsIcon from '@/components/editor/inline-icons-pony/Suits'
-
-import Section from '../createSection'
-import Controls from '../createControls'
-
 import Suits from '@/configs/changeable/clothing.json'
+
+import Controls from '../createControls'
+import Section from '../createSection'
 
 export default function SuitsSection() {
   return (
-    <Section name='Suits' icon={SuitsIcon}>
+    <Section name="Suits" icon={SuitsIcon}>
       <Controls
         data={{
-          Color: { color: 'clothing_basic' },
+          Color: { color: 'clothing_basic' }
         }}
       />
 
       <Controls
-        title='Suit type'
+        title="Suit type"
         data={{
-          Types: { value: 'clothing', list: Suits, imgSrc: 'clothing/' },
+          Types: { value: 'clothing', list: Suits, imgSrc: 'clothing/' }
         }}
       />
 
       <Controls
-        title='Scarf'
+        title="Scarf"
         data={{
           Enable: { boolean: 'scarf' },
-          Color: { color: 'scarf_basic' },
+          Color: { color: 'scarf_basic' }
         }}
       />
     </Section>

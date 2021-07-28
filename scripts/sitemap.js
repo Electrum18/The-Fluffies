@@ -4,17 +4,17 @@ const prettier = require('prettier')
 
 const getDate = new Date().toISOString()
 
-const formatted = (sitemap) => prettier.format(sitemap, { parser: 'html' })
+const formatted = sitemap => prettier.format(sitemap, { parser: 'html' })
 
 ;(async () => {
   const pages = await globby([
     'pages/**/*{.js,.jsx,.mdx}',
     '!pages/_*.js',
-    '!pages/api',
+    '!pages/api'
   ])
 
   const pagesSitemap = pages
-    .map((page) => {
+    .map(page => {
       const path = page.replace(/pages|\.(j|t)sx?/g, '')
 
       let route = path === '/index' ? '/' : path

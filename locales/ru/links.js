@@ -3,7 +3,7 @@ const Links = {
   about: 'Об нас',
   support: 'Помощь',
   terms: 'Правила',
-  privacy: 'Приватность',
+  privacy: 'Приватность'
 }
 
 export default Links

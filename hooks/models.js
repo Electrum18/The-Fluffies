@@ -1,20 +1,19 @@
 import { useEffect } from 'react'
 import shallow from 'zustand/shallow'
 
+import Materials from '@/configs/materials.json'
+import useAnimations from '@/helpers/animations'
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
-import useAnimations from '@/helpers/animations'
-
-import Materials from '@/configs/materials.json'
 
 import { useShaderColorManager, useShaderValueManager } from './shader'
 
-const selectorNames = (state) => state.saves[state.slot].names
-const selectorProps = (state) =>
+const selectorNames = state => state.saves[state.slot].names
+const selectorProps = state =>
   state.saves[state.slot].frames[state.selected].frame
 
-const selectorLignt = (state) => [state.light, state.ambientLight]
-const selectorMorphs = (state) => state.morphsList
+const selectorLignt = state => [state.light, state.ambientLight]
+const selectorMorphs = state => state.morphsList
 
 export function useModelInfo(
   elemName,
@@ -50,7 +49,7 @@ export function useColorManager(model, materialName) {
 
     color2Value,
     color3Value,
-    color4Value,
+    color4Value
   } = Materials[materialName]
 
   useShaderColorManager('color', 'alpha', model, color)

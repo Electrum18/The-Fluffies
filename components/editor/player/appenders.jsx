@@ -1,20 +1,19 @@
-import { useCallback } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
+import { useCallback } from 'react'
 import shallow from 'zustand/shallow'
 
-import useResources from '@/helpers/resources'
 import useAnimations from '@/helpers/animations'
-
+import useResources from '@/helpers/resources'
 import { nameIndexGroups, nameInFileIndexes } from '@/libs/nameIndexes'
 
-const selectorAddGeometry = (store) => store.addGeometry
-const selectorMorphsList = (store) => [store.morphsList, store.setMorphsList]
-const selectorAddTexture = (store) => store.addTexture
+const selectorAddGeometry = store => store.addGeometry
+const selectorMorphsList = store => [store.morphsList, store.setMorphsList]
+const selectorAddTexture = store => store.addTexture
 
 export function AppendGeomtery({
   name,
   src,
-  file: { group, key, postfix } = {},
+  file: { group, key, postfix } = {}
 }) {
   const [morphsList, setMorphsList] = useAnimations(selectorMorphsList, shallow)
   const addGeometry = useResources(selectorAddGeometry)

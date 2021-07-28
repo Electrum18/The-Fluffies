@@ -11,10 +11,10 @@ export default function CardThird({ children, icon, src, alt }) {
   return (
     <div className={cardStyles.cardThird}>
       <div className={hasImageStyle}>
-        <div className='inline-block w-full icon-upper'>{icon}</div>
+        <div className="inline-block w-full icon-upper">{icon}</div>
 
         {hasImageData && (
-          <div className='flex w-1/2 mx-auto'>
+          <div className="flex w-1/2 mx-auto">
             <Image
               src={src}
               alt={alt}
@@ -25,7 +25,7 @@ export default function CardThird({ children, icon, src, alt }) {
           </div>
         )}
       </div>
-      <div className='p-4'>{children}</div>
+      <div className="p-4">{children}</div>
     </div>
   )
 }

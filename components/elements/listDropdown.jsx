@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-
 import { FaChevronDown, FaPen } from 'react-icons/fa'
 
 import styles from '@/styles/elements.module.css'
@@ -38,7 +37,7 @@ export default function ListDropdown({
   list,
   maximum,
   onChange,
-  onEdit,
+  onEdit
 }) {
   return label ? (
     maximum ? (

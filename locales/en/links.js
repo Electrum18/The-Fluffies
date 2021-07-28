@@ -3,7 +3,7 @@ const Links = {
   about: 'About',
   support: 'Support',
   terms: 'Terms',
-  privacy: 'Privacy',
+  privacy: 'Privacy'
 }
 
 export default Links

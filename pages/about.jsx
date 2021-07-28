@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs'
 import {
   FaClock,
   FaFistRaised,
@@ -8,24 +8,19 @@ import {
   FaPencilAlt,
   FaQuestion,
   FaServer,
-  FaUsers,
+  FaUsers
 } from 'react-icons/fa'
 
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs'
-
-import SiteHead from '@/components/siteHead'
-import Header from '@/components/header'
-import Title from '@/components/title'
+import CardLittle from '@/components/cards/little'
+import CardThird from '@/components/cards/third'
 import Footer from '@/components/footer'
+import Header from '@/components/header'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
-
-import CardThird from '@/components/cards/third'
-import CardLittle from '@/components/cards/little'
-
+import SiteHead from '@/components/siteHead'
+import Title from '@/components/title'
 import en from '@/locales/en/pages/about'
 import ru from '@/locales/ru/pages/about'
-
 import cardStyles from '@/styles/cards.module.css'
 
 export default function About() {
@@ -38,24 +33,24 @@ export default function About() {
       <SiteHead t={t} />
       <Header />
 
-      <main className='page-main'>
+      <main className="page-main">
         <div>
-          <FaQuestion className='basic-icon' />
+          <FaQuestion className="basic-icon" />
           <Title header={t.header} />
           <p>{t.description}</p>
         </div>
 
-        <section className='place-items-start'>
-          <div className='text-side'>
-            <FaPencilAlt className='mt-8 basic-icon md:mx-0' />
+        <section className="place-items-start">
+          <div className="text-side">
+            <FaPencilAlt className="mt-8 basic-icon md:mx-0" />
 
             <h2>{t.conception.h2}</h2>
             <p>{t.conception.text}</p>
             <p>{t.conception.text2}</p>
           </div>
 
-          <div className='text-side'>
-            <FaFistRaised className='mt-8 basic-icon md:mx-0' />
+          <div className="text-side">
+            <FaFistRaised className="mt-8 basic-icon md:mx-0" />
 
             <h2>{t.motivation.h2}</h2>
             <p>{t.motivation.text}</p>
@@ -63,29 +58,29 @@ export default function About() {
         </section>
 
         <InfoSection
-          src='/svg/info/servering.svg'
-          alt='Server with code stack'
+          src="/svg/info/servering.svg"
+          alt="Server with code stack"
           flip={true}
         >
-          <FaServer className='basic-icon md:mx-0' />
+          <FaServer className="basic-icon md:mx-0" />
 
           <h2>{t.technologies.h2}</h2>
           <p>{t.technologies.text}</p>
 
-          <p className='text-subtitle'>{t.technologies.sub}</p>
+          <p className="text-subtitle">{t.technologies.sub}</p>
         </InfoSection>
 
-        <section className='flex-col'>
-          <FaClock className='basic-icon' />
+        <section className="flex-col">
+          <FaClock className="basic-icon" />
 
           <h2>{t.history.h2}</h2>
-          <p className='text-center'>{t.history.text}</p>
+          <p className="text-center">{t.history.text}</p>
 
-          <div className='w-full mt-8 div-section-lg'>
+          <div className="w-full mt-8 div-section-lg">
             <CardThird
-              icon={<BsStar className='basic-icon' />}
-              src='/img/versions/apple.png'
-              alt='Apple version of editor'
+              icon={<BsStar className="basic-icon" />}
+              src="/img/versions/apple.png"
+              alt="Apple version of editor"
             >
               <h3>Apple - Banana</h3>
               <p>{t.version}</p>
@@ -94,9 +89,9 @@ export default function About() {
             </CardThird>
 
             <CardThird
-              icon={<BsStarHalf className='basic-icon' />}
-              src='/img/versions/grapefruit.png'
-              alt='Grapefruit version of editor'
+              icon={<BsStarHalf className="basic-icon" />}
+              src="/img/versions/grapefruit.png"
+              alt="Grapefruit version of editor"
             >
               <h3>Banana - Grapefruit</h3>
               <p>{t.version}</p>
@@ -105,9 +100,9 @@ export default function About() {
             </CardThird>
 
             <CardThird
-              icon={<BsStarFill className='basic-icon' />}
-              src='/img/versions/huckleberry.png'
-              alt='Huckleberry version of editor'
+              icon={<BsStarFill className="basic-icon" />}
+              src="/img/versions/huckleberry.png"
+              alt="Huckleberry version of editor"
             >
               <h3>Grapefruit - ...</h3>
               <p>{t.version}</p>
@@ -117,24 +112,24 @@ export default function About() {
           </div>
         </section>
 
-        <section className='flex-col'>
-          <FaUsers className='basic-icon' />
+        <section className="flex-col">
+          <FaUsers className="basic-icon" />
 
           <h2>{t.team.h2}</h2>
-          <p className='text-center'>{t.team.text}</p>
+          <p className="text-center">{t.team.text}</p>
 
           <div className={cardStyles.cardLittle}>
             <CardLittle
-              src='/img/authors/Electrum18.png'
-              alt='Electrum18 avatar'
+              src="/img/authors/Electrum18.png"
+              alt="Electrum18 avatar"
             >
               <h3>{t.members[0].nickname}</h3>
               <p>{t.members[0].rank}</p>
             </CardLittle>
 
             <CardLittle
-              src='/img/authors/LightingZap.png'
-              alt='LightingZap avatar'
+              src="/img/authors/LightingZap.png"
+              alt="LightingZap avatar"
             >
               <h3>{t.members[1].nickname}</h3>
               <p>{t.members[1].rank}</p>
@@ -142,15 +137,15 @@ export default function About() {
           </div>
         </section>
 
-        <section className='flex-col mb-0'>
-          <FaHeart className='basic-icon' />
+        <section className="flex-col mb-0">
+          <FaHeart className="basic-icon" />
 
           <h2>{t.helping.h2}</h2>
 
-          <p className='text-center'>{t.helping.text}</p>
+          <p className="text-center">{t.helping.text}</p>
 
-          <Link href='/support'>
-            <a className='mt-4 button'>{t.helping.button}</a>
+          <Link href="/support">
+            <a className="mt-4 button">{t.helping.button}</a>
           </Link>
         </section>
       </main>

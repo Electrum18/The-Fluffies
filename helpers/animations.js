@@ -1,12 +1,11 @@
-import create from 'zustand'
 import produce from 'immer'
+import create from 'zustand'
 
+import positions from '@/configs/default/positions.json'
+import properties from '@/configs/default/properties.json'
 import { addEnumsToObject } from '@/libs/enums'
 
-import properties from '@/configs/default/properties.json'
-import positions from '@/configs/default/positions.json'
-
-const useAnimations = create((set) => ({
+const useAnimations = create(set => ({
   fps: 60,
 
   play: false,
@@ -21,8 +20,8 @@ const useAnimations = create((set) => ({
   saves: [
     {
       name: 'Reared up',
-      frames: [{ duration: 1, frame: { ...properties, ...positions } }],
-    },
+      frames: [{ duration: 1, frame: { ...properties, ...positions } }]
+    }
   ],
 
   slot: 0,
@@ -30,50 +29,52 @@ const useAnimations = create((set) => ({
 
   dragging: 0,
 
-  setPlay: (play) => set({ play }),
-  setLoop: (loop) => set({ loop }),
+  poseEditing: false,
 
-  setFolded: (folded) => set({ folded }),
+  setPlay: play => set({ play }),
+  setLoop: loop => set({ loop }),
 
-  setPosition: (value) =>
+  setFolded: folded => set({ folded }),
+
+  setPosition: value =>
     set({ position: value > 1 ? 1 : value < 0 ? 0 : value }),
 
-  setDragging: (dragging) => set({ dragging }),
+  setDragging: dragging => set({ dragging }),
 
   setMorphsList: (key, value) =>
-    set((state) => ({
-      morphsList: { ...state.morphsList, [key]: addEnumsToObject(value) },
+    set(state => ({
+      morphsList: { ...state.morphsList, [key]: addEnumsToObject(value) }
     })),
 
   setProperty: (key, value) =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].frames[state.selected].frame[key] = value
       })
     ),
 
   setDuration: (index, value) =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].frames[index].duration = value
       })
     ),
 
-  setSelectedFrame: (selected) => set({ selected }),
+  setSelectedFrame: selected => set({ selected }),
 
   addFrame: () =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].frames.splice(state.selected + 1, 0, {
           duration: 1,
-          frame: { ...properties, ...positions },
+          frame: { ...properties, ...positions }
         })
       })
     ),
 
   deleteFrame: () =>
     set(
-      produce((state) => {
+      produce(state => {
         state.saves[state.slot].frames.splice(state.selected, 1)
         state.selected =
           state.selected > state.saves[state.slot].frames.length - 1
@@ -83,6 +84,8 @@ const useAnimations = create((set) => ({
             : state.selected
       })
     ),
+
+  setPoseEditing: poseEditing => set({ poseEditing })
 }))
 
 export default useAnimations
