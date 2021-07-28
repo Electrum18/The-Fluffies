@@ -1,7 +1,7 @@
 import { useControls } from 'leva'
 import { useEffect, useState } from 'react'
 
-import useAnimations from '@/helpers/animations'
+import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
 import { levaList } from '@/libs/ui/leva-list'
 
@@ -20,15 +20,9 @@ function bindData(data) {
   const { saves, slot, setColor, setName, setBoolean } =
     useParameters.getState()
 
-  const {
-    saves: animSaves,
-    slot: animSlot,
-    selected,
-    setProperty
-  } = useAnimations.getState()
+  const { emotions, setEmotion } = useEmotions.getState()
 
   const { colors, booleans, names } = saves[slot]
-  const properties = animSaves[animSlot].frames[selected].frame
 
   for (const valueName in data) {
     const valueContent = data[valueName]
@@ -61,8 +55,8 @@ function bindData(data) {
 
       case !!value:
         values[valueName] = {
-          value: properties[value],
-          onChange: valueIn => setProperty(value, valueIn)
+          value: emotions[value],
+          onChange: valueIn => setEmotion(value, valueIn)
         }
         break
 
@@ -82,14 +76,9 @@ function dataValues(data) {
   const values = {}
 
   const { saves, slot } = useParameters.getState()
-  const {
-    saves: animSaves,
-    slot: animSlot,
-    selected
-  } = useAnimations.getState()
+  const { emotions } = useEmotions.getState()
 
   const { colors, booleans, names } = saves[slot]
-  const properties = animSaves[animSlot].frames[selected].frame
 
   for (const valueName in data) {
     const valueContent = data[valueName]
@@ -109,7 +98,7 @@ function dataValues(data) {
         break
 
       case !!value:
-        values[valueName] = properties[value]
+        values[valueName] = emotions[value]
         break
 
       default:

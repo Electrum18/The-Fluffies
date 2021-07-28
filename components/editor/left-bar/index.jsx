@@ -1,6 +1,5 @@
 import styles from '@/styles/editor.module.css'
 
-import AnimationSection from './animations'
 import ChatSection from './chat'
 import EmotionsSection from './emotions'
 import EnvSection from './environment'
@@ -10,7 +9,6 @@ import LevelSection from './level'
 import ProfileSection from './profile'
 import SavePersonSection from './savePersons'
 import SocialSection from './socials'
-import TakeAnimationSection from './takeAnimation'
 import TakeImageSection from './takeImage'
 
 function Spacer() {
@@ -25,13 +23,9 @@ export default function Menu() {
         <hr />
         <EmotionsSection />
         <EnvSection />
-        <AnimationSection />
         <hr />
         <TakeImageSection />
-        <TakeAnimationSection />
-        <hr />
         <SavePersonSection />
-        {/*{ icon: FaFileVideo, pageName: 'SaveAnimation' },*/}
         <hr />
         <Spacer />
         <LanguageSection />

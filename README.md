@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg" alt="Repo size">
 </p>
 
-# The Fluffies - pony editor and animations
+# The Fluffies - editor about furry and ponies
 
 ## About
 

@@ -2,15 +2,14 @@ import { useEffect } from 'react'
 import shallow from 'zustand/shallow'
 
 import Materials from '@/configs/materials.json'
-import useAnimations from '@/helpers/animations'
+import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
 
 import { useShaderColorManager, useShaderValueManager } from './shader'
 
 const selectorNames = state => state.saves[state.slot].names
-const selectorProps = state =>
-  state.saves[state.slot].frames[state.selected].frame
+const selectorFlexes = state => state.emotions
 
 const selectorLignt = state => [state.light, state.ambientLight]
 const selectorMorphs = state => state.morphsList
@@ -67,7 +66,7 @@ export function useWorldColor(model) {
 }
 
 export function useEmotionManager(model, name, morphsConfig) {
-  const morphsList = useAnimations(selectorMorphs)
+  const morphsList = useEmotions(selectorMorphs)
 
   function findValue(index) {
     return (
@@ -109,7 +108,7 @@ export function useLight(model) {
 }
 
 export function usePositionManager(model, material) {
-  const properties = useAnimations(selectorProps)
+  const properties = useEmotions(selectorFlexes)
 
   const { posX, posY, scale } = Materials[material]
 

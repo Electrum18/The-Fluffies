@@ -1,54 +1,21 @@
 import { OrbitControls, Preload } from '@react-three/drei'
-import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Scene } from 'three'
+import { Canvas } from '@react-three/fiber'
+import React, { Suspense, useEffect, useRef } from 'react'
 import shallow from 'zustand/shallow'
 
-import useAnimations from '@/helpers/animations'
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
 
-import Camera from './camera'
 import Player from './player'
-import IK from './player/kinematics'
-import Chain from './player/kinematics/chain'
 
-const selector = state => [state.play, state.dragging]
-const selectorResources = state => [state.setLight, state.setAmbientLight]
-
-function Main({ children }) {
-  const [scene] = useState(() => new Scene())
-
-  const { gl, camera } = useThree()
-
-  useFrame(() => {
-    gl.autoClear = true
-    gl.render(scene, camera)
-  }, 0)
-
-  return createPortal(children, scene)
-}
-
-function HeadsUpDisplay({ children }) {
-  const [scene] = useState(() => new Scene())
-
-  const { gl, camera } = useThree()
-
-  useFrame(() => {
-    gl.autoClear = false
-    gl.clearDepth()
-    gl.render(scene, camera)
-  }, 1)
-
-  return createPortal(children, scene)
-}
+const selectorLight = state => [state.setLight, state.setAmbientLight]
 
 function useLight() {
   const background = useRef()
   const pointLight = useRef()
   const ambientLight = useRef()
 
-  const [setLight, setAmbientLight] = useResources(selectorResources, shallow)
+  const [setLight, setAmbientLight] = useResources(selectorLight, shallow)
 
   useEffect(() => setLight(pointLight), [setLight])
   useEffect(() => setAmbientLight(ambientLight), [setAmbientLight])
@@ -70,8 +37,6 @@ function useLight() {
 export default function World() {
   const controls = useRef()
 
-  const [play, dragging] = useAnimations(selector, shallow)
-
   const [background, pointLight, ambientLight] = useLight()
 
   return (
@@ -83,54 +48,15 @@ export default function World() {
     >
       <color ref={background} attach="background" args={['white']} />
 
-      <OrbitControls
-        ref={controls}
-        minDistance={7}
-        maxDistance={10}
-        enabled={!play && !dragging}
-      />
+      <OrbitControls ref={controls} minDistance={7} maxDistance={10} />
 
       <ambientLight ref={ambientLight} intensity={0.7} />
       <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
 
-      <Camera controls={controls} play={play} />
-
-      <Main>
-        <Suspense fallback={null}>
-          <Player position={[0, -3, 0]} />
-          <Preload all />
-        </Suspense>
-      </Main>
-
-      <HeadsUpDisplay>
-        <IK>
-          <Chain bones={['Pelvis', 'Chest', 'Chest2', 'Neck']} />
-          <Chain bones={['Neck', 'Head_1']} setUp={[0, 0, -1]} />
-
-          <Chain
-            bones={['ForearmL', 'HandL', 'BallL', 'HoofL']}
-            setUp={[1, 0, 0.5]}
-          />
-
-          <Chain
-            bones={['ForearmR', 'HandR', 'BallR', 'HoofR']}
-            setUp={[-1, 0, 0.5]}
-          />
-
-          <Chain
-            bones={['LegL', 'Leg2L', 'FootL', 'BackHoofL']}
-            setUp={[1, 0, 1]}
-          />
-
-          <Chain
-            bones={['LegR', 'Leg2R', 'FootR', 'BackHoofR']}
-            setUp={[-1, 0, 1]}
-          />
-
-          <Chain bones={['WingL', 'Wing2L']} setUp={[0, 1, -1]} />
-          <Chain bones={['WingR', 'Wing2R']} setUp={[0, 1, -1]} />
-        </IK>
-      </HeadsUpDisplay>
+      <Suspense fallback={null}>
+        <Player position={[0, -3, 0]} />
+        <Preload all />
+      </Suspense>
     </Canvas>
   )
 }

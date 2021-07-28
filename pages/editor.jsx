@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
 import LeftBar from '@/components/editor/left-bar'
-import PoseButton from '@/components/editor/poseButton'
 import RightBar from '@/components/editor/right-bar'
 import useUserFetch from '@/hooks/user'
 
@@ -32,7 +31,6 @@ export default function Editor() {
         <Canvas />
         <LeftBar />
         <RightBar />
-        <PoseButton />
       </main>
     </>
   )

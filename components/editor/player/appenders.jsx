@@ -2,7 +2,7 @@ import { useGLTF, useTexture } from '@react-three/drei'
 import { useCallback } from 'react'
 import shallow from 'zustand/shallow'
 
-import useAnimations from '@/helpers/animations'
+import useEmotions from '@/helpers/emotions'
 import useResources from '@/helpers/resources'
 import { nameIndexGroups, nameInFileIndexes } from '@/libs/nameIndexes'
 
@@ -15,7 +15,7 @@ export function AppendGeomtery({
   src,
   file: { group, key, postfix } = {}
 }) {
-  const [morphsList, setMorphsList] = useAnimations(selectorMorphsList, shallow)
+  const [morphsList, setMorphsList] = useEmotions(selectorMorphsList, shallow)
   const addGeometry = useResources(selectorAddGeometry)
 
   const index = key && nameInFileIndexes[key][name]

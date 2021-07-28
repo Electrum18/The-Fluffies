@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import useAnimations from '@/helpers/animations'
+import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
 
 export function useShaderColorManager(
@@ -43,26 +43,21 @@ export function useShaderValueManager(
       const { material } = model.current
 
       const { saves, slot } = useParameters.getState()
-      const {
-        saves: animSaves,
-        slot: animSlot,
-        selected
-      } = useAnimations.getState()
+      const { emotions } = useEmotions.getState()
 
       const save = saves[slot]
-      const properties = animSaves[animSlot].frames[selected].frame
 
       material.uniforms[valueName].value =
-        (+save.booleans[valueIn] || properties[valueIn]) * treshold
+        (+save.booleans[valueIn] || emotions[valueIn]) * treshold
 
       useParameters.subscribe(
         value => (material.uniforms[valueName].value = +value * treshold),
         state => state.saves[state.slot].booleans[valueIn]
       )
 
-      useAnimations.subscribe(
+      useEmotions.subscribe(
         value => (material.uniforms[valueName].value = +value * treshold),
-        state => state.saves[state.slot].frames[state.selected].frame[valueIn]
+        state => state.emotions[valueIn]
       )
     }
   }, [model, treshold, valueIn, valueName])
