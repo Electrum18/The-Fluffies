@@ -9,17 +9,19 @@ import {
   FaUser,
   FaVk
 } from 'react-icons/fa'
-import io from 'socket.io-client'
 
 import ModalMini from '@/components/elements/modalMini'
 import OverlayWarning from '@/components/elements/overlayWarn'
 import OuterLink from '@/components/outerLink'
 import useMenu from '@/helpers/menu'
+import useSocket from '@/helpers/socket'
 import useUser from '@/helpers/user'
 import styles from '@/styles/elements/chat.module.css'
 
 import { LeftSection } from '../createSection'
 import Login from './additional/login'
+
+const selectorSocket = state => state.socket
 
 function Icon({ className, onClick }) {
   return (
@@ -78,32 +80,35 @@ function Buttons() {
 export default function ChatSection() {
   const user = useUser(state => state.user)
 
-  const [socket, setSocket] = useState(null)
+  const socket = useSocket(selectorSocket)
   const [message, setMessage] = useState('')
 
   const [messages, setMessages] = useState([])
   const [usersCount, setUsersCount] = useState(0)
 
-  useEffect(() => {
-    const { host, hostname } = window.location
+  function setMessagesListener(msg) {
+    setMessages(msg.reverse())
+  }
 
-    setSocket(io(hostname === 'localhost' ? hostname + ':3001' : host))
-  }, [])
+  function setOneMessageListener(msg) {
+    setMessages(_messages => [msg, ..._messages])
+  }
+
+  function setUsersCountListener(users) {
+    setUsersCount(users)
+  }
 
   useEffect(() => {
     if (!socket) return
 
-    socket.on('get messages', msg => setMessages(msg.reverse()))
-    socket.on('get message', msg =>
-      setMessages(_messages => [msg, ..._messages])
-    )
-
-    socket.on('get users count', users => setUsersCount(users))
+    socket.on('get messages', setMessagesListener)
+    socket.on('get message', setOneMessageListener)
+    socket.on('get users count', setUsersCountListener)
 
     return () => {
-      socket.disconnect()
-
-      setSocket(null)
+      socket.off('get messages', setMessagesListener)
+      socket.off('get message', setOneMessageListener)
+      socket.off('get users count', setUsersCountListener)
     }
   }, [socket])
 

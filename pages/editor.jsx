@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 
 import LeftBar from '@/components/editor/left-bar'
 import RightBar from '@/components/editor/right-bar'
+import useSocketConnection from '@/hooks/socket'
 import useUserFetch from '@/hooks/user'
 
 const Canvas = Dynamic(() => import('@/components/editor/world'), {
@@ -19,6 +20,7 @@ export default function Editor() {
   }, [])
 
   useUserFetch()
+  useSocketConnection()
 
   return (
     <>
