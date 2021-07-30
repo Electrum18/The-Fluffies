@@ -1,5 +1,9 @@
+import { useRouter } from 'next/router'
+
 import ModalMini from '@/components/elements/modalMini'
 import useUser from '@/helpers/user'
+import en from '@/locales/en/pages/editor/left-bar/level'
+import ru from '@/locales/ru/pages/editor/left-bar/level'
 import styles from '@/styles/elements/level.module.css'
 
 import { LeftSection } from '../createSection'
@@ -19,18 +23,18 @@ function Icon({ onClick }) {
 }
 
 export default function LevelSection() {
+  const router = useRouter()
+
   const user = useUser(selector)
+
+  const t = router.locale === 'ru' ? ru : en
 
   return (
     <LeftSection name="Level" icon={Icon}>
-      <ModalMini title="Your level" page="Level">
+      <ModalMini title={t.title} page="Level">
         <div className={styles.content}>
           <div>{user.level || '?'}</div>
-          <p className="w-64">
-            {user.level
-              ? 'Keep logging in every day to level up, share your achievements with your friends!'
-              : 'Login below to get profile levels'}
-          </p>
+          <p className="w-64">{user.level ? t.online : t.offline}</p>
         </div>
       </ModalMini>
     </LeftSection>

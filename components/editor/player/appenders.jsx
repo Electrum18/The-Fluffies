@@ -6,9 +6,9 @@ import useEmotions from '@/helpers/emotions'
 import useResources from '@/helpers/resources'
 import { nameIndexGroups, nameInFileIndexes } from '@/libs/nameIndexes'
 
-const selectorAddGeometry = store => store.addGeometry
-const selectorMorphsList = store => [store.morphsList, store.setMorphsList]
-const selectorAddTexture = store => store.addTexture
+const selectorAddGeometry = state => state.addGeometry
+const selectorMorphsList = state => [state.morphsList, state.setMorphsList]
+const selectorAddTexture = state => state.addTexture
 
 export function AppendGeomtery({
   name,

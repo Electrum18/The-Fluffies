@@ -1,13 +1,16 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { FaGoogle, FaPatreon, FaTrash, FaVk } from 'react-icons/fa'
 import { mutate } from 'swr'
 
 import ModalMini from '@/components/elements/modalMini'
 import useUser from '@/helpers/user'
 import { useSiteUrl } from '@/hooks/urls'
+import en from '@/locales/en/pages/editor/left-bar/additional/accounts'
+import ru from '@/locales/ru/pages/editor/left-bar/additional/accounts'
 import styles from '@/styles/elements/accounts.module.css'
 
-function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
+function SocialProfile({ title, profile, auth, icon: Icon, iconStyle, t }) {
   const user = useUser(state => state.user)
 
   const loginUrl = useSiteUrl()
@@ -51,7 +54,7 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
           <Image
             loader={({ src }) => src}
             src={profileAvatar}
-            alt={title + ' avatar'}
+            alt={title + t.avatar}
             width="64"
             height="64"
             onClick={() => accountSelect(profile)}
@@ -66,15 +69,15 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
       <div>
         {profileAvatar ? (
           user.current === profile ? (
-            <p className="text-primary"> selected </p>
+            <p className="text-primary">{t.selected}</p>
           ) : (
             <>
-              <p className="text-gray-400"> select </p>
+              <p className="text-gray-400">{t.select}</p>
               <FaTrash onClick={() => accountDelete(profile)} />
             </>
           )
         ) : (
-          <p className="text-gray-400"> connect </p>
+          <p className="text-gray-400">{t.connect}</p>
         )}
       </div>
     </div>
@@ -82,9 +85,13 @@ function SocialProfile({ title, profile, auth, icon: Icon, iconStyle }) {
 }
 
 export default function Accounts() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
-    <ModalMini title="Profile accounts" page="Accounts">
-      <p className={styles.text}>Login to profile with</p>
+    <ModalMini title={t.title} page="Accounts">
+      <p className={styles.text}>{t.login}</p>
 
       <div className={styles.content}>
         <SocialProfile
@@ -93,6 +100,7 @@ export default function Accounts() {
           auth="google"
           icon={FaGoogle}
           iconStyle="border-red-500 hover:text-red-500"
+          t={t}
         />
 
         <SocialProfile
@@ -101,6 +109,7 @@ export default function Accounts() {
           auth="vkontakte"
           icon={FaVk}
           iconStyle="border-blue-500 hover:text-blue-500"
+          t={t}
         />
 
         <SocialProfile
@@ -109,18 +118,12 @@ export default function Accounts() {
           auth="patreon"
           icon={FaPatreon}
           iconStyle="border-red-400 hover:text-red-400"
+          t={t}
         />
       </div>
 
-      <p className={styles.text}>
-        If you delete all accounts in a profile, and do not link at least one
-        during the day, then this profile will be deleted
-      </p>
-
-      <p className={styles.text}>
-        This action cannot be canceled if a day has passed after unlinking all
-        accounts!
-      </p>
+      <p className={styles.text}>{t.p1}</p>
+      <p className={styles.text}>{t.p2}</p>
     </ModalMini>
   )
 }

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import {
   FaCheck,
@@ -14,10 +15,15 @@ import ModalMini from '@/components/elements/modalMini'
 import useMenu from '@/helpers/menu'
 import useUser from '@/helpers/user'
 import { useSiteUrl } from '@/hooks/urls'
+import en from '@/locales/en/pages/editor/left-bar/profile'
+import ru from '@/locales/ru/pages/editor/left-bar/profile'
 import styles from '@/styles/elements/profile.module.css'
 
 import { LeftSection } from '../createSection'
 import Login from './additional/login'
+
+const selectorUser = state => state.user
+const selectorSetPage = state => state.setPage
 
 const patronColor = {
   None: {
@@ -42,7 +48,7 @@ const patronColor = {
 }
 
 function Icon({ onClick }) {
-  const user = useUser(state => state.user)
+  const user = useUser(selectorUser)
 
   return (
     <div onClick={onClick}>
@@ -65,13 +71,16 @@ function Icon({ onClick }) {
 }
 
 function Logout({ text }) {
+  const router = useRouter()
   const authUrl = useSiteUrl()
+
+  const t = router.locale === 'ru' ? ru : en
 
   return (
     <a
       className="bg-red-500 hover:bg-red-400"
-      title="Logout from profile"
-      aria-label="Logout from profile"
+      title={t.logout.info}
+      aria-label={t.logout.info}
       href={authUrl + '/auth/logout'}
     >
       {text}
@@ -79,7 +88,7 @@ function Logout({ text }) {
   )
 }
 
-function Nickname({ nickname }) {
+function Nickname({ nickname, t }) {
   const [nicknameEditing, setNicknameEditing] = useState(false)
   const [tempNickname, setTempNickname] = useState('')
 
@@ -117,7 +126,7 @@ function Nickname({ nickname }) {
       <div>
         <input
           value={tempNickname}
-          placeholder="Enter nickname..."
+          placeholder={t.nickname.placeholder}
           onChange={({ target }) =>
             setTempNickname(target.value.substring(0, 30))
           }
@@ -151,7 +160,7 @@ function Nickname({ nickname }) {
   )
 }
 
-function Benefits({ user }) {
+function Benefits({ user, t }) {
   return (
     <div className={styles.properties}>
       <div>
@@ -161,10 +170,10 @@ function Benefits({ user }) {
           <FaPatreon className="w-8 h-8 mx-3 my-2.5" />
         </div>
 
-        <p> Patronage </p>
+        <p>{t.patronage.title}</p>
 
         <div className={patronColor[user.patron || 'None'].text}>
-          {user.patron ? user.patron : 'No patronage :('}
+          {user.patron ? user.patron : t.patronage.none}
         </div>
       </div>
 
@@ -173,51 +182,55 @@ function Benefits({ user }) {
           {user.level}
         </div>
 
-        <p> Profile level </p>
+        <p>{t.level.title}</p>
 
-        <div className="text-gray-400"> Level up every day! </div>
+        <div className="text-gray-400">{t.level.tip}</div>
       </div>
     </div>
   )
 }
 
 export default function ProfileSection() {
-  const setPage = useMenu(state => state.setPage)
-  const user = useUser(state => state.user)
+  const router = useRouter()
+
+  const user = useUser(selectorUser)
+  const setPage = useMenu(selectorSetPage)
+
+  const t = router.locale === 'ru' ? ru : en
 
   return (
     <LeftSection name="Profile" icon={Icon}>
       {user.nickname ? (
-        <ModalMini title="Profile" page="Profile">
+        <ModalMini title={t.title} page="Profile">
           <div className={styles.avatar}>
             <div>
               <Image
                 loader={({ src }) => src}
                 src={user.avatar}
-                alt="Your avatar"
+                alt={t.avatar.placeholder}
                 width="96"
                 height="96"
               />
             </div>
 
-            <Nickname nickname={user.nickname} />
+            <Nickname nickname={user.nickname} t={t} />
           </div>
 
-          <Benefits user={user} />
+          <Benefits user={user} t={t} />
 
           <ListButtons
             list={[
               {
-                text: 'Accounts',
+                text: t.accounts,
                 style: 'bg-gray-700 hover:bg-gray-600',
                 onClick: () => setPage('Accounts')
               },
-              { text: 'Logout', component: Logout }
+              { text: t.logout.title, component: Logout }
             ]}
           />
         </ModalMini>
       ) : (
-        <ModalMini title="Login from" page="Profile">
+        <ModalMini title={t.login} page="Profile">
           <Login />
         </ModalMini>
       )}

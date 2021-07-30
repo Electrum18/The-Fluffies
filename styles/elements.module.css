@@ -108,11 +108,11 @@
       }
 
       & div {
-        @apply z-20 w-10 h-10;
+        @apply z-20 w-10 h-10 flex items-center justify-center;
       }
 
       & svg {
-        @apply hover:bg-gray-500 cursor-pointer transition-colors rounded-xl;
+        @apply w-8 h-8 p-1 text-white hover:bg-gray-500 cursor-pointer transition-colors rounded-full;
       }
     }
   }

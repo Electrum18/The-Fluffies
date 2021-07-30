@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaCheck, FaFile, FaTimes } from 'react-icons/fa'
 import shallow from 'zustand/shallow'
@@ -6,6 +7,8 @@ import ListButtons from '@/components/elements/listButtons'
 import ListDropdown from '@/components/elements/listDropdown'
 import useMenu from '@/helpers/menu'
 import useParameters from '@/helpers/parameters'
+import en from '@/locales/en/pages/editor/left-bar/savePersons'
+import ru from '@/locales/ru/pages/editor/left-bar/savePersons'
 import stylesElems from '@/styles/elements.module.css'
 import styles from '@/styles/menu.module.css'
 
@@ -80,6 +83,8 @@ function ExportButton({ text }) {
 }
 
 export default function SavePersonSection() {
+  const router = useRouter()
+
   const [page, closePages] = useMenu(selectorPageControl, shallow)
   const [saves, slot, setSlot, addSave, deleteSave, setName] = useParameters(
     selectorAllSaves,
@@ -96,6 +101,8 @@ export default function SavePersonSection() {
     setTranslate(100 - +(page === 'SavePerson') * 100)
   }, [page])
 
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <LeftSection name="SavePerson" icon={Icon}>
       <div
@@ -108,19 +115,19 @@ export default function SavePersonSection() {
           <ListButtons
             list={[
               {
-                text: 'Import',
+                text: t.import,
                 component: ImportButton,
                 disabled: saves.length >= 10
               },
-              { text: 'Export', component: ExportButton },
+              { text: t.export, component: ExportButton },
               {
-                text: 'New',
+                text: t.new,
                 style: 'bg-gray-800',
                 onClick: () => addSave(),
                 disabled: saves.length >= 10
               },
               {
-                text: 'Delete',
+                text: t.delete,
                 style: 'bg-gray-800',
                 onClick: () => deleteSave(slot),
                 disabled: saves.length < 2
@@ -133,7 +140,7 @@ export default function SavePersonSection() {
               <div>
                 <input
                   value={tempName}
-                  placeholder="Enter name..."
+                  placeholder={t.placeholder}
                   onChange={({ target }) =>
                     setTempName(target.value.substring(0, 20))
                   }
@@ -161,7 +168,7 @@ export default function SavePersonSection() {
             </div>
           ) : (
             <ListDropdown
-              label="Local saves"
+              label={t.saves.local}
               selectIndex={slot}
               list={saves.map(
                 (save, index) => index + 1 + ' • ' + save.names.name
@@ -178,12 +185,12 @@ export default function SavePersonSection() {
           <ListButtons
             list={[
               {
-                text: 'Profile saves',
+                text: t.saves.profile,
                 style: 'bg-gray-800',
                 onClick: () => setIsProfile(!isProfile)
               },
-              { text: 'Save to profile', style: 'bg-gray-800' },
-              { text: 'Close', style: 'bg-gray-800', onClick: closePages }
+              { text: t.saves['save to'], style: 'bg-gray-800' },
+              { text: t.close, style: 'bg-gray-800', onClick: closePages }
             ]}
           />
 

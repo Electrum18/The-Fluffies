@@ -1,3 +1,8 @@
+import { useRouter } from 'next/router'
+
+import en from '@/locales/en/pages/editor/left-bar/emotions'
+import ru from '@/locales/ru/pages/editor/left-bar/emotions'
+
 import Controls from '../createControls'
 import { LeftSection } from '../createSection'
 
@@ -21,44 +26,48 @@ function Icon({ className, onClick }) {
 }
 
 export default function EmotionsSection() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <LeftSection name="Emotions" icon={Icon}>
       <Controls
-        title="Emotions"
+        title={t.emotions.title}
         data={{
-          Open: { value: 'jaw_open', min: 1, max: 100 },
-          Happy: { value: 'jaw_happy', min: 1, max: 100 },
-          Sad: { value: 'jaw_sad', min: 1, max: 100 },
-          Surprised: { value: 'jaw_surprised', min: 1, max: 100 },
-          Nya: { value: 'jaw_cat', min: 1, max: 100 }
+          [t.emotions.open]: { value: 'jaw_open', min: 1, max: 100 },
+          [t.emotions.happy]: { value: 'jaw_happy', min: 1, max: 100 },
+          [t.emotions.sad]: { value: 'jaw_sad', min: 1, max: 100 },
+          [t.emotions.surprised]: { value: 'jaw_surprised', min: 1, max: 100 },
+          [t.emotions.nya]: { value: 'jaw_cat', min: 1, max: 100 }
         }}
       />
 
       <Controls
-        title="Tongue"
+        title={t.tongue.title}
         data={{
-          Raised: { value: 'tongue_raised', min: 1, max: 100 },
-          Out: { value: 'tongue_out', min: 1, max: 100 }
+          [t.tongue.raised]: { value: 'tongue_raised', min: 1, max: 100 },
+          [t.tongue.out]: { value: 'tongue_out', min: 1, max: 100 }
         }}
       />
 
       <Controls
-        title="Eyes"
+        title={t.eyes.title}
         data={{
-          Scale: {
+          [t.eyes.scale]: {
             value: 'eyes_iris_scale',
             min: 50,
             max: 125,
             step: 1
           },
 
-          Horizontal: {
+          [t.eyes.horizontal]: {
             value: 'eyes_position_horiz',
             min: -100,
             max: 100
           },
 
-          Vertical: {
+          [t.eyes.vertical]: {
             value: 'eyes_position_verti',
             min: -100,
             max: 100
@@ -67,31 +76,12 @@ export default function EmotionsSection() {
       />
 
       <Controls
-        title="Eyelids"
+        title={t.eyelids.title}
         data={{
-          Upper: {
-            value: 'eyes_eyelids_up',
-            min: 1,
-            max: 100
-          },
-
-          Lower: {
-            value: 'eyes_eyelids_down',
-            min: 1,
-            max: 100
-          },
-
-          Angry: {
-            value: 'eyes_eyelids_angry',
-            min: 1,
-            max: 100
-          },
-
-          Sad: {
-            value: 'eyes_eyelids_sad',
-            min: 1,
-            max: 100
-          }
+          [t.eyelids.upper]: { value: 'eyes_eyelids_up', min: 1, max: 100 },
+          [t.eyelids.lower]: { value: 'eyes_eyelids_down', min: 1, max: 100 },
+          [t.eyelids.angry]: { value: 'eyes_eyelids_angry', min: 1, max: 100 },
+          [t.eyelids.sad]: { value: 'eyes_eyelids_sad', min: 1, max: 100 }
         }}
       />
     </LeftSection>

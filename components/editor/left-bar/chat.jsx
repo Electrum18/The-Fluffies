@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import {
   FaCommentDots,
@@ -16,6 +17,8 @@ import OuterLink from '@/components/outerLink'
 import useMenu from '@/helpers/menu'
 import useSocket from '@/helpers/socket'
 import useUser from '@/helpers/user'
+import en from '@/locales/en/pages/editor/left-bar/chat'
+import ru from '@/locales/ru/pages/editor/left-bar/chat'
 import styles from '@/styles/elements/chat.module.css'
 
 import { LeftSection } from '../createSection'
@@ -31,23 +34,23 @@ function Icon({ className, onClick }) {
   )
 }
 
-function Buttons() {
+function Buttons({ t }) {
   const setPage = useMenu(state => state.setPage)
 
   return (
     <div className={styles.buttons}>
       <button
-        className=" hover:bg-gray-600 transition-colors"
+        className="hover:bg-gray-600 transition-colors"
         onClick={() => setPage('Notice')}
       >
-        Notice
+        {t.notice}
       </button>
 
       <button
-        className=" hover:bg-gray-600 transition-colors"
+        className="hover:bg-gray-600 transition-colors"
         onClick={() => setPage('Rules')}
       >
-        Rules
+        {t.rules}
       </button>
 
       <OuterLink
@@ -78,6 +81,8 @@ function Buttons() {
 }
 
 export default function ChatSection() {
+  const router = useRouter()
+
   const user = useUser(state => state.user)
 
   const socket = useSocket(selectorSocket)
@@ -120,10 +125,12 @@ export default function ChatSection() {
     }
   }
 
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <LeftSection name="Chat" icon={Icon}>
-      <ModalMini title="Chat" page="Chat">
-        <Buttons />
+      <ModalMini title={t.title} page="Chat">
+        <Buttons t={t} />
 
         <ul className={styles.messages}>
           {messages.map(({ avatar, name, text, level }, index) => (
@@ -132,7 +139,7 @@ export default function ChatSection() {
                 <Image
                   loader={({ src }) => src}
                   src={avatar}
-                  alt={name + ' avatar'}
+                  alt={name + t.avatar}
                   className="rounded-lg"
                   width="40"
                   height="40"
@@ -154,7 +161,7 @@ export default function ChatSection() {
           <div>
             <input
               value={message}
-              placeholder="Enter message..."
+              placeholder={t.input.placeholder}
               onChange={({ target }) =>
                 setMessage(target.value.substring(0, 100))
               }
@@ -179,12 +186,14 @@ export default function ChatSection() {
         <OverlayWarning
           condition={socket && socket.connected && !user.nickname}
         >
-          <p> Login to chat </p>
+          <p>{t.login}</p>
+
           <Login />
         </OverlayWarning>
 
         <OverlayWarning condition={socket && !socket.connected}>
-          <p> Failed connection to chat </p>
+          <p>{t.failed}</p>
+
           <FaCommentSlash />
         </OverlayWarning>
       </ModalMini>

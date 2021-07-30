@@ -14,6 +14,22 @@
   }
 }
 
+.loading {
+  @apply fixed flex items-center justify-center top-0 left-0 w-full h-full z-50;
+
+  & > div:last-child {
+    @apply flex flex-col;
+
+    & > div:first-child {
+      @apply m-4;
+    }
+
+    & > p {
+      @apply text-white font-bold text-base sm:text-lg md:text-2xl mx-auto;
+    }
+  }
+}
+
 .leftBar {
   @apply absolute left-0 flex flex-col w-8 h-full md:py-2 bg-gray-700 md:w-12 flex-nowrap;
 

@@ -1,13 +1,13 @@
 {
   "name": "the_fluffies",
-  "version": "8.13.2",
-  "description": "Create your pony avatar in the style of Lauren Faust in a few clicks and from any angle. Created by Electrum18",
+  "version": "8.13.3",
+  "description": "Create your pony or furry avatar in 3D cartoon style. Created by Electrum18",
   "author": "Electrum18 (https://github.com/Electrum18)",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "next start",
     "server": "node server/index.js",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint"
@@ -31,7 +31,7 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@next/bundle-analyzer": "^10.2.3",
+    "@next/bundle-analyzer": "^11.0.1",
     "@react-spring/three": "^9.2.3",
     "@react-three/drei": "^5.3.4",
     "@react-three/fiber": "^6.2.3",
@@ -77,6 +77,7 @@
     "eslint-plugin-flowtype": "^5.7.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-tailwind": "^0.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mongoose": "^5.13.0",
