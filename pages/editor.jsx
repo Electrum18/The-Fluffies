@@ -2,8 +2,6 @@ import Dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-import LeftBar from '@/components/editor/left-bar'
-import RightBar from '@/components/editor/right-bar'
 import Loading from '@/components/loading'
 import SiteHead from '@/components/siteHead'
 import useSocketConnection from '@/hooks/socket'
@@ -15,6 +13,9 @@ const Canvas = Dynamic(() => import('@/components/editor/world'), {
   ssr: false,
   loading: Loading
 })
+
+const LeftBar = Dynamic(() => import('@/components/editor/left-bar'))
+const RightBar = Dynamic(() => import('@/components/editor/right-bar'))
 
 export default function Editor() {
   const router = useRouter()

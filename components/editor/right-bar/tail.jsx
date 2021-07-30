@@ -1,24 +1,32 @@
+import { useRouter } from 'next/router'
+
 import TailIcon from '@/components/editor/inline-icons-pony/Tail'
 import Tails from '@/configs/changeable/tails.json'
+import en from '@/locales/en/pages/editor/right-bar/tail'
+import ru from '@/locales/ru/pages/editor/right-bar/tail'
 
 import Controls from '../createControls'
 import Section from '../createSection'
 
 export default function TailSection() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <Section name="Tail" icon={TailIcon}>
-      <Controls data={{ Tail: { color: 'hair_basic' } }} />
+      <Controls data={{ [t.tail]: { color: 'hair_basic' } }} />
 
       <Controls
-        title="Second color"
+        title={t.second}
         data={{
-          Enable: { boolean: 'hair_second' },
-          Color: { color: 'hair_second' }
+          [t.enable]: { boolean: 'hair_second' },
+          [t.color]: { color: 'hair_second' }
         }}
       />
 
       <Controls
-        title="Tail type"
+        title={t.type}
         data={{
           Types: { value: 'tail', list: Tails, imgSrc: 'tail/' }
         }}

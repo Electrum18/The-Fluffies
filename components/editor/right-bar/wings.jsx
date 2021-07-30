@@ -1,24 +1,32 @@
+import { useRouter } from 'next/router'
+
 import WingsIcon from '@/components/editor/inline-icons-pony/Wings'
+import en from '@/locales/en/pages/editor/right-bar/wings'
+import ru from '@/locales/ru/pages/editor/right-bar/wings'
 
 import Controls from '../createControls'
 import Section from '../createSection'
 
 export default function WingsSection() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <Section name="Wings" icon={WingsIcon}>
       <Controls
         data={{
-          Enable: { boolean: 'wings_enable' },
-          Bat: { boolean: 'wings_bat' },
-          Folded: { boolean: 'wings_folded' }
+          [t.enable]: { boolean: 'wings_enable' },
+          [t.bat]: { boolean: 'wings_bat' },
+          [t.folded]: { boolean: 'wings_folded' }
         }}
       />
 
       <Controls
-        title="Second color"
+        title={t.second}
         data={{
-          Enable: { boolean: 'wings_second_color' },
-          Color: { color: 'wings_basic' }
+          [t.enable]: { boolean: 'wings_second_color' },
+          [t.color]: { color: 'wings_basic' }
         }}
       />
     </Section>

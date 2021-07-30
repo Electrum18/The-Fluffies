@@ -1,45 +1,53 @@
+import { useRouter } from 'next/router'
+
 import BodyIcon from '@/components/editor/inline-icons-pony/Body'
+import en from '@/locales/en/pages/editor/right-bar/body'
+import ru from '@/locales/ru/pages/editor/right-bar/body'
 
 import Controls from '../createControls'
 import Section from '../createSection'
 
 export default function BodySection() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <Section name="Body" icon={BodyIcon}>
-      <Controls data={{ Fur: { color: 'fur_basic' } }} />
+      <Controls data={{ [t.fur]: { color: 'fur_basic' } }} />
 
       <Controls
-        title="Stripes"
+        title={t.stripes}
         data={{
-          Enable: { boolean: 'stripes_enable' },
-          Color: { color: 'stripes_basic' }
+          [t.enable]: { boolean: 'stripes_enable' },
+          [t.color]: { color: 'stripes_basic' }
         }}
       />
 
       <Controls
-        title="Freckles"
+        title={t.freckles}
         data={{
-          Enable: { boolean: 'freckles_nose' },
-          Color: { color: 'freckles_basic' }
+          [t.enable]: { boolean: 'freckles_nose' },
+          [t.color]: { color: 'freckles_basic' }
         }}
       />
 
       <Controls
-        title="Fluff"
+        title={t.fluff.title}
         data={{
-          Cheeks: { boolean: 'fluff_cheeks' },
-          Chest: { boolean: 'fluff_chest' },
-          Neck: { boolean: 'fluff_neck' },
-          Hooves: { boolean: 'fluff_hooves' },
-          Color: { color: 'fluff_basic' }
+          [t.fluff.cheeks]: { boolean: 'fluff_cheeks' },
+          [t.fluff.chest]: { boolean: 'fluff_chest' },
+          [t.fluff.neck]: { boolean: 'fluff_neck' },
+          [t.fluff.hooves]: { boolean: 'fluff_hooves' },
+          [t.fluff.color]: { color: 'fluff_basic' }
         }}
       />
 
       <Controls
-        title="Second color"
+        title={t.second}
         data={{
-          Enable: { boolean: 'fur_second_color' },
-          Color: { color: 'fur_second_basic' }
+          [t.enable]: { boolean: 'fur_second_color' },
+          [t.color]: { color: 'fur_second_basic' }
         }}
       />
     </Section>

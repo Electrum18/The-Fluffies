@@ -1,18 +1,26 @@
+import { useRouter } from 'next/router'
+
 import EyesIcon from '@/components/editor/inline-icons-pony/Eyes'
 import Eyes from '@/configs/changeable/eyes.json'
+import en from '@/locales/en/pages/editor/right-bar/eyes'
+import ru from '@/locales/ru/pages/editor/right-bar/eyes'
 
 import Controls from '../createControls'
 import Section from '../createSection'
 
 export default function EyesSection() {
+  const router = useRouter()
+
+  const t = router.locale === 'ru' ? ru : en
+
   return (
     <Section name="Eyes" icon={EyesIcon}>
       <Controls
         data={{
-          Eyes: { color: 'eyes_left_basic' },
-          Sclera: { color: 'eyes_sclera' },
+          [t.eyes]: { color: 'eyes_left_basic' },
+          [t.sclera]: { color: 'eyes_sclera' },
 
-          Scale: {
+          [t.scale]: {
             value: 'eyes_iris_scale',
             min: 50,
             max: 125,
@@ -21,18 +29,18 @@ export default function EyesSection() {
         }}
       />
 
-      <Controls title="Pupil" data={{ Color: { color: 'eyes_pupil' } }} />
+      <Controls title={t.pupil} data={{ [t.color]: { color: 'eyes_pupil' } }} />
 
       <Controls
-        title="Position"
+        title={t.position.title}
         data={{
-          Horizontal: {
+          [t.position.horizontal]: {
             value: 'eyes_position_horiz',
             min: -100,
             max: 100
           },
 
-          Vertical: {
+          [t.position.vertical]: {
             value: 'eyes_position_verti',
             min: -100,
             max: 100
@@ -41,34 +49,34 @@ export default function EyesSection() {
       />
 
       <Controls
-        title="Eyes type"
+        title={t.type}
         data={{
           Types: { value: 'eyes', list: Eyes, imgSrc: 'eyes/' }
         }}
       />
 
       <Controls
-        title="Eyelids"
+        title={t.eyelids.title}
         data={{
-          Upper: {
+          [t.eyelids.upper]: {
             value: 'eyes_eyelids_up',
             min: 1,
             max: 100
           },
 
-          Lower: {
+          [t.eyelids.lower]: {
             value: 'eyes_eyelids_down',
             min: 1,
             max: 100
           },
 
-          Angry: {
+          [t.eyelids.angry]: {
             value: 'eyes_eyelids_angry',
             min: 1,
             max: 100
           },
 
-          Sad: {
+          [t.eyelids.sad]: {
             value: 'eyes_eyelids_sad',
             min: 1,
             max: 100
