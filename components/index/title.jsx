@@ -35,7 +35,7 @@ export default function Title() {
       </p>
 
       <div className="flex flex-col flex-wrap w-full md:flex-row">
-        <Link href="/editor">
+        <Link href="/editor" prefetch={false}>
           <a className="px-6 button-white lg:mx-0 hover:bg-primary hover:text-white">
             {t.launch}
           </a>

@@ -2,11 +2,11 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       container: {
-        center: true,
+        center: true
       },
 
       colors: {
@@ -15,29 +15,29 @@ module.exports = {
         orange: colors.orange,
         version: '#E91AFF',
         modal: 'rgba(0, 0, 0, 0.2)',
-        transparent: 'rgba(0, 0, 0, 0)',
+        transparent: 'rgba(0, 0, 0, 0)'
       },
 
       maxWidth: {
-        vmin: '100vmin',
+        vmin: '100vmin'
       },
 
       spacing: {
         18: '4.5rem',
-        24: '6rem',
+        24: '6rem'
       },
 
       scale: {
-        125: '1.25',
+        125: '1.25'
       },
 
       cursor: {
-        'e-resize': 'e-resize',
-      },
-    },
+        'e-resize': 'e-resize'
+      }
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 }
