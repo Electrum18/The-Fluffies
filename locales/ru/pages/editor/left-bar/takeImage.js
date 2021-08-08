@@ -1,9 +1,7 @@
 const takeImage = {
-  qualtiy: 'Качество',
-  ratio: 'Соотношение',
-  format: 'Формат',
+  title: 'Фото персонажа',
   close: 'Закрыть',
-  start: 'Начать'
+  download: 'Сохранить'
 }
 
 export default takeImage

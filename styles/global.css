@@ -30,7 +30,7 @@ html {
 
 @layer base {
   main {
-    @apply bg-gray-100;
+    @apply bg-gray-100 dark:bg-gray-800;
   }
 
   h1 {
@@ -40,7 +40,7 @@ html {
   h1,
   h2,
   p {
-    @apply text-gray-600;
+    @apply text-gray-600 dark:text-gray-200;
   }
 
   h2 {
@@ -52,7 +52,7 @@ html {
   }
 
   section {
-    @apply flex flex-col md:flex-row place-items-center container justify-around my-8 p-8 bg-white rounded-lg;
+    @apply flex flex-col md:flex-row place-items-center container justify-around my-8 p-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   hr {
@@ -78,11 +78,11 @@ html {
   }
 
   .div-section {
-    @apply flex flex-col md:flex-row place-items-center container mx-auto p-8 bg-white rounded-lg;
+    @apply flex flex-col md:flex-row place-items-center container mx-auto p-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   .div-section-lg {
-    @apply flex flex-col lg:flex-row place-items-center container mx-auto p-8 bg-white rounded-lg;
+    @apply flex flex-col lg:flex-row place-items-center container mx-auto p-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   .section-center {
@@ -124,5 +124,29 @@ html {
 
   .button-white {
     @apply button bg-white text-gray-800 hover:bg-gray-200;
+  }
+
+  .footer {
+    @apply flex bg-gray-700;
+
+    & > div {
+      @apply container flex flex-col mx-auto my-4 font-medium text-white;
+
+      & > div {
+        @apply flex flex-row justify-between px-2;
+
+        & > p {
+          @apply mx-0 text-base text-white;
+        }
+      }
+    }
+
+    & nav {
+      @apply w-full py-4 mx-auto text-lg md:w-1/2;
+    }
+
+    & ul {
+      @apply flex flex-row flex-wrap justify-around;
+    }
   }
 }

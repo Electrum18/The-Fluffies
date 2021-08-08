@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
-import shallow from 'zustand/shallow'
 
-import ListButtons from '@/components/elements/listButtons'
-import ListChips from '@/components/elements/listChips'
-import ListDropdown from '@/components/elements/listDropdown'
-import ListSquares from '@/components/elements/listSquares'
+import Modal from '@/components/elements/modal'
 import useMenu from '@/helpers/menu'
+import useParameters from '@/helpers/parameters'
 import en from '@/locales/en/pages/editor/left-bar/takeImage'
 import ru from '@/locales/ru/pages/editor/left-bar/takeImage'
-import styles from '@/styles/menu.module.css'
+import styles from '@/styles/elements.module.css'
 
 import { LeftSection } from '../createSection'
+
+const selector = state => state.closePages
+const selectorName = state => state.saves[state.slot].names.name
 
 function Icon({ className, onClick }) {
   return (
@@ -22,55 +22,48 @@ function Icon({ className, onClick }) {
   )
 }
 
-const selector = state => [state.page, state.closePages]
-
 export default function TakeImageSection() {
   const router = useRouter()
 
-  const [page, closePages] = useMenu(selector, shallow)
+  const closePages = useMenu(selector)
+  const name = useParameters(selectorName)
 
-  const [translate, setTranslate] = useState(100)
+  const [image, setImage] = useState('')
 
   const t = router.locale === 'ru' ? ru : en
 
-  useEffect(() => {
-    setTranslate(100 - +(page === 'TakePhoto') * 100)
-  }, [page])
-
   return (
     <LeftSection name="TakePhoto" icon={Icon}>
-      <div
-        style={{ transform: `translateY(${translate}%)` }}
-        className={styles.bottomMenu}
+      <Modal
+        title={t.title}
+        page="TakePhoto"
+        onOpen={() =>
+          setImage(document.querySelector('canvas').toDataURL('image/png'))
+        }
+        onClose={() => setImage('')}
       >
-        <div>
-          <div />
-
-          <ListDropdown
-            label={t.qualtiy}
-            list={['2160p', '1440p', '1080p', '720p', '420p']}
-          />
-
-          <ListSquares
-            label={t.ratio}
-            list={[
-              { style: 'w-10 h-6 mx-1 my-3' },
-              { style: 'w-6 h-10 mx-3 my-1' }
-            ]}
-          />
-
-          <ListChips label={t.format} list={['PNG', 'JPG']} />
-
-          <ListButtons
-            list={[
-              { text: t.close, style: 'bg-gray-800', onClick: closePages },
-              { text: t.start, style: 'bg-primary' }
-            ]}
-          />
-
-          <div />
+        <div className="w-64 h-48 bg-gray-600 rounded-lg md:w-96">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={image} alt={t.title} className="h-full mx-auto" />
         </div>
-      </div>
+
+        <div className="flex flex-row justify-center text-white">
+          <button
+            onClick={closePages}
+            className={styles.buttonLittle + ' mt-2 mr-2'}
+          >
+            {t.close}
+          </button>
+
+          <a
+            download={name + ' - The Fluffies.png'}
+            href={image}
+            className={styles.buttonLittle + ' mt-2'}
+          >
+            {t.download}
+          </a>
+        </div>
+      </Modal>
     </LeftSection>
   )
 }

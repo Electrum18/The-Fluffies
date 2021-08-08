@@ -1,9 +1,7 @@
 const takeImage = {
-  qualtiy: 'Quality',
-  ratio: 'Ratio',
-  format: 'Format',
+  title: 'Person image',
   close: 'Close',
-  start: 'Start'
+  download: 'Download'
 }
 
 export default takeImage

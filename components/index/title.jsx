@@ -21,16 +21,16 @@ export default function Title() {
           height={418}
           draggable={false}
         />
-        <p className="px-2 ml-auto mr-2 text-sm font-bold text-right text-white uppercase border-2 rounded-lg select-none w-min md:text-bg">
+        <p className="px-2 ml-auto mr-2 text-sm font-bold text-right text-white uppercase border-2 rounded-lg select-none dark:text-white w-min md:text-bg">
           studio
         </p>
       </div>
 
-      <h1 className="w-full my-8 text-3xl font-bold tracking-wide text-white md:text-left lg:text-4xl">
+      <h1 className="w-full my-8 text-3xl font-bold tracking-wide text-white dark:text-white md:text-left lg:text-4xl">
         {t.header}
       </h1>
 
-      <p className="mb-8 leading-normal text-white md:text-2xl">
+      <p className="mb-8 leading-normal text-white dark:text-white md:text-2xl">
         {t.description}
       </p>
 

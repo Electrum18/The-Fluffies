@@ -80,7 +80,7 @@
 }
 
 .messages {
-  @apply flex flex-col-reverse h-48 overflow-y-scroll lg:h-96 w-96 partBordered;
+  @apply flex flex-col-reverse w-80 h-40 overflow-y-scroll lg:h-96 md:w-96 partBordered;
 
   & > li {
     @apply flex flex-row m-1 bg-gray-800 rounded-lg;

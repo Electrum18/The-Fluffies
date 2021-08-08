@@ -54,7 +54,7 @@
   @apply flex flex-row space-x-4;
 
   & > * {
-    @apply font-bold w-32 px-4 py-2 text-white text-center rounded-lg transition-colors bg-gray-800 hover:bg-gray-600;
+    @apply font-bold w-24 md:w-32 px-4 py-1 md:py-2 text-white text-center rounded-lg transition-colors bg-gray-800 hover:bg-gray-600;
   }
 }
 
@@ -98,7 +98,35 @@
   }
 
   & > div:last-child {
-    @apply p-4 pt-0 mx-auto bg-gray-800 rounded-2xl transition-transform;
+    @apply p-4 pt-0 mx-auto max-h-screen overflow-y-auto bg-gray-800 rounded-2xl transition-transform;
+
+    & > div:first-child {
+      @apply flex flex-row justify-between py-2 -mr-3;
+
+      & p {
+        @apply z-20 mx-0 text-white;
+      }
+
+      & div {
+        @apply z-20 w-10 h-10 flex items-center justify-center;
+      }
+
+      & svg {
+        @apply w-8 h-8 p-1 text-white hover:bg-gray-500 cursor-pointer transition-colors rounded-full;
+      }
+    }
+  }
+}
+
+.modal {
+  @apply fixed left-0 bottom-0 flex items-center min-w-full min-h-full;
+
+  & > div:first-child {
+    @apply fixed min-w-full min-h-full bg-modal;
+  }
+
+  & > div:last-child {
+    @apply p-4 pt-0 mx-auto max-h-screen overflow-y-auto bg-gray-700 rounded-2xl transition-transform;
 
     & > div:first-child {
       @apply flex flex-row justify-between py-2 -mr-3;

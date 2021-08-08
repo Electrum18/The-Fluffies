@@ -45,6 +45,7 @@ export default function World() {
       flat={true}
       style={{ position: 'absolute', top: 0 }}
       camera={{ fov: 45, near: 0.1, far: 1000, position: [-10, 0, 10] }}
+      gl={{ preserveDrawingBuffer: true }}
     >
       <color ref={background} attach="background" args={['white']} />
 

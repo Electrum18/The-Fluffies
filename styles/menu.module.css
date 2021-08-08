@@ -2,7 +2,11 @@
   @apply fixed bottom-0 flex flex-col w-full px-2 bg-gray-700 select-none transition-transform;
 
   & > div {
-    @apply flex flex-row flex-wrap justify-around items-center;
+    @apply flex flex-row flex-wrap justify-center items-center;
+
+    & > div {
+      @apply md:mx-4;
+    }
   }
 }
 

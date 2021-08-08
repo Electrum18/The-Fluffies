@@ -1,5 +1,5 @@
 .cardOutlined {
-  @apply border-2 border-gray-200 rounded-xl;
+  @apply border-2 border-gray-200 dark:border-opacity-0 dark:bg-gray-500 rounded-xl;
 }
 
 .cardLittle {

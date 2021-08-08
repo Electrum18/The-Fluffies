@@ -23,10 +23,10 @@ export default function Footer() {
   }
 
   return (
-    <footer className="flex bg-gray-700">
-      <div className="container flex flex-col mx-auto my-4 font-medium text-white">
-        <nav className="w-full py-4 mx-auto text-lg md:w-1/2">
-          <ul className="flex flex-row flex-wrap justify-around">
+    <footer className="footer">
+      <div>
+        <nav>
+          <ul>
             <NavLink href="/" text={t.home} />
             <NavLink href="/about" text={t.about} />
             <NavLink href="/support" text={t.support} />
@@ -35,10 +35,8 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div className="flex flex-row justify-between px-2">
-          <p className="mx-0 text-base text-white">
-            © {new Date().getFullYear()} The Fluffies
-          </p>
+        <div>
+          <p>© {new Date().getFullYear()} The Fluffies</p>
           <SocialsMini />
         </div>
       </div>

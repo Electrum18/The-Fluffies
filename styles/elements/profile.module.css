@@ -5,6 +5,10 @@
     @apply mx-auto;
   }
 
+  & div:first-of-type {
+    @apply hidden md:flex;
+  }
+
   & div:last-of-type {
     @apply flex flex-row;
   }
@@ -39,7 +43,7 @@
     @apply flex flex-col mt-8 w-32 bg-gray-700 rounded-lg;
 
     & > p {
-      @apply mb-0 text-base font-bold text-center text-white;
+      @apply mb-0 mx-0 text-base font-bold text-center text-white;
     }
 
     & > div:first-of-type {

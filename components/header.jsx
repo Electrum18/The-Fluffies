@@ -32,9 +32,11 @@ export default function Header() {
 
   const headerStyle = MainOnTop
     ? 'text-white '
-    : 'text-gray-500 bg-white border-b-2'
+    : 'text-gray-500 dark:text-white bg-white dark:bg-gray-700 border-b-2 dark:border-gray-600'
 
-  const versionStyle = MainOnTop ? 'text-white' : 'text-gray-500'
+  const versionStyle = MainOnTop
+    ? 'text-white'
+    : 'text-gray-500 dark:text-gray-100'
 
   function NavLink({ href, text }) {
     if (router.route === href) {

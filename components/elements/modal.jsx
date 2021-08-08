@@ -8,27 +8,40 @@ import stylesElems from '@/styles/elements.module.css'
 
 const selector = state => [state.page, state.closePages]
 
-export default function ModalMini({ title, page: pageName, children }) {
+export default function Modal({
+  title,
+  page: pageName,
+  onOpen,
+  onClose,
+  children
+}) {
   const [page, closePages] = useMenu(selector, shallow)
 
   const [scale, setScale] = useState(0)
 
   useEffect(() => {
-    setScale(+(page === pageName))
-  }, [page, pageName])
+    const isOpen = page === pageName
+
+    setScale(+isOpen)
+
+    if (isOpen) onOpen()
+  }, [onClose, onOpen, page, pageName])
+
+  function close() {
+    closePages()
+
+    if (onClose) onClose()
+  }
 
   return (
-    <div className={stylesElems.modalMini}>
-      <div onPointerDown={() => closePages()} />
+    <div className={stylesElems.modal}>
+      <div onPointerDown={close} />
 
       <div style={{ transform: `scale(${scale})` }}>
         <div>
           <p>{title}</p>
           <div>
-            <FaTimes
-              className={styles.basicIcon}
-              onClick={() => closePages()}
-            />
+            <FaTimes className={styles.basicIcon} onClick={close} />
           </div>
         </div>
 

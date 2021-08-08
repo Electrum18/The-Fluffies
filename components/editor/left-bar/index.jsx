@@ -1,5 +1,7 @@
+import useMenu from '@/helpers/menu'
 import styles from '@/styles/editor.module.css'
 
+import Accounts from './additional/accounts'
 import ChatSection from './chat'
 import EmotionsSection from './emotions'
 import EnvSection from './environment'
@@ -11,11 +13,15 @@ import SavePersonSection from './savePersons'
 import SocialSection from './socials'
 import TakeImageSection from './takeImage'
 
+const selector = state => state.page
+
 function Spacer() {
   return <div />
 }
 
 export default function Menu() {
+  const page = useMenu(selector)
+
   return (
     <div>
       <ul className={styles.leftBar}>
@@ -36,6 +42,8 @@ export default function Menu() {
         <SocialSection />
         <ChatSection />
       </ul>
+
+      {page === 'Accounts' && <Accounts />}
     </div>
   )
 }

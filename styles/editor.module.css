@@ -31,7 +31,7 @@
 }
 
 .leftBar {
-  @apply absolute left-0 flex flex-col w-8 h-full md:py-2 bg-gray-700 md:w-12 flex-nowrap;
+  @apply absolute left-0 flex flex-col w-8 h-full overflow-x-hidden overflow-y-auto md:py-2 bg-gray-700 md:w-12 flex-nowrap;
 
   & > div {
     @apply flex-grow;

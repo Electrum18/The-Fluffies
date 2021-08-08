@@ -39,7 +39,7 @@ function Home({ patrons }) {
           <Background />
           <ArrowDown />
 
-          <div className="px-8 pt-24 bg-transparent div-section md:px-24 md:h-screen">
+          <div className="px-8 pt-24 bg-transparent dark:bg-transparent div-section md:px-24 md:h-screen">
             <Title />
 
             <div className="w-3/5 mt-4 md:w-1/2 md:pt-0">

@@ -14,8 +14,13 @@ const Canvas = Dynamic(() => import('@/components/editor/world'), {
   loading: Loading
 })
 
-const LeftBar = Dynamic(() => import('@/components/editor/left-bar'))
-const RightBar = Dynamic(() => import('@/components/editor/right-bar'))
+const LeftBar = Dynamic(() => import('@/components/editor/left-bar'), {
+  ssr: false
+})
+
+const RightBar = Dynamic(() => import('@/components/editor/right-bar'), {
+  ssr: false
+})
 
 export default function Editor() {
   const router = useRouter()
