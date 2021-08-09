@@ -1,15 +1,15 @@
 const Index = {
   meta: {
-    title: 'Create 3D Pony Characters with Animation 🍊 - The Fluffies',
+    title: '3D Pony and Furry Characters Editor Online 🍊 - The Fluffies',
     description:
-      'Easily create ponies using 3D editor in browser, inspired by the pony ' +
-      'creator, with a revolution in creation and the presence of animations, ' +
-      'use editor now 🔥'
+      'Furry and pony editor 3D in browser, forget about pony creator with a ' +
+      'studio for creating a character for online world and its modification ' +
+      'with saving 🔥'
   },
 
-  header: 'Pony editor directly in browser with animation & 3D graphics',
+  header: 'Pony and furry editor directly in browser with 3D graphics',
   description:
-    'Online editor for animation and character creation without complications',
+    'Online editor for character creation and modification without complications',
   launch: 'Launch',
 
   patrons: {
@@ -33,17 +33,17 @@ const Index = {
   features: {
     h2: 'Editor features',
     text:
-      'The editor allows you to create various characters, as well as animate ' +
-      'them through the built-in tools and then auto-save in the browser and ' +
+      'The editor allows you to create various characters, modify them ' +
+      'through the built-in tools and then auto-save in the browser and ' +
       'in the account',
     sub: 'maximum simplification of actions '
   },
 
   create: {
-    h2: 'Animate and create',
+    h2: 'Create your characters',
     text:
-      'The editor provides tools right in the browser for animating and ' +
-      'creating your character, then saving the work and using it',
+      'The editor provides tools right in the browser for creating your ' +
+      'character, then saving the work and using it',
     sub: 'characters are saved automatically'
   },
 

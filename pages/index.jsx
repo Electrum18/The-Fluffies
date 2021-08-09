@@ -105,7 +105,7 @@ function Home({ patrons }) {
         </InfoSection>
 
         <InfoSection
-          src="/svg/info/content.svg"
+          src="/svg/info/person-editor.svg"
           alt="Animation tab with video icon"
           flip={true}
         >

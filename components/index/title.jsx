@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+
+import styles from '@/styles/index.module.css'
 
 import en from '../../locales/en/pages/index'
 import ru from '../../locales/ru/pages/index'
@@ -9,11 +12,35 @@ import Socials from '../socials'
 export default function Title() {
   const router = useRouter()
 
+  const [easterOn, setEasterOn] = useState(false)
+
   const t = router.locale === 'ru' ? ru : en
 
+  const easterStyle = easterOn ? '-top-20 opacity-100' : 'top-0 opacity-0'
+
+  useEffect(() => {
+    function hide() {
+      setEasterOn(false)
+    }
+
+    if (easterOn) setTimeout(hide, 1500)
+
+    return () => clearTimeout(hide)
+  }, [easterOn])
+
   return (
-    <div className="flex flex-col items-start justify-center w-full text-center md:w-1/2 md:text-left">
-      <div className="w-3/5 mx-auto mb-4 lg:mb-8">
+    <div className={styles.heroPage}>
+      <div onClick={() => setEasterOn(true)}>
+        <div className={'absolute transition-all duration-700 ' + easterStyle}>
+          <Image
+            src="/img/easter.png"
+            alt="Website maskot and easter egg"
+            width={96}
+            height={96}
+            draggable={false}
+          />
+        </div>
+
         <Image
           src="/svg/The Fluffies logo.svg"
           alt="The Fluffies logo"
@@ -21,25 +48,18 @@ export default function Title() {
           height={418}
           draggable={false}
         />
-        <p className="px-2 ml-auto mr-2 text-sm font-bold text-right text-white uppercase border-2 rounded-lg select-none dark:text-white w-min md:text-bg">
-          studio
-        </p>
+
+        <p>studio</p>
       </div>
 
-      <h1 className="w-full my-8 text-3xl font-bold tracking-wide text-white dark:text-white md:text-left lg:text-4xl">
-        {t.header}
-      </h1>
+      <h1>{t.header}</h1>
+      <p>{t.description}</p>
 
-      <p className="mb-8 leading-normal text-white dark:text-white md:text-2xl">
-        {t.description}
-      </p>
-
-      <div className="flex flex-col flex-wrap w-full md:flex-row">
+      <div>
         <Link href="/editor" prefetch={false}>
-          <a className="px-6 button-white lg:mx-0 hover:bg-primary hover:text-white">
-            {t.launch}
-          </a>
+          <a className="button-white">{t.launch}</a>
         </Link>
+
         <Socials />
       </div>
     </div>

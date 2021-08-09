@@ -34,6 +34,16 @@ const About = {
       'current state of this content and its consumption'
   },
 
+  result: {
+    h2: 'Result',
+    text:
+      'After observing the trend of using the editor, it was decided ' +
+      'to remake it into a more cost-effective and labor-saving project ' +
+      'with an online world and a variant of 3D-style improvements on ' +
+      'the general theme of (furry) animals',
+    sub: 'maximum result with minimum effort'
+  },
+
   technologies: {
     h2: 'Technologies',
     text:

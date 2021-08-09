@@ -6,6 +6,7 @@ import {
   FaFistRaised,
   FaHeart,
   FaPencilAlt,
+  FaPoll,
   FaQuestion,
   FaServer,
   FaUsers
@@ -56,6 +57,15 @@ export default function About() {
             <p>{t.motivation.text}</p>
           </div>
         </section>
+
+        <InfoSection src="/svg/info/stats-and-3d.svg" alt="Analysis of editor">
+          <FaPoll className="basic-icon md:mx-0" />
+
+          <h2>{t.result.h2}</h2>
+          <p>{t.result.text}</p>
+
+          <p className="text-subtitle">{t.result.sub}</p>
+        </InfoSection>
 
         <InfoSection
           src="/svg/info/servering.svg"

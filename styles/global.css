@@ -52,7 +52,7 @@ html {
   }
 
   section {
-    @apply flex flex-col md:flex-row place-items-center container justify-around my-8 p-8 bg-white dark:bg-gray-700 rounded-lg;
+    @apply flex flex-col md:flex-row place-items-center container justify-around my-8 py-8 md:px-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   hr {
@@ -78,11 +78,11 @@ html {
   }
 
   .div-section {
-    @apply flex flex-col md:flex-row place-items-center container mx-auto p-8 bg-white dark:bg-gray-700 rounded-lg;
+    @apply flex flex-col md:flex-row place-items-center container mx-auto py-8 md:px-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   .div-section-lg {
-    @apply flex flex-col lg:flex-row place-items-center container mx-auto p-8 bg-white dark:bg-gray-700 rounded-lg;
+    @apply flex flex-col lg:flex-row place-items-center container mx-auto py-8 md:px-8 bg-white dark:bg-gray-700 rounded-lg;
   }
 
   .section-center {
