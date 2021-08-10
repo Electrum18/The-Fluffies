@@ -53,6 +53,4 @@ const userSchema = new Schema({
   badges: Array
 })
 
-const User = mongoose.model('user', userSchema)
-
-module.exports = User
+module.exports = mongoose.models.user || mongoose.model('user', userSchema)

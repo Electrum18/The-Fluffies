@@ -20,11 +20,13 @@ import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
 import OuterLink from '@/components/outerLink'
 import SiteHead from '@/components/siteHead'
+import dbConnect from '@/libs/db'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
+import User from '@/server/models/user-model'
 import cardStyles from '@/styles/cards.module.css'
 
-function Home({ patrons }) {
+function Home({ patrons, count }) {
   const router = useRouter()
 
   const t = router.locale === 'ru' ? ru : en
@@ -82,7 +84,7 @@ function Home({ patrons }) {
 
           <div className={cardStyles.cardCenterMini}>
             <div>
-              <p>1000</p>
+              <p>{count}</p>
               <p>{t.score.users}</p>
             </div>
 
@@ -159,59 +161,41 @@ function Home({ patrons }) {
 }
 
 export async function getStaticProps() {
+  await dbConnect()
+
+  let count
+
+  if (process.env.MONGODB_URI) {
+    count = await User.countDocuments({}, (err, _count) => {
+      if (err) {
+        console.error(err)
+      } else {
+        return _count
+      }
+    })
+  }
+
+  function fillPatrons(length) {
+    const array = []
+
+    for (let index = 0; index < 5 - length; index++) {
+      array.push({
+        nickname: 'Be patron',
+        tier: 'You can be here',
+        placeholder: true
+      })
+    }
+
+    return array
+  }
+
   return {
     props: {
-      patrons: [
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        },
-        {
-          nickname: 'Electrum18',
-          tier: 'Big support'
-        }
-      ]
-    }
+      patrons: fillPatrons(0),
+      count: count || '?'
+    },
+
+    revalidate: 60 * 60 * 24
   }
 }
 

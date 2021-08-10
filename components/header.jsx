@@ -30,10 +30,6 @@ export default function Header() {
 
   const MainOnTop = router.route === '/' && height < 10
 
-  const headerStyle = MainOnTop
-    ? 'text-white '
-    : 'text-gray-500 dark:text-white bg-white dark:bg-gray-700 border-b-2 dark:border-gray-600'
-
   const versionStyle = MainOnTop
     ? 'text-white'
     : 'text-gray-500 dark:text-gray-100'
@@ -48,9 +44,7 @@ export default function Header() {
     } else {
       return (
         <Link href={href}>
-          <a className="mx-4 select-none hover:text-primary transition-colors duration-300">
-            {text}
-          </a>
+          <a>{text}</a>
         </Link>
       )
     }
@@ -58,29 +52,19 @@ export default function Header() {
 
   return (
     <header
-      className={
-        'w-full fixed top-0 text-lg p-4 md:p-6 font-medium transition-colors z-10 ' +
-        headerStyle
-      }
+      className={'header ' + (MainOnTop ? 'text-white ' : 'header-solid')}
     >
-      <div className="flex flex-row justify-around md:justify-between">
+      <div>
         {router.route === '/' ? (
-          <div
-            className={
-              'hidden md:flex mx-4 my-0 uppercase place-items-center font-bold text-sm select-none ' +
-              versionStyle
-            }
-          >
+          <div className={'header-version ' + versionStyle}>
             {t.version}
-            <div className="px-2 py-1 mx-3 text-white bg-version rounded-md">
-              Huckleberry
-            </div>
+            <div>Huckleberry</div>
           </div>
         ) : (
-          <div className="hidden md:flex">
+          <div>
             <Link href="/">
-              <a className="flex flex-row">
-                <div className="flex icon-header">
+              <a className="header-logo-a">
+                <div>
                   <Image
                     src="/svg/mango.svg"
                     alt="The Fluffies logo"
@@ -88,9 +72,8 @@ export default function Header() {
                     height={32}
                   />
                 </div>
-                <div className="mx-2 text-xl font-bold tracking-wide">
-                  The Fluffies
-                </div>
+
+                <div>The Fluffies</div>
               </a>
             </Link>
           </div>

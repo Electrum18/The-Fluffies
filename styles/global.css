@@ -126,6 +126,46 @@ html {
     @apply button bg-white text-gray-800 hover:bg-gray-200;
   }
 
+  .header {
+    @apply w-full fixed top-0 text-lg p-4 md:p-6 font-medium transition-colors z-10;
+
+    & > div {
+      @apply flex flex-row justify-around md:justify-between;
+
+      & > div {
+        @apply hidden md:flex;
+      }
+
+      & nav a {
+        @apply mx-4 select-none hover:text-primary transition-colors duration-300;
+      }
+    }
+  }
+
+  .header-solid {
+    @apply text-gray-500 dark:text-white bg-white dark:bg-gray-700 border-b-2 dark:border-gray-600;
+  }
+
+  .header-version {
+    @apply mx-4 my-0 uppercase place-items-center font-bold text-sm select-none;
+
+    & div {
+      @apply px-2 py-1 mx-3 text-white bg-version rounded-md;
+    }
+  }
+
+  .header-logo-a {
+    @apply flex flex-row;
+
+    & :first-child {
+      @apply flex icon-header;
+    }
+
+    & :last-child {
+      @apply mx-2 text-xl font-bold tracking-wide;
+    }
+  }
+
   .footer {
     @apply flex bg-gray-700;
 
@@ -147,6 +187,18 @@ html {
 
     & ul {
       @apply flex flex-row flex-wrap justify-around;
+    }
+  }
+
+  .locale-bar {
+    @apply fixed flex flex-row w-full px-4 pointer-events-none bottom-3;
+
+    & button {
+      @apply z-10 pointer-events-auto p-1 mr-0;
+    }
+
+    & a {
+      @apply px-3 py-1 uppercase z-10 pointer-events-auto ml-2;
     }
   }
 }

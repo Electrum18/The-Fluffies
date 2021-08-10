@@ -29,3 +29,27 @@
     }
   }
 }
+
+.patrons {
+  @apply flex w-full p-2 overflow-x-auto overflow-y-hidden bg-gray-200 shadow-inner flex-nowrap justify-center;
+
+  & > div {
+    @apply flex flex-shrink-0 p-3 m-2 bg-white shadow-md rounded-md transition-transform transform-gpu hover:scale-110;
+
+    & > div:first-child {
+      @apply flex-shrink-0 rounded-md;
+    }
+
+    & > div:last-child {
+      @apply flex flex-col justify-between px-3;
+    }
+
+    & p:first-of-type {
+      @apply w-32 my-0 text-lg font-bold text-gray-600 truncate;
+    }
+
+    & p:last-of-type {
+      @apply my-0 text-sm text-gray-600 uppercase;
+    }
+  }
+}

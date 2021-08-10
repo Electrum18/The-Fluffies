@@ -11,6 +11,8 @@ export default function Locale() {
 
   const locale = router.locale === 'ru' ? 'en' : 'ru'
 
+  const [mounted, setMounted] = useState(false)
+
   const [height, setHeight] = useState(0)
   const [innerH, setInnerH] = useState(0)
   const [offsetH, setOffsetH] = useState(0)
@@ -28,9 +30,12 @@ export default function Locale() {
   }, [])
 
   useEffect(() => {
+    setMounted(true)
     setInnerH(window.innerHeight)
     setOffsetH(document.body.offsetHeight)
   }, [])
+
+  if (!mounted) return null
 
   const MainOnTop = router.route === '/' && height < 10
   const OnBottom = height + innerH >= offsetH - 10
@@ -38,10 +43,10 @@ export default function Locale() {
   let localeStyle = MainOnTop ? 'button-white ' : 'button '
 
   return (
-    <div className="fixed flex flex-row w-full px-4 pointer-events-none bottom-3">
+    <div className="locale-bar">
       <button
         aria-label="Toggle Dark Mode"
-        className={localeStyle + ' z-10 pointer-events-auto p-1 mr-0'}
+        className={localeStyle}
         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       >
         {theme === 'light' ? (
@@ -52,13 +57,7 @@ export default function Locale() {
       </button>
 
       <Link href={router.route} locale={locale} scroll={false}>
-        <a
-          className={
-            'px-3 py-1 uppercase z-10 pointer-events-auto ml-2 ' +
-            localeStyle +
-            (OnBottom ? ' mr-auto' : ' mr-0')
-          }
-        >
+        <a className={localeStyle + (OnBottom ? 'mr-auto' : 'mr-0')}>
           {locale}
         </a>
       </Link>
