@@ -101,6 +101,6 @@ const withOfflineConfig = {
 }
 
 module.exports = withPlugins(
-  [[withOffline, withOfflineConfig], [withBundleAnalyzer]],
+  [[withOffline, withOfflineConfig], withBundleAnalyzer],
   nextConfig
 )

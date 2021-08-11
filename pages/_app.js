@@ -20,7 +20,7 @@ export function reportWebVitals({ id, name, label, value }) {
   }
 }
 
-function MyApp({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
   const router = useRouter()
 
   useEffect(() => {
@@ -39,5 +39,3 @@ function MyApp({ Component, pageProps }) {
     </ThemeProvider>
   )
 }
-
-export default MyApp
