@@ -1,6 +1,7 @@
 {
-  "name": "The Fluffies Pony Editor",
+  "name": "The Fluffies Pony and Furry Editor",
   "short_name": "The Fluffies",
+  "description": "Creator about pony and furry",
   "icons": [
     {
       "src": "/icons/favicon.ico",
@@ -21,9 +22,9 @@
       "purpose": "any maskable"
     }
   ],
+  "theme_color": "#ffaa00",
+  "background_color": "#444444",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
-  "theme_color": "#ffaa00",
-  "background_color": "#444444"
+  "display": "standalone"
 }

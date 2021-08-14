@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
+import { getSaveValueInner } from '@/libs/saves'
 
 export function useShaderColorManager(
   colorTarget,
@@ -13,8 +14,11 @@ export function useShaderColorManager(
     if (colorName) {
       const { material } = model.current
 
-      const { saves, slot } = useParameters.getState()
-      const { h, s, l, a } = saves[slot].colors[colorName]
+      const { h, s, l, a } = getSaveValueInner(
+        useParameters.getState(),
+        'colors',
+        colorName
+      )
 
       material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
 
@@ -26,7 +30,7 @@ export function useShaderColorManager(
 
           if (a && alphaTarget) material.uniforms[alphaTarget].value = a
         },
-        state => state.saves[state.slot].colors[colorName]
+        state => getSaveValueInner(state, 'colors', colorName)
       )
     }
   }, [alphaTarget, colorName, colorTarget, model])
@@ -42,17 +46,20 @@ export function useShaderValueManager(
     if (valueIn) {
       const { material } = model.current
 
-      const { saves, slot } = useParameters.getState()
       const { emotions } = useEmotions.getState()
 
-      const save = saves[slot]
+      const boolean = getSaveValueInner(
+        useParameters.getState(),
+        'booleans',
+        valueIn
+      )
 
       material.uniforms[valueName].value =
-        (+save.booleans[valueIn] || emotions[valueIn]) * treshold
+        (+boolean || emotions[valueIn]) * treshold
 
       useParameters.subscribe(
         value => (material.uniforms[valueName].value = +value * treshold),
-        state => state.saves[state.slot].booleans[valueIn]
+        state => getSaveValueInner(state, 'booleans', valueIn)
       )
 
       useEmotions.subscribe(

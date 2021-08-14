@@ -10,8 +10,10 @@ import en from '@/locales/en/pages/editor/left-bar/additional/accounts'
 import ru from '@/locales/ru/pages/editor/left-bar/additional/accounts'
 import styles from '@/styles/elements/accounts.module.css'
 
+const selectorUser = state => state.user
+
 function SocialProfile({ title, profile, auth, icon: Icon, iconStyle, t }) {
-  const user = useUser(state => state.user)
+  const user = useUser(selectorUser)
 
   const loginUrl = useSiteUrl()
 

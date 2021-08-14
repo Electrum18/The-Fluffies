@@ -18,6 +18,7 @@ import Patrons from '@/components/index/patrons'
 import Title from '@/components/index/title'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
+import LocalStorageControl from '@/components/localStorageControl'
 import OuterLink from '@/components/outerLink'
 import SiteHead from '@/components/siteHead'
 import dbConnect from '@/libs/db'
@@ -35,6 +36,8 @@ function Home({ patrons, count }) {
     <>
       <SiteHead t={t} />
       <Header />
+
+      <LocalStorageControl />
 
       <main>
         <div id="start" className="text-white background-gradient">
@@ -89,7 +92,7 @@ function Home({ patrons, count }) {
             </div>
 
             <div>
-              <p>{new Date().getFullYear() - 2018}</p>
+              <p>{new Date().getFullYear() - 2019}</p>
               <p>{t.score.years}</p>
             </div>
           </div>

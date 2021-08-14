@@ -5,10 +5,11 @@ import Materials from '@/configs/materials.json'
 import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
+import { getSaveValue } from '@/libs/saves'
 
 import { useShaderColorManager, useShaderValueManager } from './shader'
 
-const selectorNames = state => state.saves[state.slot].names
+const selectorNames = state => getSaveValue(state, 'names')
 const selectorFlexes = state => state.emotions
 
 const selectorLignt = state => [state.light, state.ambientLight]
@@ -20,7 +21,7 @@ export function useModelInfo(
   material = undefined,
   texture = undefined
 ) {
-  const names = useParameters(selectorNames)
+  const names = useParameters(selectorNames, shallow)
 
   const name = key ? names[key].replace(/ /g, '_') : elemName
   const src = group ? group + name : name

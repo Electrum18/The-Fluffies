@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCheck, FaFile, FaTimes } from 'react-icons/fa'
 import shallow from 'zustand/shallow'
 
@@ -7,31 +7,31 @@ import ListButtons from '@/components/elements/listButtons'
 import ListDropdown from '@/components/elements/listDropdown'
 import useMenu from '@/helpers/menu'
 import useParameters from '@/helpers/parameters'
+import { useProfileSavesUpdate, useValidSaveStore } from '@/hooks/user'
 import en from '@/locales/en/pages/editor/left-bar/savePersons'
 import ru from '@/locales/ru/pages/editor/left-bar/savePersons'
 import stylesElems from '@/styles/elements.module.css'
 import styles from '@/styles/menu.module.css'
 
 import { LeftSection } from '../createSection'
-
-const selectorParseSave = state => state.parseSave
-const selectorCurrentSave = state => [
-  state.saves[state.slot].names,
-  state.saves[state.slot].booleans,
-  state.saves[state.slot].colors
-]
+import { ExportButton, ImportButton } from './additional/saveButtons'
 
 const selectorAllSaves = state => [
   state.saves,
   state.slot,
+  state.profile.saves,
+  state.profile.slot,
+  state.profile.selected,
+  state.setIsProfile,
   state.setSlot,
   state.addSave,
   state.deleteSave,
-  state.setName
+  state.setName,
+  state.setSaveOnlineOrOffline
 ]
 
 const selectorPageControl = state => [state.page, state.closePages]
-const selectorClosePage = state => state.closePages
+//const selectorUser = state => state.user
 
 function Icon({ className, onClick }) {
   return (
@@ -41,65 +41,40 @@ function Icon({ className, onClick }) {
   )
 }
 
-function ImportButton({ text }) {
-  const parseSave = useParameters(selectorParseSave)
-  const closePages = useMenu(selectorClosePage)
-
-  return (
-    <div className="relative w-32 px-4 py-2 overflow-hidden font-bold text-center text-white bg-gray-800 rounded-lg">
-      <span>{text}</span>
-      <input
-        className="absolute top-0 left-0 w-32 p-1 m-0 opacity-0 cursor-pointer"
-        type="file"
-        accept=".json"
-        onChange={parseSave}
-        onClick={() => closePages}
-      />
-    </div>
-  )
-}
-
-function ExportButton({ text }) {
-  const [names, booleans, color] = useParameters(selectorCurrentSave, shallow)
-
-  const data = useMemo(
-    () =>
-      'data:text/json;charset=utf-8,' +
-      encodeURIComponent(JSON.stringify({ names, booleans, color })),
-    [booleans, color, names]
-  )
-
-  return (
-    <div className="flex">
-      <a
-        className="flex items-center justify-around w-32 -mx-4 -my-2"
-        href={data}
-        download={names.name + ' - The Fluffies.json'}
-      >
-        <span>{text}</span>
-      </a>
-    </div>
-  )
-}
-
 export default function SavePersonSection() {
   const router = useRouter()
 
   const [page, closePages] = useMenu(selectorPageControl, shallow)
-  const [saves, slot, setSlot, addSave, deleteSave, setName] = useParameters(
-    selectorAllSaves,
-    shallow
-  )
+  const [
+    saves,
+    slot,
+    profileSaves,
+    profileSlot,
+    isProfile,
+    setIsProfile,
+    setSlot,
+    addSave,
+    deleteSave,
+    setName,
+    setSaveOnlineOrOffline
+  ] = useParameters(selectorAllSaves, shallow)
+
+  useValidSaveStore(saves, slot, profileSlot, isProfile)
+  useProfileSavesUpdate(profileSaves)
+
+  //const user = useUser(selectorUser)
+
+  const currentSaves = profileSaves && isProfile ? profileSaves : saves
+  const currentSlot = profileSlot && isProfile ? profileSlot : slot
 
   const [translate, setTranslate] = useState(100)
-  const [isProfile, setIsProfile] = useState(false)
-
-  const [isNameEdit, setNameEditing] = useState(false)
-  const [tempName, setTempName] = useState('')
 
   useEffect(() => {
     setTranslate(100 - +(page === 'SavePerson') * 100)
   }, [page])
+
+  const [isNameEdit, setNameEditing] = useState(false)
+  const [tempName, setTempName] = useState('')
 
   const t = router.locale === 'ru' ? ru : en
 
@@ -117,20 +92,20 @@ export default function SavePersonSection() {
               {
                 text: t.import,
                 component: ImportButton,
-                disabled: saves.length >= 10
+                disabled: currentSaves.length >= 10
               },
               { text: t.export, component: ExportButton },
               {
                 text: t.new,
                 style: 'bg-gray-800',
                 onClick: () => addSave(),
-                disabled: saves.length >= 10
+                disabled: currentSaves.length >= 10
               },
               {
                 text: t.delete,
                 style: 'bg-gray-800',
-                onClick: () => deleteSave(slot),
-                disabled: saves.length < 2
+                onClick: () => deleteSave(currentSlot),
+                disabled: currentSaves.length < 2
               }
             ]}
           />
@@ -168,9 +143,9 @@ export default function SavePersonSection() {
             </div>
           ) : (
             <ListDropdown
-              label={t.saves.local}
-              selectIndex={slot}
-              list={saves.map(
+              label={isProfile ? t.saves.profile : t.saves.local}
+              selectIndex={currentSlot}
+              list={currentSaves.map(
                 (save, index) => index + 1 + ' • ' + save.names.name
               )}
               maximum={10}
@@ -185,11 +160,20 @@ export default function SavePersonSection() {
           <ListButtons
             list={[
               {
-                text: t.saves.profile,
+                text: isProfile ? t.saves.local : t.saves.profile,
                 style: 'bg-gray-800',
+                disabled: true /*!user.id*/,
                 onClick: () => setIsProfile(!isProfile)
               },
-              { text: t.saves['save to'], style: 'bg-gray-800' },
+              {
+                text: isProfile
+                  ? t.saves['move to local']
+                  : t.saves['move to profile'],
+
+                style: 'bg-gray-800',
+                disabled: true /*!user.id || currentSaves.length < 1*/,
+                onClick: () => setSaveOnlineOrOffline()
+              },
               { text: t.close, style: 'bg-gray-800', onClick: closePages }
             ]}
           />

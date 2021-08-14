@@ -4,25 +4,59 @@ import create from 'zustand'
 import booleans from '@/configs/default/booleans.json'
 import colors from '@/configs/default/color.json'
 import names from '@/configs/default/names.json'
-import { parsePersonSave } from '@/libs/saves'
+import {
+  getSaves,
+  getSaveValue,
+  parsePersonSave,
+  validateSaves
+} from '@/libs/saves'
 
 const saveDefaultData = { names, booleans, colors }
 
+function getStoredSaves() {
+  try {
+    const saves = localStorage.getItem('avatars')
+
+    return saves && validateSaves(JSON.parse(saves))
+  } catch {
+    return
+  }
+}
+
+function getStoredSlot() {
+  try {
+    const slot = +localStorage.getItem('slot')
+
+    if (!isNaN(slot) && typeof slot === 'number') return slot
+  } catch {
+    return 0
+  }
+}
+
+const saves = getStoredSaves() || [{ ...saveDefaultData }]
+const slot = getStoredSlot() || 0
+
 const useParameters = create(set => ({
-  saves: [{ ...saveDefaultData }],
-  slot: 0,
+  saves,
+  slot: saves[slot] ? slot : 0,
+
+  profile: {
+    saves: [],
+    slot: 0,
+    selected: false
+  },
 
   setName: (key, value) =>
     set(
       produce(state => {
-        state.saves[state.slot].names[key] = value
+        getSaveValue(state, 'names')[key] = value
       })
     ),
 
   setBoolean: (key, value) =>
     set(
       produce(state => {
-        state.saves[state.slot].booleans[key] = value
+        getSaveValue(state, 'booleans')[key] = value
       })
     ),
 
@@ -33,7 +67,7 @@ const useParameters = create(set => ({
 
     set(
       produce(state => {
-        state.saves[state.slot].colors[key] = postColor
+        getSaveValue(state, 'colors')[key] = postColor
       })
     )
   },
@@ -41,30 +75,54 @@ const useParameters = create(set => ({
   setMale: value =>
     set(
       produce(state => {
-        state.saves[state.slot].booleans.male = value
+        getSaveValue(state, 'booleans').male = value
       })
     ),
 
-  setSlot: slot => set({ slot }),
+  setSlot: slot =>
+    set(
+      produce(state => {
+        if (state.profile.selected) {
+          state.profile.slot = slot
+        } else {
+          state.slot = slot
+        }
+      })
+    ),
 
   addSave: () =>
     set(
       produce(state => {
-        state.saves.push({ ...saveDefaultData })
-        state.slot = state.saves.length - 1
+        getSaves(state).push({ ...saveDefaultData })
+
+        if (state.profile.selected) {
+          state.profile.slot = state.profile.saves.length - 1
+        } else {
+          state.slot = state.saves.length - 1
+        }
       })
     ),
 
   deleteSave: index =>
     set(
       produce(state => {
-        state.saves.splice(index, 1)
-        state.slot =
-          index > state.saves.length - 1
-            ? state.saves.length - 1
-            : index < 0
-            ? 0
-            : index
+        getSaves(state).splice(index, 1)
+
+        if (state.profile.selected) {
+          state.profile.slot =
+            index > state.profile.saves.length - 1
+              ? state.profile.saves.length - 1
+              : index < 0
+              ? 0
+              : index
+        } else {
+          state.slot =
+            index > state.saves.length - 1
+              ? state.saves.length - 1
+              : index < 0
+              ? 0
+              : index
+        }
       })
     ),
 
@@ -80,14 +138,71 @@ const useParameters = create(set => ({
 
       set(
         produce(state => {
-          state.saves.push({ names, booleans, colors: color })
-          state.slot = state.saves.length - 1
+          getSaves(state).push({ names, booleans, colors: color })
+
+          if (state.profile.selected) {
+            state.profile.slot = state.profile.saves.length - 1
+          } else {
+            state.slot = state.saves.length - 1
+          }
         })
       )
     }
 
     reader.onerror = () => console.log(reader.error)
-  }
+  },
+
+  setIsProfile: value =>
+    set(
+      produce(state => {
+        state.profile.selected = value
+      })
+    ),
+
+  setProfileSaves: _saves =>
+    set(
+      produce(state => {
+        state.profile.saves = _saves.length ? _saves : [{ ...saveDefaultData }]
+      })
+    ),
+
+  setProfileSlot: slot =>
+    set(
+      produce(state => {
+        state.profile.slot = slot
+      })
+    ),
+
+  setSaveOnlineOrOffline: () =>
+    set(
+      produce(state => {
+        let save
+
+        if (state.profile.selected) {
+          save = state.profile.saves.splice(state.profile.slot, 1)[0]
+          state.profile.slot = 0
+        } else {
+          save = state.saves.splice(state.slot, 1)[0]
+          state.slot = 0
+        }
+
+        state.profile.selected = !state.profile.selected
+
+        getSaves(state).push(save)
+
+        if (state.profile.selected) {
+          state.profile.slot = state.profile.saves.length - 1
+        } else {
+          state.slot = state.saves.length - 1
+        }
+
+        if (state.saves.length < 1) state.saves.push({ ...saveDefaultData })
+
+        if (state.profile.saves.length < 1) {
+          state.profile.saves.push({ ...saveDefaultData })
+        }
+      })
+    )
 }))
 
 export default useParameters

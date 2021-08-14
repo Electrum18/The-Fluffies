@@ -1,11 +1,14 @@
+import shallow from 'zustand/shallow'
+
 import useParameters from '@/helpers/parameters'
+import { getSaveValue } from '@/libs/saves'
 
 import { Model } from '../model'
 
-const selector = state => state.saves[state.slot].booleans
+const selector = state => getSaveValue(state, 'booleans')
 
 export default function Body() {
-  const params = useParameters(selector)
+  const params = useParameters(selector, shallow)
 
   return (
     <>

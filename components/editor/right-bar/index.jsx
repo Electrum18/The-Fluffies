@@ -1,6 +1,7 @@
 import shallow from 'zustand/shallow'
 
 import useParameters from '@/helpers/parameters'
+import { getSaveValue } from '@/libs/saves'
 import styles from '@/styles/editor.module.css'
 
 import { Female, Male } from '../inline-icons-pony/Genders'
@@ -19,7 +20,7 @@ import SuitsSection from './suits'
 import TailSection from './tail'
 import WingsSection from './wings'
 
-const selector = state => [state.saves[state.slot].booleans, state.setMale]
+const selector = state => [getSaveValue(state, 'booleans'), state.setMale]
 
 export default function RightBar() {
   const [params, setMale] = useParameters(selector, shallow)

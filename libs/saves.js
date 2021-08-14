@@ -30,10 +30,10 @@ function validate(ref, checking) {
   }
 }
 
-export function parsePersonSave({ names, booleans, globals, color }) {
+export function parsePersonSave({ names, booleans, globals, color, colors }) {
   const preNames = names || {}
   const preBooleans = booleans || {}
-  const preColors = color || {}
+  const preColors = color || colors || {}
 
   if (globals) {
     for (const key in globals) {
@@ -57,4 +57,66 @@ export function parsePersonSave({ names, booleans, globals, color }) {
   validate(preColors, Colors)
 
   return { names: preNames, booleans: preBooleans, color: preColors }
+}
+
+export function validateSaves(saves) {
+  const array = []
+
+  for (const save of saves) {
+    const { names, booleans, color } = parsePersonSave(save)
+
+    array.push({ names, booleans, colors: color })
+  }
+
+  return array
+}
+
+export function getSaves(state) {
+  const { saves } = state.profile.selected ? state.profile : state
+
+  return saves
+}
+
+export function getSave(state) {
+  const { saves, slot } = state.profile.selected ? state.profile : state
+
+  return saves[slot]
+}
+
+export function getSaveValue(state, name) {
+  const { saves, slot } = state.profile.selected ? state.profile : state
+
+  return saves[slot][name]
+}
+
+export function getSaveSlot(state) {
+  const { slot } = state.profile.selected ? state.profile : state
+
+  return slot
+}
+
+export function getSaveValueInner(state, type, name) {
+  const { saves, slot } = state.profile.selected ? state.profile : state
+
+  return saves[slot][type][name]
+}
+
+export function getProfileStoredSlot() {
+  try {
+    const slot = +localStorage.getItem('profile_slot')
+
+    if (!isNaN(slot) && typeof slot === 'number') return slot
+  } catch {
+    return 0
+  }
+}
+
+export function getProfileStoredSelected() {
+  try {
+    const boolean = !!+localStorage.getItem('profile_selected')
+
+    if (typeof boolean === 'boolean') return boolean
+  } catch {
+    return false
+  }
 }

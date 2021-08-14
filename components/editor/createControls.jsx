@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
+import { getSave } from '@/libs/saves'
 import { levaList } from '@/libs/ui/leva-list'
 
 function formatColor(color) {
@@ -17,12 +18,11 @@ function formatColor(color) {
 function bindData(data) {
   const values = {}
 
-  const { saves, slot, setColor, setName, setBoolean } =
-    useParameters.getState()
-
+  const state = useParameters.getState()
   const { emotions, setEmotion } = useEmotions.getState()
 
-  const { colors, booleans, names } = saves[slot]
+  const { setColor, setName, setBoolean } = state
+  const { colors, booleans, names } = getSave(state)
 
   for (const valueName in data) {
     const valueContent = data[valueName]
@@ -75,10 +75,9 @@ function bindData(data) {
 function dataValues(data) {
   const values = {}
 
-  const { saves, slot } = useParameters.getState()
   const { emotions } = useEmotions.getState()
 
-  const { colors, booleans, names } = saves[slot]
+  const { colors, booleans, names } = getSave(useParameters.getState())
 
   for (const valueName in data) {
     const valueContent = data[valueName]

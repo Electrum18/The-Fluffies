@@ -1,6 +1,6 @@
 {
   "name": "the_fluffies",
-  "version": "8.13.7",
+  "version": "8.13.8",
   "description": "Create your pony or furry avatar in 3D cartoon style. Created by Electrum18",
   "author": "Electrum18 (https://github.com/Electrum18)",
   "private": true,
@@ -59,6 +59,7 @@
     "tailwindcss": "^2.1.4",
     "three": "^0.128.0",
     "three-stdlib": "^2.3.1",
+    "use-deep-compare-effect": "^1.6.1",
     "webpack": "^5.38.1",
     "zustand": "^3.5.2"
   },

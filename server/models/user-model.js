@@ -37,9 +37,9 @@ const userSchema = new Schema({
 
   saves: [
     {
-      frame: Number,
-      globals: Object,
-      color: Object
+      booleans: Object,
+      names: Object,
+      colors: Object
     }
   ],
 

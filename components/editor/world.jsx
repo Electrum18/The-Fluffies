@@ -5,6 +5,7 @@ import shallow from 'zustand/shallow'
 
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
+import { getSaveValueInner } from '@/libs/saves'
 
 import Player from './player'
 
@@ -23,11 +24,13 @@ function useLight() {
   useEffect(() => {
     useParameters.subscribe(
       ({ h, s, l }) => {
+        if (!background.current) return
+
         background.current.setHSL(h / 360, s, l)
 
         pointLight.current.intensity = l
       },
-      state => state.saves[state.slot].colors.background_basic
+      state => getSaveValueInner(state, 'colors', 'background_basic')
     )
   }, [])
 

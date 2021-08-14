@@ -8,7 +8,8 @@ const savePersons = {
   saves: {
     local: 'Локальные сохранения',
     profile: 'Сохранения профиля',
-    'save to': 'Сохранить в профиль'
+    'move to profile': 'Перенести в профиль',
+    'move to local': 'Перенести в локальные'
   },
 
   close: 'Закрыть'

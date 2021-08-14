@@ -6,7 +6,7 @@ function Icon({ className }) {
   return (
     <div>
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-      <a href="/" className="text-white">
+      <a href="/" title="Home" aria-label="Home" className="text-white">
         <FaSignOutAlt className={className} />
       </a>
     </div>

@@ -5,6 +5,7 @@ import { FaCamera } from 'react-icons/fa'
 import Modal from '@/components/elements/modal'
 import useMenu from '@/helpers/menu'
 import useParameters from '@/helpers/parameters'
+import { getSaveValueInner } from '@/libs/saves'
 import en from '@/locales/en/pages/editor/left-bar/takeImage'
 import ru from '@/locales/ru/pages/editor/left-bar/takeImage'
 import styles from '@/styles/elements.module.css'
@@ -12,7 +13,7 @@ import styles from '@/styles/elements.module.css'
 import { LeftSection } from '../createSection'
 
 const selector = state => state.closePages
-const selectorName = state => state.saves[state.slot].names.name
+const selectorName = state => getSaveValueInner(state, 'names', 'name')
 
 function Icon({ className, onClick }) {
   return (

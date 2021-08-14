@@ -25,6 +25,7 @@ import { LeftSection } from '../createSection'
 import Login from './additional/login'
 
 const selectorSocket = state => state.socket
+const selectorUser = state => state.user
 
 function Icon({ className, onClick }) {
   return (
@@ -83,7 +84,7 @@ function Buttons({ t }) {
 export default function ChatSection() {
   const router = useRouter()
 
-  const user = useUser(state => state.user)
+  const user = useUser(selectorUser)
 
   const socket = useSocket(selectorSocket)
   const [message, setMessage] = useState('')

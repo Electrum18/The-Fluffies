@@ -11,6 +11,7 @@ const selector = state => [state.page, state.closePages]
 export default function Modal({
   title,
   page: pageName,
+  className,
   onOpen,
   onClose,
   children
@@ -24,8 +25,8 @@ export default function Modal({
 
     setScale(+isOpen)
 
-    if (isOpen) onOpen()
-  }, [onClose, onOpen, page, pageName])
+    if (isOpen && onOpen) onOpen()
+  }, [onOpen, page, pageName])
 
   function close() {
     closePages()
@@ -34,7 +35,7 @@ export default function Modal({
   }
 
   return (
-    <div className={stylesElems.modal}>
+    <div className={stylesElems.modal + ' ' + className}>
       <div onPointerDown={close} />
 
       <div style={{ transform: `scale(${scale})` }}>

@@ -2,6 +2,30 @@
   @apply border-4 border-primary rounded-lg;
 }
 
+.titleModal {
+  @apply z-10;
+
+  & h1 {
+    @apply px-2 py-5 mx-auto my-2 text-center text-white rounded-lg w-max;
+  }
+
+  & section {
+    @apply flex flex-col max-w-lg p-0 my-2 bg-gray-600 md:my-4;
+  }
+
+  & h2 {
+    @apply my-2 text-2xl text-center text-gray-100;
+  }
+
+  & p {
+    @apply mx-2 my-1 text-base text-center text-gray-100 md:mx-4;
+  }
+
+  & button {
+    @apply my-2;
+  }
+}
+
 .listPanel {
   @apply flex flex-row flex-wrap w-full overflow-x-auto bg-gray-600 rounded-lg max-h-64;
 

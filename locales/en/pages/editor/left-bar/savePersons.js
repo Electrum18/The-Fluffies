@@ -8,7 +8,8 @@ const savePersons = {
   saves: {
     local: 'Local saves',
     profile: 'Profile saves',
-    'save to': 'Save to profile'
+    'move to profile': 'Move to profile',
+    'move to local': 'Move to local'
   },
 
   close: 'Close'
