@@ -1,6 +1,6 @@
 const Links = {
   home: 'Главная',
-  about: 'Об нас',
+  about: 'О нас',
   support: 'Помощь',
   terms: 'Правила',
   privacy: 'Приватность'

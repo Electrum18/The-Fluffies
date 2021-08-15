@@ -5,7 +5,7 @@ const url = 'https://the-fluffies.net'
 const author = 'Electrum18'
 const twitterAuthor = '@TFluffies'
 
-const theme = '#444'
+const theme = '#444444'
 
 export default function SiteHead({ t }) {
   const router = useRouter()
@@ -43,11 +43,25 @@ export default function SiteHead({ t }) {
       <meta name="og:title" content={t.meta.title} />
       <meta name="og:type" content="site" />
       <meta name="og:url" content={url + '/'} />
-      <meta name="og:image" content={'/icons/share.png'} />
+      <meta name="og:image" content="/icons/apple-touch-icon.png" />
       <meta name="og:site_name" content={t.meta.title} />
       <meta name="og:description" content={t.meta.description} />
       <meta name="og:keywords" content={keywords} />
       <meta name="og:locale" content={locale} />
+
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/icons/favicon-32x32.png"
+      />
+
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/icons/favicon-16x16.png"
+      />
 
       <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       <link
@@ -68,10 +82,9 @@ export default function SiteHead({ t }) {
       <link rel="manifest" href="/manifest.json" />
       <link
         rel="mask-icon"
-        color="#000000"
+        color="#ffaa22"
         href="/icons/safari-pinned-tab.svg"
       />
-      <link rel="apple-touch-startup-image" href="/startup.png" />
 
       {/* Meta Tags for HTML pages on Mobile */}
       <meta
@@ -89,6 +102,10 @@ export default function SiteHead({ t }) {
       <meta name="apple-mobile-web-app-title" content="The Fluffies" />
       <meta name="format-detection" content="telephone=no" />
       <meta name="mobile-web-app-capable" content="yes" />
+
+      <meta name="msapplication-config" content="/icons/browserconfig.xml" />
+      <meta name="msapplication-TileColor" content={theme} />
+      <meta name="msapplication-tap-highlight" content="no" />
 
       {/*
         Twitter Summary card

@@ -25,7 +25,7 @@ export function List() {
                 setSelected(key)
               }}
             >
-              <img src={`/img/thumb/${value.src + key}.png`} alt={key} />
+              {/*<img src={`/img/thumb/${value.src + key}.png`} alt={key} />*/}
             </div>
           ))}
         </div>

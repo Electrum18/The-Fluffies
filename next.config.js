@@ -3,7 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
-const withOffline = require('next-offline')
+const withPWA = require('next-pwa')
 
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
@@ -72,35 +72,23 @@ const nextConfig = {
   }
 }
 
-const withOfflineConfig = {
-  workboxOpts: {
-    swDest: process.env.NEXT_EXPORT
-      ? 'service-worker.js'
-      : 'static/service-worker.js',
-    runtimeCaching: [
+module.exports = withPlugins(
+  [
+    [
+      withPWA,
       {
-        urlPattern: /^https?.*/,
-        handler: 'NetworkFirst',
-        options: {
-          cacheName: 'offlineCache',
-          expiration: {
-            maxEntries: 200
-          }
+        pwa: {
+          dest: 'public',
+          disable: process.env.NODE_ENV === 'development',
+          publicExcludes: [
+            '!img/textures/**/*',
+            '!img/thumb/**/*',
+            '!models/**/*'
+          ]
         }
       }
-    ]
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/service-worker.js',
-        destination: '/_next/static/service-worker.js'
-      }
-    ]
-  }
-}
-
-module.exports = withPlugins(
-  [[withOffline, withOfflineConfig], withBundleAnalyzer],
+    ],
+    withBundleAnalyzer
+  ],
   nextConfig
 )

@@ -2,6 +2,8 @@ import useMenu from '@/helpers/menu'
 import styles from '@/styles/editor.module.css'
 
 import Accounts from './additional/accounts'
+import Notice from './additional/notice'
+import Rules from './additional/rules'
 import ChatSection from './chat'
 import EmotionsSection from './emotions'
 import EnvSection from './environment'
@@ -44,6 +46,8 @@ export default function Menu() {
       </ul>
 
       {page === 'Accounts' && <Accounts />}
+      {page === 'Notice' && <Notice />}
+      {page === 'Rules' && <Rules />}
     </div>
   )
 }

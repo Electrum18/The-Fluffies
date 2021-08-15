@@ -10,11 +10,16 @@ const selectorClose = state => state.closeWindow
 
 export default function Section({ name, icon: Icon, children }) {
   const [index, setConfig] = useCustomizing(selector, shallow)
+  const [page, setPage] = useMenu(selectorPage, shallow)
 
   return (
     <li
       className={index === name ? styles.selected : undefined}
-      onClick={() => setConfig(name)}
+      onClick={() => {
+        setConfig(name)
+
+        if (page === 'Environment' || page === 'Emotions') setPage('')
+      }}
     >
       <Icon />
       {index === name && children}

@@ -27,7 +27,11 @@ export function AppendGeomtery({
 
   const add = useCallback(
     (_group, _name) => {
-      const mesh = nodes[_name] || nodes[_name + '_' + key + (postfix || '')]
+      const mesh =
+        nodes[_name] ||
+        nodes[_name + '_' + key + 's'] ||
+        nodes[_name + '_' + key + (postfix || '')]
+
       const { geometry } = mesh
 
       if (geometry.morphAttributes.position) {

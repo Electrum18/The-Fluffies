@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import shallow from 'zustand/shallow'
 
+import LeftBar from '@/components/editor/left-bar'
+import RightBar from '@/components/editor/right-bar'
 import Modal from '@/components/elements/modal'
 import Loading from '@/components/loading'
 import LocalStorageControl from '@/components/localStorageControl'
@@ -21,13 +23,11 @@ const Canvas = Dynamic(() => import('@/components/editor/world'), {
   loading: Loading
 })
 
-const LeftBar = Dynamic(() => import('@/components/editor/left-bar'), {
-  ssr: false
-})
+/*
+const LeftBar = Dynamic(() => import('@/components/editor/left-bar'))
 
-const RightBar = Dynamic(() => import('@/components/editor/right-bar'), {
-  ssr: false
-})
+const RightBar = Dynamic(() => import('@/components/editor/right-bar'))
+*/
 
 export default function Editor() {
   const router = useRouter()
