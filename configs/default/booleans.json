@@ -1,0 +1,38 @@
+{
+  "male": false,
+
+  "hair_second": true,
+
+  "stripes_enable": false,
+
+  "eyes_right_enable": false,
+  "eyes_brows_show": true,
+  "eyes_brows_color": false,
+
+  "hooves_second_color": false,
+
+  "collar_enable": true,
+  "bowtie_enable": false,
+
+  "wings_enable": true,
+  "wings_bat": true,
+  "wings_second_color": true,
+  "wings_folded": true,
+
+  "canine_nose_enable": false,
+
+  "fluff_cheeks": false,
+  "fluff_chest": false,
+  "fluff_neck": false,
+  "fluff_hooves": false,
+
+  "fur_second_color": false,
+  "ear_second_color": false,
+  "horn_second_color": false,
+  "eyelashes_second_color": false,
+
+  "scarf": false,
+
+  "freckles_nose": false,
+  "freckles_cheeks": false
+}

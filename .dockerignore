@@ -1,0 +1,14 @@
+.git
+.results
+styles
+servers
+pages
+locales
+node_modules
+libs
+hooks
+helpers
+configs
+components
+*Dockerfile*
+.env

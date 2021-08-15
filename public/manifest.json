@@ -1,0 +1,33 @@
+{
+  "name": "The Fluffies Pony and Furry Editor",
+  "short_name": "The Fluffies",
+  "description": "Creator about pony and furry",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+        "src": "/icons/android-chrome-256x256.png",
+        "sizes": "256x256",
+        "type": "image/png"
+    },
+    {
+        "src": "/icons/android-chrome-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffaa22",
+  "background_color": "#444444",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone"
+}

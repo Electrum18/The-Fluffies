@@ -1,0 +1,177 @@
+.withLabel {
+  @apply flex flex-col font-bold text-center;
+
+  & > div {
+    @apply flex flex-row flex-nowrap;
+  }
+
+  & > span {
+    @apply mb-2 -mt-1 text-sm text-gray-400;
+  }
+}
+
+.dropdownList {
+  @apply relative;
+
+  & select {
+    @apply w-64 px-2 py-1 m-2 text-lg text-white bg-gray-800 rounded-lg appearance-none;
+  }
+
+  & > div {
+    @apply absolute right-0 top-0 mx-3 my-4 pointer-events-none;
+
+    & div {
+      @apply w-3 h-3 text-gray-300 mr-1 mt-0.5 hover:text-primary cursor-pointer;
+    }
+
+    & div:first-of-type {
+      @apply pointer-events-auto;
+    }
+
+    & div:last-of-type {
+      @apply flex items-center justify-around w-5 h-5 text-gray-800 m-0 rounded bg-primary;
+    }
+  }
+}
+
+.squaresList {
+  & > div {
+    @apply w-12 h-12 mx-1 my-2 bg-gray-800 rounded-lg;
+
+    & > div {
+      @apply bg-white rounded;
+    }
+  }
+}
+
+.chipsList {
+  & span {
+    @apply w-16 h-8 py-1 mx-1 my-2 text-white bg-gray-800 rounded-lg;
+  }
+}
+
+.buttonsList {
+  @apply flex flex-row space-x-4;
+
+  & > * {
+    @apply font-bold w-24 md:w-32 px-4 py-1 md:py-2 text-white text-center rounded-lg transition-colors bg-gray-800 hover:bg-gray-600;
+  }
+}
+
+.buttonsWithLabel {
+  @apply flex flex-col font-bold text-center;
+
+  & div {
+    @apply flex flex-row flex-nowrap;
+  }
+
+  & > div:last-child {
+    @apply justify-between;
+
+    & > span {
+      @apply mx-2 mb-2 -mt-1 text-sm text-gray-400;
+    }
+  }
+}
+
+.buttonLittle {
+  @apply px-4 py-1 text-sm md:text-lg font-bold bg-gray-800 rounded-lg hover:bg-gray-600 transition-colors;
+}
+
+.inputSlider {
+  @apply flex flex-row flex-nowrap;
+
+  & > div:first-child {
+    @apply w-full h-1 mx-2 my-3 bg-gray-500;
+  }
+
+  & > div:last-child {
+    @apply absolute w-6 h-6 rounded-md bg-primary cursor-e-resize;
+  }
+}
+
+.modalMini {
+  @apply fixed left-0 bottom-0 flex items-center min-w-full min-h-full md:min-w-0 md:min-h-0 md:bottom-0 md:m-4;
+
+  & > div:first-child {
+    @apply fixed min-w-full min-h-full bg-modal md:bg-transparent;
+  }
+
+  & > div:last-child {
+    @apply p-4 pt-0 mx-auto max-h-screen overflow-y-auto bg-gray-800 rounded-2xl transition-transform;
+
+    & > div:first-child {
+      @apply flex flex-row justify-between py-2 -mr-3;
+
+      & p {
+        @apply z-20 mx-0 text-white;
+      }
+
+      & div {
+        @apply z-20 w-10 h-10 flex items-center justify-center;
+      }
+
+      & svg {
+        @apply w-8 h-8 p-1 text-white hover:bg-gray-500 cursor-pointer transition-colors rounded-full;
+      }
+    }
+  }
+}
+
+.modal {
+  @apply fixed left-0 bottom-0 flex items-center min-w-full min-h-full;
+
+  & > div:first-child {
+    @apply fixed min-w-full min-h-full bg-modal;
+  }
+
+  & > div:last-child {
+    @apply p-4 pt-0 mx-auto max-h-screen overflow-y-auto bg-gray-700 rounded-2xl transition-transform;
+
+    & > div:first-child {
+      @apply flex flex-row justify-between py-2 -mr-3;
+
+      & p {
+        @apply z-20 mx-0 text-white;
+      }
+
+      & div {
+        @apply z-20 w-10 h-10 flex items-center justify-center;
+      }
+
+      & svg {
+        @apply w-8 h-8 p-1 text-white hover:bg-gray-500 cursor-pointer transition-colors rounded-full;
+      }
+    }
+  }
+}
+
+.input {
+  @apply relative;
+
+  & div {
+    @apply flex flex-row flex-nowrap;
+  }
+
+  & > div:first-of-type {
+    & input {
+      @apply w-64 px-2 py-1 m-2 mb-8 text-lg text-white bg-gray-800 rounded-lg appearance-none;
+    }
+
+    & > div {
+      @apply absolute right-0 top-0 m-4;
+
+      & div {
+        @apply w-4 h-4 text-gray-300 mr-1 hover:text-primary cursor-pointer;
+      }
+
+      & svg {
+        @apply m-0.5;
+      }
+
+      & div:last-of-type {
+        @apply m-0;
+      }
+    }
+  }
+}

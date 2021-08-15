@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-155 -155 1024 1024">
+  <defs>
+    <linearGradient id="a" x1="254.1" x2="742" y1="807.2" y2="319.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="c" x1="539.7" x2="819.2" y1="887.3" y2="607.7" xlink:href="#a"/>
+    <linearGradient id="b" x1="67.9" x2="90.3" y1="489.7" y2="467.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="d" x1="174.8" x2="197.2" y1="391.8" y2="369.4" xlink:href="#b"/>
+    <linearGradient id="e" x1="277.3" x2="299.6" y1="403.1" y2="380.7" xlink:href="#b"/>
+    <linearGradient id="f" x1="384.2" x2="406.6" y1="263" y2="240.7" xlink:href="#b"/>
+    <linearGradient id="g" x1="490.4" x2="512.8" y1="407.6" y2="385.3" xlink:href="#b"/>
+    <linearGradient id="h" x1="595.9" x2="618.2" y1="301.4" y2="279.1" xlink:href="#b"/>
+    <linearGradient id="i" x1="474.6" x2="601.3" y1="519.1" y2="392.4" xlink:href="#b"/>
+    <linearGradient id="j" x1="418.8" x2="535.1" y1="627.2" y2="511" xlink:href="#b"/>
+    <linearGradient id="k" x1="509.3" x2="688.5" y1="658.7" y2="479.5" xlink:href="#b"/>
+  </defs>
+  <path fill="url(#a)" d="M757 359c196 229 186 287-99 417-108 55-213 118-300 99S202 755 203 664s71-169 109-248 40-158 84-204c149-121 262 2 361 147z" transform="translate(-173 -163)"/>
+  <rect width="686.9" height="411.2" y="146" fill="#1f2937" rx="30.5"/>
+  <path fill="none" stroke="gray" stroke-miterlimit="10" stroke-width="8" d="M79 558V146M186 558V146M289 558V146M395 558V146M502 556V145M607 556V145"/>
+  <path fill="url(#c)" d="M825 615c59 46 74 175 22 229s-172 31-256 11-134-38-147-69 10-74 35-101 51-37 117-60 170-57 229-10z" transform="translate(-173 -163)"/>
+  <path fill="none" stroke="#fa2" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M10 547l69-68 107-98 103 14 106-148 107 153 105-110"/>
+  <circle cx="79.1" cy="478.5" r="15.8" fill="url(#b)"/>
+  <circle cx="186" cy="380.6" r="15.8" fill="url(#d)"/>
+  <circle cx="288.5" cy="391.9" r="15.8" fill="url(#e)"/>
+  <circle cx="395.4" cy="251.8" r="15.8" fill="url(#f)"/>
+  <circle cx="501.6" cy="396.4" r="15.8" fill="url(#g)"/>
+  <circle cx="607" cy="290.3" r="15.8" fill="url(#h)"/>
+  <path fill="url(#i)" d="M538 514l-127-58 127-50 127 50-127 58z"/>
+  <path fill="url(#j)" d="M411 455l127 59v173l-127-67V455z"/>
+  <path fill="url(#k)" d="M664 620l-126 67V514l126-59v165z"/>
+</svg>

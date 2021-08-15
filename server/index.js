@@ -1,170 +1,204 @@
 /* eslint-disable no-console */
 
-let io
+// const fs = require('fs')
+const mongoose = require('mongoose')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const patreon = require('patreon')
 
-try {
-  io = require('socket.io').listen(5000)
+let io = require('socket.io')
 
-  console.log('connection:  \x1B[40m\x1B[32m SUCCESS \x1B[0m')
-} catch (err) {
-  console.log('connection:  \x1B[40m\x1B[31m ERROR \x1B[0m')
+const User = require('./models/user-model')
 
-  return
-}
+const keys = require('./config/keys')
 
-const sendMessage = (mes, type = false, socket = false) => {
-  // Message type
+const initSocket = require('./modules/socket')
+const initOAuth = require('./modules/api')
 
-  if (type === 'ann') {
-    // Announce
+/*
+const Email = {
+  title: {
+    en: 'Your level has reached zero!',
+    ru: 'Ваш уровень достиг нуля!'
+  },
 
-    mes.notMessage = true
-
-    if (socket) {
-      socket.emit('get announce', mes)
-    } else {
-      io.emit('get announce', mes)
-    }
-  } else if (type === 'first') {
-    // Greetings
-
-    mes.notMessage = true
-
-    messages.push(mes)
-
-    if (mes.length > maxMessages) {
-      messages.shift()
-    }
-
-    io.emit('get first', messages)
-  } else {
-    // Basic
-
-    messages.push(mes)
-
-    if (mes.length > maxMessages) {
-      messages.shift()
-    }
-
-    io.emit('get message', mes)
+  body: {
+    en: '',
+    ru: ''
   }
 }
 
-const maxMessages = 100
-const messages = []
-const users = []
+fs.readFile('./server/misc/email/en.html', 'utf8', (err, data) => {
+  if (err) throw err
 
-let length = 0
-
-console.log('variables:   \x1B[40m\x1B[32m ONLINE \x1B[0m')
-
-// Socket event listeners
-
-io.on('connection', (socket) => {
-  // Emit data to entered client
-
-  length++
-
-  io.emit('get users', length)
-
-  socket.emit('get first', messages, 'first')
-
-  sendMessage(
-    {
-      text: 'Welcome to The Fluffies - Elderberry version, enjoy! :3'
-    },
-    'ann',
-    socket
-  )
-
-  socket.emit('isnt nickname') // Reset on reconect server
-
-  // Receiving messages to the server
-
-  socket.on('send message', (msg) => {
-    if (msg.text.length > 99) return // Text limit
-
-    if (!msg.name.trim() || msg.name.length > 15) {
-      socket.emit('isnt nickname')
-
-      return
-    }
-
-    // Message assembly
-
-    msg.text = msg.text.charAt(0).toUpperCase() + msg.text.slice(1) // Capitalize
-    msg.id = users[socket.id].id
-
-    messages.push(msg)
-
-    if (messages.length > maxMessages) {
-      messages.shift()
-    }
-
-    // Send messages to client
-
-    io.emit('get message', msg)
-  })
-
-  // Checking name
-
-  socket.on('check name', (name) => {
-    name = name.trim()
-
-    if (!name || name.length > 15) {
-      socket.emit('isnt nickname')
-
-      return
-    }
-
-    // Duplicate check
-
-    const sockets = Object.keys(users)
-
-    for (let i = 0, len = sockets.length; i < len; i++) {
-      if (users[sockets[i]].name === name) {
-        socket.emit('isnt nickname')
-
-        return
-      }
-    }
-
-    // Add to users list
-
-    users[socket.id] = {
-      name,
-      id: Math.round(Math.random() * 999999)
-    }
-
-    // Broadcast to users about connected client
-
-    sendMessage(
-      {
-        text: '#' + users[socket.id].id + ' joined as ' + users[socket.id].name
-      },
-      'ann'
-    )
-  })
-
-  // Removing connected client from list
-
-  socket.on('disconnect', () => {
-    if (users[socket.id]) {
-      sendMessage(
-        {
-          text: users[socket.id].name + ' disconnected'
-        },
-        'ann'
-      )
-    }
-
-    delete users[socket.id]
-
-    length--
-
-    io.emit('get users', length)
-  })
+  Email.body.en = data
 })
 
-console.log('socket:      \x1B[40m\x1B[32m ONLINE \x1B[0m')
-console.log('all systems: \x1B[40m\x1B[32m NOMINAL \x1B[0m')
+fs.readFile('./server/misc/email/ru.html', 'utf8', (err, data) => {
+  if (err) throw err
+
+  Email.body.ru = data
+})
+*/
+
+io = io.listen(keys.ports.socket)
+
+const patreonOAuthClient = patreon.oauth(
+  keys.patreon.clientID,
+  keys.patreon.clientSecret
+)
+
+const tokens = {
+  access_token: undefined,
+  refresh_token: keys.patreon.refreshToken,
+}
+
+const patreonInfo = {
+  pledges: {},
+  patrons: [],
+}
+
+function pledgeType(cents) {
+  if (cents >= 300 && cents < 700) {
+    return 'Basic supporter'
+  } else if (cents >= 700) {
+    return 'Huge supporter'
+  } else {
+    return 'Little supporter'
+  }
+}
+
+async function getPatrons() {
+  let response = await patreonOAuthClient.refreshToken(tokens.refresh_token)
+
+  tokens.access_token = response.access_token
+  tokens.refresh_token = response.refresh_token
+
+  const patreonAPIClient = patreon.patreon(tokens.access_token)
+
+  response = await patreonAPIClient(
+    `/campaigns/${keys.patreon.campaignID}/pledges`
+  )
+
+  const pledges = response.store.graph.pledge
+  const pledgeKeys = Object.keys(pledges)
+
+  patreonInfo.pledges = {}
+  patreonInfo.patrons = []
+
+  for (let i = 0; i < pledgeKeys.length; i++) {
+    const pledge = pledges[pledgeKeys[i]]
+    const patron = pledge.patron
+
+    if (pledge.declined_since !== null) continue
+
+    patreonInfo.pledges[patron.id] = pledgeType(pledge.amount_cents)
+    patreonInfo.patrons.push({
+      name: patron.full_name.trim(),
+      avatar: patron.thumb_url,
+      type: pledgeType(pledge.amount_cents),
+    })
+  }
+}
+
+function deleteCallback(name) {
+  return () => console.log('User: ' + name + ' was deleted!')
+}
+
+async function updateUsers() {
+  for await (const doc of User.find()) {
+    const now = Date.now()
+    const day = 24 * 60 * 60 * 1000
+
+    if (
+      doc.date.last + day < now &&
+      doc.ids.google === '' &&
+      doc.ids.twitter === '' &&
+      doc.ids.vk === '' &&
+      doc.ids.patreon === ''
+    ) {
+      User.deleteOne({ _id: doc.id }, deleteCallback(doc.name))
+    }
+
+    if (doc.date.last < now && doc.level > 0) {
+      doc.level -= Math.floor((now - doc.date.last) / day)
+      doc.date.lastChecked = now + day
+
+      if (doc.level < 0) doc.level = 0
+      /*
+      if (doc.level === 0 && doc.mailing) {
+        const emails = doc.emails
+        const emailsArr = []
+
+        if (emails.google) {
+          emailsArr.push(emails.google)
+        }
+
+        if (emails.twitter && emails.twitter !== emails.google) {
+          emailsArr.push(emails.twitter)
+        }
+
+        if (emails.vk && emails.vk !== emails.google && emails.vk !== emails.twitter) {
+          emailsArr.push(emails.vk)
+        }
+
+        if (
+          emails.patreon &&
+          emails.patreon !== emails.vk &&
+          emails.patreon !== emails.google &&
+          emails.patreon !== emails.twitter
+        ) {
+          emailsArr.push(emails.patreon)
+        }
+      }
+      */
+
+      doc.save()
+    }
+  }
+}
+
+mongoose.connect(
+  keys.mongodb.dbURI,
+
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+
+  () => {
+    console.log('Connected to MongoDB')
+  }
+)
+
+const sessionStore = new MongoStore({
+  mongooseConnection: mongoose.connection,
+  secret: keys.mongodb.secret,
+})
+
+const users = {}
+const usersPublic = []
+const alias = []
+
+function serverCycle() {
+  getPatrons()
+  updateUsers()
+}
+
+serverCycle()
+
+setInterval(serverCycle, 30 * 60 * 1000)
+
+initOAuth(
+  keys.ports.oauth,
+  session,
+  sessionStore,
+  io,
+  usersPublic,
+  alias,
+  patreonInfo
+)
+
+initSocket(io, sessionStore, users, usersPublic, alias, patreonInfo)
+
+console.log('Socket service launched on port: ' + keys.ports.socket)

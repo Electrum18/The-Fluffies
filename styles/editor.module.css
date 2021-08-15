@@ -1,0 +1,89 @@
+.selected {
+  @apply border-4 border-primary rounded-lg;
+}
+
+.titleModal {
+  @apply z-10;
+
+  & h1 {
+    @apply px-2 py-5 mx-auto my-2 text-center text-white rounded-lg w-max;
+  }
+
+  & section {
+    @apply flex flex-col max-w-lg p-0 my-2 bg-gray-600 md:my-4;
+  }
+
+  & h2 {
+    @apply my-2 text-2xl text-center text-gray-100;
+  }
+
+  & p {
+    @apply mx-2 my-1 text-base text-center text-gray-100 md:mx-4;
+  }
+
+  & button {
+    @apply my-2;
+  }
+}
+
+.listPanel {
+  @apply flex flex-row flex-wrap w-full overflow-x-auto bg-gray-600 rounded-lg max-h-64;
+
+  & > div {
+    @apply bg-white rounded-lg w-18 h-18 m-0.5 transition-transform transform-gpu hover:scale-110;
+
+    & img {
+      @apply rounded-lg;
+    }
+  }
+}
+
+.loading {
+  @apply fixed flex items-center justify-center top-0 left-0 w-full h-full z-50;
+
+  & > div:last-child {
+    @apply flex flex-col;
+
+    & > div:first-child {
+      @apply m-4;
+    }
+
+    & > p {
+      @apply text-white font-bold text-base sm:text-lg md:text-2xl mx-auto;
+    }
+  }
+}
+
+.leftBar {
+  @apply absolute left-0 flex flex-col w-8 h-full overflow-x-hidden overflow-y-auto md:py-2 bg-gray-700 md:w-12 flex-nowrap;
+
+  & > div {
+    @apply flex-grow;
+  }
+
+  & > li {
+    & > div:first-child {
+      @apply z-10 md:bg-gray-800 rounded-lg flex-none m-1 py-1 md:p-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
+
+      & svg {
+        @apply w-6 h-6 transition-colors;
+      }
+    }
+
+    & > div:last-child {
+      @apply z-20;
+    }
+  }
+
+  & > hr {
+    @apply my-2;
+  }
+}
+
+.rightBar {
+  @apply absolute right-0 flex flex-col w-16 h-full overflow-x-hidden overflow-y-auto bg-gray-700 md:w-24 flex-nowrap;
+
+  & > li {
+    @apply flex-none m-2 cursor-pointer transition-transform transform-gpu hover:scale-125;
+  }
+}

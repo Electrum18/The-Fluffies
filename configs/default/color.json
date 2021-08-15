@@ -1,0 +1,42 @@
+{
+  "white": { "h": 0, "s": 1, "l": 1 },
+
+  "jaw_basic": { "h": 338, "s": 0.57, "l": 0.53 },
+  "tongue_basic": { "h": 27, "s": 0.85, "l": 0.57 },
+  "stripes_basic": { "h": 0, "s": 0, "l": 0.47 },
+  "hooves_second_basic": { "h": 0, "s": 0, "l": 1 },
+  "eyelashes_basic": { "h": 0, "s": 0, "l": 0.13 },
+  "freckles_basic": { "h": 0, "s": 0, "l": 1 },
+
+  "eyes_left_basic": { "h": 48, "s": 1, "l": 0.5 },
+  "eyes_right_basic": { "h": 48, "s": 1, "l": 0.5 },
+
+  "eyes_sclera": { "h": 0, "s": 0, "l": 1 },
+  "eyes_pupil": { "h": 0, "s": 0, "l": 0 },
+
+  "glasses_lenses": { "h": 272, "s": 1, "l": 0.5, "a": 0.63 },
+  "glasses_frame": { "h": 0, "s": 0, "l": 0.13 },
+
+  "hair_basic": { "h": 0, "s": 0, "l": 0.4 },
+  "hair_second": { "h": 0, "s": 0, "l": 0.33 },
+
+  "fur_basic": { "h": 0, "s": 0, "l": 0.8 },
+  "fur_second_basic": { "h": 0, "s": 0, "l": 0.9 },
+
+  "background_basic": { "h": 0, "s": 0, "l": 1, "a": 1 },
+
+  "horn_basic": { "h": 0, "s": 0, "l": 1 },
+  "horn_rear_basic": { "h": 0, "s": 0, "l": 1 },
+  "wings_basic": { "h": 48, "s": 1, "l": 0.5 },
+  "ear_basic": { "h": 0, "s": 0, "l": 1 },
+
+  "canine_nose_basic": { "h": 0, "s": 0, "l": 0.2 },
+
+  "piercings_basic": { "h": 48, "s": 1, "l": 0.5 },
+  "collar_basic": { "h": 0, "s": 0, "l": 0.27 },
+  "bowtie_basic": { "h": 300, "s": 1, "l": 0.5 },
+  "clothing_basic": { "h": 0, "s": 0, "l": 0.4 },
+  "pants_basic": { "h": 0, "s": 0, "l": 0.3 },
+  "scarf_basic": { "h": 0.4, "s": 1, "l": 0.5 },
+  "fluff_basic": { "h": 0, "s": 0, "l": 1 }
+}

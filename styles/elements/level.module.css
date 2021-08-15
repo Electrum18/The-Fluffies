@@ -1,0 +1,20 @@
+.level {
+  @apply border-2 border-blue-400 rounded-full;
+}
+
+.content {
+  @apply flex flex-col pb-4;
+
+  & div,
+  p {
+    @apply mx-auto text-center text-white;
+  }
+
+  & div {
+    @apply w-16 h-16 py-3 text-2xl level;
+  }
+
+  & p {
+    @apply px-2 pt-2 text-sm;
+  }
+}

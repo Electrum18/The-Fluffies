@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 740 695">
+  <defs>
+    <linearGradient id="a" x1="171.3" x2="392.6" y1="651.5" y2="430.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#6b7280"/>
+    </linearGradient>
+    <linearGradient id="c" x1="519.1" x2="717.3" y1="431.8" y2="233.6" xlink:href="#a"/>
+    <linearGradient id="d" x1="555.3" x2="790" y1="838.4" y2="603.8" xlink:href="#a"/>
+    <linearGradient id="e" x1="786.1" x2="870.5" y1="543.5" y2="459.1" xlink:href="#a"/>
+    <linearGradient id="b" x1="466.5" x2="579.5" y1="598.7" y2="485.6" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f64"/>
+      <stop offset="1" stop-color="#fa2"/>
+    </linearGradient>
+    <linearGradient id="f" x1="102.3" x2="215.6" y1="438.8" y2="325.5" xlink:href="#b"/>
+    <linearGradient id="g" x1="421.3" x2="534.7" y1="211.9" y2="98.5" xlink:href="#b"/>
+  </defs>
+  <path fill="url(#a)" d="M466 588q-24 53-71 80t-99 23q-51-3-101-25t-47-77q4-55-6-114t48-75q57-17 107-22t76 37q25 44 71 82t22 91z" transform="translate(-141 -179)"/>
+  <path fill="url(#c)" d="M747 362q-15 44-47 88t-87 37q-56-7-84-48t-58-82q-30-39 4-76t62-69q29-31 74-33t78 27a209 209 0 0153 71q19 41 5 85z" transform="translate(-141 -179)"/>
+  <path fill="url(#d)" d="M869 779q-32 64-95 78t-115 17q-52 3-94-28t-37-82q6-50-8-106t37-80q51-24 94 7t95 30q53-2 104 49t19 115z" transform="translate(-141 -179)"/>
+  <path fill="url(#e)" d="M881 525q0 39-45 38t-64-40q-19-38 6-66t54-22q29 7 39 28t10 62z" transform="translate(-141 -179)"/>
+  <circle cx="523" cy="542.2" r="80" fill="url(#b)"/>
+  <path fill="#1f2937" d="M523 537a23 23 0 016 45 2 2 0 00-1 2v4a5 5 0 01-5 6 5 5 0 01-5-6v-4a2 2 0 00-1-2 23 23 0 01-17-22 5 5 0 015-5 5 5 0 015 5 13 13 0 1013-13 23 23 0 01-6-45 2 2 0 001-2v-4a5 5 0 015-5 5 5 0 015 5v4a2 2 0 001 2 23 23 0 0117 22 5 5 0 01-5 5 5 5 0 01-5-5 13 13 0 10-13 13z"/>
+  <circle cx="159" cy="382.2" r="80.1" fill="url(#f)"/>
+  <path fill="#1f2937" d="M121 402a6 6 0 01-9 0l-16-16a6 6 0 010-8l16-16a6 6 0 019 0 6 6 0 010 8l-8 8a6 6 0 000 8l8 8a6 6 0 010 8z"/>
+  <rect width="62.7" height="11.9" x="269" y="555" fill="#1f2937" rx="6" transform="rotate(-63 85 586)"/>
+  <path fill="#1f2937" d="M197 402a6 6 0 010-8l8-8a6 6 0 000-8l-8-8a6 6 0 010-8 6 6 0 019 0l16 16a6 6 0 010 8l-16 16a6 6 0 01-9 0z"/>
+  <circle cx="478" cy="155.2" r="80.2" fill="url(#g)"/>
+  <path fill="#1f2937" d="M464 163h-1a18 18 0 00-10 4c-4 3-5 6-8 10s-8 6-14 7c3 8 14 11 22 12 9 0 18-3 22-11 4-9-1-21-11-22zM523 117a8 8 0 00-6-3 8 8 0 00-5 3l-44 42a18 18 0 0111 8 21 21 0 012 4l42-43a8 8 0 000-11z"/>
+</svg>

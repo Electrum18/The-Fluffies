@@ -1,0 +1,55 @@
+.heroPage {
+  @apply flex flex-col items-start justify-center w-full text-center md:w-1/2 md:text-left;
+
+  & > :first-child {
+    @apply w-3/5 mx-auto mb-4 cursor-pointer lg:mb-8 transform;
+
+    & > :first-child {
+      @apply absolute transition-all duration-700;
+    }
+
+    & p {
+      @apply px-2 ml-auto mr-2 text-sm font-bold text-right text-white uppercase border-2 rounded-lg select-none dark:text-white w-min md:text-lg;
+    }
+  }
+
+  & h1 {
+    @apply w-full my-8 text-3xl font-bold tracking-wide text-white dark:text-white md:text-left lg:text-4xl;
+  }
+
+  & > p {
+    @apply mb-8 leading-normal text-white dark:text-white md:text-2xl;
+  }
+
+  & > :last-child {
+    @apply flex flex-col flex-wrap w-full md:flex-row;
+
+    & > a {
+      @apply px-6 lg:mx-0 hover:bg-primary hover:text-white;
+    }
+  }
+}
+
+.patrons {
+  @apply flex w-full p-2 overflow-x-auto overflow-y-hidden bg-gray-200 shadow-inner flex-nowrap justify-center;
+
+  & > div {
+    @apply flex flex-shrink-0 p-3 m-2 bg-white shadow-md rounded-md transition-transform transform-gpu hover:scale-110;
+
+    & > div:first-child {
+      @apply flex-shrink-0 rounded-md;
+    }
+
+    & > div:last-child {
+      @apply flex flex-col justify-between px-3;
+    }
+
+    & p:first-of-type {
+      @apply w-32 my-0 text-lg font-bold text-gray-600 truncate;
+    }
+
+    & p:last-of-type {
+      @apply my-0 text-sm text-gray-600 uppercase;
+    }
+  }
+}

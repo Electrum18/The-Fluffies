@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://the-fluffies.net/sitemap.xml

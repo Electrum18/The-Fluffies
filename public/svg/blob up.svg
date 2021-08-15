@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 50 1282 472">
+  <defs>
+    <linearGradient id="g" x1="124" x2="868" y1="541.5" y2="-202.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="1154.3" x2="1260.6" y1="282.1" y2="175.9" xlink:href="#g"/>
+    <pattern id="p" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="4" fill="#fff"/>
+    </pattern>
+    <pattern id="p2" width="80" height="71" patternUnits="userSpaceOnUse">
+      <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  d="M38 155l324-96M-42 155l324-96M-122 155l324-96M-202 155l324-96M-282 155L42 59M38 84l324-96M-42 84l324-96M-122 84l324-96M-202 84l324-96M-282 84L42-12M38 13l324-96M-42 13l324-96M-122 13l324-96M-202 13l324-96M-282 13L42-83"/>
+    </pattern>
+  </defs>
+  <g>
+    <path fill="url(#g)" d="M47 465s133 32 232-39c145-104 248-59 344-12 227 110 550-178 459-402C15-15 7 12 7 12s-33 423 40 444"/>
+    <circle cx="1207.4" cy="229" r="75.2" fill="url(#g2)"/>
+    <path fill="url(#p)" d="M147 162h207v218H147z" opacity=".7"/>
+    <path fill="url(#p2)" d="M343 53s66 177 263 160S950 43 950 43" opacity=".7"/>
+  </g>
+</svg>

@@ -1,0 +1,104 @@
+.partBordered {
+  @apply bg-gray-700 border-2 border-gray-500 rounded-lg;
+}
+
+.overlay {
+  @apply fixed top-0 left-0 z-10 flex flex-col items-center justify-around w-full h-full bg-modal rounded-2xl;
+
+  & div {
+    & > svg {
+      @apply mx-auto w-12 h-12 m-2 text-white;
+    }
+
+    & > p {
+      @apply text-center text-white;
+    }
+
+    & > div {
+      @apply p-4 bg-gray-700 border-2 border-gray-600 rounded-lg;
+    }
+  }
+}
+
+.buttons {
+  @apply flex flex-row mb-2 space-x-2;
+
+  & button,
+  a {
+    @apply text-center text-white rounded-lg;
+  }
+
+  & button {
+    @apply flex-grow py-1 font-bold bg-gray-700;
+  }
+
+  & a {
+    @apply w-8 h-8;
+  }
+
+  & svg {
+    @apply w-6 h-6 m-1;
+  }
+
+  & a:last-child svg {
+    @apply w-5 h-5 m-1.5;
+  }
+}
+
+.input {
+  & div {
+    @apply flex flex-row;
+  }
+
+  & svg,
+  & p,
+  & input {
+    @apply text-white;
+  }
+
+  & > div:first-of-type {
+    & input {
+      @apply w-full p-2 mt-4 partBordered;
+    }
+
+    & svg {
+      @apply w-9 h-9 -ml-10 mt-5 p-2 bg-gray-800 hover:bg-gray-600 hover:text-primary rounded-lg transition-colors cursor-pointer;
+    }
+  }
+
+  & > div:last-of-type {
+    @apply justify-between;
+
+    & p {
+      @apply mb-0 text-sm;
+    }
+
+    & svg {
+      @apply w-5 h-5 mt-2 p-1;
+    }
+  }
+}
+
+.messages {
+  @apply flex flex-col-reverse w-80 h-40 overflow-y-scroll lg:h-96 md:w-96 partBordered;
+
+  & > li {
+    @apply flex flex-row m-1 bg-gray-800 rounded-lg;
+
+    & > div:first-child {
+      @apply flex-shrink-0 w-10 h-10;
+    }
+
+    & > div:last-child {
+      @apply flex flex-col px-2 pt-1 pb-0;
+
+      & > span:first-child {
+        @apply text-xs align-middle text-gray-300;
+      }
+
+      & > span:last-child {
+        @apply text-sm text-white break-all;
+      }
+    }
+  }
+}
