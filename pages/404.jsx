@@ -5,7 +5,7 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
-import SiteHead from '@/components/siteHead'
+import MetaLinks from '@/components/metaLinks'
 import en from '@/locales/en/pages/404'
 import ru from '@/locales/ru/pages/404'
 
@@ -16,7 +16,7 @@ export default function About() {
 
   return (
     <>
-      <SiteHead t={t} />
+      <MetaLinks t={t} />
       <Header />
 
       <main className="page-main">

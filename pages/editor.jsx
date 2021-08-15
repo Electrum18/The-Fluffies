@@ -8,7 +8,7 @@ import RightBar from '@/components/editor/right-bar'
 import Modal from '@/components/elements/modal'
 import Loading from '@/components/loading'
 import LocalStorageControl from '@/components/localStorageControl'
-import SiteHead from '@/components/siteHead'
+import MetaLinks from '@/components/metaLinks'
 import useMenu from '@/helpers/menu'
 import useSocketConnection from '@/hooks/socket'
 import useUserFetch from '@/hooks/user'
@@ -47,7 +47,7 @@ export default function Editor() {
 
   return (
     <>
-      <SiteHead t={t} />
+      <MetaLinks t={t} />
 
       <LocalStorageControl />
 

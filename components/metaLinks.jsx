@@ -87,11 +87,6 @@ export default function SiteHead({ t }) {
       />
 
       {/* Meta Tags for HTML pages on Mobile */}
-      <meta
-        name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-      />
-
       <meta name="theme-color" content={theme} />
 
       <link rel="shortcut icon" href="/icons/favicon.ico" />

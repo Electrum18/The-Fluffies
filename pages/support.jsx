@@ -18,8 +18,8 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
+import MetaLinks from '@/components/metaLinks'
 import OuterLink from '@/components/outerLink'
-import SiteHead from '@/components/siteHead'
 import Socials from '@/components/socials'
 import Contributors from '@/components/support/contributors'
 import Title from '@/components/title'
@@ -46,7 +46,7 @@ export default function Support() {
 
   return (
     <>
-      <SiteHead t={t} />
+      <MetaLinks t={t} />
       <Header />
 
       <main className="page-main">

@@ -19,8 +19,8 @@ import Title from '@/components/index/title'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
 import LocalStorageControl from '@/components/localStorageControl'
+import MetaLinks from '@/components/metaLinks'
 import OuterLink from '@/components/outerLink'
-import SiteHead from '@/components/siteHead'
 import dbConnect from '@/libs/db'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
@@ -34,7 +34,7 @@ function Home({ patrons, count }) {
 
   return (
     <>
-      <SiteHead t={t} />
+      <MetaLinks t={t} />
       <Header />
 
       <LocalStorageControl />
