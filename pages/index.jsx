@@ -51,8 +51,8 @@ function Home({ patrons, count }) {
               <Image
                 src="/img/mascot.png"
                 alt="Defaulty a website mascot"
-                width={1024}
-                height={1024}
+                width={672}
+                height={672}
                 draggable={false}
               />
             </div>

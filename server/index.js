@@ -4,7 +4,7 @@
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const patreon = require('patreon')
+//const patreon = require('patreon')
 
 let io = require('socket.io')
 
@@ -43,6 +43,7 @@ fs.readFile('./server/misc/email/ru.html', 'utf8', (err, data) => {
 
 io = io.listen(keys.ports.socket)
 
+/*
 const patreonOAuthClient = patreon.oauth(
   keys.patreon.clientID,
   keys.patreon.clientSecret
@@ -52,12 +53,14 @@ const tokens = {
   access_token: undefined,
   refresh_token: keys.patreon.refreshToken,
 }
+*/
 
 const patreonInfo = {
   pledges: {},
-  patrons: [],
+  patrons: []
 }
 
+/*
 function pledgeType(cents) {
   if (cents >= 300 && cents < 700) {
     return 'Basic supporter'
@@ -100,6 +103,7 @@ async function getPatrons() {
     })
   }
 }
+*/
 
 function deleteCallback(name) {
   return () => console.log('User: ' + name + ' was deleted!')
@@ -163,7 +167,7 @@ mongoose.connect(
 
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   },
 
   () => {
@@ -173,7 +177,7 @@ mongoose.connect(
 
 const sessionStore = new MongoStore({
   mongooseConnection: mongoose.connection,
-  secret: keys.mongodb.secret,
+  secret: keys.mongodb.secret
 })
 
 const users = {}
@@ -181,7 +185,7 @@ const usersPublic = []
 const alias = []
 
 function serverCycle() {
-  getPatrons()
+  //getPatrons()
   updateUsers()
 }
 
