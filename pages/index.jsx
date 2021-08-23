@@ -18,9 +18,9 @@ import Patrons from '@/components/index/patrons'
 import Title from '@/components/index/title'
 import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
-import LocalStorageControl from '@/components/localStorageControl'
 import MetaLinks from '@/components/metaLinks'
 import OuterLink from '@/components/outerLink'
+import { useLocalStorageControl, useThemeTimeControl } from '@/hooks/controls'
 import dbConnect from '@/libs/db'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
@@ -32,12 +32,13 @@ function Home({ patrons, count }) {
 
   const t = router.locale === 'ru' ? ru : en
 
+  useLocalStorageControl()
+  useThemeTimeControl()
+
   return (
     <>
       <MetaLinks t={t} />
       <Header />
-
-      <LocalStorageControl />
 
       <main>
         <div id="start" className="text-white background-gradient">
@@ -164,18 +165,22 @@ function Home({ patrons, count }) {
 }
 
 export async function getStaticProps() {
-  await dbConnect()
-
   let count
 
-  if (process.env.MONGODB_URI) {
-    count = await User.countDocuments({}, (err, _count) => {
-      if (err) {
-        console.error(err)
-      } else {
-        return _count
-      }
-    })
+  try {
+    await dbConnect()
+
+    if (process.env.MONGODB_URI) {
+      count = await User.countDocuments({}, (err, _count) => {
+        if (err) {
+          console.error(err)
+        } else {
+          return _count
+        }
+      })
+    }
+  } catch {
+    console.error('ERR: Cannot get static props!')
   }
 
   function fillPatrons(length) {

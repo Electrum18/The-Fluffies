@@ -1,3 +1,4 @@
+import { useTheme } from 'next-themes'
 import { useEffect } from 'react'
 
 import preKeysList from '@/configs/localStorageKeys.json'
@@ -8,7 +9,7 @@ const keysList = preKeysList.reduce((acc, value) => {
   return acc
 }, {})
 
-export default function LocalStorageControl() {
+export function useLocalStorageControl() {
   useEffect(() => {
     if (!localStorage) return
 
@@ -18,6 +19,14 @@ export default function LocalStorageControl() {
       if (!keysList[key]) localStorage.removeItem(key)
     }
   }, [])
+}
 
-  return null
+export function useThemeTimeControl() {
+  const { setTheme } = useTheme()
+
+  useEffect(() => {
+    const hours = new Date().getHours()
+
+    setTheme(hours > 7 && hours < 17 ? 'light' : 'dark')
+  }, [setTheme])
 }

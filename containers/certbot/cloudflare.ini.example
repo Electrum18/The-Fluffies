@@ -1,0 +1,2 @@
+# Cloudflare API credentials used by Certbot
+dns_cloudflare_api_token = XXXXXXXXXXXXXXXXXXXX

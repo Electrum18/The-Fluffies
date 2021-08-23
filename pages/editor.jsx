@@ -7,9 +7,9 @@ import LeftBar from '@/components/editor/left-bar'
 import RightBar from '@/components/editor/right-bar'
 import Modal from '@/components/elements/modal'
 import Loading from '@/components/loading'
-import LocalStorageControl from '@/components/localStorageControl'
 import MetaLinks from '@/components/metaLinks'
 import useMenu from '@/helpers/menu'
+import { useLocalStorageControl } from '@/hooks/controls'
 import useSocketConnection from '@/hooks/socket'
 import useUserFetch from '@/hooks/user'
 import en from '@/locales/en/pages/editor'
@@ -40,6 +40,8 @@ export default function Editor() {
     document.querySelector('body').style.overflow = 'hidden'
   }, [])
 
+  useLocalStorageControl()
+
   useUserFetch()
   /*useUserSavesSetter()*/
 
@@ -48,8 +50,6 @@ export default function Editor() {
   return (
     <>
       <MetaLinks t={t} />
-
-      <LocalStorageControl />
 
       <main>
         {page === 'Welcome' && (

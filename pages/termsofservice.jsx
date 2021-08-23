@@ -6,6 +6,7 @@ import Header from '@/components/header'
 import Locale from '@/components/locale'
 import MetaLinks from '@/components/metaLinks'
 import Title from '@/components/title'
+import { useThemeTimeControl } from '@/hooks/controls'
 import en from '@/locales/en/pages/terms'
 import ru from '@/locales/ru/pages/terms'
 
@@ -13,6 +14,8 @@ export default function About() {
   const router = useRouter()
 
   const t = router.locale === 'ru' ? ru : en
+
+  useThemeTimeControl()
 
   return (
     <>

@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  certbot:
+    image: certbot/dns-cloudflare
+    container_name: certbot
+    volumes:
+      - ./containers/certbot/cloudflare.ini:/root/cloudflare.ini
+      - certificates:/etc/letsencrypt
+    command: >-
+      certonly
+      --dns-cloudflare
+      --dns-cloudflare-credentials /root/cloudflare.ini
+      --agree-tos
+      --no-eff-email
+      --force-renewal
+      -d the-fluffies.net
+      -m ${CERTBOT_EMAIL}
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    volumes:
+      - ./containers/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./containers/nginx/dhparam:/etc/nginx/dhparam
+      - ./containers/nginx/access.log:/etc/nginx/access_log.log
+      - ./containers/nginx/error.log:/etc/nginx/error_log.log
+      - ./containers/nginx/cache/:/etc/nginx/cache
+      - certificates:/etc/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - nginx
+
+  nextjs:
+    build: .
+    container_name: nextjs
+    restart: unless-stopped
+    volumes:
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.local
+
+volumes:
+  certificates:
+
+networks:
+  nginx:
+    external: true

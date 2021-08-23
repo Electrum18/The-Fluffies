@@ -1,8 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 server/config/keys.js
+
 public/sitemap.xml
 public/sw.js*
 public/workbox-*.js*
+
+containers/certbot/cloudflare.ini
+containers/nginx/access.log
+containers/nginx/cache
+containers/nginx/error.log
 
 # dependencies
 /node_modules

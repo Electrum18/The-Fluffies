@@ -115,7 +115,7 @@ html {
   }
 
   .text-subtitle {
-    @apply my-10 uppercase font-bold text-sm text-orange-600 tracking-wider;
+    @apply my-10 uppercase font-bold text-sm text-violet-700 dark:text-violet-200 tracking-wider;
   }
 
   .button {

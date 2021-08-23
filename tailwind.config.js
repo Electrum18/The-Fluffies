@@ -13,6 +13,7 @@ module.exports = {
         primary: '#ffaa22',
         'primary-dark': '#ff6644',
         orange: colors.orange,
+        violet: colors.violet,
         version: '#E91AFF',
         modal: 'rgba(0, 0, 0, 0.2)',
         transparent: 'rgba(0, 0, 0, 0)'

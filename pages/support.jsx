@@ -23,6 +23,7 @@ import OuterLink from '@/components/outerLink'
 import Socials from '@/components/socials'
 import Contributors from '@/components/support/contributors'
 import Title from '@/components/title'
+import { useThemeTimeControl } from '@/hooks/controls'
 import en from '@/locales/en/pages/support'
 import ru from '@/locales/ru/pages/support'
 
@@ -43,6 +44,8 @@ export default function Support() {
   const router = useRouter()
 
   const t = router.locale === 'ru' ? ru : en
+
+  useThemeTimeControl()
 
   return (
     <>
