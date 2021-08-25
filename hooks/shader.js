@@ -4,36 +4,43 @@ import useEmotions from '@/helpers/emotions'
 import useParameters from '@/helpers/parameters'
 import { getSaveValueInner } from '@/libs/saves'
 
+function SLtoSV(s, l, v = s * Math.min(l, 1 - l) + l) {
+  return [v ? 2 - (2 * l) / v : 0, v]
+}
+
 export function useShaderColorManager(
   colorTarget,
-  alphaTarget,
   model,
   colorName = undefined
 ) {
   useEffect(() => {
-    if (colorName) {
-      const { material } = model.current
+    if (!model.current) return
 
+    const { material } = model.current
+
+    function setColor(_h, _s, _l, _a) {
+      material.uniforms[colorTarget].value.set(
+        _h / 360,
+        ...SLtoSV(_s, _l),
+        _a || 1
+      )
+    }
+
+    if (colorName) {
       const { h, s, l, a } = getSaveValueInner(
         useParameters.getState(),
         'colors',
         colorName
       )
 
-      material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
-
-      if (a && alphaTarget) material.uniforms[alphaTarget].value = a
+      setColor(h, s, l, a)
 
       useParameters.subscribe(
-        ({ h, s, l, a }) => {
-          material.uniforms[colorTarget].value.setHSL(h / 360, s, l)
-
-          if (a && alphaTarget) material.uniforms[alphaTarget].value = a
-        },
+        ({ h, s, l, a }) => setColor(h, s, l, a),
         state => getSaveValueInner(state, 'colors', colorName)
       )
     }
-  }, [alphaTarget, colorName, colorTarget, model])
+  }, [colorName, colorTarget, model])
 }
 
 export function useShaderValueManager(

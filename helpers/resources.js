@@ -13,7 +13,7 @@ const useResources = create(set => ({
   textures: {},
 
   light: {},
-  ambientLight: {},
+  camera: {},
 
   skeleton: new Skeleton([]),
 
@@ -24,7 +24,7 @@ const useResources = create(set => ({
     set(state => ({ textures: { ...state.textures, [key]: texture } })),
 
   setLight: light => set({ light }),
-  setAmbientLight: ambientLight => set({ ambientLight }),
+  setCamera: camera => set({ camera }),
 
   setSkeleton: skeleton => set({ skeleton })
 }))

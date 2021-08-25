@@ -1,7 +1,7 @@
 import { OrbitControls, Preload } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import React, { Suspense, useEffect, useRef } from 'react'
-import shallow from 'zustand/shallow'
+import { Vector3 } from 'three'
 
 import useParameters from '@/helpers/parameters'
 import useResources from '@/helpers/resources'
@@ -9,17 +9,26 @@ import { getSaveValueInner } from '@/libs/saves'
 
 import Player from './player'
 
-const selectorLight = state => [state.setLight, state.setAmbientLight]
+const selectorLight = state => state.setLight
+const selectorCamera = state => state.setCamera
+
+function AppendCamera() {
+  const setCamera = useResources(selectorCamera)
+
+  useFrame(state => {
+    if (state.camera) setCamera(state.camera.getWorldDirection(new Vector3()))
+  })
+
+  return null
+}
 
 function useLight() {
   const background = useRef()
   const pointLight = useRef()
-  const ambientLight = useRef()
 
-  const [setLight, setAmbientLight] = useResources(selectorLight, shallow)
+  const setLight = useResources(selectorLight)
 
   useEffect(() => setLight(pointLight), [setLight])
-  useEffect(() => setAmbientLight(ambientLight), [setAmbientLight])
 
   useEffect(() => {
     useParameters.subscribe(
@@ -27,20 +36,18 @@ function useLight() {
         if (!background.current) return
 
         background.current.setHSL(h / 360, s, l)
-
-        pointLight.current.intensity = l
       },
       state => getSaveValueInner(state, 'colors', 'background_basic')
     )
   }, [])
 
-  return [background, pointLight, ambientLight]
+  return [background, pointLight]
 }
 
 export default function World() {
   const controls = useRef()
 
-  const [background, pointLight, ambientLight] = useLight()
+  const [background, pointLight] = useLight()
 
   return (
     <Canvas
@@ -52,9 +59,9 @@ export default function World() {
     >
       <color ref={background} attach="background" args={['white']} />
 
+      <AppendCamera />
       <OrbitControls ref={controls} minDistance={7} maxDistance={10} />
 
-      <ambientLight ref={ambientLight} intensity={0.7} />
       <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
 
       <Suspense fallback={null}>

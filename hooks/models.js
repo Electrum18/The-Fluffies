@@ -12,7 +12,7 @@ import { useShaderColorManager, useShaderValueManager } from './shader'
 const selectorNames = state => getSaveValue(state, 'names')
 const selectorFlexes = state => state.emotions
 
-const selectorLignt = state => [state.light, state.ambientLight]
+const selectorLignt = state => [state.light, state.camera]
 const selectorMorphs = state => state.morphsList
 
 export function useModelInfo(
@@ -52,10 +52,10 @@ export function useColorManager(model, materialName) {
     color4Value
   } = Materials[materialName]
 
-  useShaderColorManager('color', 'alpha', model, color)
-  useShaderColorManager('color2', 'alpha2', model, color2)
-  useShaderColorManager('color3', 'alpha3', model, color3)
-  useShaderColorManager('color4', 'alpha4', model, color4)
+  useShaderColorManager('color', model, color)
+  useShaderColorManager('color2', model, color2)
+  useShaderColorManager('color3', model, color3)
+  useShaderColorManager('color4', model, color4)
 
   useShaderValueManager('secondEnabled', model, color2Value)
   useShaderValueManager('thirdEnabled', model, color3Value)
@@ -63,7 +63,7 @@ export function useColorManager(model, materialName) {
 }
 
 export function useWorldColor(model) {
-  useShaderColorManager('colorEnv', '', model, 'background_basic')
+  useShaderColorManager('colorEnv', model, 'background_basic')
 }
 
 export function useEmotionManager(model, name, morphsConfig) {
@@ -88,24 +88,19 @@ export function useEmotionManager(model, name, morphsConfig) {
 }
 
 export function useLight(model) {
-  const [light, ambientLight] = useResources(selectorLignt, shallow)
+  const [light, camera] = useResources(selectorLignt, shallow)
 
   useEffect(() => {
-    const { uDirLightPos, uDirLightPower } = model.current.material.uniforms
+    const { uLightPos } = model.current.material.uniforms
 
-    if (light.current) {
-      uDirLightPos.value = light.current.position
-      uDirLightPower.value = light.current.intensity
-    }
+    if (light.current) uLightPos.value = light.current.position
   }, [light, model])
 
   useEffect(() => {
-    const { uAmbientLightPower } = model.current.material.uniforms
+    const { uCameraDir } = model.current.material.uniforms
 
-    if (ambientLight.current) {
-      uAmbientLightPower.value = ambientLight.current.intensity
-    }
-  }, [ambientLight, model])
+    if (camera) uCameraDir.value = camera
+  }, [camera, model])
 }
 
 export function usePositionManager(model, material) {

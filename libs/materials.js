@@ -1,38 +1,31 @@
 import {
-  Color,
   Matrix4,
   ShaderMaterial,
   Texture,
   UniformsUtils,
   Vector2,
-  Vector3
+  Vector3,
+  Vector4
 } from 'three'
 
 import fragmentShader from '@/libs/glsl/fragment.frag'
 import vertexShader from '@/libs/glsl/vertex.vert'
 
 const fragmentUniforms = {
-  uDirLightPos: { value: new Vector3() },
-  uDirLightPower: { value: new Color(0xeeeeee) },
-
-  uAmbientLightPower: { value: new Color(0x050505) },
+  uLightPos: { value: new Vector3() },
+  uCameraDir: { value: new Vector3() },
 
   uPosition: { value: new Vector2() },
   uScale: { value: 1 },
 
   textureMask: { value: new Texture() },
 
-  color: { value: new Color(0xeeeeee) },
-  color2: { value: new Color(0x888888) },
-  color3: { value: new Color(0x444444) },
-  color4: { value: new Color(0x222222) },
+  color: { value: new Vector4(0xeeeeee) },
+  color2: { value: new Vector4(0x888888) },
+  color3: { value: new Vector4(0x444444) },
+  color4: { value: new Vector4(0x222222) },
 
-  colorEnv: { value: new Color(0xffffff) },
-
-  alpha: { value: 1 },
-  alpha2: { value: 1 },
-  alpha3: { value: 1 },
-  alpha4: { value: 1 },
+  colorEnv: { value: new Vector4(0xffffff) },
 
   secondEnabled: { value: false },
   thirdEnabled: { value: false },
