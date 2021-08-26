@@ -21,6 +21,7 @@ import Locale from '@/components/locale'
 import MetaLinks from '@/components/metaLinks'
 import OuterLink from '@/components/outerLink'
 import { useLocalStorageControl, useThemeTimeControl } from '@/hooks/controls'
+import { useStatsSEO } from '@/hooks/metricsSEO'
 import dbConnect from '@/libs/db'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
@@ -31,6 +32,8 @@ function Home({ patrons, count }) {
   const router = useRouter()
 
   const t = router.locale === 'ru' ? ru : en
+
+  useStatsSEO(t)
 
   useLocalStorageControl()
   useThemeTimeControl()

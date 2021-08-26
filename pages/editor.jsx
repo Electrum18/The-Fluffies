@@ -10,6 +10,7 @@ import Loading from '@/components/loading'
 import MetaLinks from '@/components/metaLinks'
 import useMenu from '@/helpers/menu'
 import { useLocalStorageControl } from '@/hooks/controls'
+import { useStatsSEO } from '@/hooks/metricsSEO'
 import useSocketConnection from '@/hooks/socket'
 import useUserFetch from '@/hooks/user'
 import en from '@/locales/en/pages/editor'
@@ -35,6 +36,8 @@ export default function Editor() {
   const [page, closePages] = useMenu(selector, shallow)
 
   const t = router.locale === 'ru' ? ru : en
+
+  useStatsSEO(t)
 
   useEffect(() => {
     document.querySelector('body').style.overflow = 'hidden'

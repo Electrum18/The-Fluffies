@@ -29,7 +29,7 @@ export default function About() {
           <p>Last updated: May 27, 2021</p>
         </div>
 
-        <div section className="flex-col my-8 div-section">
+        <div className="flex-col my-8 div-section">
           <p>
             Please read these Terms of Service (&quot;Terms&quot;, &quot;Terms
             of Service&quot;) carefully before using the
@@ -48,7 +48,7 @@ export default function About() {
           </p>
         </div>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <h2>Termination</h2>
           <p>
             We may terminate or suspend access to our Service immediately,
@@ -63,7 +63,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <h2>Links To Other Web Sites</h2>
           <p>
             Our Service may contain links to third­party web sites or services
@@ -84,7 +84,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <h2>User submitted content</h2>
           <p>
             Our Service may contain content submited by other users of the
@@ -103,7 +103,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <h2>Governing Law</h2>
           <p>
             These Terms shall be governed and construed in accordance with the
@@ -120,7 +120,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <h2>Changes</h2>
           <p>
             We reserve the right, at our sole discretion, to modify or replace
@@ -136,7 +136,7 @@ export default function About() {
           </p>
         </section>
 
-        <section section className="flex-col mb-0">
+        <section className="flex-col mb-0">
           <h2>Contact Us</h2>
           <p>If you have any questions about these Terms, please contact us.</p>
         </section>

@@ -24,6 +24,7 @@ import Socials from '@/components/socials'
 import Contributors from '@/components/support/contributors'
 import Title from '@/components/title'
 import { useThemeTimeControl } from '@/hooks/controls'
+import { useStatsSEO } from '@/hooks/metricsSEO'
 import en from '@/locales/en/pages/support'
 import ru from '@/locales/ru/pages/support'
 
@@ -45,6 +46,7 @@ export default function Support() {
 
   const t = router.locale === 'ru' ? ru : en
 
+  useStatsSEO(t)
   useThemeTimeControl()
 
   return (
@@ -59,7 +61,7 @@ export default function Support() {
           <p>{t.description}</p>
         </div>
 
-        <section section className="flex-col p-0 text-center">
+        <section className="flex-col p-0 text-center">
           <div className="flex flex-col p-8">
             <h2>{t.contributors.h2}</h2>
             <p>{t.contributors.text}</p>
@@ -68,7 +70,7 @@ export default function Support() {
           <Contributors />
         </section>
 
-        <section section className="flex-col">
+        <section className="flex-col">
           <FaSatelliteDish className="basic-icon" />
 
           <h2>{t.help.h2}</h2>
@@ -157,7 +159,7 @@ export default function Support() {
           />
         </InfoSection>
 
-        <section section className="flex-col mb-0 text-center">
+        <section className="flex-col mb-0 text-center">
           <FaBalanceScale className="basic-icon md:mx-0" />
 
           <h2>{t.copyright.h2}</h2>

@@ -21,6 +21,7 @@ import Locale from '@/components/locale'
 import MetaLinks from '@/components/metaLinks'
 import Title from '@/components/title'
 import { useThemeTimeControl } from '@/hooks/controls'
+import { useStatsSEO } from '@/hooks/metricsSEO'
 import en from '@/locales/en/pages/about'
 import ru from '@/locales/ru/pages/about'
 import cardStyles from '@/styles/cards.module.css'
@@ -30,6 +31,7 @@ export default function About() {
 
   const t = router.locale === 'ru' ? ru : en
 
+  useStatsSEO(t)
   useThemeTimeControl()
 
   return (
