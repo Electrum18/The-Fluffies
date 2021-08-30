@@ -5,7 +5,7 @@
 .next
 .env.local.example
 .dockerignore
-node_modules
+**/node_modules
 npm-debug.log
 README.md
-*Dockerfile*
+**/Dockerfile

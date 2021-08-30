@@ -1,0 +1,45 @@
+{
+  "ids": {
+    "google": "",
+    "twitter": "",
+    "vk": "",
+    "patreon": ""
+  },
+
+  "level": 0,
+  "levelGiven": false,
+
+  "current": {
+    "avatar": "",
+    "lang": "en"
+  },
+
+  "name": "",
+
+  "avatars": {
+    "google": "",
+    "twitter": "",
+    "vk": "",
+    "patreon": ""
+  },
+
+  "emails": {
+    "google": "",
+    "twitter": "",
+    "vk": "",
+    "patreon": ""
+  },
+
+  "mailing": true,
+
+  "saves": [],
+
+  "date": {
+    "first": 0,
+    "last": 0,
+    "lastChecked": 0,
+    "levelTimeout": 0
+  },
+
+  "badges": []
+}

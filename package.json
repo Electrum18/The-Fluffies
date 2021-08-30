@@ -9,7 +9,6 @@
     "build": "next build",
     "build:post": "node scripts/fix-image-styles.js",
     "start": "next start",
-    "server": "node server/index.js",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint"
   },

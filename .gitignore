@@ -5,13 +5,15 @@ public/sitemap.xml
 public/sw.js*
 public/workbox-*.js*
 
-containers/certbot/cloudflare.ini
 containers/nginx/access.log
-containers/nginx/cache
 containers/nginx/error.log
+containers/nginx/cache
+containers/nginx/certs/cert.pem
+containers/nginx/certs/key.pem
+containers/nodejs/config/keys.js
 
 # dependencies
-/node_modules
+/**/node_modules
 /.pnp
 .pnp.js
 

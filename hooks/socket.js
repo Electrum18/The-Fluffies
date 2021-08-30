@@ -3,15 +3,16 @@ import io from 'socket.io-client'
 
 import useSocket from '@/helpers/socket'
 
+import { useSocketUrl } from './urls'
+
 const selector = state => state.setSocket
 
 export default function useSocketConnection() {
+  const url = useSocketUrl()
   const setSocket = useSocket(selector)
 
   useEffect(() => {
-    const { host, hostname } = window.location
-
-    const socket = io(hostname === 'localhost' ? hostname + ':3001' : host)
+    const socket = io(url)
 
     setSocket(socket)
 
@@ -20,5 +21,5 @@ export default function useSocketConnection() {
 
       setSocket(null)
     }
-  }, [setSocket])
+  }, [setSocket, url])
 }

@@ -20,12 +20,12 @@ import InfoSection from '@/components/infoSection'
 import Locale from '@/components/locale'
 import MetaLinks from '@/components/metaLinks'
 import OuterLink from '@/components/outerLink'
+import User from '@/containers/nodejs/models/user-model'
 import { useLocalStorageControl, useThemeTimeControl } from '@/hooks/controls'
 import { useStatsSEO } from '@/hooks/metricsSEO'
 import dbConnect from '@/libs/db'
 import en from '@/locales/en/pages/index'
 import ru from '@/locales/ru/pages/index'
-import User from '@/server/models/user-model'
 import cardStyles from '@/styles/cards.module.css'
 
 function Home({ patrons, count }) {

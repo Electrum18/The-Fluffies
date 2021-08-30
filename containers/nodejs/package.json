@@ -1,0 +1,41 @@
+{
+  "name": "nodejs_monolith",
+  "version": "1.0.0",
+  "description": "Temporary monolith backend server",
+  "author": "Electrum18 (https://github.com/Electrum18)",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "homepage": "https://github.com/Electrum18/The-Fluffies/containers/nodejs",
+  "bugs": {
+    "url": "https://github.com/Electrum18/The-Fluffies/issues",
+    "email": "thefluffiessite@gmail.com"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/the_fluffies"
+    }
+  ],
+  "license": "cc-by-nc-nd-4.0",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "mongoose": "^5.13.5",
+    "socket.io": "^2.3.0",
+    "@sentry/node": "^5.29.0",
+    "@sentry/tracing": "^5.29.0",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
+    "passport-patreon": "^1.0.1",
+    "passport-vkontakte": "github:negezor/passport-vkontakte",
+    "passport.socketio": "^3.7.0",
+    "patreon": "^0.4.1",
+    "jwt-simple": "^0.5.6"
+  }
+}
