@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:post": "node scripts/fix-image-styles.js",
+    "build": "next build && node scripts/fix-image-styles.js",
     "start": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint"
