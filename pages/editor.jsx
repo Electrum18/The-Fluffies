@@ -11,7 +11,7 @@ import MetaLinks from '@/components/metaLinks'
 import useMenu from '@/helpers/menu'
 import { useLocalStorageControl } from '@/hooks/controls'
 import { useStatsSEO } from '@/hooks/metricsSEO'
-import useSocketConnection from '@/hooks/socket'
+//import useSocketConnection from '@/hooks/socket'
 import useUserFetch from '@/hooks/user'
 import en from '@/locales/en/pages/editor'
 import ru from '@/locales/ru/pages/editor'
@@ -48,7 +48,7 @@ export default function Editor() {
   useUserFetch()
   /*useUserSavesSetter()*/
 
-  useSocketConnection()
+  /*useSocketConnection()*/
 
   return (
     <>
