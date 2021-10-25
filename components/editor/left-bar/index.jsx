@@ -4,13 +4,13 @@ import styles from '@/styles/editor.module.css'
 import Accounts from './additional/accounts'
 import Notice from './additional/notice'
 import Rules from './additional/rules'
-import ChatSection from './chat'
+//import ChatSection from './chat'
 import EmotionsSection from './emotions'
 import EnvSection from './environment'
 import HomeSection from './home'
 import LanguageSection from './language'
-import LevelSection from './level'
-import ProfileSection from './profile'
+//import LevelSection from './level'
+//import ProfileSection from './profile'
 import SavePersonSection from './savePersons'
 import SocialSection from './socials'
 import TakeImageSection from './takeImage'
@@ -38,11 +38,11 @@ export default function Menu() {
         <Spacer />
         <LanguageSection />
         <hr />
-        <LevelSection />
+        {/*<LevelSection />
         <ProfileSection />
-        <hr />
+        <hr />*/}
         <SocialSection />
-        <ChatSection />
+        {/*<ChatSection />*/}
       </ul>
 
       {page === 'Accounts' && <Accounts />}
