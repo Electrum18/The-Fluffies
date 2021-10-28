@@ -35,7 +35,6 @@
     "@react-three/drei": "^5.3.4",
     "@react-three/fiber": "^6.2.3",
     "fs": "0.0.1-security",
-    "globby": "^11.0.3",
     "immer": "^9.0.5",
     "jwt-simple": "^0.5.6",
     "leva": "^0.9.14",

@@ -11,7 +11,7 @@ const nextConfig = {
     defaultLocale: 'en'
   },
 
-  webpack(config, { webpack, isServer, dev }) {
+  webpack(config, { webpack, isServer }) {
     config.plugins.push(
       new webpack.ProvidePlugin({
         React: 'react'
@@ -24,7 +24,7 @@ const nextConfig = {
       use: ['raw-loader', 'glslify-loader']
     })
 
-    if (isServer && dev) {
+    if (isServer) {
       require('./scripts/sitemap')
     }
 

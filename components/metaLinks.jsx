@@ -7,6 +7,8 @@ const twitterAuthor = '@TFluffies'
 
 const theme = '#444444'
 
+const image = '/img/announcement.png'
+
 export default function SiteHead({ t }) {
   const router = useRouter()
   const { route, locale } = router
@@ -43,7 +45,7 @@ export default function SiteHead({ t }) {
       <meta name="og:title" content={t.meta.title} />
       <meta name="og:type" content="site" />
       <meta name="og:url" content={url + '/'} />
-      <meta name="og:image" content="/icons/apple-touch-icon.png" />
+      <meta name="og:image" content={image} />
       <meta name="og:site_name" content={t.meta.title} />
       <meta name="og:description" content={t.meta.description} />
       <meta name="og:keywords" content={keywords} />
@@ -110,6 +112,7 @@ export default function SiteHead({ t }) {
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content={twitterAuthor} />
       <meta name="twitter:creator" content={twitterAuthor} />
+      <meta name="twitter:image" content={image} />
 
       {/* Analytics verification Meta Tags */}
       <meta name="yandex-verification" content="18a53c7543c3229e" />

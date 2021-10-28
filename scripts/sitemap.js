@@ -1,52 +1,60 @@
-const fs = require('fs')
-const globby = require('globby')
-const prettier = require('prettier')
+const { writeFileSync, readdirSync } = require('fs')
+
+const ignoreList = {
+  all: {
+    _app: true,
+    _document: true,
+    404: true
+  },
+
+  ru: {
+    privacypolicy: true,
+    termsofservice: true
+  }
+}
+
+const replaceList = {
+  all: {
+    index: ''
+  }
+}
+
+const pages = readdirSync('pages')
+  .map(page => validatePage(page.replace(/\.js.?/, '')))
+  .filter(page => !ignoreList.all[page])
+
+const ruPages = [...pages]
+  .filter(page => !ignoreList.ru[page])
+  .map(page => 'ru/' + page)
+
+pages.push(...ruPages)
+
+function generateSitemap() {
+  return `
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>${pages.map(addPage).join('')}
+</urlset>
+`.trim()
+}
 
 const getDate = new Date().toISOString()
 
-const formatted = sitemap => prettier.format(sitemap, { parser: 'html' })
+function addPage(url) {
+  return `
+  <url>
+    <loc>${`https://the-fluffies.net/${url}`}</loc>
+    <lastmod>${getDate}</lastmod>
+  </url>`
+}
 
-;(async () => {
-  const pages = await globby([
-    'pages/**/*{.js,.jsx,.mdx}',
-    '!pages/_*.js',
-    '!pages/api'
-  ])
+function validatePage(page) {
+  const replacedPage = replaceList.all[page]
 
-  const pagesSitemap = pages
-    .map(page => {
-      const path = page.replace(/pages|\.(j|t)sx?/g, '')
+  return replacedPage !== undefined ? replacedPage : page
+}
 
-      let route = path === '/index' ? '/' : path
-      let result = `
-        <url>
-          <loc>${`https://the-fluffies.net${route}`}</loc>
-          <lastmod>${getDate}</lastmod>
-        </url>`
-
-      route = route === '/' ? route.replace('/', '') : route
-
-      if (route !== '/privacypolicy' && route !== '/termsofservice') {
-        result += `
-          <url>
-            <loc>${`https://the-fluffies.net/ru${route}`}</loc>
-            <lastmod>${getDate}</lastmod>
-          </url>`
-      }
-
-      return result
-    })
-    .join('')
-
-  const generatedSitemap = `
-    <?xml version="1.0" encoding="UTF-8"?>
-    <urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
-    >
-      ${pagesSitemap}
-    </urlset>`
-
-  fs.writeFileSync('public/sitemap.xml', formatted(generatedSitemap), 'utf8')
-})()
+writeFileSync('public/sitemap.xml', generateSitemap(), 'utf8')
