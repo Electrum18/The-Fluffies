@@ -1,19 +1,19 @@
-import { useEffect } from 'react'
-import shallow from 'zustand/shallow'
+import { useEffect } from "react";
+import shallow from "zustand/shallow";
 
-import Materials from '@/configs/materials.json'
-import useEmotions from '@/helpers/emotions'
-import useParameters from '@/helpers/parameters'
-import useResources from '@/helpers/resources'
-import { getSaveValue } from '@/libs/saves'
+import Materials from "@/configs/materials.json";
+import useEmotions from "@/helpers/emotions";
+import useParameters from "@/helpers/parameters";
+import useResources from "@/helpers/resources";
+import { getSaveValue } from "@/libs/saves";
 
-import { useShaderColorManager, useShaderValueManager } from './shader'
+import { useShaderColorManager, useShaderValueManager } from "./shader";
 
-const selectorNames = state => getSaveValue(state, 'names')
-const selectorFlexes = state => state.emotions
+const selectorNames = (state) => getSaveValue(state, "names");
+const selectorFlexes = (state) => state.emotions;
 
-const selectorLignt = state => [state.light, state.camera]
-const selectorMorphs = state => state.morphsList
+const selectorLignt = (state) => [state.light, state.camera];
+const selectorMorphs = (state) => state.morphsList;
 
 export function useModelInfo(
   elemName,
@@ -21,23 +21,23 @@ export function useModelInfo(
   material = undefined,
   texture = undefined
 ) {
-  const names = useParameters(selectorNames, shallow)
+  const names = useParameters(selectorNames, shallow);
 
-  const name = key ? names[key].replace(/ /g, '_') : elemName
-  const src = group ? group + name : name
+  const name = key ? names[key].replace(/ /g, "_") : elemName;
+  const src = group ? group + name : name;
 
-  let textureName
+  let textureName;
 
   if (material && texture) {
     textureName =
       texture.group && texture.key
-        ? texture.group + names[texture.key].replace(/ /g, '_')
-        : texture
+        ? texture.group + names[texture.key].replace(/ /g, "_")
+        : texture;
 
-    if (Materials[material] && texture.postfix) textureName += texture.postfix
+    if (Materials[material] && texture.postfix) textureName += texture.postfix;
   }
 
-  return { name, src, textureName }
+  return { name, src, textureName };
 }
 
 export function useColorManager(model, materialName) {
@@ -49,100 +49,100 @@ export function useColorManager(model, materialName) {
 
     color2Value,
     color3Value,
-    color4Value
-  } = Materials[materialName]
+    color4Value,
+  } = Materials[materialName];
 
-  useShaderColorManager('color', model, color)
-  useShaderColorManager('color2', model, color2)
-  useShaderColorManager('color3', model, color3)
-  useShaderColorManager('color4', model, color4)
+  useShaderColorManager("color", model, color);
+  useShaderColorManager("color2", model, color2);
+  useShaderColorManager("color3", model, color3);
+  useShaderColorManager("color4", model, color4);
 
-  useShaderValueManager('secondEnabled', model, color2Value)
-  useShaderValueManager('thirdEnabled', model, color3Value)
-  useShaderValueManager('fouthEnabled', model, color4Value)
+  useShaderValueManager("secondEnabled", model, color2Value);
+  useShaderValueManager("thirdEnabled", model, color3Value);
+  useShaderValueManager("fouthEnabled", model, color4Value);
 }
 
 export function useWorldColor(model) {
-  useShaderColorManager('colorEnv', model, 'background_basic')
+  useShaderColorManager("colorEnv", model, "background_basic");
 }
 
 export function useEmotionManager(model, name, morphsConfig) {
-  const morphsList = useEmotions(selectorMorphs)
+  const morphsList = useEmotions(selectorMorphs);
 
   function findValue(index) {
     return (
       morphsList[name] && morphsConfig && morphsConfig[morphsList[name][index]]
-    )
+    );
   }
 
-  useShaderValueManager('morph0', model, findValue(0), 0.01)
-  useShaderValueManager('morph1', model, findValue(1), 0.01)
-  useShaderValueManager('morph2', model, findValue(2), 0.01)
-  useShaderValueManager('morph3', model, findValue(3), 0.01)
-  useShaderValueManager('morph4', model, findValue(4), 0.01)
-  useShaderValueManager('morph5', model, findValue(5), 0.01)
-  useShaderValueManager('morph6', model, findValue(6), 0.01)
-  useShaderValueManager('morph7', model, findValue(7), 0.01)
-  useShaderValueManager('morph8', model, findValue(8), 0.01)
-  useShaderValueManager('morph9', model, findValue(9), 0.01)
+  useShaderValueManager("morph0", model, findValue(0), 0.01);
+  useShaderValueManager("morph1", model, findValue(1), 0.01);
+  useShaderValueManager("morph2", model, findValue(2), 0.01);
+  useShaderValueManager("morph3", model, findValue(3), 0.01);
+  useShaderValueManager("morph4", model, findValue(4), 0.01);
+  useShaderValueManager("morph5", model, findValue(5), 0.01);
+  useShaderValueManager("morph6", model, findValue(6), 0.01);
+  useShaderValueManager("morph7", model, findValue(7), 0.01);
+  useShaderValueManager("morph8", model, findValue(8), 0.01);
+  useShaderValueManager("morph9", model, findValue(9), 0.01);
 }
 
 export function useLight(model) {
-  const [light, camera] = useResources(selectorLignt, shallow)
+  const [light, camera] = useResources(selectorLignt, shallow);
 
   useEffect(() => {
-    const { uLightPos } = model.current.material.uniforms
+    const { uLightPos } = model.current.material.uniforms;
 
-    if (light.current) uLightPos.value = light.current.position
-  }, [light, model])
+    if (light.current) uLightPos.value = light.current.position;
+  }, [light, model]);
 
   useEffect(() => {
-    const { uCameraDir } = model.current.material.uniforms
+    const { uCameraDir } = model.current.material.uniforms;
 
-    if (camera) uCameraDir.value = camera
-  }, [camera, model])
+    if (camera) uCameraDir.value = camera;
+  }, [camera, model]);
 }
 
 export function usePositionManager(model, material) {
-  const properties = useEmotions(selectorFlexes)
+  const properties = useEmotions(selectorFlexes);
 
-  const { posX, posY, scale } = Materials[material]
+  const { posX, posY, scale } = Materials[material];
 
   useEffect(() => {
     if (posX && posY) {
-      const { material } = model.current
+      const { material } = model.current;
 
       material.uniforms.uPosition.value.set(
         -properties[posX] / 700,
         properties[posY] / 700
-      )
+      );
     }
-  }, [model, properties, posX, posY])
+  }, [model, properties, posX, posY]);
 
   useEffect(() => {
     if (scale) {
-      const { material } = model.current
+      const { material } = model.current;
 
-      material.uniforms.uScale.value = 1 / (properties[scale] / 100)
+      material.uniforms.uScale.value = 1 / (properties[scale] / 100);
     }
-  }, [model, properties, scale])
+  }, [model, properties, scale]);
 }
 
 export function useSkinningManager(model, skeleton) {
   useEffect(() => {
-    if (!model.current) return
+    if (!model.current) return;
 
-    const { material, bindMatrix, bindMatrixInverse } = model.current
+    const { material, bindMatrix, bindMatrixInverse } = model.current;
 
-    material.uniforms.bindMatrix.value = bindMatrix
-    material.uniforms.bindMatrixInverse.value = bindMatrixInverse
-  }, [model])
+    material.uniforms.bindMatrix.value = bindMatrix;
+    material.uniforms.bindMatrixInverse.value = bindMatrixInverse;
+  }, [model]);
 
   useEffect(() => {
-    if (skeleton.bones.length < 1 || !model.current) return
+    if (skeleton.bones.length < 1 || !model.current) return;
 
-    const { material } = model.current
+    const { material } = model.current;
 
-    material.uniforms.boneMatrices.value = skeleton.boneMatrices
-  }, [model, skeleton.boneMatrices, skeleton.bones.length])
+    material.uniforms.boneMatrices.value = skeleton.boneMatrices;
+  }, [model, skeleton.boneMatrices, skeleton.bones.length]);
 }

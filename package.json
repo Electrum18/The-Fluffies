@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "homepage": "https://github.com/Electrum18/The-Fluffies/",
-  "license": "MIT",
+  "license": "mit",
   "browserslist": [
     ">0.3%",
     "not ie 11",

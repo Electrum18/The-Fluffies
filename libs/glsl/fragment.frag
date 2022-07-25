@@ -46,7 +46,7 @@ void main() {
 
   float fresnel = pow(camera, 0.25);
 
-  gl_FragColor.z = max(gl_FragColor.z, 0.1);
+  gl_FragColor.z = max(gl_FragColor.z, 0.1f);
 
   if (length(light) == 1.0) {
     gl_FragColor.y *= 0.8; // S
@@ -56,9 +56,7 @@ void main() {
       gl_FragColor.z *= 1.5; // V
     }
   } else {
-    float power = 1.0 - gl_FragColor.y * 0.5;
-
-    gl_FragColor.y = gl_FragColor.y * (6.0 * power) + (0.2 * power); // S
+    gl_FragColor.y *= 2.0; // S
     gl_FragColor.z *= 0.8; // V
 
     if (fresnel > 0.93) {
@@ -68,5 +66,5 @@ void main() {
   }
 
   gl_FragColor.rgb = pow(hsv2rgb(gl_FragColor.xyz), vec3(0.4545));
-  gl_FragColor.rgb *= vec3(0.7) + hsv2rgb(colorEnv.xyz) * 0.3;
+  gl_FragColor.rgb *= vec3(0.7) + colorEnv.z * 0.3;
 }

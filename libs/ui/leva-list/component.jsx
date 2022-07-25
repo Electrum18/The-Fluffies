@@ -1,28 +1,28 @@
-import { Components, useInputContext } from 'leva/plugin'
-import React, { useState } from 'react'
+import { Components, useInputContext } from "leva/plugin";
+import React, { useState } from "react";
 
-import styles from '@/styles/editor.module.css'
+import styles from "@/styles/editor.module.css";
 
-const { Row } = Components
+const { Row } = Components;
 
 export function List() {
-  const { value } = useInputContext()
+  const { value } = useInputContext();
 
-  const [selected, setSelected] = useState(value.value)
+  const [selected, setSelected] = useState(value._value);
 
   return (
     <>
       <Row>
         <div className={styles.listPanel}>
-          {Object.keys(value.list).map(key => (
+          {Object.keys(value.list).map((key) => (
             <div
               key={key}
               className={
-                key === selected ? 'border-4 border-primary' : undefined
+                key === selected ? "border-4 border-primary" : undefined
               }
               onClick={() => {
-                value.change(key)
-                setSelected(key)
+                value.change(key);
+                setSelected(key);
               }}
             >
               {/*<img src={`/img/thumb/${value.src + key}.png`} alt={key} />*/}
@@ -31,5 +31,5 @@ export function List() {
         </div>
       </Row>
     </>
-  )
+  );
 }
