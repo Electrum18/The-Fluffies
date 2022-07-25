@@ -6,7 +6,6 @@ import Skeleton from './skeleton'
 export default function Player(props) {
   return (
     <group scale={0.1} dispose={null} {...props}>
-      <Skeleton />
       <Body />
       <Accessories />
       <Wings />
