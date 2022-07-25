@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import useEmotions from "@/helpers/emotions";
 import useParameters from "@/helpers/parameters";
+
 import { getSave } from "@/libs/saves";
 import { levaList } from "@/libs/ui/leva-list";
 
@@ -124,5 +125,5 @@ export default function Controls({ title, data }) {
     set(validValues);
   }, [validValues, set]);
 
-  return;
+  return null;
 }
