@@ -12,7 +12,6 @@ import MetaLinks from "@/components/metaLinks";
 import useMenu from "@/helpers/menu";
 
 import { useLocalStorageControl } from "@/hooks/controls";
-import useUserFetch from "@/hooks/user";
 
 import en from "@/locales/en/pages/editor";
 import ru from "@/locales/ru/pages/editor";
@@ -38,7 +37,6 @@ export default function () {
   }, []);
 
   useLocalStorageControl();
-  useUserFetch();
 
   return (
     <>

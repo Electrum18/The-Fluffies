@@ -65,7 +65,6 @@ export default function World() {
       <pointLight ref={pointLight} position={[-5, 5, 5]} intensity={1} />
 
       <Suspense fallback={null}>
-        <Player position={[0, -3, 0]} />
         <Preload all />
       </Suspense>
     </Canvas>

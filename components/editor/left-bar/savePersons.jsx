@@ -7,7 +7,7 @@ import ListButtons from '@/components/elements/listButtons'
 import ListDropdown from '@/components/elements/listDropdown'
 import useMenu from '@/helpers/menu'
 import useParameters from '@/helpers/parameters'
-import { useProfileSavesUpdate, useValidSaveStore } from '@/hooks/user'
+import { useValidSaveStore } from '@/hooks/user'
 import en from '@/locales/en/pages/editor/left-bar/savePersons'
 import ru from '@/locales/ru/pages/editor/left-bar/savePersons'
 import stylesElems from '@/styles/elements.module.css'
@@ -31,7 +31,6 @@ const selectorAllSaves = state => [
 ]
 
 const selectorPageControl = state => [state.page, state.closePages]
-//const selectorUser = state => state.user
 
 function Icon({ className, onClick }) {
   return (
@@ -60,9 +59,6 @@ export default function SavePersonSection() {
   ] = useParameters(selectorAllSaves, shallow)
 
   useValidSaveStore(saves, slot, profileSlot, isProfile)
-  useProfileSavesUpdate(profileSaves)
-
-  //const user = useUser(selectorUser)
 
   const currentSaves = profileSaves && isProfile ? profileSaves : saves
   const currentSlot = profileSlot && isProfile ? profileSlot : slot
