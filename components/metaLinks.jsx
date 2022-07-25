@@ -1,26 +1,24 @@
-import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Head from "next/head";
+import { useRouter } from "next/router";
 
-const url = 'https://the-fluffies.net'
-const author = 'Electrum18'
-const twitterAuthor = '@TFluffies'
+const url = "https://the-fluffies.vercel.app";
+const author = "Electrum18";
+const twitterAuthor = "@TFluffies";
 
-const theme = '#444444'
+const theme = "#444444";
 
-const image = '/img/announcement.png'
+const image = "/img/announcement.png";
 
 export default function SiteHead({ t }) {
-  const router = useRouter()
-  const { route, locale } = router
+  const router = useRouter();
+  const { route, locale } = router;
 
-  const routeFixed = route !== '/' ? route : ''
-  const exludedRotes = route === '/termsofservice' || route === '/privacypolicy'
-
+  const routeFixed = route !== "/" ? route : "";
   const keywords =
-    'The Fluffies,My Little Pony,Pony,' +
-    (locale === 'ru'
-      ? 'Пони,Пони Креатор,Пони Редактор,Май Литл Пони'
-      : 'Pony Creator,Pony Editor,Online Editor')
+    "The Fluffies,My Little Pony,Pony," +
+    (locale === "ru"
+      ? "Пони,Пони Креатор,Пони Редактор,Май Литл Пони"
+      : "Pony Creator,Pony Editor,Online Editor");
 
   return (
     <Head>
@@ -44,7 +42,7 @@ export default function SiteHead({ t }) {
       */}
       <meta name="og:title" content={t.meta.title} />
       <meta name="og:type" content="site" />
-      <meta name="og:url" content={url + '/'} />
+      <meta name="og:url" content={url + "/"} />
       <meta name="og:image" content={image} />
       <meta name="og:site_name" content={t.meta.title} />
       <meta name="og:description" content={t.meta.description} />
@@ -114,20 +112,15 @@ export default function SiteHead({ t }) {
       <meta name="twitter:creator" content={twitterAuthor} />
       <meta name="twitter:image" content={image} />
 
-      {/* Analytics verification Meta Tags */}
-      <meta name="yandex-verification" content="18a53c7543c3229e" />
-
       {/* Internationalization Meta Tags */}
-      <link rel="alternate" hrefLang="ru" href={url + '/ru' + routeFixed} />
+      <link rel="alternate" hrefLang="ru" href={url + "/ru" + routeFixed} />
       <link rel="alternate" hrefLang="en" href={url + route} />
       <link rel="alternate" hrefLang="x-default" href={url + route} />
 
       <link
         rel="cannonical"
-        href={
-          url + (locale === 'ru' && !exludedRotes ? '/ru' : '') + routeFixed
-        }
+        href={url + (locale === "ru" ? "/ru" : "") + routeFixed}
       />
     </Head>
-  )
+  );
 }

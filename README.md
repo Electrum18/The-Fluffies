@@ -3,7 +3,7 @@
 </a>
 
 <p align="center">
-  <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20By--NC--ND%20v4.0-yellow.svg" alt="License: CC By-NC-ND v4.0"></a>
+  <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
   <a href="https://github.com/Electrum18/The-Fluffies/commits/master"><img src="https://img.shields.io/github/last-commit/Electrum18/The-Fluffies.svg" alt="Commits"></a>
   <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg" alt="Repo size">
 </p>
@@ -79,6 +79,4 @@ When creating and publishing, copyright is respected, which consists in assignin
 
 ## License
 
-**[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
-
-Additional information can be found here: http://creativecommons.org/licenses/by-nc-nd/4.0/
+**[MIT](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**

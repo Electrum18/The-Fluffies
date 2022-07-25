@@ -1,36 +1,28 @@
-const withPlugins = require('next-compose-plugins')
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true'
-})
-
-const withPWA = require('next-pwa')
+const withPlugins = require("next-compose-plugins");
+const withPWA = require("next-pwa");
 
 const nextConfig = {
   i18n: {
-    locales: ['en', 'ru'],
-    defaultLocale: 'en'
+    locales: ["en", "ru"],
+    defaultLocale: "en",
   },
 
-  webpack(config, { webpack, isServer }) {
+  webpack(config, { webpack }) {
     config.plugins.push(
       new webpack.ProvidePlugin({
-        React: 'react'
+        React: "react",
       })
-    )
+    );
 
     config.module.rules.push({
       test: /\.(glsl|vs|fs|vert|frag)$/,
       exclude: /node_modules/,
-      use: ['raw-loader']
-    })
+      use: ["raw-loader"],
+    });
 
-    if (isServer) {
-      require('./scripts/sitemap')
-    }
-
-    return config
-  }
-}
+    return config;
+  },
+};
 
 module.exports = withPlugins(
   [
@@ -38,19 +30,18 @@ module.exports = withPlugins(
       withPWA,
       {
         pwa: {
-          dest: 'public',
-          disable: process.env.NODE_ENV === 'development',
+          dest: "public",
+          disable: process.env.NODE_ENV === "development",
           publicExcludes: [
-            '!img/**/*',
-            '!icons/**/*',
-            '!models/**/*',
-            '!draco-gltf/**/*'
+            "!img/**/*",
+            "!icons/**/*",
+            "!models/**/*",
+            "!draco-gltf/**/*",
           ],
-          buildExcludes: [/chunks\/.*.js$/]
-        }
-      }
+          buildExcludes: [/chunks\/.*.js$/],
+        },
+      },
     ],
-    withBundleAnalyzer
   ],
   nextConfig
-)
+);

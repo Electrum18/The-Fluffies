@@ -1,9 +1,0 @@
-build/*
-dist/*
-public/*
-.next/*
-node_modules/*
-.log
-package.json
-.eslintrc.js
-babel.config.js
