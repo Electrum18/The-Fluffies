@@ -1,112 +1,120 @@
-<template lang="pug">
-  v-bottom-sheet(v-model="opened" inset hide-overlay)
-    v-sheet.text-center(dark)
-      v-container
-        v-row
-          v-col(cols="6" sm="6" md="3" lg="3" xl="3")
-            v-slider(
+<template>
+  <v-bottom-sheet v-model="opened" inset="inset" hide-overlay="hide-overlay">
+    <v-sheet class="text-center" dark="dark">
+      <v-container>
+        <v-row>
+          <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-slider
               v-model="horiz"
               color="primary"
-              hide-details
-              min=-100
-              max=100
-              thumb-label
+              hide-details="hide-details"
+              min="-100"
+              max="100"
+              thumb-label="thumb-label"
               :thumb-size="24"
               :label="$t('editor.position.horizontal')"
-            )
+            ></v-slider>
+          </v-col>
 
-          v-col(cols="6" sm="6" md="3" lg="3" xl="3")
-            v-slider(
+          <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-slider
               v-model="verti"
               color="primary"
-              hide-details
-              min=-100
-              max=100
-              thumb-label
+              hide-details="hide-details"
+              min="-100"
+              max="100"
+              thumb-label="thumb-label"
               :thumb-size="24"
               :label="$t('editor.position.vertical')"
-            )
+            ></v-slider>
+          </v-col>
 
-          v-col(cols="6" sm="6" md="3" lg="3" xl="3")
-            v-slider(
+          <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-slider
               v-model="scale"
               color="primary"
-              hide-details
-              min=0.5
-              max=2
-              step=0.1
-              thumb-label
+              hide-details="hide-details"
+              min="0.5"
+              max="2"
+              step="0.1"
+              thumb-label="thumb-label"
               :thumb-size="24"
               :label="$t('editor.position.scale')"
-            )
+            ></v-slider>
+          </v-col>
 
-          v-col(cols="6" sm="6" md="3" lg="3" xl="3")
-            v-slider(
+          <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-slider
               v-model="angle"
               color="primary"
-              hide-details
-              min=-180
-              max=180
-              thumb-label
+              hide-details="hide-details"
+              min="-180"
+              max="180"
+              thumb-label="thumb-label"
               :thumb-size="24"
               :label="$t('editor.position.angle')"
-            )
+            ></v-slider>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-sheet>
+  </v-bottom-sheet>
 </template>
 
 <script>
-import { computed, reactive, toRefs } from '@vue/composition-api'
+import { computed, reactive, toRefs } from "@vue/composition-api";
 
 export default {
   props: {
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   setup(props, { root: { $store } }) {
-    const { getters, commit } = $store
+    const { getters, commit } = $store;
 
     const opened = computed({
       get: () => props.open,
-      set: () => commit('interface/setPage', false)
-    })
+      set: () => commit("interface/setPage", false),
+    });
 
     const store = reactive({
-      globals: computed(() => getters['avatar/getGlobal'])
-    })
+      globals: computed(() => getters["avatar/getGlobal"]),
+    });
 
     const horiz = computed({
-      get: () => getters['avatar/getPosHoriz'],
+      get: () => getters["avatar/getPosHoriz"],
       set: (val) => {
-        commit('avatar/setPosHoriz', val)
-        commit('avatar/setProper', { path: 'position_horizontal', value: val })
-      }
-    })
+        commit("avatar/setPosHoriz", val);
+        commit("avatar/setProper", { path: "position_horizontal", value: val });
+      },
+    });
 
     const verti = computed({
-      get: () => getters['avatar/getPosVerti'],
+      get: () => getters["avatar/getPosVerti"],
       set: (val) => {
-        commit('avatar/setPosVerti', val)
-        commit('avatar/setProper', { path: 'position_vertical', value: val })
-      }
-    })
+        commit("avatar/setPosVerti", val);
+        commit("avatar/setProper", { path: "position_vertical", value: val });
+      },
+    });
 
     const scale = computed({
-      get: () => getters['avatar/getPosScale'],
+      get: () => getters["avatar/getPosScale"],
       set: (val) => {
-        commit('avatar/setPosScale', val)
-        commit('avatar/setProper', { path: 'position_scale', value: val })
-      }
-    })
+        commit("avatar/setPosScale", val);
+        commit("avatar/setProper", { path: "position_scale", value: val });
+      },
+    });
 
     const angle = computed({
-      get: () => getters['avatar/getPosAngle'],
+      get: () => getters["avatar/getPosAngle"],
       set: (val) => {
-        commit('avatar/setPosAngle', val)
-        commit('avatar/setProper', { path: 'position_angle', value: val })
-      }
-    })
+        commit("avatar/setPosAngle", val);
+        commit("avatar/setProper", { path: "position_angle", value: val });
+      },
+    });
 
     return {
       ...toRefs(store),
@@ -116,8 +124,8 @@ export default {
       horiz,
       verti,
       scale,
-      angle
-    }
-  }
-}
+      angle,
+    };
+  },
+};
 </script>

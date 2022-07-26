@@ -1,9 +1,9 @@
-import defaultValues from '~/assets/ts/defaults'
-import defaultFrames from '~/assets/ts/defaultFrames'
-import expressions from '~/assets/json/configs/expressions.json'
+import defaultValues from "~/assets/ts/defaults";
+import defaultFrames from "~/assets/ts/defaultFrames";
+import expressions from "~/assets/json/configs/expressions.json";
 
 function cloneObject(object) {
-  return JSON.parse(JSON.stringify(object))
+  return JSON.parse(JSON.stringify(object));
 }
 
 export const state = () => ({
@@ -21,7 +21,7 @@ export const state = () => ({
     vertical: 0,
     horizontal: 0,
     scale: 1,
-    angle: 0
+    angle: 0,
   },
 
   hairsList: [],
@@ -33,8 +33,8 @@ export const state = () => ({
   animationSavesSlot: 0,
 
   defaultFrames,
-  default: defaultValues // Default constant params
-})
+  default: defaultValues, // Default constant params
+});
 
 export const getters = {
   getAngle: ({ angle }) => angle,
@@ -61,8 +61,8 @@ export const getters = {
   getHairsList: ({ hairsList }) => hairsList,
   getTailsList: ({ tailsList }) => tailsList,
 
-  getAnimationSavesSlot: ({ animationSavesSlot }) => animationSavesSlot
-}
+  getAnimationSavesSlot: ({ animationSavesSlot }) => animationSavesSlot,
+};
 
 export const mutations = {
   setAngle: (state, angle) => (state.angle = angle),
@@ -91,22 +91,22 @@ export const mutations = {
         position_scale: 1,
         position_angle: 0,
 
-        ...cloneObject(frames[index - 1].frame)
-      }
-    })
+        ...cloneObject(frames[index - 1].frame),
+      },
+    });
   },
 
   addFrameFromLetter: ({ frames }, [index, letter]) => {
-    const frame = cloneObject(frames[index - 1].frame)
-    const expression = expressions[letter]
+    const frame = cloneObject(frames[index - 1].frame);
+    const expression = expressions[letter];
 
-    frame.jaw_open = expression.jaw_open
-    frame.jaw_sad = expression.jaw_sad
+    frame.jaw_open = expression.jaw_open;
+    frame.jaw_sad = expression.jaw_sad;
 
-    frame.tongue_raised = expression.tongue_raised
+    frame.tongue_raised = expression.tongue_raised;
 
-    frame.teeth_upper = expression.teeth_upper
-    frame.teeth_lower = expression.teeth_lower
+    frame.teeth_upper = expression.teeth_upper;
+    frame.teeth_lower = expression.teeth_lower;
 
     frames.splice(index, 0, {
       duration: 0.3,
@@ -120,56 +120,58 @@ export const mutations = {
         position_scale: 1,
         position_angle: 0,
 
-        ...frame
-      }
-    })
+        ...frame,
+      },
+    });
   },
 
   setFrames: (state, { frames }) => {
-    state.frames = frames
-    state.frame = 0
+    state.frames = frames;
+    state.frame = 0;
   },
 
   deleteFrame: (state, index) => {
-    const { frames, frame } = state
+    const { frames, frame } = state;
 
-    frames.splice(index, 1)
+    frames.splice(index, 1);
 
-    if (frame > frames.length - 1) state.frame = frames.length - 1
+    if (frame > frames.length - 1) state.frame = frames.length - 1;
   },
 
-  setFrameDur: ({ frames }, [index, length]) => (frames[index].duration = length),
-  setProper: ({ frames, frame }, { path, value }) => (frames[frame].frame[path] = value),
+  setFrameDur: ({ frames }, [index, length]) =>
+    (frames[index].duration = length),
+  setProper: ({ frames, frame }, { path, value }) =>
+    (frames[frame].frame[path] = value),
   setSaveIndex: (state, index) => (state.saveIndex = index),
 
   setGlobal({ globals, color }, { path, value }) {
-    globals[path] = value
+    globals[path] = value;
 
     if (!globals.eyes_right_enable) {
-      color.eyes_right_basic = color.eyes_left_basic
+      color.eyes_right_basic = color.eyes_left_basic;
     }
   },
 
   setColor({ color, globals }, { path, value }) {
-    color[path] = value
+    color[path] = value;
 
     if (!globals.eyes_right_enable) {
-      color.eyes_right_basic = color.eyes_left_basic
+      color.eyes_right_basic = color.eyes_left_basic;
     }
   },
 
   setAllGlobals: (state, globals) => (state.globals = globals),
   setAllColors: (state, color) => {
-    state.color = color
+    state.color = color;
 
     if (!state.globals.eyes_right_enable) {
-      state.color.eyes_right_basic = state.color.eyes_left_basic
+      state.color.eyes_right_basic = state.color.eyes_left_basic;
     }
   },
 
   setHairsList: ({ hairsList }, string) => {
     if (!hairsList.includes(string)) {
-      hairsList.push(string)
+      hairsList.push(string);
     }
   },
 
@@ -177,18 +179,18 @@ export const mutations = {
 
   setTailsList: ({ tailsList }, string) => {
     if (!tailsList.includes(string)) {
-      tailsList.push(string)
+      tailsList.push(string);
     }
   },
 
   setAllTailsList: (state, array) => (state.tailsList = array),
 
-  setAnimationSavesSlot: (state, slot) => (state.animationSavesSlot = slot)
-}
+  setAnimationSavesSlot: (state, slot) => (state.animationSavesSlot = slot),
+};
 
 export const actions = {
   setAvatar({ commit }, { globals, color }) {
-    commit('setAllGlobals', globals)
-    commit('setAllColors', color)
-  }
-}
+    commit("setAllGlobals", globals);
+    commit("setAllColors", color);
+  },
+};

@@ -1,67 +1,74 @@
-<template lang="pug">
-  v-card(outlined :disabled="enable").my-2
-    v-row
-      div.body-1.py-2(style="margin-left: 24px!important") {{ text }}
-      v-spacer
-      v-switch.mx-4.my-1(
+<template>
+  <v-card class="my-2" outlined="outlined" :disabled="enable">
+    <v-row>
+      <div class="body-2 py-5" style="margin-left: 24px !important">
+        {{ text }}
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-switch
+        class="mx-4 my-3.5"
         v-model="check"
         color="primary"
-        hide-details
-      )
+        hide-details="hide-details"
+      ></v-switch>
+    </v-row>
+  </v-card>
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { computed } from "@vue/composition-api";
 
 export default {
   props: {
     text: {
       type: String,
-      default: '',
-      required: true
+      default: "",
+      required: true,
     },
 
     val: {
       type: String,
-      default: '',
-      required: true
+      default: "",
+      required: true,
     },
 
     off: {
       type: String,
-      default: undefined
+      default: undefined,
     },
 
     global: {
       type: [Boolean, undefined],
-      default: undefined
-    }
+      default: undefined,
+    },
   },
 
   setup({ val, off }, { root: { $store } }) {
-    const globals = computed(() => $store.getters['avatar/getGlobal'])
+    const globals = computed(() => $store.getters["avatar/getGlobal"]);
 
     const check = computed({
       get: () => globals.value[val],
       set(value) {
-        const slot = +localStorage.getItem('slot')
-        const save = JSON.parse(localStorage.getItem('avatars'))
+        const slot = +localStorage.getItem("slot");
+        const save = JSON.parse(localStorage.getItem("avatars"));
 
-        const { globals } = save[slot]
+        const { globals } = save[slot];
 
-        $store.commit('avatar/setGlobal', { path: val, value })
+        $store.commit("avatar/setGlobal", { path: val, value });
 
-        globals[val] = value
+        globals[val] = value;
 
-        localStorage.setItem('avatars', JSON.stringify(save))
-      }
-    })
+        localStorage.setItem("avatars", JSON.stringify(save));
+      },
+    });
 
     return {
       enable: computed(() => (off ? !globals.value[off] : false)),
 
-      check
-    }
-  }
-}
+      check,
+    };
+  },
+};
 </script>

@@ -1,11 +1,9 @@
 import * as PIXI from 'pixi.js'
 
 import RGBShiftFragmentShader from '~/assets/json/shaders/fragment/filters/rgb-shift.json'
-import FastBlurFragmentShader from '~/assets/json/shaders/fragment/filters/fast-blur.json'
 import VignetteFragmentShader from '~/assets/json/shaders/fragment/filters/vignette.json'
 
-const RGB_SHIFT_AMOUNT = 0.25
-const BLUR_AMOUNT = 0.002
+const RGB_SHIFT_AMOUNT = 0.2
 const VIGNETTE_OPACITY = 0.1
 
 const {
@@ -23,7 +21,6 @@ export function applyFilters() {
   return [
     new FXAAFilter(),
     createFilter(RGBShiftFragmentShader, RGB_SHIFT_AMOUNT),
-    createFilter(FastBlurFragmentShader, BLUR_AMOUNT),
     createFilter(VignetteFragmentShader, VIGNETTE_OPACITY)
   ]
 }

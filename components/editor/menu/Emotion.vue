@@ -1,68 +1,76 @@
-<template lang="pug">
-  v-expansion-panel
-    v-expansion-panel-header.title {{ $t('editor.menu.emotion.title') }}
-    v-expansion-panel-content
-      .py-2
+<template>
+  <v-expansion-panel>
+    <v-expansion-panel-header class="title">
+      {{ $t("editor.menu.emotion.title") }}
+    </v-expansion-panel-header>
 
-      p.subtitle-2 {{ $t('editor.menu.emotion.mouth') }}
+    <v-expansion-panel-content>
+      <div class="py-2"></div>
 
-      v-card(outlined).my-2
-        BarSlider(
+      <p class="subtitle-2">{{ $t("editor.menu.emotion.mouth") }}</p>
+
+      <v-card class="my-2" outlined="outlined">
+        <BarSlider
           :text="$t('editor.menu.emotion.open')"
           val="jaw_open"
-          max=100
-          min=0
-        )
+          max="100"
+          min="0"
+        ></BarSlider>
 
-        v-divider
+        <v-divider></v-divider>
 
-        BarSlider(
+        <BarSlider
           :text="$t('editor.menu.emotion.sad')"
           val="jaw_sad"
-          max=100
-          min=0
-        )
+          max="100"
+          min="0"
+        ></BarSlider>
+      </v-card>
 
-      v-divider.my-4
+      <v-divider class="my-4"></v-divider>
 
-      p.subtitle-2 {{ $t('editor.menu.emotion.tongue') }}
+      <p class="subtitle-2">{{ $t("editor.menu.emotion.tongue") }}</p>
 
-      v-card(outlined).my-2
-        BarSlider(
+      <v-card class="my-2" outlined="outlined">
+        <BarSlider
           :text="$t('editor.menu.emotion.raise')"
           val="tongue_raised"
-          max=100
-          min=0
-        )
+          max="100"
+          min="0"
+        ></BarSlider>
+      </v-card>
 
-      v-divider.my-4
+      <v-divider class="my-4"></v-divider>
 
-      p.subtitle-2 {{ $t('editor.menu.emotion.teeth') }}
+      <p class="subtitle-2">{{ $t("editor.menu.emotion.teeth") }}</p>
 
-      v-card(outlined).my-2
-        BarSlider(
+      <v-card class="my-2" outlined="outlined">
+        <BarSlider
           :text="$t('editor.menu.emotion.upper')"
           val="teeth_upper"
-          max=100
-          min=0
-        )
+          max="100"
+          min="0"
+        ></BarSlider>
 
-        v-divider
+        <v-divider></v-divider>
 
-        BarSlider(
+        <BarSlider
           :text="$t('editor.menu.emotion.lower')"
           val="teeth_lower"
-          max=100
-          min=0
-        )
+          max="100"
+          min="0"
+        ></BarSlider>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 
 <script>
-import BarSlider from '../BarSliders'
+import BarSlider from "../BarSliders";
 
 export default {
   components: {
-    BarSlider
-  }
-}
+    BarSlider,
+  },
+};
 </script>

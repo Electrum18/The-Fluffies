@@ -1,43 +1,45 @@
-<template lang="pug">
-  v-expansion-panel
-    v-expansion-panel-header.title {{ $t('editor.menu.mouth.title') }}
-    v-expansion-panel-content
-      BarSwitch(
-        :text="$t('editor.menu.mouth.fangs')"
-        val="fangs"
-      )
+<template>
+  <v-expansion-panel>
+    <v-expansion-panel-header class="title">
+      {{ $t("editor.menu.mouth.title") }}
+    </v-expansion-panel-header>
 
-      v-divider.my-4
+    <v-expansion-panel-content>
+      <BarSwitch :text="$t('editor.menu.mouth.fangs')" val="fangs"></BarSwitch>
 
-      p.subtitle-2 {{ $t('editor.menu.emotion.teeth') }}
+      <v-divider class="my-4"></v-divider>
 
-      BarSwitch(
+      <p class="subtitle-2">{{ $t("editor.menu.emotion.teeth") }}</p>
+
+      <BarSwitch
         :text="$t('editor.menu.mouth.sharp')"
         val="sharp_teeth"
-      )
+      ></BarSwitch>
 
-      v-divider.my-4
+      <v-divider class="my-4"></v-divider>
 
-      BarColor(
+      <BarColor
         :text="$t('editor.menu.mouth.mouth')"
         val="jaw_basic"
-      )
+      ></BarColor>
 
-      BarColor(
+      <BarColor
         :text="$t('editor.menu.mouth.tongue')"
         val="tongue_basic"
         :shade="9 / 10"
-      )
+      ></BarColor>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 
 <script>
-import BarSwitch from '../BarSwitches'
-import BarColor from '../BarColors'
+import BarSwitch from "../BarSwitches";
+import BarColor from "../BarColors";
 
 export default {
   components: {
     BarSwitch,
-    BarColor
-  }
-}
+    BarColor,
+  },
+};
 </script>

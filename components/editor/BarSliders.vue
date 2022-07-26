@@ -1,116 +1,128 @@
-<template lang="pug">
-  v-col
-    v-row
-      div.body-2.pl-3 {{ text }}
+<template>
+  <v-col>
+    <v-row class="mt-0">
+      <div class="body-2 pl-3">{{ text }}</div>
+      <v-spacer></v-spacer>
 
-      v-spacer
+      <v-btn
+        icon="icon"
+        x-small="x-small"
+        @click="modelValue = defaultVal.propers[val]"
+      >
+        <v-icon>{{ icons.mdiRestore }}</v-icon>
+      </v-btn>
+      
+      <div class="body-2 mx-2 px-1 value primary">{{ modelValue }}</div>
+    </v-row>
 
-      v-btn(icon x-small @click="modelValue = defaultVal.propers[val]")
-        v-icon {{ icons.mdiRestore }}
-
-      div.body-2.mx-2.px-1.value.primary {{ modelValue }}
-
-    v-row
-      v-slider.inputs2.mx-1.my-0(
+    <v-row>
+      <v-slider
+        class="inputs2 mx-1 my-0"
         v-model="modelValue"
         color="primary"
-        hide-details=true
+        hide-details="hide-details"
         :max="max"
         :min="min"
-      )
+      ></v-slider>
 
-      v-tooltip(top)
-        template(v-slot:activator="{ on }")
-          v-icon(color="primary" small v-on="on").mr-2.my-2 {{ icons.mdiAnimation }}
+      <v-tooltip top="top">
+        <template v-slot:activator="{ on }">
+          <v-icon class="mr-2 my-2" color="primary" small="small" v-on="on">{{
+            icons.mdiAnimation
+          }}</v-icon>
+        </template>
 
-        span {{ $t('editor.menu.animated') }}
+        <span>{{ $t("editor.menu.animated") }}</span>
+      </v-tooltip>
+    </v-row>
+  </v-col>
 </template>
 
 <script>
-import { computed, reactive } from '@vue/composition-api'
+import { computed, reactive } from "@vue/composition-api";
 
-import { mdiAnimation, mdiRestore } from '@mdi/js'
+import { mdiAnimation, mdiRestore } from "@mdi/js";
 
 export default {
   props: {
     text: {
       type: String,
-      default: '',
-      required: true
+      default: "",
+      required: true,
     },
 
     val: {
       type: String,
-      default: '',
-      required: true
+      default: "",
+      required: true,
     },
 
     min: {
       type: String,
-      default: '0'
+      default: "0",
     },
 
     max: {
       type: String,
-      default: '100'
+      default: "100",
     },
 
     compare: {
       type: String,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
 
   setup({ val, compare }, { root: { $store } }) {
-    const { getters, commit } = $store
+    const { getters, commit } = $store;
 
     const icons = reactive({
       mdiAnimation,
-      mdiRestore
-    })
+      mdiRestore,
+    });
 
-    const defaultVal = computed(() => getters['avatar/getDefault'])
-    const getting = computed(() => getters['avatar/getProper'])
-    const getFrame = computed(() => getters['avatar/getFrame'])
+    const defaultVal = computed(() => getters["avatar/getDefault"]);
+    const getting = computed(() => getters["avatar/getProper"]);
+    const getFrame = computed(() => getters["avatar/getFrame"]);
 
     const modelValue = computed({
       get: () => getting.value[val],
       set(value) {
-        commit('avatar/setProper', { path: val, value })
-        commit('interface/setPlayChangedFrame')
+        commit("avatar/setProper", { path: val, value });
+        commit("interface/setPlayChangedFrame");
 
-        const slot = +localStorage.getItem('animationSlot')
-        const animations = JSON.parse(localStorage.getItem('animations'))
+        const animations = JSON.parse(localStorage.getItem("animations"));
 
-        const frame = animations[slot].frames[getFrame.value].frame
+        const frame = animations[0].frames[getFrame.value].frame;
 
-        frame[val] = value
+        frame[val] = value;
 
         if (compare && 100 - getting.value[compare] <= value) {
-          commit('avatar/setProper', {
+          commit("avatar/setProper", {
             path: compare,
-            value: 100 - value
-          })
+            value: 100 - value,
+          });
 
-          frame[compare] = 100 - value
+          frame[compare] = 100 - value;
         }
 
-        localStorage.setItem('animations', JSON.stringify(animations))
-      }
-    })
+        localStorage.setItem("animations", JSON.stringify(animations));
+      },
+    });
 
     return {
       icons,
       getting,
       modelValue,
-      defaultVal
-    }
-  }
-}
+      defaultVal,
+    };
+  },
+};
 </script>
 
-<style lang="sass">
-.value
-  user-select: none
-  border-radius: 4px
+<style>
+.value {
+  user-select: none;
+  border-radius: 4px;
+}
 </style>

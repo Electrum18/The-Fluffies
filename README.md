@@ -1,74 +1,72 @@
-<a href="https://the-fluffies.net" target="_blank" rel="noopener noreferrer"><img width="882" src="https://raw.githubusercontent.com/Electrum18/The-Fluffies/master/assets/img/announcement.png" alt="The Fluffies logo"></a>
+<a href="https://the-fluffies-2D.vercel.app" target="_blank" alt="The Fluffies website" rel="noopener noreferrer">
+  <img width="882" src="https://raw.githubusercontent.com/Electrum18/The-Fluffies/2D/assets/img/announcement.png" alt="The Fluffies logo">
+</a>
 
 <p align="center">
-  <a href="https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20By--NC--ND%20v4.0-yellow.svg" alt="License: CC By-NC-ND v4.0"></a>
-  <a href="https://github.com/Electrum18/The-Fluffies/commits/master"><img src="https://img.shields.io/github/last-commit/Electrum18/The-Fluffies.svg" alt="Commits"></a>
+  <a href="https://github.com/Electrum18/The-Fluffies/blob/2D/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
+  <a href="https://github.com/Electrum18/The-Fluffies/commits/2D"><img src="https://img.shields.io/github/last-commit/Electrum18/The-Fluffies.svg" alt="Commits"></a>
   <img src="https://img.shields.io/github/repo-size/Electrum18/The-Fluffies.svg" alt="Repo size">
 </p>
 
-<h2 align="center">Welcome to: The Fluffies! <img width="30" src="https://files.everypony.ru/smiles/09/de/61c292.png" alt="Smiling Fluttershy"></h2>
+# The Fluffies - editor about ponies
 
-[The Fluffies](https://the-fluffies.net/) - this is an interactive web project - editor, based on the transformation of vector graphics and the power of web technologies.
+<h2 align="center">This is the 2D version of project</h2>
 
 ## About
-Make your own furry-cartoon creation with that service like vector image (`MLP:FIM - Ponies, in this time`).
+
+[The Fluffies](https://the-fluffies-2D.vercel.app/) - This is a pony editor for creating your character and animating it in cartoon 3D graphics.
+
+Here the source code of the website is stored in open source format, anyone can change the source code in compliance with the license. Any type of mentioning and improving the resources of the website is also allowed.
+
+<p align="center">
+<img width="30" src="https://files.everypony.ru/smiles/09/de/61c292.png" alt="Smiling Fluttershy">
+</p>
+
+<h2 style="color: #f04; text-align: center"> Attention! Project is supported now only with the help of fans </h2>
+
+**Website versions: [Full website version (not working)](https://the-fluffies.vercel.app/) - [The Fluffies 2D (grapefruit)](https://the-fluffies-2D.vercel.app/) - [The Fluffies 3D (huckleberry)](https://the-fluffies-3D.vercel.app/)**
+
+There is no guarantee that this domain will work, you can always make a locally launched project or we recommend starting the project from a repository fork on a free Vercel hosting
+
+### Running a repository fork with free Vercel hosting
+
+This method is the safest and fastest, but you can use other services and hosting.
+
+To launch a website on Vercel, you need to follow these steps:
+
+1. Have a registered Github account
+2. Fork this repository
+3. Create a Vercel account by logging into it using Github
+4. Create a new Vercel website and with choosing a fork from Github
+5. Confirm all the website creation requirements (you can change the domain at this stage)
+6. You will be shown the `domain of your local website` fork, you can access it from any device
 
 ### Open source web project in the development of which everyone can take part
 
-Created in the summer of 2018 with the idea of ​​using vector animation right on the site and making it accessible to all by the editor.
+Our goal is to create a awesome cartoon pony character creation website with animations, no analogues at the moment, we are always developing the website for its novelty and coolness.
 
-If you are interested in drawing, programming and other activities, tell me, Electrum18, `I don’t have enough time to develop alone`.
+We are part of a brony fandom with a desire to do something cool for the whole world. We will also be glad for your help and attention to this project, the project has difficulties with this.
 
-The project is based on the `Nuxt.js framework` (made from `Vue.js` and `Webpack`) in `Statically Generated mode`.
+Created in the summer of 2018 with the idea of ​​using animation right on the site and making it accessible to all by the editor, if you are interested in drawing, programming and other activities, tell me, [Electrum18](https://github.com/Electrum18).
 
-A website is a `Single Page Application` (`SPA`), and also a `Progressive Web Application` (`PWA`).
+The project 2D version is based on the `Nuxt.js` framework.
 
-`Vuetify` was used to write the interface.
+Optimized for `use on phones`.
 
-The project supports `web sockets` (`socket.io`) for real-time elements.
+### Programmers
 
-Optimized for `use on phones` and in `non-network mode`.
+The project is publicly available on Github, but with a Creative Commons license, allowing you to modify and improve the code with your help, we only allow you to modify the original repository without creating servers.
 
-### In future plans
-- Adding `premium` features via donation
-- Adding `gryphons` and `kirin` races
+### Copyright
 
-## Support us
-
-### How to draw
-- Frames use vector format (SVG), you need to take the coordinates of the shape from the file they are located at (digital sequence of text).
-
-- All parts of the "avatar" are divided into frames, on average they are 3, 5, 7 horizontal frames (there are no vertical ones).
-
-- In order for animation to work properly, it is necessary for points to be in right order, with the same quantity in frames, it is easy to observe if copied from the previous frame, afterwards providing changes for new one.
-[How SVG Shape Morphing Works](https://css-tricks.com/svg-shape-morphing-works/)
-[SVG Morphing (the easy way and the hard way)](https://codeburst.io/svg-morphing-the-easy-way-and-the-hard-way-c117a620b65f).
-
-### Issues
-- Character is drawn for a long time.
-
-### Adding to the project
-If you have ideas or want to add hairstyles or something else to the project, let us know and your proposal will be considered.
-
-Use that email to send: `thefluffiessite@gmail.com`
+When creating and publishing, copyright is respected, which consists in assigning content to the author, so that at any time, if the author wishes, this content can be removed during the next update, as well as, if possible, the author of the content is indicated.
 
 ## Developers
 
-- Electrum18 `Creator of the site, idea, coder` [GitHub](https://github.com/Electrum18)
+- Electrum18 `Project author, programmer` [GitHub](https://github.com/Electrum18)
+- LightingZap `For always being there 💜`
 - These are all developers, you can be one of them
 
-### Special thanks to
-
-- `LightningZap` for hosting and motivation
-- `Jankie` for creating colored mane ends
-- `FreddyDan12` for donations to Patreon
-- `Redy` for graphic type ideas
-- `Train Drive` for many ideas of a graphic type
-- `EAlex` for graphic type ideas
-- `SweetMouse` for testing and lots of ideas
-- `The_Milkyz` for lots of ideas and drawing assistance
-
 ## License
-**[CC BY-NC-ND 4.0](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
 
-Additional information can be found here: http://creativecommons.org/licenses/by-nc-nd/4.0/
+The project is under license: **[MIT](https://github.com/Electrum18/The-Fluffies/blob/2D/LICENSE)**
