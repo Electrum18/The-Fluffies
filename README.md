@@ -69,9 +69,6 @@ When creating and publishing, copyright is respected, which consists in assignin
 ## Developers
 
 - Electrum18 `Project author, programmer, DevOps` [GitHub](https://github.com/Electrum18)
-- LightingZap `For always being there 💜`
-- These are all developers, you can be one of them
-
 ## License
 
 The project is under license: **[MIT](https://github.com/Electrum18/The-Fluffies/blob/master/LICENSE)**
